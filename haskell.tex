@@ -1,0 +1,65 @@
+\documentclass[twocolumn]{jsbook}
+\usepackage{amsmath,amssymb,ascmac}
+
+\newcommand{\dollar}{\mathop{\$}}
+
+\begin{document}
+
+関数引数には括弧を付けない．我々はよく引数$x$をとる関数$f$を$f(x)$と書くが，括弧は冗長なので今後は$fx$と書くことにする．
+引数$x$を関数$f$に「食わせる」ことを関数適用と呼ぶ．
+
+複数引数をとる関数を我々はよく$f(x,y)$と書くが，これも括弧が冗長なので今後は$fxy$と書くことにする．
+この場合式$fxy$は左を優先して結合するものとする．つまり$$fxy=(fx)y$$である．
+引数に「飢えた」関数$(fx)$を部分適用された関数と呼ぶ．
+
+関数は合成できる．関数$f$と関数$g$があって，その合成を$f\cdot g$と書くとき$$(f\cdot g)x=f(gx)$$である．
+関数合成の演算子$\cdot$は関数適用よりも優先順位が高いものとすれば$(f\cdot g)x$は単に$f\cdot gx$と書ける．
+この記法は括弧の数を減らすためにしばしば用いられる．
+
+関数合成とは逆に，関数適用を行う演算子も考えておくと括弧の数を減らすのに便利である．
+関数適用演算子$\dollar$を次のように定義しておく．
+\begin{equation}
+f\dollar gx=f(gx)
+\end{equation}
+演算子$\dollar$の優先順位は足し算演算子よりも低いものとする．
+よって$f(x+1)$は$f\dollar x+1$と書くこともできる．
+
+二項演算子とは2引数関数の特別な場合であると考えてよい．
+関数$r$を次ぎのように中置する記法を定義しておく．
+\begin{equation}
+x\,\text{`$r$'}\,y=rxy
+\end{equation}
+また既存の二項演算子$\circ$は次のようにして通常の関数として使えるものとする．
+\begin{equation}
+(\circ)xy=x\circ y
+\end{equation}
+
+
+
+---
+
+\begin{equation}
+\begin{split}
+fx&\mid_{x<0}=-1\\
+&\mid_{x=0}=0\\
+&\mid_\text{otherwise}=x+1
+\end{split}
+\end{equation}
+
+\begin{verbatim}
+f x | x < 0     = -1
+    | x = 0     = 0
+    | otherwise = x+1
+\end{verbatim}
+
+
+\begin{verbatim}
+x `r` y
+\end{verbatim}
+
+\begin{verbatim}
+(+) x y
+\end{verbatim}
+
+
+\end{document}
