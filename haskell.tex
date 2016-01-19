@@ -10,17 +10,20 @@
 \newcommand{\integertype}{\mathbb{Z}}
 \newcommand{\lambdaperiod}{\;.\;}
 \newcommand{\listappend}{\mathop{++}}
+\newcommand{\listfunctor}{\text{List}}
 \newcommand{\mathif}{\mathop{\textbf{if}}}
 \newcommand{\mathelse}{\mathop{\textbf{else}}}
 \newcommand{\maththen}{\mathop{\textbf{then}}}
 \newcommand{\mapfunc}{\bigoplus}
 \newcommand{\mapfunctext}{\mathop{\mathrm{map}}}
 \newcommand{\maybe}[1]{\Tilde{#1}}
+\newcommand{\maybefunctor}{\text{Maybe}}
 \newcommand{\nullelem}{\emptyset}
 \newcommand{\otherwise}{\textbf{otherwise}}
 \newcommand{\realtype}{\mathbb{R}}
 \newcommand{\restelems}{\textsf{rest}}
 \newcommand{\truevalue}{\text{True}}
+\newcommand{\typename}[1]{\mathfrak{#1}}
 
 
 \begin{document}
@@ -199,7 +202,7 @@ $$fx=\mathif x\equiv0\maththen0\mathelse 1+x$$
 
 空リストは$\emptyset$または$[\,]$で表す．
 
-型$\mathfrak{a}$のリストの型は$[\mathfrak{a}]$で表す．
+型$\typename{a}$のリストの型は$[\typename{a}]$で表す．
 ある型を包み込んだ別の型を一般にコンテナ型と呼ぶ．
 
 \section{タプル}
@@ -260,11 +263,6 @@ LISPにおけるリストとは要素$\firstelem$と要素$\restelems$からな�
 
 % $$\mapfunctext fl$$
 
-\section{関手}
-
-マップの右引数になれる型を関手と呼ぶ．
-例えば$$\mapfunc_fl$$の引数$l$は関手である．
-
 \section{Maybe}
 
 整数$x$を$0$で除算することはエラーである．
@@ -275,6 +273,16 @@ LISPにおけるリストとは要素$\firstelem$と要素$\restelems$からな�
 この変数$\maybe{x}$はもはや整数型とは言えない．
 そこでこの$\maybe{x}$の型を$\maybe{\integertype}$と表して「きっと整数」と呼ぶことにしよう．
 英語では ``maybe integer'' と呼ぶ．
+
+変数$x$が一度$0$除算の危険性に汚染された場合，その後ずっと$\maybe{x}$とマークをつけられなければならない．このきっと整数$\maybe{x}$に対して整数を引数にとる関数$f$を適用させるには，一般化マップ演算子が必要である．
+具体的には$$\mapfunc_f\maybe{x}$$のようにして関数$f$を変数$\maybe{x}$に適用させる．
+その結果はまた$\maybe{\integertype}$型である．
+
+\section{関手}
+
+ある型から，マップの右引数になれる型を作る射（一般化された写像）のことを関手と呼ぶ．
+例えば型$\typename{a}$からリスト型$[\typename{a}]$を作る射$$\listfunctor:\typename{a}\mapsto[\typename{a}]$$は関手である．
+また整数型$\integertype$からきっと整数型$\maybe{\integertype}$を作る射$$\maybefunctor:\integertype\mapsto\maybe{\integertype}$$も関手である．
 
 
 
