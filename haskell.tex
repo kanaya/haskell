@@ -1,13 +1,26 @@
 \documentclass[twocolumn]{jsbook}
 \usepackage{amsmath,amssymb,ascmac}
 
+\newcommand{\booleantype}{\mathbb{B}}
 \newcommand{\charlit}[1]{\texttt{#1}}
 \newcommand{\dollar}{\mathop{\$}}
+\newcommand{\falsevalue}{\text{False}}
+\newcommand{\firstelem}{\textsf{first}}
 \newcommand{\guard}[1]{\mathop{\mid_{{#1}}}}
+\newcommand{\integertype}{\mathbb{Z}}
 \newcommand{\lambdaperiod}{\;.\;}
+\newcommand{\listappend}{\mathop{++}}
 \newcommand{\mathif}{\mathop{\textbf{if}}}
 \newcommand{\mathelse}{\mathop{\textbf{else}}}
 \newcommand{\maththen}{\mathop{\textbf{then}}}
+\newcommand{\mapfunc}{\bigoplus}
+\newcommand{\mapfunctext}{\mathop{\mathrm{map}}}
+\newcommand{\maybe}[1]{\Tilde{#1}}
+\newcommand{\nullelem}{\emptyset}
+\newcommand{\otherwise}{\textbf{otherwise}}
+\newcommand{\realtype}{\mathbb{R}}
+\newcommand{\restelems}{\textsf{rest}}
+\newcommand{\truevalue}{\text{True}}
 
 
 \begin{document}
@@ -22,7 +35,7 @@
 一方で，古代ギリシャから連綿と続く数学者たちは，数学という言葉で問題を考えることを好む．
 数学はわずかな方言の違いを無視すれば驚くほど統一された言語である．
 
-プログラマが使う言葉すなわちプログラミング言語と，数学者たちが使う後はだいたい乖離しており，その両者の歩み寄りは虚しいものであることが多かった．
+プログラマが使う言葉すなわちプログラミング言語と，数学者たちが使う語はだいたい乖離しており，その両者の歩み寄りは虚しいものであることが多かった．
 ここで言いたいのはプログラマが限られた文字セットしか使えないとか，スクリーン上の行という制約に縛られているとか，そのような表面的なことではない．
 そうではなく，思考の様式が，プログラミング「文化」と数学「文化」で異なるという意味である．
 
@@ -35,12 +48,14 @@
 
 この章では今後本書で登場する数学的概念の記法を決めておく．
 
-\section{定数と文字定数}
+\section{定数・論理定数・文字定数}
 
 定数はアラビア数字で記述するものとする．
 定数が負の場合はマイナス記号($-$)を用いる．
-定数が実数の場合は小数点を用いる場合がある．
+定数が実数の場合は小数点($.$)を用いる場合がある．
 例えば $-1, 0, 1.2$ は定数である．
+
+論理定数とは真偽値を表す定数で，真($\truevalue$)及び偽($\falsevalue$)の2種類のみがある．
 
 文字定数とはコード化された文字のことである．
 文字コードを定数として扱うといささか読みづらくなるため，該当する文字をシングルクォートで囲むことにする．
@@ -50,12 +65,19 @@
 
 変数はアルファベット（ローマ文字またはギリシア文字）の小文字1文字で表すことにする．
 変数名には任意個のプライム記号($'$)をつけても良いし，添え字をつけても良いこととする．
+変数名はイタリック体で書く．
+
+変数は代入演算子($=$)によって定数や変数，それらを複合した式の値を代入できる．
+例えば $$x=1, y=x$$ は代入の例である．
 
 \section{演算子}
 
 演算子には数学記号を割り当てる．
 単項演算子には論理否定($\neg$)とマイナス($-$)がある．
-二項演算子のうちよく使われるものは和($+$)である．
+本書で扱う単項演算子はこの2種類だけである．
+
+二項演算子のうちよく使われるものは和($+$)，積($\ast$)，論理和($\vee$)，論理積($\wedge$)である．
+二項演算子はたとえ積記号であっても省略できない．
 二項演算子は多数あるので，その都度説明する．
 
 演算の優先順位を明示的に与えるために括弧が用いられる．
@@ -64,62 +86,56 @@
 
 関数も変数と同じようにアルファベット（ローマ文字またはギリシア文字）の小文字1文字で表すことにする．
 関数名には任意個のプライム記号($'$)をつけても良いし，添え字をつけても良いこととする．
+三角関数のように十分な知名度を持つ関数や，それに匹敵する汎用的な関数は長い名前を持っても良い．
+変数名や関数名はイタリック体で書くが，長い関数名はローマン体で書く．
 
 関数引数には括弧を付けない．我々はよく引数$x$をとる関数$f$を$f(x)$と書くが，括弧は冗長なので今後は$fx$と書くことにする．
 引数$x$を関数$f$に「食わせる」ことを関数適用と呼ぶ．
 
 複数引数をとる関数を我々はよく$f(x,y)$と書くが，これも括弧が冗長なので今後は$fxy$と書くことにする．
-この場合式$fxy$は左を優先して結合するものとする．つまり$$fxy=(fx)y$$である．
+この場合式$fxy$は左を優先して結合するものとする．つまりいつも$$fxy\equiv (fx)y$$である．
 引数に「飢えた」関数$(fx)$を部分適用された関数と呼ぶ．
+二項演算子$\equiv$は右辺と左辺が等しい場合に真となる演算子である．
 
-関数は合成できる．関数$f$と関数$g$があって，その合成を$f\cdot g$と書くとき$$(f\cdot g)x=f(gx)$$である．
-関数合成の演算子$\cdot$は関数適用よりも優先順位が高いものとすれば$(f\cdot g)x$は単に$f\cdot gx$と書ける．
+関数は合成できる．関数$f$と関数$g$があって，その合成を$f\cdot g$と書くとき$$(f\cdot g)x\triangleq f(gx)$$である．
+ここに記号$\triangleq$は左辺を右辺で定義するという意味である．
+関数合成の演算子$\cdot$は関数適用よりも優先順位が高く，$(f\cdot g)x$は単に$f\cdot gx$と書いても良い．
 この記法は括弧の数を減らすためにしばしば用いられる．
 
 関数合成とは逆に，関数適用を行う演算子も考えておくと括弧の数を減らすのに便利である．
 関数適用演算子$\dollar$を次のように定義しておく．
-\begin{equation}
-f\dollar gx=f(gx)
-\end{equation}
+$$f\dollar gx\triangleq f(gx)$$
 演算子$\dollar$の優先順位は足し算演算子よりも低いものとする．
 よって$f(x+1)$は$f\dollar x+1$と書くこともできる．
 
 二項演算子とは2引数関数の特別な場合であると考えてよい．
 関数$r$を次のように中置する記法を定義しておく．
-\begin{equation}
-x\,\textquoteleft r\textquoteleft\,y=rxy
-\end{equation}
+$$x\,\textquoteleft r\textquoteleft\,y\triangleq rxy$$
 バッククオート記号($\textquoteleft$)を使っているのはプライム記号($'$)と区別するためである．
 
 既存の二項演算子$\circ$は次のようにして通常の関数として使えるものとする．
-\begin{equation}
-(\circ)xy=x\circ y
-\end{equation}
+$$(\circ)xy\triangleq x\circ y$$
 
 \section{ラムダ式}
 
-引数$x$をとり値$x+1$を返すラムダ式は次のように書くことにする．
-\begin{equation}
-\backslash x\rightarrow x+1
-\end{equation}
-この式はチャーチのオリジナルの論文の記法であれば $\Hat x\lambdaperiod x+1$ と書かれたところであり，現在でも多くの書物で $\lambda x\lambdaperiod x+1$ と記述される．
+引数$x$をとり値$1+x$を返すラムダ式は次のように書くことにする．
+$$\backslash x\rightarrow 1+x$$
+この式はチャーチのオリジナルの論文の記法であれば$\Hat x\lambdaperiod 1+x$と書かれたところであり，現在でも多くの書物で$\lambda x\lambdaperiod 1+x$と記述される．
 しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号($.$)が関数合成演算子($\cdot$)と非常に紛らわしいため，上述の記法を用いる．
 
-複数引数をとるラムダ式は例えば $$\backslash xy\rightarrow x+y$$ のように書く．
+ラムダ式を適用するには，ラムダ式を括弧で包む必要がある．
+例を挙げる．
+$$\left(\backslash x\rightarrow x+1\right)2$$
+この式は結果として$3$を返す．
+
+複数引数をとるラムダ式は例えば$$\backslash xy\rightarrow x+y$$のように書く．
 
 \section{関数定義}
 
 ラムダ式を用いた関数の定義が可能である．
-例えば引数$x$をとり値$x+1$を返す関数$f$は
-\begin{equation}
-f=\backslash x\rightarrow x+1
-\end{equation}
-と定義できる．
-この省略形として
-\begin{equation}
-fx=x+1
-\end{equation}
-と書いても良いこととする．
+例えば引数$x$をとり値$1+x$を返す関数$f$は$$f=\backslash x\rightarrow 1+x$$と定義できる．
+この省略形として$$fx=1+x$$と書いても良いし，さらに省略して$$f=(+)1$$と書いても良い．
+もちろん$f=+1$でないことに注意しよう．
 
 関数にスペシャルバージョンがある場合は列挙する．
 例えば引数が$0$の場合は特別に戻り値も0であり，その他の場合は関数$f$と同じ振る舞いをする関数$f'$を考える．
@@ -127,45 +143,43 @@ fx=x+1
 \begin{equation}
 \begin{split}
 f'0&=0\\
-f'x&=x+1
+f'x&=1+x
 \end{split}
 \end{equation}
 
 関数定義に場合分けが必要な場合は「ガード」を用いる．
 例えば引数の値が負の場合は$-1$を，$0$の場合は$0$を，それ以外の場合は関数$f$と同じ振る舞いをする関数$f''$は
-\begin{equation}
+\begin{equation*}
 \begin{split}
 f''x&\guard{x<0}=-1\\
 &\guard{x\equiv0}=0\\
-&\guard{\text{otherwise}}=x+1
+&\guard{\otherwise}=1+x
 \end{split}
-\end{equation}
+\end{equation*}
 という風に定義することにする．
 
 \section{条件式}
 
 数学者のいう条件式とはスペシャルバージョンやガードを一般化したもので，if節とotherwise節からなるものである．
 例を挙げる．
-\begin{equation}
-fx=\begin{cases}
+$$fx=\begin{cases}
 0&\text{if $x\equiv0$}\\
-x+1&\text{otherwise}
-\end{cases}
-\end{equation}
+1+x&\text{otherwise}
+\end{cases}$$
 この書き方は行を意識せざるをえないプログラミング言語とは相性がよろしくない．
 そこで次のように書くものとする．
-\begin{equation}
-fx=\mathif x\equiv0\maththen0\mathelse x+1
-\end{equation}
-
+$$fx=\mathif x\equiv0\maththen0\mathelse 1+x$$
 
 \section{型}
 
 型とは変数が取りうる値に与えた制約のことである．
-数学者はしばしば変数$x$が整数であることを$x\in\mathbb{Z}$のように書く．
+数学者はしばしば変数$x$が整数であることを$x\in\integertype$のように書く．
 
-今我々が考慮しておくべき型は，論理型($\mathbb{B}$)，整数型($\mathbb{Z}$)，及び実数型($\mathbb{R}$)である．
+今我々が考慮しておくべき型は，論理型($\booleantype$)，整数型($\integertype$)，及び実数型($\realtype$)である．
 括弧内に示した記号は数学者たちが慣用的に用いているものである．
+
+関数にも型がある．
+今は深入りしないが，例えば整数引数を一つ取り，整数を返す関数は$$\integertype\rightarrow\integertype$$という型を持つ．
 
 \section{リスト}
 
@@ -174,18 +188,101 @@ fx=\mathif x\equiv0\maththen0\mathelse x+1
 等差数列に限って，簡略化した書き方が許されるものとする．
 0から10までのリストは$[0,1\dotsb10]$と書いても良い．
 
-より高度なリスト，例えば0から10までの平方数のリストは$$\left[x^2\guard{x\in[0,1\dotsb10]}\right]$$のように書く．
+より高度なリスト，例えば0から10までの平方数のリストは$$\left[x^2\guard{x\in[0,1\dotsb 10]}\right]$$のようにガードを用いて書く．
+ガードは複数条件をカンマ($,$)で区切って書いて良い．
+例えば$$\left[x+y\guard{x\in[0,1\dotsb 10],\,y\in[0,1\dotsb 5],\,x+y>3}\right]$$は$0\le x\le 10$かつ$0\le y\le 5$の範囲で$x+y>3$となる$x$及び$y$から$x+y$を並べたリストである．
+
+リストは結合できる．例えばリスト$l$とリスト$m$を結合したリストは$$l\listappend m$$で得られる．
 
 リストは無限個の要素を持っても良い．
 例えば自然数全体を表すリスト$n$は$$n=[1,2\dotsb]$$のように定義して良い．
 
+空リストは$\emptyset$または$[\,]$で表す．
+
 型$\mathfrak{a}$のリストの型は$[\mathfrak{a}]$で表す．
+ある型を包み込んだ別の型を一般にコンテナ型と呼ぶ．
 
 \section{タプル}
 
 複数の変数を束ねたものをタプルと呼ぶ．
 変数$x$と変数$y$からなるタプルは$(x,y)$と書く．
 いま$$t=(x,y)$$としたとき，タプルの中身を取り出すには$$(t_1,t_2)=t$$のようにしてパタンマッチングを用いる．
+
+\section{リストの実装}
+
+ここでリストの実装について若干述べておかねばならない．
+紙上ではリストは自由に考えられるが，計算機上ではそれほど自由ではないからである．
+ここではリストはLISPにおけるリストと同じ構造を持つものとする．
+LISPにおけるリストとは要素$\firstelem$と要素$\restelems$からなる「ペア」の集合である．
+要素$\firstelem$がリストの要素を持ち，要素$\restelems$が次のペアを「参照」する．
+リストの最後のペアの$\restelems$は空リストを参照する．
+
+これらのペアはタプルで実装したいところだが，参照，逆参照の煩雑さを避けるために，リストのための特別な表現$$\firstelem:\restelems$$を用い，第2要素である$\restelems$はリストそのものであるとする．
+
+要素$\restelems$はリスト（または空リスト）であるから，一般にリストは次のように展開できることになる．
+\begin{align*}
+[x_0,x_1,x_2\dotsb x_n]&=x_0:[x_1,x_2\dotsb x_n]\\
+&=x_0:x_1:[x_2\dotsb x_n]\\
+&=x_0:x_1:x_2:\dotsb:x_n:[\,]
+\end{align*}
+
+\chapter{型・型クラス・種}
+
+\section{関数の型}
+
+関数$f$が引数として整数を2個取り1個の整数を返す時，その型は$$\integertype\rightarrow\integertype\rightarrow\integertype$$である．
+型の式は右結合するものとする．
+従って上式は$$\integertype\rightarrow\left(\integertype\rightarrow\integertype\right)$$と読む．
+これは関数$f$が最初の引数を1個受け取り，$(\integertype\rightarrow\integertype)$型の関数を返していることを考えると理にかなっている表現である．
+
+\chapter{マップ}
+
+\section{畳み込み}
+
+我々はよくリストの総和を表現するためにシグマ記号($\sum$)を使う．
+リスト$l$がある時，その総和を$\sum l$とよく表現する．
+この表現を一般化してみよう．
+リスト$l$が$$l=[l_0,l_1\dotsb l_n]$$である時，$$\sum_\circ^a l\triangleq a\circ l_0\circ l_1\circ\dotsb\circ l_n$$であると定義する．
+この新しいシグマ記号は畳み込み演算子と呼ばれる．
+リスト$l$の総和は$$\sum_+^0l$$とすれば得られる．
+
+\section{マップ}
+
+畳み込みではなく，リストはリストのままにして，各要素に決まった関数を適用したい場合がある．
+引数として関数$f$とリスト$[l_0,l_1\dotsb l_n]$を取り，戻り値として$[fl_0,fl_1\dotsb fl_n]$を返す演算子$\mapfunc$を考えよう．
+リスト$l$が$$l=[l_0,l_1\dotsb l_n]$$である時，$$\mapfunc_f l\triangleq [fl_0,fl_1\dotsb fl_n]$$であると定義する．
+
+\section{一般化マップ}
+
+マップ演算子の概念を一般化してみよう．
+マップ演算子はあるコンテナの中身に関数適用を行い，元のコンテナと同じ型のコンテナを返す演算子であると考えることができる．
+そこで，今後マップ演算子の右引数は一般のコンテナであるとする．
+
+% $$\mapfunctext fl$$
+
+\section{関手}
+
+マップの右引数になれる型を関手と呼ぶ．
+例えば$$\mapfunc_fl$$の引数$l$は関手である．
+
+\section{Maybe}
+
+整数$x$を$0$で除算することはエラーである．
+しかし除算の度にエラーが起こったかどうか調べるのは面倒であるし，記述も煩雑になってしまう．
+プログラマはよくこういう場合に「例外」という機構を用いるが，数学に例外は持ち込みたくない．
+そこで変数$x$が正しく計算されたかもしれないし，されていないかもしれないということを，特別な記号$\maybe{x}$で表しておこう．
+
+この変数$\maybe{x}$はもはや整数型とは言えない．
+そこでこの$\maybe{x}$の型を$\maybe{\integertype}$と表して「きっと整数」と呼ぶことにしよう．
+英語では ``maybe integer'' と呼ぶ．
+
+
+
+\chapter{プログラミング}
+
+letとwhere.
+
+乱数．
 
 
 \end{document}
