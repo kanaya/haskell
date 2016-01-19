@@ -4,6 +4,7 @@
 \newcommand{\charlit}[1]{\texttt{#1}}
 \newcommand{\dollar}{\mathop{\$}}
 \newcommand{\guard}[1]{\mathop{\mid_{{#1}}}}
+\newcommand{\lambdaperiod}{\;.\;}
 \newcommand{\mathif}{\mathop{\textbf{if}}}
 \newcommand{\mathelse}{\mathop{\textbf{else}}}
 \newcommand{\maththen}{\mathop{\textbf{then}}}
@@ -28,7 +29,7 @@
 プログラミング文化と数学文化の大きな違いの一つは，リアルタイムに起こるイベントの取り扱い方法である．
 プログラマはほとんどいつもリアルタイムに起こるイベントに対応しないといけない．
 一方で，数学者たちはそのようなイベントを「不純なもの」として理論から取り除く．
-例えば変数$x$があるときは0だがあるときは1であるというのは，甚だ不純なものとして数学者の間では認識されるものだ．
+例えば変数$x$があるときは$0$だがあるときは$1$であるというのは，甚だ不純なものとして数学者の間では認識されるものだ．
 
 \chapter{数学的準備}
 
@@ -84,7 +85,7 @@ f\dollar gx=f(gx)
 よって$f(x+1)$は$f\dollar x+1$と書くこともできる．
 
 二項演算子とは2引数関数の特別な場合であると考えてよい．
-関数$r$を次ぎのように中置する記法を定義しておく．
+関数$r$を次のように中置する記法を定義しておく．
 \begin{equation}
 x\,\textquoteleft r\textquoteleft\,y=rxy
 \end{equation}
@@ -101,7 +102,7 @@ x\,\textquoteleft r\textquoteleft\,y=rxy
 \begin{equation}
 \backslash x\rightarrow x+1
 \end{equation}
-この式はチャーチのオリジナルの論文の記法であれば $\Hat x.x+1$ と書かれたところであり，現在でも多くの書物で $\lambda x.x+1$ と記述される．
+この式はチャーチのオリジナルの論文の記法であれば $\Hat x\lambdaperiod x+1$ と書かれたところであり，現在でも多くの書物で $\lambda x\lambdaperiod x+1$ と記述される．
 しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号($.$)が関数合成演算子($\cdot$)と非常に紛らわしいため，上述の記法を用いる．
 
 複数引数をとるラムダ式は例えば $$\backslash xy\rightarrow x+y$$ のように書く．
@@ -121,7 +122,7 @@ fx=x+1
 と書いても良いこととする．
 
 関数にスペシャルバージョンがある場合は列挙する．
-例えば引数が0の場合は特別に戻り値も0であり，その他の場合は関数$f$と同じ振る舞いをする関数$f'$を考える．
+例えば引数が$0$の場合は特別に戻り値も0であり，その他の場合は関数$f$と同じ振る舞いをする関数$f'$を考える．
 この時$f'$は次のように定義することになる．
 \begin{equation}
 \begin{split}
@@ -131,7 +132,7 @@ f'x&=x+1
 \end{equation}
 
 関数定義に場合分けが必要な場合は「ガード」を用いる．
-例えば引数の値が負の場合は-1を，0の場合は0を，それ以外の場合は関数$f$と同じ振る舞いをする関数$f''$は
+例えば引数の値が負の場合は$-1$を，$0$の場合は$0$を，それ以外の場合は関数$f$と同じ振る舞いをする関数$f''$は
 \begin{equation}
 \begin{split}
 f''x&\guard{x<0}=-1\\
