@@ -42,13 +42,13 @@
 \newcommand{\typeclassname}[1]{\mathbb{#1}}
 \newcommand{\enumtypeclass}{\typeclassname{E}}
 \newcommand{\eqtypeclass}{\typeclassname{Q}}
+\newcommand{\functortypeclass}{\typeclassname{F}}
 \newcommand{\inttypeclass}{\typeclassname{I}}
 \newcommand{\numtypeclass}{\typeclassname{N}}
 \newcommand{\ordtypeclass}{\typeclassname{O}}
 
 % Fanctor typeclasses
 \newcommand{\fanctortypeclassname}[1]{\mathcal{#1}}
-\newcommand{\functortypeclass}{\fanctortypeclassname{F}}
 
 % Functors
 \newcommand{\generalcontainer}[1]{\left\langle#1\right\rangle}
@@ -329,9 +329,8 @@ $$\maybe{{}}::\concretetype\mapsto\concretetype$$
 リストの総和をとる演算子$\sum$は$$\sum=\foldfunc^+_0$$とすれば得られる．
 同じようにリストの要素のすべての積をとる演算子$\prod$は$$\prod=\foldfunc^\ast_1$$とすれば得られる．
 
-畳み込み演算子は第1引数（演算子の上）に二項演算子，第2引数（演算子の下）にスカラー，第3引数（演算子の右）にリストを取り，スカラーを返す．
-第1引数の二項演算子が取る引数型と第2引数のスカラーの型，第3引数のリストの要素の型，戻り値の型は全て一致していなければならない．
-この型を$\typename{a}$とすると，畳み込み演算子の型を$$\foldfunc::(\typename{a}\rightarrow\typename{a}\rightarrow\typename{a})\rightarrow\typename{a}\rightarrow\listtype{\typename{a}}\rightarrow\typename{a}$$と定義できる．
+畳み込み演算子は第1引数（演算子の上）に$\typename{a}$型と$\typename{b}$型の引数を取り$\typename{a}$型の戻り値を返す二項演算子，第2引数（演算子の下）に$\typename{a}$型，第3引数（演算子の右）に$\typename{b}$型のリストすなわち$\listtype{\typename{b}}$型を取り，$\typename{a}$型の値を返す．
+従って畳み込み演算子の型は$$\foldfunc::(\typename{a}\rightarrow\typename{b}\rightarrow\typename{a})\rightarrow\typename{a}\rightarrow\listtype{\typename{b}}\rightarrow\typename{a}$$と定義できる．
 
 \section{右畳み込み}
 
@@ -388,8 +387,11 @@ $$\filterfunc^p\listtype{l_0,l_1\dotsb l_n}\triangleq\listtype{l'\guard{l'\in\li
 また型$\typename{a}$から ``maybe a'' 型$\maybe{\typename{a}}$を作る射$\maybefunctor$ただし$$\maybefunctor\typename{a}=\typename{a}\mapsto\maybe{\typename{a}}$$も関手である．
 一般に$$\typename{a}\mapsto\generalcontainer{\typename{a}}$$という風に型$\typename{a}$をコンテナに入れて型$\generalcontainer{\typename{a}}$を作る射を関手と呼ぶ．
 
-関手全体の集合を$\functortypeclass$で表す．
+関手全体の型クラスを$\functortypeclass$で表す．
 これまでに見た関手は$$\listfunctor,\maybefunctor::\functortypeclass$$である．
+
+実は関数合成もまた関手の例である．
+$$f\comp g=\mapfunc^fg$$
 
 \section{関手が従う規則}
 
@@ -398,7 +400,7 @@ $$\filterfunc^p\listtype{l_0,l_1\dotsb l_n}\triangleq\listtype{l'\guard{l'\in\li
 \mapfunc^{\functor{f}\comp\functor{g}}&\equiv\mapfunc^{\functor{f}}\comp\mapfunc^{\functor{g}}
 \end{align}
 
-\section{アプリカティブ}
+\section{アプリカティブ関手}
 
 一般化マップとは$$\mapfunc::(\typename{a}\rightarrow\typename{b})\rightarrow\generalcontainer{\typename{a}}\rightarrow\generalcontainer{\typename{b}}$$のことであった．
 一般化マップの第1引数である1引数関数がコンテナに入っている場合を想定しよう．
