@@ -5,6 +5,7 @@
 \newcommand{\charlit}[1]{\texttt{#1}}
 
 % Operators and symbols
+\newcommand{\applicativefunc}{\bigotimes}
 \newcommand{\dollar}{\mathop{\$}}
 \newcommand{\foldfunc}{\bigoplus}
 \newcommand{\guard}[1]{\mathop{\mid_{{#1}}}}
@@ -12,6 +13,7 @@
 \newcommand{\listappend}{\mathop{++}}
 \newcommand{\mapfunc}{\bigodot}
 \newcommand{\nullelem}{\emptyset}
+\newcommand{\pure}{\bigstar}
 
 % Booleans
 \newcommand{\booleankeyword}[1]{\text{#1}}
@@ -24,19 +26,19 @@
 \newcommand{\integertype}{\typename{Z}}
 \newcommand{\realtype}{\typename{R}}
 
-% Typenames for functors
-\newcommand{\functortypename}[1]{\mathcal{#1}}
-\newcommand{\functortype}{\functortypename{F}}
+% Typeclasses
+\newcommand{\typeclassname}[1]{\mathcal{#1}}
+\newcommand{\functortypeclass}{\typeclassname{F}}
 
 % Functors
-\newcommand{\functor}[1]{\langle#1\rangle}
-\newcommand{\listtype}[1]{[#1]}
-\newcommand{\maybe}[1]{\{#1\}}
+\newcommand{\generalcontainer}[1]{\left\langle#1\right\rangle}
+\newcommand{\listtype}[1]{\left[#1\right]}
+\newcommand{\maybe}[1]{\left\{#1\right\}}
 
 % Functor names
-\newcommand{\functorname}[1]{\textbf{#1}}
-\newcommand{\listfunctor}{\mathop{\functorname{List}}}
-\newcommand{\maybefunctor}{\mathop{\functorname{Maybe}}}
+\newcommand{\functor}[1]{\mathop{\textbf{#1}}}
+\newcommand{\listfunctor}{\mathop{\functor{List}}}
+\newcommand{\maybefunctor}{\mathop{\functor{Maybe}}}
 
 % Kind names
 \newcommand{\kindname}[1]{\mathbb{#1}}
@@ -58,6 +60,7 @@
 % Special keywords
 \newcommand{\specialkeyword}[1]{\textsf{#1}}
 \newcommand{\firstelem}{\specialkeyword{First}}
+\newcommand{\identity}{\specialkeyword{id}}
 \newcommand{\nothing}{\specialkeyword{Nothing}}
 \newcommand{\restelems}{\specialkeyword{Rest}}
 
@@ -317,7 +320,7 @@ $$\integertype\subset\ordkind$$
 マップ演算子の概念を一般化してみよう．
 マップ演算子はあるコンテナの中身に関数適用を行い，元のコンテナと同じ型のコンテナを返す演算子であると考えることができる．
 そこで，今後マップ演算子の右引数は一般のコンテナであるとする．
-型$\typename{a}$をコンテナに入れた型を一般に$\functor{\typename{a}}$と書くことにすると，一般化されたマップ演算子$\mapfunc$は$$\mapfunc::(\typename{a}\rightarrow\typename{b})\rightarrow\functor{\typename{a}}\rightarrow\functor{\typename{b}}$$という型を持つ．
+型$\typename{a}$をコンテナに入れた型を一般に$\generalcontainer{\typename{a}}$と書くことにすると，一般化されたマップ演算子$\mapfunc$は$$\mapfunc::(\typename{a}\rightarrow\typename{b})\rightarrow\generalcontainer{\typename{a}}\rightarrow\generalcontainer{\typename{b}}$$という型を持つ．
 
 一般化マップはマップが使えるところではいつでも置き換えて使える．
 つまり我々は$\mapfunc^\text{list}$を使わずに，最初から$\mapfunc$を使えば良いのである．
@@ -346,10 +349,64 @@ $$\integertype\subset\ordkind$$
 ある型から，マップの右引数になれる型を作る射（一般化された写像）のことを関手と呼ぶ．
 例えば型$\typename{a}$からリスト型$[\typename{a}]$を作る射$\listfunctor$ただし$$\listfunctor\typename{a}=\typename{a}\mapsto\listtype{\typename{a}}$$は関手である．
 また型$\typename{a}$から ``maybe a'' 型$\maybe{\typename{a}}$を作る射$\maybefunctor$ただし$$\maybefunctor\typename{a}=\typename{a}\mapsto\maybe{\typename{a}}$$も関手である．
-一般に$$\typename{a}\mapsto\functor{\typename{a}}$$という風に型$\typename{a}$をコンテナに入れて型$\functor{\typename{a}}$を作る射を関手と呼ぶ．
+一般に$$\typename{a}\mapsto\generalcontainer{\typename{a}}$$という風に型$\typename{a}$をコンテナに入れて型$\generalcontainer{\typename{a}}$を作る射を関手と呼ぶ．
 
-関手全体の集合を$\functortype$で表す．
-これまでに見た関手は$$\listfunctor,\maybefunctor::\functortype$$である．
+関手全体の集合を$\functortypeclass$で表す．
+これまでに見た関手は$$\listfunctor,\maybefunctor::\functortypeclass$$である．
+
+\section{関手が従う規則}
+
+\begin{align}
+\functor{f}\identity&\equiv\identity\\
+\mapfunc_{f\cdot g}&\equiv\mapfunc_f\cdot\mapfunc_g
+\end{align}
+
+
+\section{一般化マップの一般化}
+
+一般化マップとは$$\mapfunc::(\typename{a}\rightarrow\typename{b})\rightarrow\generalcontainer{\typename{a}}\rightarrow\generalcontainer{\typename{b}}$$のことであった．
+一般化マップの第1引数である1引数関数がコンテナに入っている場合を想定しよう．
+そうすると次のような「一般化された」一般化マップ$\applicativefunc$を考えることができる．
+$$\applicativefunc::\generalcontainer{(\typename{a}\rightarrow\typename{b})}\rightarrow\generalcontainer{\typename{a}}\rightarrow\generalcontainer{\typename{b}}$$
+実際の使い方は$$\listtype{y_0,y_1\dotsb y_n}=\applicativefunc_{\listtype{f}}\listtype{x_0,x_1\dotsb x_n}$$のようになるであろう．
+
+\section{アプリカティブ}
+
+一般化一般化マップ演算子$\applicativefunc$と次のピュア演算子$\pure$があれば，リストもMaybeも同じ枠組みで考えることができる．
+ピュア演算子$\pure$は$$\pure::\typename{a}\rightarrow\generalcontainer{\typename{a}}$$という型を持つ．
+関手の型$\typename{a}\mapsto\generalcontainer{\typename{a}}$とは矢印が違う事に注意しよう．
+ピュア演算子は型を型へ変換するのではなく，変数をコンテナに入れられた別な変数へと変換する．
+
+Maybe:
+\begin{align*}
+\pure x&=\maybe{x}\\
+\applicativefunc_{\nothing}\maybe{x}&=\nothing\\
+\applicativefunc_{\maybe{f}}\maybe{x}&=\mapfunc_f\maybe{x}
+\end{align*}
+
+List:
+\begin{align*}
+\pure x&=\listtype{x_0,x_1\dotsb x_n}\\
+\applicativefunc_{\listtype{f_0,f_1\dotsb f_n}}\listtype{x_0,x_1\dotsb x_n}&=\listtype{fx\guard{f\in\listtype{f_0,f_1\dotsb f_n},x\in\listtype{x_0,x_1\dotsb x_n}}}
+\end{align*}
+
+IO: skip.
+
+Function:
+\begin{align*}
+\pure x&=\backslash y\rightarrow x\\
+\applicativefunc_fg&=\backslash x\rightarrow fx(gx)
+\end{align*}
+
+\section{アプリカティブが従う規則}
+
+\begin{align}
+\applicativefunc_{\pure f}x&\equiv\mapfunc_fx\\
+\applicativefunc_{\pure\identity}x&\equiv x\\
+\applicativefunc_{\left(\applicativefunc_{\left(\applicativefunc_{\pure(\cdot)}x\right)}y\right)}z&\equiv\applicativefunc_x\left(\applicativefunc_yz\right)\\
+\applicativefunc_{\pure f}\pure x&\equiv\pure(fx)\\
+\applicativefunc_x\pure y&\equiv\applicativefunc_{\pure(\dollar y)}x
+\end{align}
 
 
 \chapter{プログラミング}
