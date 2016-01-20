@@ -8,8 +8,11 @@
 \newcommand{\applicativefunc}{\bigotimes} % <*>
 \newcommand{\bind}{\rightrightarrows} % >>=
 \newcommand{\comp}{\bullet} % .
+\newcommand{\concretetype}{\mathbf\ast} % *
 \newcommand{\dollar}{\mathop{\$}} % $
-\newcommand{\foldfunc}{\bigsqcup} % foldl
+\newcommand{\filterfunc}{\bigcap} % filter
+\newcommand{\foldfunc}{\bigcup} % foldl
+\newcommand{\foldrightfunc}{\bigsqcup} % foldr
 \newcommand{\guard}[1]{\mathop{\mid_{{#1}}}}
 \newcommand{\haskelllambda}{\backslash}
 \newcommand{\lambdaperiod}{\;.\;}
@@ -17,9 +20,9 @@
 \newcommand{\mapfunc}{\bigodot} % fmap
 \newcommand{\monadfunc}{\bigoplus}
 \newcommand{\monadjoin}{\dag}
-\newcommand{\monadreturn}{\star} % return
 \newcommand{\nullelem}{\emptyset}
 \newcommand{\pure}{\bigstar} % pure
+\newcommand{\unit}{\star} % return
 
 % Functions
 \newcommand{\concat}{\mathop{\text{concat}}}
@@ -35,9 +38,17 @@
 \newcommand{\integertype}{\typename{Z}}
 \newcommand{\realtype}{\typename{R}}
 
-% Typeclasses
-\newcommand{\typeclassname}[1]{\mathcal{#1}}
-\newcommand{\functortypeclass}{\typeclassname{F}}
+% Typeclass names
+\newcommand{\typeclassname}[1]{\mathbb{#1}}
+\newcommand{\enumtypeclass}{\typeclassname{E}}
+\newcommand{\eqtypeclass}{\typeclassname{Q}}
+\newcommand{\inttypeclass}{\typeclassname{I}}
+\newcommand{\numtypeclass}{\typeclassname{N}}
+\newcommand{\ordtypeclass}{\typeclassname{O}}
+
+% Fanctor typeclasses
+\newcommand{\fanctortypeclassname}[1]{\mathcal{#1}}
+\newcommand{\functortypeclass}{\fanctortypeclassname{F}}
 
 % Functors
 \newcommand{\generalcontainer}[1]{\left\langle#1\right\rangle}
@@ -50,11 +61,6 @@
 \newcommand{\listfunctor}{\mathop{\functor{List}}}
 \newcommand{\maybefunctor}{\mathop{\functor{Maybe}}}
 \newcommand{\monadfunctor}{\mathop{\functor{Monad}}}
-
-% Kind names
-\newcommand{\kindname}[1]{\mathbb{#1}}
-\newcommand{\eqkind}{\kindname{E}}
-\newcommand{\ordkind}{\kindname{O}}
 
 % Keywords
 \newcommand{\haskellkeyword}[1]{\textbf{#1}}
@@ -295,29 +301,45 @@ $$f::\integertype\rightarrow\integertype$$
 
 \section{型クラス}
 
+$$\integertype\subset\eqtypeclass$$
+
+$$\integertype\subset\ordtypeclass$$
+
+$$\integertype\subset\enumtypeclass$$
+
+
 \section{種}
 
-$$\integertype\subset\eqkind$$
+$$\integertype::\concretetype$$
 
-$$\integertype\subset\ordkind$$
+$$\maybe{\integertype}::\concretetype$$
+
+$$\maybe{{}}::\concretetype\mapsto\concretetype$$
 
 \chapter{マップ}
 
 \section{畳み込み}
 
 我々はよくリストの総和を表現するためにシグマ記号($\sum$)を使う．
-リスト$$l=\listtype{l_0,l_1\dotsb l_n}$$がある時，その総和を$$\sum l\triangleq l_0+l_1+\dotsb+l_n$$であるようなシグマ記号である．
+リスト$$l=\listtype{l_0,l_1\dotsb l_n}$$がある時，その総和を$$\sum l\triangleq l_0+l_1+\dotsb+l_n$$とするようなシグマ記号である．
 この表現を一般化してみよう．
 リスト$\listtype{l_0,l_1\dotsb l_n}$が与えられた時，$$\foldfunc^\circ_a\listtype{l_0,l_1\dotsb l_n}\triangleq a\circ l_0\circ l_1\circ\dotsb\circ l_n$$であると定義する．
 この新しい記号$\foldfunc$は畳み込み演算子と呼ばれる．
 
 リストの総和をとる演算子$\sum$は$$\sum=\foldfunc^+_0$$とすれば得られる．
-同じようにリストの要素のすべての関をとる演算子$\prod$は$$\prod=\foldfunc^\ast_1$$とすれば得られる．
+同じようにリストの要素のすべての積をとる演算子$\prod$は$$\prod=\foldfunc^\ast_1$$とすれば得られる．
 
 畳み込み演算子は第1引数（演算子の上）に二項演算子，第2引数（演算子の下）にスカラー，第3引数（演算子の右）にリストを取り，スカラーを返す．
 第1引数の二項演算子が取る引数型と第2引数のスカラーの型，第3引数のリストの要素の型，戻り値の型は全て一致していなければならない．
 この型を$\typename{a}$とすると，畳み込み演算子の型を$$\foldfunc::(\typename{a}\rightarrow\typename{a}\rightarrow\typename{a})\rightarrow\typename{a}\rightarrow\listtype{\typename{a}}\rightarrow\typename{a}$$と定義できる．
 
+\section{右畳み込み}
+
+$$\foldrightfunc_a^\circ\listtype{l_0,l_1\dotsb l_{n-1},l_n}\triangleq\left(l_0\circ\left(l_1\circ\dotsb\left(l_{n-1}\circ\left(l_n\circ a\right)\right)\right)\right)$$
+
+\section{フィルタ}
+
+$$\filterfunc^p\listtype{l_0,l_1\dotsb l_n}\triangleq\listtype{l'\guard{l'\in\listtype{l_0,l_1\dotsb l_n},\,pl'\equiv\truevalue}}$$
 
 \section{マップ}
 
@@ -376,8 +398,7 @@ $$\integertype\subset\ordkind$$
 \mapfunc^{\functor{f}\comp\functor{g}}&\equiv\mapfunc^{\functor{f}}\comp\mapfunc^{\functor{g}}
 \end{align}
 
-
-\section{一般化マップの一般化}
+\section{アプリカティブ}
 
 一般化マップとは$$\mapfunc::(\typename{a}\rightarrow\typename{b})\rightarrow\generalcontainer{\typename{a}}\rightarrow\generalcontainer{\typename{b}}$$のことであった．
 一般化マップの第1引数である1引数関数がコンテナに入っている場合を想定しよう．
@@ -385,12 +406,12 @@ $$\integertype\subset\ordkind$$
 $$\applicativefunc::\generalcontainer{(\typename{a}\rightarrow\typename{b})}\rightarrow\generalcontainer{\typename{a}}\rightarrow\generalcontainer{\typename{b}}$$
 実際の使い方は$$\listtype{y_0,y_1\dotsb y_{n''}}=\applicativefunc^{\listtype{f_0,f_1\dotsb f_n}}\listtype{x_0,x_1\dotsb x_{n'}}$$のようになるであろう．
 
-\section{アプリカティブ}
-
 一般化一般化マップ演算子$\applicativefunc$と次のピュア演算子$\pure$があれば，リストもMaybeも同じ枠組みで考えることができる．
 ピュア演算子$\pure$は$$\pure::\typename{a}\rightarrow\generalcontainer{\typename{a}}$$という型を持つ．
 関手の型$\typename{a}\mapsto\generalcontainer{\typename{a}}$とは矢印が違う事に注意しよう．
 ピュア演算子は型を型へ変換するのではなく，変数をコンテナに入れられた別な変数へと変換する．
+
+型$\generalcontainer{\typename{a}}$の変数をアプリカティブと呼ぶ．
 
 リストの場合，ピュア演算子と一般化一般化マップは次のように実装することができる．
 \begin{align*}
@@ -413,23 +434,27 @@ Maybeの場合は次のようにピュア演算子と一般化一般化マップ
 % \applicativefunc^fg&=\haskelllambda x\rightarrow fx(gx)
 % \end{align*}
 
-\section{アプリカティブが従う規則}
+アプリカティブが従う規則
 
 $$\applicativefunc^{\pure f}x\equiv\mapfunc^fx$$
 
 \section{モナド}
 
 ある型$\typename{a}$について，特殊なコンテナ$\monad{\typename{a}}$に入れられた型を想像してほしい．
-この型にもマップ演算子があり$$\monadfunc::(\typename{a}\rightarrow\monad{\typename{b}})\rightarrow\monad{\typename{a}}\rightarrow{\typename{b}}$$という型を持っているとする．
-このマップ演算子は第1引数（上）として型$\typename{a}$をとりコンテナに収めた型$\monad{\typename{b}}$を返す関数を，第2引数（右）としてコンテナに収められた型$\monad{\typename{a}}$をとり，戻り値として「生の」型$\typename{b}$を返す．
+この型にもマップ演算子があり$$\monadfunc::\left(\typename{a}\rightarrow\monad{\typename{b}}\right)\rightarrow\monad{\typename{a}}\rightarrow{\monad{\typename{b}}}$$という型を持っているとする．
+このマップ演算子は第1引数（上）として型$\typename{a}$をとりコンテナに収めた型$\monad{\typename{b}}$を返す関数を，第2引数（右）としてコンテナに収められた型$\monad{\typename{a}}$をとり，戻り値としてコンテナに収められた型$\monad{\typename{b}}$を返す．
 
 型$\typename{a}$から型$\monad{\typename{a}}$を作り出す関手を$\monadfunctor$とし$$\monadfunctor\typename{a}=\typename{a}\mapsto\monad{\typename{a}}$$とする．
-$\typename{a}$型の変数から$\monad{\typename{a}}$型の変数を作る演算子を$\monadreturn$とする．
+$\typename{a}$型の変数から$\monad{\typename{a}}$型の変数を作る演算子を$\unit$とする．
+
+$\monad{\typename{a}}$型の変数をモナドと呼ぶ．
+モナドはアプリカティブとよく似ているが，少し異なることに注意しよう．
+モナドの応用範囲は極めて広く，それゆえ基本的な関手と考えられている．
 
 Maybeの方がリストよりも簡単なので，Maybeから説明する．
 Maybeの場合は次のような実装となる．
 \begin{align*}
-\monadreturn x&=\maybe{x}\\
+\unit x&=\maybe{x}\\
 \monadfunc^f\nothing&=\nothing\\
 \monadfunc^f\maybe{x}&=fx
 \end{align*}
@@ -441,7 +466,7 @@ Maybeの場合は次のような実装となる．
 % 
 % Maybe:
 % \begin{align*}
-% \monadreturn x&=\maybe{x}\\
+% \unit x&=\maybe{x}\\
 % \nothing\bind f&=\nothing\\
 % \maybe{x}\bind f&=fx
 % \end{align*}
@@ -450,20 +475,20 @@ Maybeの場合は次のような実装となる．
 
 リストの場合は次のような実装となる．
 \begin{align*}
-\monadreturn x&=\listtype{x}\\
+\unit x&=\listtype{x}\\
 \monadfunc^f\listtype{x_0,x_1\dotsb x_n}&=\concat\mapfunc^f\listtype{x_0,x_1\dotsb x_n}
 \end{align*}
 関数$\concat$はリストのリスト$$\listtype{\listtype{x_0,x_1\dotsb x_n},\listtype{y_0,y_1\dotsb y_n}\dotsb}$$をフラットなリスト$$\listtype{x_0,x_1\dotsb x_n,y_0,y_1\dotsb y_n\dotsb}$$へと変換する．
 
 % List:
 % \begin{align*}
-% \monadreturn x&=\listtype{x}\\
+% \unit x&=\listtype{x}\\
 % \listtype{x_0,x_1\dotsb x_n}\bind f&=\concat\mapfunc^f\listtype{x_0,x_1\dotsb x_n}
 % \end{align*}
 
 % Function:
 % \begin{align*}
-% \monadreturn x&=\haskelllambda y\rightarrow x\\
+% \unit x&=\haskelllambda y\rightarrow x\\
 % g\bind f&=\haskelllambda h\rightarrow f(gh)h
 % \end{align*}
 
@@ -473,42 +498,46 @@ Maybeの場合は次のような実装となる．
 新しい演算子$\triangleleft$を$$(f\triangleleft g)x\triangleq\monadfunc^f(gx)$$として導入する．
 モナドは次の規則に従う．
 \begin{align}
-f\triangleleft\monadreturn&=f\\
-\monadreturn\triangleleft f&=f\\
+f\triangleleft\unit&=f\\
+\unit\triangleleft f&=f\\
 (f\triangleleft g)\triangleleft h&=f\triangleleft(g\triangleleft h)
 \end{align}
+
+\section{結合演算子}
+
+「結合演算子($\bind$)」を$$x\bind f\triangleq \monadfunc^fx$$のように定義する．
 
 ---
 
 $$(f\triangleright g)x\triangleq(fx)\bind g$$
 \begin{align}
-\monadreturn\triangleright f&=f\\
-f\triangleright\monadreturn&=f\\
+\unit\triangleright f&=f\\
+f\triangleright\unit&=f\\
 (f\triangleright g)\triangleright h&=f\triangleright(g\triangleright h)
 \end{align}
 
 \begin{align}
-\monadreturn x\bind f&=fx\\
-\monad{x}\bind\monadreturn&=\monad{x}\\
+\unit x\bind f&=fx\\
+\monad{x}\bind\unit&=\monad{x}\\
 (\monad{x}\bind f)\bind g&=\monad{x}\bind(\haskelllambda x'\rightarrow(fx'\bind g))
 \end{align}
 
 Or,
 \begin{align}
-\monadfunc^f(\monadreturn x)&=fx\\
-\monadfunc^\monadreturn\monad{x}&=\monad{x}\\
+\monadfunc^f(\unit x)&=fx\\
+\monadfunc^\unit\monad{x}&=\monad{x}\\
 \monadfunc^g\left(\monadfunc^f\monad{x}\right)&=\monadfunc^{\haskelllamda x'\rightarrow\left(\monadfunc^gfx'\right)}\monad{x}
 \end{align}
 
 Memo.
 \begin{align*}
 \monadjoin\monad{\monad{x}}&\triangleq\monad{x}\\
-\mapfunc^f\monad{x}&=\monad{x}\bind(\monadreturn\comp f)\\
+\mapfunc^f\monad{x}&=\monad{x}\bind(\unit\comp f)\\
 \monadjoin\monad{x}&=\monad{x}\bind\identity\\
 \monad{x}\bind f&\triangleq\monadjoin\mapfunc^f\monad{x}\\
-\monadreturn\comp f&\triangleq\mapfunc^f\comp\monadreturn\\
+\unit\comp f&\triangleq\mapfunc^f\comp\unit\\
 \monadjoin\comp\mapfunc^\monadjoin&\triangleq\monadjoin\comp\monadjoin\\
-\monadjoin\comp\mapfunc^\monadreturn&\triangleq\monadjoin\comp\monadreturn=\identity\\
+\monadjoin\comp\mapfunc^\unit&\triangleq\monadjoin\comp\unit=\identity\\
 \monadjoin\comp\mapfunc^{\mapfunc^f}&\triangleq\mapfunc^f\comp\monadjoin
 \end{align*}
 
