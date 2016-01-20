@@ -295,12 +295,13 @@ $$\integertype\subset\ordkind$$
 \section{畳み込み}
 
 我々はよくリストの総和を表現するためにシグマ記号($\sum$)を使う．
-リスト$$l=[l_0,l_1\dotsb l_n]$$がある時，その総和を$$\sum l\triangleq l_0+l_1+\dotsb+l_n$$となるシグマ記号である．
+リスト$$l=\listtype{l_0,l_1\dotsb l_n}$$がある時，その総和を$$\sum l\triangleq l_0+l_1+\dotsb+l_n$$であるようなシグマ記号である．
 この表現を一般化してみよう．
-リスト$[l_0,l_1\dotsb l_n]$が与えられた時，$$\foldfunc_\circ^a[l_0,l_1\dotsb l_n]\triangleq a\circ l_0\circ l_1\circ\dotsb\circ l_n$$であると定義する．
-この新しい記号は畳み込み演算子と呼ばれる．
+リスト$\listtype{l_0,l_1\dotsb l_n}$が与えられた時，$$\foldfunc_\circ^a\listtype{l_0,l_1\dotsb l_n}\triangleq a\circ l_0\circ l_1\circ\dotsb\circ l_n$$であると定義する．
+この新しい記号$\foldfunc$は畳み込み演算子と呼ばれる．
 
 リストの総和をとる演算子$\sum$は$$\sum=\foldfunc_+^0$$とすれば得られる．
+同じようにリストの要素のすべての関をとる演算子$\prod$は$$\prod=\foldfunc_\ast^1$$とすれば得られる．
 
 畳み込み演算子は第1引数（演算子の下）に二項演算子，第2引数（演算子の上）にスカラー，第3引数（演算子の右）にリストを取り，スカラーを返す．
 第1引数の二項演算子が取る引数型と第2引数のスカラーの型，第3引数のリストの要素の型，戻り値の型は全て一致していなければならない．
@@ -318,7 +319,7 @@ $$\integertype\subset\ordkind$$
 \section{一般化マップ}
 
 マップ演算子の概念を一般化してみよう．
-マップ演算子はあるコンテナの中身に関数適用を行い，元のコンテナと同じ型のコンテナを返す演算子であると考えることができる．
+マップ演算子はあるコンテナの中身に関数適用を行い，元のコンテナと同じコンテナを返す演算子であると考えることができる．
 そこで，今後マップ演算子の右引数は一般のコンテナであるとする．
 型$\typename{a}$をコンテナに入れた型を一般に$\generalcontainer{\typename{a}}$と書くことにすると，一般化されたマップ演算子$\mapfunc$は$$\mapfunc::(\typename{a}\rightarrow\typename{b})\rightarrow\generalcontainer{\typename{a}}\rightarrow\generalcontainer{\typename{b}}$$という型を持つ．
 
@@ -331,7 +332,7 @@ $$\integertype\subset\ordkind$$
 しかし除算の度にエラーが起こったかどうか調べるのは面倒であるし，記述も煩雑になってしまう．
 プログラマはよくこういう場合に「例外」という機構を用いるが，数学に例外は持ち込みたくない．
 そこで変数$x$が正しく計算されたかもしれないし，されていないかもしれないということを，特別な記号$\maybe{x}$で表しておこう．
-ここで変数$\maybe{x}$が取り得る値は正しく計算された値$x$か，あるいはエラーを表す値$\nothing$かもしれない．
+ここで変数$\maybe{x}$が取り得る値は正しく計算された値$x$か，あるいはエラーを表す値$\nothing$である．
 
 この変数$\maybe{x}$はもはや整数型とは言えない．
 そこでこの$\maybe{x}$の型を$\maybe{\integertype}$と表して「きっと整数」型と呼ぶことにしよう．
@@ -368,7 +369,7 @@ $$\integertype\subset\ordkind$$
 一般化マップの第1引数である1引数関数がコンテナに入っている場合を想定しよう．
 そうすると次のような「一般化された」一般化マップ$\applicativefunc$を考えることができる．
 $$\applicativefunc::\generalcontainer{(\typename{a}\rightarrow\typename{b})}\rightarrow\generalcontainer{\typename{a}}\rightarrow\generalcontainer{\typename{b}}$$
-実際の使い方は$$\listtype{y_0,y_1\dotsb y_n}=\applicativefunc_{\listtype{f}}\listtype{x_0,x_1\dotsb x_n}$$のようになるであろう．
+実際の使い方は$$\listtype{y_0,y_1\dotsb y_{n''}}=\applicativefunc_{\listtype{f_0,f_1\dotsb f_n}}\listtype{x_0,x_1\dotsb x_{n'}}$$のようになるであろう．
 
 \section{アプリカティブ}
 
@@ -386,8 +387,8 @@ Maybe:
 
 List:
 \begin{align*}
-\pure x&=\listtype{x_0,x_1\dotsb x_n}\\
-\applicativefunc_{\listtype{f_0,f_1\dotsb f_n}}\listtype{x_0,x_1\dotsb x_n}&=\listtype{fx\guard{f\in\listtype{f_0,f_1\dotsb f_n},x\in\listtype{x_0,x_1\dotsb x_n}}}
+\pure x&=\listtype{x}\\
+\applicativefunc_{\listtype{f_0,f_1\dotsb f_n}}\listtype{x_0,x_1\dotsb x_{n'}}&=\listtype{fx\guard{f\in\listtype{f_0,f_1\dotsb f_n},x\in\listtype{x_0,x_1\dotsb x_{n'}}}}
 \end{align*}
 
 IO: skip.
