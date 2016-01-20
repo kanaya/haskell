@@ -1,29 +1,65 @@
 \documentclass[twocolumn]{jsbook}
-\usepackage{amsmath,amssymb,ascmac}
+\usepackage{amsmath,amssymb,ascmac,bm}
 
-\newcommand{\booleantype}{\mathbb{B}}
+% Literals
 \newcommand{\charlit}[1]{\texttt{#1}}
+
+% Operators and symbols
 \newcommand{\dollar}{\mathop{\$}}
-\newcommand{\falsevalue}{\text{False}}
-\newcommand{\firstelem}{\textsf{first}}
+\newcommand{\foldfunc}{\bigoplus}
 \newcommand{\guard}[1]{\mathop{\mid_{{#1}}}}
-\newcommand{\integertype}{\mathbb{Z}}
 \newcommand{\lambdaperiod}{\;.\;}
 \newcommand{\listappend}{\mathop{++}}
-\newcommand{\listfunctor}{\text{List}}
-\newcommand{\mathif}{\mathop{\textbf{if}}}
-\newcommand{\mathelse}{\mathop{\textbf{else}}}
-\newcommand{\maththen}{\mathop{\textbf{then}}}
-\newcommand{\mapfunc}{\bigoplus}
-\newcommand{\mapfunctext}{\mathop{\mathrm{map}}}
-\newcommand{\maybe}[1]{\Tilde{#1}}
-\newcommand{\maybefunctor}{\text{Maybe}}
+\newcommand{\mapfunc}{\bigodot}
 \newcommand{\nullelem}{\emptyset}
-\newcommand{\otherwise}{\textbf{otherwise}}
-\newcommand{\realtype}{\mathbb{R}}
-\newcommand{\restelems}{\textsf{rest}}
-\newcommand{\truevalue}{\text{True}}
-\newcommand{\typename}[1]{\mathfrak{#1}}
+
+% Booleans
+\newcommand{\booleankeyword}[1]{\text{#1}}
+\newcommand{\falsevalue}{\text{F}}
+\newcommand{\truevalue}{\text{T}}
+
+% Typenames
+\newcommand{\typename}[1]{\bm{#1}}
+\newcommand{\booleantype}{\typename{B}}
+\newcommand{\integertype}{\typename{Z}}
+\newcommand{\realtype}{\typename{R}}
+
+% Typenames for functors
+\newcommand{\functortypename}[1]{\mathcal{#1}}
+\newcommand{\functortype}{\functortypename{F}}
+
+% Functors
+\newcommand{\functor}[1]{\langle#1\rangle}
+\newcommand{\listtype}[1]{[#1]}
+\newcommand{\maybe}[1]{\{#1\}}
+
+% Functor names
+\newcommand{\functorname}[1]{\textbf{#1}}
+\newcommand{\listfunctor}{\mathop{\functorname{List}}}
+\newcommand{\maybefunctor}{\mathop{\functorname{Maybe}}}
+
+% Kind names
+\newcommand{\kindname}[1]{\mathbb{#1}}
+\newcommand{\eqkind}{\kindname{E}}
+\newcommand{\ordkind}{\kindname{O}}
+
+% Keywords
+\newcommand{\haskellkeyword}[1]{\textbf{#1}}
+\newcommand{\letinprogram}{\haskellkeyword{let}}
+\newcommand{\otherwise}{\haskellkeyword{otherwise}}
+\newcommand{\where}{\haskellkeyword{where}}
+
+% Math keywords
+\newcommand{\mathkeyword}[1]{\textbf{#1}}
+\newcommand{\mathelse}{\mathop{\mathkeyword{else}}}
+\newcommand{\mathif}{\mathop{\mathkeyword{if}}}
+\newcommand{\maththen}{\mathop{\mathkeyword{then}}}
+
+% Special keywords
+\newcommand{\specialkeyword}[1]{\textsf{#1}}
+\newcommand{\firstelem}{\specialkeyword{First}}
+\newcommand{\nothing}{\specialkeyword{Nothing}}
+\newcommand{\restelems}{\specialkeyword{Rest}}
 
 
 \begin{document}
@@ -105,7 +141,7 @@
 関数合成の演算子$\cdot$は関数適用よりも優先順位が高く，$(f\cdot g)x$は単に$f\cdot gx$と書いても良い．
 この記法は括弧の数を減らすためにしばしば用いられる．
 
-関数合成とは逆に，関数適用を行う演算子も考えておくと括弧の数を減らすのに便利である．
+関数合成演算子とは逆に，優先順位の低い関数適用演算子も考えておくと括弧の数を減らすのに便利である．
 関数適用演算子$\dollar$を次のように定義しておく．
 $$f\dollar gx\triangleq f(gx)$$
 演算子$\dollar$の優先順位は足し算演算子よりも低いものとする．
@@ -113,8 +149,8 @@ $$f\dollar gx\triangleq f(gx)$$
 
 二項演算子とは2引数関数の特別な場合であると考えてよい．
 関数$r$を次のように中置する記法を定義しておく．
-$$x\,\textquoteleft r\textquoteleft\,y\triangleq rxy$$
-バッククオート記号($\textquoteleft$)を使っているのはプライム記号($'$)と区別するためである．
+$$x\,{}^\backprime r^\backprime\,y\triangleq rxy$$
+バックプライム記号(${}^\backprime$)を使っているのはプライム記号($'$)と区別するためである．
 
 既存の二項演算子$\circ$は次のようにして通常の関数として使えるものとする．
 $$(\circ)xy\triangleq x\circ y$$
@@ -123,7 +159,7 @@ $$(\circ)xy\triangleq x\circ y$$
 
 引数$x$をとり値$1+x$を返すラムダ式は次のように書くことにする．
 $$\backslash x\rightarrow 1+x$$
-この式はチャーチのオリジナルの論文の記法であれば$\Hat x\lambdaperiod 1+x$と書かれたところであり，現在でも多くの書物で$\lambda x\lambdaperiod 1+x$と記述される．
+この式はチャーチのオリジナルの論文の記法であれば$\Hat x\lambdaperiod 1+x$と書かれたところであり，現在でも多くの書物で$\lambda x\lambdaperiod 1+x$と記述されるところである．
 しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号($.$)が関数合成演算子($\cdot$)と非常に紛らわしいため，上述の記法を用いる．
 
 ラムダ式を適用するには，ラムダ式を括弧で包む必要がある．
@@ -143,12 +179,12 @@ $$\left(\backslash x\rightarrow x+1\right)2$$
 関数にスペシャルバージョンがある場合は列挙する．
 例えば引数が$0$の場合は特別に戻り値も0であり，その他の場合は関数$f$と同じ振る舞いをする関数$f'$を考える．
 この時$f'$は次のように定義することになる．
-\begin{equation}
+\begin{equation*}
 \begin{split}
 f'0&=0\\
 f'x&=1+x
 \end{split}
-\end{equation}
+\end{equation*}
 
 関数定義に場合分けが必要な場合は「ガード」を用いる．
 例えば引数の値が負の場合は$-1$を，$0$の場合は$0$を，それ以外の場合は関数$f$と同じ振る舞いをする関数$f''$は
@@ -176,7 +212,7 @@ $$fx=\mathif x\equiv0\maththen0\mathelse 1+x$$
 \section{型}
 
 型とは変数が取りうる値に与えた制約のことである．
-数学者はしばしば変数$x$が整数であることを$x\in\integertype$のように書く．
+数学者はしばしば変数$x$が整数であることを$x\in\integertype$のように書くが，我々は記号$\in$を別の用途に使いたいので代わりに記号$::$を使って$$x::\integertype$$と書く事にする．
 
 今我々が考慮しておくべき型は，論理型($\booleantype$)，整数型($\integertype$)，及び実数型($\realtype$)である．
 括弧内に示した記号は数学者たちが慣用的に用いているものである．
@@ -220,7 +256,8 @@ LISPにおけるリストとは要素$\firstelem$と要素$\restelems$からな�
 要素$\firstelem$がリストの要素を持ち，要素$\restelems$が次のペアを「参照」する．
 リストの最後のペアの$\restelems$は空リストを参照する．
 
-これらのペアはタプルで実装したいところだが，参照，逆参照の煩雑さを避けるために，リストのための特別な表現$$\firstelem:\restelems$$を用い，第2要素である$\restelems$はリストそのものであるとする．
+これらのペアはタプルで実装したいところだが，参照，逆参照の煩雑さを避けるために，リストのための特別な表現$$\firstelem:\restelems$$を用い，第2要素である$\restelems$はリスト型であるとする．
+演算子$:$は結合演算子と呼ぶ．
 
 要素$\restelems$はリスト（または空リスト）であるから，一般にリストは次のように展開できることになる．
 \begin{align*}
@@ -228,40 +265,62 @@ LISPにおけるリストとは要素$\firstelem$と要素$\restelems$からな�
 &=x_0:x_1:[x_2\dotsb x_n]\\
 &=x_0:x_1:x_2:\dotsb:x_n:[\,]
 \end{align*}
+結合演算子$:$は右結合する．
+すなわち$$x_0:x_1:x_2\equiv x_0:(x_1:x_2)$$である．
 
 \chapter{型・型クラス・種}
 
 \section{関数の型}
+
+$$f::\integertype\rightarrow\integertype$$
 
 関数$f$が引数として整数を2個取り1個の整数を返す時，その型は$$\integertype\rightarrow\integertype\rightarrow\integertype$$である．
 型の式は右結合するものとする．
 従って上式は$$\integertype\rightarrow\left(\integertype\rightarrow\integertype\right)$$と読む．
 これは関数$f$が最初の引数を1個受け取り，$(\integertype\rightarrow\integertype)$型の関数を返していることを考えると理にかなっている表現である．
 
+\section{型クラス}
+
+\section{種}
+
+$$\integertype\subset\eqkind$$
+
+$$\integertype\subset\ordkind$$
+
 \chapter{マップ}
 
 \section{畳み込み}
 
 我々はよくリストの総和を表現するためにシグマ記号($\sum$)を使う．
-リスト$l$がある時，その総和を$\sum l$とよく表現する．
+リスト$$l=[l_0,l_1\dotsb l_n]$$がある時，その総和を$$\sum l\triangleq l_0+l_1+\dotsb+l_n$$となるシグマ記号である．
 この表現を一般化してみよう．
-リスト$l$が$$l=[l_0,l_1\dotsb l_n]$$である時，$$\sum_\circ^a l\triangleq a\circ l_0\circ l_1\circ\dotsb\circ l_n$$であると定義する．
-この新しいシグマ記号は畳み込み演算子と呼ばれる．
-リスト$l$の総和は$$\sum_+^0l$$とすれば得られる．
+リスト$[l_0,l_1\dotsb l_n]$が与えられた時，$$\foldfunc_\circ^a[l_0,l_1\dotsb l_n]\triangleq a\circ l_0\circ l_1\circ\dotsb\circ l_n$$であると定義する．
+この新しい記号は畳み込み演算子と呼ばれる．
+
+リストの総和をとる演算子$\sum$は$$\sum=\foldfunc_+^0$$とすれば得られる．
+
+畳み込み演算子は第1引数（演算子の下）に二項演算子，第2引数（演算子の上）にスカラー，第3引数（演算子の右）にリストを取り，スカラーを返す．
+第1引数の二項演算子が取る引数型と第2引数のスカラーの型，第3引数のリストの要素の型，戻り値の型は全て一致していなければならない．
+この型を$\typename{a}$とすると，畳み込み演算子の型を$$\foldfunc::(\typename{a}\rightarrow\typename{a}\rightarrow\typename{a})\rightarrow\typename{a}\rightarrow\listtype{\typename{a}}\rightarrow\typename{a}$$と定義できる．
+
 
 \section{マップ}
 
 畳み込みではなく，リストはリストのままにして，各要素に決まった関数を適用したい場合がある．
-引数として関数$f$とリスト$[l_0,l_1\dotsb l_n]$を取り，戻り値として$[fl_0,fl_1\dotsb fl_n]$を返す演算子$\mapfunc$を考えよう．
-リスト$l$が$$l=[l_0,l_1\dotsb l_n]$$である時，$$\mapfunc_f l\triangleq [fl_0,fl_1\dotsb fl_n]$$であると定義する．
+引数として関数$f$とリスト$[l_0,l_1\dotsb l_n]$を取り，戻り値として$[fl_0,fl_1\dotsb fl_n]$を返す演算子$\mapfunc^\text{list}$を考えよう．
+この時$$\mapfunc_f^\text{list}[l_0,l_1\dotsb l_n]\triangleq [fl_0,fl_1\dotsb fl_n]$$であると定義する．
+リストのマップ演算子$\mapfunc^\text{list}$は$$\mapfunc^\text{list}::(\typename{a}\rightarrow\typename{b})\rightarrow\listtype{\typename{a}}\rightarrow\listtype{\typename{b}}$$という型を持つ．
+
 
 \section{一般化マップ}
 
 マップ演算子の概念を一般化してみよう．
 マップ演算子はあるコンテナの中身に関数適用を行い，元のコンテナと同じ型のコンテナを返す演算子であると考えることができる．
 そこで，今後マップ演算子の右引数は一般のコンテナであるとする．
+型$\typename{a}$をコンテナに入れた型を一般に$\functor{\typename{a}}$と書くことにすると，一般化されたマップ演算子$\mapfunc$は$$\mapfunc::(\typename{a}\rightarrow\typename{b})\rightarrow\functor{\typename{a}}\rightarrow\functor{\typename{b}}$$という型を持つ．
 
-% $$\mapfunctext fl$$
+一般化マップはマップが使えるところではいつでも置き換えて使える．
+つまり我々は$\mapfunc^\text{list}$を使わずに，最初から$\mapfunc$を使えば良いのである．
 
 \section{Maybe}
 
@@ -269,21 +328,28 @@ LISPにおけるリストとは要素$\firstelem$と要素$\restelems$からな�
 しかし除算の度にエラーが起こったかどうか調べるのは面倒であるし，記述も煩雑になってしまう．
 プログラマはよくこういう場合に「例外」という機構を用いるが，数学に例外は持ち込みたくない．
 そこで変数$x$が正しく計算されたかもしれないし，されていないかもしれないということを，特別な記号$\maybe{x}$で表しておこう．
+ここで変数$\maybe{x}$が取り得る値は正しく計算された値$x$か，あるいはエラーを表す値$\nothing$かもしれない．
 
 この変数$\maybe{x}$はもはや整数型とは言えない．
-そこでこの$\maybe{x}$の型を$\maybe{\integertype}$と表して「きっと整数」と呼ぶことにしよう．
+そこでこの$\maybe{x}$の型を$\maybe{\integertype}$と表して「きっと整数」型と呼ぶことにしよう．
 英語では ``maybe integer'' と呼ぶ．
 
-変数$x$が一度$0$除算の危険性に汚染された場合，その後ずっと$\maybe{x}$とマークをつけられなければならない．このきっと整数$\maybe{x}$に対して整数を引数にとる関数$f$を適用させるには，一般化マップ演算子が必要である．
+変数$x$が一度$0$除算の危険性に汚染された場合，その後ずっと$\maybe{x}$と印をつけられなければならない．
+このきっと整数$\maybe{x}$に対して整数を引数にとる関数$f$を適用させるには，一般化マップ演算子が必要である．
 具体的には$$\mapfunc_f\maybe{x}$$のようにして関数$f$を変数$\maybe{x}$に適用させる．
 その結果はまた$\maybe{\integertype}$型である．
+従って，結果を受け取る変数も$\maybe{\integertype}$でなければならず，それを忘れないように印を付けておかねばならない．
+例えば$$\maybe{y}=\mapfunc_f\maybe{x}$$のように書くことになるであろう．
 
 \section{関手}
 
 ある型から，マップの右引数になれる型を作る射（一般化された写像）のことを関手と呼ぶ．
-例えば型$\typename{a}$からリスト型$[\typename{a}]$を作る射$$\listfunctor:\typename{a}\mapsto[\typename{a}]$$は関手である．
-また整数型$\integertype$からきっと整数型$\maybe{\integertype}$を作る射$$\maybefunctor:\integertype\mapsto\maybe{\integertype}$$も関手である．
+例えば型$\typename{a}$からリスト型$[\typename{a}]$を作る射$\listfunctor$ただし$$\listfunctor\typename{a}=\typename{a}\mapsto\listtype{\typename{a}}$$は関手である．
+また型$\typename{a}$から ``maybe a'' 型$\maybe{\typename{a}}$を作る射$\maybefunctor$ただし$$\maybefunctor\typename{a}=\typename{a}\mapsto\maybe{\typename{a}}$$も関手である．
+一般に$$\typename{a}\mapsto\functor{\typename{a}}$$という風に型$\typename{a}$をコンテナに入れて型$\functor{\typename{a}}$を作る射を関手と呼ぶ．
 
+関手全体の集合を$\functortype$で表す．
+これまでに見た関手は$$\listfunctor,\maybefunctor::\functortype$$である．
 
 
 \chapter{プログラミング}
