@@ -5,15 +5,20 @@
 \newcommand{\charlit}[1]{\texttt{#1}}
 
 % Operators and symbols
-\newcommand{\applicativefunc}{\bigotimes}
-\newcommand{\dollar}{\mathop{\$}}
-\newcommand{\foldfunc}{\bigoplus}
+\newcommand{\applicativefunc}{\bigotimes} % <*>
+\newcommand{\bind}{\rightrightarrows} % >>=
+\newcommand{\dollar}{\mathop{\$}} % $
+\newcommand{\foldfunc}{\bigoplus} % foldl
 \newcommand{\guard}[1]{\mathop{\mid_{{#1}}}}
 \newcommand{\lambdaperiod}{\;.\;}
 \newcommand{\listappend}{\mathop{++}}
-\newcommand{\mapfunc}{\bigodot}
+\newcommand{\mapfunc}{\bigodot} % fmap
+\newcommand{\monadreturn}{\star} % return
 \newcommand{\nullelem}{\emptyset}
-\newcommand{\pure}{\bigstar}
+\newcommand{\pure}{\bigstar} % pure
+
+% Functions
+\newcommand{\concat}{\mathop{\text{concat}}}
 
 % Booleans
 \newcommand{\booleankeyword}[1]{\text{#1}}
@@ -34,6 +39,7 @@
 \newcommand{\generalcontainer}[1]{\left\langle#1\right\rangle}
 \newcommand{\listtype}[1]{\left[#1\right]}
 \newcommand{\maybe}[1]{\left\{#1\right\}}
+\newcommand{\monad}[1]{\left\langle\!\left\langle#1\right\rangle\!\right\rangle}
 
 % Functor names
 \newcommand{\functor}[1]{\mathop{\textbf{#1}}}
@@ -297,13 +303,13 @@ $$\integertype\subset\ordkind$$
 我々はよくリストの総和を表現するためにシグマ記号($\sum$)を使う．
 リスト$$l=\listtype{l_0,l_1\dotsb l_n}$$がある時，その総和を$$\sum l\triangleq l_0+l_1+\dotsb+l_n$$であるようなシグマ記号である．
 この表現を一般化してみよう．
-リスト$\listtype{l_0,l_1\dotsb l_n}$が与えられた時，$$\foldfunc_\circ^a\listtype{l_0,l_1\dotsb l_n}\triangleq a\circ l_0\circ l_1\circ\dotsb\circ l_n$$であると定義する．
+リスト$\listtype{l_0,l_1\dotsb l_n}$が与えられた時，$$\foldfunc^\circ_a\listtype{l_0,l_1\dotsb l_n}\triangleq a\circ l_0\circ l_1\circ\dotsb\circ l_n$$であると定義する．
 この新しい記号$\foldfunc$は畳み込み演算子と呼ばれる．
 
-リストの総和をとる演算子$\sum$は$$\sum=\foldfunc_+^0$$とすれば得られる．
-同じようにリストの要素のすべての関をとる演算子$\prod$は$$\prod=\foldfunc_\ast^1$$とすれば得られる．
+リストの総和をとる演算子$\sum$は$$\sum=\foldfunc^+_0$$とすれば得られる．
+同じようにリストの要素のすべての関をとる演算子$\prod$は$$\prod=\foldfunc^\ast_1$$とすれば得られる．
 
-畳み込み演算子は第1引数（演算子の下）に二項演算子，第2引数（演算子の上）にスカラー，第3引数（演算子の右）にリストを取り，スカラーを返す．
+畳み込み演算子は第1引数（演算子の上）に二項演算子，第2引数（演算子の下）にスカラー，第3引数（演算子の右）にリストを取り，スカラーを返す．
 第1引数の二項演算子が取る引数型と第2引数のスカラーの型，第3引数のリストの要素の型，戻り値の型は全て一致していなければならない．
 この型を$\typename{a}$とすると，畳み込み演算子の型を$$\foldfunc::(\typename{a}\rightarrow\typename{a}\rightarrow\typename{a})\rightarrow\typename{a}\rightarrow\listtype{\typename{a}}\rightarrow\typename{a}$$と定義できる．
 
@@ -311,9 +317,9 @@ $$\integertype\subset\ordkind$$
 \section{マップ}
 
 畳み込みではなく，リストはリストのままにして，各要素に決まった関数を適用したい場合がある．
-引数として関数$f$とリスト$[l_0,l_1\dotsb l_n]$を取り，戻り値として$[fl_0,fl_1\dotsb fl_n]$を返す演算子$\mapfunc^\text{list}$を考えよう．
-この時$$\mapfunc_f^\text{list}[l_0,l_1\dotsb l_n]\triangleq [fl_0,fl_1\dotsb fl_n]$$であると定義する．
-リストのマップ演算子$\mapfunc^\text{list}$は$$\mapfunc^\text{list}::(\typename{a}\rightarrow\typename{b})\rightarrow\listtype{\typename{a}}\rightarrow\listtype{\typename{b}}$$という型を持つ．
+引数として関数$f$とリスト$[l_0,l_1\dotsb l_n]$を取り，戻り値として$[fl_0,fl_1\dotsb fl_n]$を返す演算子$\mapfunc_\text{list}$を考えよう．
+この時$$\mapfunc^f_\text{list}[l_0,l_1\dotsb l_n]\triangleq [fl_0,fl_1\dotsb fl_n]$$であると定義する．
+リストのマップ演算子$\mapfunc_\text{list}$は$$\mapfunc_\text{list}::(\typename{a}\rightarrow\typename{b})\rightarrow\listtype{\typename{a}}\rightarrow\listtype{\typename{b}}$$という型を持つ．
 
 
 \section{一般化マップ}
@@ -324,7 +330,7 @@ $$\integertype\subset\ordkind$$
 型$\typename{a}$をコンテナに入れた型を一般に$\generalcontainer{\typename{a}}$と書くことにすると，一般化されたマップ演算子$\mapfunc$は$$\mapfunc::(\typename{a}\rightarrow\typename{b})\rightarrow\generalcontainer{\typename{a}}\rightarrow\generalcontainer{\typename{b}}$$という型を持つ．
 
 一般化マップはマップが使えるところではいつでも置き換えて使える．
-つまり我々は$\mapfunc^\text{list}$を使わずに，最初から$\mapfunc$を使えば良いのである．
+つまり我々は$\mapfunc_\text{list}$を使わずに，最初から$\mapfunc$を使えば良いのである．
 
 一般化マップの型は$\typename{a}\rightarrow\typename{b}$をとり$\generalcontainer{\typename{a}}\rightarrow\generalcontainer{\typename{b}}$を返しているようにも見える．
 それゆえ一般化マップを用いることを関数の「持ち上げ(lifting)」と呼ぶのである．
@@ -343,10 +349,10 @@ $$\integertype\subset\ordkind$$
 
 変数$x$が一度$0$除算の危険性に汚染された場合，その後ずっと$\maybe{x}$と印をつけられなければならない．
 このきっと整数$\maybe{x}$に対して整数を引数にとる関数$f$を適用させるには，一般化マップ演算子が必要である．
-具体的には$$\mapfunc_f\maybe{x}$$のようにして関数$f$を変数$\maybe{x}$に適用させる．
+具体的には$$\mapfunc^f\maybe{x}$$のように関数$f$を「持ち上げて」から変数$\maybe{x}$に適用させる．
 その結果はまた$\maybe{\integertype}$型である．
 従って，結果を受け取る変数も$\maybe{\integertype}$でなければならず，それを忘れないように印を付けておかねばならない．
-例えば$$\maybe{y}=\mapfunc_f\maybe{x}$$のように書くことになるであろう．
+例えば$$\maybe{y}=\mapfunc^f\maybe{x}$$のように書くことになるであろう．
 
 \section{関手}
 
@@ -362,7 +368,7 @@ $$\integertype\subset\ordkind$$
 
 \begin{align}
 \functor{f}\identity&\equiv\identity\\
-\mapfunc_{f\cdot g}&\equiv\mapfunc_f\cdot\mapfunc_g
+\mapfunc^{f\cdot g}&\equiv\mapfunc^f\cdot\mapfunc^g
 \end{align}
 
 
@@ -372,7 +378,7 @@ $$\integertype\subset\ordkind$$
 一般化マップの第1引数である1引数関数がコンテナに入っている場合を想定しよう．
 そうすると次のような「一般化された」一般化マップ$\applicativefunc$を考えることができる．
 $$\applicativefunc::\generalcontainer{(\typename{a}\rightarrow\typename{b})}\rightarrow\generalcontainer{\typename{a}}\rightarrow\generalcontainer{\typename{b}}$$
-実際の使い方は$$\listtype{y_0,y_1\dotsb y_{n''}}=\applicativefunc_{\listtype{f_0,f_1\dotsb f_n}}\listtype{x_0,x_1\dotsb x_{n'}}$$のようになるであろう．
+実際の使い方は$$\listtype{y_0,y_1\dotsb y_{n''}}=\applicativefunc^{\listtype{f_0,f_1\dotsb f_n}}\listtype{x_0,x_1\dotsb x_{n'}}$$のようになるであろう．
 
 \section{アプリカティブ}
 
@@ -384,14 +390,14 @@ $$\applicativefunc::\generalcontainer{(\typename{a}\rightarrow\typename{b})}\rig
 Maybe:
 \begin{align*}
 \pure x&=\maybe{x}\\
-\applicativefunc_{\nothing}\maybe{x}&=\nothing\\
-\applicativefunc_{\maybe{f}}\maybe{x}&=\mapfunc_f\maybe{x}
+\applicativefunc^{\nothing}\maybe{x}&=\nothing\\
+\applicativefunc^{\maybe{f}}\maybe{x}&=\mapfunc^f\maybe{x}
 \end{align*}
 
 List:
 \begin{align*}
 \pure x&=\listtype{x}\\
-\applicativefunc_{\listtype{f_0,f_1\dotsb f_n}}\listtype{x_0,x_1\dotsb x_{n'}}&=\listtype{fx\guard{f\in\listtype{f_0,f_1\dotsb f_n},x\in\listtype{x_0,x_1\dotsb x_{n'}}}}
+\applicativefunc^{\listtype{f_0,f_1\dotsb f_n}}\listtype{x_0,x_1\dotsb x_{n'}}&=\listtype{fx\guard{f\in\listtype{f_0,f_1\dotsb f_n},x\in\listtype{x_0,x_1\dotsb x_{n'}}}}
 \end{align*}
 
 IO: skip.
@@ -399,17 +405,43 @@ IO: skip.
 Function:
 \begin{align*}
 \pure x&=\backslash y\rightarrow x\\
-\applicativefunc_fg&=\backslash x\rightarrow fx(gx)
+\applicativefunc^fg&=\backslash x\rightarrow fx(gx)
 \end{align*}
 
 \section{アプリカティブが従う規則}
 
+$$\applicativefunc^{\pure f}x\equiv\mapfunc^fx$$
+
+\section{モナド}
+
+$$\bind\,::\monad{\typename{a}}\rightarrow(\typename{a}\rightarrow\monad{\typename{b}})\rightarrow\monad{\typename{b}}$$
+
+Maybe:
+\begin{align*}
+\monadreturn x&=\maybe{x}\\
+\nothing\bind f&=\nothing\\
+\maybe{x}\bind f&=fx
+\end{align*}
+
+List:
+\begin{align*}
+\monadreturn x&=\listtype{x}\\
+\listtype{x}\bind f&=\concat\mapfunc^fx
+\end{align*}
+
+Function:
+\begin{align*}
+\monadreturn x&=\backslash y\rightarrow x\\
+g\bind f&=\backslash h\rightarrow f(gh)h
+\end{align*}
+
+
+\section{モナド則}
+
 \begin{align}
-\applicativefunc_{\pure f}x&\equiv\mapfunc_fx\\
-\applicativefunc_{\pure\identity}x&\equiv x\\
-\applicativefunc_{\left(\applicativefunc_{\left(\applicativefunc_{\pure(\cdot)}x\right)}y\right)}z&\equiv\applicativefunc_x\left(\applicativefunc_yz\right)\\
-\applicativefunc_{\pure f}\pure x&\equiv\pure(fx)\\
-\applicativefunc_x\pure y&\equiv\applicativefunc_{\pure(\dollar y)}x
+\monadreturn x\bind f&=fx\\
+\monad{x}\bind\monadreturn&=\monad{x}\\
+(\monad{x}\bind f)\bind g&=\monad{x}\bind((\backslash x'\rightarrow fx')\bind g)
 \end{align}
 
 
