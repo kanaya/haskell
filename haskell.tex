@@ -9,11 +9,13 @@
 \newcommand{\bind}{\rightrightarrows} % >>=
 \newcommand{\comp}{\bullet} % .
 \newcommand{\dollar}{\mathop{\$}} % $
-\newcommand{\foldfunc}{\bigoplus} % foldl
+\newcommand{\foldfunc}{\bigsqcup} % foldl
 \newcommand{\guard}[1]{\mathop{\mid_{{#1}}}}
+\newcommand{\haskelllambda}{\backslash}
 \newcommand{\lambdaperiod}{\;.\;}
 \newcommand{\listappend}{\mathop{++}}
 \newcommand{\mapfunc}{\bigodot} % fmap
+\newcommand{\monadfunc}{\bigoplus}
 \newcommand{\monadjoin}{\dag}
 \newcommand{\monadreturn}{\star} % return
 \newcommand{\nullelem}{\emptyset}
@@ -47,6 +49,7 @@
 \newcommand{\functor}[1]{\mathop{\textbf{#1}}}
 \newcommand{\listfunctor}{\mathop{\functor{List}}}
 \newcommand{\maybefunctor}{\mathop{\functor{Maybe}}}
+\newcommand{\monadfunctor}{\mathop{\functor{Monad}}}
 
 % Kind names
 \newcommand{\kindname}[1]{\mathbb{#1}}
@@ -169,21 +172,21 @@ $$(\circ)xy\triangleq x\circ y$$
 \section{ラムダ式}
 
 引数$x$をとり値$1+x$を返すラムダ式は次のように書くことにする．
-$$\backslash x\rightarrow 1+x$$
+$$\haskelllambda x\rightarrow 1+x$$
 この式はチャーチのオリジナルの論文の記法であれば$\Hat x\lambdaperiod 1+x$と書かれたところであり，現在でも多くの書物で$\lambda x\lambdaperiod 1+x$と記述されるところである．
 しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号($.$)が関数合成演算子($\comp$)と非常に紛らわしいため，上述の記法を用いる．
 
 ラムダ式を適用するには，ラムダ式を括弧で包む必要がある．
 例を挙げる．
-$$\left(\backslash x\rightarrow x+1\right)2$$
+$$\left(\haskelllambda x\rightarrow x+1\right)2$$
 この式は結果として$3$を返す．
 
-複数引数をとるラムダ式は例えば$$\backslash xy\rightarrow x+y$$のように書く．
+複数引数をとるラムダ式は例えば$$\haskelllambda xy\rightarrow x+y$$のように書く．
 
 \section{関数定義}
 
 ラムダ式を用いた関数の定義が可能である．
-例えば引数$x$をとり値$1+x$を返す関数$f$は$$f=\backslash x\rightarrow 1+x$$と定義できる．
+例えば引数$x$をとり値$1+x$を返す関数$f$は$$f=\haskelllambda x\rightarrow 1+x$$と定義できる．
 この省略形として$$fx=1+x$$と書いても良いし，さらに省略して$$f=(+)1$$と書いても良い．
 もちろん$f=+1$でないことに注意しよう．
 
@@ -389,26 +392,26 @@ $$\applicativefunc::\generalcontainer{(\typename{a}\rightarrow\typename{b})}\rig
 関手の型$\typename{a}\mapsto\generalcontainer{\typename{a}}$とは矢印が違う事に注意しよう．
 ピュア演算子は型を型へ変換するのではなく，変数をコンテナに入れられた別な変数へと変換する．
 
-Maybe:
+リストの場合，ピュア演算子と一般化一般化マップは次のように実装することができる．
+\begin{align*}
+\pure x&=\listtype{x}\\
+\applicativefunc^{\listtype{f_0,f_1\dotsb f_n}}\listtype{x_0,x_1\dotsb x_{n'}}&=\listtype{fx\guard{f\in\listtype{f_0,f_1\dotsb f_n},x\in\listtype{x_0,x_1\dotsb x_{n'}}}}
+\end{align*}
+
+Maybeの場合は次のようにピュア演算子と一般化一般化マップを実装することができる．
 \begin{align*}
 \pure x&=\maybe{x}\\
 \applicativefunc^{\nothing}\maybe{x}&=\nothing\\
 \applicativefunc^{\maybe{f}}\maybe{x}&=\mapfunc^f\maybe{x}
 \end{align*}
 
-List:
-\begin{align*}
-\pure x&=\listtype{x}\\
-\applicativefunc^{\listtype{f_0,f_1\dotsb f_n}}\listtype{x_0,x_1\dotsb x_{n'}}&=\listtype{fx\guard{f\in\listtype{f_0,f_1\dotsb f_n},x\in\listtype{x_0,x_1\dotsb x_{n'}}}}
-\end{align*}
+% IO: skip.
 
-IO: skip.
-
-Function:
-\begin{align*}
-\pure x&=\backslash y\rightarrow x\\
-\applicativefunc^fg&=\backslash x\rightarrow fx(gx)
-\end{align*}
+% Function:
+% \begin{align*}
+% \pure x&=\haskelllambda y\rightarrow x\\
+% \applicativefunc^fg&=\haskelllambda x\rightarrow fx(gx)
+% \end{align*}
 
 \section{アプリカティブが従う規則}
 
@@ -416,42 +419,88 @@ $$\applicativefunc^{\pure f}x\equiv\mapfunc^fx$$
 
 \section{モナド}
 
-$$\bind\,::\monad{\typename{a}}\rightarrow(\typename{a}\rightarrow\monad{\typename{b}})\rightarrow\monad{\typename{b}}$$
+ある型$\typename{a}$について，特殊なコンテナ$\monad{\typename{a}}$に入れられた型を想像してほしい．
+この型にもマップ演算子があり$$\monadfunc::(\typename{a}\rightarrow\monad{\typename{b}})\rightarrow\monad{\typename{a}}\rightarrow{\typename{b}}$$という型を持っているとする．
+このマップ演算子は第1引数（上）として型$\typename{a}$をとりコンテナに収めた型$\monad{\typename{b}}$を返す関数を，第2引数（右）としてコンテナに収められた型$\monad{\typename{a}}$をとり，戻り値として「生の」型$\typename{b}$を返す．
 
-Maybe:
+型$\typename{a}$から型$\monad{\typename{a}}$を作り出す関手を$\monadfunctor$とし$$\monadfunctor\typename{a}=\typename{a}\mapsto\monad{\typename{a}}$$とする．
+$\typename{a}$型の変数から$\monad{\typename{a}}$型の変数を作る演算子を$\monadreturn$とする．
+
+Maybeの方がリストよりも簡単なので，Maybeから説明する．
+Maybeの場合は次のような実装となる．
 \begin{align*}
 \monadreturn x&=\maybe{x}\\
-\nothing\bind f&=\nothing\\
-\maybe{x}\bind f&=fx
+\monadfunc^f\nothing&=\nothing\\
+\monadfunc^f\maybe{x}&=fx
 \end{align*}
+ここに関数$f$は$$f::\typename{a}\rightarrow\monad{\typename{b}}$$であるから，関数適用された値$fx$は$$fx::\monad{\typename{b}}$$という型を持つことに注意しよう．
 
-List:
+% ---
+% 
+% $$\bind\,::\monad{\typename{a}}\rightarrow(\typename{a}\rightarrow\monad{\typename{b}})\rightarrow\monad{\typename{b}}$$
+% 
+% Maybe:
+% \begin{align*}
+% \monadreturn x&=\maybe{x}\\
+% \nothing\bind f&=\nothing\\
+% \maybe{x}\bind f&=fx
+% \end{align*}
+% 
+% ---
+
+リストの場合は次のような実装となる．
 \begin{align*}
 \monadreturn x&=\listtype{x}\\
-\listtype{x_0,x_1\dotsb x_n}\bind f&=\concat\mapfunc^f\listtype{x_0,x_1\dotsb x_n}
+\monadfunc^f\listtype{x_0,x_1\dotsb x_n}&=\concat\mapfunc^f\listtype{x_0,x_1\dotsb x_n}
 \end{align*}
+関数$\concat$はリストのリスト$$\listtype{\listtype{x_0,x_1\dotsb x_n},\listtype{y_0,y_1\dotsb y_n}\dotsb}$$をフラットなリスト$$\listtype{x_0,x_1\dotsb x_n,y_0,y_1\dotsb y_n\dotsb}$$へと変換する．
 
-Function:
-\begin{align*}
-\monadreturn x&=\backslash y\rightarrow x\\
-g\bind f&=\backslash h\rightarrow f(gh)h
-\end{align*}
+% List:
+% \begin{align*}
+% \monadreturn x&=\listtype{x}\\
+% \listtype{x_0,x_1\dotsb x_n}\bind f&=\concat\mapfunc^f\listtype{x_0,x_1\dotsb x_n}
+% \end{align*}
+
+% Function:
+% \begin{align*}
+% \monadreturn x&=\haskelllambda y\rightarrow x\\
+% g\bind f&=\haskelllambda h\rightarrow f(gh)h
+% \end{align*}
 
 
 \section{モナド則}
 
+新しい演算子$\triangleleft$を$$(f\triangleleft g)x\triangleq\monadfunc^f(gx)$$として導入する．
+モナドは次の規則に従う．
 \begin{align}
-\monadreturn x\bind f&=fx\\
-\monad{x}\bind\monadreturn&=\monad{x}\\
-(\monad{x}\bind f)\bind g&=\monad{x}\bind(\backslash x'\rightarrow(fx'\bind g))
+f\triangleleft\monadreturn&=f\\
+\monadreturn\triangleleft f&=f\\
+(f\triangleleft g)\triangleleft h&=f\triangleleft(g\triangleleft h)
 \end{align}
-ここで$$(f\triangleright g)x\triangleq(fx)\bind g$$を導入すると，次のように簡潔に書けるようになる．
+
+---
+
+$$(f\triangleright g)x\triangleq(fx)\bind g$$
 \begin{align}
 \monadreturn\triangleright f&=f\\
 f\triangleright\monadreturn&=f\\
 (f\triangleright g)\triangleright h&=f\triangleright(g\triangleright h)
 \end{align}
 
+\begin{align}
+\monadreturn x\bind f&=fx\\
+\monad{x}\bind\monadreturn&=\monad{x}\\
+(\monad{x}\bind f)\bind g&=\monad{x}\bind(\haskelllambda x'\rightarrow(fx'\bind g))
+\end{align}
+
+Or,
+\begin{align}
+\monadfunc^f(\monadreturn x)&=fx\\
+\monadfunc^\monadreturn\monad{x}&=\monad{x}\\
+\monadfunc^g\left(\monadfunc^f\monad{x}\right)&=\monadfunc^{\haskelllamda x'\rightarrow\left(\monadfunc^gfx'\right)}\monad{x}
+\end{align}
+
+Memo.
 \begin{align*}
 \monadjoin\monad{\monad{x}}&\triangleq\monad{x}\\
 \mapfunc^f\monad{x}&=\monad{x}\bind(\monadreturn\comp f)\\
