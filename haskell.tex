@@ -7,12 +7,14 @@
 % Operators and symbols
 \newcommand{\applicativefunc}{\bigotimes} % <*>
 \newcommand{\bind}{\rightrightarrows} % >>=
+\newcommand{\comp}{\bullet} % .
 \newcommand{\dollar}{\mathop{\$}} % $
 \newcommand{\foldfunc}{\bigoplus} % foldl
 \newcommand{\guard}[1]{\mathop{\mid_{{#1}}}}
 \newcommand{\lambdaperiod}{\;.\;}
 \newcommand{\listappend}{\mathop{++}}
 \newcommand{\mapfunc}{\bigodot} % fmap
+\newcommand{\monadjoin}{\dag}
 \newcommand{\monadreturn}{\star} % return
 \newcommand{\nullelem}{\emptyset}
 \newcommand{\pure}{\bigstar} % pure
@@ -145,9 +147,9 @@
 引数に「飢えた」関数$(fx)$を部分適用された関数と呼ぶ．
 二項演算子$\equiv$は右辺と左辺が等しい場合に真となる演算子である．
 
-関数は合成できる．関数$f$と関数$g$があって，その合成を$f\cdot g$と書くとき$$(f\cdot g)x\triangleq f(gx)$$である．
+関数は合成できる．関数$f$と関数$g$があって，その合成を$f\comp g$と書くとき$$(f\comp g)x\triangleq f(gx)$$である．
 ここに記号$\triangleq$は左辺を右辺で定義するという意味である．
-関数合成の演算子$\cdot$は関数適用よりも優先順位が高く，$(f\cdot g)x$は単に$f\cdot gx$と書いても良い．
+関数合成の演算子$\comp$は関数適用よりも優先順位が高く，$(f\comp g)x$は単に$f\comp gx$と書いても良い．
 この記法は括弧の数を減らすためにしばしば用いられる．
 
 関数合成演算子とは逆に，優先順位の低い関数適用演算子も考えておくと括弧の数を減らすのに便利である．
@@ -169,7 +171,7 @@ $$(\circ)xy\triangleq x\circ y$$
 引数$x$をとり値$1+x$を返すラムダ式は次のように書くことにする．
 $$\backslash x\rightarrow 1+x$$
 この式はチャーチのオリジナルの論文の記法であれば$\Hat x\lambdaperiod 1+x$と書かれたところであり，現在でも多くの書物で$\lambda x\lambdaperiod 1+x$と記述されるところである．
-しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号($.$)が関数合成演算子($\cdot$)と非常に紛らわしいため，上述の記法を用いる．
+しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号($.$)が関数合成演算子($\comp$)と非常に紛らわしいため，上述の記法を用いる．
 
 ラムダ式を適用するには，ラムダ式を括弧で包む必要がある．
 例を挙げる．
@@ -367,8 +369,8 @@ $$\integertype\subset\ordkind$$
 \section{関手が従う規則}
 
 \begin{align}
-\functor{f}\identity&\equiv\identity\\
-\mapfunc^{f\cdot g}&\equiv\mapfunc^f\cdot\mapfunc^g
+\mapfunc^\identity&=\identity\\
+\mapfunc^{\functor{f}\comp\functor{g}}&\equiv\mapfunc^{\functor{f}}\comp\mapfunc^{\functor{g}}
 \end{align}
 
 
@@ -426,7 +428,7 @@ Maybe:
 List:
 \begin{align*}
 \monadreturn x&=\listtype{x}\\
-\listtype{x}\bind f&=\concat\mapfunc^fx
+\listtype{x_0,x_1\dotsb x_n}\bind f&=\concat\mapfunc^f\listtype{x_0,x_1\dotsb x_n}
 \end{align*}
 
 Function:
@@ -441,9 +443,25 @@ g\bind f&=\backslash h\rightarrow f(gh)h
 \begin{align}
 \monadreturn x\bind f&=fx\\
 \monad{x}\bind\monadreturn&=\monad{x}\\
-(\monad{x}\bind f)\bind g&=\monad{x}\bind((\backslash x'\rightarrow fx')\bind g)
+(\monad{x}\bind f)\bind g&=\monad{x}\bind(\backslash x'\rightarrow(fx'\bind g))
+\end{align}
+ここで$$(f\triangleright g)x\triangleq(fx)\bind g$$を導入すると，次のように簡潔に書けるようになる．
+\begin{align}
+\monadreturn\triangleright f&=f\\
+f\triangleright\monadreturn&=f\\
+(f\triangleright g)\triangleright h&=f\triangleright(g\triangleright h)
 \end{align}
 
+\begin{align*}
+\monadjoin\monad{\monad{x}}&\triangleq\monad{x}\\
+\mapfunc^f\monad{x}&=\monad{x}\bind(\monadreturn\comp f)\\
+\monadjoin\monad{x}&=\monad{x}\bind\identity\\
+\monad{x}\bind f&\triangleq\monadjoin\mapfunc^f\monad{x}\\
+\monadreturn\comp f&\triangleq\mapfunc^f\comp\monadreturn\\
+\monadjoin\comp\mapfunc^\monadjoin&\triangleq\monadjoin\comp\monadjoin\\
+\monadjoin\comp\mapfunc^\monadreturn&\triangleq\monadjoin\comp\monadreturn=\identity\\
+\monadjoin\comp\mapfunc^{\mapfunc^f}&\triangleq\mapfunc^f\comp\monadjoin
+\end{align*}
 
 \chapter{プログラミング}
 
