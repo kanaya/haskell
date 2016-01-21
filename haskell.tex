@@ -326,6 +326,22 @@ $$\maybe{{}}::\concretetype\mapsto\concretetype$$
 
 \chapter{マップ}
 
+Map.
+$$f\odot[x_0,x_1\dotsb x_n]=[fx_0,fx_1\dotsb fx_n]$$
+$$f\odot\{x\}=\{fx\}$$
+
+Applicative map (fmap).
+\begin{multline*}
+[f_0,f_1\dotsb f_n]\otimes[x_0,x_1\dotsb x_{n'}]\\
+=[f_0x_0,f_0x_1\dotsb f_0x_{n'},f_1x_0,f_1x_1\dotsb]
+\end{multline*}
+$$\{f\}\otimes\{x\}=\{fx\}$$
+$$f\otimes g=f\comp g$$
+
+Monadic map (bind).
+$$f\oplus\monad{x}=\monad{fx}$$
+
+
 \section{畳み込み}
 
 我々はよくリストの総和を表現するためにシグマ記号($\sum$)を使う．
