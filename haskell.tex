@@ -9,6 +9,7 @@
 \newcommand{\bind}{\rightrightarrows} % >>=
 \newcommand{\comp}{\bullet} % .
 \newcommand{\concretetype}{\mathbf\ast} % *
+\newcommand{\defeq}{\xleftarrow{\text{def}}}
 \newcommand{\dollar}{\mathop{\$}} % $
 \newcommand{\filterfunc}{\bigcap} % filter
 \newcommand{\foldfunc}{\bigcup} % foldl
@@ -22,6 +23,7 @@
 \newcommand{\monadjoin}{\dag}
 \newcommand{\nullelem}{\emptyset}
 \newcommand{\pure}{\bigstar} % pure
+\newcommand{\typealpha}{\boldsymbol{\alpha}}
 \newcommand{\unit}{\star} % return
 
 % Functions
@@ -51,13 +53,15 @@
 \newcommand{\fanctortypeclassname}[1]{\mathcal{#1}}
 
 % Functors
-\newcommand{\generalcontainer}[1]{\left\langle#1\right\rangle}
+\newcommand{\function}[1]{\left\langle#1\right\rangle}
+\newcommand{\generalcontainer}[1]{\left\langle\!\left\langle#1\right\rangle\!\right\rangle}
 \newcommand{\listtype}[1]{\left[#1\right]}
 \newcommand{\maybe}[1]{\left\{#1\right\}}
-\newcommand{\monad}[1]{\left\langle\!\left\langle#1\right\rangle\!\right\rangle}
+\newcommand{\monad}[1]{\left[\!\left[#1\right]\!\right]}
 
 % Functor names
 \newcommand{\functor}[1]{\mathop{\textbf{#1}}}
+\newcommand{\functionfunctor}{\mathop{\functor{Function}}}
 \newcommand{\listfunctor}{\mathop{\functor{List}}}
 \newcommand{\maybefunctor}{\mathop{\functor{Maybe}}}
 \newcommand{\monadfunctor}{\mathop{\functor{Monad}}}
@@ -105,7 +109,7 @@
 
 \chapter{数学的準備}
 
-この章では今後本書で登場する数学的概念の記法を決めておく．
+この章ではいま後本書で登場する数学的概念の記法を決めておく．
 
 \section{定数・論理定数・文字定数}
 
@@ -135,9 +139,9 @@
 単項演算子には論理否定($\neg$)とマイナス($-$)がある．
 本書で扱う単項演算子はこの2種類だけである．
 
-二項演算子のうちよく使われるものは和($+$)，積($\ast$)，論理和($\vee$)，論理積($\wedge$)である．
+二項演算子のうちよく使われるものは和($+$)，積($\ast$)，差(${}-{}$)，商（${}/{}$），論理和($\vee$)，論理積($\wedge$)，同値($\equiv$)，大なり($>$)，小なり($<$)である．二項演算子は多数あるので，その都度説明する．
+
 二項演算子はたとえ積記号であっても省略できない．
-二項演算子は多数あるので，その都度説明する．
 
 演算の優先順位を明示的に与えるために括弧が用いられる．
 
@@ -148,32 +152,31 @@
 三角関数のように十分な知名度を持つ関数や，それに匹敵する汎用的な関数は長い名前を持っても良い．
 変数名や関数名はイタリック体で書くが，長い関数名はローマン体で書く．
 
-関数引数には括弧を付けない．我々はよく引数$x$をとる関数$f$を$f(x)$と書くが，括弧は冗長なので今後は$fx$と書くことにする．
+関数引数には括弧を付けない．我々はよく引数$x$をとる関数$f$を$f(x)$と書くが，括弧は冗長なのでいま後は$fx$と書くことにする．
 引数$x$を関数$f$に「食わせる」ことを関数適用と呼ぶ．
 
-複数引数をとる関数を我々はよく$f(x,y)$と書くが，これも括弧が冗長なので今後は$fxy$と書くことにする．
-この場合式$fxy$は左を優先して結合するものとする．つまりいつも$$fxy\equiv (fx)y$$である．
+複数引数をとる関数を我々はよく$f'(x,y)$と書くが，これも括弧が冗長なのでいま後は$f'xy$と書くことにする．
+この場合式$f'xy$は左を優先して結合するものとする．つまり$$f'xy\defeq (f'x)y$$である．
+ここに記号$\defeq$は左辺を右辺で定義するという意味である．
 引数に「飢えた」関数$(fx)$を部分適用された関数と呼ぶ．
-二項演算子$\equiv$は右辺と左辺が等しい場合に真となる演算子である．
 
-関数は合成できる．関数$f$と関数$g$があって，その合成を$f\comp g$と書くとき$$(f\comp g)x\triangleq f(gx)$$である．
-ここに記号$\triangleq$は左辺を右辺で定義するという意味である．
+関数は合成できる．関数$f$と関数$g$があって，その合成を$f\comp g$と書くとき$$(f\comp g)x\defeq f(gx)$$である．
 関数合成の演算子$\comp$は関数適用よりも優先順位が高く，$(f\comp g)x$は単に$f\comp gx$と書いても良い．
 この記法は括弧の数を減らすためにしばしば用いられる．
 
 関数合成演算子とは逆に，優先順位の低い関数適用演算子も考えておくと括弧の数を減らすのに便利である．
 関数適用演算子$\dollar$を次のように定義しておく．
-$$f\dollar gx\triangleq f(gx)$$
+$$f\dollar gx\defeq f(gx)$$
 演算子$\dollar$の優先順位は足し算演算子よりも低いものとする．
 よって$f(x+1)$は$f\dollar x+1$と書くこともできる．
 
 二項演算子とは2引数関数の特別な場合であると考えてよい．
 関数$r$を次のように中置する記法を定義しておく．
-$$x\,{}^\backprime r^\backprime\,y\triangleq rxy$$
+$$x\,{}^\backprime r^\backprime\,y\defeq rxy$$
 バックプライム記号(${}^\backprime$)を使っているのはプライム記号($'$)と区別するためである．
 
 既存の二項演算子$\circ$は次のようにして通常の関数として使えるものとする．
-$$(\circ)xy\triangleq x\circ y$$
+$$(\circ)xy\defeq x\circ y$$
 
 \section{ラムダ式}
 
@@ -198,7 +201,7 @@ $$\left(\haskelllambda x\rightarrow x+1\right)2$$
 
 関数にスペシャルバージョンがある場合は列挙する．
 例えば引数が$0$の場合は特別に戻り値も0であり，その他の場合は関数$f$と同じ振る舞いをする関数$f'$を考える．
-この時$f'$は次のように定義することになる．
+このとき$f'$は次のように定義することになる．
 \begin{equation*}
 \begin{split}
 f'0&=0\\
@@ -234,11 +237,11 @@ $$fx=\mathif x\equiv0\maththen0\mathelse 1+x$$
 型とは変数が取りうる値に与えた制約のことである．
 数学者はしばしば変数$x$が整数であることを$x\in\integertype$のように書くが，我々は記号$\in$を別の用途に使いたいので代わりに記号$::$を使って$$x::\integertype$$と書く事にする．
 
-今我々が考慮しておくべき型は，論理型($\booleantype$)，整数型($\integertype$)，及び実数型($\realtype$)である．
+いま我々が考慮しておくべき型は，論理型($\booleantype$)，整数型($\integertype$)，及び実数型($\realtype$)である．
 括弧内に示した記号は数学者たちが慣用的に用いているものである．
 
 関数にも型がある．
-今は深入りしないが，例えば整数引数を一つ取り，整数を返す関数は$$\integertype\rightarrow\integertype$$という型を持つ．
+いまは深入りしないが，例えば整数引数を一つ取り，整数を返す関数は$$\integertype\rightarrow\integertype$$という型を持つ．
 
 \section{リスト}
 
@@ -294,7 +297,7 @@ LISPにおけるリストとは要素$\firstelem$と要素$\restelems$からな�
 
 $$f::\integertype\rightarrow\integertype$$
 
-関数$f$が引数として整数を2個取り1個の整数を返す時，その型は$$\integertype\rightarrow\integertype\rightarrow\integertype$$である．
+関数$f$が引数として整数を2個取り1個の整数を返すとき，その型は$$\integertype\rightarrow\integertype\rightarrow\integertype$$である．
 型の式は右結合するものとする．
 従って上式は$$\integertype\rightarrow\left(\integertype\rightarrow\integertype\right)$$と読む．
 これは関数$f$が最初の引数を1個受け取り，$(\integertype\rightarrow\integertype)$型の関数を返していることを考えると理にかなっている表現である．
@@ -321,41 +324,42 @@ $$\maybe{{}}::\concretetype\mapsto\concretetype$$
 \section{畳み込み}
 
 我々はよくリストの総和を表現するためにシグマ記号($\sum$)を使う．
-リスト$$l=\listtype{l_0,l_1\dotsb l_n}$$がある時，その総和を$$\sum l\triangleq l_0+l_1+\dotsb+l_n$$とするようなシグマ記号である．
+リスト$\listtype{x_0,x_1\dotsb x_n}$の総和を$$\sum\listtype{x_0,x_1\dotsb x_n}\defeq x_0+x_1+\dotsb+x_n$$とするようなシグマ記号である．
 この表現を一般化してみよう．
-リスト$\listtype{l_0,l_1\dotsb l_n}$が与えられた時，$$\foldfunc^\circ_a\listtype{l_0,l_1\dotsb l_n}\triangleq a\circ l_0\circ l_1\circ\dotsb\circ l_n$$であると定義する．
+リスト$\listtype{x_0,x_1\dotsb x_n}$が与えられたとき，$$\foldfunc^\circ_a\listtype{x_0,x_1\dotsb x_n}\defeq a\circ x_0\circ x_1\circ\dotsb\circ x_n$$であると定義する．
 この新しい記号$\foldfunc$は畳み込み演算子と呼ばれる．
+変数$a$はアキュムレータと呼ぶ．
 
 リストの総和をとる演算子$\sum$は$$\sum=\foldfunc^+_0$$とすれば得られる．
 同じようにリストの要素のすべての積をとる演算子$\prod$は$$\prod=\foldfunc^\ast_1$$とすれば得られる．
 
-畳み込み演算子は第1引数（演算子の上）に$\typename{a}$型と$\typename{b}$型の引数を取り$\typename{a}$型の戻り値を返す二項演算子，第2引数（演算子の下）に$\typename{a}$型，第3引数（演算子の右）に$\typename{b}$型のリストすなわち$\listtype{\typename{b}}$型を取り，$\typename{a}$型の値を返す．
+畳み込み演算子は第1（上）引数に$\typename{a}$型と$\typename{b}$型の引数を取り$\typename{a}$型の戻り値を返す二項演算子，第2（下）引数に$\typename{a}$型，第3（右）引数に$\typename{b}$型のリストすなわち$\listtype{\typename{b}}$型を取り，$\typename{a}$型の値を返す．
 従って畳み込み演算子の型は$$\foldfunc::(\typename{a}\rightarrow\typename{b}\rightarrow\typename{a})\rightarrow\typename{a}\rightarrow\listtype{\typename{b}}\rightarrow\typename{a}$$と定義できる．
 
 \section{右畳み込み}
 
-$$\foldrightfunc_a^\circ\listtype{l_0,l_1\dotsb l_{n-1},l_n}\triangleq\left(l_0\circ\left(l_1\circ\dotsb\left(l_{n-1}\circ\left(l_n\circ a\right)\right)\right)\right)$$
+$$\foldrightfunc_a^\circ\listtype{x_0,x_1\dotsb x_n}\defeq\left(x_0\circ\left(x_1\circ\dotsb\circ\left(x_n\circ a\right)\right)\right)$$
 
 \section{フィルタ}
 
-$$\filterfunc^p\listtype{l_0,l_1\dotsb l_n}\triangleq\listtype{l'\guard{l'\in\listtype{l_0,l_1\dotsb l_n},\,pl'\equiv\truevalue}}$$
+$$\filterfunc^p\listtype{x_0,x_1\dotsb x_n}\defeq\listtype{x\guard{x\in\listtype{x_0,x_1\dotsb x_n},\,px\equiv\truevalue}}$$
 
 \section{マップ}
 
 畳み込みではなく，リストはリストのままにして，各要素に決まった関数を適用したい場合がある．
-引数として関数$f$とリスト$[l_0,l_1\dotsb l_n]$を取り，戻り値として$[fl_0,fl_1\dotsb fl_n]$を返す演算子$\mapfunc_\text{list}$を考えよう．
-この時$$\mapfunc^f_\text{list}[l_0,l_1\dotsb l_n]\triangleq [fl_0,fl_1\dotsb fl_n]$$であると定義する．
-リストのマップ演算子$\mapfunc_\text{list}$は$$\mapfunc_\text{list}::(\typename{a}\rightarrow\typename{b})\rightarrow\listtype{\typename{a}}\rightarrow\listtype{\typename{b}}$$という型を持つ．
+引数として関数$f$とリスト$[x_0,x_1\dotsb x_n]$を取り，戻り値として$[fx_0,fx_1\dotsb fx_n]$を返す演算子$\mapfunc_\text{list}$を考えよう．
+このとき$$\mapfunc^f_\text{list}[x_0,x_1\dotsb x_n]\defeq [fx_0,fx_1\dotsb fx_n]$$であると定義する．
+リストのマップ演算子と呼ぶ$\mapfunc_\text{list}$は$$\mapfunc_\text{list}::(\typename{a}\rightarrow\typename{b})\rightarrow\listtype{\typename{a}}\rightarrow\listtype{\typename{b}}$$という型を持つ．
 
 
 \section{一般化マップ}
 
 マップ演算子の概念を一般化してみよう．
-マップ演算子はあるコンテナの中身に関数適用を行い，元のコンテナと同じコンテナを返す演算子であると考えることができる．
-そこで，今後マップ演算子の右引数は一般のコンテナであるとする．
+一般のマップ演算子はあるコンテナの中身に関数適用を行い，元のコンテナと同じコンテナを返す演算子であると考えることができる．
+そこで，いま後マップ演算子の第2（右）引数は一般のコンテナであるとする．
 型$\typename{a}$をコンテナに入れた型を一般に$\generalcontainer{\typename{a}}$と書くことにすると，一般化されたマップ演算子$\mapfunc$は$$\mapfunc::(\typename{a}\rightarrow\typename{b})\rightarrow\generalcontainer{\typename{a}}\rightarrow\generalcontainer{\typename{b}}$$という型を持つ．
 
-一般化マップはマップが使えるところではいつでも置き換えて使える．
+マップはリストのマップのより汎用的なバージョンである．
 つまり我々は$\mapfunc_\text{list}$を使わずに，最初から$\mapfunc$を使えば良いのである．
 
 一般化マップの型は$\typename{a}\rightarrow\typename{b}$をとり$\generalcontainer{\typename{a}}\rightarrow\generalcontainer{\typename{b}}$を返しているようにも見える．
@@ -382,16 +386,35 @@ $$\filterfunc^p\listtype{l_0,l_1\dotsb l_n}\triangleq\listtype{l'\guard{l'\in\li
 
 \section{関手}
 
-ある型から，マップの右引数になれる型を作る射（一般化された写像）のことを関手と呼ぶ．
+ある型から，マップの第2（右）引数になれる型を作る射（一般化された写像）のことを関手と呼ぶ．
 例えば型$\typename{a}$からリスト型$[\typename{a}]$を作る射$\listfunctor$ただし$$\listfunctor\typename{a}=\typename{a}\mapsto\listtype{\typename{a}}$$は関手である．
 また型$\typename{a}$から ``maybe a'' 型$\maybe{\typename{a}}$を作る射$\maybefunctor$ただし$$\maybefunctor\typename{a}=\typename{a}\mapsto\maybe{\typename{a}}$$も関手である．
+
+関数合成もまた関手の例である．
+いま型$\typename{a}$を型$\function{\typename{a}}$に変換する関手$$\functionfunctor\typename{a}=\typename{a}\mapsto\function{\typename{a}}$$を考える．
+型$\function{\typename{a}}$は$$\function{\typename{a}}\defeq\typename{t}\rightarrow\typename{a}$$であるとする．
+ここに型$\typename{t}$は任意の型である．
+関数$f$が$$f::\typename{a}\rightarrow\typename{b}$$であり，関数$g$が$$g::\typename{t}\rightarrow\typename{a}$$であるとき，その合成$f\comp g$は$$f\comp g::\typename{t}\rightarrow\typename{b}$$でなければならない．
+ここで$\function{\typename{a}}$の定義式を用いると
+\begin{align*}
+\function{\typename{a}}&\defeq\typename{t}\rightarrow\typename{a}\\
+\function{\typename{b}}&\defeq\typename{t}\rightarrow\typename{b}
+\end{align*}
+であるから，関数$g$並びに合成関数$f\comp g$は
+\begin{align*}
+g&::\function{\typename{a}}\\
+f\comp g&::\function{\typename{b}}
+\end{align*}
+という型を持つことがわかる．
+今一度マップ演算子の型$$\mapfunc::(\typename{a}\rightarrow\typename{b})\rightarrow\generalcontainer{\typename{a}}\rightarrow\generalcontainer{\typename{b}}$$を思い出してみよう．
+これは関数合成にもそのまま使えることがわかる．
+実際$$f\comp g\defeq\mapfunc^fg$$として関数合成は定義できる．
+
 一般に$$\typename{a}\mapsto\generalcontainer{\typename{a}}$$という風に型$\typename{a}$をコンテナに入れて型$\generalcontainer{\typename{a}}$を作る射を関手と呼ぶ．
 
 関手全体の型クラスを$\functortypeclass$で表す．
-これまでに見た関手は$$\listfunctor,\maybefunctor::\functortypeclass$$である．
+これまでに見た関手は$$\functionfunctor,\listfunctor,\maybefunctor::\functortypeclass$$である．
 
-実は関数合成もまた関手の例である．
-$$f\comp g=\mapfunc^fg$$
 
 \section{関手が従う規則}
 
@@ -404,24 +427,24 @@ $$f\comp g=\mapfunc^fg$$
 
 一般化マップとは$$\mapfunc::(\typename{a}\rightarrow\typename{b})\rightarrow\generalcontainer{\typename{a}}\rightarrow\generalcontainer{\typename{b}}$$のことであった．
 一般化マップの第1引数である1引数関数がコンテナに入っている場合を想定しよう．
-そうすると次のような「一般化された」一般化マップ$\applicativefunc$を考えることができる．
+そうすると次のような「一般化された」マップ$\applicativefunc$を考えることができる．
 $$\applicativefunc::\generalcontainer{(\typename{a}\rightarrow\typename{b})}\rightarrow\generalcontainer{\typename{a}}\rightarrow\generalcontainer{\typename{b}}$$
 実際の使い方は$$\listtype{y_0,y_1\dotsb y_{n''}}=\applicativefunc^{\listtype{f_0,f_1\dotsb f_n}}\listtype{x_0,x_1\dotsb x_{n'}}$$のようになるであろう．
 
-一般化一般化マップ演算子$\applicativefunc$と次のピュア演算子$\pure$があれば，リストもMaybeも同じ枠組みで考えることができる．
+一般化マップ演算子$\applicativefunc$と次のピュア演算子$\pure$があれば，リストもMaybeも同じ枠組みで考えることができる．
 ピュア演算子$\pure$は$$\pure::\typename{a}\rightarrow\generalcontainer{\typename{a}}$$という型を持つ．
 関手の型$\typename{a}\mapsto\generalcontainer{\typename{a}}$とは矢印が違う事に注意しよう．
 ピュア演算子は型を型へ変換するのではなく，変数をコンテナに入れられた別な変数へと変換する．
 
 型$\generalcontainer{\typename{a}}$の変数をアプリカティブと呼ぶ．
 
-リストの場合，ピュア演算子と一般化一般化マップは次のように実装することができる．
+リストの場合，ピュア演算子と一般化マップは次のように実装することができる．
 \begin{align*}
 \pure x&=\listtype{x}\\
 \applicativefunc^{\listtype{f_0,f_1\dotsb f_n}}\listtype{x_0,x_1\dotsb x_{n'}}&=\listtype{fx\guard{f\in\listtype{f_0,f_1\dotsb f_n},x\in\listtype{x_0,x_1\dotsb x_{n'}}}}
 \end{align*}
 
-Maybeの場合は次のようにピュア演算子と一般化一般化マップを実装することができる．
+Maybeの場合は次のようにピュア演算子と一般化マップを実装することができる．
 \begin{align*}
 \pure x&=\maybe{x}\\
 \applicativefunc^{\nothing}\maybe{x}&=\nothing\\
@@ -443,8 +466,8 @@ $$\applicativefunc^{\pure f}x\equiv\mapfunc^fx$$
 \section{モナド}
 
 ある型$\typename{a}$について，特殊なコンテナ$\monad{\typename{a}}$に入れられた型を想像してほしい．
-この型にもマップ演算子があり$$\monadfunc::\left(\typename{a}\rightarrow\monad{\typename{b}}\right)\rightarrow\monad{\typename{a}}\rightarrow{\monad{\typename{b}}}$$という型を持っているとする．
-このマップ演算子は第1引数（上）として型$\typename{a}$をとりコンテナに収めた型$\monad{\typename{b}}$を返す関数を，第2引数（右）としてコンテナに収められた型$\monad{\typename{a}}$をとり，戻り値としてコンテナに収められた型$\monad{\typename{b}}$を返す．
+この型にもマップ演算子$\monadfunc$があり$$\monadfunc::\left(\typename{a}\rightarrow\monad{\typename{b}}\right)\rightarrow\monad{\typename{a}}\rightarrow{\monad{\typename{b}}}$$という型を持っているとする．
+このマップ演算子は第1（上）引数として型$\typename{a}$をとりコンテナに収めた型$\monad{\typename{b}}$を返す関数を，第2（右）引数としてコンテナに収められた型$\monad{\typename{a}}$をとり，戻り値としてコンテナに収められた型$\monad{\typename{b}}$を返す．
 
 型$\typename{a}$から型$\monad{\typename{a}}$を作り出す関手を$\monadfunctor$とし$$\monadfunctor\typename{a}=\typename{a}\mapsto\monad{\typename{a}}$$とする．
 $\typename{a}$型の変数から$\monad{\typename{a}}$型の変数を作る演算子を$\unit$とする．
@@ -497,7 +520,7 @@ Maybeの場合は次のような実装となる．
 
 \section{モナド則}
 
-新しい演算子$\triangleleft$を$$(f\triangleleft g)x\triangleq\monadfunc^f(gx)$$として導入する．
+新しい演算子$\triangleleft$を$$(f\triangleleft g)x\defeq\monadfunc^f(gx)$$として導入する．
 モナドは次の規則に従う．
 \begin{align}
 f\triangleleft\unit&=f\\
@@ -507,11 +530,11 @@ f\triangleleft\unit&=f\\
 
 \section{結合演算子}
 
-「結合演算子($\bind$)」を$$x\bind f\triangleq \monadfunc^fx$$のように定義する．
+「結合演算子($\bind$)」を$$x\bind f\defeq \monadfunc^fx$$のように定義する．
 
 ---
 
-$$(f\triangleright g)x\triangleq(fx)\bind g$$
+$$(f\triangleright g)x\defeq(fx)\bind g$$
 \begin{align}
 \unit\triangleright f&=f\\
 f\triangleright\unit&=f\\
@@ -533,14 +556,14 @@ Or,
 
 Memo.
 \begin{align*}
-\monadjoin\monad{\monad{x}}&\triangleq\monad{x}\\
+\monadjoin\monad{\monad{x}}&\defeq\monad{x}\\
 \mapfunc^f\monad{x}&=\monad{x}\bind(\unit\comp f)\\
 \monadjoin\monad{x}&=\monad{x}\bind\identity\\
-\monad{x}\bind f&\triangleq\monadjoin\mapfunc^f\monad{x}\\
-\unit\comp f&\triangleq\mapfunc^f\comp\unit\\
-\monadjoin\comp\mapfunc^\monadjoin&\triangleq\monadjoin\comp\monadjoin\\
-\monadjoin\comp\mapfunc^\unit&\triangleq\monadjoin\comp\unit=\identity\\
-\monadjoin\comp\mapfunc^{\mapfunc^f}&\triangleq\mapfunc^f\comp\monadjoin
+\monad{x}\bind f&\defeq\monadjoin\mapfunc^f\monad{x}\\
+\unit\comp f&\defeq\mapfunc^f\comp\unit\\
+\monadjoin\comp\mapfunc^\monadjoin&\defeq\monadjoin\comp\monadjoin\\
+\monadjoin\comp\mapfunc^\unit&\defeq\monadjoin\comp\unit=\identity\\
+\monadjoin\comp\mapfunc^{\mapfunc^f}&\defeq\mapfunc^f\comp\monadjoin
 \end{align*}
 
 \chapter{プログラミング}
