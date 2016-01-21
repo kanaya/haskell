@@ -155,7 +155,7 @@
 関数引数には括弧を付けない．我々はよく引数$x$をとる関数$f$を$f(x)$と書くが，括弧は冗長なのでいま後は$fx$と書くことにする．
 引数$x$を関数$f$に「食わせる」ことを関数適用と呼ぶ．
 
-複数引数をとる関数を我々はよく$f'(x,y)$と書くが，これも括弧が冗長なのでいま後は$f'xy$と書くことにする．
+複数引数をとる関数を我々はよく$f'(x,y)$と書くが，これも括弧が冗長なので今後は$f'xy$と書くことにする．
 この場合式$f'xy$は左を優先して結合するものとする．つまり$$f'xy\defeq (f'x)y$$である．
 ここに記号$\defeq$は左辺を右辺で定義するという意味である．
 引数に「飢えた」関数$(fx)$を部分適用された関数と呼ぶ．
@@ -183,7 +183,7 @@ $$(\circ)xy\defeq x\circ y$$
 引数$x$をとり値$1+x$を返すラムダ式は次のように書くことにする．
 $$\haskelllambda x\rightarrow 1+x$$
 この式はチャーチのオリジナルの論文の記法であれば$\Hat x\lambdaperiod 1+x$と書かれたところであり，現在でも多くの書物で$\lambda x\lambdaperiod 1+x$と記述されるところである．
-しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号($.$)が関数合成演算子($\comp$)と非常に紛らわしいため，上述の記法を用いる．
+しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号($.$)と関数合成演算子($\comp$)が紛らわしいため，上述の記法を用いる．
 
 ラムダ式を適用するには，ラムダ式を括弧で包む必要がある．
 例を挙げる．
@@ -191,6 +191,10 @@ $$\left(\haskelllambda x\rightarrow x+1\right)2$$
 この式は結果として$3$を返す．
 
 複数引数をとるラムダ式は例えば$$\haskelllambda xy\rightarrow x+y$$のように書く．
+
+記号$\lozenge$を用いてラムダ式をより簡潔に書くこともできる．
+ラムダ式$\haskelllambda xy\rightarrow x+y$は$$\lozenge+\lozenge$$と書いても良い．
+式を左から読んで1番目の$\lozenge$が元々の$x$を，2番目の$\lozenge$が元々の$y$を意味する．
 
 \section{関数定義}
 
@@ -222,15 +226,15 @@ f''x&\guard{x<0}=-1\\
 
 \section{条件式}
 
-数学者のいう条件式とはスペシャルバージョンやガードを一般化したもので，if節とotherwise節からなるものである．
+条件式とはスペシャルバージョンやガードを一般化したもので，if節とotherwise節からなるものである．
 例を挙げる．
 $$fx=\begin{cases}
 0&\text{if $x\equiv0$}\\
 1+x&\text{otherwise}
 \end{cases}$$
-この書き方は行を意識せざるをえないプログラミング言語とは相性がよろしくない．
-そこで次のように書くものとする．
+紙幅を節約したいときには次のように書くものとする．
 $$fx=\mathif x\equiv0\maththen0\mathelse 1+x$$
+if節の中身は真理値を返す関数であれば良いので，関数$p$を$$p=(\equiv)0$$としておき，$$fx=\mathif px\maththen0\mathelse 1+x$$と書く方法もしばしば用いられる．
 
 \section{型}
 
@@ -241,7 +245,7 @@ $$fx=\mathif x\equiv0\maththen0\mathelse 1+x$$
 括弧内に示した記号は数学者たちが慣用的に用いているものである．
 
 関数にも型がある．
-いまは深入りしないが，例えば整数引数を一つ取り，整数を返す関数は$$\integertype\rightarrow\integertype$$という型を持つ．
+例えば整数引数を一つ取り，整数を返す関数$f$は$$f::\integertype\rightarrow\integertype$$という型を持つ．
 
 \section{リスト}
 
@@ -251,6 +255,7 @@ $$fx=\mathif x\equiv0\maththen0\mathelse 1+x$$
 0から10までのリストは$[0,1\dotsb10]$と書いても良い．
 
 より高度なリスト，例えば0から10までの平方数のリストは$$\left[x^2\guard{x\in[0,1\dotsb 10]}\right]$$のようにガードを用いて書く．
+ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\in$を用いた．
 ガードは複数条件をカンマ($,$)で区切って書いて良い．
 例えば$$\left[x+y\guard{x\in[0,1\dotsb 10],\,y\in[0,1\dotsb 5],\,x+y>3}\right]$$は$0\le x\le 10$かつ$0\le y\le 5$の範囲で$x+y>3$となる$x$及び$y$から$x+y$を並べたリストである．
 
@@ -275,7 +280,7 @@ $$fx=\mathif x\equiv0\maththen0\mathelse 1+x$$
 ここでリストの実装について若干述べておかねばならない．
 紙上ではリストは自由に考えられるが，計算機上ではそれほど自由ではないからである．
 ここではリストはLISPにおけるリストと同じ構造を持つものとする．
-LISPにおけるリストとは要素$\firstelem$と要素$\restelems$からなる「ペア」の集合である．
+LISPにおけるリストとは要素$\firstelem$と要素$\restelems$からなるペアの集合である．
 要素$\firstelem$がリストの要素を持ち，要素$\restelems$が次のペアを「参照」する．
 リストの最後のペアの$\restelems$は空リストを参照する．
 
@@ -387,15 +392,15 @@ $$\filterfunc^p\listtype{x_0,x_1\dotsb x_n}\defeq\listtype{x\guard{x\in\listtype
 \section{関手}
 
 ある型から，マップの第2（右）引数になれる型を作る射（一般化された写像）のことを関手と呼ぶ．
-例えば型$\typename{a}$からリスト型$[\typename{a}]$を作る射$\listfunctor$ただし$$\listfunctor\typename{a}=\typename{a}\mapsto\listtype{\typename{a}}$$は関手である．
-また型$\typename{a}$から ``maybe a'' 型$\maybe{\typename{a}}$を作る射$\maybefunctor$ただし$$\maybefunctor\typename{a}=\typename{a}\mapsto\maybe{\typename{a}}$$も関手である．
+例えば型$\typename{a}$からリスト型$[\typename{a}]$を作る射$\listfunctor$ただし$$\listfunctor\typename{a}\defeq\typename{a}\mapsto\listtype{\typename{a}}$$は関手である．
+また型$\typename{a}$から ``maybe a'' 型$\maybe{\typename{a}}$を作る射$\maybefunctor$ただし$$\maybefunctor\typename{a}\defeq\typename{a}\mapsto\maybe{\typename{a}}$$も関手である．
 
 関数合成もまた関手の例である．
-いま型$\typename{a}$を型$\function{\typename{a}}$に変換する関手$$\functionfunctor\typename{a}=\typename{a}\mapsto\function{\typename{a}}$$を考える．
+いま型$\typename{a}$を型$\function{\typename{a}}$に変換する関手$$\functionfunctor\typename{a}\defeq\typename{a}\mapsto\function{\typename{a}}$$を考える．
 型$\function{\typename{a}}$は$$\function{\typename{a}}\defeq\typename{t}\rightarrow\typename{a}$$であるとする．
 ここに型$\typename{t}$は任意の型である．
 関数$f$が$$f::\typename{a}\rightarrow\typename{b}$$であり，関数$g$が$$g::\typename{t}\rightarrow\typename{a}$$であるとき，その合成$f\comp g$は$$f\comp g::\typename{t}\rightarrow\typename{b}$$でなければならない．
-ここで$\function{\typename{a}}$の定義式を用いると
+ここで型$\function{\typename{a}}$の定義式を用いると
 \begin{align*}
 \function{\typename{a}}&\defeq\typename{t}\rightarrow\typename{a}\\
 \function{\typename{b}}&\defeq\typename{t}\rightarrow\typename{b}
