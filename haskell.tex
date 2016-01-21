@@ -256,8 +256,8 @@ if節の中身は真理値を返す関数であれば良いので，関数$p$を
 
 より高度なリスト，例えば0から10までの平方数のリストは$$\left[x^2\guard{x\in[0,1\dotsb 10]}\right]$$のようにガードを用いて書く．
 ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\in$を用いた．
-ガードは複数条件をカンマ($,$)で区切って書いて良い．
-例えば$$\left[x+y\guard{x\in[0,1\dotsb 10],\,y\in[0,1\dotsb 5],\,x+y>3}\right]$$は$0\le x\le 10$かつ$0\le y\le 5$の範囲で$x+y>3$となる$x$及び$y$から$x+y$を並べたリストである．
+% ガードは複数条件をカンマ($,$)で区切って書いて良い．
+例えば$$\left[x+y\guard{x\in[0,1\dotsb 10]\wedge y\in[0,1\dotsb 5]\wedge x+y>3}\right]$$は$0\le x\le 10$かつ$0\le y\le 5$の範囲で$x+y>3$となる$x$及び$y$から$x+y$を並べたリストである．
 
 リストは結合できる．例えばリスト$l$とリスト$m$を結合したリストは$$l\listappend m$$で得られる．
 
@@ -347,7 +347,7 @@ $$\foldrightfunc_a^\circ\listtype{x_0,x_1\dotsb x_n}\defeq\left(x_0\circ\left(x_
 
 \section{フィルタ}
 
-$$\filterfunc^p\listtype{x_0,x_1\dotsb x_n}\defeq\listtype{x\guard{x\in\listtype{x_0,x_1\dotsb x_n},\,px\equiv\truevalue}}$$
+$$\filterfunc^p\listtype{x_0,x_1\dotsb x_n}\defeq\listtype{x\guard{x\in\listtype{x_0,x_1\dotsb x_n}\wedge px\equiv\truevalue}}$$
 
 \section{マップ}
 
@@ -388,6 +388,14 @@ $$\filterfunc^p\listtype{x_0,x_1\dotsb x_n}\defeq\listtype{x\guard{x\in\listtype
 その結果はまた$\maybe{\integertype}$型である．
 従って，結果を受け取る変数も$\maybe{\integertype}$でなければならず，それを忘れないように印を付けておかねばならない．
 例えば$$\maybe{y}=\mapfunc^f\maybe{x}$$のように書くことになるであろう．
+
+\begin{align*}
+\maybe{x}\maybe{+}\maybe{y}&\guard{\maybe{x}\neq\nothing\wedge\maybe{y}\neq\nothing}=\maybe{x+y}\\
+&\guard{\otherwise}=\nothing
+\end{align*}
+
+$$\maybe{x}\maybe{+}\maybe{y}=\monadfunc^{\haskelllambda x\rightarrow\monadfunc^{\haskelllambda y\rightarrow\unit(x+y)}\maybe{y}}\maybe{x}$$
+
 
 \section{関手}
 
@@ -475,7 +483,7 @@ $$\applicativefunc^{\pure f}x\equiv\mapfunc^fx$$
 このマップ演算子は第1（上）引数として型$\typename{a}$をとりコンテナに収めた型$\monad{\typename{b}}$を返す関数を，第2（右）引数としてコンテナに収められた型$\monad{\typename{a}}$をとり，戻り値としてコンテナに収められた型$\monad{\typename{b}}$を返す．
 
 型$\typename{a}$から型$\monad{\typename{a}}$を作り出す関手を$\monadfunctor$とし$$\monadfunctor\typename{a}=\typename{a}\mapsto\monad{\typename{a}}$$とする．
-$\typename{a}$型の変数から$\monad{\typename{a}}$型の変数を作る演算子を$\unit$とする．
+$\typename{a}$型の変数から$\monad{\typename{a}}$型の変数を作る演算子を$\unit$とし，ユニット演算子と呼ぶ．
 
 $\monad{\typename{a}}$型の変数をモナドと呼ぶ．
 モナドはアプリカティブとよく似ているが，少し異なることに注意しよう．
