@@ -353,8 +353,8 @@ $$\filterfunc^p\listtype{x_0,x_1\dotsb x_n}\defeq\listtype{x\guard{x\in\listtype
 
 畳み込みではなく，リストはリストのままにして，各要素に決まった関数を適用したい場合がある．
 引数として関数$f$とリスト$[x_0,x_1\dotsb x_n]$を取り，戻り値として$[fx_0,fx_1\dotsb fx_n]$を返す演算子$\mapfunc_\text{list}$を考えよう．
-このとき$$\mapfunc^f_\text{list}[x_0,x_1\dotsb x_n]\defeq [fx_0,fx_1\dotsb fx_n]$$であると定義する．
-リストのマップ演算子と呼ぶ$\mapfunc_\text{list}$は$$\mapfunc_\text{list}::(\typename{a}\rightarrow\typename{b})\rightarrow\listtype{\typename{a}}\rightarrow\listtype{\typename{b}}$$という型を持つ．
+このとき$$\mapfunc^f\nolimits_\text{list}[x_0,x_1\dotsb x_n]\defeq [fx_0,fx_1\dotsb fx_n]$$であると定義する．
+リストのマップ演算子と呼ぶ$\mapfunc_\text{list}$は$$\mapfunc\nolimits_\text{list}::(\typename{a}\rightarrow\typename{b})\rightarrow\listtype{\typename{a}}\rightarrow\listtype{\typename{b}}$$という型を持つ．
 
 
 \section{一般化マップ}
