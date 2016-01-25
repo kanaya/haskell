@@ -1,0 +1,324 @@
+\documentclass{jsarticle}
+\usepackage{palatino}
+\usepackage{amsmath,amssymb}
+
+\def\[{[\![}
+\def\]{]\!]}
+
+\newcommand{\boldsym}[1]{{\boldsymbol{#1}}}
+
+\begin{document}
+
+\begin{center}
+\begin{tabular}{||c|c||c||c|c|c|c||c|c||c|c||c|c|c|c||c|c||c|c||}
+\hline
+\multicolumn{2}{||c||}{Types}
+    &\multicolumn{1}{|c||}{$\mathbb{Q}$}
+    &\multicolumn{4}{|c||}{$\mathbb{O}$}
+    &\multicolumn{2}{|c||}{$\mathbb{E}$}
+    &\multicolumn{2}{|c||}{$\mathbb{B}$}
+    &\multicolumn{4}{|c||}{$\mathbb{N}$}
+    &\multicolumn{2}{|c||}{$\mathbb{G}'$}
+    &\multicolumn{2}{|c||}{$\mathbb{G}'$}\\
+\hline
+Type
+    &Descr.
+    &$\equiv$
+    &$<$
+    &$\ge$
+    &$>$
+    &$\le$
+    &succ
+    &pred
+    &min
+    &max
+    &$+$
+    &$-$
+    &$*$
+    &$/$
+    &$I$
+    &$\bigstar$
+    &$I$
+    &$\bigstar$\\
+\hline\hline
+Int
+    &$x$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$1$
+    &$\ast$
+    &$0$
+    &$+$\\
+\hline
+\end{tabular}
+\end{center}
+
+
+
+\begin{center}
+\begin{tabular}{||c|c|c||c|c||c|c|c||c|c|c||}
+\hline
+\multicolumn{3}{||c||}{Types}
+    &\multicolumn{2}{|c||}{$\mathbb{F}$}
+    &\multicolumn{3}{|c||}{$\mathbb{A}$}
+    &\multicolumn{3}{|c||}{$\mathbb{M}$}\\
+\hline
+Type
+    &Descr.
+    &Constructor
+    &$I_\mathbb{F}$
+    &$\odot$
+    &$I_\mathbb{A}$
+    &$\star x$
+    &$\otimes$
+    &$I_\mathbb{M}$
+    &$\bigstar x$
+    &$\oplus$\\
+\hline\hline
+List
+    &$[\mathbf{a}]$
+    &$\mathop{\mathbf{List}}\mathbf{a}$
+    &$\emptyset$
+    &$\ast$
+    &$\emptyset$
+    &$[x]$
+    &$\times$
+    &$\emptyset$
+    &$[x]$
+    &$\mathop{\text{concat}}(f\ast x)$\\
+\hline
+Maybe
+    &$\{\mathbf{a}\}$
+    &$\mathop{\mathbf{Maybe}}\mathbf{a}$
+    &$\varnothing$
+    &$\circ$
+    &$\varnothing$
+    &$\{x\}$
+    &R
+    &$\varnothing$
+    &$\{x\}$
+    &$\leftleftarrows$\\
+\hline
+Function
+    &$\langle\mathbf{a}\rangle$
+    &$(\lozenge\longrightarrow\mathbf{a})$
+    &$\lozenge$
+    &$\bullet$
+    &$\lozenge$
+    &$\backslash\_\longrightarrow x$
+    &$\backslash x\longrightarrow\lozenge x(\lozenge x)$
+    &$\lozenge$
+    &$\backslash\_\longrightarrow x$
+    &R\\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tabular}{||c|c|c||c|c||}
+\hline
+\multicolumn{3}{||c||}{Types}
+    &\multicolumn{2}{|c||}{$\mathbb{G}'$}\\
+\hline
+Type
+    &Descr.
+    &Constructor
+    &$0_\mathbb{G'}$
+    &$\cdot$\\
+\hline\hline
+List
+    &$[\mathbf{a}]$
+    &$\mathop{\mathbf{List}}\mathbf{a}$
+    &$\emptyset$
+    &$++$\\
+\hline
+Maybe
+    &$\{\mathbf{a}\}$
+    &$\mathop{\mathbf{Maybe}}\mathbf{a}$
+    &$I_\mathbf{a}$
+    &$\bigstar_\mathbf{a}$\\
+\hline
+Function
+    &$\langle\mathbf{a}\rangle$
+    &$(\lozenge\longrightarrow\mathbf{a})$
+    &---
+    &---\\
+\hline
+\end{tabular}
+\end{center}
+
+
+$$\lozenge\odot\phi=\lozenge\phi$$
+% $$(f\bullet g)\odot\phi=(f\odot\phi)\bullet(g\odot\phi)$$
+$$(f\bullet g)\odot\phi=f\odot(g\odot\phi)$$
+$$\star f\otimes x=f\odot x$$
+
+
+Functor $\mathbb{F}$ is a set such that has a group $G$, a binary operator $\odot$, where...
+
+Monodi $\mathbb{G}'$ is a set such that has a group $G$, a birnary operator $\circ$, where...
+
+---
+
+
+\begin{center}
+\begin{tabular}{||c|c||c|l|c|c||}\hline
+Name&Element&Instance&In Haskell&Type&Typeclass\\\hline
+\hline
+List
+    &Unit
+    &$\ast x=[x]\triangleq x:\emptyset$
+    &\texttt{[x]} or \texttt{x:[]}
+    &$\mathop{\textbf{List}}\mathbf{a}=\boldsym{[a]}$
+    &$\textbf{List}\in\mathbb{F}$\\
+    \hline
+$\uparrow$
+    &Zero
+    &$\emptyset$
+    &\texttt{[]}
+    &$\uparrow$
+    &$\uparrow$\\
+    \hline
+$\uparrow$
+    &Map
+    &$f\odot[x\dots]=[fx\dots]$
+    &\texttt{map f x}
+    &$(\mathbf{a}\mapsto\mathbf{b})\mapsto\boldsym{[a]}\mapsto\boldsym{[b]}$
+    &\\
+    \hline
+$\uparrow$
+    &G. Map
+    &$[f\dots]\otimes[x\dots]=[fx\dots]$
+    &\texttt{f<*>x}
+    &$\boldsym{[}(\boldmath{a}\mapsto\boldmath{b})\boldsym{]}\mapsto\boldsym{[a]}\mapsto\boldsym{[b]}$
+    &\\
+    \hline
+    \hline
+Maybe
+    &Unit
+    &$\star x=\{x\}$
+    &\texttt{Just x}
+    &$\mathop{\textbf{Maybe}}\mathbf{a}=\boldsym{\{a\}}$
+    &$\textbf{List}\in\mathbb{F}$\\
+    \hline
+$\uparrow$
+    &Zero
+    &$\varnothing$
+    &\texttt{Nothing}
+    &$\uparrow$
+    &$\uparrow$\\
+    \hline
+$\uparrow$
+    &Map
+    &$f\odot\{x\}=\{fx\}$
+    &\texttt{fmap f x}
+    &$(\mathbf{a}\mapsto\mathbf{b})\mapsto\boldsym{\{a\}}\mapsto\boldsym{\{b\}}$
+    &\\
+    \hline
+$\uparrow$
+    &G. Map
+    &$\{f\}\otimes\{x\}=\{fx\}$
+    &\texttt{f<*>x}
+    &$\boldsym{\{}(\boldmath{a}\mapsto\boldmath{b})\boldsym{\}}\mapsto\boldsym{\{a\}}\mapsto\boldsym{\{b\}}$
+    &\\
+    \hline
+    \hline
+Function
+    &Unit
+    &$\bigstar\phi=\langle\phi\rangle\triangleq \backslash\_\longrightarrow\phi$
+    &\verb|(\_->p)|
+    &$\mathop{\textbf{Function}}\mathbf{a}=\boldsym{\langle a\rangle}\triangleq(\lozenge\rightarrow\mathbf{a})$
+    &$\textbf{List}\in\mathbb{F}$\\
+    \hline
+$\uparrow$
+    &Zero
+    &$\lozenge\triangleq\backslash\phi\longrightarrow\phi$
+    &\verb|(\p->p)|
+    &$\uparrow$
+    &$\uparrow$\\
+    \hline
+$\uparrow$
+    &Map
+    &$f\odot\langle\phi\rangle=\langle f\phi\rangle=f\bullet\phi$
+    &\texttt{fmap f p}
+    &$(\mathbf{a}\mapsto\mathbf{b})\mapsto\boldsym{\langle a\rangle}\mapsto\boldsym{\langle b\rangle}$
+    &\\
+    \hline
+$\uparrow$
+    &G. Map
+    &$\langle f\rangle\otimes\langle\phi\rangle=\langle f\phi\rangle$
+    &\texttt{f<*>p}
+    &$\boldsym{\langle}(\boldmath{a}\mapsto\boldmath{b})\boldsym{\rangle}\mapsto\boldsym{\langle a\rangle}\mapsto\boldsym{\langle b\rangle}$
+    &\\
+    \hline
+    \hline
+\textsl{Monad}
+    &Unit
+    &$\heartsuit x=\[x\]$
+    &
+    &$\mathop{\textbf{Monad}}\mathbf{a}=\boldsym{\[a\]}$
+    &$\textbf{List}\in\mathbb{F}$\\
+    \hline
+$\uparrow$
+    &Zero
+    &$z=\diamond$
+    &
+    &$\uparrow$
+    &$\uparrow$\\
+    \hline
+$\uparrow$
+    &Map
+    &$\varphi\odot\[x\]=\[\varphi x\]$
+    &\texttt{fmap p' x}
+    &$(\mathbf{a}\mapsto\mathbf{b})\mapsto\boldsym{\[a\]}\mapsto\boldsym{\[b\]}$
+    &\\
+    \hline
+$\uparrow$
+    &G. Map
+    &$\[\varphi\]\otimes\[x\]=\[\varphi x\]$
+    &\texttt{f<*>p'}
+    &$\boldsym{\[}(\boldmath{a}\mapsto\boldmath{b})\boldsym{\]}\mapsto\boldsym{\[a\]}\mapsto\boldsym{\[b\]}$
+    &\\
+    \hline
+$\uparrow$
+    &Bind
+    &$\varphi\Leftarrow x$
+    &\texttt{x>>=p'}
+    &$(\mathbf{a}\mapsto\boldsym{\[b\]})\mapsto\boldsym{\[a\]}\mapsto\boldsym{\[b\]}$
+    &\\
+    \hline
+    \hline
+\textsl{Monoid}
+    &Unit
+    &$1$
+    &
+    &---
+    &---\\
+    \hline
+$\uparrow$
+    &G. Map
+    &$\Hat{x}\times\Hat{y}=\Hat{z}$
+    &
+    &
+    &\\
+    \hline
+% $\uparrow$&Map&$\varphi\odot\[x\]=\[\varphi x\]$&\texttt{map p' x}&$(\mathbf{a}\mapsto\mathbf{b})\mapsto\boldsym{\[a\]}\mapsto\boldsym{\[b\]}$&\\\hline
+% $\uparrow$&G. Map&$\[\varphi\]\otimes\[x\]=\[\varphi x\]$&\texttt{fmap p' x}&$\boldsym{\[}(\boldmath{a}\mapsto\boldmath{b})\boldsym{\]}\mapsto\boldsym{\[a\]}\mapsto\boldsym{\[b\]}$&\\\hline
+% $\uparrow$&Bind&$\varphi\Leftarrow x$&\texttt{x>>=p'}&$(\mathbf{a}\mapsto\boldsym{\[b\]})\mapsto\boldsym{\[a\]}\mapsto\boldsym{\[b\]}$&\\
+\end{tabular}
+\end{center}
+
+
+
+\end{document}
