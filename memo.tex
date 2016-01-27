@@ -7,39 +7,89 @@
 
 \newcommand{\boldsym}[1]{{\boldsymbol{#1}}}
 
+\newcommand{\htypename}[1]{\mathbf{#1}}
+\newcommand{\htypeclassname}[1]{\mathbb{#1}}
+
+\newcommand{\heq}{\equiv}
+\newcommand{\hsucc}{\blacktriangleright}
+\newcommand{\hpred}{\blacktriangleleft}
+\newcommand{\hmin}{\mathop{\text{min}}}
+\newcommand{\hmax}{\mathop{\text{max}}}
+\newcommand{\identity}{I}
+\newcommand{\binaryop}{\circ}
+
+\newcommand{\listtype}[1]{[#1]}
+\newcommand{\maybetype}[1]{\{#1\}}
+\newcommand{\functype}[1]{\langle#1\rangle}
+
+
+\newcommand{\hrightarrow}{\leadsto}
+\newcommand{\hlambdaparameter}{\lozenge}
+
+\newcommand{\listtypeconst}[1]{\mathop{\htypename{List}}\htypename{#1}}
+\newcommand{\maybetypeconst}[1]{\mathop{\htypename{Maybe}}\htypename{#1}}
+\newcommand{\functypeconst}[1]{(\hlambdaparameter\hrightarrow\htypename{#1})}
+
+\newcommand{\hfmap}{\cdot}
+\newcommand{\hlistfmap}{\odot}
+\newcommand{\hmaybefmap}{\boxdot}
+\newcommand{\hfuncfmap}{\bullet}
+
+\newcommand{\hemptylist}{\emptyset}
+\newcommand{\hnothing}{\varnothing}
+\newcommand{\hid}{\hlambdaparameter}
+
+\newcommand{\hlambda}{\backslash}
+\newcommand{\hlambdaparameterignore}{\_}
+
+\newcommand{\hpure}{\star}
+\newcommand{\hpurelist}[1]{\listtype{#1}}
+\newcommand{\hpuremaybe}[1]{\maybetype{#1}}
+\newcommand{\hpurefunc}[1]{(\hlambda\hlambdaparameterignore\hrightarrow#1)}
+
+\newcommand{\hafmap}{\times}
+\newcommand{\hlistafmap}{\otimes}
+\newcommand{\hmaybeafmap}{\boxtimes}
+\newcommand{\hfuncafmap}[1]{(\hlambda#1\hrightarrow\hlambdaparameter#1(\hlambdaparameter#1))}
+
+\newcommand{\hmonadpure}{\bigstar}
+\newcommand{\hmonadmap}{\diamond}
+
+\newcommand{\hconcat}{\mathop{\dag}}
+
 \begin{document}
 
 \begin{center}
 \begin{tabular}{||c|c||c||c|c|c|c||c|c||c|c||c|c|c|c||c|c||c|c||}
 \hline
 \multicolumn{2}{||c||}{Types}
-    &\multicolumn{1}{|c||}{$\mathbb{Q}$}
-    &\multicolumn{4}{|c||}{$\mathbb{O}$}
-    &\multicolumn{2}{|c||}{$\mathbb{E}$}
-    &\multicolumn{2}{|c||}{$\mathbb{B}$}
-    &\multicolumn{4}{|c||}{$\mathbb{N}$}
-    &\multicolumn{2}{|c||}{$\mathbb{G}'$}
-    &\multicolumn{2}{|c||}{$\mathbb{G}'$}\\
+    &\multicolumn{1}{|c||}{$\htypeclassname{Q}$}
+    &\multicolumn{4}{|c||}{$\htypeclassname{O}$}
+    &\multicolumn{2}{|c||}{$\htypeclassname{E}$}
+    &\multicolumn{2}{|c||}{$\htypeclassname{B}$}
+    &\multicolumn{4}{|c||}{$\htypeclassname{N}$}
+    &\multicolumn{2}{|c||}{$\htypeclassname{G}'_1$}
+    &\multicolumn{2}{|c||}{$\htypeclassname{G}'_2$}\\
 \hline
 Type
     &Descr.
-    &$\equiv$
+    &$\heq$
     &$<$
+    &$\le$
     &$\ge$
     &$>$
-    &$\le$
-    &succ
-    &pred
-    &min
-    &max
+    &$\hpred$
+    &$\hsucc$
+    &$\hmin$
+    &$\hmax$
     &$+$
     &$-$
     &$*$
     &$/$
-    &$I$
-    &$\bigstar$
-    &$I$
-    &$\bigstar$\\
+    &$\identity$
+    &$\binaryop$
+    &$\identity$
+    &$\binaryop$\\
 \hline\hline
 Int
     &$x$
@@ -67,59 +117,54 @@ Int
 
 
 \begin{center}
-\begin{tabular}{||c|c|c||c|c||c|c|c||c|c|c||}
+\begin{tabular}{||c|c|c||c|c|c|c|c||}
+\hline
+\multicolumn{3}{||c||}{ }
+    &\multicolumn{5}{|c||}{$\htypeclassname{M}$}\\
+\hline
+\multicolumn{3}{||c||}{ }
+    &\multicolumn{4}{|c|}{$\htypeclassname{A}$}
+    &\multicolumn{1}{|c||}{ }\\
 \hline
 \multicolumn{3}{||c||}{Types}
-    &\multicolumn{2}{|c||}{$\mathbb{F}$}
-    &\multicolumn{3}{|c||}{$\mathbb{A}$}
-    &\multicolumn{3}{|c||}{$\mathbb{M}$}\\
+    &\multicolumn{2}{|c|}{$\htypeclassname{F}$}
+    &\multicolumn{2}{|c|}{ }
+    & \\
 \hline
 Type
     &Descr.
     &Constructor
-    &$I_\mathbb{F}$
-    &$\odot$
-    &$I_\mathbb{A}$
-    &$\star x$
-    &$\otimes$
-    &$I_\mathbb{M}$
-    &$\bigstar x$
-    &$\oplus$\\
+    &$\identity_\htypeclassname{F}$
+    &$\hfmap$
+    &$\hpure x$
+    &$\hafmap$
+    &$\hmonadmap$\\
 \hline\hline
 List
-    &$[\mathbf{a}]$
-    &$\mathop{\mathbf{List}}\mathbf{a}$
-    &$\emptyset$
-    &$\ast$
-    &$\emptyset$
-    &$[x]$
-    &$\times$
-    &$\emptyset$
-    &$[x]$
-    &$\mathop{\text{concat}}(f\ast x)$\\
+    &$\listtype{\htypename{a}}$
+    &$\listtypeconst{a}$
+    &$\hemptylist$
+    &$\hlistfmap$
+    &$\hpurelist{x}$
+    &$\hlistafmap$
+    &$\hconcat(f\hlistfmap x)$\\
 \hline
 Maybe
-    &$\{\mathbf{a}\}$
-    &$\mathop{\mathbf{Maybe}}\mathbf{a}$
-    &$\varnothing$
-    &$\circ$
-    &$\varnothing$
-    &$\{x\}$
-    &R
-    &$\varnothing$
-    &$\{x\}$
+    &$\maybetype{\htypename{a}}$
+    &$\maybetypeconst{a}$
+    &$\hnothing$
+    &$\hmaybefmap$
+    &$\hpuremaybe{x}$
+    &$\hmaybeafmap$
     &$\leftleftarrows$\\
 \hline
 Function
-    &$\langle\mathbf{a}\rangle$
-    &$(\lozenge\longrightarrow\mathbf{a})$
-    &$\lozenge$
-    &$\bullet$
-    &$\lozenge$
-    &$\backslash\_\longrightarrow x$
-    &$\backslash x\longrightarrow\lozenge x(\lozenge x)$
-    &$\lozenge$
-    &$\backslash\_\longrightarrow x$
+    &$\functype{\htypename{a}}$
+    &$\functypeconst{a}$
+    &$\hid$
+    &$\hfuncfmap$
+    &$\hpurefunc{x}$
+    &$\hfuncafmap{x}$
     &R\\
 \hline
 \end{tabular}
@@ -129,29 +174,29 @@ Function
 \begin{tabular}{||c|c|c||c|c||}
 \hline
 \multicolumn{3}{||c||}{Types}
-    &\multicolumn{2}{|c||}{$\mathbb{G}'$}\\
+    &\multicolumn{2}{|c||}{$\htypeclassname{G}'$}\\
 \hline
 Type
     &Descr.
     &Constructor
-    &$0_\mathbb{G'}$
+    &$0_\htypeclassname{G'}$
     &$\cdot$\\
 \hline\hline
 List
-    &$[\mathbf{a}]$
-    &$\mathop{\mathbf{List}}\mathbf{a}$
+    &$[\htypename{a}]$
+    &$\mathop{\htypename{List}}\htypename{a}$
     &$\emptyset$
     &$++$\\
 \hline
 Maybe
-    &$\{\mathbf{a}\}$
-    &$\mathop{\mathbf{Maybe}}\mathbf{a}$
-    &$I_\mathbf{a}$
-    &$\bigstar_\mathbf{a}$\\
+    &$\{\htypename{a}\}$
+    &$\mathop{\htypename{Maybe}}\htypename{a}$
+    &$I_\htypename{a}$
+    &$\bigstar_\htypename{a}$\\
 \hline
 Function
-    &$\langle\mathbf{a}\rangle$
-    &$(\lozenge\longrightarrow\mathbf{a})$
+    &$\langle\htypename{a}\rangle$
+    &$(\lozenge\longrightarrow\htypename{a})$
     &---
     &---\\
 \hline
@@ -165,9 +210,9 @@ $$(f\bullet g)\odot\phi=f\odot(g\odot\phi)$$
 $$\star f\otimes x=f\odot x$$
 
 
-Functor $\mathbb{F}$ is a set such that has a group $G$, a binary operator $\odot$, where...
+Functor $\htypeclassname{F}$ is a set such that has a group $G$, a binary operator $\odot$, where...
 
-Monodi $\mathbb{G}'$ is a set such that has a group $G$, a birnary operator $\circ$, where...
+Monodi $\htypeclassname{G}'$ is a set such that has a group $G$, a birnary operator $\circ$, where...
 
 ---
 
@@ -180,8 +225,8 @@ List
     &Unit
     &$\ast x=[x]\triangleq x:\emptyset$
     &\texttt{[x]} or \texttt{x:[]}
-    &$\mathop{\textbf{List}}\mathbf{a}=\boldsym{[a]}$
-    &$\textbf{List}\in\mathbb{F}$\\
+    &$\mathop{\textbf{List}}\htypename{a}=\boldsym{[a]}$
+    &$\textbf{List}\in\htypeclassname{F}$\\
     \hline
 $\uparrow$
     &Zero
@@ -194,7 +239,7 @@ $\uparrow$
     &Map
     &$f\odot[x\dots]=[fx\dots]$
     &\texttt{map f x}
-    &$(\mathbf{a}\mapsto\mathbf{b})\mapsto\boldsym{[a]}\mapsto\boldsym{[b]}$
+    &$(\htypename{a}\mapsto\htypename{b})\mapsto\boldsym{[a]}\mapsto\boldsym{[b]}$
     &\\
     \hline
 $\uparrow$
@@ -209,8 +254,8 @@ Maybe
     &Unit
     &$\star x=\{x\}$
     &\texttt{Just x}
-    &$\mathop{\textbf{Maybe}}\mathbf{a}=\boldsym{\{a\}}$
-    &$\textbf{List}\in\mathbb{F}$\\
+    &$\mathop{\textbf{Maybe}}\htypename{a}=\boldsym{\{a\}}$
+    &$\textbf{List}\in\htypeclassname{F}$\\
     \hline
 $\uparrow$
     &Zero
@@ -223,7 +268,7 @@ $\uparrow$
     &Map
     &$f\odot\{x\}=\{fx\}$
     &\texttt{fmap f x}
-    &$(\mathbf{a}\mapsto\mathbf{b})\mapsto\boldsym{\{a\}}\mapsto\boldsym{\{b\}}$
+    &$(\htypename{a}\mapsto\htypename{b})\mapsto\boldsym{\{a\}}\mapsto\boldsym{\{b\}}$
     &\\
     \hline
 $\uparrow$
@@ -238,8 +283,8 @@ Function
     &Unit
     &$\bigstar\phi=\langle\phi\rangle\triangleq \backslash\_\longrightarrow\phi$
     &\verb|(\_->p)|
-    &$\mathop{\textbf{Function}}\mathbf{a}=\boldsym{\langle a\rangle}\triangleq(\lozenge\rightarrow\mathbf{a})$
-    &$\textbf{List}\in\mathbb{F}$\\
+    &$\mathop{\textbf{Function}}\htypename{a}=\boldsym{\langle a\rangle}\triangleq(\lozenge\rightarrow\htypename{a})$
+    &$\textbf{List}\in\htypeclassname{F}$\\
     \hline
 $\uparrow$
     &Zero
@@ -252,7 +297,7 @@ $\uparrow$
     &Map
     &$f\odot\langle\phi\rangle=\langle f\phi\rangle=f\bullet\phi$
     &\texttt{fmap f p}
-    &$(\mathbf{a}\mapsto\mathbf{b})\mapsto\boldsym{\langle a\rangle}\mapsto\boldsym{\langle b\rangle}$
+    &$(\htypename{a}\mapsto\htypename{b})\mapsto\boldsym{\langle a\rangle}\mapsto\boldsym{\langle b\rangle}$
     &\\
     \hline
 $\uparrow$
@@ -267,8 +312,8 @@ $\uparrow$
     &Unit
     &$\heartsuit x=\[x\]$
     &
-    &$\mathop{\textbf{Monad}}\mathbf{a}=\boldsym{\[a\]}$
-    &$\textbf{List}\in\mathbb{F}$\\
+    &$\mathop{\textbf{Monad}}\htypename{a}=\boldsym{\[a\]}$
+    &$\textbf{List}\in\htypeclassname{F}$\\
     \hline
 $\uparrow$
     &Zero
@@ -281,7 +326,7 @@ $\uparrow$
     &Map
     &$\varphi\odot\[x\]=\[\varphi x\]$
     &\texttt{fmap p' x}
-    &$(\mathbf{a}\mapsto\mathbf{b})\mapsto\boldsym{\[a\]}\mapsto\boldsym{\[b\]}$
+    &$(\htypename{a}\mapsto\htypename{b})\mapsto\boldsym{\[a\]}\mapsto\boldsym{\[b\]}$
     &\\
     \hline
 $\uparrow$
@@ -295,7 +340,7 @@ $\uparrow$
     &Bind
     &$\varphi\Leftarrow x$
     &\texttt{x>>=p'}
-    &$(\mathbf{a}\mapsto\boldsym{\[b\]})\mapsto\boldsym{\[a\]}\mapsto\boldsym{\[b\]}$
+    &$(\htypename{a}\mapsto\boldsym{\[b\]})\mapsto\boldsym{\[a\]}\mapsto\boldsym{\[b\]}$
     &\\
     \hline
     \hline
@@ -313,9 +358,9 @@ $\uparrow$
     &
     &\\
     \hline
-% $\uparrow$&Map&$\varphi\odot\[x\]=\[\varphi x\]$&\texttt{map p' x}&$(\mathbf{a}\mapsto\mathbf{b})\mapsto\boldsym{\[a\]}\mapsto\boldsym{\[b\]}$&\\\hline
+% $\uparrow$&Map&$\varphi\odot\[x\]=\[\varphi x\]$&\texttt{map p' x}&$(\htypename{a}\mapsto\htypename{b})\mapsto\boldsym{\[a\]}\mapsto\boldsym{\[b\]}$&\\\hline
 % $\uparrow$&G. Map&$\[\varphi\]\otimes\[x\]=\[\varphi x\]$&\texttt{fmap p' x}&$\boldsym{\[}(\boldmath{a}\mapsto\boldmath{b})\boldsym{\]}\mapsto\boldsym{\[a\]}\mapsto\boldsym{\[b\]}$&\\\hline
-% $\uparrow$&Bind&$\varphi\Leftarrow x$&\texttt{x>>=p'}&$(\mathbf{a}\mapsto\boldsym{\[b\]})\mapsto\boldsym{\[a\]}\mapsto\boldsym{\[b\]}$&\\
+% $\uparrow$&Bind&$\varphi\Leftarrow x$&\texttt{x>>=p'}&$(\htypename{a}\mapsto\boldsym{\[b\]})\mapsto\boldsym{\[a\]}\mapsto\boldsym{\[b\]}$&\\
 \end{tabular}
 \end{center}
 
