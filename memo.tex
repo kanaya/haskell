@@ -13,14 +13,16 @@
 \newcommand{\heq}{\equiv}
 \newcommand{\hsucc}{\blacktriangleright}
 \newcommand{\hpred}{\blacktriangleleft}
-\newcommand{\hmin}{\mathop{\text{min}}}
-\newcommand{\hmax}{\mathop{\text{max}}}
+\newcommand{\hmin}{\mathop{\text{floor}}}
+\newcommand{\hmax}{\mathop{\text{ceil}}}
 \newcommand{\identity}{I}
 \newcommand{\binaryop}{\circ}
 
+\newcommand{\inttypeconst}{\mathbf{Int}}
+
 \newcommand{\listtype}[1]{[#1]}
-\newcommand{\maybetype}[1]{\{#1\}}
-\newcommand{\functype}[1]{\langle#1\rangle}
+\newcommand{\maybetype}[1]{\[#1\]}
+\newcommand{\functype}[1]{\{#1\}}
 
 
 \newcommand{\hrightarrow}{\leadsto}
@@ -28,7 +30,7 @@
 
 \newcommand{\listtypeconst}[1]{\mathop{\htypename{List}}\htypename{#1}}
 \newcommand{\maybetypeconst}[1]{\mathop{\htypename{Maybe}}\htypename{#1}}
-\newcommand{\functypeconst}[1]{(\hlambdaparameter\hrightarrow\htypename{#1})}
+\newcommand{\functypeconst}[1]{(\htypename{r}\hrightarrow\hlambdaparameter)\htypename{#1}}
 
 \newcommand{\hfmap}{\cdot}
 \newcommand{\hlistfmap}{\odot}
@@ -42,37 +44,59 @@
 \newcommand{\hlambda}{\backslash}
 \newcommand{\hlambdaparameterignore}{\_}
 
-\newcommand{\hpure}{\star}
+\newcommand{\hpure}[1]{\langle#1\rangle}
 \newcommand{\hpurelist}[1]{\listtype{#1}}
 \newcommand{\hpuremaybe}[1]{\maybetype{#1}}
-\newcommand{\hpurefunc}[1]{(\hlambda\hlambdaparameterignore\hrightarrow#1)}
+\newcommand{\hpurefunc}[1]{\functype{#1}}
+\newcommand{\hpurefuncimp}[1]{(\hlambda\hlambdaparameterignore\hrightarrow#1)}
 
 \newcommand{\hafmap}{\times}
 \newcommand{\hlistafmap}{\otimes}
 \newcommand{\hmaybeafmap}{\boxtimes}
-\newcommand{\hfuncafmap}[1]{(\hlambda#1\hrightarrow\hlambdaparameter#1(\hlambdaparameter#1))}
+\newcommand{\hfuncafmap}{\star}
+\newcommand{\hfuncafmapimp}[1]{(\hlambda#1\hrightarrow\hlambdaparameter#1(\hlambdaparameter#1))}
 
-\newcommand{\hmonadpure}{\bigstar}
-\newcommand{\hmonadmap}{\diamond}
+\newcommand{\hbind}{\Leftarrow}
+\newcommand{\hlistbind}{\hookleftarrow}
+\newcommand{\hmaybebind}{\leftleftarrows}
 
 \newcommand{\hconcat}{\mathop{\dag}}
+
+\newcommand{\hlistplus}{\oplus}
+\newcommand{\hmaybeplus}{\boxplus}
+
+\newcommand{\htrue}{\text{T}}
+\newcommand{\hfalse}{\text{F}}
+
+\newcommand{\concretetype}{$\mathbf{*}$}
+\newcommand{\functortype}{$\mathbf{*}\mapsto\mathbf{*}$}
+
+\newcommand{\hmfbind}{\twoheadleftarrow}
+\newcommand{\hmfbindimp}[1]{\hlambda#1\hrightarrow\hlambdaparameter(\hlambdaparameter#1)#1}
 
 \begin{document}
 
 \begin{center}
-\begin{tabular}{||c|c||c||c|c|c|c||c|c||c|c||c|c|c|c||c|c||c|c||}
+\begin{tabular}{||c||c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c||}
 \hline
-\multicolumn{2}{||c||}{Types}
-    &\multicolumn{1}{|c||}{$\htypeclassname{Q}$}
-    &\multicolumn{4}{|c||}{$\htypeclassname{O}$}
-    &\multicolumn{2}{|c||}{$\htypeclassname{E}$}
-    &\multicolumn{2}{|c||}{$\htypeclassname{B}$}
-    &\multicolumn{4}{|c||}{$\htypeclassname{N}$}
-    &\multicolumn{2}{|c||}{$\htypeclassname{G}'_1$}
-    &\multicolumn{2}{|c||}{$\htypeclassname{G}'_2$}\\
+{ }
+    &\multicolumn{5}{|c|}{$\htypeclassname{O}$}
+    &\multicolumn{2}{|c|}{$\htypeclassname{E}$}
+    &\multicolumn{2}{|c|}{$\htypeclassname{B}$}
+    &\multicolumn{4}{|c|}{$\htypeclassname{N}$}
+    &\multicolumn{2}{|c|}{$\htypeclassname{G}^+$}
+    &\multicolumn{2}{|c||}{$\htypeclassname{G}^*$}\\
+\hline
+{ }
+    &$\htypeclassname{Q}$
+    &\multicolumn{4}{|c|}{ }
+    &\multicolumn{2}{|c|}{ }
+    &\multicolumn{2}{|c|}{ }
+    &\multicolumn{4}{|c|}{ }
+    &\multicolumn{2}{|c|}{ }
+    &\multicolumn{2}{|c||}{ }\\
 \hline
 Type
-    &Descr.
     &$\heq$
     &$<$
     &$\le$
@@ -91,8 +115,45 @@ Type
     &$\identity$
     &$\binaryop$\\
 \hline\hline
+Bool
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &
+    &
+    &
+    &
+    &$\hfalse$
+    &$\vee$
+    &$\htrue$
+    &$\wedge$\\
+\hline
+Char
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &
+    &
+    &
+    &
+    &
+    &
+    &
+    &\\
+\hline
 Int
-    &$x$
     &$\checkmark$
     &$\checkmark$
     &$\checkmark$
@@ -106,10 +167,29 @@ Int
     &$\checkmark$
     &$\checkmark$
     &$\checkmark$
-    &$1$
-    &$\ast$
     &$0$
-    &$+$\\
+    &$+$
+    &$1$
+    &$\ast$\\
+\hline
+Float
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &
+    &
+    &
+    &
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$0$
+    &$+$
+    &$1$
+    &$\ast$\\
 \hline
 \end{tabular}
 \end{center}
@@ -117,92 +197,89 @@ Int
 
 
 \begin{center}
-\begin{tabular}{||c|c|c||c|c|c|c|c||}
+\begin{tabular}{||c|c|c||c|c|c|c|c|c|c||}
 \hline
 \multicolumn{3}{||c||}{ }
-    &\multicolumn{5}{|c||}{$\htypeclassname{M}$}\\
+    &\multicolumn{7}{|c||}{$\htypeclassname{M}^+$}\\
+\hline
+\multicolumn{3}{||c||}{ }
+    &\multicolumn{5}{|c|}{$\htypeclassname{M}$}
+    &\multicolumn{2}{|c||}{$\htypeclassname{G}^+$}\\
 \hline
 \multicolumn{3}{||c||}{ }
     &\multicolumn{4}{|c|}{$\htypeclassname{A}$}
-    &\multicolumn{1}{|c||}{ }\\
+    &
+    &\multicolumn{2}{|c||}{ }\\
 \hline
 \multicolumn{3}{||c||}{Types}
     &\multicolumn{2}{|c|}{$\htypeclassname{F}$}
     &\multicolumn{2}{|c|}{ }
-    & \\
+    &
+    &\multicolumn{2}{|c||}{ }\\
 \hline
 Type
-    &Descr.
-    &Constructor
+    &Type constructor
+    &Kind
     &$\identity_\htypeclassname{F}$
     &$\hfmap$
-    &$\hpure x$
+    &$\hpure{x}$
     &$\hafmap$
-    &$\hmonadmap$\\
+    &$\hbind$
+    &$\identity$
+    &$\binaryop$\\
 \hline\hline
+Int
+    &$\inttypeconst$
+    &\concretetype
+    &
+    &
+    &
+    &
+    &
+    &$0$
+    &$+$\\
+\hline
 List
-    &$\listtype{\htypename{a}}$
     &$\listtypeconst{a}$
+    &\functortype
     &$\hemptylist$
     &$\hlistfmap$
     &$\hpurelist{x}$
     &$\hlistafmap$
-    &$\hconcat(f\hlistfmap x)$\\
+    &$\hlistbind$
+    &$\hemptylist$
+    &$\hlistplus$\\
 \hline
 Maybe
-    &$\maybetype{\htypename{a}}$
     &$\maybetypeconst{a}$
+    &\functortype
     &$\hnothing$
     &$\hmaybefmap$
     &$\hpuremaybe{x}$
     &$\hmaybeafmap$
-    &$\leftleftarrows$\\
+    &$\hmaybebind$
+    &$\hnothing$
+    &$\hmaybeplus$\\
 \hline
 Function
-    &$\functype{\htypename{a}}$
     &$\functypeconst{a}$
+    &\functortype
     &$\hid$
     &$\hfuncfmap$
     &$\hpurefunc{x}$
-    &$\hfuncafmap{x}$
-    &R\\
+    &$\hfuncafmap$
+    &$\hmfbind$
+    &
+    &\\
 \hline
 \end{tabular}
 \end{center}
 
-\begin{center}
-\begin{tabular}{||c|c|c||c|c||}
-\hline
-\multicolumn{3}{||c||}{Types}
-    &\multicolumn{2}{|c||}{$\htypeclassname{G}'$}\\
-\hline
-Type
-    &Descr.
-    &Constructor
-    &$0_\htypeclassname{G'}$
-    &$\cdot$\\
-\hline\hline
-List
-    &$[\htypename{a}]$
-    &$\mathop{\htypename{List}}\htypename{a}$
-    &$\emptyset$
-    &$++$\\
-\hline
-Maybe
-    &$\{\htypename{a}\}$
-    &$\mathop{\htypename{Maybe}}\htypename{a}$
-    &$I_\htypename{a}$
-    &$\bigstar_\htypename{a}$\\
-\hline
-Function
-    &$\langle\htypename{a}\rangle$
-    &$(\lozenge\longrightarrow\htypename{a})$
-    &---
-    &---\\
-\hline
-\end{tabular}
-\end{center}
+$$\hpurefunc{x}\triangleq\hpurefuncimp{x}$$
+$$\hfuncafmap\triangleq\hfuncafmapimp{w}$$
+$$\hmfbind\triangleq\hmfbindimp{w}$$
 
+---
 
 $$\lozenge\odot\phi=\lozenge\phi$$
 % $$(f\bullet g)\odot\phi=(f\odot\phi)\bullet(g\odot\phi)$$
