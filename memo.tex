@@ -77,63 +77,59 @@
 \begin{document}
 
 \begin{center}
-\begin{tabular}{||c||c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c||}
+\begin{tabular}{||c||c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c||}
+\hline
+{ }
+    &\multicolumn{12}{|c|}{$\htypeclassname{I}$}
+    &\multicolumn{2}{|c|}{$\htypeclassname{B}$}
+    &\multicolumn{2}{|c|}{$\htypeclassname{G}_1$}
+    &\multicolumn{2}{|c||}{$\htypeclassname{G}_2$}\\
+\hline
+{ }
+    &\multicolumn{10}{|c|}{$\htypeclassname{R}$}
+    &\multicolumn{2}{|c|}{$\htypeclassname{E}$}
+    &\multicolumn{2}{|c|}{ }
+    &\multicolumn{2}{|c|}{ }
+    &\multicolumn{2}{|c||}{ }\\
 \hline
 { }
     &\multicolumn{5}{|c|}{$\htypeclassname{O}$}
-    &\multicolumn{2}{|c|}{$\htypeclassname{E}$}
-    &\multicolumn{2}{|c|}{$\htypeclassname{B}$}
-    &\multicolumn{4}{|c|}{$\htypeclassname{N}$}
-    &\multicolumn{2}{|c|}{$\htypeclassname{G}^+$}
-    &\multicolumn{2}{|c||}{$\htypeclassname{G}^*$}\\
+    &\multicolumn{5}{|c|}{$\htypeclassname{N}$}
+    &\multicolumn{2}{|c|}{ }
+    &\multicolumn{2}{|c|}{ }
+    &\multicolumn{2}{|c|}{ }
+    &\multicolumn{2}{|c||}{ }\\
 \hline
 { }
     &$\htypeclassname{Q}$
     &\multicolumn{4}{|c|}{ }
-    &\multicolumn{2}{|c|}{ }
-    &\multicolumn{2}{|c|}{ }
+    &$\htypeclassname{Q}$
     &\multicolumn{4}{|c|}{ }
+    &\multicolumn{2}{|c|}{ }
+    &\multicolumn{2}{|c|}{ }
     &\multicolumn{2}{|c|}{ }
     &\multicolumn{2}{|c||}{ }\\
 \hline
-Type
+Type$\setminus$Op.
     &$\heq$
     &$<$
     &$\le$
     &$\ge$
     &$>$
-    &$\hpred$
-    &$\hsucc$
-    &$\hmin$
-    &$\hmax$
+    &$\equiv$
     &$+$
     &$-$
     &$*$
     &$/$
+    &$\hpred$
+    &$\hsucc$
+    &$\hmin$
+    &$\hmax$
     &$\identity$
     &$\binaryop$
     &$\identity$
     &$\binaryop$\\
 \hline\hline
-Bool
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &
-    &
-    &
-    &
-    &$\hfalse$
-    &$\vee$
-    &$\htrue$
-    &$\wedge$\\
-\hline
 Char
     &$\checkmark$
     &$\checkmark$
@@ -141,19 +137,41 @@ Char
     &$\checkmark$
     &$\checkmark$
     &$\checkmark$
+    &
+    &
+    &
+    &
     &$\checkmark$
     &$\checkmark$
     &$\checkmark$
-    &
-    &
-    &
-    &
+    &$\checkmark$
     &
     &
     &
     &\\
 \hline
+Bool
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &
+    &
+    &
+    &
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\hfalse$
+    &$\vee$
+    &$\htrue$
+    &$\wedge$\\
+\hline
 Int
+    &$\checkmark$
     &$\checkmark$
     &$\checkmark$
     &$\checkmark$
@@ -178,14 +196,15 @@ Float
     &$\checkmark$
     &$\checkmark$
     &$\checkmark$
-    &
-    &
-    &
-    &
     &$\checkmark$
     &$\checkmark$
     &$\checkmark$
     &$\checkmark$
+    &$\checkmark$
+    &
+    &
+    &
+    &
     &$0$
     &$+$
     &$1$
@@ -204,7 +223,7 @@ Float
 \hline
 \multicolumn{3}{||c||}{ }
     &\multicolumn{5}{|c|}{$\htypeclassname{M}$}
-    &\multicolumn{2}{|c||}{$\htypeclassname{G}^+$}\\
+    &\multicolumn{2}{|c||}{$\htypeclassname{G}$}\\
 \hline
 \multicolumn{3}{||c||}{ }
     &\multicolumn{4}{|c|}{$\htypeclassname{A}$}
@@ -269,15 +288,18 @@ Function
     &$\hpurefunc{x}$
     &$\hfuncafmap$
     &$\hmfbind$
-    &
-    &\\
+    &$\hid$
+    &$\hfuncfmap$\\
 \hline
 \end{tabular}
 \end{center}
 
+$$f\hlambdaparameter\triangleq\hlambda u\hrightarrow fu$$
+$$f\hlambdaparameter\hlambdaparameter\triangleq\hlambda uv\hrightarrow fuv$$
+
 $$\hpurefunc{x}\triangleq\hpurefuncimp{x}$$
-$$\hfuncafmap\triangleq\hfuncafmapimp{w}$$
-$$\hmfbind\triangleq\hmfbindimp{w}$$
+$${}\hfuncafmap{}\triangleq\hfuncafmapimp{w}$$
+$${}\hmfbind{}\triangleq\hmfbindimp{w}$$
 
 ---
 
