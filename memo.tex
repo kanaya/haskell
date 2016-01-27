@@ -110,7 +110,7 @@
     &\multicolumn{2}{|c|}{ }
     &\multicolumn{2}{|c||}{ }\\
 \hline
-Type$\setminus$Op.
+\textbf{Type$\setminus$Op.}
     &$\heq$
     &$<$
     &$\le$
@@ -125,10 +125,10 @@ Type$\setminus$Op.
     &$\hsucc$
     &$\hmin$
     &$\hmax$
-    &$\identity$
-    &$\binaryop$
-    &$\identity$
-    &$\binaryop$\\
+    &$\identity_1$
+    &$\binaryop_1$
+    &$\identity_2$
+    &$\binaryop_2$\\
 \hline\hline
 Char
     &$\checkmark$
@@ -216,29 +216,27 @@ Float
 
 
 \begin{center}
-\begin{tabular}{||c|c|c||c|c|c|c|c|c|c||}
+\begin{tabular}{||c||c|c|c|c|c|c|c||}
 \hline
-\multicolumn{3}{||c||}{ }
+{ }
     &\multicolumn{7}{|c||}{$\htypeclassname{M}^+$}\\
 \hline
-\multicolumn{3}{||c||}{ }
+{ }
     &\multicolumn{5}{|c|}{$\htypeclassname{M}$}
     &\multicolumn{2}{|c||}{$\htypeclassname{G}$}\\
 \hline
-\multicolumn{3}{||c||}{ }
+{ }
     &\multicolumn{4}{|c|}{$\htypeclassname{A}$}
     &
     &\multicolumn{2}{|c||}{ }\\
 \hline
-\multicolumn{3}{||c||}{Types}
+{ }
     &\multicolumn{2}{|c|}{$\htypeclassname{F}$}
     &\multicolumn{2}{|c|}{ }
     &
     &\multicolumn{2}{|c||}{ }\\
 \hline
-Type
-    &Type constructor
-    &Kind
+\textbf{Type$\setminus$Op.}
     &$\identity_\htypeclassname{F}$
     &$\hfmap$
     &$\hpure{x}$
@@ -248,8 +246,6 @@ Type
     &$\binaryop$\\
 \hline\hline
 Int
-    &$\inttypeconst$
-    &\concretetype
     &
     &
     &
@@ -259,8 +255,6 @@ Int
     &$+$\\
 \hline
 List
-    &$\listtypeconst{a}$
-    &\functortype
     &$\hemptylist$
     &$\hlistfmap$
     &$\hpurelist{x}$
@@ -270,8 +264,6 @@ List
     &$\hlistplus$\\
 \hline
 Maybe
-    &$\maybetypeconst{a}$
-    &\functortype
     &$\hnothing$
     &$\hmaybefmap$
     &$\hpuremaybe{x}$
@@ -281,8 +273,6 @@ Maybe
     &$\hmaybeplus$\\
 \hline
 Function
-    &$\functypeconst{a}$
-    &\functortype
     &$\hid$
     &$\hfuncfmap$
     &$\hpurefunc{x}$
