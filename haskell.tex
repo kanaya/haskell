@@ -1,5 +1,5 @@
 \documentclass[twocolumn]{jsbook}
-\usepackage{amsmath,amssymb,ascmac,bm}
+\usepackage{amsmath,amssymb,ascmac,bm,multirow}
 
 \def\[{[\![}
 \def\]{]\!]}
@@ -55,6 +55,7 @@
 
 % Identities
 \newcommand{\identity}{\mathnormal{I}}
+\newcommand{\identityfunctor}{\mathcal{I}}
 \newcommand{\identityfunction}{\anonymousparameter}
 
 % Unary ops.
@@ -90,21 +91,28 @@
 \newcommand{\binaryfunctionmonadmap}{\twoheadleftarrow}
 \newcommand{\binaryapply}{\mathop{\$}}
 
+% Functions
+\newcommand{\functionpred}{\mathop{\text{pred}}}
+\newcommand{\functionsucc}{\mathop{\text{succ}}}
+
 % Parenthesis ops.
-\newcommand{\applicativetype}[1]{\langle#1\rangle}
-\newcommand{\listtype}[1]{[#1]}
+\newcommand{\applicativetype}[1]{\left\langle#1\right\rangle}
+\newcommand{\listtype}[1]{\left[#1\right]}
 \newcommand{\maybetype}[1]{\[#1\]}
-\newcommand{\functyontype}[1]{\{#1\}}
+\newcommand{\functyontype}[1]{\left\{#1\right\}}
 
 % Guard
 \newcommand{\guard}[1]{\mathop{\mid_{#1}}}
+\newcommand{\guardcomma}{,\,}
 
 % Range
 \newcommand{\isin}{\in}
-\newcommand{\rangedots}{\dotsb}
+\newcommand{\rangedots}{\dots}
+\newcommand{\infinitydots}{\dots}
 
-% Type
+% Type and class
 \newcommand{\istypeof}{\mathop{::}}
+\newcommand{\isclassof}{\subset}
 
 % Keywords
 \newcommand{\keywordname}[1]{\mathbf{#1}}
@@ -286,7 +294,7 @@ $$fx=\keywordif x\binaryeq0\keywordthen0\keywordelse 1+x$$
 のように$\keywordif$節，$\keywordthen$節，及び$\keywordelse$節からなるものである．
 $\keywordif$節の中身は真理値を返す関数であれば良いので，関数$p$を$$p=(\equiv)0$$としておき，$$fx=\keywordif px\keywordthen0\keywordelse 1+x$$と書く方法もしばしば用いられる．
 
-\chapter{型}
+\chapter{型と型クラス}
 
 \section{型}
 
@@ -304,6 +312,8 @@ $\keywordif$節の中身は真理値を返す関数であれば良いので，�
 計算機は残念ながら無限精度の実数を扱えない．
 そこで標準精度の浮動小数点数を表す型を$\typefloat$で表す．
 
+Char.
+
 \section{関数の型}
 
 関数にも型がある．
@@ -312,14 +322,279 @@ $\keywordif$節の中身は真理値を返す関数であれば良いので，�
 整数引数を二つ取り，整数を返す関数$f'$は$$f'\istypeof\mmorph{\typeint}{\typeint}{\typeint}$$という型を持つ．
 これは$$f'\istypeof\mmorphwithparenthesis{\typeint}{\typeint}{\typeint}$$と同じ意味である．
 
+\section{型クラス}
+
+$\mathtriple{\typeint}{+}{0}$はモノイドである．
+同様に $\mathtriple{\typeint}{*}{1}$, $\mathtriple{\typefloat}{+}{0}$, $\mathtriple{\typefloat}{*}{1}$, $\mathtriple{\typebool}{\binaryor}{\constantfalse}$, $\mathtriple{\typebool}{\binaryand}{\constanttrue}$ もモノイドである．
+そこで，任意の型$\typename{a}$について，組み合わせ$\mathtriple{\typename{a}}{\mathbinaryop}{\identity}$がモノイドである場合には$$\mathtriple{\typename{a}}{\mathbinaryop}{\identity}\isclassof\typeclassmonoid$$と書くことにする．
+二項演算子，単位元が自明な場合は簡略化して$$\typename{a}\isclassof\typeclassmonoid$$と書くことにする．
+
+このような型をより抽象化した型のようなものを型クラスと呼ぶ．
+モノイドは型クラスの例である．
+
+もっと身近な型クラスもある．
+例えば，型$\typename{a}$の変数どうしの間で等値性が定義されている場合，その型は型クラス$\typeclasseq$に属することになる．
+型クラス$\typeclasseq$に属する型は等値演算子$\binaryeq$を提供する．
+
+型$\typename{a}$の変数どうしの間で大小関係が定義されている場合，かつその型が型クラス$\typeclasseq$に属する場合，その型は型クラス$\typeclassord$にも属する．
+型クラス$\typeclassord$に属する型は比較演算子$\binaryl,\binaryle,\binaryge,\binaryg$を提供する．
+
+型$\typename{a}$の変数どうしの間で四則演算関係が定義されている場合，かつその型が型クラス$\typeclasseq$に属する場合，その型は型クラス$\typeclassnum$にも属する．
+型クラス$\typeclassnum$に属する型は比較演算子$\binaryadd,\binarysub,\binarymultiply,\binarydivide$を提供する．
+
+型$\typename{a}$が型クラス$\typeclassord$及び型クラス$\typeclassnum$に属しているとき，かつそのときに限り，型$\typename{a}$は型クラス$\typeclassreal$にも属する．
+
+型$\typename{a}$の変数について，一つ小さい値を返す関数$\functionpred$と一つ大きい値を返す関数$\functionsucc$が定義されているとき，かつそのときに限り，型$\typename{a}$は型クラス$\typeclassenum$に属する．
+
+型$\typename{a}$が型クラス$\typeclassreal$及び型クラス$\typeclassenum$に属しているとき，かつそのときに限り，型$\typename{a}$は型クラス$\typeclassintegral$にも属する．
+
+これらの関係を表にまとめたものが表\ref{tab:type-and-typeclass}である．
+
+\begin{table*}[tbp]
+\caption{型と型クラス}
+\label{tab:type-and-typeclass}
+\begin{center}
+\begin{tabular}{||c||c|c|c|c|c|c|c|c|c|c|c|c||}
+\hline
+\multirow{4}{*}{型クラス}
+    &\multicolumn{12}{|c||}{$\typeclassintegral$}\\
+\cline{2-13}
+\multirow{3}{*}{}
+    &\multicolumn{10}{|c|}{$\typeclassreal$}
+    &\multicolumn{2}{|c||}{$\typeclassenum$}\\
+\cline{2-11}
+\multirow{2}{*}{}
+    &\multicolumn{5}{|c|}{$\typeclassord$}
+    &\multicolumn{5}{|c|}{$\typeclassnum$}
+    &\multicolumn{2}{|c||}{ }\\
+\cline{2-2}\cline{7-7}
+{ }
+    &$\typeclasseq$
+    &\multicolumn{4}{|c|}{ }
+    &$\typeclasseq$
+    &\multicolumn{4}{|c|}{ }
+    &\multicolumn{2}{|c||}{ }\\
+\hline\hline
+型$\setminus$演算子
+    &$\binaryeq$
+    &$\binaryl$
+    &$\binaryle$
+    &$\binaryge$
+    &$\binaryg$
+    &$\binaryeq$
+    &$\binaryadd$
+    &$\binarysub$
+    &$\binarymultiply$
+    &$\binarydivide$
+    &$\functionpred$
+    &$\functionsucc$\\
+\hline
+$\typechar$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &
+    &
+    &
+    &
+    &$\checkmark$
+    &$\checkmark$\\
+\hline
+$\typebool$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &
+    &
+    &
+    &
+    &$\checkmark$
+    &$\checkmark$\\
+\hline
+$\typeint$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$\\
+\hline
+$\typefloat$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &
+    &\\
+\hline
+\end{tabular}
+\end{center}
+\end{table*}
+
+\begin{table*}[tbp]
+\caption{モノイド}
+\label{tab:monoids}
+\begin{center}
+\begin{tabular}{||c||c|c||}
+\hline
+型クラス
+    &\multicolumn{2}{|c||}{$\typeclassmonoid$}\\
+\hline\hline
+型$\setminus$要素と演算子
+    &$\identity$
+    &$\mathbinaryop$\\
+\hline
+$\typechar$
+    &
+    &\\
+\hline
+$\typebool$
+    &$\constantfalse$
+    &$\binaryor$\\
+\hline
+$\typebool$
+    &$\constanttrue$
+    &$\binaryand$\\
+\hline
+$\typeint$
+    &$0$
+    &$\binaryadd$\\
+\hline
+$\typeint$
+    &$1$
+    &$\binarymultiply$\\
+\hline
+$\typefloat$
+    &$0$
+    &$\binaryadd$\\
+\hline
+$\typefloat$
+    &$1$
+    &$\binarymultiply$\\
+\hline
+\end{tabular}
+\end{center}
+\end{table*}
+
 
 \chapter{コンテナ}
 
-\section{List}
+\section{リスト}
+
+同じ型の値を一列に並べたものはリストである．
+例えば$0$から始まり$9$まで続く整数のリストは$\listtype{0,1,2,3,4,5,6,7,8,9}$と書く．
+等差数列に限って，簡略化した書き方が許される．
+$0$から$9$までのリストは$\listtype{0,1\rangedots9}$と書いても良い．
+
+より高度なリスト，例えば$0$から$9$までの平方数のリストは$$\listtype{x^2\guard{x\isin\listtype{0,1\rangedots9}}}$$のようにガードを用いて書く．
+ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\isin$を用いた．
+
+ガードの中の式は複数あっても良い．
+例えば$$\listtype{x+y\guard{x\isin\listtype{0,1\rangedots9}\guardcomma y\isin\listtype{0,1\rangedots5}\guardcomma x+y\binaryg3}}$$は$0\le x\le 10$かつ$0\le y\le 5$の範囲で$x+y>3$となる$x$及び$y$から$x+y$を並べたリストである．
+
+リストは結合できる．例えばリスト$l$とリスト$m$を結合したリストは$$l\binarylistappend m$$で得られる．
+
+リストは無限個の要素を持っても良い．
+例えば自然数全体を表すリスト$n$は$$n=[1,2\infinitydots]$$のように定義して良い．
+
+空リストは$\constantempty$で表す．
+
+型$\typename{a}$のリストの型は$\listtype{\typename{a}}$で表す．
+ある型を包み込んだ別の型を一般にコンテナ型と呼ぶ．
+
 
 \section{Maybe}
 
-\section{型クラス}
+\section{コンテナの型クラス}
+
+\begin{table*}
+\begin{center}
+\begin{tabular}{||c||c|c|c|c|c|c|c||}
+\hline
+\multirow{4}{*}{型クラス}
+    &\multicolumn{7}{|c||}{$\typeclassmonadplus$}\\
+\cline{2-8}
+\multirow{3}{*}{}
+    &\multicolumn{5}{|c|}{$\typeclassmonad$}
+    &\multicolumn{2}{|c||}{$\typeclassmonoid$}\\
+\cline{2-5}
+\multirow{2}{*}{}
+    &\multicolumn{4}{|c|}{$\typeclassapplicative$}
+    &
+    &\multicolumn{2}{|c||}{ }\\
+\cline{2-3}
+{ }
+    &\multicolumn{2}{|c|}{$\typeclassfunctor$}
+    &\multicolumn{2}{|c|}{ }
+    &
+    &\multicolumn{2}{|c||}{ }\\
+\hline\hline
+型$\setminus$要素と演算子
+    &$\identityfunctor$
+    &$\binaryfunctormap$
+    &$\applicativetype{x}$
+    &$\binaryapplicativemap$
+    &$\binarymonadmap$
+    &$\identity$
+    &$\mathbinaryop$\\
+\hline
+リスト
+    &$\constantempty$
+    &$\binarylistfunctormap$
+    &$\listtype{x}$
+    &$\binarylistapplicativemap$
+    &$\binarylistmonadmap$
+    &$\constantempty$
+    &$\binarylistappend$\\
+\hline
+Maybe
+    &$\constantnothing$
+    &$\binarymaybefunctormap$
+    &$\maybetype{x}$
+    &$\binarymaybeapplicativemap$
+    &$\binarymaybemonadmap$
+    &$\constantnothing$
+    &$\binarymaybeappend$\\
+\hline
+関数
+    &$\identityfunction$
+    &$\binaryfunctionfunctormap$
+    &$\functyontype{x}$
+    &$\binaryfunctionapplicativemap$
+    &$\binaryfunctionmonadmap$
+    &$\identityfunction$
+    &$\binarycompose$\\
+\hline
+Int（参考）
+    &
+    &
+    &
+    &
+    &
+    &$0$
+    &$\binaryadd$\\
+\hline
+\end{tabular}
+\end{center}
+\end{table*}
 
 
 
@@ -482,37 +757,14 @@ $$(\circ)xy\defeq x\circ y$$
 
 \section{ラムダ式}
 
-
 \section{関数定義}
 
-
-
 \section{条件式}
-
 
 \section{型}
 
 \section{リスト}
 
-同じ型の値を一列に並べたものはリストである．
-例えば0から始まり10まで続く整数のリストは$[0,1,2,3,4,5,6,7,8,9,10]$と書く．
-等差数列に限って，簡略化した書き方が許されるものとする．
-0から10までのリストは$[0,1\dotsb10]$と書いても良い．
-
-より高度なリスト，例えば0から10までの平方数のリストは$$\left[x^2\guard{x\in[0,1\dotsb 10]}\right]$$のようにガードを用いて書く．
-ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\in$を用いた．
-% ガードは複数条件をカンマ($,$)で区切って書いて良い．
-例えば$$\left[x+y\guard{x\in[0,1\dotsb 10]\wedge y\in[0,1\dotsb 5]\wedge x+y>3}\right]$$は$0\le x\le 10$かつ$0\le y\le 5$の範囲で$x+y>3$となる$x$及び$y$から$x+y$を並べたリストである．
-
-リストは結合できる．例えばリスト$l$とリスト$m$を結合したリストは$$l\listappend m$$で得られる．
-
-リストは無限個の要素を持っても良い．
-例えば自然数全体を表すリスト$n$は$$n=[1,2\dotsb]$$のように定義して良い．
-
-空リストは$\emptyset$または$[\,]$で表す．
-
-型$\typename{a}$のリストの型は$[\typename{a}]$で表す．
-ある型を包み込んだ別の型を一般にコンテナ型と呼ぶ．
 
 \section{タプル}
 
