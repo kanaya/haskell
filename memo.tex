@@ -5,6 +5,93 @@
 \def\[{[\![}
 \def\]{]\!]}
 
+% Lambda
+\newcommand{\lambdasym}{\backslash}
+\newcommand{\lambdadot}{\leadsto}
+\newcommand{\lambdaexp}[2]{\lambdasym#1\lambdadot#2}
+\newcommand{\lambdacut}{\lozenge}
+
+% Typeclasses
+\newcommand{\typeclassname}[1]{\mathfrak{#1}}
+\newcommand{\typeclassapplicative}{\typeclassname{Applicative}}
+\newcommand{\typeclassbounded}{\typeclassname{Bounded}}
+\newcommand{\typeclassenum}{\typeclassname{Enum}}
+\newcommand{\typeclasseq}{\typeclassname{Eq}}
+\newcommand{\typeclassfunctor}{\typeclassname{Functor}}
+\newcommand{\typeclassintegral}{\typeclassname{Integral}}
+\newcommand{\typeclassmonad}{\typeclassname{Monad}}
+\newcommand{\typeclassmonadplus}{\typeclassname{MonadPlus}}
+\newcommand{\typeclassmonoid}{\typeclassname{Monoid}}
+\newcommand{\typeclassnum}{\typeclassname{Num}}
+\newcommand{\typeclassord}{\typeclassname{Ord}}
+\newcommand{\typeclassreal}{\typeclassname{Real}}
+
+% Types
+\newcommand{\typename}[1]{\mathbf{#1}}
+\newcommand{\typeconstructor}[2]{\mathop{#1}#2}
+\newcommand{\typebool}{\typename{Bool}}
+\newcommand{\typechar}{\typename{Char}}
+\newcommand{\typefunction}{\typename{Function}}
+\newcommand{\typeint}{\typename{Int}}
+\newcommand{\typefloat}{\typename{Float}}
+\newcommand{\typelist}{\typename{List}}
+\newcommand{\typemaybe}{\typename{Maybe}}
+
+% Constants
+\newcommand{\constantname}[1]{\mathrm{#1}}
+\newcommand{\constanttrue}{\constantname{T}}
+\newcommand{\constantfalse}{\constantname{F}}
+\newcommand{\constantempty}{\emptyset}
+\newcommand{\constantnothing}{\varnothing}
+
+% Parameters
+\newcommand{\anonymousparameter}{\lozenge}
+
+% Identities
+\newcommand{\identity}{\mathnormal{I}}
+\newcommand{\identityfunction}{\anonymousparameter}
+
+% Unary ops.
+\newcommand{\unarypred}{\blacktriangleleft}
+\newcommand{\unarysucc}{\blacktriangleright}
+
+% Binary ops.
+\newcommand{\binaryeq}{\equiv}
+\newcommand{\binaryl}{<}
+\newcommand{\binaryle}{\le}
+\newcommand{\binaryge}{\ge}
+\newcommand{\binaryg}{>}
+\newcommand{\binaryadd}{+}
+\newcommand{\binarysub}{-}
+\newcommand{\binarymultiply}{*}
+\newcommand{\binarydivide}{/}
+\newcommand{\binaryany}{\bigstar}
+\newcommand{\binaryor}{\vee}
+\newcommand{\binaryand}{\wedge}
+\newcommand{\binarycomposition}{\bullet}
+\newcommand{\binaryfunctormap}{\cdot}
+\newcommand{\binaryapplicativemap}{\times}
+\newcommand{\binarymonadmap}{\Leftarrow}
+\newcommand{\binarylistfunctormap}{\odot}
+\newcommand{\binarylistapplicativemap}{\otimes}
+\newcommand{\binarylistmonadmap}{\hookleftarrow}
+\newcommand{\binarylistappend}{\oplus}
+\newcommand{\binarymaybefunctormap}{\boxdot}
+\newcommand{\binarymaybeapplicativemap}{\boxtimes}
+\newcommand{\binarymaybemonadmap}{\leftleftarrows}
+\newcommand{\binarymaybeappend}{\boxplus}
+\newcommand{\binaryfunctionfunctormap}{\binarycomposition}
+\newcommand{\binaryfunctionapplicativemap}{\bowtie}
+\newcommand{\binaryfunctionmonadmap}{\twoheadleftarrow}
+
+% Parenthesis ops.
+\newcommand{\applicativetype}[1]{\langle#1\rangle}
+\newcommand{\listtype}[1]{[#1]}
+\newcommand{\maybetype}[1]{\[#1\]}
+\newcommand{\functyontype}[1]{\{#1\}}
+
+% Old...
+
 \newcommand{\boldsym}[1]{{\boldsymbol{#1}}}
 
 \newcommand{\htypename}[1]{\mathbf{#1}}
@@ -80,30 +167,30 @@
 \begin{tabular}{||c||c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c||}
 \hline
 { }
-    &\multicolumn{12}{|c|}{$\htypeclassname{I}$}
-    &\multicolumn{2}{|c|}{$\htypeclassname{B}$}
-    &\multicolumn{2}{|c|}{$\htypeclassname{G}_1$}
-    &\multicolumn{2}{|c||}{$\htypeclassname{G}_2$}\\
+    &\multicolumn{12}{|c|}{$\typeclassintegral$}
+    &\multicolumn{2}{|c|}{$\typeclassbounded$}
+    &\multicolumn{2}{|c|}{$\typeclassmonoid_0$}
+    &\multicolumn{2}{|c||}{$\typeclassmonoid_1$}\\
 \hline
 { }
-    &\multicolumn{10}{|c|}{$\htypeclassname{R}$}
-    &\multicolumn{2}{|c|}{$\htypeclassname{E}$}
+    &\multicolumn{10}{|c|}{$\typeclassreal$}
+    &\multicolumn{2}{|c|}{$\typeclassenum$}
     &\multicolumn{2}{|c|}{ }
     &\multicolumn{2}{|c|}{ }
     &\multicolumn{2}{|c||}{ }\\
 \hline
 { }
-    &\multicolumn{5}{|c|}{$\htypeclassname{O}$}
-    &\multicolumn{5}{|c|}{$\htypeclassname{N}$}
+    &\multicolumn{5}{|c|}{$\typeclassord$}
+    &\multicolumn{5}{|c|}{$\typeclassnum$}
     &\multicolumn{2}{|c|}{ }
     &\multicolumn{2}{|c|}{ }
     &\multicolumn{2}{|c|}{ }
     &\multicolumn{2}{|c||}{ }\\
 \hline
 { }
-    &$\htypeclassname{Q}$
+    &$\typeclasseq$
     &\multicolumn{4}{|c|}{ }
-    &$\htypeclassname{Q}$
+    &$\typeclasseq$
     &\multicolumn{4}{|c|}{ }
     &\multicolumn{2}{|c|}{ }
     &\multicolumn{2}{|c|}{ }
@@ -111,26 +198,26 @@
     &\multicolumn{2}{|c||}{ }\\
 \hline
 \textbf{Type$\setminus$Op.}
-    &$\heq$
-    &$<$
-    &$\le$
-    &$\ge$
-    &$>$
-    &$\equiv$
-    &$+$
-    &$-$
-    &$*$
-    &$/$
-    &$\hpred$
-    &$\hsucc$
-    &$\hmin$
-    &$\hmax$
+    &$\binaryeq$
+    &$\binaryl$
+    &$\binaryle$
+    &$\binaryge$
+    &$\binaryg$
+    &$\binaryeq$
+    &$\binaryadd$
+    &$\binarysub$
+    &$\binarymultiply$
+    &$\binarydivide$
+    &$\unarypred$
+    &$\unarysucc$
+    &Min
+    &Max
+    &$\identity_0$
+    &$\binaryany_0$
     &$\identity_1$
-    &$\binaryop_1$
-    &$\identity_2$
-    &$\binaryop_2$\\
+    &$\binaryany_1$\\
 \hline\hline
-Char
+$\typechar$
     &$\checkmark$
     &$\checkmark$
     &$\checkmark$
@@ -150,7 +237,7 @@ Char
     &
     &\\
 \hline
-Bool
+$\typebool$
     &$\checkmark$
     &$\checkmark$
     &$\checkmark$
@@ -165,12 +252,12 @@ Bool
     &$\checkmark$
     &$\checkmark$
     &$\checkmark$
-    &$\hfalse$
-    &$\vee$
-    &$\htrue$
-    &$\wedge$\\
+    &$\constantfalse$
+    &$\binaryor$
+    &$\constanttrue$
+    &$\binaryand$\\
 \hline
-Int
+$\typeint$
     &$\checkmark$
     &$\checkmark$
     &$\checkmark$
@@ -186,11 +273,11 @@ Int
     &$\checkmark$
     &$\checkmark$
     &$0$
-    &$+$
+    &$\binaryadd$
     &$1$
-    &$\ast$\\
+    &$\binarymultiply$\\
 \hline
-Float
+$\typefloat$
     &$\checkmark$
     &$\checkmark$
     &$\checkmark$
@@ -206,9 +293,9 @@ Float
     &
     &
     &$0$
-    &$+$
+    &$\binaryadd$
     &$1$
-    &$\ast$\\
+    &$\binarymultiply$\\
 \hline
 \end{tabular}
 \end{center}
@@ -219,67 +306,67 @@ Float
 \begin{tabular}{||c||c|c|c|c|c|c|c||}
 \hline
 { }
-    &\multicolumn{7}{|c||}{$\htypeclassname{M}^+$}\\
+    &\multicolumn{7}{|c||}{$\typeclassmonadplus$}\\
 \hline
 { }
-    &\multicolumn{5}{|c|}{$\htypeclassname{M}$}
-    &\multicolumn{2}{|c||}{$\htypeclassname{G}$}\\
+    &\multicolumn{5}{|c|}{$\typeclassmonad$}
+    &\multicolumn{2}{|c||}{$\typeclassmonoid$}\\
 \hline
 { }
-    &\multicolumn{4}{|c|}{$\htypeclassname{A}$}
+    &\multicolumn{4}{|c|}{$\typeclassapplicative$}
     &
     &\multicolumn{2}{|c||}{ }\\
 \hline
 { }
-    &\multicolumn{2}{|c|}{$\htypeclassname{F}$}
+    &\multicolumn{2}{|c|}{$\typeclassfunctor$}
     &\multicolumn{2}{|c|}{ }
     &
     &\multicolumn{2}{|c||}{ }\\
 \hline
 \textbf{Type$\setminus$Op.}
-    &$\identity_\htypeclassname{F}$
-    &$\hfmap$
-    &$\hpure{x}$
-    &$\hafmap$
-    &$\hbind$
     &$\identity$
-    &$\binaryop$\\
+    &$\binaryfunctormap$
+    &$\applicativetype{x}$
+    &$\binaryapplicativemap$
+    &$\binarymonadmap$
+    &$\identity_0$
+    &$\binaryany_0$\\
 \hline\hline
-Int
+$\typeint$
     &
     &
     &
     &
     &
     &$0$
-    &$+$\\
+    &$\binaryadd$\\
 \hline
-List
-    &$\hemptylist$
-    &$\hlistfmap$
-    &$\hpurelist{x}$
-    &$\hlistafmap$
-    &$\hlistbind$
-    &$\hemptylist$
-    &$\hlistplus$\\
+$\typelist$
+    &$\constantempty$
+    &$\binarylistfunctormap$
+    &$\listtype{x}$
+    &$\binarylistapplicativemap$
+    &$\binarylistmonadmap$
+    &$\constantempty$
+    &$\binarylistappend$\\
 \hline
-Maybe
-    &$\hnothing$
-    &$\hmaybefmap$
-    &$\hpuremaybe{x}$
-    &$\hmaybeafmap$
-    &$\hmaybebind$
-    &$\hnothing$
-    &$\hmaybeplus$\\
+$\typemaybe$
+    &$\constantnothing$
+    &$\binarymaybefunctormap$
+    &$\maybetype{x}$
+    &$\binarymaybeapplicativemap$
+    &$\binarymaybemonadmap$
+    &$\constantnothing$
+    &$\binarymaybeappend$\\
 \hline
-Function
-    &$\hid$
-    &$\hfuncfmap$
-    &$\hpurefunc{x}$
-    &$\hfuncafmap$
-    &$\hmfbind$
-    &$\hid$
-    &$\hfuncfmap$\\
+$\typefunction$
+    &$\identityfunction$
+    &$\binaryfunctionfunctormap$
+    &$\functyontype{x}$
+    &$\binaryfunctionapplicativemap$
+    &$\binaryfunctionmonadmap$
+    &$\identityfunction$
+    &$\binarycomposition$\\
 \hline
 \end{tabular}
 \end{center}
