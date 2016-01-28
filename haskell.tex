@@ -1,10 +1,15 @@
 \documentclass[twocolumn]{jsbook}
 \usepackage{amsmath,amssymb,ascmac,bm,multirow}
 
+\title{Haskell}
+\author{Ichi Kanaya}
+\date{2016}
+
 \def\[{[\![}
 \def\]{]\!]}
 
 \newenvironment{point}{\begin{screen}}{\end{screen}}
+\newcommand{\keyword}[1]{\emph{#1}}
 
 % Lambda
 \newcommand{\lambdasym}{\backslash}
@@ -42,6 +47,7 @@
 \newcommand{\morph}[2]{#1\mapsto#2}
 \newcommand{\mmorph}[3]{#1\mapsto#2\mapsto#3}
 \newcommand{\mmorphwithparenthesis}[3]{#1\mapsto(#2\mapsto#3)}
+\newcommand{\mmmorph}[4]{#1\mapsto#2\mapsto#3\mapsto#4}
 
 % Constants
 \newcommand{\constantname}[1]{\mathrm{#1}}
@@ -90,6 +96,7 @@
 \newcommand{\binaryfunctionapplicativemap}{\bowtie}
 \newcommand{\binaryfunctionmonadmap}{\twoheadleftarrow}
 \newcommand{\binaryapply}{\mathop{\$}}
+\newcommand{\binaryconcat}{:}
 
 % Functions
 \newcommand{\functionpred}{\mathop{\text{pred}}}
@@ -98,8 +105,8 @@
 % Parenthesis ops.
 \newcommand{\applicativetype}[1]{\left\langle#1\right\rangle}
 \newcommand{\listtype}[1]{\left[#1\right]}
-\newcommand{\maybetype}[1]{\[#1\]}
-\newcommand{\functyontype}[1]{\left\{#1\right\}}
+\newcommand{\maybetype}[1]{\left\{#1\right\}}
+\newcommand{\functyontype}[1]{\[#1\]}
 
 % Guard
 \newcommand{\guard}[1]{\mathop{\mid_{#1}}}
@@ -121,16 +128,25 @@
 \newcommand{\keywordthen}{\mathop{\keywordname{then}}}
 \newcommand{\keywordelse}{\mathop{\keywordname{else}}}
 
+% Special words
+\newcommand{\specialwordname}[1]{\mathsf{#1}}
+\newcommand{\specialwordfirst}{\specialwordname{First}}
+\newcommand{\specialwordrest}{\specialwordname{Rest}}
+
 % Math
 \newcommand{\mathbinaryop}{\circ}
 \newcommand{\mathidentity}{\mathnormal{I}}
 \newcommand{\mathsetname}[1]{\mathbb{#1}}
 \newcommand{\mathtriple}[3]{(#1,#2,#3)}
 \newcommand{\mathcompose}{\bullet}
-
-
+\newcommand{\mathfold}{\bigcup}
+\newcommand{\mathfoldright}{\bigsqcup}
 
 \begin{document}
+\maketitle
+\tableofcontents
+
+\part{代数構造とプログラミング}
 
 \chapter{はじめに}
 
@@ -139,6 +155,10 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 ではどのようにしてHaskellの深みに到達すればいいのだろうか．
 
 その答えは，一見遠回りに見えるが，一度抽象数学の高みに登ることである．
+
+と言っても，あわてる必要はない．
+
+近代的なプログラミング言語を知っていれば，すでにある程度抽象数学に足を踏み入れているからである．
 
 \chapter{数学的準備}
 
@@ -152,7 +172,7 @@ x\mathbinaryop y\istypeof\mathsetname{G}\\
 x\mathbinaryop(y\mathbinaryop z)=(x\mathbinaryop y)\mathbinaryop z&\dots\text{結合則}\\
 {}^\exists\mathidentity:\mathidentity\mathbinaryop x=x\mathbinaryop\mathidentity=x&\dots\text{単位元の存在}
 \end{align}
-を満たしているとき，組み合わせ$\mathtriple{\mathsetname{G}}{\mathbinaryop}{\mathidentity}$をモノイドと呼ぶ．
+を満たしているとき，組み合わせ$\mathtriple{\mathsetname{G}}{\mathbinaryop}{\mathidentity}$を\keyword{モノイド}と呼ぶ．
 
 例えば整数の集合$\mathsetname{Z}$と足し算演算子$+$と整数の$0$の組み合わせ$\mathtriple{\mathsetname{Z}}{+}{0}$はモノイドであるし，同じく$\mathtriple{\mathsetname{Z}}{*}{1}$もモノイドである．
 
@@ -312,7 +332,13 @@ $\keywordif$節の中身は真理値を返す関数であれば良いので，�
 計算機は残念ながら無限精度の実数を扱えない．
 そこで標準精度の浮動小数点数を表す型を$\typefloat$で表す．
 
-Char.
+もう一つ，計算機ならではの型を導入しておこう．
+それは$\typeint$とよく似ているが，特別に文字を扱うために考えられた型$\typechar$である．
+文字といってもその中身は整数である．
+整数ではあるが，わざわざ別な型とするのには理由がある．
+歴史的には文字は小さな整数として表現されることが多かったため，また計算機のメモリが高価であったため，文字を扱うための専用の型はもっぱらメモリの節約のために存在した．
+現在では，文字が数値にエンコードされる方式がより複雑になってきたために，文字を通常の数値と区別するために特別な型が容易さてれいるのである．
+
 
 \section{関数の型}
 
@@ -321,6 +347,51 @@ Char.
 
 整数引数を二つ取り，整数を返す関数$f'$は$$f'\istypeof\mmorph{\typeint}{\typeint}{\typeint}$$という型を持つ．
 これは$$f'\istypeof\mmorphwithparenthesis{\typeint}{\typeint}{\typeint}$$と同じ意味である．
+
+\begin{table}
+\caption{モノイド}
+\label{tab:monoids}
+\begin{center}
+\begin{tabular}{||c||c|c||}
+\hline
+型クラス
+    &\multicolumn{2}{|c||}{$\typeclassmonoid$}\\
+\hline\hline
+型$\setminus$要素と演算子
+    &$\identity$
+    &$\mathbinaryop$\\
+\hline
+$\typechar$
+    &---
+    &---\\
+\hline
+$\typebool$
+    &$\constantfalse$
+    &$\binaryor$\\
+\hline
+$\typebool$
+    &$\constanttrue$
+    &$\binaryand$\\
+\hline
+$\typeint$
+    &$0$
+    &$\binaryadd$\\
+\hline
+$\typeint$
+    &$1$
+    &$\binarymultiply$\\
+\hline
+$\typefloat$
+    &$0$
+    &$\binaryadd$\\
+\hline
+$\typefloat$
+    &$1$
+    &$\binarymultiply$\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
 
 \section{型クラス}
 
@@ -331,6 +402,7 @@ $\mathtriple{\typeint}{+}{0}$はモノイドである．
 
 このような型をより抽象化した型のようなものを型クラスと呼ぶ．
 モノイドは型クラスの例である．
+表\ref{tab:monoids}に型と対応するモノイドの単位元，演算子の一覧を示す．
 
 もっと身近な型クラスもある．
 例えば，型$\typename{a}$の変数どうしの間で等値性が定義されている場合，その型は型クラス$\typeclasseq$に属することになる．
@@ -396,10 +468,10 @@ $\typechar$
     &$\checkmark$
     &$\checkmark$
     &$\checkmark$
-    &
-    &
-    &
-    &
+    &---
+    &---
+    &---
+    &---
     &$\checkmark$
     &$\checkmark$\\
 \hline
@@ -410,10 +482,10 @@ $\typebool$
     &$\checkmark$
     &$\checkmark$
     &$\checkmark$
-    &
-    &
-    &
-    &
+    &---
+    &---
+    &---
+    &---
     &$\checkmark$
     &$\checkmark$\\
 \hline
@@ -442,58 +514,12 @@ $\typefloat$
     &$\checkmark$
     &$\checkmark$
     &$\checkmark$
-    &
-    &\\
+    &---
+    &---\\
 \hline
 \end{tabular}
 \end{center}
 \end{table*}
-
-\begin{table*}[tbp]
-\caption{モノイド}
-\label{tab:monoids}
-\begin{center}
-\begin{tabular}{||c||c|c||}
-\hline
-型クラス
-    &\multicolumn{2}{|c||}{$\typeclassmonoid$}\\
-\hline\hline
-型$\setminus$要素と演算子
-    &$\identity$
-    &$\mathbinaryop$\\
-\hline
-$\typechar$
-    &
-    &\\
-\hline
-$\typebool$
-    &$\constantfalse$
-    &$\binaryor$\\
-\hline
-$\typebool$
-    &$\constanttrue$
-    &$\binaryand$\\
-\hline
-$\typeint$
-    &$0$
-    &$\binaryadd$\\
-\hline
-$\typeint$
-    &$1$
-    &$\binarymultiply$\\
-\hline
-$\typefloat$
-    &$0$
-    &$\binaryadd$\\
-\hline
-$\typefloat$
-    &$1$
-    &$\binarymultiply$\\
-\hline
-\end{tabular}
-\end{center}
-\end{table*}
-
 
 \chapter{コンテナ}
 
@@ -520,10 +546,99 @@ $0$から$9$までのリストは$\listtype{0,1\rangedots9}$と書いても良�
 型$\typename{a}$のリストの型は$\listtype{\typename{a}}$で表す．
 ある型を包み込んだ別の型を一般にコンテナ型と呼ぶ．
 
+\section{畳み込み}
+
+我々はよくリストの総和を表現するためにシグマ記号($\sum$)を使う．
+リスト$\listtype{x_0,x_1\rangedots x_n}$の総和を$$\sum\listtype{x_0,x_1\rangedots x_n}=x_0+x_1+\dotsb+x_n$$とするようなシグマ記号である．
+この表現を一般化してみよう．
+リスト$\listtype{x_0,x_1\rangedots x_n}$が与えられたとき，$$\mathfold^\mathbinaryop_a\listtype{x_0,x_1\rangedots x_n}=a\mathbinaryop x_0\mathbinaryop x_1\mathbinaryop\dotsb\mathbinaryop x_n$$であると定義する．
+この新しい記号$\mathfold$は畳み込み演算子と呼ばれる．
+変数$a$はアキュムレータと呼ぶ．
+アキュムレータは右側の引数が空であった場合のデフォルト値と考えても良い．
+
+リストの総和をとる演算子$\sum$は$$\sum=\mathfold^+_0$$とすれば得られる．
+同じようにリストの要素のすべての積をとる演算子$\prod$は$$\prod=\mathfold^\binarymultiply_1$$とすれば得られる．
+
+畳み込み演算子は第1（上）引数に$\typename{a}$型と$\typename{b}$型の引数を取り$\typename{a}$型の戻り値を返す二項演算子，第2（下）引数に$\typename{a}$型，第3（右）引数に$\typename{b}$型のリストすなわち$\listtype{\typename{b}}$型を取り，$\typename{a}$型の値を返す．
+従って畳み込み演算子の型は$$\mathfold\istypeof\mmmorph{(\mmorph{\typename{a}}{\typename{b}}{\typename{a}})}{\typename{a}}{\listtype{\typename{b}}}{\typename{a}}$$と定義できる．
+
+畳み込み演算子には次のようなもう一つのバリエーションがある．
+$$\mathfoldright^\mathbinaryop_a\listtype{x_0,x_1\rangedots x_n}=\left(x_0\mathbinaryop\left(x_1\mathbinaryop\dotsb\mathbinaryop\left(x_n\mathbinaryop a\right)\right)\right)$$
+これは右畳み込みと呼ばれる演算子である．
+
+\section{マップ}
+
+リストの各要素に決まった関数を適用したい場合がある．
+引数として関数$f$とリスト$\listtype{x_0,x_1\rangedots x_n}$を取り，戻り値として$\listtype{fx_0,fx_1\rangedots fx_n}$を返す演算子$\binarylistfunctormap$を考えよう．
+このとき$$f\binarylistfunctormap\listtype{x_0,x_1\rangedots x_n}=\listtype{fx_0,fx_1\rangedots fx_n}$$であると定義する．
+% リストのマップ演算子と呼ぶ$\mapfunc_\text{list}$は$$\mapfunc\nolimits_\text{list}::(\typename{a}\rightarrow\typename{b})\rightarrow\listtype{\typename{a}}\rightarrow\listtype{\typename{b}}$$という型を持つ．
+
+
+
+\chapter{コンテナの高度な話題}
+
 
 \section{Maybe}
 
-\section{コンテナの型クラス}
+整数$x$を$0$で除算することはエラーである．
+しかし除算の度にエラーが起こったかどうか調べるのは面倒であるし，記述も煩雑になってしまう．
+プログラマはよくこういう場合に「例外」という機構を用いるが，数学に例外は持ち込みたくない．
+そこで変数$x$が正しく計算されたかもしれないし，されていないかもしれないということを，特別な記号$\maybetype{x}$で表しておこう．
+ここで変数$\maybetype{x}$が取り得る値は正しく計算された値$x$か，あるいはエラーを表す値$\constantnothing$である．
+
+この変数$\maybetype{x}$はもはや整数型とは言えない．
+そこでこの$\maybetype{x}$の型を$\maybetype{\typeint}$と表して「きっと整数」型と呼ぶことにしよう．
+英語では ``maybe integer'' と呼ぶ．
+
+変数$x$が一度$0$除算の危険性に汚染された場合，その後ずっと$\maybetype{x}$と印をつけられなければならない．
+このきっと整数$\maybetype{x}$に対して整数を引数にとる関数$f$を適用させるには，何らかの関数マップ演算子が必要である．
+そこできっと整数の中身に直接関数を適用する演算子を$\binarymaybefunctormap$としよう．
+具体的には$$f\binarymaybefunctormap\maybetype{x}$$のようにして関数$f$を変数$\maybetype{x}$に適用させる．
+その結果はまた$\maybetype{\typeint}$型である．
+従って，結果を受け取る変数も$\maybetype{\typeint}$でなければならず，それを忘れないように印を付けておかねばならない．
+例えば$$\maybetype{y}=f\binarymaybefunctormap\maybetype{x}$$のように書くことになるであろう．
+
+
+\section{コンテナの型クラスと種}
+
+\section{リストの実装}
+
+ここでリストの実装について若干述べておかねばならない．
+紙上ではリストは自由に考えられるが，計算機上ではそれほど自由ではないからである．
+ここではリストはLISPにおけるリストと同じ構造を持つものとする．
+LISPにおけるリストとは要素$\specialwordfirst$と要素$\specialwordrest$からなるペアの集合である．
+要素$\specialwordfirst$がリストの要素を持ち，要素$\specialwordrest$が次のペアを参照する．
+リストの最後のペアの$\specialwordrest$は空リストを参照する．
+
+これらのペアはタプルで実装したいところだが，参照，逆参照の煩雑さを避けるために，リストのための特別な表現$$\specialwordfirst\binaryconcat\specialwordrest$$を用い，第2要素である$\specialwordrest$はリスト型であるとする．
+演算子$\binaryconcat$は結合演算子と呼ぶ．
+
+要素$\specialwordrest$はリスト（または空リスト）であるから，一般にリストは次のように展開できることになる．
+\begin{align*}
+\listtype{x_0,x_1,x_2\rangedots x_n}&=x_0\binaryconcat\listtype{x_1,x_2\rangedots x_n}\\
+&=x_0\binaryconcat x_1\binaryconcat\listtype{x_2\rangedots x_n}\\
+&=x_0\binaryconcat x_1\binaryconcat x_2\binaryconcat\dotsb\binaryconcat x_n\binaryconcat\constantempty
+\end{align*}
+結合演算子$\binaryconcat$は右結合する．
+すなわち$$x_0\binaryconcat x_1\binaryconcat x_2=x_0\binaryconcat(x_1\binaryconcat x_2)$$である．
+
+
+\chapter{関手}
+
+\section{関手}
+
+\section{アプリカティブ関手}
+
+\section{関数と関手の関係}
+
+\chapter{モナド}
+
+\section{アプリカティブ関手の拡張}
+
+\section{モナド則}
+
+\section{モノイドなモナド}
+
 
 \begin{table*}
 \begin{center}
@@ -596,7 +711,13 @@ Int（参考）
 \end{center}
 \end{table*}
 
+\part{モナドから見る世界}
 
+\chapter{IO}
+
+\chapter{状態}
+
+\part{圏とモナド}
 
 
 \chapter{---}
@@ -774,24 +895,6 @@ $$(\circ)xy\defeq x\circ y$$
 
 \section{リストの実装}
 
-ここでリストの実装について若干述べておかねばならない．
-紙上ではリストは自由に考えられるが，計算機上ではそれほど自由ではないからである．
-ここではリストはLISPにおけるリストと同じ構造を持つものとする．
-LISPにおけるリストとは要素$\firstelem$と要素$\restelems$からなるペアの集合である．
-要素$\firstelem$がリストの要素を持ち，要素$\restelems$が次のペアを「参照」する．
-リストの最後のペアの$\restelems$は空リストを参照する．
-
-これらのペアはタプルで実装したいところだが，参照，逆参照の煩雑さを避けるために，リストのための特別な表現$$\firstelem:\restelems$$を用い，第2要素である$\restelems$はリスト型であるとする．
-演算子$:$は結合演算子と呼ぶ．
-
-要素$\restelems$はリスト（または空リスト）であるから，一般にリストは次のように展開できることになる．
-\begin{align*}
-[x_0,x_1,x_2\dotsb x_n]&=x_0:[x_1,x_2\dotsb x_n]\\
-&=x_0:x_1:[x_2\dotsb x_n]\\
-&=x_0:x_1:x_2:\dotsb:x_n:[\,]
-\end{align*}
-結合演算子$:$は右結合する．
-すなわち$$x_0:x_1:x_2\equiv x_0:(x_1:x_2)$$である．
 
 \chapter{型・型クラス・種*}
 
@@ -841,22 +944,9 @@ $$f\oplus\monad{x}=\monad{fx}$$
 
 \section{畳み込み}
 
-我々はよくリストの総和を表現するためにシグマ記号($\sum$)を使う．
-リスト$\listtype{x_0,x_1\dotsb x_n}$の総和を$$\sum\listtype{x_0,x_1\dotsb x_n}\defeq x_0+x_1+\dotsb+x_n$$とするようなシグマ記号である．
-この表現を一般化してみよう．
-リスト$\listtype{x_0,x_1\dotsb x_n}$が与えられたとき，$$\foldfunc^\circ_a\listtype{x_0,x_1\dotsb x_n}\defeq a\circ x_0\circ x_1\circ\dotsb\circ x_n$$であると定義する．
-この新しい記号$\foldfunc$は畳み込み演算子と呼ばれる．
-変数$a$はアキュムレータと呼ぶ．
-
-リストの総和をとる演算子$\sum$は$$\sum=\foldfunc^+_0$$とすれば得られる．
-同じようにリストの要素のすべての積をとる演算子$\prod$は$$\prod=\foldfunc^\ast_1$$とすれば得られる．
-
-畳み込み演算子は第1（上）引数に$\typename{a}$型と$\typename{b}$型の引数を取り$\typename{a}$型の戻り値を返す二項演算子，第2（下）引数に$\typename{a}$型，第3（右）引数に$\typename{b}$型のリストすなわち$\listtype{\typename{b}}$型を取り，$\typename{a}$型の値を返す．
-従って畳み込み演算子の型は$$\foldfunc::(\typename{a}\rightarrow\typename{b}\rightarrow\typename{a})\rightarrow\typename{a}\rightarrow\listtype{\typename{b}}\rightarrow\typename{a}$$と定義できる．
 
 \section{右畳み込み}
 
-$$\foldrightfunc_a^\circ\listtype{x_0,x_1\dotsb x_n}\defeq\left(x_0\circ\left(x_1\circ\dotsb\circ\left(x_n\circ a\right)\right)\right)$$
 
 \section{フィルタ}
 
@@ -864,10 +954,6 @@ $$\filterfunc^p\listtype{x_0,x_1\dotsb x_n}\defeq\listtype{x\guard{x\in\listtype
 
 \section{マップ}
 
-畳み込みではなく，リストはリストのままにして，各要素に決まった関数を適用したい場合がある．
-引数として関数$f$とリスト$[x_0,x_1\dotsb x_n]$を取り，戻り値として$[fx_0,fx_1\dotsb fx_n]$を返す演算子$\mapfunc_\text{list}$を考えよう．
-このとき$$\mapfunc^f\nolimits_\text{list}[x_0,x_1\dotsb x_n]\defeq [fx_0,fx_1\dotsb fx_n]$$であると定義する．
-リストのマップ演算子と呼ぶ$\mapfunc_\text{list}$は$$\mapfunc\nolimits_\text{list}::(\typename{a}\rightarrow\typename{b})\rightarrow\listtype{\typename{a}}\rightarrow\listtype{\typename{b}}$$という型を持つ．
 
 
 \section{一般化マップ}
@@ -885,29 +971,6 @@ $$\filterfunc^p\listtype{x_0,x_1\dotsb x_n}\defeq\listtype{x\guard{x\in\listtype
 
 \section{Maybe}
 
-整数$x$を$0$で除算することはエラーである．
-しかし除算の度にエラーが起こったかどうか調べるのは面倒であるし，記述も煩雑になってしまう．
-プログラマはよくこういう場合に「例外」という機構を用いるが，数学に例外は持ち込みたくない．
-そこで変数$x$が正しく計算されたかもしれないし，されていないかもしれないということを，特別な記号$\maybe{x}$で表しておこう．
-ここで変数$\maybe{x}$が取り得る値は正しく計算された値$x$か，あるいはエラーを表す値$\nothing$である．
-
-この変数$\maybe{x}$はもはや整数型とは言えない．
-そこでこの$\maybe{x}$の型を$\maybe{\integertype}$と表して「きっと整数」型と呼ぶことにしよう．
-英語では ``maybe integer'' と呼ぶ．
-
-変数$x$が一度$0$除算の危険性に汚染された場合，その後ずっと$\maybe{x}$と印をつけられなければならない．
-このきっと整数$\maybe{x}$に対して整数を引数にとる関数$f$を適用させるには，一般化マップ演算子が必要である．
-具体的には$$\mapfunc^f\maybe{x}$$のように関数$f$を「持ち上げて」から変数$\maybe{x}$に適用させる．
-その結果はまた$\maybe{\integertype}$型である．
-従って，結果を受け取る変数も$\maybe{\integertype}$でなければならず，それを忘れないように印を付けておかねばならない．
-例えば$$\maybe{y}=\mapfunc^f\maybe{x}$$のように書くことになるであろう．
-
-\begin{align*}
-\maybe{x}\maybe{+}\maybe{y}&\guard{\maybe{x}\neq\nothing\wedge\maybe{y}\neq\nothing}=\maybe{x+y}\\
-&\guard{\otherwise}=\nothing
-\end{align*}
-
-$$\maybe{x}\maybe{+}\maybe{y}=\monadfunc^{\haskelllambda x\rightarrow\monadfunc^{\haskelllambda y\rightarrow\unit(x+y)}\maybe{y}}\maybe{x}$$
 
 
 \section{関手}
