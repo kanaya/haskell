@@ -7,7 +7,7 @@
 
 % Lambda
 \newcommand{\lambdasym}{\backslash}
-\newcommand{\lambdadot}{\leadsto}
+\newcommand{\lambdadot}{\rightarrow}
 \newcommand{\lambdaexp}[2]{\lambdasym#1\lambdadot#2}
 \newcommand{\lambdacut}{\lozenge}
 
@@ -20,7 +20,7 @@
 \newcommand{\typeclassfunctor}{\typeclassname{Functor}}
 \newcommand{\typeclassintegral}{\typeclassname{Integral}}
 \newcommand{\typeclassmonad}{\typeclassname{Monad}}
-\newcommand{\typeclassmonadplus}{\typeclassname{MonadPlus}}
+\newcommand{\typeclassmonadplus}{\typeclassname{Monadplus}}
 \newcommand{\typeclassmonoid}{\typeclassname{Monoid}}
 \newcommand{\typeclassnum}{\typeclassname{Num}}
 \newcommand{\typeclassord}{\typeclassname{Ord}}
@@ -36,6 +36,9 @@
 \newcommand{\typefloat}{\typename{Float}}
 \newcommand{\typelist}{\typename{List}}
 \newcommand{\typemaybe}{\typename{Maybe}}
+
+% Morph
+\newcommand{\morph}[2]{#1\mapsto#2}
 
 % Constants
 \newcommand{\constantname}[1]{\mathrm{#1}}
@@ -89,6 +92,16 @@
 \newcommand{\listtype}[1]{[#1]}
 \newcommand{\maybetype}[1]{\[#1\]}
 \newcommand{\functyontype}[1]{\{#1\}}
+
+% Guard
+\newcommand{\guard}[1]{\mid_{#1}}
+
+% In
+\newcommand{\isin}{\in}
+
+% Range
+\newcommand{\rangedots}{\dotsb}
+
 
 % Old...
 
