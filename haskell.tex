@@ -178,7 +178,7 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 我々は記号$\in$を別の用途に使いたいので代わりに記号$\istypeof$を使って$x\istypeof\mathsetname{Z}$と書くことにする．
 
 二つの整数$$x,y\istypeof\mathsetname{Z}$$の間には\keyword{二項演算}が定義されている．
-例えば足し算は二項演算の例で，それを表現するために\keyword{演算子}$\binaryadd$がある．
+例えば足し算は二項演算の例で，それを表現するために\keyword{演算子}$+$がある．
 整数$x,y$に足し算演算子を\keyword{作用させる}と，つまり$x+y$を作ると，その結果は再び整数になる．
 これを$$x+y\istypeof\mathsetname{Z}$$と書く．
 いま「演算子」を「作用」させたのだが，これはそれぞれ英語の ``operator'' と ``operate'' の訳である．
@@ -203,9 +203,27 @@ x\mathbinaryop(y\mathbinaryop z)=(x\mathbinaryop y)\mathbinaryop z&\dots\text{�
 \end{align}
 を満たしているとき，組み合わせ$\mathtriple{\mathsetname{M}}{\mathbinaryop}{\mathidentity}$を\keyword{モノイド}と呼ぶ．
 
-例えば整数の集合$\mathsetname{Z}$と足し算演算子$+$と整数の$0$の組み合わせ$\mathtriple{\mathsetname{Z}}{+}{0}$はモノイドであるし，同じく$\mathtriple{\mathsetname{Z}}{*}{1}$もモノイドである．
+先ほど見たように整数の集合$\mathsetname{Z}$と足し算演算子$+$と整数の$0$の組み合わせ$\mathtriple{\mathsetname{Z}}{+}{0}$はモノイドである．
+整数については，掛け算演算子$*$に関しても$\mathtriple{\mathsetname{Z}}{*}{1}$がモノイドである．
 
-他にも，例えば二次元の回転変換（行列）を$U(\theta)$ただし$$U(\theta)=\begin{bmatrix}\cos\theta&-\sin\theta\\\sin\theta&\cos\theta\end{bmatrix}$$として，回転変換$U$すべてからなる集合$\mathsetname{U}$と回転の合成$\mathcompose$を考えると，組み合わせ$\mathtriple{\mathsetname{U}}{\mathcompose}{U(0)}$はモノイドである．
+他に，例えば回転角を$\theta$とする二次元の回転変換（行列）を$U(\theta)$ただし$$U(\theta)=\begin{bmatrix}\cos\theta&-\sin\theta\\\sin\theta&\cos\theta\end{bmatrix}$$として，回転変換$U$すべてからなる集合$\mathsetname{U}$を考えてみよう．
+
+回転は合成できる．
+回転の合成を$\bullet$で表すとすると
+\begin{equation}
+\label{eq:rotation}
+U(\theta_1)\bullet U(\theta_2)=U(\theta_1+\theta_2)
+\end{equation}
+であるから，回転を合成した結果も回転である．
+
+また式\eqref{eq:rotation}から$$U(\theta_1)\bullet\left(U(\theta_2)\bullet U(\theta_3)\right)=\left(U(\theta_1)\bullet U(\theta_2)\right)\bullet U(\theta_3)$$
+であるから，回転変換は結合則も満たしている．
+
+最後に回転変換に単位元があるかどうか調べてみよう．
+何もしない回転変換は$0$度の回転であるから，何もしない回転を$$U_0=U(0)$$とよう．
+そうすると$$U_0\bullet U(\theta)=U(\theta)\bullet U_0=U(\theta)$$であるから，$U_0$は回転変換の単位元であると言える．
+
+このように，組み合わせ$\mathtriple{\mathsetname{U}}{\mathcompose}{U_0}$はモノイドである．
 
 \begin{point}
 集合$\mathsetname{M}$の元$x,y,z\in\mathsetname{M}$とそれらの間の二項関係$\mathbinaryop$が，
@@ -219,7 +237,7 @@ x\mathbinaryop(y\mathbinaryop z)=(x\mathbinaryop y)\mathbinaryop z&\dots\text{�
 
 \section{モノイドではないもの}
 数学上の多くの構造がモノイドである．
-整数や二次元の回転変換がそうであったが，一般に数と呼ばれるもの全て，また正方行列も適当な演算子や単位元とともにモノイドになる．
+整数や二次元の回転変換がそうであったが，一般に数と呼ばれるもの全て，また正方行列も行列の掛け算（または足し算），単位行列（または零行列）とともにモノイドになる．
 ベクトルもまた，ベクトルの合成演算子，零ベクトルと組み合わせてモノイドになる．
 
 そこで，今度は逆にモノイドでないものを考えてみよう．
@@ -236,14 +254,22 @@ x\mathbinaryop(y\mathbinaryop z)=(x\mathbinaryop y)\mathbinaryop z&\dots\text{�
 {}^\exists x^{-1}:x^{-1}\mathbinaryop x=\mathidentity&\dots\text{逆元の存在}
 \end{align}
 であるような$\mathtriple{\mathsetname{G}}{\mathbinaryop}{\mathidentity}$のことであり，モノイドの規則に「逆元の存在」を加えたものである．
+プログラマの言葉で言えば，群はモノイドの「子クラス」であると言える．
 
-前節で紹介した$\mathtriple{\mathsetname{Z}}{+}{0},\mathtriple{\mathsetname{Z}}{*}{1},\mathtriple{\mathsetname{U}}{\mathcompose}{U(0)}$は全て群でもある．
+前節で紹介した$\mathtriple{\mathsetname{Z}}{+}{0},\mathtriple{\mathsetname{Z}}{*}{1},\mathtriple{\mathsetname{U}}{\mathcompose}{U_0}$は全て群でもある．
 
 このように規則を少しずつ増やしていって，より強力な概念を構築していく方法は数学ではよく用いられる．
+本書でもシンプルな規則から初めて，少しずつ規則を増やしていくやり方を多用する．
 
-本書では群についてはこれ以上の深入りはしない．
+% 本書では群についてはこれ以上の深入りはしない．
 
 \chapter{記法}
+
+\begin{leader}
+本書では一般の数学書やプログラミングの教科書からは少し異なった記法を用いる．
+ある概念が発明されてからずっと後になって正しい記法が見つかり，それがきっかけとなって正しく理解されるという現象は歴史上よくあることである．
+\end{leader}
+
 
 \section{関数}
 
