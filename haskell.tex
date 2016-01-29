@@ -1,15 +1,16 @@
 \documentclass[twocolumn]{jsbook}
 \usepackage{amsmath,amssymb,ascmac,bm,multirow}
 
-\title{Haskell}
+\title{プログラムにおける代数構造}
 \author{Ichi Kanaya}
 \date{2016}
 
 \def\[{[\![}
 \def\]{]\!]}
 
-\newenvironment{point}{\begin{screen}}{\end{screen}}
 \newcommand{\keyword}[1]{\emph{#1}}
+\newenvironment{leader}{\begingroup\gt}{\endgroup}
+\newenvironment{point}{\begin{screen}}{\end{screen}}
 
 % Lambda
 \newcommand{\lambdasym}{\backslash}
@@ -162,30 +163,58 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 
 \chapter{数学的準備}
 
+\begin{leader}
+この章では代表的な代数構造であり，またプログラミングとも深い関わりのあるモノイドと群について述べる．
+モノイドは別名を単位的半群と言う通り，群の制約を緩めたバージョンとも言える．
+数学ではモノイドや群のように，ある集合と，集合の元同士の関係に性質を見出し，それに名前をつけることがしばしばある．
+本書ではこのように抽象的な性質を抜き出すことを今後繰り返す．
+\end{leader}
+
 \section{モノイド}
 
-数学者はしばしば変数$x$が集合$\mathsetname{X}$の元であることを$x\in\mathsetname{X}$のように書くが，我々は記号$\in$を別の用途に使いたいので代わりに記号$\istypeof$を使って$x\istypeof\mathsetname{X}$と書く事にする．
+整数全体の\keyword{集合}を$\mathsetname{Z}$で表すこととしよう．
+集合$\mathsetname{Z}$には$0$や$-10$や$123$などのありとあらゆる整数が含まれている．
+任意の変数$x$が整数であることを，数学者は$x\in\mathsetname{Z}$という風に書き，$x$が集合$\mathsetname{Z}$の\keyword{元}であると呼ぶ．
+我々は記号$\in$を別の用途に使いたいので代わりに記号$\istypeof$を使って$x\istypeof\mathsetname{Z}$と書くことにする．
 
-集合$\mathsetname{G}$の元$x,y,z\istypeof\mathsetname{G}$とそれらの間の二項関係$\mathbinaryop$が，
+二つの整数$$x,y\istypeof\mathsetname{Z}$$の間には\keyword{二項演算}が定義されている．
+例えば足し算は二項演算の例で，それを表現するために\keyword{演算子}$\binaryadd$がある．
+整数$x,y$に足し算演算子を\keyword{作用させる}と，つまり$x+y$を作ると，その結果は再び整数になる．
+これを$$x+y\istypeof\mathsetname{Z}$$と書く．
+いま「演算子」を「作用」させたのだが，これはそれぞれ英語の ``operator'' と ``operate'' の訳である．
+数学者や物理学者は演算子のことを\keyword{作用素}と呼ぶ場合もあるが，意味は同じである．
+
+演算子$\binaryadd$は演算の順序によらず結果が同じである．
+いま三つの整数$$x,y,z\istypeof\mathsetname{Z}$$があるとき$$x+(y+z)=(x+y)+z$$であるが，このように右を先に計算しても左を先に計算しても結果が変わらないことを\keyword{結合性}と呼ぶ．
+また，結合性があることを求める規則を\keyword{結合則}と呼ぶ．
+整数の足し算は結合則に従う．\footnote{足し算にはもう一つ$x+y=y+x$という性質があり，これを可換性と呼ぶが，今は考えなくて良い．}
+
+整数の足し算にはもう一つの際立った特徴がある．
+それは$0,x\istypeof\mathsetname{Z}$のとき$$0+x=x+0=x$$であるような$$0\istypeof\mathsetname{Z}$$が存在することだ．
+このように足し算を行っても結果を変えなような元のことを\keyword{単位元}と呼ぶ．
+特に足し算の場合は単位元のことを\keyword{零元}と呼ぶこともある．
+
+さて，これらの性質を一般化してみよう．
+集合$\mathsetname{M}$の元$x,y,z\istypeof\mathsetname{M}$とそれらの間の二項演算子$\mathbinaryop$が，
 \begin{align}
-x\mathbinaryop y\istypeof\mathsetname{G}\\
+x\mathbinaryop y\istypeof\mathsetname{M}\\
 x\mathbinaryop(y\mathbinaryop z)=(x\mathbinaryop y)\mathbinaryop z&\dots\text{結合則}\\
 {}^\exists\mathidentity:\mathidentity\mathbinaryop x=x\mathbinaryop\mathidentity=x&\dots\text{単位元の存在}
 \end{align}
-を満たしているとき，組み合わせ$\mathtriple{\mathsetname{G}}{\mathbinaryop}{\mathidentity}$を\keyword{モノイド}と呼ぶ．
+を満たしているとき，組み合わせ$\mathtriple{\mathsetname{M}}{\mathbinaryop}{\mathidentity}$を\keyword{モノイド}と呼ぶ．
 
 例えば整数の集合$\mathsetname{Z}$と足し算演算子$+$と整数の$0$の組み合わせ$\mathtriple{\mathsetname{Z}}{+}{0}$はモノイドであるし，同じく$\mathtriple{\mathsetname{Z}}{*}{1}$もモノイドである．
 
 他にも，例えば二次元の回転変換（行列）を$U(\theta)$ただし$$U(\theta)=\begin{bmatrix}\cos\theta&-\sin\theta\\\sin\theta&\cos\theta\end{bmatrix}$$として，回転変換$U$すべてからなる集合$\mathsetname{U}$と回転の合成$\mathcompose$を考えると，組み合わせ$\mathtriple{\mathsetname{U}}{\mathcompose}{U(0)}$はモノイドである．
 
 \begin{point}
-集合$\mathsetname{G}$の元$x,y,z\in\mathsetname{G}$とそれらの間の二項関係$\mathbinaryop$が，
+集合$\mathsetname{M}$の元$x,y,z\in\mathsetname{M}$とそれらの間の二項関係$\mathbinaryop$が，
 \begin{align*}
-x\mathbinaryop y\istypeof\mathsetname{G}\\
+x\mathbinaryop y\istypeof\mathsetname{M}\\
 x\mathbinaryop(y\mathbinaryop z)=(x\mathbinaryop y)\mathbinaryop z&\dots\text{結合則}\\
 {}^\exists\mathidentity:\mathidentity\mathbinaryop x=x\mathbinaryop\mathidentity=x&\dots\text{単位元の存在}
 \end{align*}
-を満たしているとき，組み合わせ$\mathtriple{\mathsetname{G}}{\mathbinaryop}{\mathidentity}$をモノイドと呼ぶ．
+を満たしているとき，組み合わせ$\mathtriple{\mathsetname{M}}{\mathbinaryop}{\mathidentity}$をモノイドと呼ぶ．
 \end{point}
 
 \section{モノイドではないもの}
