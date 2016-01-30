@@ -8,6 +8,9 @@
 \def\[{[\![}
 \def\]{]\!]}
 
+\def\boxcirc{\mathrel{\mathchoice{\BOXCIRC}{\BOXCIRC}{\scriptsize\BOXCIRC}{\tiny\BOXCIRC}}}
+\def\BOXCIRC{{\setbox0\hbox{$\circ$}\rlap{\hbox to \wd0{\hss$\square$\hss}}\box0}}
+
 \newcommand{\keyword}[1]{\emph{#1}}
 \newcommand{\code}[1]{\texttt{#1}}
 \newenvironment{leader}{\begingroup\bf}{\endgroup}
@@ -52,20 +55,16 @@
 \newcommand{\mmorphwithparenthesis}[3]{#1\mapsto(#2\mapsto#3)}
 \newcommand{\mmmorph}[4]{#1\mapsto#2\mapsto#3\mapsto#4}
 
+% Parameters
+\newcommand{\anonymousparameter}{\lozenge}
+
 % Constants
 \newcommand{\constantname}[1]{\mathrm{#1}}
 \newcommand{\constanttrue}{\constantname{T}}
 \newcommand{\constantfalse}{\constantname{F}}
 \newcommand{\constantempty}{\emptyset}
 \newcommand{\constantnothing}{\varnothing}
-
-% Parameters
-\newcommand{\anonymousparameter}{\lozenge}
-
-% Identities
-\newcommand{\identity}{\mathnormal{I}}
-\newcommand{\identityfunctor}{\mathcal{I}}
-\newcommand{\identityfunction}{\anonymousparameter}
+\newcommand{\constantidentityfunction}{\anonymousparameter}
 
 % Unary ops.
 \newcommand{\unarypred}{\blacktriangleleft}
@@ -86,18 +85,18 @@
 \newcommand{\binarycompose}{\bullet}
 \newcommand{\binaryfunctormap}{\cdot}
 \newcommand{\binaryapplicativemap}{\times}
-\newcommand{\binarymonadmap}{\Leftarrow}
+\newcommand{\binarymonadmap}{\heartsuit}%{\Leftarrow}
 \newcommand{\binarylistfunctormap}{\odot}
 \newcommand{\binarylistapplicativemap}{\otimes}
-\newcommand{\binarylistmonadmap}{\hookleftarrow}
+\newcommand{\binarylistmonadmap}{\circ}%{\hookleftarrow}
 \newcommand{\binarylistappend}{\oplus}
 \newcommand{\binarymaybefunctormap}{\boxdot}
 \newcommand{\binarymaybeapplicativemap}{\boxtimes}
-\newcommand{\binarymaybemonadmap}{\leftleftarrows}
+\newcommand{\binarymaybemonadmap}{\Box}%{\leftleftarrows}
 \newcommand{\binarymaybeappend}{\boxplus}
 \newcommand{\binaryfunctionfunctormap}{\binarycompose}
-\newcommand{\binaryfunctionapplicativemap}{\bowtie}
-\newcommand{\binaryfunctionmonadmap}{\twoheadleftarrow}
+\newcommand{\binaryfunctionapplicativemap}{\Join}%{\bowtie}
+\newcommand{\binaryfunctionmonadmap}{\diamond}%{\blacktriangleright\!\blacktriangleleft}%{\twoheadleftarrow}
 \newcommand{\binaryapply}{\mathop{\$}}
 \newcommand{\binaryconcat}{:}
 
@@ -137,8 +136,9 @@
 \newcommand{\specialwordrest}{\specialwordname{Rest}}
 
 % Math
-\newcommand{\mathbinaryop}{\circ}
-\newcommand{\mathidentity}{\mathnormal{I}}
+\newcommand{\mathbinaryop}{\bigstar}
+\newcommand{\mathidentity}{\mathcal{O}}
+\newcommand{\mathidentitymorph}{\mathcal{I}}
 \newcommand{\mathsetname}[1]{\mathbb{#1}}
 \newcommand{\mathtriple}[3]{(#1,#2,#3)}
 \newcommand{\mathcompose}{\bullet}
@@ -449,7 +449,7 @@ $\keywordif$節の中身は真理値を返す関数であれば良いので，�
     &\multicolumn{2}{|c||}{$\typeclassmonoid$}\\
 \hline\hline
 型$\setminus$要素と演算子
-    &$\identity$
+    &$\mathidentity$
     &$\mathbinaryop$\\
 \hline
 $\typechar$
@@ -488,7 +488,7 @@ $\typefloat$
 
 $\mathtriple{\typeint}{+}{0}$はモノイドである．
 同様に $\mathtriple{\typeint}{*}{1}$, $\mathtriple{\typefloat}{+}{0}$, $\mathtriple{\typefloat}{*}{1}$, $\mathtriple{\typebool}{\binaryor}{\constantfalse}$, $\mathtriple{\typebool}{\binaryand}{\constanttrue}$ もモノイドである．
-そこで，任意の型$\typename{a}$について，組み合わせ$\mathtriple{\typename{a}}{\mathbinaryop}{\identity}$がモノイドである場合には$$\mathtriple{\typename{a}}{\mathbinaryop}{\identity}\isclassof\typeclassmonoid$$と書くことにする．
+そこで，任意の型$\typename{a}$について，組み合わせ$\mathtriple{\typename{a}}{\mathbinaryop}{\mathidentity}$がモノイドである場合には$$\mathtriple{\typename{a}}{\mathbinaryop}{\mathidentity}\isclassof\typeclassmonoid$$と書くことにする．
 二項演算子，単位元が自明な場合は簡略化して$$\typename{a}\isclassof\typeclassmonoid$$と書くことにする．
 
 このような型をより抽象化した型のようなものを型クラスと呼ぶ．
@@ -743,11 +743,11 @@ LISPにおけるリストとは要素$\specialwordfirst$と要素$\specialwordre
 
 モノイド
 
-$$(X,\binaryfunctormap,\identityfunctor)$$
+$$(X,\binaryfunctormap,\mathidentitymorph)$$
 
 \section{アプリカティブ関手}
 
-$$(X,\binaryfunctormap,\identityfunctor,\langle\,\rangle,\times)$$
+$$(X,\binaryfunctormap,\mathidentitymorph,\langle\,\rangle,\times)$$
 
 
 \section{関数と関手の関係}
@@ -756,7 +756,7 @@ $$(X,\binaryfunctormap,\identityfunctor,\langle\,\rangle,\times)$$
 
 \section{アプリカティブ関手の拡張}
 
-$$(X,\binaryfunctormap,\identityfunctor,\langle\,\rangle,\times,\Leftarrow)$$
+$$(X,\binaryfunctormap,\mathidentitymorph,\langle\,\rangle,\times,\Leftarrow)$$
 
 
 \section{モナド則}
@@ -787,12 +787,12 @@ $$(X,\binaryfunctormap,\identityfunctor,\langle\,\rangle,\times,\Leftarrow)$$
     &\multicolumn{2}{|c||}{ }\\
 \hline\hline
 型$\setminus$要素と演算子
-    &$\identityfunctor$
+    &$\mathidentitymorph$
     &$\binaryfunctormap$
     &$\applicativetype{x}$
     &$\binaryapplicativemap$
     &$\binarymonadmap$
-    &$\identity$
+    &$\mathidentity$
     &$\mathbinaryop$\\
 \hline
 リスト
@@ -814,12 +814,12 @@ Maybe
     &$\binarymaybeappend$\\
 \hline
 関数
-    &$\identityfunction$
+    &$\constantidentityfunction$
     &$\binaryfunctionfunctormap$
     &$\functyontype{x}$
     &$\binaryfunctionapplicativemap$
     &$\binaryfunctionmonadmap$
-    &$\identityfunction$
+    &$\constantidentityfunction$
     &$\binarycompose$\\
 \hline
 Int（参考）
@@ -945,7 +945,7 @@ Int（参考）
 % Special keywords
 \newcommand{\specialkeyword}[1]{\textsf{#1}}
 \newcommand{\firstelem}{\specialkeyword{First}}
-\newcommand{\identity}{\specialkeyword{id}}
+\newcommand{\mathidentity}{\specialkeyword{id}}
 \newcommand{\nothing}{\specialkeyword{Nothing}}
 \newcommand{\restelems}{\specialkeyword{Rest}}
 
@@ -1147,7 +1147,7 @@ f\comp g&::\function{\typename{b}}
 \section{関手が従う規則}
 
 \begin{align}
-\mapfunc^\identity&=\identity\\
+\mapfunc^\mathidentity&=\mathidentity\\
 \mapfunc^{\functor{f}\comp\functor{g}}&\equiv\mapfunc^{\functor{f}}\comp\mapfunc^{\functor{g}}
 \end{align}
 
@@ -1286,11 +1286,11 @@ Memo.
 \begin{align*}
 \monadjoin\monad{\monad{x}}&\defeq\monad{x}\\
 \mapfunc^f\monad{x}&=\monad{x}\bind(\unit\comp f)\\
-\monadjoin\monad{x}&=\monad{x}\bind\identity\\
+\monadjoin\monad{x}&=\monad{x}\bind\mathidentity\\
 \monad{x}\bind f&\defeq\monadjoin\mapfunc^f\monad{x}\\
 \unit\comp f&\defeq\mapfunc^f\comp\unit\\
 \monadjoin\comp\mapfunc^\monadjoin&\defeq\monadjoin\comp\monadjoin\\
-\monadjoin\comp\mapfunc^\unit&\defeq\monadjoin\comp\unit=\identity\\
+\monadjoin\comp\mapfunc^\unit&\defeq\monadjoin\comp\unit=\mathidentity\\
 \monadjoin\comp\mapfunc^{\mapfunc^f}&\defeq\mapfunc^f\comp\monadjoin
 \end{align*}
 
