@@ -9,8 +9,10 @@
 \def\]{]\!]}
 
 \newcommand{\keyword}[1]{\emph{#1}}
-\newenvironment{leader}{\begingroup\gt}{\endgroup}
+\newcommand{\code}[1]{\texttt{#1}}
+\newenvironment{leader}{\begingroup\bf}{\endgroup}
 \newenvironment{point}{\begin{screen}}{\end{screen}}
+\newenvironment{footnotecode}{\begin{verbatim}}{\end{verbatim}}
 
 % Lambda
 \newcommand{\lambdasym}{\backslash}
@@ -35,7 +37,7 @@
 
 % Types
 \newcommand{\typename}[1]{\mathbf{#1}}
-\newcommand{\typeconstructor}[2]{\mathop{#1}#2}
+\newcommand{\typeconstructor}[2]{\mathop{#1}\,#2}
 \newcommand{\typebool}{\typename{Bool}}
 \newcommand{\typechar}{\typename{Char}}
 \newcommand{\typefunction}{\typename{Function}}
@@ -187,7 +189,8 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 演算子$\binaryadd$は演算の順序によらず結果が同じである．
 いま三つの整数$$x,y,z\istypeof\mathsetname{Z}$$があるとき$$x+(y+z)=(x+y)+z$$であるが，このように右を先に計算しても左を先に計算しても結果が変わらないことを\keyword{結合性}と呼ぶ．
 また，結合性があることを求める規則を\keyword{結合則}と呼ぶ．
-整数の足し算は結合則に従う．\footnote{足し算にはもう一つ$x+y=y+x$という性質があり，これを可換性と呼ぶが，今は考えなくて良い．}
+整数の足し算は結合則に従う．
+足し算にはもう一つ$x+y=y+x$という性質があり，これを可換性と呼ぶが，今は考えなくて良い．
 
 整数の足し算にはもう一つの際立った特徴がある．
 それは$0,x\istypeof\mathsetname{Z}$のとき$$0+x=x+0=x$$であるような$$0\istypeof\mathsetname{Z}$$が存在することだ．
@@ -279,7 +282,7 @@ x\mathbinaryop(y\mathbinaryop z)=(x\mathbinaryop y)\mathbinaryop z&\dots\text{�
 
 複数引数をとる関数を我々はよく$f'(x,y)$と書くが，これも括弧が冗長なので今後は$f'xy$と書くことにする．
 この場合式$f'xy$は左を優先して結合するものとする．つまり$$f'xy=(f'x)y$$である．
-引数に「飢えた」関数$(fx)$を\keyword{部分適用}された関数と呼ぶ．
+引数に「飢えた」関数$(fx)$を\keyword{部分適用}された関数と呼ぶ．\footnote{Haskellでは関数\code{f}に引数\code{x}を適用させることを \code{f x} と書く．}
 
 このように式の左側を優先的に演算していくことを\keyword{左結合}と呼ぶ．
 関数適用は左結合である．
@@ -288,14 +291,14 @@ x\mathbinaryop(y\mathbinaryop z)=(x\mathbinaryop y)\mathbinaryop z&\dots\text{�
 \section{演算子}
 
 単項演算子には論理否定($\neg$)とマイナス($-$)がある．
-本書で扱う単項演算子はこの2種類だけである．
+本書で扱う基本的な単項演算子はこの2種類だけであるが，複数の演算子を組み合わせて単項演算子を新たに作ることはある．
 
 二項演算子のうちよく使われるものは和($\binaryadd$)，積($\binarymultiply$)，差(${}\binarysub{}$)，商（${}\binarydivide{}$），論理和($\binaryor$)，論理積($\binaryand$)，同値($\binaryeq$)，大なり($\binaryg$)，小なり($\binaryl$)等である．
 二項演算子はたとえ積記号であっても省略できない．
 二項演算子は多数あるので，その都度説明する．
 
 二項演算子は中置することが基本であるが，括弧で包むことで前置することも可能である．
-任意の二項演算子$\mathbinaryop$について$$x\mathbinaryop y$$及び$$(\mathbinaryop)xy$$は全く同じ意味である．
+任意の二項演算子$\mathbinaryop$について$$x\mathbinaryop y$$及び$$(\mathbinaryop)xy$$は全く同じ意味である．\footnote{Haskellでは任意の二項演算子を括弧で包むことで前置演算子として使うことができる．例えば\code{x+y}と \code{(+)x y} は同じ結果を返す．逆に任意の二引数関数\code{f}は \code{x `f` y} と書くことで中置することができる．}
 
 二項演算子の結合性，すなわち左結合か右結合かは，演算子によって異なる．
 
@@ -309,7 +312,7 @@ x\mathbinaryop(y\mathbinaryop z)=(x\mathbinaryop y)\mathbinaryop z&\dots\text{�
 引数$x$をとり値$1+x$を返す\keyword{ラムダ式}は次のように書くことにする．
 $$\lambdaexp{x}{1+x}$$
 この式はラムダ式を発明したチャーチのオリジナルの論文の記法であれば$\Hat x\,.\,1+x$と書かれたところであり，現在でも多くの書物で$\lambda x\,.\,1+x$と記述されるところである．
-しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号($.$)が今後登場する二項演算子$\cdot$と紛らわしいため，上述の記法を用いる．
+しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号($.$)が今後登場する二項演算子$\cdot$と紛らわしいため，上述の記法を用いる．\footnote{Haskellではこのラムダ式を \code{\textbackslash x->1+x} と書く．}
 
 ラムダ式は関数である．
 ラムダ式を適用するには，ラムダ式を括弧で包む必要がある．
@@ -324,12 +327,17 @@ $$\left(\lambdaexp{x}{1+x}\right)2$$
 記号$\lambdacut$の部分には引数が入る．
 第$n$番目の$\lambdacut$には第$n$番目の引数が入る．
 例えばラムダ式$\lambdaexp{xy}{x+y}$は$$\lambdacut+\lambdacut$$と書いても良い．
-式を左から読んで1番目の$\lambdacut$が元々の$x$すなわち第1引数を，2番目の$\lambdacut$が元々の$y$すなわち第2引数を意味する．\footnote{この省略記法はプログラミング言語Schemeにおけるcutプロシジャに由来する．}
+式を左から読んで1番目の$\lambdacut$が元々の$x$すなわち第1引数を，2番目の$\lambdacut$が元々の$y$すなわち第2引数を意味する．この省略記法はプログラミング言語Schemeにおけるcutプロシジャに由来する．\footnote{この記法はHaskellにはない．}
 
 \chapter{関数}
 
 \begin{leader}
-関数はプログラムのビルディングブロックである．
+プログラムはひとつの関数であり，その関数はいくつかの部分的な関数から合成される．
+つまり，関数はプログラムの全体であり，またビルディングブロックである．
+プログラムという関数をより小さな関数の合成で作るのは，それらの小さな関数が他のプログラムに再利用されることを期待するためである．
+このように関数と関数の合成はプログラミングの中心的な概念である．
+% プログラミング言語Cは，プログラムが関数だけからでも構成できることを示した．
+% Pascalの「手続き」はCでは値を返さない関数であり，Pascalの「本文」はmainという名前の関数である．
 \end{leader}
 
 
@@ -338,17 +346,23 @@ $$\left(\lambdaexp{x}{1+x}\right)2$$
 ラムダ式を用いた\keyword{関数}の定義が可能である．
 例えば引数$x$をとり値$1+x$を返す関数$f$は$$f=\lambdaexp{x}{1+x}$$と定義できる．
 この省略形として$$fx=1+x$$と書いても良いし，さらに省略して$$f=(+)1$$と書いても良い．
-もちろん$f=+1$でないことに注意しよう．
+もちろん$f=+1$でないことに注意しよう．\footnote{Haskellでは$f=\lambdaexp{x}{1+x}$を\code{f=\textbackslash x->1+x}，$fx=1+x$を\code{f x = 1+x}，$f=(+)1$を\code{f=(+)1}のように書く．}
 
 関数に\keyword{スペシャルバージョン}がある場合はそれらを列挙する．
 例えば引数が$0$の場合は特別に戻り値も$0$であり，その他の場合は関数$f$と同じ振る舞いをする関数$f'$を考える．
-このとき$f'$は次のように定義することになる．
+このとき$f'$は
 \begin{equation*}
 \begin{split}
 f'0&=0\\
 f'x&=1+x
 \end{split}
 \end{equation*}
+ように定義することになる．\footnote{Haskellでは
+\begin{verbatim}
+f' 0 = 0
+f' x = 1+x
+\end{verbatim}
+と書く．}
 
 関数定義に\keyword{場合分け}が必要な場合は「ガード」を用いる．
 例えば引数の値が負の場合は$-1$を，$0$の場合は$0$を，それ以外の場合は関数$f$と同じ振る舞いをする関数$f''$は
@@ -359,28 +373,39 @@ f''x&\guard{x\binaryl0}=-1\\
 &\guard{\keywordotherwise}=1+x
 \end{split}
 \end{equation*}
-という風に定義することにする．
+という風に定義することにする．\footnote{Haskellでは
+\begin{verbatim}
+f'' x | x<0       = -1
+      | x==0      = 0
+      | otherwise = 1+x
+\end{verbatim}
+と書く．}
 
 \section{関数の合成}
 
 関数は\keyword{合成}できる．関数$f$と関数$g$があって，その合成を$f\binarycompose g$と書くとき$$(f\binarycompose g)x=f(gx)$$である．
 関数合成の演算子$\binarycompose$は関数適用よりも優先順位が高く，$(f\binarycompose g)x$は単に$f\binarycompose g\,x$と書いても良い．
-この記法は括弧の数を減らすためにしばしば用いられる．
+この記法は括弧の数を減らすためにしばしば用いられる．\footnote{Haskellでは関数\code{f}と関数\code{g}の合成は\code{f.g}である．}
 
 関数合成演算子とは逆に，優先順位の低い関数適用演算子も考えておくと括弧の数を減らすのに便利である．
 関数適用演算子$\binaryapply$を次のように定義しておく．
 $$f\binaryapply gx=f(gx)$$
 演算子$\binaryapply$の優先順位は足し算演算子よりも低いものとする．
-よって$f(x+1)$は$f\binaryapply x+1$と書くこともできる．
+よって$f(x+1)$は$f\binaryapply x+1$と書くこともできる．\footnote{Haskellでは$f\binaryapply gx$を\code{f \$ g x}と書く．}
 
 \section{条件式}
 
 \keyword{条件式}とは場合分けを関数定義の右辺に書けるようにしたもので，
-$$fx=\keywordif x\binaryeq0\keywordthen0\keywordelse 1+x$$
+$$fx=\keywordif x\binaryeq0\keywordthen0\keywordelse1+x$$
 のように$\keywordif$節，$\keywordthen$節，及び$\keywordelse$節からなるものである．
-$\keywordif$節の中身は真理値を返す関数であれば良いので，関数$p$を$$p=(\equiv)0$$としておき，$$fx=\keywordif px\keywordthen0\keywordelse 1+x$$と書く方法もしばしば用いられる．
+$\keywordif$節の中身は真理値を返す関数であれば良いので，関数$p$を$$p=(\equiv)0$$としておき，$$fx=\keywordif px\keywordthen0\keywordelse 1+x$$と書く方法もしばしば用いられる．\footnote{Haskellでは$fx=\keywordif x\binaryeq0\keywordthen0\keywordelse1+x$を\code{f x = if x == 0 then 0 else 1+x}と書く．}
 
 \chapter{型と型クラス}
+
+\begin{leader}
+プログラマのいう型とは，数学者のいう代数構造のことである．
+\end{leader}
+
 
 \section{型}
 
@@ -403,7 +428,7 @@ $\keywordif$節の中身は真理値を返す関数であれば良いので，�
 文字といってもその中身は整数である．
 整数ではあるが，わざわざ別な型とするのには理由がある．
 歴史的には文字は小さな整数として表現されることが多かったため，また計算機のメモリが高価であったため，文字を扱うための専用の型はもっぱらメモリの節約のために存在した．
-現在では，文字が数値にエンコードされる方式がより複雑になってきたために，文字を通常の数値と区別するために特別な型が容易さてれいるのである．
+現在では，文字が数値にエンコードされる方式がより複雑になってきたために，文字を通常の数値と区別するために特別な型が用意さてれいるのである．
 
 
 \section{関数の型}
@@ -589,12 +614,20 @@ $\typefloat$
 
 \chapter{コンテナ}
 
+\begin{leader}
+型から作る型をコンテナと呼ぶ．
+代表的なコンテナはある型のホモジニアスな配列であるリストである．
+この章ではリストと，リストに対する重要な演算である畳み込み，マップを取り扱う．
+\end{leader}
+
+
 \section{リスト}
 
-同じ型の値を一列に並べたものはリストである．
+同じ型の値を一列に並べたもの，つまりホモジニアスな配列のことを\keyword{リスト}と呼ぶ．
 例えば$0$から始まり$9$まで続く整数のリストは$\listtype{0,1,2,3,4,5,6,7,8,9}$と書く．
 等差数列に限って，簡略化した書き方が許される．
 $0$から$9$までのリストは$\listtype{0,1\rangedots9}$と書いても良い．
+複数の型の要素が混在してもよい配列のことをヘテロジニアスな配列と呼び，ホモジニアスな配列とは区別する．
 
 より高度なリスト，例えば$0$から$9$までの平方数のリストは$$\listtype{x^2\guard{x\isin\listtype{0,1\rangedots9}}}$$のようにガードを用いて書く．
 ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\isin$を用いた．
@@ -602,15 +635,17 @@ $0$から$9$までのリストは$\listtype{0,1\rangedots9}$と書いても良�
 ガードの中の式は複数あっても良い．
 例えば$$\listtype{x+y\guard{x\isin\listtype{0,1\rangedots9}\guardcomma y\isin\listtype{0,1\rangedots5}\guardcomma x+y\binaryg3}}$$は$0\le x\le 10$かつ$0\le y\le 5$の範囲で$x+y>3$となる$x$及び$y$から$x+y$を並べたリストである．
 
-リストは結合できる．例えばリスト$l$とリスト$m$を結合したリストは$$l\binarylistappend m$$で得られる．
+リストは\keyword{結合}できる．例えばリスト$l$とリスト$m$を結合したリストは$$l\binarylistappend m$$で得られる．
 
 リストは無限個の要素を持っても良い．
 例えば自然数全体を表すリスト$n$は$$n=[1,2\infinitydots]$$のように定義して良い．
 
-空リストは$\constantempty$で表す．
+\keyword{空リスト}は$\constantempty$で表す．
 
-型$\typename{a}$のリストの型は$\listtype{\typename{a}}$で表す．
-ある型を包み込んだ別の型を一般にコンテナ型と呼ぶ．
+任意の型を$\typename{a}$とするとき，$\typename{a}$型のリストを$\typeconstructor{\typelist}{\typename{a}}$と書く．
+$\typelist$のように型名$\typename{a}$を修飾するものを\keyword{型コンストラクタ}と呼ぶ．
+
+ある型を包み込んだ別の型を一般に\keyword{コンテナ型}または単に\keyword{コンテナ}と呼ぶ．
 
 \section{畳み込み}
 
@@ -618,7 +653,7 @@ $0$から$9$までのリストは$\listtype{0,1\rangedots9}$と書いても良�
 リスト$\listtype{x_0,x_1\rangedots x_n}$の総和を$$\sum\listtype{x_0,x_1\rangedots x_n}=x_0+x_1+\dotsb+x_n$$とするようなシグマ記号である．
 この表現を一般化してみよう．
 リスト$\listtype{x_0,x_1\rangedots x_n}$が与えられたとき，$$\mathfold^\mathbinaryop_a\listtype{x_0,x_1\rangedots x_n}=a\mathbinaryop x_0\mathbinaryop x_1\mathbinaryop\dotsb\mathbinaryop x_n$$であると定義する．
-この新しい記号$\mathfold$は畳み込み演算子と呼ばれる．
+この新しい記号$\mathfold$は\keyword{畳み込み演算子}と呼ばれる．
 変数$a$はアキュムレータと呼ぶ．
 アキュムレータは右側の引数が空であった場合のデフォルト値と考えても良い．
 
@@ -632,6 +667,14 @@ $0$から$9$までのリストは$\listtype{0,1\rangedots9}$と書いても良�
 $$\mathfoldright^\mathbinaryop_a\listtype{x_0,x_1\rangedots x_n}=\left(x_0\mathbinaryop\left(x_1\mathbinaryop\dotsb\mathbinaryop\left(x_n\mathbinaryop a\right)\right)\right)$$
 これは右畳み込みと呼ばれる演算子である．
 
+% concat
+
+畳み込み演算子の面白い応用例を示そう．
+$$\mathfold_\constantempty^\binarylistappend\listtype{\listtype{0,1,2},\listtype{3,4,5},\infinitydots}=\listtype{0,1,2,3,4,5,\infinitydots}$$
+であるから，演算子$$\mathfold_\constantempty^\binarylistappend$$はリストを平坦化する\keyword{平坦化演算子}である．
+平坦化演算子はconcat演算子とも呼ばれることもあるが，基本的な演算子であるため特別な記号をつけておこう．
+我々は$$\dagger=\mathfold_\constantempty^\binarylistappend$$と定義することにする．
+
 \section{マップ}
 
 リストの各要素に決まった関数を適用したい場合がある．
@@ -643,6 +686,10 @@ $$\mathfoldright^\mathbinaryop_a\listtype{x_0,x_1\rangedots x_n}=\left(x_0\mathb
 
 \chapter{コンテナの高度な話題}
 
+\begin{leader}
+a
+\end{leader}
+
 
 \section{Maybe}
 
@@ -653,15 +700,15 @@ $$\mathfoldright^\mathbinaryop_a\listtype{x_0,x_1\rangedots x_n}=\left(x_0\mathb
 ここで変数$\maybetype{x}$が取り得る値は正しく計算された値$x$か，あるいはエラーを表す値$\constantnothing$である．
 
 この変数$\maybetype{x}$はもはや整数型とは言えない．
-そこでこの$\maybetype{x}$の型を$\maybetype{\typeint}$と表して「きっと整数」型と呼ぶことにしよう．
-英語では ``maybe integer'' と呼ぶ．
+そこでこの$\maybetype{x}$の型を$\typeconstructor{\typemaybe}{\typeint}$と表して「きっと整数」型と呼ぶことにしよう．
+ここに$\typemaybe$は型コンストラクタのひとつである．
 
 変数$x$が一度$0$除算の危険性に汚染された場合，その後ずっと$\maybetype{x}$と印をつけられなければならない．
 このきっと整数$\maybetype{x}$に対して整数を引数にとる関数$f$を適用させるには，何らかの関数マップ演算子が必要である．
 そこできっと整数の中身に直接関数を適用する演算子を$\binarymaybefunctormap$としよう．
-具体的には$$f\binarymaybefunctormap\maybetype{x}$$のようにして関数$f$を変数$\maybetype{x}$に適用させる．
-その結果はまた$\maybetype{\typeint}$型である．
-従って，結果を受け取る変数も$\maybetype{\typeint}$でなければならず，それを忘れないように印を付けておかねばならない．
+具体的には$$f\binarymaybefunctormap\maybetype{x}=\maybetype{fx}$$のように関数$f$を変数$\maybetype{x}$に適用させる．
+その結果はまた$\typeconstructor{\typemaybe}{\typeint}$型である．
+従って，結果を受け取る変数も$\typeconstructor{\typemaybe}{\typeint}$型でなければならず，それを忘れないように印を付けておかねばならない．
 例えば$$\maybetype{y}=f\binarymaybefunctormap\maybetype{x}$$のように書くことになるであろう．
 
 
@@ -676,10 +723,11 @@ LISPにおけるリストとは要素$\specialwordfirst$と要素$\specialwordre
 要素$\specialwordfirst$がリストの要素を持ち，要素$\specialwordrest$が次のペアを参照する．
 リストの最後のペアの$\specialwordrest$は空リストを参照する．
 
-これらのペアはタプルで実装したいところだが，参照，逆参照の煩雑さを避けるために，リストのための特別な表現$$\specialwordfirst\binaryconcat\specialwordrest$$を用い，第2要素である$\specialwordrest$はリスト型であるとする．
-演算子$\binaryconcat$は結合演算子と呼ぶ．
+% これらのペアはタプルで実装したいところだが，参照，逆参照の煩雑さを避けるために，
+リストのための特別な表現$$\specialwordfirst\binaryconcat\specialwordrest$$を用い，第1要素$\specialwordfirst$はリストが保持する型，第2要素$\specialwordrest$はリスト型であるとする．
+演算子$\binaryconcat$を\keyword{結合演算子}と呼ぶ．
 
-要素$\specialwordrest$はリスト（または空リスト）であるから，一般にリストは次のように展開できることになる．
+要素$\specialwordrest$はリストまたは空リストであるから，一般にリストは次のように展開できることになる．
 \begin{align*}
 \listtype{x_0,x_1,x_2\rangedots x_n}&=x_0\binaryconcat\listtype{x_1,x_2\rangedots x_n}\\
 &=x_0\binaryconcat x_1\binaryconcat\listtype{x_2\rangedots x_n}\\
@@ -693,13 +741,23 @@ LISPにおけるリストとは要素$\specialwordfirst$と要素$\specialwordre
 
 \section{関手}
 
+モノイド
+
+$$(X,\binaryfunctormap,\identityfunctor)$$
+
 \section{アプリカティブ関手}
+
+$$(X,\binaryfunctormap,\identityfunctor,\langle\,\rangle,\times)$$
+
 
 \section{関数と関手の関係}
 
 \chapter{モナド}
 
 \section{アプリカティブ関手の拡張}
+
+$$(X,\binaryfunctormap,\identityfunctor,\langle\,\rangle,\times,\Leftarrow)$$
+
 
 \section{モナド則}
 
@@ -781,7 +839,22 @@ Int（参考）
 
 \chapter{IO}
 
+\chapter{例外}
+
 \chapter{状態}
+
+\chapter{非決定性}
+
+\chapter{継続}
+
+\chapter{W}
+
+\chapter{X}
+
+\chapter{Y}
+
+\chapter{Z}
+
 
 \part{圏とモナド}
 
