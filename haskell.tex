@@ -145,6 +145,7 @@
 \newcommand{\mathcompose}{\bullet}
 \newcommand{\mathfold}{\bigcup}
 \newcommand{\mathfoldright}{\bigsqcup}
+\newcommand{\mathwhere}{\mathop{\text{where}}}
 
 \begin{document}
 \maketitle
@@ -187,6 +188,8 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 いま「演算子」を「作用」させたのだが，これはそれぞれ英語の ``operator'' と ``operate'' の訳である．
 数学者や物理学者は演算子のことを\keyword{作用素}と呼ぶ場合もあるが，意味は同じである．
 
+% 演算子$+$は集合$\mathsetname{Z}$の元を集合$\mathsetname{Z}$の元へと変換することから，集合$\mathsetname{Z}$の元を集合$\mathsetname{Z}$の元への\keyword{変換全体の集合}を$\mathsetname{Z}\mapsto\mathsetname{Z}$と書いて$$+\istypeof\mathsetname{Z}\mapsto\mathsetname{Z}$$と表現する．
+
 演算子$\binaryadd$は演算の順序によらず結果が同じである．
 いま三つの整数$$x,y,z\istypeof\mathsetname{Z}$$があるとき$$x+(y+z)=(x+y)+z$$であるが，このように右を先に計算しても左を先に計算しても結果が変わらないことを\keyword{結合性}と呼ぶ．
 また，結合性があることを求める規則を\keyword{結合則}と呼ぶ．
@@ -203,7 +206,7 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 \begin{align}
 x\mathbinaryop y\istypeof\mathsetname{M}\\
 x\mathbinaryop(y\mathbinaryop z)=(x\mathbinaryop y)\mathbinaryop z&\dots\text{結合則}\\
-{}^\exists\mathidentity:\mathidentity\mathbinaryop x=x\mathbinaryop\mathidentity=x&\dots\text{単位元の存在}
+{}^\exists\mathidentity\mathwhere\mathidentity\mathbinaryop x=x\mathbinaryop\mathidentity=x&\dots\text{単位元の存在}
 \end{align}
 を満たしているとき，組み合わせ$\mathtriple{\mathsetname{M}}{\mathbinaryop}{\mathidentity}$を\keyword{モノイド}と呼ぶ．
 
@@ -234,7 +237,7 @@ U(\theta_1)\bullet U(\theta_2)=U(\theta_1+\theta_2)
 \begin{align*}
 x\mathbinaryop y\istypeof\mathsetname{M}\\
 x\mathbinaryop(y\mathbinaryop z)=(x\mathbinaryop y)\mathbinaryop z&\dots\text{結合則}\\
-{}^\exists\mathidentity:\mathidentity\mathbinaryop x=x\mathbinaryop\mathidentity=x&\dots\text{単位元の存在}
+{}^\exists\mathidentity\mathwhere\mathidentity\mathbinaryop x=x\mathbinaryop\mathidentity=x&\dots\text{単位元の存在}
 \end{align*}
 を満たしているとき，組み合わせ$\mathtriple{\mathsetname{M}}{\mathbinaryop}{\mathidentity}$をモノイドと呼ぶ．
 \end{point}
@@ -247,6 +250,15 @@ x\mathbinaryop(y\mathbinaryop z)=(x\mathbinaryop y)\mathbinaryop z&\dots\text{�
 そこで，今度は逆にモノイドでないものを考えてみよう．
 例えば三次元ベクトルのベクトル積はどうだろうか．
 三次元ベクトルのベクトル積は結合則が成り立たず，また単位元もないため，三次元ベクトル全体の集合とベクトル積はモノイドになることができない．
+
+% * * *
+
+前節では二次元の回転変換がモノイドであることを示した．
+回転変換，すなわち回転の演算子と，回転される方のベクトルはそれぞれ異なる集合に属している．
+すべての回転変換の集合を$\mathsetname{U}$，すべてのベクトルの集合を$\mathsetname{V}$とすると$$\mathsetname{U}\istypeof\mathsetname{V}\mapsto\mathsetname{V}$$となる．
+
+
+% 圏論
 
 \section{群}
 前述のモノイドにもう一つ規則を加えたものが群である．
@@ -748,6 +760,10 @@ LISPにおけるリストとは要素$\specialwordfirst$と要素$\specialwordre
 
 \section{関手}
 
+$$F:\mathsetname{X}\mapsto\mathsetname{X}$$
+
+---
+
 ある集合$\mathsetname{S}$と，その集合の元に対して定義される変換$f$全体の集合$\mathsetname{F}_{\mathsetname{S}}$との組み合わせ$(\mathsetname{S},\mathsetname{F}_{\mathsetname{S}})$を\keyword{圏}と呼ぶ．
 例えばリストは$(\typeconstructor{\typelist}{\typename{a}},\binarylistfunctormap)$という圏であるし，Maybeは$(\typeconstructor{\typemaybe}{\typename{a}},\binarymaybefunctormap)$という圏である．
 
@@ -803,28 +819,27 @@ $$(X,\binaryfunctormap,\mathidentitymorph,\langle\,\rangle,\times,\Leftarrow)$$
 
 \begin{table*}
 \begin{center}
-\begin{tabular}{||c||c|c|c|c|c|c|c||}
+\begin{tabular}{||c||c|c|c|c|c|c||}
 \hline
 \multirow{4}{*}{型クラス}
-    &\multicolumn{7}{|c||}{$\typeclassmonadplus$}\\
-\cline{2-8}
+    &\multicolumn{6}{|c||}{$\typeclassmonadplus$}\\
+\cline{2-7}
 \multirow{3}{*}{}
-    &\multicolumn{5}{|c|}{$\typeclassmonad$}
+    &\multicolumn{4}{|c|}{$\typeclassmonad$}
     &\multicolumn{2}{|c||}{$\typeclassmonoid$}\\
-\cline{2-5}
+\cline{2-4}
 \multirow{2}{*}{}
-    &\multicolumn{4}{|c|}{$\typeclassapplicative$}
+    &\multicolumn{3}{|c|}{$\typeclassapplicative$}
     &
     &\multicolumn{2}{|c||}{ }\\
-\cline{2-3}
+\cline{2-2}
 { }
-    &\multicolumn{2}{|c|}{$\typeclassfunctor$}
+    &\multicolumn{1}{|c|}{$\typeclassfunctor$}
     &\multicolumn{2}{|c|}{ }
     &
     &\multicolumn{2}{|c||}{ }\\
 \hline\hline
 型$\setminus$要素と演算子
-    &$\mathidentity$
     &$\binaryfunctormap$
     &$\applicativetype{x}$
     &$\binaryapplicativemap$
@@ -833,7 +848,6 @@ $$(X,\binaryfunctormap,\mathidentitymorph,\langle\,\rangle,\times,\Leftarrow)$$
     &$\mathbinaryop$\\
 \hline
 リスト
-    &$\constantempty$
     &$\binarylistfunctormap$
     &$\listtype{x}$
     &$\binarylistapplicativemap$
@@ -842,7 +856,6 @@ $$(X,\binaryfunctormap,\mathidentitymorph,\langle\,\rangle,\times,\Leftarrow)$$
     &$\binarylistappend$\\
 \hline
 Maybe
-    &$\constantnothing$
     &$\binarymaybefunctormap$
     &$\maybetype{x}$
     &$\binarymaybeapplicativemap$
@@ -851,16 +864,14 @@ Maybe
     &$\binarymaybeappend$\\
 \hline
 関数
-    &$\constantidentityfunction$
     &$\binaryfunctionfunctormap$
     &$\functyontype{x}$
     &$\binaryfunctionapplicativemap$
     &$\binaryfunctionmonadmap$
-    &
-    &\\
+    &$\anonymousparameter$
+    &$\binarycompose$\\
 \hline
 Int（参考）
-    &
     &
     &
     &
@@ -878,13 +889,13 @@ Int（参考）
 
 \chapter{例外}
 
+\chapter{乱数}
+
 \chapter{状態}
 
 \chapter{非決定性}
 
 \chapter{継続}
-
-\chapter{W}
 
 \chapter{X}
 
