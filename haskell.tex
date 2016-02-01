@@ -139,7 +139,8 @@
 \newcommand{\mathbinaryop}{\bigstar}
 \newcommand{\mathidentity}{\mathcal{O}}
 \newcommand{\mathidentitymorph}{\mathcal{I}}
-\newcommand{\mathsetname}[1]{\mathbb{#1}}
+\newcommand{\mathsetname}[1]{\boldsymbol{#1}}
+\newcommand{\mathfunctorname}[1]{\mathbb{#1}}
 \newcommand{\mathtriple}[3]{(#1,#2,#3)}
 \newcommand{\mathcompose}{\bullet}
 \newcommand{\mathfold}{\bigcup}
@@ -711,8 +712,14 @@ a
 従って，結果を受け取る変数も$\typeconstructor{\typemaybe}{\typeint}$型でなければならず，それを忘れないように印を付けておかねばならない．
 例えば$$\maybetype{y}=f\binarymaybefunctormap\maybetype{x}$$のように書くことになるであろう．
 
+$$(\typeconstructor{\typemaybe}{\typename{a}},\binarymaybeappend,\constantnothing)$$
+% \boxplus == \boxdot???
 
-\section{コンテナの型クラスと種}
+\section{モノイドとしてのコンテナ}
+
+$$(\typeconstructor{\typelist}{\typename{a}},\binarylistappend,\constantempty)$$
+
+% \section{コンテナの型クラスと種}
 
 \section{リストの実装}
 
@@ -741,11 +748,41 @@ LISPにおけるリストとは要素$\specialwordfirst$と要素$\specialwordre
 
 \section{関手}
 
-モノイド
+ある集合$\mathsetname{S}$と，その集合の元に対して定義される変換$f$全体の集合$\mathsetname{F}_{\mathsetname{S}}$との組み合わせ$(\mathsetname{S},\mathsetname{F}_{\mathsetname{S}})$を\keyword{圏}と呼ぶ．
+例えばリストは$(\typeconstructor{\typelist}{\typename{a}},\binarylistfunctormap)$という圏であるし，Maybeは$(\typeconstructor{\typemaybe}{\typename{a}},\binarymaybefunctormap)$という圏である．
+
+これらの圏はもともと$(\typename{a},\mathbinaryop)$という圏から変換して得られたものと考えることもできる．
+つまり，
+\begin{align*}
+\typelist&=(\typename{a},\mathbinaryop)\mapsto(\typeconstructor{\typelist}{\typename{a}},\binarylistfunctormap)\\
+\typemaybe&=(\typename{a},\mathbinaryop)\mapsto(\typeconstructor{\typemaybe}{\typename{a}},\binarymaybefunctormap)
+\end{align*}
+であると考えることができる．
+このような圏から圏への変換を\keyword{関手}と呼ぶ．
+
+一般に$$\mathfunctorname{F}=(\mathsetname{a},\mathbinaryop)\mapsto(\typeconstructor{\mathfunctorname{F}}{\typename{a}},\binaryfunctormap)$$
+
+
+---
+
+モノイド$(\mathsetname{M}_1,\mathbinaryop_1,\mathidentity_1)$と$(\mathsetname{M}_2,\mathbinaryop_2,\mathidentity_2)$があるとき，前者から後者への変換$\mathfunctorname{F}$を$$\mathfunctorname{F}=(\mathsetname{M}_1,\mathbinaryop_1,\mathidentity_1)\mapsto (\mathsetname{M}_2,\mathbinaryop_2,\mathidentity_2)$$と書き，変換$\mathfunctorname{F}$を\keyword{関手}と言う．
+
+例えば$\typename{a}$型から$\typeconstructor{\typelist}{\typename{a}}$型を作る型コンストラクタ$\typelist$は関手である．
+この場合は$$\typelist=(\typename{a},+,0)\mapsto(\typeconstructor{\typelist}{\typename{a}},\binarylistfunctormap,\constantempty)$$という関係になる．
+
+また$\typename{a}$型から$\typeconstructor{\typemaybe}{\typename{a}}$型を作る型コンストラクタ$\typemaybe$も関手である．
+この場合は$$\typemaybe=(\typename{a},+,0)\mapsto(\typeconstructor{\typemaybe}{\typename{a}},\binarymaybeappend,\constantnothing)$$という関係になる．
+
+
+モノイドからモノイドへの変換，モノイド内での二項演算子なども含めて，変換するものを全て\keyword{射}と呼ぶ．
+関手は射のひとつである．
+
 
 $$(X,\binaryfunctormap,\mathidentitymorph)$$
 
 \section{アプリカティブ関手}
+
+
 
 $$(X,\binaryfunctormap,\mathidentitymorph,\langle\,\rangle,\times)$$
 
@@ -787,7 +824,7 @@ $$(X,\binaryfunctormap,\mathidentitymorph,\langle\,\rangle,\times,\Leftarrow)$$
     &\multicolumn{2}{|c||}{ }\\
 \hline\hline
 型$\setminus$要素と演算子
-    &$\mathidentitymorph$
+    &$\mathidentity$
     &$\binaryfunctormap$
     &$\applicativetype{x}$
     &$\binaryapplicativemap$
@@ -819,8 +856,8 @@ Maybe
     &$\functyontype{x}$
     &$\binaryfunctionapplicativemap$
     &$\binaryfunctionmonadmap$
-    &$\constantidentityfunction$
-    &$\binarycompose$\\
+    &
+    &\\
 \hline
 Int（参考）
     &
