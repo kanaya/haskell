@@ -760,7 +760,13 @@ LISPにおけるリストとは要素$\specialwordfirst$と要素$\specialwordre
 
 \section{関手}
 
-$$F:\mathsetname{X}\mapsto\mathsetname{X}$$
+$$F\istypeof\mathsetname{X}\mapsto\mathsetname{X}$$
+
+\begin{align}
+\mathidentitymorph\binaryfunctormap&=\mathidentitymorph\\
+(f\binarycompose g)\binaryfunctormap&=(f\binaryfunctormap)\binarycompose(g\binaryfunctormap)
+\end{align}
+
 
 ---
 
@@ -794,13 +800,12 @@ $$F:\mathsetname{X}\mapsto\mathsetname{X}$$
 関手は射のひとつである．
 
 
-$$(X,\binaryfunctormap,\mathidentitymorph)$$
 
 \section{アプリカティブ関手}
 
 
 
-$$(X,\binaryfunctormap,\mathidentitymorph,\langle\,\rangle,\times)$$
+$$(X,\langle\,\rangle,\binaryfunctormap,\times)$$
 
 
 \section{関数と関手の関係}
@@ -809,7 +814,7 @@ $$(X,\binaryfunctormap,\mathidentitymorph,\langle\,\rangle,\times)$$
 
 \section{アプリカティブ関手の拡張}
 
-$$(X,\binaryfunctormap,\mathidentitymorph,\langle\,\rangle,\times,\Leftarrow)$$
+$$(X,\langle\,\rangle,\binaryfunctormap,\times,\heartsuit)$$
 
 
 \section{モナド則}
