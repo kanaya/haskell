@@ -169,10 +169,6 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 
 \begin{leader}
 a
-% この章では代表的な代数構造であり，またプログラミングとも深い関わりのあるモノイドと群について述べる．
-% モノイドは別名を単位的半群と言う通り，群の制約を緩めたバージョンとも言える．
-% 数学ではモノイドや群のように，ある集合と，集合の元同士の関係に性質を見出し，それに名前をつけることがしばしばある．
-% 本書ではこのように抽象的な性質を抜き出すことを今後繰り返す．
 \end{leader}
 
 \section{数}
@@ -186,11 +182,11 @@ a
 以下任意の数を$x,y,z$で表すこととする．
 \begin{description}
 \item[掛け算] 数と数の掛け算の結果（\keyword{積}）は数である．
-\item[掛け算の結合則] 掛け算を$*$で表すとき$$(x*y)*z=x*(y*z)$$である．
+\item[掛け算の結合則] 掛け算を$*$で表すとき$$(x*y)*z=x*(y*z)$$である．これを掛け算の\keyword{結合則}と呼ぶ．
 \item[単位元の存在] 数$1$があり$$1*x=x*1=x$$である．この$1$を掛け算の\keyword{単位元}と呼ぶ．
 \item[逆元] 数$x$に対して$x^{-1}$という数があり$$x^{-1}x=1$$である．この$x^{-1}$を$x$の掛け算の\keyword{逆元}と呼ぶ．
 \item[足し算] 数と数の足し算の結果（\keyword{和}）は数である．
-\item[足し算の結合則] 掛け算を$+$で表すとき$$(x+y)+z=x+(y+z)$$である．
+\item[足し算の結合則] 掛け算を$+$で表すとき$$(x+y)+z=x+(y+z)$$である．これを足し算の結合則と呼ぶ．
 \item[零元（加法単位元）の存在] 数$0$があり$$0+x=x+0=x$$である．この$0$は足し算の単位元である．掛け算の単位元と区別して\keyword{零元}または\keyword{加法単位元}と呼ぶこともある．
 \item[負元（加法逆元）の存在] 数$x$に対して$-x$という数があり$$-x+x=0$$である．この$-x$を$x$の足し算の逆元である．掛け算の単位元と区別して\keyword{負元}または\keyword{加法逆元}と呼ぶこともある．
 \item[分配則] 足し算と掛け算が混在する場合$$x*(y+z)=x*y+x*z$$と掛け算を\keyword{分配}する．
@@ -200,28 +196,59 @@ a
 整数，実数の他に，\keyword{有理数}，\keyword{複素数}，\keyword{クォータニオン}などが数としての性質を持つ．
 一方で，一般の行列，ベクトルなど数としての性質を持たない量もまた数学には多く登場する．
 
+なお，演算子$*$と$+$の両方について，左右の項を入れ替えても結果が同じになること，すなわち\keyword{可換}であることは必ずしも数の性質として必要なことではなく，演算子$*$か$+$のどちらか一方，通常は$+$のほうが可換であることが要求されることが多い．
+
 \section{群}
 
-\keyword{集合}$\mathsetname{S}$があるとする．
-集合$\mathsetname{S}$の\keyword{元}$x$があるとする．
-これを数学者は$x\in\mathsetname{S}$と書くが，我々は記号$\in$を別な用途に使いたいため，ここでは$$x\istypeof\mathsetname{S}$$と書くことにする．
+\keyword{集合}$\mathsetname{G}$があるとする．
+集合$\mathsetname{G}$の\keyword{元}$x$があるとする．
+これを数学者は$x\in\mathsetname{G}$と書くが，我々は記号$\in$を別な用途に使いたいため，ここでは$$x\istypeof\mathsetname{G}$$と書くことにする．
 
-集合$\mathsetname{S}$の元と元の間に\keyword{二項関係}$\circledast$があるとする．
-いま$x,y\istypeof\mathsetname{S}$のとき$$x\circledast y\istypeof\mathsetname{S}$$であり，$$I\circledast x=x\circledast I=x$$なる$I\istypeof\mathsetname{S}$が存在し，$$\Tilde{x}\circledast x=I$$となるような$\Tilde{x}\istypeof\mathsetname{S}$があるとき，組み合わせ$(\mathsetname{S},I,\circledast)$を\keyword{群}と呼ぶ．
+集合$\mathsetname{G}$の元と元の間に\keyword{二項関係}$\circledast$があるとする．
+いま$x,y\istypeof\mathsetname{G}$のとき$$x\circledast y\istypeof\mathsetname{G}$$であり，$$I\circledast x=x\circledast I=x$$なる$I\istypeof\mathsetname{G}$が存在し，$$\Tilde{x}\circledast x=I$$となるような$\Tilde{x}\istypeof\mathsetname{G}$があるとき，組み合わせ$\mathtriple{\mathsetname{G}}{I}{\circledast}$を\keyword{群}と呼ぶ．
 
-これを数の性質に当てはめて考えてみると，例えば整数全体の集合を$\mathsetname{Z}$としたときに$(\mathsetname{Z},1,*)$および$(\mathsetname{Z},0,+)$はそれぞれ群である．
+これを数の性質に当てはめて考えてみると，例えば整数全体の集合を$\mathsetname{Z}$としたときに$\mathtriple{\mathsetname{Z}}{1}{*}$および$\mathtriple{\mathsetname{Z}}{0}{+}$はそれぞれ群であるし，実数全体の集合を$\mathsetname{R}$としたときの$\mathtriple{\mathsetname{R}}{1}{*}$および$\mathtriple{\mathsetname{R}}{0}{+}$も群である．
 
+群は代表的な\keyword{代数構造}のひとつであり，他にも数学のあちこちに顔を出している．
+例えば回転角を$r$とする二次元の回転変換（行列）を$U_r$ただし$$U_r=\begin{bmatrix}\cos r&-\sin r\\\sin r&\cos r\end{bmatrix}$$として，回転変換$U_r$すべてからなる集合$\mathsetname{U}$を考えてみよう．
 
+回転は合成できる．
+回転の合成を$\bullet$で表すとすると
+\begin{equation}
+\label{eq:rotation}
+U_{r_1}\bullet U_{r_2}=U_{(r_1+r_2)}
+\end{equation}
+であるから，回転を合成した結果も回転である．
 
-% \subsection{環}
+また式\eqref{eq:rotation}から$$U_{r_1}\bullet\left(U_{r_2}\bullet U_{r_3}\right)=\left(U_{r_1}\bullet U_{r_2}\right)\bullet U_{r_3}$$
+であるから，回転変換は結合則も満たしている．
 
-% \section{群・モノイド・マグマ}
+次にに回転変換に単位元があるかどうか調べてみよう．
+何もしない回転変換は$0$度の回転であるから，何もしない回転を$U_0$とよう．
+そうすると$$U_0\bullet U_r=U_r\bullet U_0=U_r$$であるから，$U_0$は回転変換の単位元であると言える．
 
-% \subsection{群}
+最後に回転変換に逆元があるかも調べてみよう．
+$r$回転の逆は明らかに$-r$であるから$$U_{-r}\bullet U_r=U_r\bullet U_{-r}=U_0$$が成り立つ．
+
+このように，組み合わせ$\mathtriple{\mathsetname{U}}{U_0}{\bullet}$は群である．
+
 
 \section{モノイド}
 
-% \subsection{マグマ}
+集合$\mathsetname{G}$が群である条件は
+\begin{itemize}
+\item 群の元同士の間に二項関係$\circledast$があり，その演算結果が集合$\mathsetname{G}$の元であること
+\item 二項関係$\circledast$に結合則が成り立つこと
+\item 二項関係$\circledast$の単位元が存在すること
+\item 二項関係$\circledast$の逆元が存在すること
+\end{itemize}
+であった．
+これらの条件を少し緩め，逆元が存在しなくても良い「緩やかな群」を考えてみる．
+この「緩やかな群」のことを\keyword{単位的半群}または\keyword{モノイド}と呼ぶ．
+
+
+% 二項関係$x\circledast$は2引数関数とみなすことも出来る．
+
 
 $$+\istypeof\mathsetname{Z}\mapsto\mathsetname{Z}\mapsto\mathsetname{Z}$$
 
@@ -262,24 +289,6 @@ x\mathbinaryop(y\mathbinaryop z)=(x\mathbinaryop y)\mathbinaryop z&\dots\text{�
 先ほど見たように整数の集合$\mathsetname{Z}$と足し算演算子$+$と整数の$0$の組み合わせ$\mathtriple{\mathsetname{Z}}{+}{0}$はモノイドである．
 整数については，掛け算演算子$*$に関しても$\mathtriple{\mathsetname{Z}}{*}{1}$がモノイドである．
 
-他に，例えば回転角を$\theta$とする二次元の回転変換（行列）を$U(\theta)$ただし$$U(\theta)=\begin{bmatrix}\cos\theta&-\sin\theta\\\sin\theta&\cos\theta\end{bmatrix}$$として，回転変換$U$すべてからなる集合$\mathsetname{U}$を考えてみよう．
-
-回転は合成できる．
-回転の合成を$\bullet$で表すとすると
-\begin{equation}
-\label{eq:rotation}
-U(\theta_1)\bullet U(\theta_2)=U(\theta_1+\theta_2)
-\end{equation}
-であるから，回転を合成した結果も回転である．
-
-また式\eqref{eq:rotation}から$$U(\theta_1)\bullet\left(U(\theta_2)\bullet U(\theta_3)\right)=\left(U(\theta_1)\bullet U(\theta_2)\right)\bullet U(\theta_3)$$
-であるから，回転変換は結合則も満たしている．
-
-最後に回転変換に単位元があるかどうか調べてみよう．
-何もしない回転変換は$0$度の回転であるから，何もしない回転を$$U_0=U(0)$$とよう．
-そうすると$$U_0\bullet U(\theta)=U(\theta)\bullet U_0=U(\theta)$$であるから，$U_0$は回転変換の単位元であると言える．
-
-このように，組み合わせ$\mathtriple{\mathsetname{U}}{\mathcompose}{U_0}$はモノイドである．
 
 \begin{point}
 集合$\mathsetname{M}$の元$x,y,z\in\mathsetname{M}$とそれらの間の二項関係$\mathbinaryop$が，
@@ -328,11 +337,13 @@ x\mathbinaryop(y\mathbinaryop z)=(x\mathbinaryop y)\mathbinaryop z&\dots\text{�
 
 % 本書では群についてはこれ以上の深入りはしない．
 
-\section{射・圏・関手}
+% \section{射・圏・関手}
 
-\subsection{射}
-\subsection{圏}
-\subsection{関手}
+% \subsection{射}
+% \subsection{圏}
+% \subsection{関手}
+
+\section*{余計な話}
 
 
 \chapter{記法}
