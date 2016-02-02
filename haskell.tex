@@ -1,7 +1,7 @@
 \documentclass[twocolumn]{jsbook}
 \usepackage{amsmath,amssymb,ascmac,bm,multirow}
 
-\title{プログラムにおける代数構造}
+\title{プログラマのための代数構造}
 \author{Ichi Kanaya}
 \date{2016}
 
@@ -168,15 +168,63 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 \chapter{数学的準備}
 
 \begin{leader}
-この章では代表的な代数構造であり，またプログラミングとも深い関わりのあるモノイドと群について述べる．
-モノイドは別名を単位的半群と言う通り，群の制約を緩めたバージョンとも言える．
-数学ではモノイドや群のように，ある集合と，集合の元同士の関係に性質を見出し，それに名前をつけることがしばしばある．
-本書ではこのように抽象的な性質を抜き出すことを今後繰り返す．
+a
+% この章では代表的な代数構造であり，またプログラミングとも深い関わりのあるモノイドと群について述べる．
+% モノイドは別名を単位的半群と言う通り，群の制約を緩めたバージョンとも言える．
+% 数学ではモノイドや群のように，ある集合と，集合の元同士の関係に性質を見出し，それに名前をつけることがしばしばある．
+% 本書ではこのように抽象的な性質を抜き出すことを今後繰り返す．
 \end{leader}
 
-\section{圏}
+\section{数}
+
+これから各種の代数的構造を見ていくことにする．
+代数的構造と言っても，身構える必要はない．
+それは，我々プログラマが日々接している概念に，共通した名前を与えたにすぎない．
+
+まず最初に，我々にとって一番身近な代数構造である\keyword{数}を見てみよう．
+\keyword{整数}と\keyword{実数}は離散的か連続的かという点で大きく異なるが，それでも次の性質を共通して持っている．
+以下任意の数を$x,y,z$で表すこととする．
+\begin{description}
+\item[掛け算] 数と数の掛け算の結果（\keyword{積}）は数である．
+\item[掛け算の結合則] 掛け算を$*$で表すとき$$(x*y)*z=x*(y*z)$$である．
+\item[単位元の存在] 数$1$があり$$1*x=x*1=x$$である．この$1$を掛け算の\keyword{単位元}と呼ぶ．
+\item[逆元] 数$x$に対して$x^{-1}$という数があり$$x^{-1}x=1$$である．この$x^{-1}$を$x$の掛け算の\keyword{逆元}と呼ぶ．
+\item[足し算] 数と数の足し算の結果（\keyword{和}）は数である．
+\item[足し算の結合則] 掛け算を$+$で表すとき$$(x+y)+z=x+(y+z)$$である．
+\item[零元（加法単位元）の存在] 数$0$があり$$0+x=x+0=x$$である．この$0$は足し算の単位元である．掛け算の単位元と区別して\keyword{零元}または\keyword{加法単位元}と呼ぶこともある．
+\item[負元（加法逆元）の存在] 数$x$に対して$-x$という数があり$$-x+x=0$$である．この$-x$を$x$の足し算の逆元である．掛け算の単位元と区別して\keyword{負元}または\keyword{加法逆元}と呼ぶこともある．
+\item[分配則] 足し算と掛け算が混在する場合$$x*(y+z)=x*y+x*z$$と掛け算を\keyword{分配}する．
+\end{description}
+以上が数としての性質の全てであって，割り算，引き算はプログラミングでいう糖衣構文 (syntax sugar) である．
+
+整数，実数の他に，\keyword{有理数}，\keyword{複素数}，\keyword{クォータニオン}などが数としての性質を持つ．
+一方で，一般の行列，ベクトルなど数としての性質を持たない量もまた数学には多く登場する．
+
+\section{群}
+
+\keyword{集合}$\mathsetname{S}$があるとする．
+集合$\mathsetname{S}$の\keyword{元}$x$があるとする．
+これを数学者は$x\in\mathsetname{S}$と書くが，我々は記号$\in$を別な用途に使いたいため，ここでは$$x\istypeof\mathsetname{S}$$と書くことにする．
+
+集合$\mathsetname{S}$の元と元の間に\keyword{二項関係}$\circledast$があるとする．
+いま$x,y\istypeof\mathsetname{S}$のとき$$x\circledast y\istypeof\mathsetname{S}$$であり，$$I\circledast x=x\circledast I=x$$なる$I\istypeof\mathsetname{S}$が存在し，$$\Tilde{x}\circledast x=I$$となるような$\Tilde{x}\istypeof\mathsetname{S}$があるとき，組み合わせ$(\mathsetname{S},I,\circledast)$を\keyword{群}と呼ぶ．
+
+これを数の性質に当てはめて考えてみると，例えば整数全体の集合を$\mathsetname{Z}$としたときに$(\mathsetname{Z},1,*)$および$(\mathsetname{Z},0,+)$はそれぞれ群である．
+
+
+
+% \subsection{環}
+
+% \section{群・モノイド・マグマ}
+
+% \subsection{群}
 
 \section{モノイド}
+
+% \subsection{マグマ}
+
+$$+\istypeof\mathsetname{Z}\mapsto\mathsetname{Z}\mapsto\mathsetname{Z}$$
+
 
 整数全体の\keyword{集合}を$\mathsetname{Z}$で表すこととしよう．
 集合$\mathsetname{Z}$には$0$や$-10$や$123$などのありとあらゆる整数が含まれている．
@@ -190,7 +238,6 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 いま「演算子」を「作用」させたのだが，これはそれぞれ英語の ``operator'' と ``operate'' の訳である．
 数学者や物理学者は演算子のことを\keyword{作用素}と呼ぶ場合もあるが，意味は同じである．
 
-% 演算子$+$は集合$\mathsetname{Z}$の元を集合$\mathsetname{Z}$の元へと変換することから，集合$\mathsetname{Z}$の元を集合$\mathsetname{Z}$の元への\keyword{変換全体の集合}を$\mathsetname{Z}\mapsto\mathsetname{Z}$と書いて$$+\istypeof\mathsetname{Z}\mapsto\mathsetname{Z}$$と表現する．
 
 演算子$\binaryadd$は演算の順序によらず結果が同じである．
 いま三つの整数$$x,y,z\istypeof\mathsetname{Z}$$があるとき$$x+(y+z)=(x+y)+z$$であるが，このように右を先に計算しても左を先に計算しても結果が変わらないことを\keyword{結合性}と呼ぶ．
@@ -262,7 +309,7 @@ x\mathbinaryop(y\mathbinaryop z)=(x\mathbinaryop y)\mathbinaryop z&\dots\text{�
 
 % 圏論
 
-\section{群}
+% \section{群}
 前述のモノイドにもう一つ規則を加えたものが群である．
 群は集合$\mathsetname{G}$の元$x,y,z\in\mathsetname{G}$とそれらの間の二項関係$\mathbinaryop$について
 \begin{align}
@@ -280,6 +327,13 @@ x\mathbinaryop(y\mathbinaryop z)=(x\mathbinaryop y)\mathbinaryop z&\dots\text{�
 本書でもシンプルな規則から初めて，少しずつ規則を増やしていくやり方を多用する．
 
 % 本書では群についてはこれ以上の深入りはしない．
+
+\section{射・圏・関手}
+
+\subsection{射}
+\subsection{圏}
+\subsection{関手}
+
 
 \chapter{記法}
 
