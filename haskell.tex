@@ -171,55 +171,75 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 a
 \end{leader}
 
-\section{数}
+\section{数・体・環}
 
 これから各種の代数的構造を見ていくことにする．
 代数的構造と言っても，身構える必要はない．
 それは，我々プログラマが日々接している概念に，共通した名前を与えたにすぎない．
 
 まず最初に，我々にとって一番身近な代数構造である\keyword{数}を見てみよう．
-\keyword{整数}と\keyword{実数}は離散的か連続的かという点で大きく異なるが，それでも次の性質を共通して持っている．
-以下任意の数を$x,y,z$で表すこととする．
+数の代表例は\keyword{実数}であるから，実数を例にとって考えてみよう．
+実数全体の集合を$\mathsetname{R}$で表すことにする．
+また任意の実数を$x,y,z$で表すこととする．
+このことを数学者は$x,y,z\in\mathsetname{R}$と書くが，我々は記号$\in$を別の用途に使いたいので，本書では$$x,y,z\istypeof\mathsetname{R}$$と表すことにする．
+
+以下に実数の備える代数的性質を列挙する．
+どれも当たり前のことに見えるが，ひとつひとつ見ていこう．
+ここで$x,y,z\istypeof\mathsetname{R}$とする．
 \begin{description}
-\item[掛け算] 数と数の掛け算の結果（\keyword{積}）は数である．
-\item[掛け算の結合則] 掛け算を$*$で表すとき$$(x*y)*z=x*(y*z)$$である．これを掛け算の\keyword{結合則}と呼ぶ．
-\item[単位元の存在] 数$1$があり$$1*x=x*1=x$$である．この$1$を掛け算の\keyword{単位元}と呼ぶ．
-\item[逆元] 数$x$に対して$x^{-1}$という数があり$$x^{-1}x=1$$である．この$x^{-1}$を$x$の掛け算の\keyword{逆元}と呼ぶ．
-\item[足し算] 数と数の足し算の結果（\keyword{和}）は数である．
-\item[足し算の結合則] 掛け算を$+$で表すとき$$(x+y)+z=x+(y+z)$$である．これを足し算の結合則と呼ぶ．
-\item[零元（加法単位元）の存在] 数$0$があり$$0+x=x+0=x$$である．この$0$は足し算の単位元である．掛け算の単位元と区別して\keyword{零元}または\keyword{加法単位元}と呼ぶこともある．
-\item[負元（加法逆元）の存在] 数$x$に対して$-x$という数があり$$-x+x=0$$である．この$-x$を$x$の足し算の逆元である．掛け算の単位元と区別して\keyword{負元}または\keyword{加法逆元}と呼ぶこともある．
-\item[分配則] 足し算と掛け算が混在する場合$$x*(y+z)=x*y+x*z$$と掛け算を\keyword{分配}する．
+\item[性質1.] $x$と$y$の足し算（\keyword{加法}）の結果（\keyword{和}）$x+y$は$\mathsetname{R}$の元すなわち実数である．
+\item[性質2. 足し算の結合則] $x,y,z$について$$(x+y)+z=x+(y+z)$$である．これを\keyword{結合則}と呼ぶ．
+\item[性質3. 零元（加法単位元）の存在] $0\istypeof\mathsetname{R}$があり$$0+x=x+0=x$$である．この$0$は足し算の\keyword{単位元}である．\keyword{零元}または\keyword{加法単位元}と呼ぶこともある．
+\item[性質4. 負元（加法逆元）の存在] $x$に対して$-x\istypeof\mathsetname{R}$があり$$-x+x=0$$である．この$-x$は$x$の足し算の\keyword{逆元}である．\keyword{負元}または\keyword{加法逆元}と呼ぶこともある．
+\item[性質5. 足し算の可換性] $x,y$について$$x+y=y+x$$である．このことを足し算の\keyword{可換性}と呼ぶ．
+\item[性質6. 掛け算] $x$と$y$の掛け算（\keyword{乗法}）の結果（\keyword{積}）$x*y$は$\mathsetname{R}$の元すなわち実数である．
+\item[性質7. 掛け算の結合則] $x,y,z$について$$(x*y)*z=x*(y*z)$$である．
+\item[性質8. 単位元の存在] $1\istypeof\mathsetname{R}$があり$$1*x=x*1=x$$である．この$1$を掛け算の単位元または\keyword{乗法単位元}と呼ぶ．
+\item[性質9. 逆元] $x$に対して$x^{-1}\istypeof\mathsetname{R}$があり$$x^{-1}*x=1$$である．この$x^{-1}$は$x$の掛け算の逆元である．\keyword{乗法逆元}と呼ぶこともある．ただし性質12で述べる通り，加法単位元については逆元がなくても良い．
+\item[性質10. 掛け算の可換性] $x,y$について$$x*y=y*x$$である．このことを掛け算の可換性と呼ぶ．
+\item[性質11. 分配則] 足し算と掛け算が混在する場合$$x*(y+z)=x*y+x*z$$と掛け算を\keyword{分配}する．
+\item[性質12. 加法単位元の逆元] 加法単位元に対する掛け算の逆元は存在しなくても良い．（つまり$0^{-1}$のことは考えなくて良い．）
 \end{description}
-以上が数としての性質の全てであって，割り算，引き算はプログラミングでいう糖衣構文 (syntax sugar) である．
+以上が実数の代数的性質の全てである．
+我々がよく使う割り算，引き算はプログラミングでいう糖衣構文 (syntax sugar) である．
 
-整数，実数の他に，\keyword{有理数}，\keyword{複素数}，\keyword{クォータニオン}などが数としての性質を持つ．
-一方で，一般の行列，ベクトルなど数としての性質を持たない量もまた数学には多く登場する．
+上述の12個の条件が当てはまる数には，\keyword{有理数}や\keyword{複素数}がある．
+この12個の性質をまとめて，数学では\keyword{体}または\keyword{可換体}と呼ぶ．
+体の要素は，集合$\mathsetname{K}$，二項演算子$+$，二項演算子$+$の単位元$0$，二項演算子$+$の逆元生成演算子$-$，もう一つの二項演算子$*$，二項演算子$*$の単位元$1$，二項演算子$*$の逆元生成演算子${}^{-1}$であるから，体はそれらを列挙して$(\mathsetname{K},+,0,-,*,1,{}^{-1})$と表現する．
 
-なお，演算子$*$と$+$の両方について，左右の項を入れ替えても結果が同じになること，すなわち\keyword{可換}であることは必ずしも数の性質として必要なことではなく，演算子$*$か$+$のどちらか一方，通常は$+$のほうが可換であることが要求されることが多い．
+一方で，この数の性質を若干緩めたい場合もある．
+さもなければ，\keyword{整数}，\keyword{正則行列}（逆行列の存在する行列），\keyword{クォータニオン}，\keyword{論理値}，\keyword{ベクトル}，ベクトルの\keyword{変換}，\keyword{写像}と言った重要な概念が数の概念からこぼれてしまうからである．
+例えば整数の場合は掛け算の逆元は（単位元の逆元を除いて）存在しないし，正則行列やクォータニオンの場合は掛け算が可換ではない．
+前者は\keyword{可換環}（掛け算が非可換な場合は単に\keyword{環}），後者は\keyword{斜体}といった，それぞれ別な性質名が与えられている．
+
+制約を少しずつ緩める代わりに，制約をその構成要素に分解することもできそうである．
+体には二つの二項演算子$+$と$*$が登場した．
+その片方にのみ注目してみたらどうなるだろう．
+それが次節で取り上げる\keyword{群}である．
 
 \section{群}
 
-\keyword{集合}$\mathsetname{G}$があるとする．
-集合$\mathsetname{G}$の\keyword{元}$x$があるとする．
-これを数学者は$x\in\mathsetname{G}$と書くが，我々は記号$\in$を別な用途に使いたいため，ここでは$$x\istypeof\mathsetname{G}$$と書くことにする．
+いま$x,y,z\istypeof\mathsetname{G}$とし，二項演算子を形式的に$\bigstar$と書くことにしてみよう．
+\begin{description}
+\item[性質1.] $x$と$y$の演算の結果$x\mathop{\bigstar}y$は$\mathsetname{G}$の元である．
+\item[性質2.] $x,y,z$について$$(x\mathop{\bigstar}y)\mathop{\bigstar}z=x\mathop{\bigstar}(y\mathop{\bigstar}z)$$である．これを結合則と呼ぶ．
+\item[性質3.] $O\istypeof\mathsetname{G}$があり$$O\mathop{\bigstar}x=x\mathop{\bigstar}O=x$$である．この$O$は単位元である．
+\item[性質4.] $x$に対して$\Tilde{x}\istypeof\mathsetname{G}$があり$$\Tilde{x}\mathop{\bigstar}x=O$$である．この$\Tilde{x}$は$x$の逆元である．
+\item[性質5.] $x,y$について$$x\mathop{\bigstar}y=y\mathop{\bigstar}x$$である．
+\end{description}
+このような性質が満たされる時，組み合わせ$(\mathsetname{G},O,\bigstar)$を\keyword{可換群}または\keyword{加群}と呼ぶ．
+例えば$(\mathsetname{R},0,+)$は可換群である．
+整数全体の集合を$\mathsetname{Z}$とすると$(\mathsetname{Z},0,+)$も可換群である．
+また，集合$\mathsetname{R}$から$0$だけを取り除いた集合を$\mathsetname{R}\setminus0$とするとき$(\mathsetname{R}\setminus0,1,*)$も可換群である．
 
-集合$\mathsetname{G}$の元と元の間に\keyword{二項関係}$\circledast$があるとする．
-いま$x,y\istypeof\mathsetname{G}$のとき$$x\circledast y\istypeof\mathsetname{G}$$であり，$$I\circledast x=x\circledast I=x$$なる$I\istypeof\mathsetname{G}$が存在し，$$\Tilde{x}\circledast x=I$$となるような$\Tilde{x}\istypeof\mathsetname{G}$があるとき，組み合わせ$\mathtriple{\mathsetname{G}}{I}{\circledast}$を\keyword{群}と呼ぶ．
-
-これを数の性質に当てはめて考えてみると，例えば整数全体の集合を$\mathsetname{Z}$としたときに$\mathtriple{\mathsetname{Z}}{1}{*}$および$\mathtriple{\mathsetname{Z}}{0}{+}$はそれぞれ群であるし，実数全体の集合を$\mathsetname{R}$としたときの$\mathtriple{\mathsetname{R}}{1}{*}$および$\mathtriple{\mathsetname{R}}{0}{+}$も群である．
-
-群は代表的な\keyword{代数構造}のひとつであり，他にも数学のあちこちに顔を出している．
+可換群は代表的な\keyword{代数構造}のひとつであり，他にも数学のあちこちに顔を出している．
 例えば回転角を$r$とする二次元の回転変換（行列）を$U_r$ただし$$U_r=\begin{bmatrix}\cos r&-\sin r\\\sin r&\cos r\end{bmatrix}$$として，回転変換$U_r$すべてからなる集合$\mathsetname{U}$を考えてみよう．
-
-回転は合成できる．
 回転の合成を$\bullet$で表すとすると
 \begin{equation}
 \label{eq:rotation}
 U_{r_1}\bullet U_{r_2}=U_{(r_1+r_2)}
 \end{equation}
 であるから，回転を合成した結果も回転である．
-
 また式\eqref{eq:rotation}から$$U_{r_1}\bullet\left(U_{r_2}\bullet U_{r_3}\right)=\left(U_{r_1}\bullet U_{r_2}\right)\bullet U_{r_3}$$
 であるから，回転変換は結合則も満たしている．
 
@@ -229,22 +249,38 @@ U_{r_1}\bullet U_{r_2}=U_{(r_1+r_2)}
 
 最後に回転変換に逆元があるかも調べてみよう．
 $r$回転の逆は明らかに$-r$であるから$$U_{-r}\bullet U_r=U_r\bullet U_{-r}=U_0$$が成り立つ．
+このように，組み合わせ$\mathtriple{\mathsetname{U}}{U_0}{\bullet}$も可換群である．
 
-このように，組み合わせ$\mathtriple{\mathsetname{U}}{U_0}{\bullet}$は群である．
+ところで，可換群の性質のうち最初の4項目だけを満たすものを\keyword{群}と呼ぶ．
+可換群は群の特別な場合である．
+現代の数学では$x\mathop{\bigstar}y\neq y\mathop{\bigstar}x$のように演算子の前後を入れ替えると結果が異なるような演算をよく取り扱うので，一般の群は可換群よりもよく取り上げられ，それ故より短い名前が付けられている．
 
 
 \section{モノイド}
 
 集合$\mathsetname{G}$が群である条件は
-\begin{itemize}
-\item 群の元同士の間に二項関係$\circledast$があり，その演算結果が集合$\mathsetname{G}$の元であること
-\item 二項関係$\circledast$に結合則が成り立つこと
-\item 二項関係$\circledast$の単位元が存在すること
-\item 二項関係$\circledast$の逆元が存在すること
-\end{itemize}
+\begin{description}
+\item[群の性質1.] $x$と$y$の演算の結果$x\mathop{\bigstar}y$は$\mathsetname{G}$の元である．
+\item[群の性質2.] $x,y,z$について$$(x\mathop{\bigstar}y)\mathop{\bigstar}z=x\mathop{\bigstar}(y\mathop{\bigstar}z)$$である．これを結合則と呼ぶ．
+\item[群の性質3.] $O\istypeof\mathsetname{G}$があり$$O\mathop{\bigstar}x=x\mathop{\bigstar}O=x$$である．この$O$は単位元である．
+\item[群の性質4.] $x$に対して$\Tilde{x}\istypeof\mathsetname{G}$があり$$\Tilde{x}\mathop{\bigstar}x=O$$である．この$\Tilde{x}$は$x$の逆元である．
+\end{description}
 であった．
 これらの条件を少し緩め，逆元が存在しなくても良い「緩やかな群」を考えてみる．
 この「緩やかな群」のことを\keyword{単位的半群}または\keyword{モノイド}と呼ぶ．
+
+モノイドは群に制約条件をひとつ付け加えたものとも言えるので，あらゆる群は自動的にモノイドでもある．
+プログラマの言葉で言えば，モノイドは群の親クラスである．
+
+モノイドの性質は次の三つである．ただし$x,y,z$が集合$\mathsetname{M}$の元であるとする．
+\begin{description}
+\item[モノイドの性質1.] $x$と$y$の演算の結果$x\mathop{\bigstar}y$は$\mathsetname{M}$の元である．
+\item[モノイドの性質2.] $x,y,z$について$$(x\mathop{\bigstar}y)\mathop{\bigstar}z=x\mathop{\bigstar}(y\mathop{\bigstar}z)$$である．これを結合則と呼ぶ．
+\item[モノイドの性質3.] $O\istypeof\mathsetname{M}$があり$$O\mathop{\bigstar}x=x\mathop{\bigstar}O=x$$である．この$O$は単位元である．
+\end{description}
+
+
+---
 
 
 % 二項関係$x\circledast$は2引数関数とみなすことも出来る．
