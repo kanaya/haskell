@@ -12,12 +12,14 @@
 \newcommand{\hsklOf}[1]{\mathop{::}#1}
 
 \newcommand{\mathAnyBinaryOperator}{\mathop{\bigstar}}
+\newcommand{\mathSomething}{\square}
 
 \newcommand{\mathIn}[1]{\mathop{::}#1}
 \newcommand{\mathInverse}[1]{\Tilde{#1}}
 \newcommand{\mathSet}[1]{\mathbf{#1}}
+\newcommand{\mathVector}[1]{\boldsymbol{#1}}
 
-\newcommand{\mathGroup}[3]{(#1,#2,#3)}
+\newcommand{\mathGroup}[4]{(#1,#2,#3,#4)}
 
 \newcommand{\mathField}[7]{(#1,#2,#3,#4,#5,#6,#7)}
 
@@ -221,13 +223,13 @@ a
 
 上述の12個の条件が当てはまる数には，\keyword{有理数}や\keyword{複素数}がある．
 この12個の性質をまとめて，数学では\keyword{体}または\keyword{可換体}と呼ぶ．
-わざわざ可換と断るのは掛け算が可換であることは，現代の数学ではむしろ珍しいことだからである．
+わざわざ可換と断るのは，現代の数学では$x*y\neq y*x$であるような体系がよく用いられるからである．
 
 体の要素は，集合$\mathSet{K}$，二項演算子$+$，二項演算子$+$の単位元$0$，二項演算子$+$の逆元生成演算子$-$，もう一つの二項演算子$*$，二項演算子$*$の単位元$1$，二項演算子$*$の逆元生成演算子${}^{-1}$であるから，体はそれらを列挙して$\mathField{\mathSet{K}}{+}{0}{-}{*}{1}{{}^{-1}}$と表現する．
 
 体の性質から言えることを一つ紹介しよう．
 これから$$z\uparrow n=\overbrace{z*\dotsb*z}^n$$なる二項演算子$\uparrow$（\keyword{クヌースの矢印}）を使う．
-ここに$z$を体$\mathField{\mathSet{K}}{+}{0}{-}{*}{1}{{}^{-1}}$の元，$n$を自然数とした．
+ここに$z$を体$\mathField{\mathSet{K}}{+}{0}{-}{*}{1}{{}^{-1}}$の$\mathSet{K}$の元，$n$を自然数とした．
 さて$z\uparrow2$は$$z\uparrow2=z*z$$であるから，いま$z=x+y$とすると
 \begin{align*}
 z\uparrow2&=z*z\\
@@ -245,18 +247,39 @@ z\uparrow2&=z*z\\
 を得る．
 式\eqref{eq:xysq}は体の性質だけを使って導いた関係なので，実数だけでなく有理数や複素数にもそのまま使える．
 実際には式\eqref{eq:xysq}は体の性質のうち分配則だけを使っいるので，体以外にも応用が利く式である．
-% どこかでブール則を入れる
 
-一方で，この数の性質を若干緩めたい場合もある．
+一方で，この体の性質を若干緩めたい場合もある．
 さもなければ，\keyword{整数}，\keyword{正則行列}（逆行列の存在する行列），\keyword{クォータニオン}（四元数），\keyword{論理値}，\keyword{ベクトル}，ベクトルの\keyword{変換}，\keyword{写像}と言った重要な概念が数の概念からこぼれてしまうからである．
-例えば整数の場合は掛け算の逆元は（単位元の逆元を除いて）存在しないし，正則行列やクォータニオンの場合は掛け算が可換ではない．
-前者は\keyword{可換環}，後者は\keyword{斜体}といった，それぞれ別な性質名が与えられている．
-環についてはこの章の最後で余談として触れる．
+例えば整数の掛け算の逆元は（単位元の逆元を除いて）整数の中には存在しない．
+このように，体と似ているが掛け算の逆元が無いバージョンを\keyword{可換環}と呼ぶ．
+また正則行列やクォータニオンの場合は掛け算が可換ではない．
+このように体と似ているが掛け算が可換で無いバージョンは\keyword{斜体}と呼ぶ．
 
 制約を少しずつ緩める代わりに，制約をその構成要素に分解するほうがさらなる応用が利きそうである．
 体には二つの二項演算子$+$と$*$が登場した．
 その片方にのみ注目してみたらどうなるだろう．
 それが次節で取り上げる\keyword{群}である．
+
+\begin{table*}
+\begin{center}
+\begin{tabular}{||c||c|c|c|c|c|c||}
+\hline
+代数的構造&$\mathAnyBinaryOperator_1$&$\mathAnyBinaryOperator_1$の単位元&$\mathAnyBinaryOperator_1$の逆元&$\mathAnyBinaryOperator_2$&$\mathAnyBinaryOperator_2$の単位元&$\mathAnyBinaryOperator_2$の逆元\\
+\hline\hline
+体（可換体）&可換&あり&あり&可換&あり&あり\\
+斜体&可換&あり&あり&非可換&あり&あり\\
+可換環&可換&あり&あり&可換&あり&なし\\
+環&可換&あり&あり&非可換&あり&なし\\
+\hline
+可換群（加群）&可換&あり&あり&\multicolumn{3}{|c||}{}\\
+群&非可換&あり&あり&\multicolumn{3}{|c||}{}\\
+可換モノイド&可換&あり&なし&\multicolumn{3}{|c||}{}\\
+モノイド&非可換&あり&なし&\multicolumn{3}{|c||}{}\\
+\hline
+\end{tabular}
+\end{center}
+\end{table*}
+
 
 \section{群}
 
@@ -268,10 +291,10 @@ z\uparrow2&=z*z\\
 \item[性質4.] $x$に対して$\mathInverse{x}\mathIn\mathSet{G}$があり$$\mathInverse{x}\mathAnyBinaryOperator x=O$$である．この$\mathInverse{x}$は$x$の逆元である．
 \item[性質5.] $x,y$について$$x\mathAnyBinaryOperator y=y\mathAnyBinaryOperator x$$である．
 \end{description}
-このような性質が満たされる時，組み合わせ$\mathGroup{\mathSet{G}}{O}{\mathAnyBinaryOperator}$を\keyword{可換群}または\keyword{加群}と呼ぶ．
-例えば$\mathGroup{\mathSet{R}}{0}{+}$は可換群である．
-整数全体の集合を$\mathSet{Z}$とすると$\mathGroup{\mathSet{Z}}{0}{+}$も可換群である．
-また，集合$\mathSet{R}$から$0$だけを取り除いた集合を$\mathSet{R}\setminus0$とするとき$\mathGroup{\mathSet{R}\setminus0}{1}{*}$も可換群である．
+このような性質が満たされる時，組み合わせ$\mathGroup{\mathSet{G}}{O}{\mathInverse{\mathSomething}}{\mathAnyBinaryOperator}$を\keyword{可換群}または\keyword{加群}と呼ぶ．
+例えば$\mathGroup{\mathSet{R}}{0}{-}{+}$は可換群である．
+整数全体の集合を$\mathSet{Z}$とすると$\mathGroup{\mathSet{Z}}{0}{-}{+}$も可換群である．
+また，集合$\mathSet{R}$から$0$だけを取り除いた集合を$\mathSet{R}\setminus0$とするとき$\mathGroup{\mathSet{R}\setminus0}{1}{\mathSomething^{-1}}{*}$も可換群である．
 
 可換群は代表的な代数的構造のひとつであり，他にも数学のあちこちに顔を出している．
 例えば回転角を$r$とする二次元の回転変換（行列）を$U_r$ただし$$U_r=\begin{bmatrix}\cos r&-\sin r\\\sin r&\cos r\end{bmatrix}$$として，回転変換$U_r$すべてからなる集合$\mathSet{U}$を考えてみよう．
@@ -285,26 +308,29 @@ U_{r_1}\bullet U_{r_2}=U_{(r_1+r_2)}
 であるから，回転変換は結合則も満たしている．
 
 次にに回転変換に単位元があるかどうか調べてみよう．
-何もしない回転変換は$0$度の回転であるから，何もしない回転を$U_0$とよう．
-そうすると$$U_0\bullet U_r=U_r\bullet U_0=U_r$$であるから，$U_0$は回転変換の単位元であると言える．
+回転しない変換は\keyword{恒等変換}とも言い，しばしば$I$で表す．
+何もしない回転変換は$0$度の回転であるから$I=U_0$である．
+このとき$$I\bullet U_r=U_r\bullet I=U_r$$であるから，$I$は回転変換の単位元であると言える．
 
 最後に回転変換に逆元があるかも調べてみよう．
-$r$回転の逆は明らかに$-r$であるから$$U_{-r}\bullet U_r=U_r\bullet U_{-r}=U_0$$が成り立つ．
-このように，組み合わせ$\mathGroup{\mathSet{U}}{U_0}{\bullet}$も可換群である．
+$r$回転の逆は明らかに$-r$であるから$$U_{-r}\bullet U_r=U_r\bullet U_{-r}=I$$が成り立つ．
+そこで$$U_{r}^{-1}=U_{-r}$$として$U_r$の逆元$U_r^{-1}$を定義することができる．
 
-ところで，可換群の性質のうち最初の4項目だけを満たすものを\keyword{群}と呼ぶ．
+このように，組み合わせ$\mathGroup{\mathSet{U}}{I}{\mathSomething^{-1}}{\bullet}$も可換群である．
+
+任意次元のベクトル全体からなる集合を$\mathSet{V}$として，零ベクトルを$\mathVector{o}$で表すことにしよう．
+ベクトル同士の加算を二項演算子$+$で表し，向きを反転させた逆ベクトル作る演算子を$-$とすると，組み合わせ$\mathGroup{\mathSet{V}}{\mathVector{o}}{-}{+}$もまた可換群である．
+
+可換群の性質のうち最初の4項目だけを満たすものを\keyword{群}と呼ぶ．
 可換群は群の特別な場合である．
 現代の数学では$x\mathAnyBinaryOperator y\neq y\mathAnyBinaryOperator x$のように演算子の前後を入れ替えると結果が異なるような演算をよく取り扱うので，一般の群は可換群よりもよく取り上げられ，それ故より短い名前が付けられている．
 
-
-\section{モノイド}
-
-集合$\mathsetname{G}$が群である条件は
+集合$\mathsetname{G}$とその元$O$，二項演算子$\mathAnyBinaryOperator$の組み合わせ$\mathGroup{\mathSet{G}}{O}{\mathAnyBinaryOperator}$が群である条件は
 \begin{description}
 \item[群の性質1.] $x$と$y$の演算の結果$x\mathAnyBinaryOperator y$は$\mathSet{G}$の元である．
-\item[群の性質2.] $x,y,z$について$$(x\mathAnyBinaryOperator y)\mathAnyBinaryOperator z=x\mathAnyBinaryOperator(y\mathAnyBinaryOperator z)$$である．これを結合則と呼ぶ．
-\item[群の性質3.] $O\mathIn\mathSet{G}$があり$$O\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O=x$$である．この$O$は単位元である．
-\item[群の性質4.] $x$に対して$\mathInverse{x}\mathIn\mathSet{G}$があり$$\mathInverse{x}\mathAnyBinaryOperator x=O$$である．この$\mathInverse{x}$は$x$の逆元である．
+\item[群の性質2.] $x,y,z$について$$(x\mathAnyBinaryOperator y)\mathAnyBinaryOperator z=x\mathAnyBinaryOperator(y\mathAnyBinaryOperator z)$$である．
+\item[群の性質3.] $O\mathIn\mathSet{G}$があり$$O\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O=x$$である．
+\item[群の性質4.] $x$に対して$\mathInverse{x}\mathIn\mathSet{G}$があり$$\mathInverse{x}\mathAnyBinaryOperator x=O$$である．
 \end{description}
 であった．
 これらの条件を少し緩め，逆元が存在しなくても良い「緩やかな群」を考えてみる．
@@ -320,105 +346,11 @@ $r$回転の逆は明らかに$-r$であるから$$U_{-r}\bullet U_r=U_r\bullet 
 \item[モノイドの性質3.] $O\mathIn\mathSet{M}$があり$$O\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O=x$$である．この$O$は単位元である．
 \end{description}
 
-
----
-
-
-% 二項関係$x\circledast$は2引数関数とみなすことも出来る．
-
-
-$$+\istypeof\mathsetname{Z}\mapsto\mathsetname{Z}\mapsto\mathsetname{Z}$$
-
-
-整数全体の\keyword{集合}を$\mathsetname{Z}$で表すこととしよう．
-集合$\mathsetname{Z}$には$0$や$-10$や$123$などのありとあらゆる整数が含まれている．
-任意の変数$x$が整数であることを，数学者は$x\in\mathsetname{Z}$という風に書き，$x$が集合$\mathsetname{Z}$の\keyword{元}であると呼ぶ．
-我々は記号$\in$を別の用途に使いたいので代わりに記号$\istypeof$を使って$x\istypeof\mathsetname{Z}$と書くことにする．
-
-二つの整数$$x,y\istypeof\mathsetname{Z}$$の間には\keyword{二項演算}が定義されている．
-例えば足し算は二項演算の例で，それを表現するために\keyword{演算子}$+$がある．
-整数$x,y$に足し算演算子を\keyword{作用させる}と，つまり$x+y$を作ると，その結果は再び整数になる．
-これを$$x+y\istypeof\mathsetname{Z}$$と書く．
-いま「演算子」を「作用」させたのだが，これはそれぞれ英語の ``operator'' と ``operate'' の訳である．
-数学者や物理学者は演算子のことを\keyword{作用素}と呼ぶ場合もあるが，意味は同じである．
-
-
-演算子$\binaryadd$は演算の順序によらず結果が同じである．
-いま三つの整数$$x,y,z\istypeof\mathsetname{Z}$$があるとき$$x+(y+z)=(x+y)+z$$であるが，このように右を先に計算しても左を先に計算しても結果が変わらないことを\keyword{結合性}と呼ぶ．
-また，結合性があることを求める規則を\keyword{結合則}と呼ぶ．
-整数の足し算は結合則に従う．
-足し算にはもう一つ$x+y=y+x$という性質があり，これを可換性と呼ぶが，今は考えなくて良い．
-
-整数の足し算にはもう一つの際立った特徴がある．
-それは$0,x\istypeof\mathsetname{Z}$のとき$$0+x=x+0=x$$であるような$$0\istypeof\mathsetname{Z}$$が存在することだ．
-このように足し算を行っても結果を変えなような元のことを\keyword{単位元}と呼ぶ．
-特に足し算の場合は単位元のことを\keyword{零元}と呼ぶこともある．
-
-さて，これらの性質を一般化してみよう．
-集合$\mathsetname{M}$の元$x,y,z\istypeof\mathsetname{M}$とそれらの間の二項演算子$\mathbinaryop$が，
-\begin{align}
-x\mathbinaryop y\istypeof\mathsetname{M}\\
-x\mathbinaryop(y\mathbinaryop z)=(x\mathbinaryop y)\mathbinaryop z&\dots\text{結合則}\\
-{}^\exists\mathidentity\mathwhere\mathidentity\mathbinaryop x=x\mathbinaryop\mathidentity=x&\dots\text{単位元の存在}
-\end{align}
-を満たしているとき，組み合わせ$\mathtriple{\mathsetname{M}}{\mathbinaryop}{\mathidentity}$を\keyword{モノイド}と呼ぶ．
-
-先ほど見たように整数の集合$\mathsetname{Z}$と足し算演算子$+$と整数の$0$の組み合わせ$\mathtriple{\mathsetname{Z}}{+}{0}$はモノイドである．
-整数については，掛け算演算子$*$に関しても$\mathtriple{\mathsetname{Z}}{*}{1}$がモノイドである．
-
-
-\begin{point}
-集合$\mathsetname{M}$の元$x,y,z\in\mathsetname{M}$とそれらの間の二項関係$\mathbinaryop$が，
-\begin{align*}
-x\mathbinaryop y\istypeof\mathsetname{M}\\
-x\mathbinaryop(y\mathbinaryop z)=(x\mathbinaryop y)\mathbinaryop z&\dots\text{結合則}\\
-{}^\exists\mathidentity\mathwhere\mathidentity\mathbinaryop x=x\mathbinaryop\mathidentity=x&\dots\text{単位元の存在}
-\end{align*}
-を満たしているとき，組み合わせ$\mathtriple{\mathsetname{M}}{\mathbinaryop}{\mathidentity}$をモノイドと呼ぶ．
-\end{point}
-
-% \section{モノイドではないもの}
 数学上の多くの構造がモノイドである．
-整数や二次元の回転変換がそうであったが，一般に数と呼ばれるもの全て，また正方行列も行列の掛け算（または足し算），単位行列（または零行列）とともにモノイドになる．
-ベクトルもまた，ベクトルの合成演算子，零ベクトルと組み合わせてモノイドになる．
-
-そこで，今度は逆にモノイドでないものを考えてみよう．
-例えば三次元ベクトルのベクトル積はどうだろうか．
-三次元ベクトルのベクトル積は結合則が成り立たず，また単位元もないため，三次元ベクトル全体の集合とベクトル積はモノイドになることができない．
-
-% * * *
-
-前節では二次元の回転変換がモノイドであることを示した．
-回転変換，すなわち回転の演算子と，回転される方のベクトルはそれぞれ異なる集合に属している．
-すべての回転変換の集合を$\mathsetname{U}$，すべてのベクトルの集合を$\mathsetname{V}$とすると$$\mathsetname{U}\istypeof\mathsetname{V}\mapsto\mathsetname{V}$$となる．
 
 
-% 圏論
+\section{圏}
 
-% \section{群}
-前述のモノイドにもう一つ規則を加えたものが群である．
-群は集合$\mathsetname{G}$の元$x,y,z\in\mathsetname{G}$とそれらの間の二項関係$\mathbinaryop$について
-\begin{align}
-x\mathbinaryop y\istypeof\mathsetname{G}\\
-x\mathbinaryop(y\mathbinaryop z)=(x\mathbinaryop y)\mathbinaryop z&\dots\text{結合則}\\
-{}^\exists\mathidentity:\mathidentity\mathbinaryop x=x\mathbinaryop\mathidentity=x&\dots\text{単位元の存在}\\
-{}^\exists x^{-1}:x^{-1}\mathbinaryop x=\mathidentity&\dots\text{逆元の存在}
-\end{align}
-であるような$\mathtriple{\mathsetname{G}}{\mathbinaryop}{\mathidentity}$のことであり，モノイドの規則に「逆元の存在」を加えたものである．
-プログラマの言葉で言えば，群はモノイドの「子クラス」であると言える．
-
-前節で紹介した$\mathtriple{\mathsetname{Z}}{+}{0},\mathtriple{\mathsetname{Z}}{*}{1},\mathtriple{\mathsetname{U}}{\mathcompose}{U_0}$は全て群でもある．
-
-このように規則を少しずつ増やしていって，より強力な概念を構築していく方法は数学ではよく用いられる．
-本書でもシンプルな規則から初めて，少しずつ規則を増やしていくやり方を多用する．
-
-% 本書では群についてはこれ以上の深入りはしない．
-
-% \section{射・圏・関手}
-
-% \subsection{射}
-% \subsection{圏}
-% \subsection{関手}
 
 \section*{余計な話}
 
