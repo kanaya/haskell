@@ -8,6 +8,18 @@
 \def\[{[\![}
 \def\]{]\!]}
 
+\newcommand{\hsklType}[1]{\textbf{#1}}
+\newcommand{\hsklOf}[1]{\mathop{::}#1}
+
+\newcommand{\mathAnyBinaryOp}{\mathop{\bigstar}}
+
+\newcommand{\mathIn}[1]{\mathop{::}#1}
+\newcommand{\mathInverse}[1]{\Tilde{#1}}
+\newcommand{\mathSet}[1]{\mathbf{#1}}
+
+
+% ---
+
 \def\boxcirc{\mathrel{\mathchoice{\BOXCIRC}{\BOXCIRC}{\scriptsize\BOXCIRC}{\tiny\BOXCIRC}}}
 \def\BOXCIRC{{\setbox0\hbox{$\circ$}\rlap{\hbox to \wd0{\hss$\square$\hss}}\box0}}
 
@@ -179,23 +191,23 @@ a
 
 まず最初に，我々にとって一番身近な代数構造である\keyword{数}を見てみよう．
 数の代表例は\keyword{実数}であるから，実数を例にとって考えてみよう．
-実数全体の集合を$\mathsetname{R}$で表すことにする．
+実数全体の集合を$\mathSet{R}$で表すことにする．
 また任意の実数を$x,y,z$で表すこととする．
-このことを数学者は$x,y,z\in\mathsetname{R}$と書くが，我々は記号$\in$を別の用途に使いたいので，本書では$$x,y,z\istypeof\mathsetname{R}$$と表すことにする．
+このことを数学者は$x,y,z\in\mathSet{R}$と書くが，我々は記号$\in$を別の用途に使いたいので，本書では$$x,y,z\mathIn\mathSet{R}$$と表すことにする．
 
 以下に実数の備える代数的性質を列挙する．
 どれも当たり前のことに見えるが，ひとつひとつ見ていこう．
-ここで$x,y,z\istypeof\mathsetname{R}$とする．
+ここで$x,y,z\mathIn\mathSet{R}$とする．
 \begin{description}
-\item[性質1.] $x$と$y$の足し算（\keyword{加法}）の結果（\keyword{和}）$x+y$は$\mathsetname{R}$の元すなわち実数である．
+\item[性質1.] $x$と$y$の足し算（\keyword{加法}）の結果（\keyword{和}）$x+y$は$\mathSet{R}$の元すなわち実数である．
 \item[性質2. 足し算の結合則] $x,y,z$について$$(x+y)+z=x+(y+z)$$である．これを\keyword{結合則}と呼ぶ．
-\item[性質3. 零元（加法単位元）の存在] $0\istypeof\mathsetname{R}$があり$$0+x=x+0=x$$である．この$0$は足し算の\keyword{単位元}である．\keyword{零元}または\keyword{加法単位元}と呼ぶこともある．
-\item[性質4. 負元（加法逆元）の存在] $x$に対して$-x\istypeof\mathsetname{R}$があり$$-x+x=0$$である．この$-x$は$x$の足し算の\keyword{逆元}である．\keyword{負元}または\keyword{加法逆元}と呼ぶこともある．
+\item[性質3. 零元（加法単位元）の存在] $0\mathIn\mathSet{R}$があり$$0+x=x+0=x$$である．この$0$は足し算の\keyword{単位元}である．\keyword{零元}または\keyword{加法単位元}と呼ぶこともある．
+\item[性質4. 負元（加法逆元）の存在] $x$に対して$-x\mathIn\mathSet{R}$があり$$-x+x=0$$である．この$-x$は$x$の足し算の\keyword{逆元}である．\keyword{負元}または\keyword{加法逆元}と呼ぶこともある．
 \item[性質5. 足し算の可換性] $x,y$について$$x+y=y+x$$である．このことを足し算の\keyword{可換性}と呼ぶ．
-\item[性質6. 掛け算] $x$と$y$の掛け算（\keyword{乗法}）の結果（\keyword{積}）$x*y$は$\mathsetname{R}$の元すなわち実数である．
+\item[性質6. 掛け算] $x$と$y$の掛け算（\keyword{乗法}）の結果（\keyword{積}）$x*y$は$\mathSet{R}$の元すなわち実数である．
 \item[性質7. 掛け算の結合則] $x,y,z$について$$(x*y)*z=x*(y*z)$$である．
-\item[性質8. 単位元の存在] $1\istypeof\mathsetname{R}$があり$$1*x=x*1=x$$である．この$1$を掛け算の単位元または\keyword{乗法単位元}と呼ぶ．
-\item[性質9. 逆元] $x$に対して$x^{-1}\istypeof\mathsetname{R}$があり$$x^{-1}*x=1$$である．この$x^{-1}$は$x$の掛け算の逆元である．\keyword{乗法逆元}と呼ぶこともある．ただし性質12で述べる通り，加法単位元については逆元がなくても良い．
+\item[性質8. 単位元の存在] $1\mathIn\mathSet{R}$があり$$1*x=x*1=x$$である．この$1$を掛け算の単位元または\keyword{乗法単位元}と呼ぶ．
+\item[性質9. 逆元] $x$に対して$x^{-1}\mathIn\mathSet{R}$があり$$x^{-1}*x=1$$である．この$x^{-1}$は$x$の掛け算の逆元である．\keyword{乗法逆元}と呼ぶこともある．ただし性質12で述べる通り，加法単位元については逆元がなくても良い．
 \item[性質10. 掛け算の可換性] $x,y$について$$x*y=y*x$$である．このことを掛け算の可換性と呼ぶ．
 \item[性質11. 分配則] 足し算と掛け算が混在する場合$$x*(y+z)=x*y+x*z$$と掛け算を\keyword{分配}する．
 \item[性質12. 加法単位元の逆元] 加法単位元に対する掛け算の逆元は存在しなくても良い．（つまり$0^{-1}$のことは考えなくて良い．）
