@@ -9,16 +9,41 @@
 \def\]{]\!]}
 
 \newcommand{\hsklType}[1]{\textbf{#1}}
-\newcommand{\hsklOf}[1]{\mathop{::}#1}
+\newcommand{\hsklTypeclass}[1]{\mathsf{#1}}
 
+\newcommand{\hsklOf}{\mathop{::}}
+
+\newcommand{\hsklBool}{\hsklType{Bool}}
+\newcommand{\hsklChar}{\hsklType{Char}}
+\newcommand{\hsklEnum}{\hsklTypeclass{Enum}}
+\newcommand{\hsklInt}{\hsklType{Int}}
+\newcommand{\hsklIntegral}{\hsklTypeclass{Integral}}
+\newcommand{\hsklEq}{\hsklTypeclass{Eq}}
+\newcommand{\hsklFloat}{\hsklType{Float}}
+\newcommand{\hsklMonoid}{\hsklTypeclass{Monoid}}
+\newcommand{\hsklNum}{\hsklTypeclass{Num}}
+\newcommand{\hsklOrd}{\hsklTypeclass{Ord}}
+\newcommand{\hsklPred}{\mathop{\text{pred}}}
+\newcommand{\hsklReal}{\hsklTypeclass{Real}}
+\newcommand{\hsklSucc}{\mathop{\text{succ}}}
+
+\newcommand{\mathKeyword}[1]{\mathbf{#1}}
+
+\newcommand{\mathApply}{\mathop{\$}}
 \newcommand{\mathAnyBinaryOperator}{\mathop{\bigstar}}
 \newcommand{\mathAnyUnaryOperator}{\star}
+\newcommand{\mathCompose}{\bullet}
+\newcommand{\mathElse}{\mathop{\mathKeyword{else}}}
+\newcommand{\mathIf}{\mathop{\mathKeyword{if}}}
 \newcommand{\mathLambda}{\backslash}
 \newcommand{\mathLambdaAnonymousParameter}{\lozenge}
 \newcommand{\mathMapsTo}{\mapsto}
+\newcommand{\mathOtherwise}{\mathKeyword{otherwise}}
 \newcommand{\mathSetTimes}{\circledast}
 \newcommand{\mathSomething}{\square}
+\newcommand{\mathThen}{\mathop{\mathKeyword{then}}}
 
+\newcommand{\mathGuard}[1]{\mathop{\mid_{#1}}}
 \newcommand{\mathIn}[1]{\mathop{::}#1}
 \newcommand{\mathInverse}[1]{\Tilde{#1}}
 \newcommand{\mathSet}[1]{\mathbf{#1}}
@@ -26,8 +51,14 @@
 
 \newcommand{\mathCategory}[2]{(#1,#2)}
 \newcommand{\mathLambdaExpression}[2]{\mathLambda#1\rightarrow#2}
+\newcommand{\mathMorph}[2]{#1\mathMapsTo#2}
+
+\newcommand{\mathMonoid}[3]{(#1,#2,#3)}
+\newcommand{\mathMorphII}[3]{#1\mathMapsTo#2\mathMapsTo#3}
+\newcommand{\mathMorphIIWithParenthesis}[3]{#1\mathMapsTo(#2\mathMapsTo#3)}
 
 \newcommand{\mathGroup}[4]{(#1,#2,#3,#4)}
+\newcommand{\mathMorphIII}[4]{#1\mathMapsTo#2\mathMapsTo#3\mathMapsTo#4}
 
 \newcommand{\mathField}[7]{(#1,#2,#3,#4,#5,#6,#7)}
 
@@ -368,6 +399,7 @@ $r$回転の逆は明らかに$-r$であるから$$U_{-r}\bullet U_r=U_r\bullet 
 \item[単位的半群の性質2.] $x,y,z$について$$(x\mathAnyBinaryOperator y)\mathAnyBinaryOperator z=x\mathAnyBinaryOperator(y\mathAnyBinaryOperator z)$$である．
 \item[単位的半群の性質3.] $O\mathIn\mathSet{M}$があり$$O\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O=x$$である．
 \end{description}
+このとき，組み合わせ$\mathMonoid{\mathSet{M}}{O}{\mathAnyBinaryOperator}$が単位的半群である．
 可換群とこの単位的半群を組み合わせたのが環，可換群二つを組み合わせたのが体であった．
 
 単位的半群の性質からさらに性質3を消したものを\keyword{半群}と呼ぶ．
@@ -377,14 +409,14 @@ $r$回転の逆は明らかに$-r$であるから$$U_{-r}\bullet U_r=U_r\bullet 
 これまでは集合の元同士に対する二項演算を考えてきた．
 集合$\mathSet{M}$が単位的半群であるとき，集合$\mathSet{M}$の元$x,y\mathIn\mathSet{M}$に対して$x\mathAnyBinaryOperator y\mathIn\mathSet{M}$であった．
 これは演算子$\mathAnyBinaryOperator$に着目すると，この演算子$\mathAnyBinaryOperator$は集合$\mathSet{M}$の元2個から出発して，集合$\mathSet{M}$の元1個へとジャンプさせる\keyword{写像}であると言える．
-これを$$\mathAnyBinaryOperator\mathIn\mathSet{M}\mathSetTimes\mathSet{M}\mathMapsTo\mathSet{M}$$と書く．
+これを$$\mathAnyBinaryOperator\mathIn\mathMorph{\mathSet{M}\mathSetTimes\mathSet{M}}{\mathSet{M}}$$と書く．
 ここに$\mathSet{A}\mathSetTimes\mathSet{B}$を集合$\mathSet{A}$と集合$\mathSet{B}$の\keyword{直積集合}と言う．
 
-写像は$\mathSet{M}\mathSetTimes\mathSet{M}\mathMapsTo\mathSet{M}$に限ったもの出はなく，集合$\mathSet{M}$から集合$\mathSet{M}$への写像$\mathAnyUnaryOperator$ただし$$\mathAnyUnaryOperator\mathIn\mathSet{M}\mathMapsTo\mathSet{M}$$があっても良い．
-実はこれまでにも登場した逆元を作る演算子はまさに$\mathSet{M}\mathMapsTo\mathSet{M}$という写像である．
+写像は$\mathMorph{\mathSet{M}\mathSetTimes\mathSet{M}}{\mathSet{M}}$に限ったもの出はなく，集合$\mathSet{M}$から集合$\mathSet{M}$への写像$\mathAnyUnaryOperator$ただし$$\mathAnyUnaryOperator\mathIn\mathMorph{\mathSet{M}}{\mathSet{M}}$$があっても良い．
+実はこれまでにも登場した逆元を作る演算子はまさに$\mathMorph{\mathSet{M}}{\mathSet{M}}$という写像である．
 
 またベクトルには，実数倍や回転といった写像がある．
-これらは実数のパラメタを一つとるので，ベクトル全体の集合を$\mathSet{V}$，実数全体の集合を$\mathSet{R}$として，実数のパラメタを$r$としたときに$$\mathAnyUnaryOperator_r\mathIn\mathSet{R}\mathSetTimes\mathSet{V}\mathMapsTo\mathSet{V}$$と書ける．
+これらは実数のパラメタを一つとるので，ベクトル全体の集合を$\mathSet{V}$，実数全体の集合を$\mathSet{R}$として，実数のパラメタを$r$としたときに$$\mathAnyUnaryOperator_r\mathIn\mathMorph{\mathSet{R}\mathSetTimes\mathSet{V}}{\mathSet{V}}$$と書ける．
 例えば回転の場合は$\mathAnyUnaryOperator_r=U_r$である．
 
 このように一般化した演算子$\mathAnyUnaryOperator$と，それが定義される集合$\mathSet{C}$の組み合わせ$\mathCategory{\mathSet{C}}{\mathAnyUnaryOperator}$のことを\keyword{圏}と呼ぶ．
@@ -478,9 +510,9 @@ Scheme.
 \section{関数の定義}
 
 ラムダ式を用いた\keyword{関数}の定義が可能である．
-例えば引数$x$をとり値$1+x$を返す関数$f$は$$f=\lambdaexp{x}{1+x}$$と定義できる．
+例えば引数$x$をとり値$1+x$を返す関数$f$は$$f=\mathLambdaExpression{x}{1+x}$$と定義できる．
 この省略形として$$fx=1+x$$と書いても良いし，さらに省略して$$f=(+)1$$と書いても良い．
-もちろん$f=+1$でないことに注意しよう．\footnote{Haskellでは$f=\lambdaexp{x}{1+x}$を\code{f=\textbackslash x->1+x}，$fx=1+x$を\code{f x = 1+x}，$f=(+)1$を\code{f=(+)1}のように書く．}
+もちろん$f=+1$でないことに注意しよう．\footnote{Haskellでは$f=\mathLambdaExpression{x}{1+x}$を\code{f=\textbackslash x->1+x}，$fx=1+x$を\code{f x = 1+x}，$f=(+)1$を\code{f=(+)1}のように書く．}
 
 関数に\keyword{スペシャルバージョン}がある場合はそれらを列挙する．
 例えば引数が$0$の場合は特別に戻り値も$0$であり，その他の場合は関数$f$と同じ振る舞いをする関数$f'$を考える．
@@ -502,9 +534,9 @@ f' x = 1+x
 例えば引数の値が負の場合は$-1$を，$0$の場合は$0$を，それ以外の場合は関数$f$と同じ振る舞いをする関数$f''$は
 \begin{equation*}
 \begin{split}
-f''x&\guard{x\binaryl0}=-1\\
-&\guard{x\binaryeq0}=0\\
-&\guard{\keywordotherwise}=1+x
+f''x&\mathGuard{x<0}=-1\\
+&\mathGuard{x\equiv 0}=0\\
+&\mathGuard{\mathOtherwise}=1+x
 \end{split}
 \end{equation*}
 という風に定義することにする．\footnote{Haskellでは
@@ -517,22 +549,24 @@ f'' x | x<0       = -1
 
 \section{関数の合成}
 
-関数は\keyword{合成}できる．関数$f$と関数$g$があって，その合成を$f\binarycompose g$と書くとき$$(f\binarycompose g)x=f(gx)$$である．
-関数合成の演算子$\binarycompose$は関数適用よりも優先順位が高く，$(f\binarycompose g)x$は単に$f\binarycompose g\,x$と書いても良い．
+関数は\keyword{合成}できる．関数$f$と関数$g$があって，その合成を$f\mathCompose g$と書くとき$$(f\mathCompose g)x=f(gx)$$である．
+関数合成の演算子$\mathCompose$は関数適用よりも優先順位が高く，$(f\mathCompose g)x$は単に$f\mathCompose g\,x$と書いても良い．
 この記法は括弧の数を減らすためにしばしば用いられる．\footnote{Haskellでは関数\code{f}と関数\code{g}の合成は\code{f.g}である．}
 
 関数合成演算子とは逆に，優先順位の低い関数適用演算子も考えておくと括弧の数を減らすのに便利である．
-関数適用演算子$\binaryapply$を次のように定義しておく．
-$$f\binaryapply gx=f(gx)$$
-演算子$\binaryapply$の優先順位は足し算演算子よりも低いものとする．
-よって$f(x+1)$は$f\binaryapply x+1$と書くこともできる．\footnote{Haskellでは$f\binaryapply gx$を\code{f \$ g x}と書く．}
+関数適用演算子$\mathApply$を次のように定義しておく．
+$$f\mathApply gx=f(gx)$$
+演算子$\mathApply$の優先順位は足し算演算子よりも低いものとする．
+よって$f(x+1)$は$f\mathApply x+1$と書くこともできる．\footnote{Haskellでは$f\mathApply gx$を\code{f \$ g x}と書く．}
 
 \section{条件式}
 
 \keyword{条件式}とは場合分けを関数定義の右辺に書けるようにしたもので，
-$$fx=\keywordif x\binaryeq0\keywordthen0\keywordelse1+x$$
-のように$\keywordif$節，$\keywordthen$節，及び$\keywordelse$節からなるものである．
-$\keywordif$節の中身は真理値を返す関数であれば良いので，関数$p$を$$p=(\equiv)0$$としておき，$$fx=\keywordif px\keywordthen0\keywordelse 1+x$$と書く方法もしばしば用いられる．\footnote{Haskellでは$fx=\keywordif x\binaryeq0\keywordthen0\keywordelse1+x$を\code{f x = if x == 0 then 0 else 1+x}と書く．}
+$$fx=\mathIf x\equiv0\mathThen0\mathElse1+x$$
+のように$\mathIf$節，$\mathThen$節，及び$\mathElse$節からなるものである．
+$\mathIf$節の中身は真理値を返す関数であれば良いので，関数$p$を$$p=(\equiv)0$$としておき，$$fx=\mathIf px\mathThen0\mathElse1+x$$と書く方法もしばしば用いられる．\footnote{Haskellでは$fx=\keywordif x\binaryeq0\keywordthen0\keywordelse1+x$を\code{f x = if x == 0 then 0 else 1+x}と書く．}
+
+\section*{余計な話}
 
 \chapter{型と型クラス}
 
@@ -544,21 +578,21 @@ $\keywordif$節の中身は真理値を返す関数であれば良いので，�
 \section{型}
 
 型とは変数が取りうる値に与えた制約のことである．
-数学者がよく扱う型は論理型($\mathsetname{B}$)，整数型($\mathsetname{Z}$)，実数型($\mathsetname{R}$)といったところであろう．
+数学者がよく扱う型は論理型($\mathSet{B}$)，整数型($\mathSet{Z}$)，実数型($\mathSet{R}$)といったところであろう．
 ただし数学者たちは型ではなく集合と呼ぶ．
 括弧内に示した記号は数学者たちが慣用的に用いているものである．
 
 我々は計算機での実装を考慮して，数学者たちとは若干異なる型と表記方法を扱うことにする．
-まず論理型($\mathsetname{B}$)はそのまま論理型として$\typebool$で表す．
+まず論理型($\mathSet{B}$)はそのまま論理型として$\hsklBool$で表す．
 
-計算機にとって都合の良い整数の範囲を考慮した整数型を$\typeint$で表す．
+計算機にとって都合の良い整数の範囲を考慮した整数型を$\hsklInt$で表す．
 計算機にとって都合の良い整数の範囲とは，例えば64ビット計算機の場合$-2^{32}$から$2^{32}-1$までの範囲のことである．
 
 計算機は残念ながら無限精度の実数を扱えない．
-そこで標準精度の浮動小数点数を表す型を$\typefloat$で表す．
+そこで標準精度の浮動小数点数を表す型を$\hsklFloat$で表す．
 
 もう一つ，計算機ならではの型を導入しておこう．
-それは$\typeint$とよく似ているが，特別に文字を扱うために考えられた型$\typechar$である．
+それは$\hsklInt$とよく似ているが，特別に文字を扱うために考えられた型$\hsklChar$である．
 文字といってもその中身は整数である．
 整数ではあるが，わざわざ別な型とするのには理由がある．
 歴史的には文字は小さな整数として表現されることが多かったため，また計算機のメモリが高価であったため，文字を扱うための専用の型はもっぱらメモリの節約のために存在した．
@@ -568,51 +602,51 @@ $\keywordif$節の中身は真理値を返す関数であれば良いので，�
 \section{関数の型}
 
 関数にも型がある．
-例えば整数引数を一つ取り，整数を返す関数$f$は$$f\istypeof\morph{\typeint}{\typeint}$$という型を持つ．
+例えば整数引数を一つ取り，整数を返す関数$f$は$$f\mathIn\mathMorph{\hsklInt}{\hsklInt}$$という型を持つ．
 
-整数引数を二つ取り，整数を返す関数$f'$は$$f'\istypeof\mmorph{\typeint}{\typeint}{\typeint}$$という型を持つ．
-これは$$f'\istypeof\mmorphwithparenthesis{\typeint}{\typeint}{\typeint}$$と同じ意味である．
+整数引数を二つ取り，整数を返す関数$f'$は$$f'\mathIn\mathMorphII{\hsklInt}{\hsklInt}{\hsklInt}$$という型を持つ．
+これは$$f'\mathIn\mathMorphIIWithParenthesis{\hsklInt}{\hsklInt}{\hsklInt}$$と同じ意味である．
 
 \begin{table}
-\caption{モノイド}
+\caption{単位的半群}
 \label{tab:monoids}
 \begin{center}
 \begin{tabular}{||c||c|c||}
 \hline
 型クラス
-    &\multicolumn{2}{|c||}{$\typeclassmonoid$}\\
+    &\multicolumn{2}{|c||}{$\hsklMonoid$}\\
 \hline\hline
-型$\setminus$要素と演算子
-    &$\mathidentity$
-    &$\mathbinaryop$\\
+型$\backslash$要素と演算子
+    &$O$
+    &$\mathAnyBinaryOperator$\\
 \hline
 $\typechar$
     &---
     &---\\
 \hline
-$\typebool$
-    &$\constantfalse$
-    &$\binaryor$\\
+$\hsklBool$
+    &$F$
+    &$\vee$\\
 \hline
-$\typebool$
-    &$\constanttrue$
-    &$\binaryand$\\
+$\hsklBool$
+    &$T$
+    &$\wedge$\\
 \hline
-$\typeint$
+$\hsklInt$
     &$0$
-    &$\binaryadd$\\
+    &$+$\\
 \hline
-$\typeint$
+$\hsklInt$
     &$1$
-    &$\binarymultiply$\\
+    &$*$\\
 \hline
-$\typefloat$
+$\hsklFloat$
     &$0$
-    &$\binaryadd$\\
+    &$+$\\
 \hline
-$\typefloat$
+$\hsklFloat$
     &$1$
-    &$\binarymultiply$\\
+    &$*$\\
 \hline
 \end{tabular}
 \end{center}
@@ -620,30 +654,30 @@ $\typefloat$
 
 \section{型クラス}
 
-$\mathtriple{\typeint}{+}{0}$はモノイドである．
-同様に $\mathtriple{\typeint}{*}{1}$, $\mathtriple{\typefloat}{+}{0}$, $\mathtriple{\typefloat}{*}{1}$, $\mathtriple{\typebool}{\binaryor}{\constantfalse}$, $\mathtriple{\typebool}{\binaryand}{\constanttrue}$ もモノイドである．
-そこで，任意の型$\typename{a}$について，組み合わせ$\mathtriple{\typename{a}}{\mathbinaryop}{\mathidentity}$がモノイドである場合には$$\mathtriple{\typename{a}}{\mathbinaryop}{\mathidentity}\isclassof\typeclassmonoid$$と書くことにする．
-二項演算子，単位元が自明な場合は簡略化して$$\typename{a}\isclassof\typeclassmonoid$$と書くことにする．
+$\mathMonoid{\hsklInt}{0}{+}$は単位的半群である．
+同様に$\mathMonoid{\hsklInt}{1}{*}$, $\mathMonoid{\hsklFloat}{0}{+}$, $\mathMonoid{\hsklFloat}{1}{*}$, $\mathMonoid{\hsklBool}{F}{\vee}$, $\mathMonoid{\hsklBool}{T}{\wedge}$ も単位的半群である．
+そこで，任意の型$\hsklType{a}$について，組み合わせ$\mathMonoid{\hsklType{a}}{O}{\mathAnyBinaryOperator}$が単位的半群である場合には$$\mathMonoid{\hsklType{a}}{O}{\mathAnyBinaryOperator}\mathIn\hsklMonoid$$と書くことにする．
+二項演算子，単位元が自明な場合は簡略化して$$\hsklType{a}\mathIn\hsklMonoid$$と書くことにする．
 
-このような型をより抽象化した型のようなものを型クラスと呼ぶ．
-モノイドは型クラスの例である．
-表\ref{tab:monoids}に型と対応するモノイドの単位元，演算子の一覧を示す．
+このような型をより抽象化した型のようなものを\keyword{型クラス}と呼ぶ．
+単位的半群は型クラスの例である．
+表\ref{tab:monoids}に型と対応する単位的半群の単位元，演算子の一覧を示す．
 
 もっと身近な型クラスもある．
-例えば，型$\typename{a}$の変数どうしの間で等値性が定義されている場合，その型は型クラス$\typeclasseq$に属することになる．
-型クラス$\typeclasseq$に属する型は等値演算子$\binaryeq$を提供する．
+例えば，型$\hsklType{a}$の変数どうしの間で等値性が定義されている場合，その型は型クラス$\hsklEq$に属することになる．
+型クラス$\hsklEq$に属する型は等値演算子$\equiv$を提供する．
 
-型$\typename{a}$の変数どうしの間で大小関係が定義されている場合，かつその型が型クラス$\typeclasseq$に属する場合，その型は型クラス$\typeclassord$にも属する．
-型クラス$\typeclassord$に属する型は比較演算子$\binaryl,\binaryle,\binaryge,\binaryg$を提供する．
+型$\hsklType{a}$の変数どうしの間で大小関係が定義されている場合，かつその型が型クラス$\hsklEq$に属する場合，その型は型クラス$\hsklOrd$にも属する．
+型クラス$\hsklOrd$に属する型は比較演算子$<,\le,\ge,>$を提供する．
 
-型$\typename{a}$の変数どうしの間で四則演算関係が定義されている場合，かつその型が型クラス$\typeclasseq$に属する場合，その型は型クラス$\typeclassnum$にも属する．
-型クラス$\typeclassnum$に属する型は比較演算子$\binaryadd,\binarysub,\binarymultiply,\binarydivide$を提供する．
+型$\hsklType{a}$の変数どうしの間で四則演算関係が定義されている場合，かつその型が型クラス$\hsklEq$に属する場合，その型は型クラス$\hsklNum$にも属する．
+型クラス$\hsklNum$に属する型は比較演算子$+,-,*,/$を提供する．
 
-型$\typename{a}$が型クラス$\typeclassord$及び型クラス$\typeclassnum$に属しているとき，かつそのときに限り，型$\typename{a}$は型クラス$\typeclassreal$にも属する．
+型$\hsklType{a}$が型クラス$\hsklOrd$及び型クラス$\hsklNum$に属しているとき，かつそのときに限り，型$\hsklType{a}$は型クラス$\hsklReal$にも属する．
 
-型$\typename{a}$の変数について，一つ小さい値を返す関数$\functionpred$と一つ大きい値を返す関数$\functionsucc$が定義されているとき，かつそのときに限り，型$\typename{a}$は型クラス$\typeclassenum$に属する．
+型$\hsklType{a}$の変数について，一つ小さい値を返す関数$\hsklPred$と一つ大きい値を返す関数$\hsklSucc$が定義されているとき，かつそのときに限り，型$\hsklType{a}$は型クラス$\hsklEnum$に属する．
 
-型$\typename{a}$が型クラス$\typeclassreal$及び型クラス$\typeclassenum$に属しているとき，かつそのときに限り，型$\typename{a}$は型クラス$\typeclassintegral$にも属する．
+型$\hsklType{a}$が型クラス$\hsklReal$及び型クラス$\hsklEnum$に属しているとき，かつそのときに限り，型$\hsklType{a}$は型クラス$\hsklIntegral$にも属する．
 
 これらの関係を表にまとめたものが表\ref{tab:type-and-typeclass}である．
 
@@ -654,37 +688,37 @@ $\mathtriple{\typeint}{+}{0}$はモノイドである．
 \begin{tabular}{||c||c|c|c|c|c|c|c|c|c|c|c|c||}
 \hline
 \multirow{4}{*}{型クラス}
-    &\multicolumn{12}{|c||}{$\typeclassintegral$}\\
+    &\multicolumn{12}{|c||}{$\hsklIntegral$}\\
 \cline{2-13}
 \multirow{3}{*}{}
-    &\multicolumn{10}{|c|}{$\typeclassreal$}
-    &\multicolumn{2}{|c||}{$\typeclassenum$}\\
+    &\multicolumn{10}{|c|}{$\hsklReal$}
+    &\multicolumn{2}{|c||}{$\hsklEnum$}\\
 \cline{2-11}
 \multirow{2}{*}{}
-    &\multicolumn{5}{|c|}{$\typeclassord$}
-    &\multicolumn{5}{|c|}{$\typeclassnum$}
+    &\multicolumn{5}{|c|}{$\hsklOrd$}
+    &\multicolumn{5}{|c|}{$\hsklNum$}
     &\multicolumn{2}{|c||}{ }\\
 \cline{2-2}\cline{7-7}
 { }
-    &$\typeclasseq$
+    &$\hsklEq$
     &\multicolumn{4}{|c|}{ }
-    &$\typeclasseq$
+    &$\hsklEq$
     &\multicolumn{4}{|c|}{ }
     &\multicolumn{2}{|c||}{ }\\
 \hline\hline
-型$\setminus$演算子
-    &$\binaryeq$
-    &$\binaryl$
-    &$\binaryle$
-    &$\binaryge$
-    &$\binaryg$
-    &$\binaryeq$
-    &$\binaryadd$
-    &$\binarysub$
-    &$\binarymultiply$
-    &$\binarydivide$
-    &$\functionpred$
-    &$\functionsucc$\\
+型$\backslash$演算子
+    &$\equiv$
+    &$<$
+    &$\le$
+    &$\ge$
+    &$>$
+    &$\equiv$
+    &$+$
+    &$-$
+    &$*$
+    &$/$
+    &$\hsklPred$
+    &$\hsklSucc$\\
 \hline
 $\typechar$
     &$\checkmark$
@@ -965,7 +999,7 @@ $$(X,\langle\,\rangle,\binaryfunctormap,\times,\heartsuit)$$
     &
     &\multicolumn{2}{|c||}{ }\\
 \hline\hline
-型$\setminus$要素と演算子
+型$\backslash$要素と演算子
     &$\binaryfunctormap$
     &$\applicativetype{x}$
     &$\binaryapplicativemap$
