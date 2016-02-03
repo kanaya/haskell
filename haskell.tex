@@ -10,7 +10,12 @@
 
 \newcommand{\hsklType}[1]{\textbf{#1}}
 \newcommand{\hsklTypeclass}[1]{\mathsf{#1}}
+\newcommand{\hsklTypeConstructor}[1]{\mathop{\textbf{#1}}}
 
+\newcommand{\hsklAppend}{\oplus}
+\newcommand{\hsklEmptyList}{\emptyset}
+\newcommand{\hsklListConstructor}{\hsklTypeConstructor{List}}
+\newcommand{\hsklListMap}{\odot}
 \newcommand{\hsklOf}{\mathop{::}}
 
 \newcommand{\hsklBool}{\hsklType{Bool}}
@@ -30,10 +35,13 @@
 \newcommand{\mathKeyword}[1]{\mathbf{#1}}
 
 \newcommand{\mathApply}{\mathop{\$}}
-\newcommand{\mathAnyBinaryOperator}{\mathop{\bigstar}}
+\newcommand{\mathAnyBinaryOperator}{{\mathop{\bigstar}}}
 \newcommand{\mathAnyUnaryOperator}{\star}
 \newcommand{\mathCompose}{\bullet}
 \newcommand{\mathElse}{\mathop{\mathKeyword{else}}}
+\newcommand{\mathFold}{\bigcup}
+\newcommand{\mathFoldRight}{\bigsqcup}
+\newcommand{\mathFrom}{\in}
 \newcommand{\mathIf}{\mathop{\mathKeyword{if}}}
 \newcommand{\mathLambda}{\backslash}
 \newcommand{\mathLambdaAnonymousParameter}{\lozenge}
@@ -598,15 +606,6 @@ $\mathIf$節の中身は真理値を返す関数であれば良いので，関�
 歴史的には文字は小さな整数として表現されることが多かったため，また計算機のメモリが高価であったため，文字を扱うための専用の型はもっぱらメモリの節約のために存在した．
 現在では，文字が数値にエンコードされる方式がより複雑になってきたために，文字を通常の数値と区別するために特別な型が用意さてれいるのである．
 
-
-\section{関数の型}
-
-関数にも型がある．
-例えば整数引数を一つ取り，整数を返す関数$f$は$$f\mathIn\mathMorph{\hsklInt}{\hsklInt}$$という型を持つ．
-
-整数引数を二つ取り，整数を返す関数$f'$は$$f'\mathIn\mathMorphII{\hsklInt}{\hsklInt}{\hsklInt}$$という型を持つ．
-これは$$f'\mathIn\mathMorphIIWithParenthesis{\hsklInt}{\hsklInt}{\hsklInt}$$と同じ意味である．
-
 \begin{table}
 \caption{単位的半群}
 \label{tab:monoids}
@@ -652,36 +651,17 @@ $\hsklFloat$
 \end{center}
 \end{table}
 
-\section{型クラス}
+\section{関数の型}
 
-$\mathMonoid{\hsklInt}{0}{+}$は単位的半群である．
-同様に$\mathMonoid{\hsklInt}{1}{*}$, $\mathMonoid{\hsklFloat}{0}{+}$, $\mathMonoid{\hsklFloat}{1}{*}$, $\mathMonoid{\hsklBool}{F}{\vee}$, $\mathMonoid{\hsklBool}{T}{\wedge}$ も単位的半群である．
-そこで，任意の型$\hsklType{a}$について，組み合わせ$\mathMonoid{\hsklType{a}}{O}{\mathAnyBinaryOperator}$が単位的半群である場合には$$\mathMonoid{\hsklType{a}}{O}{\mathAnyBinaryOperator}\mathIn\hsklMonoid$$と書くことにする．
-二項演算子，単位元が自明な場合は簡略化して$$\hsklType{a}\mathIn\hsklMonoid$$と書くことにする．
+関数にも型がある．
+例えば整数引数を一つ取り，整数を返す関数$f$は$$f\mathIn\mathMorph{\hsklInt}{\hsklInt}$$という型を持つ．
 
-このような型をより抽象化した型のようなものを\keyword{型クラス}と呼ぶ．
-単位的半群は型クラスの例である．
-表\ref{tab:monoids}に型と対応する単位的半群の単位元，演算子の一覧を示す．
+整数引数を二つ取り，整数を返す関数$f'$は$$f'\mathIn\mathMorphII{\hsklInt}{\hsklInt}{\hsklInt}$$という型を持つ．
+これは$$f'\mathIn\mathMorphIIWithParenthesis{\hsklInt}{\hsklInt}{\hsklInt}$$と同じ意味である．
 
-もっと身近な型クラスもある．
-例えば，型$\hsklType{a}$の変数どうしの間で等値性が定義されている場合，その型は型クラス$\hsklEq$に属することになる．
-型クラス$\hsklEq$に属する型は等値演算子$\equiv$を提供する．
 
-型$\hsklType{a}$の変数どうしの間で大小関係が定義されている場合，かつその型が型クラス$\hsklEq$に属する場合，その型は型クラス$\hsklOrd$にも属する．
-型クラス$\hsklOrd$に属する型は比較演算子$<,\le,\ge,>$を提供する．
 
-型$\hsklType{a}$の変数どうしの間で四則演算関係が定義されている場合，かつその型が型クラス$\hsklEq$に属する場合，その型は型クラス$\hsklNum$にも属する．
-型クラス$\hsklNum$に属する型は比較演算子$+,-,*,/$を提供する．
-
-型$\hsklType{a}$が型クラス$\hsklOrd$及び型クラス$\hsklNum$に属しているとき，かつそのときに限り，型$\hsklType{a}$は型クラス$\hsklReal$にも属する．
-
-型$\hsklType{a}$の変数について，一つ小さい値を返す関数$\hsklPred$と一つ大きい値を返す関数$\hsklSucc$が定義されているとき，かつそのときに限り，型$\hsklType{a}$は型クラス$\hsklEnum$に属する．
-
-型$\hsklType{a}$が型クラス$\hsklReal$及び型クラス$\hsklEnum$に属しているとき，かつそのときに限り，型$\hsklType{a}$は型クラス$\hsklIntegral$にも属する．
-
-これらの関係を表にまとめたものが表\ref{tab:type-and-typeclass}である．
-
-\begin{table*}[tbp]
+\begin{table*}
 \caption{型と型クラス}
 \label{tab:type-and-typeclass}
 \begin{center}
@@ -780,6 +760,35 @@ $\typefloat$
 \end{center}
 \end{table*}
 
+\section{型クラス}
+
+$\mathMonoid{\hsklInt}{0}{+}$は単位的半群である．
+同様に$\mathMonoid{\hsklInt}{1}{*}$, $\mathMonoid{\hsklFloat}{0}{+}$, $\mathMonoid{\hsklFloat}{1}{*}$, $\mathMonoid{\hsklBool}{F}{\vee}$, $\mathMonoid{\hsklBool}{T}{\wedge}$ も単位的半群である．
+そこで，任意の型$\hsklType{a}$について，組み合わせ$\mathMonoid{\hsklType{a}}{O}{\mathAnyBinaryOperator}$が単位的半群である場合には$$\mathMonoid{\hsklType{a}}{O}{\mathAnyBinaryOperator}\mathIn\hsklMonoid$$と書くことにする．
+二項演算子，単位元が自明な場合は簡略化して$$\hsklType{a}\mathIn\hsklMonoid$$と書くことにする．
+
+このような型をより抽象化した型のようなものを\keyword{型クラス}と呼ぶ．
+単位的半群は型クラスの例である．
+表\ref{tab:monoids}に型と対応する単位的半群の単位元，演算子の一覧を示す．
+
+もっと身近な型クラスもある．
+例えば，型$\hsklType{a}$の変数どうしの間で等値性が定義されている場合，その型は型クラス$\hsklEq$に属することになる．
+型クラス$\hsklEq$に属する型は等値演算子$\equiv$を提供する．
+
+型$\hsklType{a}$の変数どうしの間で大小関係が定義されている場合，かつその型が型クラス$\hsklEq$に属する場合，その型は型クラス$\hsklOrd$にも属する．
+型クラス$\hsklOrd$に属する型は比較演算子$<,\le,\ge,>$を提供する．
+
+型$\hsklType{a}$の変数どうしの間で四則演算関係が定義されている場合，かつその型が型クラス$\hsklEq$に属する場合，その型は型クラス$\hsklNum$にも属する．
+型クラス$\hsklNum$に属する型は比較演算子$+,-,*,/$を提供する．
+
+型$\hsklType{a}$が型クラス$\hsklOrd$及び型クラス$\hsklNum$に属しているとき，かつそのときに限り，型$\hsklType{a}$は型クラス$\hsklReal$にも属する．
+
+型$\hsklType{a}$の変数について，一つ小さい値を返す関数$\hsklPred$と一つ大きい値を返す関数$\hsklSucc$が定義されているとき，かつそのときに限り，型$\hsklType{a}$は型クラス$\hsklEnum$に属する．
+
+型$\hsklType{a}$が型クラス$\hsklReal$及び型クラス$\hsklEnum$に属しているとき，かつそのときに限り，型$\hsklType{a}$は型クラス$\hsklIntegral$にも属する．
+
+これらの関係を表にまとめたものが表\ref{tab:type-and-typeclass}である．
+
 \chapter{コンテナ}
 
 \begin{leader}
@@ -788,51 +797,51 @@ $\typefloat$
 この章ではリストと，リストに対する重要な演算である畳み込み，マップを取り扱う．
 \end{leader}
 
-
 \section{リスト}
 
 同じ型の値を一列に並べたもの，つまりホモジニアスな配列のことを\keyword{リスト}と呼ぶ．
-例えば$0$から始まり$9$まで続く整数のリストは$\listtype{0,1,2,3,4,5,6,7,8,9}$と書く．
+例えば$0$から始まり$9$まで続く整数のリストは$[0,1,2,3,4,5,6,7,8,9]$と書く．
 等差数列に限って，簡略化した書き方が許される．
-$0$から$9$までのリストは$\listtype{0,1\rangedots9}$と書いても良い．
+$0$から$9$までのリストは$[0,1\dots9]$と書いても良い．
 複数の型の要素が混在してもよい配列のことをヘテロジニアスな配列と呼び，ホモジニアスな配列とは区別する．
 
-より高度なリスト，例えば$0$から$9$までの平方数のリストは$$\listtype{x^2\guard{x\isin\listtype{0,1\rangedots9}}}$$のようにガードを用いて書く．
-ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\isin$を用いた．
+より高度なリスト，例えば$0$から$9$までの平方数のリストは$$\left[x^2\mathGuard{x\mathFrom{[0,1\dots9]}}\right]$$のようにガードを用いて書く．
+ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mathFrom$を用いた．
 
 ガードの中の式は複数あっても良い．
-例えば$$\listtype{x+y\guard{x\isin\listtype{0,1\rangedots9}\guardcomma y\isin\listtype{0,1\rangedots5}\guardcomma x+y\binaryg3}}$$は$0\le x\le 10$かつ$0\le y\le 5$の範囲で$x+y>3$となる$x$及び$y$から$x+y$を並べたリストである．
+例えば$$\left[x+y\mathGuard{x\mathFrom[0,1\dots9],\,y\mathFrom[0,1\dots5],\,x+y>3}\right]$$は$0\le x\le 10$かつ$0\le y\le 5$の範囲で$x+y>3$となる$x$及び$y$から$x+y$を並べたリストである．
 
-リストは\keyword{結合}できる．例えばリスト$l$とリスト$m$を結合したリストは$$l\binarylistappend m$$で得られる．
+リストは\keyword{結合}できる．例えばリスト$l$とリスト$m$を結合したリストは$$l\hsklAppend m$$で得られる．
 
 リストは無限個の要素を持っても良い．
-例えば自然数全体を表すリスト$n$は$$n=[1,2\infinitydots]$$のように定義して良い．
+例えば自然数全体を表すリスト$n$は$$n=[1,2\dots]$$のように定義して良い．
 
-\keyword{空リスト}は$\constantempty$で表す．
+\keyword{空リスト}は$\hsklEmptyList$で表す．
 
-任意の型を$\typename{a}$とするとき，$\typename{a}$型のリストを$\typeconstructor{\typelist}{\typename{a}}$と書く．
-$\typelist$のように型名$\typename{a}$を修飾するものを\keyword{型コンストラクタ}と呼ぶ．
+任意の型を$\hsklType{a}$とするとき，$\hsklType{a}$型のリスト型を$[\hsklType{a}]$と書く．
+型$\hsklType{a}$から型$[\hsklType{a}]$を生成する演算子をリスト型コンストラクタと呼んで$\hsklListConstructor$と書き$$[\hsklType{a}]=\hsklListConstructor\hsklType{a}$$とする．
+この等式の両辺は変数ではなく型名であることに注意しよう．
 
 ある型を包み込んだ別の型を一般に\keyword{コンテナ型}または単に\keyword{コンテナ}と呼ぶ．
 
 \section{畳み込み}
 
 我々はよくリストの総和を表現するためにシグマ記号($\sum$)を使う．
-リスト$\listtype{x_0,x_1\rangedots x_n}$の総和を$$\sum\listtype{x_0,x_1\rangedots x_n}=x_0+x_1+\dotsb+x_n$$とするようなシグマ記号である．
+リスト$[x_0,x_1\dots x_n]$の総和を$$\sum[x_0,x_1\dots x_n]=x_0+x_1+\dotsb+x_n$$とするようなシグマ記号である．
 この表現を一般化してみよう．
-リスト$\listtype{x_0,x_1\rangedots x_n}$が与えられたとき，$$\mathfold^\mathbinaryop_a\listtype{x_0,x_1\rangedots x_n}=a\mathbinaryop x_0\mathbinaryop x_1\mathbinaryop\dotsb\mathbinaryop x_n$$であると定義する．
-この新しい記号$\mathfold$は\keyword{畳み込み演算子}と呼ばれる．
+リスト$[x_0,x_1\dots x_n]$が与えられたとき，$$\mathFold^\mathAnyBinaryOperator_a[x_0,x_1\dots x_n]=a\mathAnyBinaryOperator x_0\mathAnyBinaryOperator x_1\mathAnyBinaryOperator\dotsb\mathAnyBinaryOperator x_n$$であると定義する．
+この新しい記号$\mathFold$は\keyword{畳み込み演算子}と呼ばれる．
 変数$a$はアキュムレータと呼ぶ．
 アキュムレータは右側の引数が空であった場合のデフォルト値と考えても良い．
 
-リストの総和をとる演算子$\sum$は$$\sum=\mathfold^+_0$$とすれば得られる．
-同じようにリストの要素のすべての積をとる演算子$\prod$は$$\prod=\mathfold^\binarymultiply_1$$とすれば得られる．
+リストの総和をとる演算子$\sum$は$$\sum=\mathFold^+_0$$とすれば得られる．
+同じようにリストの要素のすべての積をとる演算子$\prod$は$$\prod=\mathFold^*_1$$とすれば得られる．
 
-畳み込み演算子は第1（上）引数に$\typename{a}$型と$\typename{b}$型の引数を取り$\typename{a}$型の戻り値を返す二項演算子，第2（下）引数に$\typename{a}$型，第3（右）引数に$\typename{b}$型のリストすなわち$\listtype{\typename{b}}$型を取り，$\typename{a}$型の値を返す．
-従って畳み込み演算子の型は$$\mathfold\istypeof\mmmorph{(\mmorph{\typename{a}}{\typename{b}}{\typename{a}})}{\typename{a}}{\listtype{\typename{b}}}{\typename{a}}$$と定義できる．
+畳み込み演算子は第1（上）引数に$\hsklType{a}$型と$\hsklType{b}$型の引数を取り$\hsklType{a}$型の戻り値を返す二項演算子，第2（下）引数に$\hsklType{a}$型，第3（右）引数に$\hsklType{b}$型のリストすなわち$[\hsklType{b}]$型を取り，$\hsklType{a}$型の値を返す．
+従って畳み込み演算子の型は$$\mathFold\mathIn\mathMorphIII{(\mathMorphII{\hsklType{a}}{\hsklType{b}}{\hsklType{a}})}{\hsklType{a}}{[\hsklType{b}]}{\hsklType{a}}$$と定義できる．
 
 畳み込み演算子には次のようなもう一つのバリエーションがある．
-$$\mathfoldright^\mathbinaryop_a\listtype{x_0,x_1\rangedots x_n}=\left(x_0\mathbinaryop\left(x_1\mathbinaryop\dotsb\mathbinaryop\left(x_n\mathbinaryop a\right)\right)\right)$$
+$$\mathFoldRight^\mathAnyBinaryOperator_a[x_0,x_1\dotsb x_n]=\left(x_0\mathAnyBinaryOperator\left(x_1\mathAnyBinaryOperator\dotsb\mathAnyBinaryOperator\left(x_n\mathAnyBinaryOperator a\right)\right)\right)$$
 これは右畳み込みと呼ばれる演算子である．
 
 % concat
@@ -846,9 +855,8 @@ $$\mathfold_\constantempty^\binarylistappend\listtype{\listtype{0,1,2},\listtype
 \section{マップ}
 
 リストの各要素に決まった関数を適用したい場合がある．
-引数として関数$f$とリスト$\listtype{x_0,x_1\rangedots x_n}$を取り，戻り値として$\listtype{fx_0,fx_1\rangedots fx_n}$を返す演算子$\binarylistfunctormap$を考えよう．
-このとき$$f\binarylistfunctormap\listtype{x_0,x_1\rangedots x_n}=\listtype{fx_0,fx_1\rangedots fx_n}$$であると定義する．
-% リストのマップ演算子と呼ぶ$\mapfunc_\text{list}$は$$\mapfunc\nolimits_\text{list}::(\typename{a}\rightarrow\typename{b})\rightarrow\listtype{\typename{a}}\rightarrow\listtype{\typename{b}}$$という型を持つ．
+引数として関数$f$とリスト$[x_0,x_1\dots x_n]$を取り，戻り値として$[fx_0,fx_1\dots fx_n]$を返す演算子$\hsklListMap$を考えよう．
+このとき$$f\hsklListMap[x_0,x_1\dots x_n]=[fx_0,fx_1\dots fx_n]$$であると定義する．
 
 
 
