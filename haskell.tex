@@ -302,16 +302,16 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 どれも当たり前のことに見えるが，ひとつひとつ見ていこう．
 ここで$x,y,z\mathIn\mathSet{R}$とする．
 \begin{description}
-\item[実数の性質1. 足し算] $x$と$y$の足し算（\keyword{加法}）の結果（\keyword{和}）$x+y$は$\mathSet{R}$の元すなわち実数である．
-\item[実数の性質2. 足し算の結合則] $x,y,z$について$$(x+y)+z=x+(y+z)$$である．これを\keyword{結合則}と呼ぶ．
-\item[実数の性質3. 零元（加法単位元）の存在] $0\mathIn\mathSet{R}$があり$$0+x=x+0=x$$である．この$0$は足し算の\keyword{単位元}である．\keyword{零元}または\keyword{加法単位元}と呼ぶこともある．
-\item[実数の性質4. 負元（加法逆元）の存在] $x$に対して$-x\mathIn\mathSet{R}$があり$$-x+x=0$$である．この$-x$は$x$の足し算の\keyword{逆元}である．\keyword{負元}または\keyword{加法逆元}と呼ぶこともある．
-\item[実数の性質5. 足し算の可換性] $x,y$について$$x+y=y+x$$である．このことを足し算の\keyword{可換性}と呼ぶ．
-\item[実数の性質6. 掛け算] $x$と$y$の掛け算（\keyword{乗法}）の結果（\keyword{積}）$x*y$は$\mathSet{R}$の元すなわち実数である．
-\item[実数の性質7. 掛け算の結合則] $x,y,z$について$$(x*y)*z=x*(y*z)$$である．
-\item[実数の性質8. 単位元の存在] $1\mathIn\mathSet{R}$があり$$1*x=x*1=x$$である．この$1$を掛け算の単位元または\keyword{乗法単位元}と呼ぶ．
-\item[実数の性質9. 逆元] $x$に対して$x^{-1}\mathIn\mathSet{R}$があり$$x^{-1}*x=1$$である．この$x^{-1}$は$x$の掛け算の逆元である．\keyword{乗法逆元}と呼ぶこともある．ただし性質11で述べる通り，加法単位元については逆元がなくても良い．
-\item[実数の性質10. 掛け算の可換性] $x,y$について$$x*y=y*x$$である．このことを掛け算の可換性と呼ぶ．
+\item[実数の性質1. 足し算] 任意の$x$と任意の$y$の足し算（\keyword{加法}）の結果（\keyword{和}）$x+y$は$\mathSet{R}$の元すなわち実数である．
+\item[実数の性質2. 足し算の結合則] 任意の$x,y,z$について$$(x+y)+z=x+(y+z)$$である．これを\keyword{結合則}と呼ぶ．
+\item[実数の性質3. 零元（加法単位元）の存在] 特別な実数$0\mathIn\mathSet{R}$があり$$0+x=x+0=x$$である．この$0$は足し算の\keyword{単位元}である．\keyword{零元}または\keyword{加法単位元}と呼ぶこともある．
+\item[実数の性質4. 負元（加法逆元）の存在] 任意の$x$に対して$-x\mathIn\mathSet{R}$があり$$-x+x=0$$である．この$-x$は$x$の足し算の\keyword{逆元}である．\keyword{負元}または\keyword{加法逆元}と呼ぶこともある．
+\item[実数の性質5. 足し算の可換性] 任意の$x,y$について$$x+y=y+x$$である．このことを足し算の\keyword{可換性}と呼ぶ．
+\item[実数の性質6. 掛け算] 任意の$x$と任意の$y$の掛け算（\keyword{乗法}）の結果（\keyword{積}）$x*y$は$\mathSet{R}$の元すなわち実数である．
+\item[実数の性質7. 掛け算の結合則] 任意の$x,y,z$について$$(x*y)*z=x*(y*z)$$である．
+\item[実数の性質8. 単位元の存在] 特別な実数$1\mathIn\mathSet{R}$があり$$1*x=x*1=x$$である．この$1$を掛け算の単位元または\keyword{乗法単位元}と呼ぶ．
+\item[実数の性質9. 逆元の存在] 任意の$x$に対して$x^{-1}\mathIn\mathSet{R}$があり$$x^{-1}*x=1$$である．この$x^{-1}$は$x$の掛け算の逆元である．\keyword{乗法逆元}と呼ぶこともある．ただし性質11で述べる通り，加法単位元については逆元がなくても良い．
+\item[実数の性質10. 掛け算の可換性] 任意の$x,y$について$$x*y=y*x$$である．このことを掛け算の可換性と呼ぶ．
 \item[実数の性質11. 加法単位元の乗法逆元] 加法単位元に対する掛け算の逆元は存在しなくても良い．（つまり$0^{-1}$のことは考えなくて良い．）
 \item[実数の性質12. 分配則] 足し算と掛け算が混在する場合$$x*(y+z)=x*y+x*z$$と掛け算を\keyword{分配}する．
 \end{description}
@@ -378,16 +378,16 @@ z\uparrow2&=z*z\\
 
 いま集合$\mathSet{G}$があり，$x,y,z\mathIn\mathsetname{G}$であるとし，二項演算子を$\mathAnyBinaryOperator$と書くことにして，体の性質の前半分を書き下してみよう．
 \begin{description}
-\item[性質1.] $x$と$y$の演算の結果$x\mathAnyBinaryOperator y$は$\mathSet{G}$の元である．
-\item[性質2.] $x,y,z$について$$(x\mathAnyBinaryOperator y)\mathAnyBinaryOperator z=x\mathAnyBinaryOperator(y\mathAnyBinaryOperator z)$$である．
-\item[性質3.] $O\mathIn\mathSet{G}$があり$$O\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O=x$$である．
-\item[性質4.] $x$に対して$\mathInverse x\mathIn\mathSet{G}$があり$$\mathInverse x\mathAnyBinaryOperator x=O$$である．
-\item[性質5.] $x,y$について$$x\mathAnyBinaryOperator y=y\mathAnyBinaryOperator x$$である．
+\item[性質1.] 任意の$x$と任意の$y$の演算の結果$x\mathAnyBinaryOperator y$は$\mathSet{G}$の元である．
+\item[性質2.] 任意の$x,y,z$について$$(x\mathAnyBinaryOperator y)\mathAnyBinaryOperator z=x\mathAnyBinaryOperator(y\mathAnyBinaryOperator z)$$である．
+\item[性質3.] 特別な元$O\mathIn\mathSet{G}$があり$$O\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O=x$$である．
+\item[性質4.] 任意の$x$に対して$\mathInverse x\mathIn\mathSet{G}$があり$$\mathInverse x\mathAnyBinaryOperator x=O$$である．
+\item[性質5.] 任意の$x,y$について$$x\mathAnyBinaryOperator y=y\mathAnyBinaryOperator x$$である．
 \end{description}
 このような性質が満たされる時，組み合わせ$\mathGroup{\mathSet{G}}{\mathAnyBinaryOperator}{O}{\mathInverse}$を\keyword{可換群}または\keyword{加群}と呼ぶ．
 この可換群が最初の構成要素「可換・単位元あり・逆元あり」の正体である．
 
-例えば$\mathGroup{\mathSet{R}}{0}{-}{+}$は可換群である．
+例えば$\mathGroup{\mathSet{R}}{+}{0}{-}$は可換群である．
 整数全体の集合を$\mathSet{Z}$とすると$\mathGroup{\mathSet{Z}}{+}{0}{-}$も可換群である．
 また，集合$\mathSet{R}$から$0$だけを取り除いた集合を$\mathSet{R}\setminus0$とするとき$\mathGroup{\mathSet{R}\setminus0}{*}{1}{\mathSomething^{-1}}$も可換群である．
 
@@ -411,21 +411,23 @@ U_{r_1}\bullet U_{r_2}=U_{(r_1+r_2)}
 $r$回転の逆は明らかに$-r$であるから$$U_{-r}\bullet U_r=U_r\bullet U_{-r}=I$$が成り立つ．
 そこで$$U_{r}^{-1}=U_{-r}$$として$U_r$の逆元$U_r^{-1}$を定義することができる．
 
-このように，組み合わせ$\mathGroup{\mathSet{U}}{I}{\mathSomething^{-1}}{\bullet}$も可換群である．
+このように，組み合わせ$\mathGroup{\mathSet{U}}{\bullet}{I}{\mathSomething^{-1}}$も可換群である．
 
 任意次元のベクトル全体からなる集合を$\mathSet{V}$として，零ベクトルを$\mathVector{O}$で表すことにしよう．
-ベクトル同士の加算を二項演算子$+$で表し，向きを反転させた逆ベクトル作る演算子を$-$とすると，組み合わせ$\mathGroup{\mathSet{V}}{\mathVector{O}}{-}{+}$もまた可換群である．
+矢印はベクトルであることを忘れないようにするための飾りである．
+ベクトル同士の加算を二項演算子$+$で表し，向きを反転させた逆ベクトル作る演算子を$-$とすると，組み合わせ$\mathGroup{\mathSet{V}}{+}{\mathVector{O}}{-}$もまた可換群である．
 
 可換群の性質のうち最初の4項目だけを満たすものを\keyword{群}と呼ぶ．
 可換群は群の特別な場合である．
 現代の数学では$x\mathAnyBinaryOperator y\neq y\mathAnyBinaryOperator x$のように演算子の前後を入れ替えると結果が異なるような演算をよく取り扱うので，一般の群は可換群よりもよく取り上げられ，それ故より短い名前が付けられている．
 
-組み合わせ$\mathGroup{\mathSet{G}}{O}{\mathInverse}{\mathAnyBinaryOperator}$が群である条件は
+もう一度組み合わせ$\mathGroup{\mathSet{G}}{\mathAnyBinaryOperator}{O}{\mathInverse}$が群である条件を見ておこう．
+それは
 \begin{description}
-\item[群の性質1.] $x$と$y$の演算の結果$x\mathAnyBinaryOperator y$は$\mathSet{G}$の元である．
-\item[群の性質2.] $x,y,z$について$$(x\mathAnyBinaryOperator y)\mathAnyBinaryOperator z=x\mathAnyBinaryOperator(y\mathAnyBinaryOperator z)$$である．
-\item[群の性質3.] $O\mathIn\mathSet{G}$があり$$O\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O=x$$である．
-\item[群の性質4.] $x$に対して$\mathInverse\mathIn\mathSet{G}$があり$$\mathInverse x\mathAnyBinaryOperator x=O$$である．
+\item[群の性質1.] 任意の$x$と任意の$y$の演算の結果$x\mathAnyBinaryOperator y$は$\mathSet{G}$の元である．
+\item[群の性質2. 結合則] 任意の$x,y,z$について$$(x\mathAnyBinaryOperator y)\mathAnyBinaryOperator z=x\mathAnyBinaryOperator(y\mathAnyBinaryOperator z)$$である．
+\item[群の性質3. 単位元の存在] 特別な元$O\mathIn\mathSet{G}$があり$$O\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O=x$$である．
+\item[群の性質4. 逆元の存在] 任意の$x$に対して$\mathInverse\mathIn\mathSet{G}$があり$$\mathInverse x\mathAnyBinaryOperator x=O$$である．
 \end{description}
 であった．
 これらの条件を少し緩め，逆元が存在しなくても良い「緩やかな群」を考えてみる．
@@ -451,24 +453,25 @@ $r$回転の逆は明らかに$-r$であるから$$U_{-r}\bullet U_r=U_r\bullet 
 
 単位的半群の性質は次の三つである．ただし$x,y,z$が集合$\mathSet{M}$の元であるとする．
 \begin{description}
-\item[単位的半群の性質1.] $x$と$y$の演算の結果$x\mathAnyBinaryOperator y$は$\mathSet{M}$の元である．
-\item[単位的半群の性質2.] $x,y,z$について$$(x\mathAnyBinaryOperator y)\mathAnyBinaryOperator z=x\mathAnyBinaryOperator(y\mathAnyBinaryOperator z)$$である．
-\item[単位的半群の性質3.] $O\mathIn\mathSet{M}$があり$$O\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O=x$$である．
+\item[単位的半群の性質1.] 任意の$x$と任意の$y$の演算の結果$x\mathAnyBinaryOperator y$は$\mathSet{M}$の元である．
+\item[単位的半群の性質2. 結合則] 任意の$x,y,z$について$$(x\mathAnyBinaryOperator y)\mathAnyBinaryOperator z=x\mathAnyBinaryOperator(y\mathAnyBinaryOperator z)$$である．
+\item[単位的半群の性質3. 単位元の存在] 特別な元$O\mathIn\mathSet{M}$があり$$O\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O=x$$である．
 \end{description}
 このとき，組み合わせ$\mathMonoid{\mathSet{M}}{\mathAnyBinaryOperator}{O}$が単位的半群である．
 可換群とこの単位的半群を組み合わせたのが環，可換群二つを組み合わせたのが体であった．
 
-なお単位元の定義として$O\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O=x$を上げているが，厳密には単位元は$$O_\mathLeft\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O_\mathRight=x$$のように，\keyword{左単位元}と\keyword{右単位元}を区別しても良い．
+なお，これまで単位元の定義として$O\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O=x$を掲げているが，厳密には単位元は$$O_\mathLeft\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O_\mathRight=x$$のように，\keyword{左単位元}と\keyword{右単位元}を区別しても良い．
 
 単位的半群の性質からさらに性質3を消したものを\keyword{半群}と呼ぶ．
+可換群，群，単位的半群，半群を一覧にしたものを表\ref{tab:group-and-monoid}に掲げる．
 
 \section{圏}
 
 これまでは集合の元同士に対する二項演算を考えてきた．
 集合$\mathSet{M}$が単位的半群であるとき，集合$\mathSet{M}$の元$x,y\mathIn\mathSet{M}$に対して$x\mathAnyBinaryOperator y\mathIn\mathSet{M}$であった．
-これは演算子$\mathAnyBinaryOperator$に着目すると，この演算子$\mathAnyBinaryOperator$は集合$\mathSet{M}$の元2個から出発して，集合$\mathSet{M}$の元1個へとジャンプさせる\keyword{写像}であると言える．
+見方を変えると，演算子$\mathAnyBinaryOperator$とは集合$\mathSet{M}$の元2個から出発して，集合$\mathSet{M}$の元1個へとジャンプさせる\keyword{写像}であると言える．
 これを$$\mathAnyBinaryOperator\mathIn\mathMorph{\mathSet{M}\mathSetTimes\mathSet{M}}{\mathSet{M}}$$と書く．
-ここに$\mathSet{X}\mathSetTimes\mathSet{Y}$を集合$\mathSet{X}$と集合$\mathSet{Y}$の\keyword{直積集合}と言う．
+ここに$\mathSet{X}\mathSetTimes\mathSet{Y}$は集合$\mathSet{X}$と集合$\mathSet{Y}$の\keyword{直積集合}である．
 直積集合と元の集合はもはや別な集合であることに注意しよう．
 
 写像は$\mathMorph{\mathSet{M}\mathSetTimes\mathSet{M}}{\mathSet{M}}$に限ったもの出はなく，集合$\mathSet{M}$から集合$\mathSet{M}$への写像$\mathAnyUnaryOperator$ただし$$\mathAnyUnaryOperator\mathIn\mathMorph{\mathSet{M}}{\mathSet{M}}$$があっても良い．
@@ -493,19 +496,21 @@ g&\mathIn\mathMorph{\mathSet{Y}}{\mathSet{Z}}
 さらに
 \begin{align*}
 I_\mathSet{X}&\mathIn\mathMorph{\mathSet{X}}{\mathSet{X}}\\
-I_\mathSet{Y}&\mathIn\mathMorph{\mathSet{Y}}{\mathSet{Y}}
+I_\mathSet{Y}&\mathIn\mathMorph{\mathSet{Y}}{\mathSet{Y}}\\
+I_\mathSet{Z}&\mathIn\mathMorph{\mathSet{Z}}{\mathSet{Z}}
 \end{align*}
 という写像もあるとしよう．
 ここで$$I_\mathSet{Y}\mathCompose f=f\mathCompose I_\mathSet{X}$$とすると，写像$I_\mathSet{X}$と写像$I_\mathSet{Y}$はそれぞれ写像の合成演算子$\mathCompose$に対して単位元のように振る舞う．
+写像$g$については$$I_\mathSet{Z}\mathCompose g=g\mathCompose I_\mathSet{Y}$$であるとする．
 一般に写像$I_\mathSet{S}$を集合$\mathSet{S}$における\keyword{恒等写像}と呼ぶ．
 
-集合$\mathSet{X}$，集合$\mathSet{Y}$，集合$\mathSet{Z}$の集合$\mathSet{C}$と，写像$f$と写像$g$の集合$\mathSet{F}$と，恒等写像の集合$\mathSet{I}$と，写像合成演算子$\mathCompose$の組み$\mathCategory{\mathSet{C}}{\mathSet{F}}{\mathSet{I}}{\mathCompose}$を\keyword{圏}と呼ぶ．
-恒等写像の集合と写像合成演算子は自明であるためしばしば省略され，組み$\mathCategoryShort{\mathSet{C}}{\mathSet{F}}$という書き方もよくされる．
+集合$\mathSet{X}$，集合$\mathSet{Y}$，集合$\mathSet{Z}$の集合$\mathSet{C}$と，写像$f$と写像$g$の集合$\mathSet{F}$と，写像合成演算子$\mathCompose$と，恒等写像の集合$\mathSet{I}$の組み合わせ$\mathCategory{\mathSet{C}}{\mathSet{F}}{\mathCompose}{\mathSet{I}}$を\keyword{圏}と呼ぶ．
+恒等写像の集合と写像合成演算子は自明であるためしばしば省略され，組み合わせ$\mathCategoryShort{\mathSet{C}}{\mathSet{F}}$という書き方もよくされる．
 
-圏を考えるとき，写像の事は\keyword{射}と呼ぶ決まりである．
+圏を考えるとき，変換や写像は全て\keyword{射}と呼ぶ決まりである．
 
 いまある単位的半群$\mathMonoid{\mathSet{M}}{\mathAnyBinaryOperator}{O}$があるとする．
-集合$\mathSet{C}$を$\mathSet{M}$及び$\mathSet{M}\mathSetTimes\mathSet{M}$を元とする集合とし，集合$\mathSet{F}$を$\mathAnyBinaryOperator$のみを元とする集合とすると，組み$\mathCategoryShort{\mathSet{C}}{\mathSet{F}}$は圏になっている．
+集合$\mathSet{C}$を$\mathSet{M}$及び$\mathSet{M}\mathSetTimes\mathSet{M}$を元とする集合とし，集合$\mathSet{F}$を$\mathAnyBinaryOperator$のみを元とする集合とすると，組み合わせ$\mathCategoryShort{\mathSet{C}}{\mathSet{F}}$は圏になっている．
 
 \section*{余計な話}
 
