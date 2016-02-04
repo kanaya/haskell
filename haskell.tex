@@ -12,6 +12,8 @@
 \newcommand{\hsklTypeclass}[1]{\mathsf{#1}}
 \newcommand{\hsklTypeConstructor}[1]{\mathop{\mathrm{#1}}}
 
+\DeclareMathOperator{\hsklApplicativeMap}{\times}
+\DeclareMathOperator{\hsklApplicativeListMap}{\otimes}
 \DeclareMathOperator{\hsklConcat}{\flat}
 \DeclareMathOperator{\hsklFmap}{\cdot}
 \DeclareMathOperator{\hsklListConstructor}{\hsklTypeConstructor{List}}
@@ -48,6 +50,7 @@
 \newcommand{\hsklMaybe}[1]{\Tilde{#1}}
 \newcommand{\hsklMaybeW}[1]{\widetilde{#1}}
 \newcommand{\hsklMaybeType}[1]{\{\!\{#1\}\!\}}
+\newcommand{\hsklPure}[1]{\langle#1\rangle}
 
 \newcommand{\hsklTypeConstruct}[2]{#1\,#2}
 
@@ -982,7 +985,6 @@ f\hsklMap&\mathIn\mathMorph{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType
 \end{align*}
 となり，マップ演算子が何をしているのか一目瞭然になる．
 
-
 \section*{余計な話}
 
 \chapter{コンテナの高度な話題}
@@ -1060,6 +1062,14 @@ LISPにおけるリストとは要素$\mathFirst$と要素$\mathRest$からな�
 結合演算子$:$は右結合する．
 すなわち$$x_0:x_1:x_2=x_0:(x_1:x_2)$$である．
 
+マップ演算子の実装は，リストの実装に踏み込めば簡単である．
+空でないリストは必ず$x:\hsklList{y}$へと分解できるから
+\begin{align*}
+f\hsklMap x:\hsklList{y}&=fx:f\hsklMap\hsklList{y}\\
+f\hsklMap\hsklEmptyList&=\hsklEmptyList
+\end{align*}
+とマップ演算子$\hsklMap$を定義できる．
+
 \section*{余計な話：単位的半群としてのコンテナ}
 
 $$\mathMonoid{\hsklListType{\hsklType{a}}}{\hsklAppend}{\hsklEmptyList}$$
@@ -1099,33 +1109,54 @@ $$\mathMonoid{\hsklMaybeType{\hsklType{a}}}{\hsklMaybeAppend}{\hsklNothing}$$
 
 ---
 
+\section{関数と関手の関係}
 
 
 \section{アプリカティブ関手}
 
 関手の一般化マップ演算子をさらに汎用性のあるものにするために，二つの要素に分解する．
-その要素とはpure演算子と$\times$演算子である．
-関手との後方互換性は$$f\cdot x=\langle f\rangle\times x$$として確保する．
+その要素とはpure演算子と$\hsklApplicativeMap$演算子である．
+関手との後方互換性は$$f\hsklFmap x=\hsklPure{f}\hsklApplicativeMap x$$として確保する．
 
 
+一般化マップ演算子が「普通の関数」$f$をコンテナの中の変数に適用するのに対し，アプリカティブマップ演算子はコンテナの中の関数をコンテナの中の変数へ適用する．
 
-\section{関数と関手の関係}
+リストに対するアプリカティブマップ演算子$\hsklApplicativeListMap$は左引数のリスト内のすべての関数を順番に右引数のリスト内の変数に適用し，その結果をリストとして返す．
+
+例えば$$[f,g,h]\hsklApplicativeMap[x,y,z]$$とした場合，左引数，右引数ともリストであるため$$[f,g,h]\hsklApplicativeMap[x,y,z]=[f,g,h]\hsklApplicativeListMap[x,y,z]$$となり，その結果は
+\begin{align*}
+[f,g,h]\hsklApplicativeMap[x,y,z]&=[f,g,h]\hsklApplicativeListMap[x,y,z]\\
+&=[fx,fy,fz,gx,gy,gz,hx,hy,hz]
+\end{align*}
+である．
+
+% 実装
+
+\begin{align*}
+(f:\hsklList{g})\hsklApplicativeListMap\hsklList{x}&=\hsklConcat(f\hsklMap\hsklList{x}:\hsklList{g}\hsklApplicativeListMap\hsklList{x})\\
+\hsklEmptyList\hsklApplicativeListMap\hsklList{x}&=\hsklEmptyList
+\end{align*}
+
+
 
 \chapter{モナド}
 
 \section{アプリカティブ関手の拡張}
 
-$$f\cdot x=f'\mathop\heartsuit x$$
+$$f\cdot\Bar x=\langle f\rangle\mathop\heartsuit\Bar x$$
+
+$$\Bar g\times\Bar x=\langle h\rangle\mathop\heartsuit\Bar x$$
+where
+$$\Bar g=$$
 
 $$f'=\begin{cases}\langle f\rangle&\text{if nothing happened}\\
 \text{some context}&\text{when something happened}\end{cases}$$
 
-$$(X,\langle\,\rangle,\binaryfunctormap,\times,\heartsuit)$$
 
 
 \section{モナド則}
 
-\section{モノイドなモナド}
+\section*{余計な話：モノイドなモナド}
 
 
 \begin{table*}
