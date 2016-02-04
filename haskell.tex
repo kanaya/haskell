@@ -10,7 +10,7 @@
 
 \newcommand{\hsklType}[1]{\textbf{#1}}
 \newcommand{\hsklTypeclass}[1]{\mathsf{#1}}
-\newcommand{\hsklTypeConstructor}[1]{\mathop{\textbf{#1}}}
+\newcommand{\hsklTypeConstructor}[1]{\mathop{\mathrm{#1}}}
 
 \DeclareMathOperator{\hsklConcat}{\flat}
 \DeclareMathOperator{\hsklListConstructor}{\hsklTypeConstructor{List}}
@@ -67,6 +67,7 @@
 \newcommand{\mathOtherwise}{\mathKeyword{otherwise}}
 \newcommand{\mathSomething}{\square}
 
+\newcommand{\mathFunctor}[1]{\mathrm{#1}}
 \newcommand{\mathGuard}[1]{\mathop{\mid_{#1}}}
 \newcommand{\mathSet}[1]{\mathbf{#1}}
 \newcommand{\mathVector}[1]{\boldsymbol{#1}}
@@ -229,6 +230,28 @@
 \begin{document}
 \maketitle
 \tableofcontents
+
+\begin{table*}
+\caption{凡例}
+\begin{center}
+\begin{tabular}{||c|c|c||}
+\hline
+種類&字体&例\\
+\hline
+変数&イタリック体，小文字&$x$, $y$\\
+関数&イタリック体，小文字&$f$, $g$\\
+定数&イタリック体，大文字&$I$, $T$\\
+特別な関数&ローマン体，小文字で始める&$\hsklSucc$, $\hsklPred$\\
+キーワード&ボールド体，小文字で始める&$\mathIf$, $\mathOtherwise$\\
+集合と型&ボールド体，大文字で始める&$\mathSet{S}$, $\hsklInt$\\
+型パラメタ&ボールド体，小文字&$\hsklType{a}$, $\hsklType{b}$\\
+関手と型コンストラクタ&ローマン体，大文字で始める&$\mathFunctor{F}$, $\hsklListConstructor$\\
+型クラス&サンセリフ体，大文字で始める&$\hsklEq$, $\hsklIntegral$\\
+\hline
+\end{tabular}
+\end{center}
+\end{table*}
+
 
 \part{代数構造とプログラミング}
 
