@@ -36,6 +36,7 @@
 \newcommand{\hsklOrd}{\hsklTypeclass{Ord}}
 \newcommand{\hsklReal}{\hsklTypeclass{Real}}
 
+\newcommand{\hsklFunction}[1]{\Hat{#1}}
 \newcommand{\hsklJust}[1]{\{#1\}}
 \newcommand{\hsklList}[1]{\Bar{#1}}
 \newcommand{\hsklListType}[1]{\[#1\]}
@@ -48,7 +49,7 @@
 \newcommand{\mathKeyword}[1]{\mathbf{#1}}
 
 \DeclareMathOperator{\mathAnyBinaryOperator}{\bigstar}
-\DeclareMathOperator{\mathInverse}{\natural}
+\DeclareMathOperator{\mathInverse}{\sharp}
 \DeclareMathOperator{\mathApply}{\$}
 \DeclareMathOperator{\mathAnyUnaryOperator}{\star}
 \DeclareMathOperator{\mathCompose}{\bullet}
@@ -70,7 +71,7 @@
 \newcommand{\mathFunctor}[1]{\mathrm{#1}}
 \newcommand{\mathGuard}[1]{\mathop{\mid_{#1}}}
 \newcommand{\mathSet}[1]{\mathbf{#1}}
-\newcommand{\mathVector}[1]{\boldsymbol{#1}}
+\newcommand{\mathVector}[1]{\vec{#1}}
 
 \newcommand{\mathCategory}[2]{(#1,#2)}
 \newcommand{\mathLambdaExpression}[2]{\mathLambda#1\rightarrow#2}
@@ -248,6 +249,13 @@
 関手と型コンストラクタ&ローマン体，大文字で始める&$\mathFunctor{F}$, $\hsklListConstructor$\\
 型クラス&サンセリフ体，大文字で始める&$\hsklEq$, $\hsklIntegral$\\
 \hline
+リスト変数&名前にバーをつける&$\hsklList{x}$\\
+Maybe変数&名前にチルダをつける&$\hsklMaybe{x}$\\
+関数変数&名前にハットをつける&$\hsklFunction{x}$\\
+ベクトル変数&名前に矢印をつける&$\mathVector{x}$\\
+\hline
+コード&タイプライタ体&\texttt{1+x}\\
+\hline
 \end{tabular}
 \end{center}
 \end{table*}
@@ -365,7 +373,7 @@ z\uparrow2&=z*z\\
 形式的に二項演算子$+$を$\mathAnyBinaryOperator_1$とし，二項演算子$*$を$\mathAnyBinaryOperator_2$として，体と環の性質を並べたものが表\ref{tab:field-and-ring}である．
 これを見ると，演算子$\mathAnyBinaryOperator$について「可換・単位元あり・逆元あり」の組み合わせが二つペアになったもの（体）か，「可換・単位元あり・逆元あり」の組み合わせと「非可換・単位元あり・逆元なし」の組み合わせがペアになったもの（環）があり，その構成要素は二項演算子$\mathAnyBinaryOperator$について「可換・単位元あり・逆元あり」と「非可換・単位元あり・逆元なし」の2種類であることがわかる．
 
-いま集合$\mathSet{G}$があり，$x,y,z\mathIn\mathsetname{G}$であるとし，二項演算子を形式的に$\mathAnyBinaryOperator$と書くことにして，体の性質の前半分を書き下してみよう．
+いま集合$\mathSet{G}$があり，$x,y,z\mathIn\mathsetname{G}$であるとし，二項演算子を$\mathAnyBinaryOperator$と書くことにして，体の性質の前半分を書き下してみよう．
 \begin{description}
 \item[性質1.] $x$と$y$の演算の結果$x\mathAnyBinaryOperator y$は$\mathSet{G}$の元である．
 \item[性質2.] $x,y,z$について$$(x\mathAnyBinaryOperator y)\mathAnyBinaryOperator z=x\mathAnyBinaryOperator(y\mathAnyBinaryOperator z)$$である．
@@ -402,8 +410,8 @@ $r$回転の逆は明らかに$-r$であるから$$U_{-r}\bullet U_r=U_r\bullet 
 
 このように，組み合わせ$\mathGroup{\mathSet{U}}{I}{\mathSomething^{-1}}{\bullet}$も可換群である．
 
-任意次元のベクトル全体からなる集合を$\mathSet{V}$として，零ベクトルを$\mathVector{o}$で表すことにしよう．
-ベクトル同士の加算を二項演算子$+$で表し，向きを反転させた逆ベクトル作る演算子を$-$とすると，組み合わせ$\mathGroup{\mathSet{V}}{\mathVector{o}}{-}{+}$もまた可換群である．
+任意次元のベクトル全体からなる集合を$\mathSet{V}$として，零ベクトルを$\mathVector{O}$で表すことにしよう．
+ベクトル同士の加算を二項演算子$+$で表し，向きを反転させた逆ベクトル作る演算子を$-$とすると，組み合わせ$\mathGroup{\mathSet{V}}{\mathVector{O}}{-}{+}$もまた可換群である．
 
 可換群の性質のうち最初の4項目だけを満たすものを\keyword{群}と呼ぶ．
 可換群は群の特別な場合である．
@@ -464,8 +472,20 @@ $r$回転の逆は明らかに$-r$であるから$$U_{-r}\bullet U_r=U_r\bullet 
 これらは実数のパラメタを一つとるので，ベクトル全体の集合を$\mathSet{V}$，実数全体の集合を$\mathSet{R}$として，実数のパラメタを$r$としたときに$$\mathAnyUnaryOperator_r\mathIn\mathMorph{\mathSet{R}\mathSetTimes\mathSet{V}}{\mathSet{V}}$$と書ける．
 例えば回転の場合は$\mathAnyUnaryOperator_r=U_r$である．
 
-このように一般化した演算子$\mathAnyUnaryOperator$と，それが定義される集合$\mathSet{C}$の組み合わせ$\mathCategory{\mathSet{C}}{\mathAnyUnaryOperator}$のことを\keyword{圏}と呼ぶ．
-また写像（ここでは演算子$\mathAnyUnaryOperator$のこと）を一般に\keyword{射}と呼ぶ．
+このようにとある集合（例えば$\mathSet{M}\mathSetTimes\mathSet{M}$や$\mathSet{R}\mathSetTimes\mathSet{V}$）から異なる別な集合（例えば$\mathSet{M}$や$\mathSet{V}$）へという写像を一般化するとどうなるだろうか．
+そこで，集合$\mathSet{A}$から集合$\mathSet{B}$への写像を$f$とすると$$f\mathIn\mathMorph{\mathSet{A}}{\mathSet{B}}$$があるとして，さらに
+\begin{align*}
+I_\mathSet{A}&\mathIn\mathMorph{\mathSet{A}}{\mathSet{A}}\\
+I_\mathSet{B}&\mathIn\mathMorph{\mathSet{B}}{\mathSet{B}}
+\end{align*}
+という写像もあるとしよう．
+
+二つの写像は合成演算子$\mathCompose$で合成できるものとする．
+ここで$$I_\mathSet{B}\mathCompose f=f\mathCompose I_\mathSet{A}$$とすると，写像$I_\mathSet{A}$は写像の合成演算子$\mathCompose$に対して単位元のように振る舞う．
+
+% このように一般化した演算子$\mathAnyUnaryOperator$と，それが定義される集合$\mathSet{C}$の組み合わせ$\mathCategory{\mathSet{C}}{\mathAnyUnaryOperator}$のことを\keyword{圏}と呼ぶ．
+
+写像を一般に\keyword{射}と呼ぶ．
 
 圏が非常に重要な概念であることは徐々に明らかになる．
 
@@ -616,7 +636,7 @@ $\mathIf$節の中身は真理値を返す関数であれば良いので，関�
 \chapter{型と型クラス}
 
 \begin{leader}
-プログラマのいう型とは，数学者のいう代数構造のことである．
+プログラマのいう型とは，数学者のいう集合のことである．
 \end{leader}
 
 
