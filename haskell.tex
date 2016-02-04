@@ -21,6 +21,7 @@
 \DeclareMathOperator{\hsklPred}{pred}
 \DeclareMathOperator{\hsklSucc}{succ}
 \newcommand{\hsklAppend}{\oplus}
+\newcommand{\hsklApplicative}{\hsklTypeclass{Applicative}}
 \newcommand{\hsklBool}{\hsklType{Bool}}
 \newcommand{\hsklChar}{\hsklType{Char}}
 \newcommand{\hsklEmptyList}{\emptyset}
@@ -29,7 +30,10 @@
 \newcommand{\hsklIntegral}{\hsklTypeclass{Integral}}
 \newcommand{\hsklEq}{\hsklTypeclass{Eq}}
 \newcommand{\hsklFloat}{\hsklType{Float}}
+\newcommand{\hsklFunctor}{\hsklTypeclass{Functor}}
 \newcommand{\hsklMap}{\odot}
+\newcommand{\hsklMonad}{\hsklTypeclass{Monad}}
+\newcommand{\hsklMonadplus}{\hsklTypeclass{Monadplus}}
 \newcommand{\hsklMonoid}{\hsklTypeclass{Monoid}}
 \newcommand{\hsklNothing}{\varnothing}
 \newcommand{\hsklNum}{\hsklTypeclass{Num}}
@@ -47,6 +51,7 @@
 \newcommand{\hsklTypeConstruct}[2]{#1\,#2}
 
 \newcommand{\mathKeyword}[1]{\mathbf{#1}}
+\newcommand{\mathVarKeyword}[1]{\mathsf{#1}}
 
 \DeclareMathOperator{\mathAnyBinaryOperator}{\bigstar}
 \DeclareMathOperator{\mathInverse}{\sharp}
@@ -64,9 +69,11 @@
 \DeclareMathOperator{\mathSetTimes}{\circledast}
 \DeclareMathOperator{\mathThen}{\mathKeyword{then}}
 
+\newcommand{\mathFirst}{\mathVarKeyword{First}}
 \newcommand{\mathLambdaAnonymousParameter}{\lozenge}
 \newcommand{\mathLeft}{\mathKeyword{left}}
 \newcommand{\mathOtherwise}{\mathKeyword{otherwise}}
+\newcommand{\mathRest}{\mathVarKeyword{Rest}}
 \newcommand{\mathRight}{\mathKeyword{right}}
 \newcommand{\mathSomething}{\square}
 
@@ -504,13 +511,13 @@ I_\mathSet{Z}&\mathIn\mathMorph{\mathSet{Z}}{\mathSet{Z}}
 写像$g$については$$I_\mathSet{Z}\mathCompose g=g\mathCompose I_\mathSet{Y}$$であるとする．
 一般に写像$I_\mathSet{S}$を集合$\mathSet{S}$における\keyword{恒等写像}と呼ぶ．
 
-集合$\mathSet{X}$，集合$\mathSet{Y}$，集合$\mathSet{Z}$の集合$\mathSet{C}$と，写像$f$と写像$g$の集合$\mathSet{F}$と，写像合成演算子$\mathCompose$と，恒等写像の集合$\mathSet{I}$の組み合わせ$\mathCategory{\mathSet{C}}{\mathSet{F}}{\mathCompose}{\mathSet{I}}$を\keyword{圏}と呼ぶ．
-恒等写像の集合と写像合成演算子は自明であるためしばしば省略され，組み合わせ$\mathCategoryShort{\mathSet{C}}{\mathSet{F}}$という書き方もよくされる．
+集合$\mathSet{X}$，集合$\mathSet{Y}$，集合$\mathSet{Z}$の集合$\mathSet{C}$と，写像$f$と写像$g$の集合$\mathSet{P}$と，写像合成演算子$\mathCompose$と，恒等写像の集合$\mathSet{I}$の組み合わせ$\mathCategory{\mathSet{C}}{\mathSet{P}}{\mathCompose}{\mathSet{I}}$を\keyword{圏}と呼ぶ．
+恒等写像の集合と写像合成演算子は自明であるためしばしば省略され，組み合わせ$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$という書き方もよくされる．
 
 圏を考えるとき，変換や写像は全て\keyword{射}と呼ぶ決まりである．
 
 いまある単位的半群$\mathMonoid{\mathSet{M}}{\mathAnyBinaryOperator}{O}$があるとする．
-集合$\mathSet{C}$を$\mathSet{M}$及び$\mathSet{M}\mathSetTimes\mathSet{M}$を元とする集合とし，集合$\mathSet{F}$を$\mathAnyBinaryOperator$のみを元とする集合とすると，組み合わせ$\mathCategoryShort{\mathSet{C}}{\mathSet{F}}$は圏になっている．
+集合$\mathSet{C}$を$\mathSet{M}$及び$\mathSet{M}\mathSetTimes\mathSet{M}$を元とする集合とし，集合$\mathSet{P}$を$\mathAnyBinaryOperator$のみを元とする集合とすると，組み合わせ$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$は圏になっている．
 
 \section*{余計な話：束}
 
@@ -944,6 +951,11 @@ $$\mathFold_\hsklEmptyList^\hsklAppend[[0,1,2],[3,4,5],\dots]=[0,1,2,3,4,5,\dots
 引数として関数$f$とリスト$[x_0,x_1\dots x_n]$を取り，戻り値として$[fx_0,fx_1\dots fx_n]$を返す演算子$\hsklMap$を考えよう．
 このとき$$f\hsklMap[x_0,x_1\dots x_n]=[fx_0,fx_1\dots fx_n]$$であると定義する．
 
+$$\hsklMap\hsklOf{}\mathMorphII{(\mathMorph{\hsklType{a}}{\hsklType{b}})}{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType{b}}}$$
+
+$$\hsklMap\hsklOf{}\mathMorph{(\mathMorph{\hsklType{a}}{\hsklType{b}})}{(\mathMorph{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType{b}}})}$$
+
+
 \section*{余計な話}
 
 \chapter{コンテナの高度な話題}
@@ -995,66 +1007,45 @@ $$\mathMonoid{\hsklMaybeType{\hsklType{a}}}{\hsklMaybeAppend}{\hsklNothing}$$
 ここでリストの実装について若干述べておかねばならない．
 紙上ではリストは自由に考えられるが，計算機上ではそれほど自由ではないからである．
 ここではリストはLISPにおけるリストと同じ構造を持つものとする．
-LISPにおけるリストとは要素$\specialwordfirst$と要素$\specialwordrest$からなるペアの集合である．
-要素$\specialwordfirst$がリストの要素を持ち，要素$\specialwordrest$が次のペアを参照する．
-リストの最後のペアの$\specialwordrest$は空リストを参照する．
+LISPにおけるリストとは要素$\mathFirst$と要素$\mathRest$からなるペアの集合である．
+要素$\mathFirst$がリストの要素を持ち，要素$\mathRest$が次のペアを参照する．
+リストの最後のペアの$\mathRest$は空リストを参照する．
 
-% これらのペアはタプルで実装したいところだが，参照，逆参照の煩雑さを避けるために，
-リストのための特別な表現$$\specialwordfirst\binaryconcat\specialwordrest$$を用い，第1要素$\specialwordfirst$はリストが保持する型，第2要素$\specialwordrest$はリスト型であるとする．
-演算子$\binaryconcat$を\keyword{結合演算子}と呼ぶ．
+リストのための特別な表現$$\mathFirst:\mathRest$$を用い，第1要素$\mathFirst$はリストが保持する型，第2要素$\mathRest$はリスト型であるとする．
+演算子$:$を\keyword{結合演算子}と呼ぶ．
 
-要素$\specialwordrest$はリストまたは空リストであるから，一般にリストは次のように展開できることになる．
+要素$\mathRest$はリストまたは空リストであるから，一般にリストは次のように展開できることになる．
 \begin{align*}
-\listtype{x_0,x_1,x_2\rangedots x_n}&=x_0\binaryconcat\listtype{x_1,x_2\rangedots x_n}\\
-&=x_0\binaryconcat x_1\binaryconcat\listtype{x_2\rangedots x_n}\\
-&=x_0\binaryconcat x_1\binaryconcat x_2\binaryconcat\dotsb\binaryconcat x_n\binaryconcat\constantempty
+[x_0,x_1,x_2\rangedots x_n]&=x_0:[x_1,x_2\rangedots x_n]\\
+&=x_0:x_1:[x_2\rangedots x_n]\\
+&=x_0:x_1:x_2:\dots:x_n:\hsklEmptyList
 \end{align*}
-結合演算子$\binaryconcat$は右結合する．
-すなわち$$x_0\binaryconcat x_1\binaryconcat x_2=x_0\binaryconcat(x_1\binaryconcat x_2)$$である．
+結合演算子$:$は右結合する．
+すなわち$$x_0:x_1:x_2=x_0:(x_1:x_2)$$である．
 
 
 \chapter{関手}
 
 \section{関手}
 
-$$F\istypeof\mathsetname{X}\mapsto\mathsetname{X}$$
+圏$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$があるとする．
+ここに集合$\mathSet{C}$は射の\keyword{対象}となる集合の集合であり，集合$\mathSet{P}$は射の集合である．
 
-\begin{align}
-\mathidentitymorph\binaryfunctormap&=\mathidentitymorph\\
-(f\binarycompose g)\binaryfunctormap&=(f\binaryfunctormap)\binarycompose(g\binaryfunctormap)
-\end{align}
+ここにもう一つの圏$\mathCategoryShort{\mathSet{C}'}{\mathSet{P}'}$があるとする．
+対象$\mathSet{C}$の各元と対象$\mathSet{C}'$の各元の間に一対一対応があり，また射$\mathSet{F}$の各元と射$\mathSet{P}'$の各元の間に一対一対応があるとき，圏$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$から圏$\mathCategoryShort{\mathSet{C}'}{\mathSet{P}'}$への「射」が存在する．
+この射を\keyword{関手}と呼ぶ．
 
+‥と書いても抽象的すぎるので，具体例を見ていこう．
+例えば$\hsklInt$型の演算子$+$は$\hsklInt\mathSetTimes\hsklInt$から$\hsklInt$への写像なので，$\hsklInt\mathSetTimes\hsklInt$と$\hsklInt$からなる集合$\mathSet{C}$と，演算子$+$だけからなる集合$\mathSet{P}$からなる組み合わせ$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$は圏である．
 
----
+一方で$\hsklListType{\hsklInt}$型もリスト内の個々の$\hsklInt$型変数に対しては$+$演算子が有効だ．
+そこで$\hsklInt\mathSetTimes{}\hsklListType{\hsklInt}$と$\hsklListType{\hsklInt}$からなる集合を$\mathSet{C}'$とし，リスト内の個々の要素に作用する$+$演算子単独の集合を$\mathSet{P}'$とする．
+事実我々はすでにマップ演算子$\hsklMap$を持っているので，リスト内の個々の要素に作用する$+$演算子を作るのはわけない．
+ということは，$\hsklInt$型から$\hsklListType{\hsklInt}$型を作る型コンストラクタ$\hsklListConstructor$とマップ演算子$\hsklMap$があれば，圏$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$から圏$\mathCategoryShort{\mathSet{C}'}{\mathSet{P}'}$へとジャンプできるのである．
 
-ある集合$\mathsetname{S}$と，その集合の元に対して定義される変換$f$全体の集合$\mathsetname{F}_{\mathsetname{S}}$との組み合わせ$(\mathsetname{S},\mathsetname{F}_{\mathsetname{S}})$を\keyword{圏}と呼ぶ．
-例えばリストは$(\typeconstructor{\typelist}{\typename{a}},\binarylistfunctormap)$という圏であるし，Maybeは$(\typeconstructor{\typemaybe}{\typename{a}},\binarymaybefunctormap)$という圏である．
-
-これらの圏はもともと$(\typename{a},\mathbinaryop)$という圏から変換して得られたものと考えることもできる．
-つまり，
-\begin{align*}
-\typelist&=(\typename{a},\mathbinaryop)\mapsto(\typeconstructor{\typelist}{\typename{a}},\binarylistfunctormap)\\
-\typemaybe&=(\typename{a},\mathbinaryop)\mapsto(\typeconstructor{\typemaybe}{\typename{a}},\binarymaybefunctormap)
-\end{align*}
-であると考えることができる．
-このような圏から圏への変換を\keyword{関手}と呼ぶ．
-
-一般に$$\mathfunctorname{F}=(\mathsetname{a},\mathbinaryop)\mapsto(\typeconstructor{\mathfunctorname{F}}{\typename{a}},\binaryfunctormap)$$
-
+型コンストラクタ$\hsklListConstructor$とマップ演算子$\hsklMap$の組み合わせ$(\hsklListConstructor,\hsklMap)$は関手の一例である．
 
 ---
-
-モノイド$(\mathsetname{M}_1,\mathbinaryop_1,\mathidentity_1)$と$(\mathsetname{M}_2,\mathbinaryop_2,\mathidentity_2)$があるとき，前者から後者への変換$\mathfunctorname{F}$を$$\mathfunctorname{F}=(\mathsetname{M}_1,\mathbinaryop_1,\mathidentity_1)\mapsto (\mathsetname{M}_2,\mathbinaryop_2,\mathidentity_2)$$と書き，変換$\mathfunctorname{F}$を\keyword{関手}と言う．
-
-例えば$\typename{a}$型から$\typeconstructor{\typelist}{\typename{a}}$型を作る型コンストラクタ$\typelist$は関手である．
-この場合は$$\typelist=(\typename{a},+,0)\mapsto(\typeconstructor{\typelist}{\typename{a}},\binarylistfunctormap,\constantempty)$$という関係になる．
-
-また$\typename{a}$型から$\typeconstructor{\typemaybe}{\typename{a}}$型を作る型コンストラクタ$\typemaybe$も関手である．
-この場合は$$\typemaybe=(\typename{a},+,0)\mapsto(\typeconstructor{\typemaybe}{\typename{a}},\binarymaybeappend,\constantnothing)$$という関係になる．
-
-
-モノイドからモノイドへの変換，モノイド内での二項演算子なども含めて，変換するものを全て\keyword{射}と呼ぶ．
-関手は射のひとつである．
 
 
 
@@ -1084,19 +1075,19 @@ $$(X,\langle\,\rangle,\binaryfunctormap,\times,\heartsuit)$$
 \begin{tabular}{||c||c|c|c|c|c|c||}
 \hline
 \multirow{4}{*}{型クラス}
-    &\multicolumn{6}{|c||}{$\typeclassmonadplus$}\\
+    &\multicolumn{6}{|c||}{$\hsklMonadplus$}\\
 \cline{2-7}
 \multirow{3}{*}{}
-    &\multicolumn{4}{|c|}{$\typeclassmonad$}
-    &\multicolumn{2}{|c||}{$\typeclassmonoid$}\\
+    &\multicolumn{4}{|c|}{$\hsklMonad$}
+    &\multicolumn{2}{|c||}{$\hsklMonoid$}\\
 \cline{2-4}
 \multirow{2}{*}{}
-    &\multicolumn{3}{|c|}{$\typeclassapplicative$}
+    &\multicolumn{3}{|c|}{$\hsklApplicative$}
     &
     &\multicolumn{2}{|c||}{ }\\
 \cline{2-2}
 { }
-    &\multicolumn{1}{|c|}{$\typeclassfunctor$}
+    &\multicolumn{1}{|c|}{$\hsklFunctor$}
     &\multicolumn{2}{|c|}{ }
     &
     &\multicolumn{2}{|c||}{ }\\
