@@ -1,5 +1,5 @@
 \documentclass[twocolumn]{jsbook}
-\usepackage{amsmath,amssymb,ascmac,bm,multirow}
+\usepackage{amsmath,amssymb,ascmac,bm,multirow,fancyvrb}
 
 \title{プログラマのための代数構造}
 \author{Ichi Kanaya}
@@ -71,6 +71,7 @@
 
 \newcommand{\mathFirst}{\mathVarKeyword{First}}
 \newcommand{\mathLambdaAnonymousParameter}{\lozenge}
+\newcommand{\mathLambdaArrow}{\rightarrow}
 \newcommand{\mathLeft}{\mathKeyword{left}}
 \newcommand{\mathOtherwise}{\mathKeyword{otherwise}}
 \newcommand{\mathRest}{\mathVarKeyword{Rest}}
@@ -83,7 +84,7 @@
 \newcommand{\mathVector}[1]{\vec{#1}}
 
 \newcommand{\mathCategoryShort}[2]{(#1,#2)_\mathcal{C}}
-\newcommand{\mathLambdaExpression}[2]{\mathLambda#1\rightarrow#2}
+\newcommand{\mathLambdaExpression}[2]{\mathLambda#1\mathLambdaArrow#2}
 \newcommand{\mathMorph}[2]{#1\mathMapsTo#2}
 
 \newcommand{\mathMonoid}[3]{(#1,#2,#3)_\mathcal{M}}
@@ -618,10 +619,10 @@ f'x&=1+x
 \end{split}
 \end{equation*}
 ように定義することになる．\footnote{Haskellでは
-\begin{verbatim}
+\begin{Verbatim}[xleftmargin=10mm]
 f' 0 = 0
 f' x = 1+x
-\end{verbatim}
+\end{Verbatim}
 と書く．}
 
 関数定義に\keyword{場合分け}が必要な場合は「ガード」を用いる．
@@ -634,12 +635,19 @@ f''x&\mathGuard{x<0}=-1\\
 \end{split}
 \end{equation*}
 という風に定義することにする．\footnote{Haskellでは
-\begin{verbatim}
+\begin{Verbatim}[xleftmargin=10mm]
 f'' x | x<0       = -1
       | x==0      = 0
       | otherwise = 1+x
-\end{verbatim}
+\end{Verbatim}
 と書く．}
+
+関数のスペシャルバージョン，場合分けといった左片での条件付けではなく，定義式の右辺で条件付けをすることも可能である．
+それには\keyword{条件式}を使う．
+条件式とは
+$$fx=\mathIf x\equiv0\mathThen0\mathElse1+x$$
+のように$\mathIf$節，$\mathThen$節，及び$\mathElse$節からなるものである．
+$\mathIf$節の中身は真理値を返す関数であれば良いので，関数$p$を$$p=(\equiv)0$$としておき，$$fx=\mathIf px\mathThen0\mathElse1+x$$と書く方法もしばしば用いられる．\footnote{Haskellでは$fx=\keywordif x\binaryeq0\keywordthen0\keywordelse1+x$を\code{f x = if x == 0 then 0 else 1+x}と書く．}
 
 \section{関数の合成}
 
@@ -653,12 +661,20 @@ $$f\mathApply gx=f(gx)$$
 演算子$\mathApply$の優先順位は足し算演算子よりも低いものとする．
 よって$f(x+1)$は$f\mathApply x+1$と書くこともできる．\footnote{Haskellでは$f\mathApply gx$を\code{f \$ g x}と書く．}
 
-\section{条件式}
+\section{カリー化}
 
-\keyword{条件式}とは場合分けを関数定義の右辺に書けるようにしたもので，
-$$fx=\mathIf x\equiv0\mathThen0\mathElse1+x$$
-のように$\mathIf$節，$\mathThen$節，及び$\mathElse$節からなるものである．
-$\mathIf$節の中身は真理値を返す関数であれば良いので，関数$p$を$$p=(\equiv)0$$としておき，$$fx=\mathIf px\mathThen0\mathElse1+x$$と書く方法もしばしば用いられる．\footnote{Haskellでは$fx=\keywordif x\binaryeq0\keywordthen0\keywordelse1+x$を\code{f x = if x == 0 then 0 else 1+x}と書く．}
+どのような関数であれ，引数は1個しかとらない．
+引数が2個あるように見える関数として，例えば$fxy$があったとしよう．
+関数適用が左結合であるから，これは$(fx)y$である．
+ここに$(fx)$は引数$y$をとる関数であると見ることができる．
+つまり，関数$f$とは引数$x$をとり「引数$y$をとって値を返す関数$(fx)$を返す」関数であると言える．
+
+二項演算$x+y$は$$(+)xy$$とも書けたことを思い出そう．
+これも左結合を思い出すと$$((+)x)y$$と書けるから，$y$という引数を$((+)x)$という関数に食わせていると解釈できる．
+
+ラムダ式の場合は話はもっと単純で，機械的に$$\mathLambdaExpression{xy}{x+y}=\mathLambdaExpression{x}{(\mathLambdaExpression{y}{x+y})}$$のように展開するだけである．
+矢印$\mathLambdaArrow$は右結合であるから，このラムダ式は括弧を省略して$$\mathLambdaExpression{xy}{x+y}=\mathLambdaExpression{x}{\mathLambdaExpression{y}{x+y}}$$とも書かれる．
+
 
 \section*{余計な話：ラムダ}
 
@@ -950,10 +966,18 @@ $$\mathFold_\hsklEmptyList^\hsklAppend[[0,1,2],[3,4,5],\dots]=[0,1,2,3,4,5,\dots
 リストの各要素に決まった関数を適用したい場合がある．
 引数として関数$f$とリスト$[x_0,x_1\dots x_n]$を取り，戻り値として$[fx_0,fx_1\dots fx_n]$を返す演算子$\hsklMap$を考えよう．
 このとき$$f\hsklMap[x_0,x_1\dots x_n]=[fx_0,fx_1\dots fx_n]$$であると定義する．
+この$\hsklMap$演算子を\keyword{マップ演算子}と呼ぶ．
 
+マップ演算子の型は
 $$\hsklMap\hsklOf{}\mathMorphII{(\mathMorph{\hsklType{a}}{\hsklType{b}})}{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType{b}}}$$
-
-$$\hsklMap\hsklOf{}\mathMorph{(\mathMorph{\hsklType{a}}{\hsklType{b}})}{(\mathMorph{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType{b}}})}$$
+である．
+矢印$\mathMapsTo$は右結合なので，これは$$\hsklMap\hsklOf{}\mathMorph{(\mathMorph{\hsklType{a}}{\hsklType{b}})}{(\mathMorph{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType{b}}})}$$の意味でもある．
+ここで$f$と$f\hsklMap$の型を並べてみると
+\begin{align*}
+f&\mathIn\mathMorph{\hsklType{a}}{\hsklType{b}}\\
+f\hsklMap&\mathIn\mathMorph{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType{b}}}
+\end{align*}
+となり，マップ演算子が何をしているのか一目瞭然になる．
 
 
 \section*{余計な話}
