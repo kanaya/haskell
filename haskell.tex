@@ -13,7 +13,9 @@
 \newcommand{\hsklTypeConstructor}[1]{\mathop{\mathrm{#1}}}
 
 \DeclareMathOperator{\hsklConcat}{\flat}
+\DeclareMathOperator{\hsklFmap}{\cdot}
 \DeclareMathOperator{\hsklListConstructor}{\hsklTypeConstructor{List}}
+\DeclareMathOperator{\hsklMap}{\odot}
 \DeclareMathOperator{\hsklMaybeConstructor}{\hsklTypeConstructor{Maybe}}
 \DeclareMathOperator{\hsklMaybeAppend}{\boxplus}
 \DeclareMathOperator{\hsklMaybeMap}{\boxdot}
@@ -31,7 +33,6 @@
 \newcommand{\hsklEq}{\hsklTypeclass{Eq}}
 \newcommand{\hsklFloat}{\hsklType{Float}}
 \newcommand{\hsklFunctor}{\hsklTypeclass{Functor}}
-\newcommand{\hsklMap}{\odot}
 \newcommand{\hsklMonad}{\hsklTypeclass{Monad}}
 \newcommand{\hsklMonadplus}{\hsklTypeclass{Monadplus}}
 \newcommand{\hsklMonoid}{\hsklTypeclass{Monoid}}
@@ -55,6 +56,7 @@
 
 \DeclareMathOperator{\mathAnyBinaryOperator}{\bigstar}
 \DeclareMathOperator{\mathInverse}{\sharp}
+\DeclareMathOperator{\mathAnd}{\wedge}
 \DeclareMathOperator{\mathApply}{\$}
 \DeclareMathOperator{\mathAnyUnaryOperator}{\star}
 \DeclareMathOperator{\mathCompose}{\bullet}
@@ -66,6 +68,7 @@
 \DeclareMathOperator{\mathIf}{\mathKeyword{if}}
 \DeclareMathOperator{\mathLambda}{\backslash}
 \DeclareMathOperator{\mathMapsTo}{\mapsto}
+\DeclareMathOperator{\mathOr}{\vee}
 \DeclareMathOperator{\mathSetTimes}{\circledast}
 \DeclareMathOperator{\mathThen}{\mathKeyword{then}}
 
@@ -586,9 +589,9 @@ $$\left(\mathLambdaExpression{x}{1+x}\right)2$$
 例えばラムダ式$\mathLambdaExpression{xy}{x+y}$は$$\mathLambdaAnonymousParameter+\mathLambdaAnonymousParameter$$と書いても良い．
 式を左から読んで1番目の$\mathLambdaAnonymousParameter$が元々の$x$すなわち第1引数を，2番目の$\mathLambdaAnonymousParameter$が元々の$y$すなわち第2引数を意味する．この省略記法はプログラミング言語Schemeにおけるcutプロシジャに由来する．\footnote{この記法はHaskellにはない．}
 
-\section*{余計な話}
+\section*{余計な話：局所変数}
 
-Scheme.
+let, where.
 
 \chapter{関数}
 
@@ -1009,6 +1012,25 @@ $$\hsklMaybe{m}=\hsklJust{x}$$
 そこできっと整数の中身に直接関数を適用する演算子を$\hsklMaybeMap$としよう．
 具体的には$$f\hsklMaybeMap\hsklMaybe{m}=\hsklMaybeW{fx}$$のように関数$f$を変数$\hsklMaybe{m}$に適用させる．
 その結果はまた$\hsklMaybeType{\hsklInt}$型である．
+
+具体例として「安全な」割り算演算子$\div$を定義してみよう．
+ここで
+\begin{equation*}
+\hsklMaybe{m}\div y=\begin{cases}\hsklJust{x/y}&\mathIf m\neq\hsklNothing\mathAnd y\neq0\\
+\hsklNothing&\mathOtherwise\end{cases}
+\end{equation*}
+とする．
+ただし$\hsklMaybe{m}$は$\hsklJust{x}$か，あるいは$\hsklNothing$かのどちらかの値が入っている．
+$x\neq\hsklNothing$かつ$y\neq0$のときの戻り値が$x/y$ではなく$\hsklJust{x/y}$なのは，計算結果が汚染の可能性を持つからである．
+
+さて，我々が欲しいのは$$\hsklMaybe{m}\div y=(\mathLambdaAnonymousParameter/y)\hsklMaybeMap\hsklMaybe{m}$$であるようなMaybeバージョンのマップ演算子である．
+その実装は実はいたって単純で
+\begin{align*}
+f\hsklMaybeMap\hsklJust{x}&=\hsklJust{fx}\\
+f\hsklMaybeMap\hsklNothing&=\hsklNothing
+\end{align*}
+である．
+
 % 従って，結果を受け取る変数も$\typeconstructor{\typemaybe}{\typeint}$型でなければならず，それを忘れないように印を付けておかねばならない．
 % 例えば$$\maybetype{y}=f\binarymaybefunctormap\maybetype{x}$$のように書くことになるであろう．
 
@@ -1016,15 +1038,6 @@ $$\hsklMaybe{m}=\hsklJust{x}$$
 % \boxplus == \boxdot???
 
 ---
-
-\section{単位的半群としてのコンテナ}
-
-$$\mathMonoid{\hsklListType{\hsklType{a}}}{\hsklAppend}{\hsklEmptyList}$$
-
-$$\mathMonoid{\hsklMaybeType{\hsklType{a}}}{\hsklMaybeAppend}{\hsklNothing}$$
-
-
-% \section{コンテナの型クラスと種}
 
 \section{リストの実装}
 
@@ -1047,6 +1060,16 @@ LISPにおけるリストとは要素$\mathFirst$と要素$\mathRest$からな�
 結合演算子$:$は右結合する．
 すなわち$$x_0:x_1:x_2=x_0:(x_1:x_2)$$である．
 
+\section*{余計な話：単位的半群としてのコンテナ}
+
+$$\mathMonoid{\hsklListType{\hsklType{a}}}{\hsklAppend}{\hsklEmptyList}$$
+
+$$\mathMonoid{\hsklMaybeType{\hsklType{a}}}{\hsklMaybeAppend}{\hsklNothing}$$
+
+
+% \section{コンテナの型クラスと種}
+
+
 
 \chapter{関手}
 
@@ -1068,6 +1091,11 @@ LISPにおけるリストとは要素$\mathFirst$と要素$\mathRest$からな�
 ということは，$\hsklInt$型から$\hsklListType{\hsklInt}$型を作る型コンストラクタ$\hsklListConstructor$とマップ演算子$\hsklMap$があれば，圏$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$から圏$\mathCategoryShort{\mathSet{C}'}{\mathSet{P}'}$へとジャンプできるのである．
 
 型コンストラクタ$\hsklListConstructor$とマップ演算子$\hsklMap$の組み合わせ$(\hsklListConstructor,\hsklMap)$は関手の一例である．
+
+同じことが型コンストラクタ$\hsklMaybeConstructor$とMaybeバージョンのマップ演算子$\hsklMaybeMap$の組み合わせ$(\hsklMaybeConstructor,\hsklMaybeMap)$にも言える．
+
+そこでマップ演算子$\hsklMap$，Maybeバージョンのマップ演算子$\hsklMaybeMap$をひとくくりにして一般化マップ演算子$\hsklFmap$とする．
+一般化マップ演算子は，右引数がリストであればマップ演算子を，右引数がMaybeであればMaybeバージョンのマップ演算子に「化ける」ものとする．
 
 ---
 
@@ -1188,448 +1216,6 @@ Int（参考）
 
 
 \part{圏とモナド}
-
-
-\chapter{---}
-
-
-
-% ----------
-
-% Literals
-\newcommand{\charlit}[1]{\texttt{#1}}
-
-% Operators and symbols
-\newcommand{\applicativefunc}{\bigotimes} % <*>
-\newcommand{\bind}{\rightrightarrows} % >>=
-\newcommand{\comp}{\bullet} % .
-\newcommand{\concretetype}{\mathbf\ast} % *
-\newcommand{\defeq}{\xleftarrow{\text{def}}}
-\newcommand{\dollar}{\mathop{\$}} % $
-\newcommand{\filterfunc}{\bigcap} % filter
-\newcommand{\foldfunc}{\bigcup} % foldl
-\newcommand{\foldrightfunc}{\bigsqcup} % foldr
-\newcommand{\guard}[1]{\mathop{\mid_{{#1}}}}
-\newcommand{\haskelllambda}{\backslash}
-\newcommand{\lambdaperiod}{\;.\;}
-\newcommand{\listappend}{\mathop{++}}
-\newcommand{\mapfunc}{\bigodot} % fmap
-\newcommand{\monadfunc}{\bigoplus}
-\newcommand{\monadjoin}{\dag}
-\newcommand{\nullelem}{\emptyset}
-\newcommand{\pure}{\bigstar} % pure
-\newcommand{\typealpha}{\boldsymbol{\alpha}}
-\newcommand{\unit}{\star} % return
-
-% Functions
-\newcommand{\concat}{\mathop{\text{concat}}}
-
-% Booleans
-\newcommand{\booleankeyword}[1]{\text{#1}}
-\newcommand{\falsevalue}{\text{F}}
-\newcommand{\truevalue}{\text{T}}
-
-% Typenames
-\newcommand{\typename}[1]{\bm{#1}}
-\newcommand{\booleantype}{\typename{B}}
-\newcommand{\integertype}{\typename{Z}}
-\newcommand{\realtype}{\typename{R}}
-
-% Typeclass names
-\newcommand{\typeclassname}[1]{\mathbb{#1}}
-\newcommand{\enumtypeclass}{\typeclassname{E}}
-\newcommand{\eqtypeclass}{\typeclassname{Q}}
-\newcommand{\functortypeclass}{\typeclassname{F}}
-\newcommand{\inttypeclass}{\typeclassname{I}}
-\newcommand{\numtypeclass}{\typeclassname{N}}
-\newcommand{\ordtypeclass}{\typeclassname{O}}
-
-% Fanctor typeclasses
-\newcommand{\fanctortypeclassname}[1]{\mathcal{#1}}
-
-% Functors
-\newcommand{\function}[1]{\left\langle#1\right\rangle}
-\newcommand{\generalcontainer}[1]{\left\langle\!\left\langle#1\right\rangle\!\right\rangle}
-\newcommand{\listtype}[1]{\left[#1\right]}
-\newcommand{\maybe}[1]{\left\{#1\right\}}
-\newcommand{\monad}[1]{\left[\!\left[#1\right]\!\right]}
-
-% Functor names
-\newcommand{\functor}[1]{\mathop{\textbf{#1}}}
-\newcommand{\functionfunctor}{\mathop{\functor{Function}}}
-\newcommand{\listfunctor}{\mathop{\functor{List}}}
-\newcommand{\maybefunctor}{\mathop{\functor{Maybe}}}
-\newcommand{\monadfunctor}{\mathop{\functor{Monad}}}
-
-% Keywords
-\newcommand{\haskellkeyword}[1]{\textbf{#1}}
-\newcommand{\letinprogram}{\haskellkeyword{let}}
-\newcommand{\otherwise}{\haskellkeyword{otherwise}}
-\newcommand{\where}{\haskellkeyword{where}}
-
-% Math keywords
-\newcommand{\mathkeyword}[1]{\textbf{#1}}
-\newcommand{\mathelse}{\mathop{\mathkeyword{else}}}
-\newcommand{\mathif}{\mathop{\mathkeyword{if}}}
-\newcommand{\maththen}{\mathop{\mathkeyword{then}}}
-
-% Special keywords
-\newcommand{\specialkeyword}[1]{\textsf{#1}}
-\newcommand{\firstelem}{\specialkeyword{First}}
-\newcommand{\mathidentity}{\specialkeyword{id}}
-\newcommand{\nothing}{\specialkeyword{Nothing}}
-\newcommand{\restelems}{\specialkeyword{Rest}}
-
-\chapter{思考の道具*}
-
-「言語は思考を規定する」という．
-実際プログラマは思考の道具としてプログラミング言語をよく用いるし，そのプログラマの好みのプログラミング言語の影響を強く受ける．
-手続き的に問題を解くのが好きなプログラマもいれば，宣言的に問題を解くのが好きなプログラマもいる．
-問題の複雑さを「オブジェクト」というプログラム単位に押し込むのが好きなプログラマもいれば，「クロージャ」という別のプログラム単位に押し込むのが好きなプログラマもいる．
-
-一方で，古代ギリシャから連綿と続く数学者たちは，数学という言葉で問題を考えることを好む．
-数学はわずかな方言の違いを無視すれば驚くほど統一された言語である．
-
-プログラマが使う言葉すなわちプログラミング言語と，数学者たちが使う語はだいたい乖離しており，その両者の歩み寄りは虚しいものであることが多かった．
-ここで言いたいのはプログラマが限られた文字セットしか使えないとか，スクリーン上の行という制約に縛られているとか，そのような表面的なことではない．
-そうではなく，思考の様式が，プログラミング「文化」と数学「文化」で異なるという意味である．
-
-プログラミング文化と数学文化の大きな違いの一つは，リアルタイムに起こるイベントの取り扱い方法である．
-プログラマはほとんどいつもリアルタイムに起こるイベントに対応しないといけない．
-一方で，数学者たちはそのようなイベントを「不純なもの」として理論から取り除く．
-例えば変数$x$があるときは$0$だがあるときは$1$であるというのは，甚だ不純なものとして数学者の間では認識されるものだ．
-
-\chapter{数学的準備*}
-
-この章ではいま後本書で登場する数学的概念の記法を決めておく．
-
-\section{定数・論理定数・文字定数}
-
-定数はアラビア数字で記述するものとする．
-定数が負の場合はマイナス記号($-$)を用いる．
-定数が実数の場合は小数点($.$)を用いる場合がある．
-例えば $-1, 0, 1.2$ は定数である．
-
-論理定数とは真偽値を表す定数で，真($\truevalue$)及び偽($\falsevalue$)の2種類のみがある．
-
-文字定数とはコード化された文字のことである．
-文字コードを定数として扱うといささか読みづらくなるため，該当する文字をシングルクォートで囲むことにする．
-例えば `\charlit{A}', `\charlit{b}', `\charlit{.}' は文字定数である．
-
-\section{変数}
-
-変数はアルファベット（ローマ文字またはギリシア文字）の小文字1文字で表すことにする．
-変数名には任意個のプライム記号($'$)をつけても良いし，添え字をつけても良いこととする．
-変数名はイタリック体で書く．
-
-変数は代入演算子($=$)によって定数や変数，それらを複合した式の値を代入できる．
-例えば $$x=1, y=x$$ は代入の例である．
-
-\section{演算子}
-
-演算子には数学記号を割り当てる．
-
-
-\section{関数}
-
-関数も変数と同じようにアルファベット（ローマ文字またはギリシア文字）の小文字1文字で表すことにする．
-関数名には任意個のプライム記号($'$)をつけても良いし，添え字をつけても良いこととする．
-三角関数のように十分な知名度を持つ関数や，それに匹敵する汎用的な関数は長い名前を持っても良い．
-変数名や関数名はイタリック体で書くが，長い関数名はローマン体で書く．
-
-
-二項演算子とは2引数関数の特別な場合であると考えてよい．
-関数$r$を次のように中置する記法を定義しておく．
-$$x\,{}^\backprime r^\backprime\,y\defeq rxy$$
-バックプライム記号(${}^\backprime$)を使っているのはプライム記号($'$)と区別するためである．
-
-既存の二項演算子$\circ$は次のようにして通常の関数として使えるものとする．
-$$(\circ)xy\defeq x\circ y$$
-
-\section{ラムダ式}
-
-\section{関数定義}
-
-\section{条件式}
-
-\section{型}
-
-\section{リスト}
-
-
-\section{タプル}
-
-複数の変数を束ねたものをタプルと呼ぶ．
-変数$x$と変数$y$からなるタプルは$(x,y)$と書く．
-いま$$t=(x,y)$$としたとき，タプルの中身を取り出すには$$(t_1,t_2)=t$$のようにしてパタンマッチングを用いる．
-
-\section{リストの実装}
-
-
-\chapter{型・型クラス・種*}
-
-\section{関数の型}
-
-$$f::\integertype\rightarrow\integertype$$
-
-関数$f$が引数として整数を2個取り1個の整数を返すとき，その型は$$\integertype\rightarrow\integertype\rightarrow\integertype$$である．
-型の式は右結合するものとする．
-従って上式は$$\integertype\rightarrow\left(\integertype\rightarrow\integertype\right)$$と読む．
-これは関数$f$が最初の引数を1個受け取り，$(\integertype\rightarrow\integertype)$型の関数を返していることを考えると理にかなっている表現である．
-
-\section{型クラス}
-
-$$\integertype\subset\eqtypeclass$$
-
-$$\integertype\subset\ordtypeclass$$
-
-$$\integertype\subset\enumtypeclass$$
-
-
-\section{種}
-
-$$\integertype::\concretetype$$
-
-$$\maybe{\integertype}::\concretetype$$
-
-$$\maybe{{}}::\concretetype\mapsto\concretetype$$
-
-\chapter{マップ*}
-
-Map.
-$$f\odot[x_0,x_1\dotsb x_n]=[fx_0,fx_1\dotsb fx_n]$$
-$$f\odot\{x\}=\{fx\}$$
-
-Applicative map (fmap).
-\begin{multline*}
-[f_0,f_1\dotsb f_n]\otimes[x_0,x_1\dotsb x_{n'}]\\
-=[f_0x_0,f_0x_1\dotsb f_0x_{n'},f_1x_0,f_1x_1\dotsb]
-\end{multline*}
-$$\{f\}\otimes\{x\}=\{fx\}$$
-$$f\otimes g=f\comp g$$
-
-Monadic map (bind).
-$$f\oplus\monad{x}=\monad{fx}$$
-
-
-\section{畳み込み}
-
-
-\section{右畳み込み}
-
-
-\section{フィルタ}
-
-$$\filterfunc^p\listtype{x_0,x_1\dotsb x_n}\defeq\listtype{x\guard{x\in\listtype{x_0,x_1\dotsb x_n}\wedge px\equiv\truevalue}}$$
-
-\section{マップ}
-
-
-
-\section{一般化マップ}
-
-マップ演算子の概念を一般化してみよう．
-一般のマップ演算子はあるコンテナの中身に関数適用を行い，元のコンテナと同じコンテナを返す演算子であると考えることができる．
-そこで，いま後マップ演算子の第2（右）引数は一般のコンテナであるとする．
-型$\typename{a}$をコンテナに入れた型を一般に$\generalcontainer{\typename{a}}$と書くことにすると，一般化されたマップ演算子$\mapfunc$は$$\mapfunc::(\typename{a}\rightarrow\typename{b})\rightarrow\generalcontainer{\typename{a}}\rightarrow\generalcontainer{\typename{b}}$$という型を持つ．
-
-マップはリストのマップのより汎用的なバージョンである．
-つまり我々は$\mapfunc_\text{list}$を使わずに，最初から$\mapfunc$を使えば良いのである．
-
-一般化マップの型は$\typename{a}\rightarrow\typename{b}$をとり$\generalcontainer{\typename{a}}\rightarrow\generalcontainer{\typename{b}}$を返しているようにも見える．
-それゆえ一般化マップを用いることを関数の「持ち上げ(lifting)」と呼ぶのである．
-
-\section{Maybe}
-
-
-
-\section{関手}
-
-ある型から，マップの第2（右）引数になれる型を作る射（一般化された写像）のことを関手と呼ぶ．
-例えば型$\typename{a}$からリスト型$[\typename{a}]$を作る射$\listfunctor$ただし$$\listfunctor\typename{a}\defeq\typename{a}\mapsto\listtype{\typename{a}}$$は関手である．
-また型$\typename{a}$から ``maybe a'' 型$\maybe{\typename{a}}$を作る射$\maybefunctor$ただし$$\maybefunctor\typename{a}\defeq\typename{a}\mapsto\maybe{\typename{a}}$$も関手である．
-
-関数合成もまた関手の例である．
-いま型$\typename{a}$を型$\function{\typename{a}}$に変換する関手$$\functionfunctor\typename{a}\defeq\typename{a}\mapsto\function{\typename{a}}$$を考える．
-型$\function{\typename{a}}$は$$\function{\typename{a}}\defeq\typename{t}\rightarrow\typename{a}$$であるとする．
-ここに型$\typename{t}$は任意の型である．
-関数$f$が$$f::\typename{a}\rightarrow\typename{b}$$であり，関数$g$が$$g::\typename{t}\rightarrow\typename{a}$$であるとき，その合成$f\comp g$は$$f\comp g::\typename{t}\rightarrow\typename{b}$$でなければならない．
-ここで型$\function{\typename{a}}$の定義式を用いると
-\begin{align*}
-\function{\typename{a}}&\defeq\typename{t}\rightarrow\typename{a}\\
-\function{\typename{b}}&\defeq\typename{t}\rightarrow\typename{b}
-\end{align*}
-であるから，関数$g$並びに合成関数$f\comp g$は
-\begin{align*}
-g&::\function{\typename{a}}\\
-f\comp g&::\function{\typename{b}}
-\end{align*}
-という型を持つことがわかる．
-今一度マップ演算子の型$$\mapfunc::(\typename{a}\rightarrow\typename{b})\rightarrow\generalcontainer{\typename{a}}\rightarrow\generalcontainer{\typename{b}}$$を思い出してみよう．
-これは関数合成にもそのまま使えることがわかる．
-実際$$f\comp g\defeq\mapfunc^fg$$として関数合成は定義できる．
-
-一般に$$\typename{a}\mapsto\generalcontainer{\typename{a}}$$という風に型$\typename{a}$をコンテナに入れて型$\generalcontainer{\typename{a}}$を作る射を関手と呼ぶ．
-
-関手全体の型クラスを$\functortypeclass$で表す．
-これまでに見た関手は$$\functionfunctor,\listfunctor,\maybefunctor::\functortypeclass$$である．
-
-
-\section{関手が従う規則}
-
-\begin{align}
-\mapfunc^\mathidentity&=\mathidentity\\
-\mapfunc^{\functor{f}\comp\functor{g}}&\equiv\mapfunc^{\functor{f}}\comp\mapfunc^{\functor{g}}
-\end{align}
-
-\section{アプリカティブ関手}
-
-一般化マップとは$$\mapfunc::(\typename{a}\rightarrow\typename{b})\rightarrow\generalcontainer{\typename{a}}\rightarrow\generalcontainer{\typename{b}}$$のことであった．
-一般化マップの第1引数である1引数関数がコンテナに入っている場合を想定しよう．
-そうすると次のような「一般化された」マップ$\applicativefunc$を考えることができる．
-$$\applicativefunc::\generalcontainer{(\typename{a}\rightarrow\typename{b})}\rightarrow\generalcontainer{\typename{a}}\rightarrow\generalcontainer{\typename{b}}$$
-実際の使い方は$$\listtype{y_0,y_1\dotsb y_{n''}}=\applicativefunc^{\listtype{f_0,f_1\dotsb f_n}}\listtype{x_0,x_1\dotsb x_{n'}}$$のようになるであろう．
-
-一般化マップ演算子$\applicativefunc$と次のピュア演算子$\pure$があれば，リストもMaybeも同じ枠組みで考えることができる．
-ピュア演算子$\pure$は$$\pure::\typename{a}\rightarrow\generalcontainer{\typename{a}}$$という型を持つ．
-関手の型$\typename{a}\mapsto\generalcontainer{\typename{a}}$とは矢印が違う事に注意しよう．
-ピュア演算子は型を型へ変換するのではなく，変数をコンテナに入れられた別な変数へと変換する．
-
-型$\generalcontainer{\typename{a}}$の変数をアプリカティブと呼ぶ．
-
-リストの場合，ピュア演算子と一般化マップは次のように実装することができる．
-\begin{align*}
-\pure x&=\listtype{x}\\
-\applicativefunc^{\listtype{f_0,f_1\dotsb f_n}}\listtype{x_0,x_1\dotsb x_{n'}}&=\listtype{fx\guard{f\in\listtype{f_0,f_1\dotsb f_n},x\in\listtype{x_0,x_1\dotsb x_{n'}}}}
-\end{align*}
-
-Maybeの場合は次のようにピュア演算子と一般化マップを実装することができる．
-\begin{align*}
-\pure x&=\maybe{x}\\
-\applicativefunc^{\nothing}\maybe{x}&=\nothing\\
-\applicativefunc^{\maybe{f}}\maybe{x}&=\mapfunc^f\maybe{x}
-\end{align*}
-
-% IO: skip.
-
-% Function:
-% \begin{align*}
-% \pure x&=\haskelllambda y\rightarrow x\\
-% \applicativefunc^fg&=\haskelllambda x\rightarrow fx(gx)
-% \end{align*}
-
-アプリカティブが従う規則
-
-$$\applicativefunc^{\pure f}x\equiv\mapfunc^fx$$
-
-\section{モナド}
-
-ある型$\typename{a}$について，特殊なコンテナ$\monad{\typename{a}}$に入れられた型を想像してほしい．
-この型にもマップ演算子$\monadfunc$があり$$\monadfunc::\left(\typename{a}\rightarrow\monad{\typename{b}}\right)\rightarrow\monad{\typename{a}}\rightarrow{\monad{\typename{b}}}$$という型を持っているとする．
-このマップ演算子は第1（上）引数として型$\typename{a}$をとりコンテナに収めた型$\monad{\typename{b}}$を返す関数を，第2（右）引数としてコンテナに収められた型$\monad{\typename{a}}$をとり，戻り値としてコンテナに収められた型$\monad{\typename{b}}$を返す．
-
-型$\typename{a}$から型$\monad{\typename{a}}$を作り出す関手を$\monadfunctor$とし$$\monadfunctor\typename{a}=\typename{a}\mapsto\monad{\typename{a}}$$とする．
-$\typename{a}$型の変数から$\monad{\typename{a}}$型の変数を作る演算子を$\unit$とし，ユニット演算子と呼ぶ．
-
-$\monad{\typename{a}}$型の変数をモナドと呼ぶ．
-モナドはアプリカティブとよく似ているが，少し異なることに注意しよう．
-モナドの応用範囲は極めて広く，それゆえ基本的な関手と考えられている．
-
-Maybeの方がリストよりも簡単なので，Maybeから説明する．
-Maybeの場合は次のような実装となる．
-\begin{align*}
-\unit x&=\maybe{x}\\
-\monadfunc^f\nothing&=\nothing\\
-\monadfunc^f\maybe{x}&=fx
-\end{align*}
-ここに関数$f$は$$f::\typename{a}\rightarrow\monad{\typename{b}}$$であるから，関数適用された値$fx$は$$fx::\monad{\typename{b}}$$という型を持つことに注意しよう．
-
-% ---
-% 
-% $$\bind\,::\monad{\typename{a}}\rightarrow(\typename{a}\rightarrow\monad{\typename{b}})\rightarrow\monad{\typename{b}}$$
-% 
-% Maybe:
-% \begin{align*}
-% \unit x&=\maybe{x}\\
-% \nothing\bind f&=\nothing\\
-% \maybe{x}\bind f&=fx
-% \end{align*}
-% 
-% ---
-
-リストの場合は次のような実装となる．
-\begin{align*}
-\unit x&=\listtype{x}\\
-\monadfunc^f\listtype{x_0,x_1\dotsb x_n}&=\concat\mapfunc^f\listtype{x_0,x_1\dotsb x_n}
-\end{align*}
-関数$\concat$はリストのリスト$$\listtype{\listtype{x_0,x_1\dotsb x_n},\listtype{y_0,y_1\dotsb y_n}\dotsb}$$をフラットなリスト$$\listtype{x_0,x_1\dotsb x_n,y_0,y_1\dotsb y_n\dotsb}$$へと変換する．
-
-% List:
-% \begin{align*}
-% \unit x&=\listtype{x}\\
-% \listtype{x_0,x_1\dotsb x_n}\bind f&=\concat\mapfunc^f\listtype{x_0,x_1\dotsb x_n}
-% \end{align*}
-
-% Function:
-% \begin{align*}
-% \unit x&=\haskelllambda y\rightarrow x\\
-% g\bind f&=\haskelllambda h\rightarrow f(gh)h
-% \end{align*}
-
-
-\section{モナド則}
-
-新しい演算子$\triangleleft$を$$(f\triangleleft g)x\defeq\monadfunc^f(gx)$$として導入する．
-モナドは次の規則に従う．
-\begin{align}
-f\triangleleft\unit&=f\\
-\unit\triangleleft f&=f\\
-(f\triangleleft g)\triangleleft h&=f\triangleleft(g\triangleleft h)
-\end{align}
-
-\section{結合演算子}
-
-「結合演算子($\bind$)」を$$x\bind f\defeq \monadfunc^fx$$のように定義する．
-
----
-
-$$(f\triangleright g)x\defeq(fx)\bind g$$
-\begin{align}
-\unit\triangleright f&=f\\
-f\triangleright\unit&=f\\
-(f\triangleright g)\triangleright h&=f\triangleright(g\triangleright h)
-\end{align}
-
-\begin{align}
-\unit x\bind f&=fx\\
-\monad{x}\bind\unit&=\monad{x}\\
-(\monad{x}\bind f)\bind g&=\monad{x}\bind(\haskelllambda x'\rightarrow(fx'\bind g))
-\end{align}
-
-Or,
-\begin{align}
-\monadfunc^f(\unit x)&=fx\\
-\monadfunc^\unit\monad{x}&=\monad{x}\\
-\monadfunc^g\left(\monadfunc^f\monad{x}\right)&=\monadfunc^{\haskelllamda x'\rightarrow\left(\monadfunc^gfx'\right)}\monad{x}
-\end{align}
-
-Memo.
-\begin{align*}
-\monadjoin\monad{\monad{x}}&\defeq\monad{x}\\
-\mapfunc^f\monad{x}&=\monad{x}\bind(\unit\comp f)\\
-\monadjoin\monad{x}&=\monad{x}\bind\mathidentity\\
-\monad{x}\bind f&\defeq\monadjoin\mapfunc^f\monad{x}\\
-\unit\comp f&\defeq\mapfunc^f\comp\unit\\
-\monadjoin\comp\mapfunc^\monadjoin&\defeq\monadjoin\comp\monadjoin\\
-\monadjoin\comp\mapfunc^\unit&\defeq\monadjoin\comp\unit=\mathidentity\\
-\monadjoin\comp\mapfunc^{\mapfunc^f}&\defeq\mapfunc^f\comp\monadjoin
-\end{align*}
-
-\chapter{プログラミング*}
-
-letとwhere.
-
-乱数．
 
 
 \end{document}
