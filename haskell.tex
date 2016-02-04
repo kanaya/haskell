@@ -65,7 +65,9 @@
 \DeclareMathOperator{\mathThen}{\mathKeyword{then}}
 
 \newcommand{\mathLambdaAnonymousParameter}{\lozenge}
+\newcommand{\mathLeft}{\mathKeyword{left}}
 \newcommand{\mathOtherwise}{\mathKeyword{otherwise}}
+\newcommand{\mathRight}{\mathKeyword{right}}
 \newcommand{\mathSomething}{\square}
 
 \newcommand{\mathFunctor}[1]{\mathrm{#1}}
@@ -73,18 +75,19 @@
 \newcommand{\mathSet}[1]{\mathbf{#1}}
 \newcommand{\mathVector}[1]{\vec{#1}}
 
-\newcommand{\mathCategory}[2]{(#1,#2)}
+\newcommand{\mathCategoryShort}[2]{(#1,#2)_\mathcal{C}}
 \newcommand{\mathLambdaExpression}[2]{\mathLambda#1\rightarrow#2}
 \newcommand{\mathMorph}[2]{#1\mathMapsTo#2}
 
-\newcommand{\mathMonoid}[3]{(#1,#2,#3)}
+\newcommand{\mathMonoid}[3]{(#1,#2,#3)_\mathcal{M}}
 \newcommand{\mathMorphII}[3]{#1\mathMapsTo#2\mathMapsTo#3}
 \newcommand{\mathMorphIIWithParenthesis}[3]{#1\mathMapsTo(#2\mathMapsTo#3)}
 
-\newcommand{\mathGroup}[4]{(#1,#2,#3,#4)}
+\newcommand{\mathCategory}[4]{(#1,#2,#3,#4)_\mathcal{C}}
+\newcommand{\mathGroup}[4]{(#1,#2,#3,#4)_\mathcal{G}}
 \newcommand{\mathMorphIII}[4]{#1\mathMapsTo#2\mathMapsTo#3\mathMapsTo#4}
 
-\newcommand{\mathField}[7]{(#1,#2,#3,#4,#5,#6,#7)}
+\newcommand{\mathField}[7]{(#1,#2,#3,#4,#5,#6,#7)_\mathcal{K}}
 
 
 % ---
@@ -319,7 +322,7 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 この12個の性質をまとめて，数学では\keyword{体}または可換体と呼ぶ．
 わざわざ可換と断るのは，現代の数学では$x*y\neq y*x$であるような体系がよく用いられるからである．
 
-体の要素は，集合$\mathSet{K}$，二項演算子$+$，二項演算子$+$の単位元$0$，二項演算子$+$の逆元生成演算子$-$，もう一つの二項演算子$*$，二項演算子$*$の単位元$1$，二項演算子$*$の逆元生成演算子${}^{-1}$であるから，体はそれらを列挙して$\mathField{\mathSet{K}}{+}{0}{-}{*}{1}{{}^{-1}}$と表現する．
+体の要素は，集合$\mathSet{K}$，二項演算子$+$，二項演算子$+$の単位元$0$，二項演算子$+$の逆元生成演算子$-$，もう一つの二項演算子$*$，二項演算子$*$の単位元$1$，二項演算子$*$の逆元生成演算子$\mathSomething^{-1}$であるから，体はそれらを列挙して$\mathField{\mathSet{K}}{+}{0}{-}{*}{1}{\mathSomething^{-1}}$と表現する．
 
 体の性質から言えることを一つ紹介しよう．
 これから$$z\uparrow n=\underbrace{z*\dotsb*z}_n$$なる二項演算子$\uparrow$（\keyword{クヌースの矢印}）を使う．
@@ -381,12 +384,12 @@ z\uparrow2&=z*z\\
 \item[性質4.] $x$に対して$\mathInverse x\mathIn\mathSet{G}$があり$$\mathInverse x\mathAnyBinaryOperator x=O$$である．
 \item[性質5.] $x,y$について$$x\mathAnyBinaryOperator y=y\mathAnyBinaryOperator x$$である．
 \end{description}
-このような性質が満たされる時，組み合わせ$\mathGroup{\mathSet{G}}{O}{\mathInverse}{\mathAnyBinaryOperator}$を\keyword{可換群}または\keyword{加群}と呼ぶ．
+このような性質が満たされる時，組み合わせ$\mathGroup{\mathSet{G}}{\mathAnyBinaryOperator}{O}{\mathInverse}$を\keyword{可換群}または\keyword{加群}と呼ぶ．
 この可換群が最初の構成要素「可換・単位元あり・逆元あり」の正体である．
 
 例えば$\mathGroup{\mathSet{R}}{0}{-}{+}$は可換群である．
-整数全体の集合を$\mathSet{Z}$とすると$\mathGroup{\mathSet{Z}}{0}{-}{+}$も可換群である．
-また，集合$\mathSet{R}$から$0$だけを取り除いた集合を$\mathSet{R}\setminus0$とするとき$\mathGroup{\mathSet{R}\setminus0}{1}{\mathSomething^{-1}}{*}$も可換群である．
+整数全体の集合を$\mathSet{Z}$とすると$\mathGroup{\mathSet{Z}}{+}{0}{-}$も可換群である．
+また，集合$\mathSet{R}$から$0$だけを取り除いた集合を$\mathSet{R}\setminus0$とするとき$\mathGroup{\mathSet{R}\setminus0}{*}{1}{\mathSomething^{-1}}$も可換群である．
 
 可換群は代表的な代数的構造のひとつであり，他にも数学のあちこちに顔を出している．
 例えば回転角を$r$とする二次元の回転変換（行列）を$U_r$ただし$$U_r=\begin{bmatrix}\cos r&-\sin r\\\sin r&\cos r\end{bmatrix}$$として，回転変換$U_r$すべてからなる集合$\mathSet{U}$を考えてみよう．
@@ -452,8 +455,10 @@ $r$回転の逆は明らかに$-r$であるから$$U_{-r}\bullet U_r=U_r\bullet 
 \item[単位的半群の性質2.] $x,y,z$について$$(x\mathAnyBinaryOperator y)\mathAnyBinaryOperator z=x\mathAnyBinaryOperator(y\mathAnyBinaryOperator z)$$である．
 \item[単位的半群の性質3.] $O\mathIn\mathSet{M}$があり$$O\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O=x$$である．
 \end{description}
-このとき，組み合わせ$\mathMonoid{\mathSet{M}}{O}{\mathAnyBinaryOperator}$が単位的半群である．
+このとき，組み合わせ$\mathMonoid{\mathSet{M}}{\mathAnyBinaryOperator}{O}$が単位的半群である．
 可換群とこの単位的半群を組み合わせたのが環，可換群二つを組み合わせたのが体であった．
+
+なお単位元の定義として$O\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O=x$を上げているが，厳密には単位元は$$O_\mathLeft\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O_\mathRight=x$$のように，\keyword{左単位元}と\keyword{右単位元}を区別しても良い．
 
 単位的半群の性質からさらに性質3を消したものを\keyword{半群}と呼ぶ．
 
@@ -463,7 +468,8 @@ $r$回転の逆は明らかに$-r$であるから$$U_{-r}\bullet U_r=U_r\bullet 
 集合$\mathSet{M}$が単位的半群であるとき，集合$\mathSet{M}$の元$x,y\mathIn\mathSet{M}$に対して$x\mathAnyBinaryOperator y\mathIn\mathSet{M}$であった．
 これは演算子$\mathAnyBinaryOperator$に着目すると，この演算子$\mathAnyBinaryOperator$は集合$\mathSet{M}$の元2個から出発して，集合$\mathSet{M}$の元1個へとジャンプさせる\keyword{写像}であると言える．
 これを$$\mathAnyBinaryOperator\mathIn\mathMorph{\mathSet{M}\mathSetTimes\mathSet{M}}{\mathSet{M}}$$と書く．
-ここに$\mathSet{A}\mathSetTimes\mathSet{B}$を集合$\mathSet{A}$と集合$\mathSet{B}$の\keyword{直積集合}と言う．
+ここに$\mathSet{X}\mathSetTimes\mathSet{Y}$を集合$\mathSet{X}$と集合$\mathSet{Y}$の\keyword{直積集合}と言う．
+直積集合と元の集合はもはや別な集合であることに注意しよう．
 
 写像は$\mathMorph{\mathSet{M}\mathSetTimes\mathSet{M}}{\mathSet{M}}$に限ったもの出はなく，集合$\mathSet{M}$から集合$\mathSet{M}$への写像$\mathAnyUnaryOperator$ただし$$\mathAnyUnaryOperator\mathIn\mathMorph{\mathSet{M}}{\mathSet{M}}$$があっても良い．
 実はこれまでにも登場した逆元を作る演算子はまさに$\mathMorph{\mathSet{M}}{\mathSet{M}}$という写像である．
@@ -473,21 +479,33 @@ $r$回転の逆は明らかに$-r$であるから$$U_{-r}\bullet U_r=U_r\bullet 
 例えば回転の場合は$\mathAnyUnaryOperator_r=U_r$である．
 
 このようにとある集合（例えば$\mathSet{M}\mathSetTimes\mathSet{M}$や$\mathSet{R}\mathSetTimes\mathSet{V}$）から異なる別な集合（例えば$\mathSet{M}$や$\mathSet{V}$）へという写像を一般化するとどうなるだろうか．
-そこで，集合$\mathSet{A}$から集合$\mathSet{B}$への写像を$f$とすると$$f\mathIn\mathMorph{\mathSet{A}}{\mathSet{B}}$$があるとして，さらに
+いま，集合$\mathSet{X}$から集合$\mathSet{Y}$への写像$f$があり，集合$\mathSet{Y}$から集合$\mathSet{Z}$への写像$g$があるとする．
+すなわち
 \begin{align*}
-I_\mathSet{A}&\mathIn\mathMorph{\mathSet{A}}{\mathSet{A}}\\
-I_\mathSet{B}&\mathIn\mathMorph{\mathSet{B}}{\mathSet{B}}
+f&\mathIn\mathMorph{\mathSet{X}}{\mathSet{Y}}\\
+g&\mathIn\mathMorph{\mathSet{Y}}{\mathSet{Z}}
+\end{align*}
+があるとする．
+また写像同士を二項演算子$\mathCompose$で\keyword{合成}できるものとする．
+例えば$f$と$g$の合成写像は$\mathSet{X}$を出発点に$\mathSet{Y}$を経由して$\mathSet{Z}$へと行くので$$f\mathCompose g\mathIn\mathMorph{\mathSet{X}}{\mathSet{Z}}$$と書ける．
+ここで合成演算子は結合則を満たすものとしておこう．
+
+さらに
+\begin{align*}
+I_\mathSet{X}&\mathIn\mathMorph{\mathSet{X}}{\mathSet{X}}\\
+I_\mathSet{Y}&\mathIn\mathMorph{\mathSet{Y}}{\mathSet{Y}}
 \end{align*}
 という写像もあるとしよう．
+ここで$$I_\mathSet{Y}\mathCompose f=f\mathCompose I_\mathSet{X}$$とすると，写像$I_\mathSet{X}$と写像$I_\mathSet{Y}$はそれぞれ写像の合成演算子$\mathCompose$に対して単位元のように振る舞う．
+一般に写像$I_\mathSet{S}$を集合$\mathSet{S}$における\keyword{恒等写像}と呼ぶ．
 
-二つの写像は合成演算子$\mathCompose$で合成できるものとする．
-ここで$$I_\mathSet{B}\mathCompose f=f\mathCompose I_\mathSet{A}$$とすると，写像$I_\mathSet{A}$は写像の合成演算子$\mathCompose$に対して単位元のように振る舞う．
+集合$\mathSet{X}$，集合$\mathSet{Y}$，集合$\mathSet{Z}$の集合$\mathSet{C}$と，写像$f$と写像$g$の集合$\mathSet{F}$と，恒等写像の集合$\mathSet{I}$と，写像合成演算子$\mathCompose$の組み$\mathCategory{\mathSet{C}}{\mathSet{F}}{\mathSet{I}}{\mathCompose}$を\keyword{圏}と呼ぶ．
+恒等写像の集合と写像合成演算子は自明であるためしばしば省略され，組み$\mathCategoryShort{\mathSet{C}}{\mathSet{F}}$という書き方もよくされる．
 
-% このように一般化した演算子$\mathAnyUnaryOperator$と，それが定義される集合$\mathSet{C}$の組み合わせ$\mathCategory{\mathSet{C}}{\mathAnyUnaryOperator}$のことを\keyword{圏}と呼ぶ．
+圏を考えるとき，写像の事は\keyword{射}と呼ぶ決まりである．
 
-写像を一般に\keyword{射}と呼ぶ．
-
-圏が非常に重要な概念であることは徐々に明らかになる．
+いまある単位的半群$\mathMonoid{\mathSet{M}}{\mathAnyBinaryOperator}{O}$があるとする．
+集合$\mathSet{C}$を$\mathSet{M}$及び$\mathSet{M}\mathSetTimes\mathSet{M}$を元とする集合とし，集合$\mathSet{F}$を$\mathAnyBinaryOperator$のみを元とする集合とすると，組み$\mathCategoryShort{\mathSet{C}}{\mathSet{F}}$は圏になっている．
 
 \section*{余計な話}
 
@@ -819,9 +837,9 @@ $\typefloat$
 
 \section{型クラス}
 
-$\mathMonoid{\hsklInt}{0}{+}$は単位的半群である．
-同様に$\mathMonoid{\hsklInt}{1}{*}$, $\mathMonoid{\hsklFloat}{0}{+}$, $\mathMonoid{\hsklFloat}{1}{*}$, $\mathMonoid{\hsklBool}{F}{\vee}$, $\mathMonoid{\hsklBool}{T}{\wedge}$ も単位的半群である．
-そこで，任意の型$\hsklType{a}$について，組み合わせ$\mathMonoid{\hsklType{a}}{O}{\mathAnyBinaryOperator}$が単位的半群である場合には$$\mathMonoid{\hsklType{a}}{O}{\mathAnyBinaryOperator}\mathIn\hsklMonoid$$と書くことにする．
+$\mathMonoid{\hsklInt}{+}{0}$は単位的半群である．
+同様に$\mathMonoid{\hsklInt}{*}{1}$, $\mathMonoid{\hsklFloat}{+}{0}$, $\mathMonoid{\hsklFloat}{*}{1}$, $\mathMonoid{\hsklBool}{\vee}{F}$, $\mathMonoid{\hsklBool}{\wedge}{T}$ も単位的半群である．
+そこで，任意の型$\hsklType{a}$について，組み合わせ$\mathMonoid{\hsklType{a}}{\mathAnyBinaryOperator}{O}$が単位的半群である場合には$$\mathMonoid{\hsklType{a}}{\mathAnyBinaryOperator}{O}\mathIn\hsklMonoid$$と書くことにする．
 二項演算子，単位元が自明な場合は簡略化して$$\hsklType{a}\mathIn\hsklMonoid$$と書くことにする．
 
 このような型をより抽象化した型のようなものを\keyword{型クラス}と呼ぶ．
@@ -955,9 +973,9 @@ $$\hsklMaybe{m}=\hsklJust{x}$$
 
 \section{単位的半群としてのコンテナ}
 
-$$\mathMonoid{\hsklListType{\hsklType{a}}}{\hsklEmptyList}{\hsklAppend}$$
+$$\mathMonoid{\hsklListType{\hsklType{a}}}{\hsklAppend}{\hsklEmptyList}$$
 
-$$\mathMonoid{\hsklMaybeType{\hsklType{a}}}{\hsklNothing}{\hsklMaybeAppend}$$
+$$\mathMonoid{\hsklMaybeType{\hsklType{a}}}{\hsklMaybeAppend}{\hsklNothing}$$
 
 
 % \section{コンテナの型クラスと種}
