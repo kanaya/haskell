@@ -1051,9 +1051,10 @@ LISPにおけるリストとは要素$\mathFirst$と要素$\mathRest$からな�
 
 \section{アプリカティブ関手}
 
+関手の一般化マップ演算子をさらに汎用性のあるものにするために，二つの要素に分解する．
+その要素とはpure演算子と$\times$演算子である．
+関手との後方互換性は$$f\cdot x=\langle f\rangle\times x$$として確保する．
 
-
-$$(X,\langle\,\rangle,\binaryfunctormap,\times)$$
 
 
 \section{関数と関手の関係}
@@ -1061,6 +1062,11 @@ $$(X,\langle\,\rangle,\binaryfunctormap,\times)$$
 \chapter{モナド}
 
 \section{アプリカティブ関手の拡張}
+
+$$f\cdot x=f'\mathop\heartsuit x$$
+
+$$f'=\begin{cases}\langle f\rangle&\text{if nothing happened}\\
+\text{some context}&\text{when something happened}\end{cases}$$
 
 $$(X,\langle\,\rangle,\binaryfunctormap,\times,\heartsuit)$$
 
