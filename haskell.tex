@@ -15,6 +15,7 @@
 \DeclareMathOperator{\hsklConcat}{\flat}
 \DeclareMathOperator{\hsklListConstructor}{\hsklTypeConstructor{List}}
 \DeclareMathOperator{\hsklMaybeConstructor}{\hsklTypeConstructor{Maybe}}
+\DeclareMathOperator{\hsklMaybeAppend}{\boxplus}
 \DeclareMathOperator{\hsklMaybeMap}{\boxdot}
 \DeclareMathOperator{\hsklOf}{::}
 \DeclareMathOperator{\hsklPred}{pred}
@@ -854,7 +855,7 @@ $\hsklType{a}$型の変数$x$を入れた$\hsklListType{\hsklType{a}}$型のリ�
 同じようにリストの要素のすべての積をとる演算子$\prod$は$$\prod=\mathFold^*_1$$とすれば得られる．
 
 畳み込み演算子は第1（上）引数に$\hsklType{a}$型と$\hsklType{b}$型の引数を取り$\hsklType{a}$型の戻り値を返す二項演算子，第2（下）引数に$\hsklType{a}$型，第3（右）引数に$\hsklType{b}$型のリストすなわち$[\hsklType{b}]$型を取り，$\hsklType{a}$型の値を返す．
-従って畳み込み演算子の型は$$\mathFold\mathIn\mathMorphIII{(\mathMorphII{\hsklType{a}}{\hsklType{b}}{\hsklType{a}})}{\hsklType{a}}{[\hsklType{b}]}{\hsklType{a}}$$と定義できる．
+従って畳み込み演算子の型は$$\mathFold\mathIn\mathMorphIII{(\mathMorphII{\hsklType{a}}{\hsklType{b}}{\hsklType{a}})}{\hsklType{a}}{\hsklListType{\hsklType{b}}}{\hsklType{a}}$$と定義できる．
 
 畳み込み演算子には次のようなもう一つのバリエーションがある．
 $$\mathFoldRight^{\mathAnyBinaryOperator}_{a}[x_0,x_1\dotsb x_n]=\left(x_0\mathAnyBinaryOperator\left(x_1\mathAnyBinaryOperator\dotsb\mathAnyBinaryOperator\left(x_n\mathAnyBinaryOperator a\right)\right)\right)$$
@@ -907,9 +908,14 @@ $$\hsklMaybe{m}=\hsklJust{x}$$
 % $$(\typeconstructor{\typemaybe}{\typename{a}},\binarymaybeappend,\constantnothing)$$
 % \boxplus == \boxdot???
 
-\section{モノイドとしてのコンテナ}
+---
 
-$$(\typeconstructor{\typelist}{\typename{a}},\binarylistappend,\constantempty)$$
+\section{単位的半群としてのコンテナ}
+
+$$\mathMonoid{\hsklListType{\hsklType{a}}}{\hsklEmptyList}{\hsklAppend}$$
+
+$$\mathMonoid{\hsklMaybeType{\hsklType{a}}}{\hsklNothing}{\hsklMaybeAppend}$$
+
 
 % \section{コンテナの型クラスと種}
 
