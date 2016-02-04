@@ -12,48 +12,61 @@
 \newcommand{\hsklTypeclass}[1]{\mathsf{#1}}
 \newcommand{\hsklTypeConstructor}[1]{\mathop{\textbf{#1}}}
 
+\DeclareMathOperator{\hsklConcat}{\flat}
+\DeclareMathOperator{\hsklListConstructor}{\hsklTypeConstructor{List}}
+\DeclareMathOperator{\hsklMaybeConstructor}{\hsklTypeConstructor{Maybe}}
+\DeclareMathOperator{\hsklMaybeMap}{\boxdot}
+\DeclareMathOperator{\hsklOf}{::}
+\DeclareMathOperator{\hsklPred}{pred}
+\DeclareMathOperator{\hsklSucc}{succ}
 \newcommand{\hsklAppend}{\oplus}
-\newcommand{\hsklEmptyList}{\emptyset}
-\newcommand{\hsklListConstructor}{\hsklTypeConstructor{List}}
-\newcommand{\hsklListMap}{\odot}
-\newcommand{\hsklOf}{\mathop{::}}
-
 \newcommand{\hsklBool}{\hsklType{Bool}}
 \newcommand{\hsklChar}{\hsklType{Char}}
+\newcommand{\hsklEmptyList}{\emptyset}
 \newcommand{\hsklEnum}{\hsklTypeclass{Enum}}
 \newcommand{\hsklInt}{\hsklType{Int}}
 \newcommand{\hsklIntegral}{\hsklTypeclass{Integral}}
 \newcommand{\hsklEq}{\hsklTypeclass{Eq}}
 \newcommand{\hsklFloat}{\hsklType{Float}}
+\newcommand{\hsklMap}{\odot}
 \newcommand{\hsklMonoid}{\hsklTypeclass{Monoid}}
+\newcommand{\hsklNothing}{\varnothing}
 \newcommand{\hsklNum}{\hsklTypeclass{Num}}
 \newcommand{\hsklOrd}{\hsklTypeclass{Ord}}
-\newcommand{\hsklPred}{\mathop{\text{pred}}}
 \newcommand{\hsklReal}{\hsklTypeclass{Real}}
-\newcommand{\hsklSucc}{\mathop{\text{succ}}}
+
+\newcommand{\hsklJust}[1]{\{#1\}}
+\newcommand{\hsklList}[1]{\Bar{#1}}
+\newcommand{\hsklListType}[1]{\[#1\]}
+\newcommand{\hsklMaybe}[1]{\Tilde{#1}}
+\newcommand{\hsklMaybeW}[1]{\widetilde{#1}}
+\newcommand{\hsklMaybeType}[1]{\{\!\{#1\}\!\}}
+
+\newcommand{\hsklTypeConstruct}[2]{#1\,#2}
 
 \newcommand{\mathKeyword}[1]{\mathbf{#1}}
 
-\newcommand{\mathApply}{\mathop{\$}}
-\newcommand{\mathAnyBinaryOperator}{{\mathop{\bigstar}}}
-\newcommand{\mathAnyUnaryOperator}{\star}
-\newcommand{\mathCompose}{\bullet}
-\newcommand{\mathElse}{\mathop{\mathKeyword{else}}}
-\newcommand{\mathFold}{\bigcup}
-\newcommand{\mathFoldRight}{\bigsqcup}
-\newcommand{\mathFrom}{\in}
-\newcommand{\mathIf}{\mathop{\mathKeyword{if}}}
-\newcommand{\mathLambda}{\backslash}
+\DeclareMathOperator{\mathAnyBinaryOperator}{\bigstar}
+\DeclareMathOperator{\mathInverse}{\natural}
+\DeclareMathOperator{\mathApply}{\$}
+\DeclareMathOperator{\mathAnyUnaryOperator}{\star}
+\DeclareMathOperator{\mathCompose}{\bullet}
+\DeclareMathOperator{\mathIn}{::}
+\DeclareMathOperator{\mathElse}{\mathKeyword{else}}
+\DeclareMathOperator*{\mathFold}{\bigcup}
+\DeclareMathOperator*{\mathFoldRight}{\bigsqcup}
+\DeclareMathOperator{\mathFrom}{\in}
+\DeclareMathOperator{\mathIf}{\mathKeyword{if}}
+\DeclareMathOperator{\mathLambda}{\backslash}
+\DeclareMathOperator{\mathMapsTo}{\mapsto}
+\DeclareMathOperator{\mathSetTimes}{\circledast}
+\DeclareMathOperator{\mathThen}{\mathKeyword{then}}
+
 \newcommand{\mathLambdaAnonymousParameter}{\lozenge}
-\newcommand{\mathMapsTo}{\mapsto}
 \newcommand{\mathOtherwise}{\mathKeyword{otherwise}}
-\newcommand{\mathSetTimes}{\circledast}
 \newcommand{\mathSomething}{\square}
-\newcommand{\mathThen}{\mathop{\mathKeyword{then}}}
 
 \newcommand{\mathGuard}[1]{\mathop{\mid_{#1}}}
-\newcommand{\mathIn}[1]{\mathop{::}#1}
-\newcommand{\mathInverse}[1]{\Tilde{#1}}
 \newcommand{\mathSet}[1]{\mathbf{#1}}
 \newcommand{\mathVector}[1]{\boldsymbol{#1}}
 
@@ -271,7 +284,7 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 我々がよく使う割り算，引き算はプログラミングでいう糖衣構文 (syntax sugar) である．
 
 上述の12個の条件が当てはまる数には，\keyword{有理数}や\keyword{複素数}がある．
-この12個の性質をまとめて，数学では\keyword{体}と呼ぶ．
+この12個の性質をまとめて，数学では\keyword{体}または可換体と呼ぶ．
 わざわざ可換と断るのは，現代の数学では$x*y\neq y*x$であるような体系がよく用いられるからである．
 
 体の要素は，集合$\mathSet{K}$，二項演算子$+$，二項演算子$+$の単位元$0$，二項演算子$+$の逆元生成演算子$-$，もう一つの二項演算子$*$，二項演算子$*$の単位元$1$，二項演算子$*$の逆元生成演算子${}^{-1}$であるから，体はそれらを列挙して$\mathField{\mathSet{K}}{+}{0}{-}{*}{1}{{}^{-1}}$と表現する．
@@ -331,12 +344,12 @@ z\uparrow2&=z*z\\
 いま集合$\mathSet{G}$があり，$x,y,z\mathIn\mathsetname{G}$であるとし，二項演算子を形式的に$\mathAnyBinaryOperator$と書くことにして，体の性質の前半分を書き下してみよう．
 \begin{description}
 \item[性質1.] $x$と$y$の演算の結果$x\mathAnyBinaryOperator y$は$\mathSet{G}$の元である．
-\item[性質2.] $x,y,z$について$$(x\mathAnyBinaryOperator y)\mathAnyBinaryOperator z=x\mathAnyBinaryOperator(y\mathAnyBinaryOperator z)$$である．これを結合則と呼ぶ．
-\item[性質3.] $O\mathIn\mathSet{G}$があり$$O\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O=x$$である．この$O$は単位元である．
-\item[性質4.] $x$に対して$\mathInverse{x}\mathIn\mathSet{G}$があり$$\mathInverse{x}\mathAnyBinaryOperator x=O$$である．この$\mathInverse{x}$は$x$の逆元である．
+\item[性質2.] $x,y,z$について$$(x\mathAnyBinaryOperator y)\mathAnyBinaryOperator z=x\mathAnyBinaryOperator(y\mathAnyBinaryOperator z)$$である．
+\item[性質3.] $O\mathIn\mathSet{G}$があり$$O\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O=x$$である．
+\item[性質4.] $x$に対して$\mathInverse x\mathIn\mathSet{G}$があり$$\mathInverse x\mathAnyBinaryOperator x=O$$である．
 \item[性質5.] $x,y$について$$x\mathAnyBinaryOperator y=y\mathAnyBinaryOperator x$$である．
 \end{description}
-このような性質が満たされる時，組み合わせ$\mathGroup{\mathSet{G}}{O}{\mathInverse{\mathSomething}}{\mathAnyBinaryOperator}$を\keyword{可換群}または\keyword{加群}と呼ぶ．
+このような性質が満たされる時，組み合わせ$\mathGroup{\mathSet{G}}{O}{\mathInverse}{\mathAnyBinaryOperator}$を\keyword{可換群}または\keyword{加群}と呼ぶ．
 この可換群が最初の構成要素「可換・単位元あり・逆元あり」の正体である．
 
 例えば$\mathGroup{\mathSet{R}}{0}{-}{+}$は可換群である．
@@ -372,12 +385,12 @@ $r$回転の逆は明らかに$-r$であるから$$U_{-r}\bullet U_r=U_r\bullet 
 可換群は群の特別な場合である．
 現代の数学では$x\mathAnyBinaryOperator y\neq y\mathAnyBinaryOperator x$のように演算子の前後を入れ替えると結果が異なるような演算をよく取り扱うので，一般の群は可換群よりもよく取り上げられ，それ故より短い名前が付けられている．
 
-組み合わせ$\mathGroup{\mathSet{G}}{O}{\mathInverse{\mathSomething}}{\mathAnyBinaryOperator}$が群である条件は
+組み合わせ$\mathGroup{\mathSet{G}}{O}{\mathInverse}{\mathAnyBinaryOperator}$が群である条件は
 \begin{description}
 \item[群の性質1.] $x$と$y$の演算の結果$x\mathAnyBinaryOperator y$は$\mathSet{G}$の元である．
 \item[群の性質2.] $x,y,z$について$$(x\mathAnyBinaryOperator y)\mathAnyBinaryOperator z=x\mathAnyBinaryOperator(y\mathAnyBinaryOperator z)$$である．
 \item[群の性質3.] $O\mathIn\mathSet{G}$があり$$O\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O=x$$である．
-\item[群の性質4.] $x$に対して$\mathInverse{x}\mathIn\mathSet{G}$があり$$\mathInverse{x}\mathAnyBinaryOperator x=O$$である．
+\item[群の性質4.] $x$に対して$\mathInverse\mathIn\mathSet{G}$があり$$\mathInverse x\mathAnyBinaryOperator x=O$$である．
 \end{description}
 であった．
 これらの条件を少し緩め，逆元が存在しなくても良い「緩やかな群」を考えてみる．
@@ -818,9 +831,12 @@ $0$から$9$までのリストは$[0,1\dots9]$と書いても良い．
 
 \keyword{空リスト}は$\hsklEmptyList$で表す．
 
-任意の型を$\hsklType{a}$とするとき，$\hsklType{a}$型のリスト型を$[\hsklType{a}]$と書く．
-型$\hsklType{a}$から型$[\hsklType{a}]$を生成する演算子をリスト型コンストラクタと呼んで$\hsklListConstructor$と書き$$[\hsklType{a}]=\hsklListConstructor\hsklType{a}$$とする．
+任意の型を$\hsklType{a}$とするとき，$\hsklType{a}$型のリスト型を$\hsklListType{\hsklType{a}}$と書く．
+型$\hsklType{a}$から型$\hsklListType{\hsklType{a}}$を生成する演算子を\keyword{リスト型コンストラクタ}と呼んで$\hsklListConstructor$と書き$$\hsklListType{\hsklType{a}}=\hsklTypeConstruct{\hsklListConstructor}{\hsklType{a}}$$とする．
 この等式の両辺は変数ではなく型名であることに注意しよう．
+
+$\hsklType{a}$型の変数$x$を入れた$\hsklListType{\hsklType{a}}$型のリストを作る演算子を\keyword{リスト値コンストラクタ}と呼ぶ．
+変数$l$がリストであることを示すために今後$\hsklList{l}$と印をつけることとして，$\hsklType{a}$型の変数$x$からリスト値コンストラクタを使ってリスト$\hsklList{l}$を作ることは$$\hsklList{l}=[x]$$と書く．
 
 ある型を包み込んだ別の型を一般に\keyword{コンテナ型}または単に\keyword{コンテナ}と呼ぶ．
 
@@ -829,7 +845,7 @@ $0$から$9$までのリストは$[0,1\dots9]$と書いても良い．
 我々はよくリストの総和を表現するためにシグマ記号($\sum$)を使う．
 リスト$[x_0,x_1\dots x_n]$の総和を$$\sum[x_0,x_1\dots x_n]=x_0+x_1+\dotsb+x_n$$とするようなシグマ記号である．
 この表現を一般化してみよう．
-リスト$[x_0,x_1\dots x_n]$が与えられたとき，$$\mathFold^\mathAnyBinaryOperator_a[x_0,x_1\dots x_n]=a\mathAnyBinaryOperator x_0\mathAnyBinaryOperator x_1\mathAnyBinaryOperator\dotsb\mathAnyBinaryOperator x_n$$であると定義する．
+リスト$[x_0,x_1\dots x_n]$が与えられたとき，$$\mathFold^{\mathAnyBinaryOperator}_{a}[x_0,x_1\dots x_n]=a\mathAnyBinaryOperator x_0\mathAnyBinaryOperator x_1\mathAnyBinaryOperator\dotsb\mathAnyBinaryOperator x_n$$であると定義する．
 この新しい記号$\mathFold$は\keyword{畳み込み演算子}と呼ばれる．
 変数$a$はアキュムレータと呼ぶ．
 アキュムレータは右側の引数が空であった場合のデフォルト値と考えても良い．
@@ -841,22 +857,20 @@ $0$から$9$までのリストは$[0,1\dots9]$と書いても良い．
 従って畳み込み演算子の型は$$\mathFold\mathIn\mathMorphIII{(\mathMorphII{\hsklType{a}}{\hsklType{b}}{\hsklType{a}})}{\hsklType{a}}{[\hsklType{b}]}{\hsklType{a}}$$と定義できる．
 
 畳み込み演算子には次のようなもう一つのバリエーションがある．
-$$\mathFoldRight^\mathAnyBinaryOperator_a[x_0,x_1\dotsb x_n]=\left(x_0\mathAnyBinaryOperator\left(x_1\mathAnyBinaryOperator\dotsb\mathAnyBinaryOperator\left(x_n\mathAnyBinaryOperator a\right)\right)\right)$$
+$$\mathFoldRight^{\mathAnyBinaryOperator}_{a}[x_0,x_1\dotsb x_n]=\left(x_0\mathAnyBinaryOperator\left(x_1\mathAnyBinaryOperator\dotsb\mathAnyBinaryOperator\left(x_n\mathAnyBinaryOperator a\right)\right)\right)$$
 これは右畳み込みと呼ばれる演算子である．
 
-% concat
-
 畳み込み演算子の面白い応用例を示そう．
-$$\mathfold_\constantempty^\binarylistappend\listtype{\listtype{0,1,2},\listtype{3,4,5},\infinitydots}=\listtype{0,1,2,3,4,5,\infinitydots}$$
-であるから，演算子$$\mathfold_\constantempty^\binarylistappend$$はリストを平坦化する\keyword{平坦化演算子}である．
+$$\mathFold_\hsklEmptyList^\hsklAppend[[0,1,2],[3,4,5],\dots]=[0,1,2,3,4,5,\dots]$$
+であるから，演算子$$\mathFold_\hsklEmptyList^\hsklAppend$$はリストを平坦化する\keyword{平坦化演算子}である．
 平坦化演算子はconcat演算子とも呼ばれることもあるが，基本的な演算子であるため特別な記号をつけておこう．
-我々は$$\dagger=\mathfold_\constantempty^\binarylistappend$$と定義することにする．
+我々は$$\hsklConcat=\mathFold_\hsklEmptyList^\hsklAppend$$と定義することにする．
 
 \section{マップ}
 
 リストの各要素に決まった関数を適用したい場合がある．
-引数として関数$f$とリスト$[x_0,x_1\dots x_n]$を取り，戻り値として$[fx_0,fx_1\dots fx_n]$を返す演算子$\hsklListMap$を考えよう．
-このとき$$f\hsklListMap[x_0,x_1\dots x_n]=[fx_0,fx_1\dots fx_n]$$であると定義する．
+引数として関数$f$とリスト$[x_0,x_1\dots x_n]$を取り，戻り値として$[fx_0,fx_1\dots fx_n]$を返す演算子$\hsklMap$を考えよう．
+このとき$$f\hsklMap[x_0,x_1\dots x_n]=[fx_0,fx_1\dots fx_n]$$であると定義する．
 
 
 
@@ -869,25 +883,28 @@ a
 
 \section{Maybe}
 
-整数$x$を$0$で除算することはエラーである．
+整数$m$を$0$で除算することはエラーである．
 しかし除算の度にエラーが起こったかどうか調べるのは面倒であるし，記述も煩雑になってしまう．
 プログラマはよくこういう場合に「例外」という機構を用いるが，数学に例外は持ち込みたくない．
-そこで変数$x$が正しく計算されたかもしれないし，されていないかもしれないということを，特別な記号$\maybetype{x}$で表しておこう．
-ここで変数$\maybetype{x}$が取り得る値は正しく計算された値$x$か，あるいはエラーを表す値$\constantnothing$である．
+そこで変数$x$が正しく計算されたかもしれないし，されていないかもしれないということを，$\hsklMaybe{m}$のように印をつけた別の変数に入れて，忘れないようにしておこう．
+ここで変数$\hsklMaybe{m}$が取り得る値は正しく計算された値$x$か，あるいはエラーを表す値$\hsklNothing$である．
 
-この変数$\maybetype{x}$はもはや整数型とは言えない．
-そこでこの$\maybetype{x}$の型を$\typeconstructor{\typemaybe}{\typeint}$と表して「きっと整数」型と呼ぶことにしよう．
-ここに$\typemaybe$は型コンストラクタのひとつである．
+この変数$\hsklMaybe{m}$はもはや整数型とは言えない．
+そこでこの$\hsklMaybe{m}$の型を$\hsklMaybeType{\hsklInt}$と表して「きっと整数」型と呼ぶことにしよう．
+型$\hsklType{a}$から型$\hsklMaybeType{\hsklType{a}}$を生成する型コンストラクタを$\hsklMaybeConstructor$と呼び$$\hsklMaybeType{\hsklType{a}}=\hsklTypeConstruct{\hsklMaybeConstructor}{\hsklType{a}}$$とする．
 
-変数$x$が一度$0$除算の危険性に汚染された場合，その後ずっと$\maybetype{x}$と印をつけられなければならない．
-このきっと整数$\maybetype{x}$に対して整数を引数にとる関数$f$を適用させるには，何らかの関数マップ演算子が必要である．
-そこできっと整数の中身に直接関数を適用する演算子を$\binarymaybefunctormap$としよう．
-具体的には$$f\binarymaybefunctormap\maybetype{x}=\maybetype{fx}$$のように関数$f$を変数$\maybetype{x}$に適用させる．
-その結果はまた$\typeconstructor{\typemaybe}{\typeint}$型である．
-従って，結果を受け取る変数も$\typeconstructor{\typemaybe}{\typeint}$型でなければならず，それを忘れないように印を付けておかねばならない．
-例えば$$\maybetype{y}=f\binarymaybefunctormap\maybetype{x}$$のように書くことになるであろう．
+$\hsklType{a}$型の変数を$\hsklMaybeType{\hsklType{a}}$型の変数に代入するには，次の値コンストラクタを用いる．
+$$\hsklMaybe{m}=\hsklJust{x}$$
 
-$$(\typeconstructor{\typemaybe}{\typename{a}},\binarymaybeappend,\constantnothing)$$
+変数$x$が一度$0$除算の危険性に汚染された場合，その後ずっと$\hsklMaybe{m}$というコンテナに入れ続けなければいけない．
+このきっと整数$\hsklMaybe{m}$に対して整数を引数にとる関数$f$を適用させるには，何らかの関数マップ演算子が必要である．
+そこできっと整数の中身に直接関数を適用する演算子を$\hsklMaybeMap$としよう．
+具体的には$$f\hsklMaybeMap\hsklMaybe{m}=\hsklMaybeW{fx}$$のように関数$f$を変数$\hsklMaybe{m}$に適用させる．
+その結果はまた$\hsklMaybeType{\hsklInt}$型である．
+% 従って，結果を受け取る変数も$\typeconstructor{\typemaybe}{\typeint}$型でなければならず，それを忘れないように印を付けておかねばならない．
+% 例えば$$\maybetype{y}=f\binarymaybefunctormap\maybetype{x}$$のように書くことになるであろう．
+
+% $$(\typeconstructor{\typemaybe}{\typename{a}},\binarymaybeappend,\constantnothing)$$
 % \boxplus == \boxdot???
 
 \section{モノイドとしてのコンテナ}
