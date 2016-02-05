@@ -621,10 +621,12 @@ let, where.
 例えば引数が$0$の場合は特別に戻り値も$0$であり，その他の場合は関数$f$と同じ振る舞いをする関数$f'$を考える．
 このとき$f'$は
 \begin{equation*}
+\left\{
 \begin{split}
 f'0&=0\\
 f'x&=1+x
 \end{split}
+\right.
 \end{equation*}
 ように定義することになる．\footnote{Haskellでは
 \begin{Verbatim}[xleftmargin=10mm]
@@ -1036,22 +1038,28 @@ $$\hsklMaybe{m}=\hsklJust{x}$$
 具体的には$$f\hsklMaybeMap\hsklMaybe{m}=\hsklMaybeW{fx}$$のように関数$f$を変数$\hsklMaybe{m}$に適用させる．
 その結果はまた$\hsklMaybeType{\hsklInt}$型である．
 
-具体例として「安全な」割り算演算子$\div$を定義してみよう．
-ここで
-\begin{equation*}
-\hsklMaybe{m}\div y=\begin{cases}\hsklJust{x/y}&\mathIf m\neq\hsklNothing\mathAnd y\neq0\\
-\hsklNothing&\mathOtherwise\end{cases}
-\end{equation*}
-とする．
-ただし$\hsklMaybe{m}$は$\hsklJust{x}$か，あるいは$\hsklNothing$かのどちらかの値が入っている．
-$x\neq\hsklNothing$かつ$y\neq0$のときの戻り値が$x/y$ではなく$\hsklJust{x/y}$なのは，計算結果が汚染の可能性を持つからである．
+いま引数の$100$倍の値を返す関数$fx=100*x$があるとしよう．
+% この関数は桁あふれも何も考えずに，とにかく引数を$100$倍するものとする．
+これを「きっと整数」な$\hsklMaybe{m}$に適用するには，$\hsklMaybe{m}$がもし$\hsklMaybe{m}=\hsklJust{x}$ならば中身$x$を取り出して$fx$を計算し，もし$\hsklMaybe{m}=\hsklNothing$であれば$\hsklNothing$を返すような適用演算子である．
+引数$\hsklMaybe{m}$がいつ$\hsklJust{x}$でいつ$\hsklNothing$になるのかは，いまは問わないことにする．
 
-さて，我々が欲しいのは$$\hsklMaybe{m}\div y=(\mathLambdaAnonymousParameter/y)\hsklMaybeMap\hsklMaybe{m}$$であるようなMaybeバージョンのマップ演算子である．
+さて，我々が欲しいのは
+\begin{equation*}
+f\hsklMaybeMap\hsklMaybe{m}=\begin{cases}
+\hsklJust{fx}&\mathIf\hsklMaybe{m}\equiv\hsklJust{x}\\
+\hsklNothing&\mathOtherwise
+\end{cases}
+\end{equation*}
+であるようなMaybeバージョンのマップ演算子$\hsklMaybeMap$である．
 その実装は実はいたって単純で
-\begin{align*}
+\begin{equation*}
+\left\{
+\begin{split}
 f\hsklMaybeMap\hsklJust{x}&=\hsklJust{fx}\\
 f\hsklMaybeMap\hsklNothing&=\hsklNothing
-\end{align*}
+\end{split}
+\right.
+\end{equation*}
 である．
 
 % 従って，結果を受け取る変数も$\typeconstructor{\typemaybe}{\typeint}$型でなければならず，それを忘れないように印を付けておかねばならない．
@@ -1130,6 +1138,12 @@ $$\mathMonoid{\hsklMaybeType{\hsklType{a}}}{\hsklMaybeAppend}{\hsklNothing}$$
 
 ---
 
+$$I\hsklFmap=I$$
+
+$$(f\mathCompose g)\hsklFmap=(f\hsklFmap)\mathCompose(g\hsklFmap)$$
+
+
+
 \section{関数と関手の関係}
 
 
@@ -1170,6 +1184,26 @@ $$f'=\begin{cases}\langle\text{result}\rangle&\text{if nothing happened}\\
 \text{some context}&\text{when something happened}\end{cases}$$
 
 \section{モナドな関数}
+
+具体例として引数が$2^{32}$未満なら引数の値をそのまま，それ以上なら$\hsklNothing$を返す関数$a$を考えてみよう．
+\begin{equation*}
+ax=\begin{cases}
+\hsklJust{x}&\mathIf x<2^{32}\\
+\hsklNothing&\mathOtherwise
+\end{cases}
+\end{equation*}
+
+
+もうひとつの具体例として「安全な」割り算演算子$\div$を定義してみよう．
+ここで
+\begin{equation*}
+\hsklMaybe{m}\div y=\begin{cases}\hsklJust{x/y}&\mathIf m\neq\hsklNothing\mathAnd y\neq0\\
+\hsklNothing&\mathOtherwise\end{cases}
+\end{equation*}
+とする．
+ただし$\hsklMaybe{m}$は$\hsklJust{x}$か，あるいは$\hsklNothing$かのどちらかの値が入っている．
+$x\neq\hsklNothing$かつ$y\neq0$のときの戻り値が$x/y$ではなく$\hsklJust{x/y}$なのは，計算結果が汚染の可能性を持つからである．
+
 
 
 \section{モナド則}
