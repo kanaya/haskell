@@ -167,6 +167,10 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 
 近代的なプログラミング言語を知っていれば，すでにある程度抽象数学に足を踏み入れているからである．
 
+---
+
+具象(C++)→1→抽象（数学）→2→具象(Haskell)→3→抽象（数学）
+
 \chapter{数学的準備*}
 
 \begin{leader}
@@ -205,7 +209,7 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 \item[実数の性質12. 分配則] 足し算と掛け算が混在する場合$$(x+y)*z=(x*z)+(y*z)$$と掛け算を\keyword{分配}する．
 \end{description}
 以上が実数の代数的性質の全てである．
-我々がよく使う割り算，引き算はプログラミングでいう糖衣構文 (syntax sugar) である．
+我々がよく使う割り算，引き算，割り算はプログラミングでいう糖衣構文 (syntax sugar) である．
 
 上述の12個の条件が当てはまる数には，\keyword{有理数}や\keyword{複素数}がある．
 この12個の性質をまとめて，数学では\keyword{体}または可換体と呼ぶ．
@@ -424,13 +428,17 @@ g&\mathIn\mathMorph{\mathSet{Y}}{\mathSet{Z}}
 
 単項演算子には論理否定($\neg$)とマイナス($-$)がある．
 本書で扱う基本的な単項演算子はこの2種類だけであるが，複数の演算子を組み合わせて単項演算子を新たに作ることはある．
+本書に登場する単項演算子は全て\keyword{前置}である．
 
-二項演算子のうちよく使われるものは和($+$)，積($*$)，差($-$)，商（$/$），論理和($\vee$)，論理積($\wedge$)，同値($\equiv$)，大なり($>$)，小なり($<$)等である．
+二項演算子のうちよく使われるものは和($+$)，積($*$)，論理和($\vee$)，論理積($\wedge$)，同値($\equiv$)，大なり($>$)，小なり($<$)等である．
 二項演算子はたとえ積記号であっても省略できない．
 二項演算子は多数あるので，その都度説明する．
 
 二項演算子は中置することが基本であるが，括弧で包むことで前置することも可能である．
-任意の二項演算子$\mathAnyBinaryOperator$について$$x\mathAnyBinaryOperator y$$及び$$(\mathAnyBinaryOperator)xy$$は全く同じ意味である．\footnote{Haskellでは任意の二項演算子を括弧で包むことで前置演算子として使うことができる．例えば\code{x+y}と \code{(+)x y} は同じ結果を返す．逆に任意の二引数関数\code{f}は \code{x `f` y} と書くことで中置することができる．}
+任意の二項演算子$\mathAnyBinaryOperator$について$$x\mathAnyBinaryOperator y$$及び$$(\mathAnyBinaryOperator)xy$$は全く同じ意味である．
+従って，二項演算子と2引数関数に本質的な差はない．
+本書では演算子と関数という用語は全く同じ意味で用いる．
+\footnote{Haskellでは任意の二項演算子を括弧で包むことで前置演算子として使うことができる．例えば\code{x+y}と \code{(+)x y} は同じ結果を返す．逆に任意の二引数関数\code{f}は \code{x `f` y} と書くことで中置することができる．}
 
 二項演算子の結合性，すなわち左結合か右結合かは，演算子によって異なる．
 
@@ -780,6 +788,7 @@ $\hsklFloat$
 
 型$\hsklType{a}$の変数どうしの間で四則演算関係が定義されている場合，かつその型が型クラス$\hsklEq$に属する場合，その型は型クラス$\hsklNum$にも属する．
 型クラス$\hsklNum$に属する型は比較演算子$+,-,*,/$を提供する．
+ここに$-$は二項演算子のマイナスである．
 
 型$\hsklType{a}$が型クラス$\hsklOrd$及び型クラス$\hsklNum$に属しているとき，かつそのときに限り，型$\hsklType{a}$は型クラス$\hsklReal$にも属する．
 
@@ -1148,12 +1157,51 @@ $$f\hsklApplicativeApply g=\hsklPure{f\mathCompose g}$$
 
 \chapter{モナド*}
 
+% 文脈
+
+\begin{leader}
+a
+\end{leader}
+
+
 \section{もう一つの関手*}
 
-$$f\hsklFmap x=f'\hsklMonadMap x$$
+アプリカティブ関手は関手の一般マップ演算子をピュア演算子と一般アプリカティブマップ演算子に分解することで，式の見通しを良くすることができるアプリカティブスタイルという記法を採用できた．
+しかしながら，アプリカティブスタイル変数に文脈を与えるタイミングは最初すなわち式の右端の1回に限られている．
+任意のタイミングで変数に文脈を与えられるように関手を改造したものが，\keyword{モナド}である．
 
-$$f'x=\begin{cases}\hsklUnit{\text{result}}&\text{if nothing happened}\\
+リストのマップ演算子を思い出そう．
+$$\hsklList{l}'=f\hsklMap\hsklList{l}$$
+
+Maybeのマップ演算子を思い出そう．
+$$\hsklMaybe{m}'=g\hsklMaybeMap\hsklMaybe{m}$$
+
+これらをまとめた一般マップ演算子を思い出そう．
+$$x'=h\hsklFmap x$$
+関数$h$は「普通の」関数である．
+
+リストのアプリカティブマップ演算子を思い出そう．
+$$\hsklList{l}'=\hsklList{f}\hsklApplicativeListMap\hsklList{l}$$
+
+Maybeのアプリカティブマップ演算子を思い出そう．
+$$\hsklMaybe{m}'=\hsklMaybe{g}\hsklApplicativeMaybeMap\hsklMaybe{m}$$
+
+これらをまとめた一般アプリカティブマップ演算子を思い出そう．
+$$x'=h\hsklApplicativeMap x$$
+関数$h$は「普通の」関数をコンテナにつめたものである．
+
+では「普通ではない」関数はどうしたらいいだろうか．
+最も考えられる「普通ではない」関数とは「普通の」（コンテナに入っていない裸の）引数をとり，コンテナにつめた戻り値を返す関数である．
+そのような関数$\phi$があるとしよう．
+% ユニット演算子の説明
+$$\phi y=\begin{cases}\hsklUnit{\text{result}}&\text{if nothing happened}\\
 \text{some context}&\text{when something happened}\end{cases}$$
+この関数$\phi$をコンテナにつめられた変数$x$に適用するための「モナドな」マップ演算子$\hsklMonadMap$を導入する．
+$$x'=\phi\hsklMonadMap x$$
+
+$$f\hsklFmap x=\phi\hsklMonadMap x$$
+
+
 
 ピュア演算子，ユニット演算子．
 
