@@ -18,16 +18,21 @@
 
 \DeclareMathOperator{\hsklApplicativeMap}{\times}
 \DeclareMathOperator{\hsklApplicativeListMap}{\otimes}
+\DeclareMathOperator{\hsklApplicativeMaybeMap}{\boxtimes}
 \DeclareMathOperator{\hsklConcat}{\flat}
 \DeclareMathOperator{\hsklFmap}{\cdot}
+\DeclareMathOperator{\hsklHead}{head}
 \DeclareMathOperator{\hsklListConstructor}{\hsklTypeConstructor{List}}
 \DeclareMathOperator{\hsklMap}{\odot}
 \DeclareMathOperator{\hsklMaybeConstructor}{\hsklTypeConstructor{Maybe}}
 \DeclareMathOperator{\hsklMaybeAppend}{\boxplus}
 \DeclareMathOperator{\hsklMaybeMap}{\boxdot}
+\DeclareMathOperator{\hsklMonadMap}{\heartsuit}
 \DeclareMathOperator{\hsklOf}{::}
 \DeclareMathOperator{\hsklPred}{pred}
 \DeclareMathOperator{\hsklSucc}{succ}
+\DeclareMathOperator{\hsklTail}{tail}
+
 \newcommand{\hsklAppend}{\oplus}
 \newcommand{\hsklApplicative}{\hsklTypeclass{Applicative}}
 \newcommand{\hsklBool}{\hsklType{Bool}}
@@ -288,7 +293,7 @@
 
 \part{代数構造とプログラミング}
 
-\chapter{はじめに}
+\chapter{はじめに*}
 
 Haskellというプログラミング言語を知ろうとすると，従来のプログラミング言語の知識が邪魔をする．
 モダンで，人気があって，Haskellから影響を受けた言語，例えばRubyやSwiftの知識さえ，Haskellを学ぶ障害になり得る．
@@ -300,7 +305,7 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 
 近代的なプログラミング言語を知っていれば，すでにある程度抽象数学に足を踏み入れているからである．
 
-\chapter{数学的準備}
+\chapter{数学的準備*}
 
 \begin{leader}
 この章では「代数的構造」を見ていくことにする．
@@ -335,7 +340,7 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 \item[実数の性質9. 逆元の存在] 任意の$x$に対して$x^{-1}\mathIn\mathSet{R}$があり$$x^{-1}*x=1$$である．この$x^{-1}$は$x$の掛け算の逆元である．\keyword{乗法逆元}と呼ぶこともある．ただし性質11で述べる通り，加法単位元については逆元がなくても良い．
 \item[実数の性質10. 掛け算の可換性] 任意の$x,y$について$$x*y=y*x$$である．このことを掛け算の可換性と呼ぶ．
 \item[実数の性質11. 加法単位元の乗法逆元] 加法単位元に対する掛け算の逆元は存在しなくても良い．（つまり$0^{-1}$のことは考えなくて良い．）
-\item[実数の性質12. 分配則] 足し算と掛け算が混在する場合$$x*(y+z)=x*y+x*z$$と掛け算を\keyword{分配}する．
+\item[実数の性質12. 分配則] 足し算と掛け算が混在する場合$$(x+y)*z=(x*z)+(y*z)$$と掛け算を\keyword{分配}する．
 \end{description}
 以上が実数の代数的性質の全てである．
 我々がよく使う割り算，引き算はプログラミングでいう糖衣構文 (syntax sugar) である．
@@ -492,7 +497,7 @@ $r$回転の逆は明らかに$-r$であるから$$U_{-r}\bullet U_r=U_r\bullet 
 これまでは集合の元同士に対する二項演算を考えてきた．
 集合$\mathSet{M}$が単位的半群であるとき，集合$\mathSet{M}$の元$x,y\mathIn\mathSet{M}$に対して$x\mathAnyBinaryOperator y\mathIn\mathSet{M}$であった．
 見方を変えると，演算子$\mathAnyBinaryOperator$とは集合$\mathSet{M}$の元2個から出発して，集合$\mathSet{M}$の元1個へとジャンプさせる\keyword{写像}であると言える．
-これを$$\mathAnyBinaryOperator\mathIn\mathMorph{\mathSet{M}\mathSetTimes\mathSet{M}}{\mathSet{M}}$$と書く．
+これを$$\mathAnyBinaryOperator\mathIn{}\mathMorph{(\mathSet{M}\mathSetTimes\mathSet{M})}{\mathSet{M}}$$と書く．
 ここに$\mathSet{X}\mathSetTimes\mathSet{Y}$は集合$\mathSet{X}$と集合$\mathSet{Y}$の\keyword{直積集合}である．
 直積集合と元の集合はもはや別な集合であることに注意しよう．
 
@@ -500,7 +505,7 @@ $r$回転の逆は明らかに$-r$であるから$$U_{-r}\bullet U_r=U_r\bullet 
 実はこれまでにも登場した逆元を作る演算子はまさに$\mathMorph{\mathSet{M}}{\mathSet{M}}$という写像である．
 
 またベクトルには，実数倍や回転といった写像がある．
-これらは実数のパラメタを一つとるので，ベクトル全体の集合を$\mathSet{V}$，実数全体の集合を$\mathSet{R}$として，実数のパラメタを$r$としたときに$$\mathAnyUnaryOperator_r\mathIn\mathMorph{\mathSet{R}\mathSetTimes\mathSet{V}}{\mathSet{V}}$$と書ける．
+これらは実数のパラメタを一つとるので，ベクトル全体の集合を$\mathSet{V}$，実数全体の集合を$\mathSet{R}$として，実数のパラメタを$r$としたときに$$\mathAnyUnaryOperator_r\mathIn{}\mathMorph{(\mathSet{R}\mathSetTimes\mathSet{V})}{\mathSet{V}}$$と書ける．
 例えば回転の場合は$\mathAnyUnaryOperator_r=U_r$である．
 
 このようにとある集合（例えば$\mathSet{M}\mathSetTimes\mathSet{M}$や$\mathSet{R}\mathSetTimes\mathSet{V}$）から異なる別な集合（例えば$\mathSet{M}$や$\mathSet{V}$）へという写像を一般化するとどうなるだろうか．
@@ -528,10 +533,10 @@ g&\mathIn\mathMorph{\mathSet{Y}}{\mathSet{Z}}
 いまある単位的半群$\mathMonoid{\mathSet{M}}{\mathAnyBinaryOperator}{O}$があるとする．
 集合$\mathSet{C}$を$\mathSet{M}$及び$\mathSet{M}\mathSetTimes\mathSet{M}$を元とする集合とし，集合$\mathSet{P}$を$\mathAnyBinaryOperator$のみを元とする集合とすると，組み合わせ$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$は圏になっている．
 
-\section*{余計な話：束}
+\section*{余計な話：束*}
 
 
-\chapter{記法}
+\chapter{記法*}
 
 \begin{leader}
 本書では一般の数学書やプログラミングの教科書からは少し異なった記法を用いる．
@@ -594,11 +599,11 @@ $$\left(\mathLambdaExpression{x}{1+x}\right)2$$
 例えばラムダ式$\mathLambdaExpression{xy}{x+y}$は$$\mathLambdaAnonymousParameter+\mathLambdaAnonymousParameter$$と書いても良い．
 式を左から読んで1番目の$\mathLambdaAnonymousParameter$が元々の$x$すなわち第1引数を，2番目の$\mathLambdaAnonymousParameter$が元々の$y$すなわち第2引数を意味する．この省略記法はプログラミング言語Schemeにおけるcutプロシジャに由来する．\footnote{この記法はHaskellにはない．}
 
-\section*{余計な話：局所変数}
+\section*{余計な話：局所変数*}
 
 let, where.
 
-\chapter{関数}
+\chapter{関数*}
 
 \begin{leader}
 プログラムはひとつの関数であり，その関数はいくつかの部分的な関数から合成される．
@@ -608,7 +613,6 @@ let, where.
 % プログラミング言語Cは，プログラムが関数だけからでも構成できることを示した．
 % Pascalの「手続き」はCでは値を返さない関数であり，Pascalの「本文」はmainという名前の関数である．
 \end{leader}
-
 
 \section{関数の定義}
 
@@ -666,9 +670,9 @@ fx=\begin{cases}
 1+x&\mathOtherwise
 \end{cases}
 \end{equation*}
+左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっていることに注目しよう．
 
-
-関数は内部で自分自身を読んでも良い．
+関数は内部で自分自身を呼んでも良い．
 例えば$x$の階乗を返す関数$s$は
 \begin{equation*}
 sx=\begin{cases}
@@ -677,6 +681,7 @@ x*s(x-1)&\mathOtherwise
 \end{cases}
 \end{equation*}
 と定義できる．
+関数が自分自身を呼び出すことを\keyword{再帰呼び出し}と呼ぶ．
 
 \section{関数の合成}
 
@@ -704,11 +709,13 @@ $$f\mathApply gx=f(gx)$$
 ラムダ式の場合は話はもっと単純で，機械的に$$\mathLambdaExpression{xy}{x+y}=\mathLambdaExpression{x}{(\mathLambdaExpression{y}{x+y})}$$のように展開するだけである．
 矢印$\mathLambdaArrow$は右結合であるから，このラムダ式は括弧を省略して$$\mathLambdaExpression{xy}{x+y}=\mathLambdaExpression{x}{\mathLambdaExpression{y}{x+y}}$$とも書かれる．
 
+複数引数をとる関数を1引数関数に分解することを\keyword{カリー化}と呼ぶ．
+これはこの分野の先駆者であるハスケル・カリーの名前に由来する．
 
-\section*{余計な話：ラムダ}
+\section*{余計な話：ラムダ*}
 
 
-\chapter{型と型クラス}
+\chapter{型と型クラス*}
 
 \begin{leader}
 プログラマのいう型とは，数学者のいう集合のことである．
@@ -920,9 +927,11 @@ $\typefloat$
 
 これらの関係を表にまとめたものが表\ref{tab:type-and-typeclass}である．
 
-\section*{余計な話}
 
-\chapter{コンテナ}
+
+\section*{余計な話*}
+
+\chapter{リスト*}
 
 \begin{leader}
 型から作る型をコンテナと呼ぶ．
@@ -936,35 +945,35 @@ $\typefloat$
 例えば$0$から始まり$9$まで続く整数のリストは$[0,1,2,3,4,5,6,7,8,9]$と書く．
 等差数列に限って，簡略化した書き方が許される．
 $0$から$9$までのリストは$[0,1\dots9]$と書いても良い．
-複数の型の要素が混在してもよい配列のことをヘテロジニアスな配列と呼び，ホモジニアスな配列とは区別する．
+複数の型の要素が混在してもよい配列のことをヘテロジニアスな配列と呼び，ホモジニアスな配列とは区別する．\footnote{この書き方はHaskellでもそのまま使える．}
 
 リストは変数に代入できる．
-今後，リストを指す変数にはバーをつけて$\hsklList{l}$と書くことにして$$\hsklList{l}=[0,1\dots9]$$のように書くことにしよう．
+今後，リストを指す変数にはバーをつけて$\hsklList{l}$と書くことにして$$\hsklList{l}=[0,1\dots9]$$のように書くことにしよう．\footnote{Haskellコンパイラは人間よりも記憶力が優れているため，変数名にバーをつける必要はない．}
 
-より高度なリスト，例えば$0$から$9$までの平方数のリストは$$\left[x^2\mathGuard{x\mathFrom{[0,1\dots9]}}\right]$$のようにガードを用いて書く．
-ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mathFrom$を用いた．
+より高度なリスト，例えば$0$から$9$までの平方数のリストは$$\hsklList{l}=\left[x^2\mathGuard{x\mathFrom{[0,1\dots9]}}\right]$$のようにガードを用いて書く．
+ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mathFrom$を用いた．\footnote{Haskellでは\code{l = [x+y | x<-[0,1..9], y<-[0,1..5], x+y>3]}と書く．}
 
 ガードの中の式は複数あっても良い．
-例えば$$\left[x+y\mathGuard{x\mathFrom[0,1\dots9],\,y\mathFrom[0,1\dots5],\,x+y>3}\right]$$は$0\le x\le 10$かつ$0\le y\le 5$の範囲で$x+y>3$となる$x$及び$y$から$x+y$を並べたリストである．
+例えば$$\hsklList{l}=\left[x+y\mathGuard{x\mathFrom[0,1\dots9],\,y\mathFrom[0,1\dots5],\,x+y>3}\right]$$は$0\le x\le 10$かつ$0\le y\le 5$の範囲で$x+y>3$となる$x$及び$y$から$x+y$を並べたリストである．
 
 リストは\keyword{結合}できる．
-例えばリスト$\hsklList{l}$とリスト$\hsklList{m}$を結合したリストは$$\hsklList{l}\hsklAppend\hsklList{m}$$で得られる．
+例えばリスト$\hsklList{l}$とリスト$\hsklList{m}$を結合したリストは$$\hsklList{l}\hsklAppend\hsklList{m}$$で得られる．\footnote{Haskellでは\code{l++m}と書く．}
 
 リストは無限個の要素を持っても良い．
-例えば自然数全体を表すリスト$\hsklList{n}$は$$\hsklList{n}=[1,2\dots]$$のように定義して良い．
+例えば自然数全体を表すリスト$\hsklList{n}$は$$\hsklList{n}=[1,2\dots]$$のように定義して良い．\footnote{Haskellでは\code{n = [1,2..]}と書く．}
 
-\keyword{空リスト}は$\hsklEmptyList$で表す．
+\keyword{空リスト}は$\hsklEmptyList$で表す．\footnote{Haskellでは空リストを\code{[]}で表す．}
 
 任意の型を$\hsklType{a}$とするとき，$\hsklType{a}$型のリスト型を$\hsklListType{\hsklType{a}}$と書く．
 型$\hsklType{a}$から型$\hsklListType{\hsklType{a}}$を生成する演算子を\keyword{リスト型コンストラクタ}と呼んで$\hsklListConstructor$と書き$$\hsklListType{\hsklType{a}}=\hsklTypeConstruct{\hsklListConstructor}{\hsklType{a}}$$とする．
-この等式の両辺は変数ではなく型名であることに注意しよう．
+この等式の両辺は変数ではなく型名であることに注意しよう．\footnote{Haskellでは表記上コンテナ型$\hsklListType{a}$と型コンストラクタ式$\hsklTypeConstruct{\hsklListConstructor}{\hsklType{a}}$を区別せず，両者とも\code{[a]}と書く．}
 
 $\hsklType{a}$型の変数$x$を入れた$\hsklListType{\hsklType{a}}$型のリストを作る演算子を\keyword{リスト値コンストラクタ}と呼ぶ．
-変数$l$がリストであることを示すために今後$\hsklList{l}$と印をつけることとして，$\hsklType{a}$型の変数$x$からリスト値コンストラクタを使ってリスト$\hsklList{l}$を作ることは$$\hsklList{l}=[x]$$と書く．
+変数$l$がリストであることを示すために今後$\hsklList{l}$と印をつけることとして，$\hsklType{a}$型の変数$x$からリスト値コンストラクタを使ってリスト$\hsklList{l}$を作ることは$$\hsklList{l}=[x]$$と書く．\footnote{Haskellでは\code{l = [x]}と書く．}
 
 ある型を包み込んだ別の型を一般に\keyword{コンテナ型}または単に\keyword{コンテナ}と呼ぶ．
 
-\section{畳み込み}
+\section{畳み込みとマップ}
 
 我々はよくリストの総和を表現するためにシグマ記号($\sum$)を使う．
 リスト$[x_0,x_1\dots x_n]$の総和を$$\sum[x_0,x_1\dots x_n]=x_0+x_1+\dotsb+x_n$$とするようなシグマ記号である．
@@ -972,7 +981,8 @@ $\hsklType{a}$型の変数$x$を入れた$\hsklListType{\hsklType{a}}$型のリ�
 リスト$[x_0,x_1\dots x_n]$が与えられたとき，$$\mathFold^{\mathAnyBinaryOperator}_{a}[x_0,x_1\dots x_n]=a\mathAnyBinaryOperator x_0\mathAnyBinaryOperator x_1\mathAnyBinaryOperator\dotsb\mathAnyBinaryOperator x_n$$であると定義する．
 この新しい記号$\mathFold$は\keyword{畳み込み演算子}と呼ばれる．
 変数$a$はアキュムレータと呼ぶ．
-アキュムレータは右側の引数が空であった場合のデフォルト値と考えても良い．
+アキュムレータは右側の引数が空であった場合のデフォルト値と考えても良い．\footnote{Haskellでは$\mathFold^{*}_{a}l$を\code{foldl * a l}と書く．}
+% !!!!!!!!!! CHECK !!!!!!!!!!
 
 リストの総和をとる演算子$\sum$は$$\sum=\mathFold^+_0$$とすれば得られる．
 同じようにリストの要素のすべての積をとる演算子$\prod$は$$\prod=\mathFold^*_1$$とすれば得られる．
@@ -982,20 +992,20 @@ $\hsklType{a}$型の変数$x$を入れた$\hsklListType{\hsklType{a}}$型のリ�
 
 畳み込み演算子には次のようなもう一つのバリエーションがある．
 $$\mathFoldRight^{\mathAnyBinaryOperator}_{a}[x_0,x_1\dotsb x_n]=\left(x_0\mathAnyBinaryOperator\left(x_1\mathAnyBinaryOperator\dotsb\mathAnyBinaryOperator\left(x_n\mathAnyBinaryOperator a\right)\right)\right)$$
-これは右畳み込みと呼ばれる演算子である．
+これは右畳み込みと呼ばれる演算子である．\footnote{Haskellでは$\mathFoldRight^{*}_{a}l$を\code{foldr l a *}と書く．}
+% !!!!!!!!!! CHECK !!!!!!!!!!
 
 畳み込み演算子の面白い応用例を示そう．
 $$\mathFold_\hsklEmptyList^\hsklAppend[[0,1,2],[3,4,5],\dots]=[0,1,2,3,4,5,\dots]$$
 であるから，演算子$$\mathFold_\hsklEmptyList^\hsklAppend$$はリストを平坦化する\keyword{平坦化演算子}である．
 平坦化演算子はconcat演算子とも呼ばれることもあるが，基本的な演算子であるため特別な記号をつけておこう．
-我々は$$\hsklConcat=\mathFold_\hsklEmptyList^\hsklAppend$$と定義することにする．
-
-\section{マップ}
+我々は$$\hsklConcat=\mathFold_\hsklEmptyList^\hsklAppend$$と定義することにする．\footnote{Haskellでは演算子$\hsklConcat$の代わりに\code{concat}関数を使う．}
+% !!!!!!!!!! CHECK !!!!!!!!!!
 
 リストの各要素に決まった関数を適用したい場合がある．
 引数として関数$f$とリスト$[x_0,x_1\dots x_n]$を取り，戻り値として$[fx_0,fx_1\dots fx_n]$を返す演算子$\hsklMap$を考えよう．
 このとき$$f\hsklMap[x_0,x_1\dots x_n]=[fx_0,fx_1\dots fx_n]$$であると定義する．
-この$\hsklMap$演算子を\keyword{マップ演算子}と呼ぶ．
+この$\hsklMap$演算子を\keyword{マップ演算子}と呼ぶ．\footnote{Haskellでは$f\hsklMap l$を\code{map f l}または\code{f `map` l}と書く．}
 
 マップ演算子の型は
 $$\hsklMap\hsklOf{}\mathMorphII{(\mathMorph{\hsklType{a}}{\hsklType{b}})}{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType{b}}}$$
@@ -1008,9 +1018,60 @@ f\hsklMap&\mathIn\mathMorph{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType
 \end{align*}
 となり，マップ演算子が何をしているのか一目瞭然になる．
 
-\section*{余計な話}
+\section{リストの実装}
 
-\chapter{コンテナの高度な話題}
+ここでリストの実装について若干述べておかねばならない．
+紙上ではリストは自由に考えられるが，計算機上ではそれほど自由ではないからである．
+ここではリストはLISPにおけるリストと同じ構造を持つものとする．
+LISPにおけるリストとは要素$\mathFirst$と要素$\mathRest$からなるペアの集合である．
+要素$\mathFirst$がリストの要素を持ち，要素$\mathRest$が次のペアを参照する．
+リストの最後のペアの$\mathRest$は空リストを参照する．
+
+リストのための特別な表現$$\mathFirst:\mathRest$$を用い，第1要素$\mathFirst$はリストが保持する型，第2要素$\mathRest$はリスト型であるとする．
+演算子$:$を\keyword{結合演算子}と呼ぶ．\footnote{Haskellでも要素\code{x}をリスト\code{l}の先頭に追加することを\code{x:l}と書く．}
+
+要素$\mathRest$はリストまたは空リストであるから，一般にリストは次のように展開できることになる．
+\begin{align*}
+[x_0,x_1,x_2\rangedots x_n]&=x_0:[x_1,x_2\rangedots x_n]\\
+&=x_0:x_1:[x_2\rangedots x_n]\\
+&=x_0:x_1:x_2:\dots:x_n:\hsklEmptyList
+\end{align*}
+結合演算子$:$は右結合する．
+すなわち$$x_0:x_1:x_2=x_0:(x_1:x_2)$$である．
+
+マップ演算子の実装は，リストの実装に踏み込めば簡単である．
+空でないリストは必ず$x:\hsklList{y}$へと分解できるから
+\begin{align*}
+f\hsklMap x:\hsklList{y}&=fx:f\hsklMap\hsklList{y}\\
+f\hsklMap\hsklEmptyList&=\hsklEmptyList
+\end{align*}
+とマップ演算子$\hsklMap$を定義できる．
+
+任意のリスト$\hsklList{l}$に対し，次の関数が用意されている．
+\begin{align*}
+\hsklHead\hsklList{l}&\dots\text{$\hsklList{l}$の先頭要素}\\
+\hsklTail\hsklList{l}&\dots\text{$\hsklList{l}$の2番目以降の要素からなるリスト}
+\end{align*}
+これらはLISPのcar関数，cdr関数と同じものである．
+
+\section*{余計な話：リストを引数にとる関数}
+
+リストを分解する関数$\hsklHead$と$\hsklTail$さえあればどのようなリスト処理も可能であるが，リストを引数にとる関数を考えると最初から分解されたリストを渡された方が何かと便利である．
+そこで結合演算子を関数引数のパタンにも使えることにしよう．
+これで，例えばリストの和をとる関数$f$は
+\begin{equation*}
+\left\{
+\begin{split}
+f\hsklEmptyList&=0\\
+% fx:\hsklEmptyList&=x\\
+fx:\hsklList{y}&=x+f\hsklList{y}
+\end{split}
+\right.
+\end{equation*}
+のように定義できる．
+
+
+\chapter{Maybe*}
 
 \begin{leader}
 a
@@ -1027,10 +1088,11 @@ a
 
 この変数$\hsklMaybe{m}$はもはや整数型とは言えない．
 そこでこの$\hsklMaybe{m}$の型を$\hsklMaybeType{\hsklInt}$と表して「きっと整数」型と呼ぶことにしよう．
-型$\hsklType{a}$から型$\hsklMaybeType{\hsklType{a}}$を生成する型コンストラクタを$\hsklMaybeConstructor$と呼び$$\hsklMaybeType{\hsklType{a}}=\hsklTypeConstruct{\hsklMaybeConstructor}{\hsklType{a}}$$とする．
+型$\hsklType{a}$から型$\hsklMaybeType{\hsklType{a}}$を生成する型コンストラクタを$\hsklMaybeConstructor$と呼び$$\hsklMaybeType{\hsklType{a}}=\hsklTypeConstruct{\hsklMaybeConstructor}{\hsklType{a}}$$とする．\footnote{Haskellでは表記上コンテナ型$\hsklMaybeType{a}$と型コンストラクタ式$\hsklTypeConstruct{\hsklMaybeConstructor}{\hsklType{a}}$を区別せず，両者とも\code{Maybe a}と書く．}
 
-$\hsklType{a}$型の変数を$\hsklMaybeType{\hsklType{a}}$型の変数に代入するには，次の値コンストラクタを用いる．
+$\hsklType{a}$型の変数を$\hsklMaybeType{\hsklType{a}}$型の変数に代入するには，次の値コンストラクタを用いて
 $$\hsklMaybe{m}=\hsklJust{x}$$
+と書く．\footnote{Haskellでは\code{m = Just x}と書く．}
 
 変数$x$が一度$0$除算の危険性に汚染された場合，その後ずっと$\hsklMaybe{m}$というコンテナに入れ続けなければいけない．
 このきっと整数$\hsklMaybe{m}$に対して整数を引数にとる関数$f$を適用させるには，何らかの関数マップ演算子が必要である．
@@ -1062,42 +1124,20 @@ f\hsklMaybeMap\hsklNothing&=\hsklNothing
 \end{equation*}
 である．
 
+今後，普通の（引数にMaybeが来ることを想定していない）関数$f$をMaybe型である変数$\hsklMaybe{m}$に適用させるときには，必ず$$\hsklMaybe{n}=f\hsklMaybeMap\hsklMaybe{m}$$のようにMaybeバージョンのマップ演算子$\hsklMaybeMap$を用いることにする．\footnote{HaskellではMaybeバージョンのマップ演算子に特別な記号，関数名が与えられていない．その代わり\ref{ch:functor}章で述べる一般化マップ演算子$\hsklFmap$に相当する\code{fmap}関数を用い\code{n = fmap f m}または\code{n = f `fmap` m}のようにする．Haskellは型推論を行なうため変数\code{m}がMaybeであればMaybeバージョンのマップ演算子（関数）が適用される．（もし\code{m}がリストであれば通常のマップ関数である\code{map}が適用される．）}
+
 % 従って，結果を受け取る変数も$\typeconstructor{\typemaybe}{\typeint}$型でなければならず，それを忘れないように印を付けておかねばならない．
 % 例えば$$\maybetype{y}=f\binarymaybefunctormap\maybetype{x}$$のように書くことになるであろう．
 
 % $$(\typeconstructor{\typemaybe}{\typename{a}},\binarymaybeappend,\constantnothing)$$
 % \boxplus == \boxdot???
 
+\section{Maybeを含む演算*}
+
+\section{リストとMaybe*}
+
 ---
 
-\section{リストの実装}
-
-ここでリストの実装について若干述べておかねばならない．
-紙上ではリストは自由に考えられるが，計算機上ではそれほど自由ではないからである．
-ここではリストはLISPにおけるリストと同じ構造を持つものとする．
-LISPにおけるリストとは要素$\mathFirst$と要素$\mathRest$からなるペアの集合である．
-要素$\mathFirst$がリストの要素を持ち，要素$\mathRest$が次のペアを参照する．
-リストの最後のペアの$\mathRest$は空リストを参照する．
-
-リストのための特別な表現$$\mathFirst:\mathRest$$を用い，第1要素$\mathFirst$はリストが保持する型，第2要素$\mathRest$はリスト型であるとする．
-演算子$:$を\keyword{結合演算子}と呼ぶ．
-
-要素$\mathRest$はリストまたは空リストであるから，一般にリストは次のように展開できることになる．
-\begin{align*}
-[x_0,x_1,x_2\rangedots x_n]&=x_0:[x_1,x_2\rangedots x_n]\\
-&=x_0:x_1:[x_2\rangedots x_n]\\
-&=x_0:x_1:x_2:\dots:x_n:\hsklEmptyList
-\end{align*}
-結合演算子$:$は右結合する．
-すなわち$$x_0:x_1:x_2=x_0:(x_1:x_2)$$である．
-
-マップ演算子の実装は，リストの実装に踏み込めば簡単である．
-空でないリストは必ず$x:\hsklList{y}$へと分解できるから
-\begin{align*}
-f\hsklMap x:\hsklList{y}&=fx:f\hsklMap\hsklList{y}\\
-f\hsklMap\hsklEmptyList&=\hsklEmptyList
-\end{align*}
-とマップ演算子$\hsklMap$を定義できる．
 
 \section*{余計な話：単位的半群としてのコンテナ}
 
@@ -1111,43 +1151,57 @@ $$\mathMonoid{\hsklMaybeType{\hsklType{a}}}{\hsklMaybeAppend}{\hsklNothing}$$
 
 
 \chapter{関手}
+\label{ch:functor}
+
+\begin{leader}
+a
+\end{leader}
+
 
 \section{関手}
 
 圏$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$があるとする．
 ここに集合$\mathSet{C}$は射の\keyword{対象}となる集合の集合であり，集合$\mathSet{P}$は射の集合である．
+例えば$$\mathSet{C}=\{\hsklInt\},\;\mathSet{P}=\{-\}$$というのも圏の一つである．
+この場合，整数と，その符号を反転させる写像（の集合）が圏の要素である．
 
 ここにもう一つの圏$\mathCategoryShort{\mathSet{C}'}{\mathSet{P}'}$があるとする．
 対象$\mathSet{C}$の各元と対象$\mathSet{C}'$の各元の間に一対一対応があり，また射$\mathSet{F}$の各元と射$\mathSet{P}'$の各元の間に一対一対応があるとき，圏$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$から圏$\mathCategoryShort{\mathSet{C}'}{\mathSet{P}'}$への「射」が存在する．
 この射を\keyword{関手}と呼ぶ．
+例えば$$\mathSet{C}'=\{\hsklListType{\hsklInt}\},\;\mathSet{P}'=\{(-\hsklMap)\}$$であるとき，整数($\hsklInt$)に対する単項演算($-$)と，整数のリスト($\hsklListType{\hsklInt}$)全体に対する単項演算($-\hsklMap$)は一対一に対応する．
 
-‥と書いても抽象的すぎるので，具体例を見ていこう．
-例えば$\hsklInt$型の演算子$+$は$\hsklInt\mathSetTimes\hsklInt$から$\hsklInt$への写像なので，$\hsklInt\mathSetTimes\hsklInt$と$\hsklInt$からなる集合$\mathSet{C}$と，演算子$+$だけからなる集合$\mathSet{P}$からなる組み合わせ$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$は圏である．
-
-一方で$\hsklListType{\hsklInt}$型もリスト内の個々の$\hsklInt$型変数に対しては$+$演算子が有効だ．
-そこで$\hsklInt\mathSetTimes{}\hsklListType{\hsklInt}$と$\hsklListType{\hsklInt}$からなる集合を$\mathSet{C}'$とし，リスト内の個々の要素に作用する$+$演算子単独の集合を$\mathSet{P}'$とする．
-事実我々はすでにマップ演算子$\hsklMap$を持っているので，リスト内の個々の要素に作用する$+$演算子を作るのはわけない．
-ということは，$\hsklInt$型から$\hsklListType{\hsklInt}$型を作る型コンストラクタ$\hsklListConstructor$とマップ演算子$\hsklMap$があれば，圏$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$から圏$\mathCategoryShort{\mathSet{C}'}{\mathSet{P}'}$へとジャンプできるのである．
+つまり，$\hsklInt$型から$\hsklListType{\hsklInt}$型を作る型コンストラクタ$\hsklListConstructor$とマップ演算子$\hsklMap$があれば，圏$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$から圏$\mathCategoryShort{\mathSet{C}'}{\mathSet{P}'}$へとジャンプできるのである．
 
 型コンストラクタ$\hsklListConstructor$とマップ演算子$\hsklMap$の組み合わせ$(\hsklListConstructor,\hsklMap)$は関手の一例である．
 
 同じことが型コンストラクタ$\hsklMaybeConstructor$とMaybeバージョンのマップ演算子$\hsklMaybeMap$の組み合わせ$(\hsklMaybeConstructor,\hsklMaybeMap)$にも言える．
 
-そこでマップ演算子$\hsklMap$，Maybeバージョンのマップ演算子$\hsklMaybeMap$をひとくくりにして一般化マップ演算子$\hsklFmap$とする．
-一般化マップ演算子は，右引数がリストであればマップ演算子を，右引数がMaybeであればMaybeバージョンのマップ演算子に「化ける」ものとする．
+そこでマップ演算子$\hsklMap$，Maybeバージョンのマップ演算子$\hsklMaybeMap$をひとくくりにして\keyword{一般化マップ演算子}$\hsklFmap$とする．
+一般化マップ演算子は，右引数がリストであればマップ演算子を，右引数がMaybeであればMaybeバージョンのマップ演算子に「化ける」．\footnote{Haskellでは一般化マップ演算子は\code{fmap}である．}
 
 ---
 
+関手則1.
+$$I\hsklFmap f=If=f$$
+ただし$I$は恒等写像であり
+$$I=\mathLambdaAnonymousParameter$$
+である．
+
+なお$I\hsklFmap f=If=f$は$f$を省略して
 $$I\hsklFmap=I$$
+と書いても良い．
 
-$$(f\mathCompose g)\hsklFmap=(f\hsklFmap)\mathCompose(g\hsklFmap)$$
+関手則2.
+$$(f\mathCompose g)\hsklFmap h=(f\hsklFmap h)\mathCompose(g\hsklFmap h)$$
+
+なお$(f\mathCompose g)\hsklFmap h=(f\hsklFmap h)\mathCompose(g\hsklFmap h)$は$h$を省略して$$(f\mathCompose g)\hsklFmap=(f\hsklFmap)\mathCompose(g\hsklFmap)$$と書いても良い．
 
 
 
-\section{関数と関手の関係}
+\section{関数と関手の関係*}
 
 
-\section{アプリカティブ関手}
+\section{アプリカティブ関手*}
 
 関手の一般化マップ演算子をさらに汎用性のあるものにするために，二つの要素に分解する．
 その要素とはpure演算子と$\hsklApplicativeMap$演算子である．
@@ -1168,22 +1222,47 @@ $$(f\mathCompose g)\hsklFmap=(f\hsklFmap)\mathCompose(g\hsklFmap)$$
 % 実装
 
 \begin{align*}
-(f:\hsklList{g})\hsklApplicativeListMap\hsklList{x}&=\hsklConcat(f\hsklMap\hsklList{x}:\hsklList{g}\hsklApplicativeListMap\hsklList{x})\\
-\hsklEmptyList\hsklApplicativeListMap\hsklList{x}&=\hsklEmptyList
+(f:\hsklList{g})\hsklApplicativeListMap\hsklList{l}&=\hsklConcat((f\hsklMap\hsklList{l}):(\hsklList{g}\hsklApplicativeListMap\hsklList{l}))\\
+\hsklEmptyList\hsklApplicativeListMap\hsklList{l}&=\hsklEmptyList
 \end{align*}
 
+$$\hsklJust{(*)100}\hsklApplicativeMaybeMap{}\hsklJust{68}=\hsklJust{68000}$$
+
+\begin{equation*}
+\hsklMaybe{m}\hsklApplicativeMaybeMap\hsklMaybe{n}=\begin{cases}
+f\hsklMaybeMap\hsklMaybe{n}&\mathIf\hsklMaybe{m}\equiv\hsklJust{f}\\
+\hsklNothing&\mathOtherwise
+\end{cases}
+\end{equation*}
+
+\begin{equation*}
+\hsklMaybe{m}\hsklApplicativeMaybeMap\hsklMaybe{n}=\begin{cases}
+\left\{
+\begin{array}{ll}
+\hsklJust{fx}&\mathIf\hsklMaybe{n}\equiv\hsklJust{x}\\
+\hsklNothing&\mathOtherwise
+\end{array}\right\}&\mathIf\hsklMaybe{m}\equiv\hsklJust{f}\\
+\hsklNothing&\mathOtherwise
+\end{cases}
+\end{equation*}
 
 
-\chapter{モナド}
+\section*{余計な話：アプリカティブスタイル*}
 
-\section{もう一つの関手}
+\code{<\$>}
 
-$$f\cdot\Bar x=f'\mathop\heartsuit\Bar x$$
+$\S$
 
-$$f'=\begin{cases}\langle\text{result}\rangle&\text{if nothing happened}\\
+\chapter{モナド*}
+
+\section{もう一つの関手*}
+
+$$f\hsklFmap x=f'\hsklMonadMap x$$
+
+$$f'x=\begin{cases}\langle\text{result}\rangle&\text{if nothing happened}\\
 \text{some context}&\text{when something happened}\end{cases}$$
 
-\section{モナドな関数}
+\section{モナドな関数*}
 
 具体例として引数が$2^{32}$未満なら引数の値をそのまま，それ以上なら$\hsklNothing$を返す関数$a$を考えてみよう．
 \begin{equation*}
@@ -1206,9 +1285,9 @@ $x\neq\hsklNothing$かつ$y\neq0$のときの戻り値が$x/y$ではなく$\hskl
 
 
 
-\section{モナド則}
+\section{モナド則*}
 
-\section*{余計な話：モノイドなモナド}
+\section*{余計な話：群とモナド*}
 
 
 \begin{table*}
@@ -1229,7 +1308,7 @@ $x\neq\hsklNothing$かつ$y\neq0$のときの戻り値が$x/y$ではなく$\hskl
     &$\applicativetype{x}$
     &$\binaryapplicativemap$
     &$\binaryfunctormap$
-    &$\langle x\rangle_\mathsf{m}$
+    &$\langle x\rangle_\textsf{unit}$
     &$\binarymonadmap$
     &$\mathidentity$
     &$\mathbinaryop$\\
@@ -1238,7 +1317,7 @@ $x\neq\hsklNothing$かつ$y\neq0$のときの戻り値が$x/y$ではなく$\hskl
     &$[x]$
     &$\binarylistapplicativemap$
     &$\binarylistfunctormap$
-    &$[x]_\mathsf{m}$
+    &$[x]_\textsf{unit}$
     &$\clubsuit$
     &$\constantempty$
     &$\binarylistappend$\\
@@ -1247,7 +1326,7 @@ Maybe
     &$\[x\]$
     &$\binarymaybeapplicativemap$
     &$\binarymaybefunctormap$
-    &$\[x\]_\mathsf{m}$
+    &$\[x\]_\textsf{unit}$
     &$\spadesuit$
     &$\constantnothing$
     &$\binarymaybeappend$\\
@@ -1256,7 +1335,7 @@ Maybe
     &$\langle\!\langle x\rangle\!\rangle$
     &$\binaryfunctionapplicativemap$
     &$\binaryfunctionfunctormap$
-    &$\langle\!\langle x\rangle\!\rangle_\mathsf{m}$
+    &$\langle\!\langle x\rangle\!\rangle_\textsf{unit}$
     &$\circ$
     &$\anonymousparameter$
     &$\binarycompose$\\
