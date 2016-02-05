@@ -60,7 +60,8 @@
 \newcommand{\hsklMaybe}[1]{\Tilde{#1}}
 \newcommand{\hsklMaybeW}[1]{\widetilde{#1}}
 \newcommand{\hsklMaybeType}[1]{\boldsymbol{\[}#1\boldsymbol{\]}}
-\newcommand{\hsklPure}[1]{\langle#1\rangle}
+\newcommand{\hsklPure}[1]{\langle#1\rangle_\textsf{pure}}
+\newcommand{\hsklUnit}[1]{\langle#1\rangle_\textsf{unit}}
 
 \newcommand{\hsklTypeConstruct}[2]{#1\,#2}
 
@@ -1279,6 +1280,10 @@ $$f\hsklApplicativeApply g=\hsklPure{f\mathCompose g}$$
 例えば$$f\hsklApplicativeApply g\hsklApplicativeMap h\hsklApplicativeMap x$$は期待通りコンテナ型変数$x$に関数$h$，関数$g$，関数$f$を順に作用させる．
 これは$f\hsklApplicativeApply g\hsklApplicativeMap h$と$\hsklPure{f\mathCompose g\mathCompose h}$が同値だからである．
 
+アプリカティブスタイルは，計算の流れを明確にしているとも言える．
+例えば$f\hsklApplicativeApply g\hsklApplicativeMap h\hsklApplicativeMap x$は$$x\leadsto h\leadsto g\leadsto f$$という計算の流れを示す．
+もちろん関数合成演算子と関数適用演算子でも似たことはできるが，関数合成演算子と関数適用演算子だけでは$x$が例えば$\hsklNothing$でる可能性を扱えないし，また計算の途中経過がなんらかのエラーで$\hsklNothing$になるような系も扱えない．
+（後者はアプリカティブスタイルでも扱えない．そのために次章で述べる「モナド」が登場する．）
 
 
 \chapter{モナド*}
@@ -1287,7 +1292,7 @@ $$f\hsklApplicativeApply g=\hsklPure{f\mathCompose g}$$
 
 $$f\hsklFmap x=f'\hsklMonadMap x$$
 
-$$f'x=\begin{cases}\langle\text{result}\rangle&\text{if nothing happened}\\
+$$f'x=\begin{cases}\hsklUnit{\text{result}}&\text{if nothing happened}\\
 \text{some context}&\text{when something happened}\end{cases}$$
 
 ピュア演算子，ユニット演算子．
@@ -1335,109 +1340,43 @@ $x\neq\hsklNothing$かつ$y\neq0$のときの戻り値が$x/y$ではなく$\hskl
     &\multicolumn{2}{|c||}{$\hsklMonoid$}\\
 \hline\hline
 型$\backslash$要素と演算子
-    &$\applicativetype{x}$
-    &$\binaryapplicativemap$
-    &$\binaryfunctormap$
-    &$\langle x\rangle_\textsf{unit}$
-    &$\binarymonadmap$
-    &$\mathidentity$
-    &$\mathbinaryop$\\
+    &$\hsklPure{x}$
+    &$\hsklApplicativeMap$
+    &$\hsklFmap$
+    &$\hsklUnit{x}$
+    &$\hsklMonadMap$
+    &$O$
+    &$\mathAnyBinaryOperator$\\
 \hline
 リスト
     &$[x]$
-    &$\binarylistapplicativemap$
-    &$\binarylistfunctormap$
-    &$[x]_\textsf{unit}$
+    &$\hsklApplicativeListMap$
+    &$\hsklMap$
+    &$[x]$
     &$\clubsuit$
-    &$\constantempty$
-    &$\binarylistappend$\\
+    &$\hsklEmptyList$
+    &$\hsklAppend$\\
 \hline
 Maybe
-    &$\[x\]$
-    &$\binarymaybeapplicativemap$
-    &$\binarymaybefunctormap$
-    &$\[x\]_\textsf{unit}$
+    &$\hsklJust{x}$
+    &$\hsklApplicativeMaybeMap$
+    &$\hsklMaybeMap$
+    &$\hsklJust{x}$
     &$\spadesuit$
-    &$\constantnothing$
-    &$\binarymaybeappend$\\
+    &$\hsklNothing$
+    &$\hsklMaybeAppend$\\
 \hline
 関数
     &$\langle\!\langle x\rangle\!\rangle$
-    &$\binaryfunctionapplicativemap$
-    &$\binaryfunctionfunctormap$
-    &$\langle\!\langle x\rangle\!\rangle_\textsf{unit}$
+    &$\bowtie$
+    &$\mathCompose$
+    &$\langle\!\langle x\rangle\!\rangle$
     &$\circ$
-    &$\anonymousparameter$
-    &$\binarycompose$\\
+    &$\mathLambdaAnonymousParameter$
+    &$\mathCompose$\\
 \hline
 Int（参考）
     &
-    &
-    &
-    &
-    &
-    &$0$
-    &$\binaryadd$\\
-\hline
-\end{tabular}
-\end{center}
-\end{table*}
-
-\begin{table*}
-\begin{center}
-\begin{tabular}{||c||c|c|c|c|c|c||}
-\hline
-\multirow{4}{*}{型クラス}
-    &\multicolumn{6}{|c||}{$\hsklMonadplus$}\\
-\cline{2-7}
-\multirow{3}{*}{}
-    &\multicolumn{4}{|c|}{$\hsklMonad$}
-    &\multicolumn{2}{|c||}{$\hsklMonoid$}\\
-\cline{2-4}
-\multirow{2}{*}{}
-    &\multicolumn{3}{|c|}{$\hsklApplicative$}
-    &
-    &\multicolumn{2}{|c||}{ }\\
-\cline{2-2}
-{ }
-    &\multicolumn{1}{|c|}{$\hsklFunctor$}
-    &\multicolumn{2}{|c|}{ }
-    &
-    &\multicolumn{2}{|c||}{ }\\
-\hline\hline
-型$\backslash$要素と演算子
-    &$\binaryfunctormap$
-    &$\applicativetype{x}$
-    &$\binaryapplicativemap$
-    &$\binarymonadmap$
-    &$\mathidentity$
-    &$\mathbinaryop$\\
-\hline
-リスト
-    &$\binarylistfunctormap$
-    &$\listtype{x}$
-    &$\binarylistapplicativemap$
-    &$\binarylistmonadmap$
-    &$\constantempty$
-    &$\binarylistappend$\\
-\hline
-Maybe
-    &$\binarymaybefunctormap$
-    &$\maybetype{x}$
-    &$\binarymaybeapplicativemap$
-    &$\binarymaybemonadmap$
-    &$\constantnothing$
-    &$\binarymaybeappend$\\
-\hline
-関数
-    &$\binaryfunctionfunctormap$
-    &$\functyontype{x}$
-    &$\binaryfunctionapplicativemap$
-    &$\binaryfunctionmonadmap$
-    &$\anonymousparameter$
-    &$\binarycompose$\\
-\hline
-Int（参考）
     &
     &
     &
