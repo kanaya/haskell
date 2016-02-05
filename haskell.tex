@@ -46,10 +46,10 @@
 \newcommand{\hsklFunction}[1]{\Hat{#1}}
 \newcommand{\hsklJust}[1]{\{#1\}}
 \newcommand{\hsklList}[1]{\Bar{#1}}
-\newcommand{\hsklListType}[1]{\[#1\]}
+\newcommand{\hsklListType}[1]{\boldsymbol{[}#1\boldsymbol{]}}
 \newcommand{\hsklMaybe}[1]{\Tilde{#1}}
 \newcommand{\hsklMaybeW}[1]{\widetilde{#1}}
-\newcommand{\hsklMaybeType}[1]{\{\!\{#1\}\!\}}
+\newcommand{\hsklMaybeType}[1]{\boldsymbol{\{}#1\boldsymbol{\}}}
 \newcommand{\hsklPure}[1]{\langle#1\rangle}
 
 \newcommand{\hsklTypeConstruct}[2]{#1\,#2}
@@ -655,6 +655,25 @@ $$fx=\mathIf x\equiv0\mathThen0\mathElse1+x$$
 のように$\mathIf$節，$\mathThen$節，及び$\mathElse$節からなるものである．
 $\mathIf$節の中身は真理値を返す関数であれば良いので，関数$p$を$$p=(\equiv)0$$としておき，$$fx=\mathIf px\mathThen0\mathElse1+x$$と書く方法もしばしば用いられる．\footnote{Haskellでは$fx=\keywordif x\binaryeq0\keywordthen0\keywordelse1+x$を\code{f x = if x == 0 then 0 else 1+x}と書く．}
 
+条件式は紙面が許せば次のように書いても良い．
+\begin{equation*}
+fx=\begin{cases}
+0&\mathIf x\equiv0\\
+1+x&\mathOtherwise
+\end{cases}
+\end{equation*}
+
+
+関数は内部で自分自身を読んでも良い．
+例えば$x$の階乗を返す関数$s$は
+\begin{equation*}
+sx=\begin{cases}
+1&\mathIf x\equiv0\\
+x*s(x-1)&\mathOtherwise
+\end{cases}
+\end{equation*}
+と定義できる．
+
 \section{関数の合成}
 
 関数は\keyword{合成}できる．関数$f$と関数$g$があって，その合成を$f\mathCompose g$と書くとき$$(f\mathCompose g)x=f(gx)$$である．
@@ -1143,21 +1162,81 @@ $$\mathMonoid{\hsklMaybeType{\hsklType{a}}}{\hsklMaybeAppend}{\hsklNothing}$$
 
 \section{アプリカティブ関手の拡張}
 
-$$f\cdot\Bar x=\langle f\rangle\mathop\heartsuit\Bar x$$
+$$f\cdot\Bar x=f'\mathop\heartsuit\Bar x$$
 
-$$\Bar g\times\Bar x=\langle h\rangle\mathop\heartsuit\Bar x$$
-where
-$$\Bar g=$$
-
-$$f'=\begin{cases}\langle f\rangle&\text{if nothing happened}\\
+$$f'=\begin{cases}\langle\text{result}\rangle&\text{if nothing happened}\\
 \text{some context}&\text{when something happened}\end{cases}$$
 
+\section{モナドな関数}
 
 
 \section{モナド則}
 
 \section*{余計な話：モノイドなモナド}
 
+
+\begin{table*}
+\begin{center}
+\begin{tabular}{||c||c|c|c|c|c|c|c||}
+\hline
+\multirow{2}{*}{型クラス}
+    &\multicolumn{3}{|c|}{$\hsklApplicative$}
+    &\multicolumn{4}{|c||}{$\hsklMonadplus$}\\
+\cline{4-8}
+\multirow{1}{*}{}
+    &\multicolumn{2}{|c|}{ }
+    &$\hsklFunctor$
+    &\multicolumn{2}{|c}{$\hsklMonad$}
+    &\multicolumn{2}{|c||}{$\hsklMonoid$}\\
+\hline\hline
+型$\backslash$要素と演算子
+    &$\applicativetype{x}$
+    &$\binaryapplicativemap$
+    &$\binaryfunctormap$
+    &$\langle\!\langle x\rangle\!\rangle$
+    &$\binarymonadmap$
+    &$\mathidentity$
+    &$\mathbinaryop$\\
+\hline
+リスト
+    &$\listtype{x}$
+    &$\binarylistapplicativemap$
+    &$\binarylistfunctormap$
+    &$\[x\]$
+    &$\clubsuit$
+    &$\constantempty$
+    &$\binarylistappend$\\
+\hline
+Maybe
+    &$\maybetype{x}$
+    &$\binarymaybeapplicativemap$
+    &$\binarymaybefunctormap$
+    &$\{\!\{x\}\!\}$
+    &$\spadesuit$
+    &$\constantnothing$
+    &$\binarymaybeappend$\\
+\hline
+関数
+    &$\Dot{x}$
+    &$\binaryfunctionapplicativemap$
+    &$\binaryfunctionfunctormap$
+    &$\Ddot{x}$
+    &$\circ$
+    &$\anonymousparameter$
+    &$\binarycompose$\\
+\hline
+Int（参考）
+    &
+    &
+    &
+    &
+    &
+    &$0$
+    &$\binaryadd$\\
+\hline
+\end{tabular}
+\end{center}
+\end{table*}
 
 \begin{table*}
 \begin{center}
