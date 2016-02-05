@@ -1189,6 +1189,7 @@ $$\hsklMaybe{m}'=\hsklMaybe{g}\hsklApplicativeMaybeMap\hsklMaybe{m}$$
 これらをまとめた一般アプリカティブマップ演算子を思い出そう．
 $$x'=h\hsklApplicativeMap x$$
 関数$h$は「普通の」関数をコンテナにつめたものである．
+ピュア演算子を用いると，元の一般マップ演算子との互換性が$$f\hsklFmap x=\hsklPure{f}\hsklApplicativeMap x$$のようにとれる．
 
 では「普通ではない」関数はどうしたらいいだろうか．
 最も考えられる「普通ではない」関数とは「普通の」（コンテナに入っていない裸の）引数をとり，コンテナにつめた戻り値を返す関数である．
@@ -1199,8 +1200,9 @@ $$\phi y=\begin{cases}\hsklUnit{\text{result}}&\text{if nothing happened}\\
 この関数$\phi$をコンテナにつめられた変数$x$に適用するための「モナドな」マップ演算子$\hsklMonadMap$を導入する．
 $$x'=\phi\hsklMonadMap x$$
 
-$$f\hsklFmap x=\phi\hsklMonadMap x$$
-
+関手とは
+$$f\hsklFmap x=\hsklUnit{f}\hsklMonadMap x$$
+とすれば互換性がとれる．
 
 
 ピュア演算子，ユニット演算子．
