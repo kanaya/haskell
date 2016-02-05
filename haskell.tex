@@ -8,6 +8,10 @@
 \def\[{[\![}
 \def\]{]\!]}
 
+\def\MARU#1{\leavevmode \setbox0\hbox{$\bigcirc$}\copy0\kern-\wd0 \hbox to\wd0{\hfil{#1}\hfil}}
+
+\newenvironment{footnotecode}{\begin{Verbatim}[xleftmargin=10mm]}{\end{Verbatim}}
+
 \newcommand{\hsklType}[1]{\textbf{#1}}
 \newcommand{\hsklTypeclass}[1]{\mathsf{#1}}
 \newcommand{\hsklTypeConstructor}[1]{\mathop{\mathrm{#1}}}
@@ -44,12 +48,12 @@
 \newcommand{\hsklReal}{\hsklTypeclass{Real}}
 
 \newcommand{\hsklFunction}[1]{\Hat{#1}}
-\newcommand{\hsklJust}[1]{\{#1\}}
+\newcommand{\hsklJust}[1]{\[#1\]}
 \newcommand{\hsklList}[1]{\Bar{#1}}
 \newcommand{\hsklListType}[1]{\boldsymbol{[}#1\boldsymbol{]}}
 \newcommand{\hsklMaybe}[1]{\Tilde{#1}}
 \newcommand{\hsklMaybeW}[1]{\widetilde{#1}}
-\newcommand{\hsklMaybeType}[1]{\boldsymbol{\{}#1\boldsymbol{\}}}
+\newcommand{\hsklMaybeType}[1]{\boldsymbol{\[}#1\boldsymbol{\]}}
 \newcommand{\hsklPure}[1]{\langle#1\rangle}
 
 \newcommand{\hsklTypeConstruct}[2]{#1\,#2}
@@ -113,7 +117,7 @@
 \newcommand{\code}[1]{\texttt{#1}}
 \newenvironment{leader}{\begingroup\bf}{\endgroup}
 \newenvironment{point}{\begin{screen}}{\end{screen}}
-\newenvironment{footnotecode}{\begin{verbatim}}{\end{verbatim}}
+% \newenvironment{footnotecode}{\begin{verbatim}}{\end{verbatim}}
 
 % Lambda
 \newcommand{\lambdasym}{\backslash}
@@ -254,24 +258,28 @@
 \begin{center}
 \begin{tabular}{||c|c|c||}
 \hline
-種類&字体&例\\
+種類&字体・表記法&例\\
 \hline
-変数&イタリック体，小文字&$x$, $y$\\
-関数&イタリック体，小文字&$f$, $g$\\
-定数&イタリック体，大文字&$I$, $T$\\
+変数&イタリック体，小文字（1文字）&$x$, $y$\\
+関数&イタリック体，小文字（1文字）&$f$, $g$\\
+定数&イタリック体，大文字（1文字）&$I$, $T$\\
 特別な関数&ローマン体，小文字で始める&$\hsklSucc$, $\hsklPred$\\
 キーワード&ボールド体，小文字で始める&$\mathIf$, $\mathOtherwise$\\
 集合と型&ボールド体，大文字で始める&$\mathSet{S}$, $\hsklInt$\\
-型パラメタ&ボールド体，小文字&$\hsklType{a}$, $\hsklType{b}$\\
+型パラメタ&ボールド体，小文字（1文字）&$\hsklType{a}$, $\hsklType{b}$\\
 関手と型コンストラクタ&ローマン体，大文字で始める&$\mathFunctor{F}$, $\hsklListConstructor$\\
 型クラス&サンセリフ体，大文字で始める&$\hsklEq$, $\hsklIntegral$\\
 \hline
-リスト変数&名前にバーをつける&$\hsklList{x}$\\
-Maybe変数&名前にチルダをつける&$\hsklMaybe{x}$\\
-関数変数&名前にハットをつける&$\hsklFunction{x}$\\
-ベクトル変数&名前に矢印をつける&$\mathVector{x}$\\
-\hline
-コード&タイプライタ体&\texttt{1+x}\\
+リスト&ブラケットで包む&$[x,y,z]$\\
+集合&ブレースで包む&$\{x,y,z\}$\\
+組み合わせ（タプル）&丸括弧で包む&$(x,y,z)$\\
+% \hline
+% リスト変数&名前にバーをつける&$\hsklList{x}$\\
+% Maybe変数&名前にチルダをつける&$\hsklMaybe{x}$\\
+% 関数変数&名前にハットをつける&$\hsklFunction{x}$\\
+% ベクトル変数&名前に矢印をつける&$\mathVector{x}$\\
+% \hline
+% コード&タイプライタ体&\texttt{1+x}\\
 \hline
 \end{tabular}
 \end{center}
@@ -427,9 +435,9 @@ $r$回転の逆は明らかに$-r$であるから$$U_{-r}\bullet U_r=U_r\bullet 
 
 このように，組み合わせ$\mathGroup{\mathSet{U}}{\bullet}{I}{\mathSomething^{-1}}$も可換群である．
 
-任意次元のベクトル全体からなる集合を$\mathSet{V}$として，零ベクトルを$\mathVector{O}$で表すことにしよう．
-矢印はベクトルであることを忘れないようにするための飾りである．
-ベクトル同士の加算を二項演算子$+$で表し，向きを反転させた逆ベクトル作る演算子を$-$とすると，組み合わせ$\mathGroup{\mathSet{V}}{+}{\mathVector{O}}{-}$もまた可換群である．
+任意次元のベクトル全体からなる集合を$\mathSet{V}$として，零ベクトルを$\mathVector{Z}$で表すことにしよう．
+% 矢印はベクトルであることを忘れないようにするための飾りである．
+ベクトル同士の加算を二項演算子$+$で表し，向きを反転させた逆ベクトル作る演算子を$-$とすると，組み合わせ$\mathGroup{\mathSet{V}}{+}{\mathVector{Z}}{-}$もまた可換群である．
 
 可換群の性質のうち最初の4項目だけを満たすものを\keyword{群}と呼ぶ．
 可換群は群の特別な場合である．
@@ -441,7 +449,7 @@ $r$回転の逆は明らかに$-r$であるから$$U_{-r}\bullet U_r=U_r\bullet 
 \item[群の性質1.] 任意の$x$と任意の$y$の演算の結果$x\mathAnyBinaryOperator y$は$\mathSet{G}$の元である．
 \item[群の性質2. 結合則] 任意の$x,y,z$について$$(x\mathAnyBinaryOperator y)\mathAnyBinaryOperator z=x\mathAnyBinaryOperator(y\mathAnyBinaryOperator z)$$である．
 \item[群の性質3. 単位元の存在] 特別な元$O\mathIn\mathSet{G}$があり$$O\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O=x$$である．
-\item[群の性質4. 逆元の存在] 任意の$x$に対して$\mathInverse\mathIn\mathSet{G}$があり$$\mathInverse x\mathAnyBinaryOperator x=O$$である．
+\item[群の性質4. 逆元の存在] 任意の$x$に対して$\mathInverse x\mathIn\mathSet{G}$があり$$\mathInverse x\mathAnyBinaryOperator x=O$$である．
 \end{description}
 であった．
 これらの条件を少し緩め，逆元が存在しなくても良い「緩やかな群」を考えてみる．
@@ -507,19 +515,13 @@ g&\mathIn\mathMorph{\mathSet{Y}}{\mathSet{Z}}
 例えば$f$と$g$の合成写像は$\mathSet{X}$を出発点に$\mathSet{Y}$を経由して$\mathSet{Z}$へと行くので$$f\mathCompose g\mathIn\mathMorph{\mathSet{X}}{\mathSet{Z}}$$と書ける．
 ここで合成演算子は結合則を満たすものとしておこう．
 
-さらに
-\begin{align*}
-I_\mathSet{X}&\mathIn\mathMorph{\mathSet{X}}{\mathSet{X}}\\
-I_\mathSet{Y}&\mathIn\mathMorph{\mathSet{Y}}{\mathSet{Y}}\\
-I_\mathSet{Z}&\mathIn\mathMorph{\mathSet{Z}}{\mathSet{Z}}
-\end{align*}
-という写像もあるとしよう．
+さらに$$I_\mathSet{X}\mathIn\mathMorph{\mathSet{X}}{\mathSet{X}},\;I_\mathSet{Y}\mathIn\mathMorph{\mathSet{Y}}{\mathSet{Y}},\;I_\mathSet{Z}\mathIn\mathMorph{\mathSet{Z}}{\mathSet{Z}}$$という写像もあるとしよう．
 ここで$$I_\mathSet{Y}\mathCompose f=f\mathCompose I_\mathSet{X}$$とすると，写像$I_\mathSet{X}$と写像$I_\mathSet{Y}$はそれぞれ写像の合成演算子$\mathCompose$に対して単位元のように振る舞う．
 写像$g$については$$I_\mathSet{Z}\mathCompose g=g\mathCompose I_\mathSet{Y}$$であるとする．
-一般に写像$I_\mathSet{S}$を集合$\mathSet{S}$における\keyword{恒等写像}と呼ぶ．
+このような写像$I_\mathSet{X},I_\mathSet{Y},I_\mathSet{Z}$を\keyword{恒等写像}と呼ぶ．
 
 集合$\mathSet{X}$，集合$\mathSet{Y}$，集合$\mathSet{Z}$の集合$\mathSet{C}$と，写像$f$と写像$g$の集合$\mathSet{P}$と，写像合成演算子$\mathCompose$と，恒等写像の集合$\mathSet{I}$の組み合わせ$\mathCategory{\mathSet{C}}{\mathSet{P}}{\mathCompose}{\mathSet{I}}$を\keyword{圏}と呼ぶ．
-恒等写像の集合と写像合成演算子は自明であるためしばしば省略され，組み合わせ$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$という書き方もよくされる．
+写像合成演算子と恒等写像の集合は自明であるためしばしば省略され，組み合わせ$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$を圏とする書き方もよくされる．
 
 圏を考えるとき，変換や写像は全て\keyword{射}と呼ぶ決まりである．
 
@@ -916,7 +918,7 @@ $\typefloat$
 
 これらの関係を表にまとめたものが表\ref{tab:type-and-typeclass}である．
 
-\section*{余計な話：種}
+\section*{余計な話}
 
 \chapter{コンテナ}
 
@@ -1160,7 +1162,7 @@ $$\mathMonoid{\hsklMaybeType{\hsklType{a}}}{\hsklMaybeAppend}{\hsklNothing}$$
 
 \chapter{モナド}
 
-\section{アプリカティブ関手の拡張}
+\section{もう一つの関手}
 
 $$f\cdot\Bar x=f'\mathop\heartsuit\Bar x$$
 
@@ -1193,34 +1195,34 @@ $$f'=\begin{cases}\langle\text{result}\rangle&\text{if nothing happened}\\
     &$\applicativetype{x}$
     &$\binaryapplicativemap$
     &$\binaryfunctormap$
-    &$\langle\!\langle x\rangle\!\rangle$
+    &$\langle x\rangle_\mathsf{m}$
     &$\binarymonadmap$
     &$\mathidentity$
     &$\mathbinaryop$\\
 \hline
 リスト
-    &$\listtype{x}$
+    &$[x]$
     &$\binarylistapplicativemap$
     &$\binarylistfunctormap$
-    &$\[x\]$
+    &$[x]_\mathsf{m}$
     &$\clubsuit$
     &$\constantempty$
     &$\binarylistappend$\\
 \hline
 Maybe
-    &$\maybetype{x}$
+    &$\[x\]$
     &$\binarymaybeapplicativemap$
     &$\binarymaybefunctormap$
-    &$\{\!\{x\}\!\}$
+    &$\[x\]_\mathsf{m}$
     &$\spadesuit$
     &$\constantnothing$
     &$\binarymaybeappend$\\
 \hline
 関数
-    &$\Dot{x}$
+    &$\langle\!\langle x\rangle\!\rangle$
     &$\binaryfunctionapplicativemap$
     &$\binaryfunctionfunctormap$
-    &$\Ddot{x}$
+    &$\langle\!\langle x\rangle\!\rangle_\mathsf{m}$
     &$\circ$
     &$\anonymousparameter$
     &$\binarycompose$\\
