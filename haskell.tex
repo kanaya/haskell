@@ -102,19 +102,19 @@
 \newcommand{\mathSet}[1]{\mathbf{#1}}
 \newcommand{\mathVector}[1]{\vec{#1}}
 
-\newcommand{\mathCategoryShort}[2]{(#1,#2)_\mathcal{C}}
+\newcommand{\mathCategoryShort}[2]{(#1,#2)}
 \newcommand{\mathLambdaExpression}[2]{\mathLambda#1\mathLambdaArrow#2}
 \newcommand{\mathMorph}[2]{#1\mathMapsTo#2}
 
-\newcommand{\mathMonoid}[3]{(#1,#2,#3)_\mathcal{M}}
+\newcommand{\mathMonoid}[3]{(#1,#2,#3)}
 \newcommand{\mathMorphII}[3]{#1\mathMapsTo#2\mathMapsTo#3}
 \newcommand{\mathMorphIIWithParenthesis}[3]{#1\mathMapsTo(#2\mathMapsTo#3)}
 
-\newcommand{\mathCategory}[4]{(#1,#2,#3,#4)_\mathcal{C}}
-\newcommand{\mathGroup}[4]{(#1,#2,#3,#4)_\mathcal{G}}
+\newcommand{\mathCategory}[4]{(#1,#2,#3,#4)}
+\newcommand{\mathGroup}[4]{(#1,#2,#3,#4)}
 \newcommand{\mathMorphIII}[4]{#1\mathMapsTo#2\mathMapsTo#3\mathMapsTo#4}
 
-\newcommand{\mathField}[7]{(#1,#2,#3,#4,#5,#6,#7)_\mathcal{K}}
+\newcommand{\mathField}[7]{(#1,#2,#3,#4,#5,#6,#7)}
 
 \begin{document}
 \maketitle
@@ -415,6 +415,7 @@ g&\mathIn\mathMorph{\mathSet{Y}}{\mathSet{Z}}
 
 関数引数には括弧を付けない．我々はよく引数$x$をとる関数$f$を$f(x)$と書くが，括弧は冗長なので今後は$fx$と書くことにする．
 引数$x$を関数$f$に「食わせる」ことを\keyword{関数適用}と呼ぶ．
+もし$ab$と書いてあっても，それは$a*b$ではなくて従来の$a(b)$すなわち関数$a$に引数$b$を与えているものと解釈する．
 
 複数引数をとる関数を我々はよく$f'(x,y)$と書くが，これも括弧が冗長なので今後は$f'xy$と書くことにする．
 この場合式$f'xy$は左を優先して結合するものとする．つまり$$f'xy=(f'x)y$$である．
@@ -509,7 +510,7 @@ f' x = 1+x
 \end{Verbatim}
 と書く．}
 
-関数定義に\keyword{場合分け}が必要な場合は「ガード」を用いる．
+関数定義に\keyword{場合分け}が必要な場合は\keyword{ガード}を用いる．
 例えば引数の値が負の場合は$-1$を，$0$の場合は$0$を，それ以外の場合は関数$f$と同じ振る舞いをする関数$f''$は
 \begin{equation*}
 \begin{split}
@@ -526,11 +527,12 @@ f'' x | x<0       = -1
 \end{Verbatim}
 と書く．}
 
-関数のスペシャルバージョン，場合分けといった左片での条件付けではなく，定義式の右辺で条件付けをすることも可能である．
+関数のスペシャルバージョン，場合分けといった左辺での条件付けではなく，定義式の右辺で条件付けをすることも可能である．
 それには\keyword{条件式}を使う．
 条件式とは
 $$fx=\mathIf x\equiv0\mathThen0\mathElse1+x$$
 のように$\mathIf$節，$\mathThen$節，及び$\mathElse$節からなるものである．
+$\mathIf$節の式の値が真($T$)であれば$\mathThen$節の式が評価され，そうでなければ$\mathElse$節の式が評価される．
 $\mathIf$節の中身は真理値を返す関数であれば良いので，関数$p$を$$p=(\equiv)0$$としておき，$$fx=\mathIf px\mathThen0\mathElse1+x$$と書く方法もしばしば用いられる．\footnote{Haskellでは$fx=\mathIf x\equiv0\mathThen0\mathElse1+x$を\code{f x = if x == 0 then 0 else 1+x}と書く．}
 
 条件式は紙面が許せば次のように書いても良い．
@@ -615,6 +617,15 @@ $$f\mathApply gx=f(gx)$$
 歴史的には文字は小さな整数として表現されることが多かったため，計算機のメモリが高価であった時代背景もあり，メモリの節約のために文字を表す型が存在した．
 現在では，文字が数値にエンコードされる方式がより複雑になってきたために，文字を通常の数値と区別するために特別な型が用意さてれいる．
 
+\section{関数の型}
+
+関数にも型がある．
+例えば整数引数を一つ取り，整数を返す関数$f$は$$f\mathIn\mathMorph{\hsklInt}{\hsklInt}$$という型を持つ．
+これは関数$f$が集合$\hsklInt$から集合$\hsklInt$への写像であると読む．
+
+整数引数を二つ取り，整数を返す関数$f'$は$$f'\mathIn\mathMorphII{\hsklInt}{\hsklInt}{\hsklInt}$$という型を持つ．
+これは$$f'\mathIn\mathMorphIIWithParenthesis{\hsklInt}{\hsklInt}{\hsklInt}$$と同じ意味である．
+
 \begin{table}
 \caption{単位的半群}
 \label{tab:monoids}
@@ -660,13 +671,6 @@ $\hsklFloat$
 \end{center}
 \end{table}
 
-\section{関数の型}
-
-関数にも型がある．
-例えば整数引数を一つ取り，整数を返す関数$f$は$$f\mathIn\mathMorph{\hsklInt}{\hsklInt}$$という型を持つ．
-
-整数引数を二つ取り，整数を返す関数$f'$は$$f'\mathIn\mathMorphII{\hsklInt}{\hsklInt}{\hsklInt}$$という型を持つ．
-これは$$f'\mathIn\mathMorphIIWithParenthesis{\hsklInt}{\hsklInt}{\hsklInt}$$と同じ意味である．
 
 \begin{table*}
 \caption{型と型クラス}
@@ -840,7 +844,7 @@ $0$から$9$までのリストは$[0,1\dots9]$と書いても良い．
 この等式の両辺は変数ではなく型名であることに注意しよう．\footnote{Haskellでは表記上コンテナ型$\hsklListType{a}$と型コンストラクタ式$\hsklTypeConstruct{\hsklListConstructor}{\hsklType{a}}$を区別せず，両者とも\code{[a]}と書く．}
 
 $\hsklType{a}$型の変数$x$を入れた$\hsklListType{\hsklType{a}}$型のリストを作る演算子を\keyword{リスト値コンストラクタ}と呼ぶ．
-変数$l$がリストであることを示すために今後$\hsklList{l}$と印をつけることとして，$\hsklType{a}$型の変数$x$からリスト値コンストラクタを使ってリスト$\hsklList{l}$を作ることは$$\hsklList{l}=[x]$$と書く．\footnote{Haskellでは\code{l = [x]}と書く．}
+$\hsklType{a}$型の変数$x$からリスト値コンストラクタを使ってリスト$\hsklList{l}$を作ることは$$\hsklList{l}=[x]$$と書く．\footnote{Haskellでは\code{l = [x]}と書く．}
 
 ある型を包み込んだ別の型を一般に\keyword{コンテナ型}または単に\keyword{コンテナ}と呼ぶ．
 
