@@ -8,7 +8,7 @@
 \def\[{[\![}
 \def\]{]\!]}
 
-\newcommand{\keyword}[1]{\emph{#1}}
+\newcommand{\keyword}[1]{\underline{\emph{#1}}}
 \newcommand{\code}[1]{\texttt{#1}}
 \newenvironment{leader}{\begingroup\bf}{\endgroup}
 \newenvironment{point}{\begin{screen}}{\end{screen}}
@@ -209,7 +209,7 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 \item[実数の性質12. 分配則] 足し算と掛け算が混在する場合$$(x+y)*z=(x*z)+(y*z)$$と掛け算を\keyword{分配}する．
 \end{description}
 以上が実数の代数的性質の全てである．
-我々がよく使う割り算，引き算，割り算はプログラミングでいう糖衣構文 (syntax sugar) である．
+我々がよく使う引き算，割り算はプログラミングでいう糖衣構文 (syntax sugar) である．
 
 上述の12個の条件が当てはまる数には，\keyword{有理数}や\keyword{複素数}がある．
 この12個の性質をまとめて，数学では\keyword{体}または可換体と呼ぶ．
@@ -219,7 +219,7 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 
 体の性質から言えることを一つ紹介しよう．
 これから$$z\uparrow n=\underbrace{z*\dotsb*z}_n$$なる二項演算子$\uparrow$（\keyword{クヌースの矢印}）を使う．
-ここに$z$を体$\mathField{\mathSet{K}}{+}{0}{-}{*}{1}{{}^{-1}}$の$\mathSet{K}$の元，$n$を自然数とした．
+ここに$z$を体$\mathField{\mathSet{K}}{+}{0}{-}{*}{1}{\mathSomething^{-1}}$の$\mathSet{K}$の元，$n$を自然数とした．
 さて$z\uparrow2$は$$z\uparrow2=z*z$$であるから，いま$z=x+y$とすると
 \begin{align*}
 z\uparrow2&=z*z\\
@@ -298,13 +298,13 @@ U_{r_1}\bullet U_{r_2}=U_{(r_1+r_2)}
 次にに回転変換に単位元があるかどうか調べてみよう．
 回転しない変換は\keyword{恒等変換}とも言い，しばしば$I$で表す．
 何もしない回転変換は$0$度の回転であるから$I=U_0$である．
-このとき$$I\bullet U_r=U_r\bullet I=U_r$$であるから，$I$は回転変換の単位元であると言える．
+このとき式\eqref{eq:rotation}から$$I\bullet U_r=U_r\bullet I=U_r$$であるから，$I$は回転変換の単位元であると言える．
 
 最後に回転変換に逆元があるかも調べてみよう．
 $r$回転の逆は明らかに$-r$であるから$$U_{-r}\bullet U_r=U_r\bullet U_{-r}=I$$が成り立つ．
 そこで$$U_{r}^{-1}=U_{-r}$$として$U_r$の逆元$U_r^{-1}$を定義することができる．
 
-このように，組み合わせ$\mathGroup{\mathSet{U}}{\bullet}{I}{\mathSomething^{-1}}$も可換群である．
+このように，組み合わせ$\mathGroup{\mathSet{U}}{\bullet}{I}{\mathSomething^{-1}}$も可換群である．（回転$U_r$全体の集合$\mathSet{U}$が群を形成することは，パラメタ$r$が所属する実数全体の集合$\mathSet{R}$が群を形成することに大いに頼っている．この部分を詳細に調べるとリー群という美しい代数的構造が見つかる．）
 
 任意次元のベクトル全体からなる集合を$\mathSet{V}$として，零ベクトルを$\mathVector{Z}$で表すことにしよう．
 % 矢印はベクトルであることを忘れないようにするための飾りである．
@@ -397,7 +397,7 @@ g&\mathIn\mathMorph{\mathSet{Y}}{\mathSet{Z}}
 圏を考えるとき，変換や写像は全て\keyword{射}と呼ぶ決まりである．
 
 いまある単位的半群$\mathMonoid{\mathSet{M}}{\mathAnyBinaryOperator}{O}$があるとする．
-集合$\mathSet{C}$を$\mathSet{M}$及び$\mathSet{M}\mathSetTimes\mathSet{M}$を元とする集合とし，集合$\mathSet{P}$を$\mathAnyBinaryOperator$のみを元とする集合とすると，組み合わせ$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$は圏になっている．
+集合$\mathSet{C}$を$\mathSet{M}$及び$\mathSet{M}\mathSetTimes\mathSet{M}$を元とする集合すなわち$$\mathSet{C}=\{\mathSet{M},\mathSet{M}\mathSetTimes\mathSet{M}\}$$とし，集合$\mathSet{P}$を$\mathAnyBinaryOperator$のみを元とする集合すなわち$$\mathSet{P}=\{\mathAnyBinaryOperator\}$$とすると，組み合わせ$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$は圏になっている．
 
 \section*{余計な話：束*}
 
