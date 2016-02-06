@@ -1168,35 +1168,47 @@ a
 
 アプリカティブ関手は関手の一般マップ演算子をピュア演算子と一般アプリカティブマップ演算子に分解することで，式の見通しを良くすることができるアプリカティブスタイルという記法を採用できた．
 しかしながら，アプリカティブスタイル変数に文脈を与えるタイミングは最初すなわち式の右端の1回に限られている．
-任意のタイミングで変数に文脈を与えられるように関手を改造したものが，\keyword{モナド}である．
+任意のタイミングで変数に文脈を与えられるように関手を改造したものが\keyword{モナド}である．
 
-リストのマップ演算子を思い出そう．
-$$\hsklList{l}'=f\hsklMap\hsklList{l}$$
+リストのマップ演算子$$\hsklList{l}'=f\hsklMap\hsklList{l}$$を思い出そう．
+もし$\hsklList{l}\equiv\hsklEmptyList$ならば$\hsklList{l}'=\hsklEmptyList$になる．
+もし$\hsklList{l}\equiv[x_0,x_1\dots]$ならば$\hsklList{l}'=[fx_0,fx_1\dots]$になる．
 
-Maybeのマップ演算子を思い出そう．
-$$\hsklMaybe{m}'=g\hsklMaybeMap\hsklMaybe{m}$$
+Maybeのマップ演算子$$\hsklMaybe{m}'=g\hsklMaybeMap\hsklMaybe{m}$$を思い出そう．
+もし$\hsklMaybe{m}\equiv\hsklNothing$ならば$\hsklMaybe{m}'=\hsklNothing$になる．
+もし$\hsklMaybe{m}\equiv\hsklJust{y}$ならば$\hsklMaybe{m}'=\hsklJust{fy}$になる．
 
-これらをまとめた一般マップ演算子を思い出そう．
-$$x'=h\hsklFmap x$$
+これらをまとめた一般マップ演算子$$z'=h\hsklFmap z$$を思い出そう．
 関数$h$は「普通の」関数である．
 
-リストのアプリカティブマップ演算子を思い出そう．
-$$\hsklList{l}'=\hsklList{f}\hsklApplicativeListMap\hsklList{l}$$
+リストのアプリカティブマップ演算子$$\hsklList{l}'=\hsklList{f}\hsklApplicativeListMap\hsklList{l}$$を思い出そう．
+もし$\hsklList{f}\equiv\hsklEmptyList$ならば$\hsklList{l}'=\hsklEmptyList$になる．
+もし$\hsklList{f}\equiv[u_0,u_1\dots]$ならば$\hsklList{l}'=[u_0\hsklMap\hsklList{l},u_1\hsklMap\hsklList{l}\dots]$になる．
 
-Maybeのアプリカティブマップ演算子を思い出そう．
-$$\hsklMaybe{m}'=\hsklMaybe{g}\hsklApplicativeMaybeMap\hsklMaybe{m}$$
+Maybeのアプリカティブマップ演算子$$\hsklMaybe{m}'=\hsklMaybe{g}\hsklApplicativeMaybeMap\hsklMaybe{m}$$を思い出そう．
+もし$\hsklMaybe{g}\equiv\hsklNothing$ならば$\hsklMaybe{m}'=\hsklNothing$になる．
+もし$\hsklMaybe{g}\equiv\hsklJust{v}$ならば$\hsklMaybe{m}'=\hsklJust{vy}$になる．
 
-これらをまとめた一般アプリカティブマップ演算子を思い出そう．
-$$x'=h\hsklApplicativeMap x$$
+これらをまとめた一般アプリカティブマップ演算子$$z'=h\hsklApplicativeMap z$$を思い出そう．
 関数$h$は「普通の」関数をコンテナにつめたものである．
-ピュア演算子を用いると，元の一般マップ演算子との互換性が$$f\hsklFmap x=\hsklPure{f}\hsklApplicativeMap x$$のようにとれる．
+ピュア演算子を用いると，元の一般マップ演算子との互換性が$$w\hsklFmap z=\hsklPure{w}\hsklApplicativeMap z$$のようにとれる．
+ここに$w$は「普通の」関数である．
 
 では「普通ではない」関数はどうしたらいいだろうか．
 最も考えられる「普通ではない」関数とは「普通の」（コンテナに入っていない裸の）引数をとり，コンテナにつめた戻り値を返す関数である．
 そのような関数$\phi$があるとしよう．
 % ユニット演算子の説明
-$$\phi y=\begin{cases}\hsklUnit{\text{result}}&\text{if nothing happened}\\
+$$\phi x=\begin{cases}\hsklUnit{\text{result}}&\text{if nothing happened}\\
 \text{some context}&\text{when something happened}\end{cases}$$
+ちょっと待った．
+$\hsklUnit{x}$とは何だろうか．
+$\hsklUnit{x}$は\keyword{ユニット演算子}と言って，変数を最もシンプルな形でコンテナに納めるものである．
+どこかで聞いた話ではないだろうか．
+その通り，ユニット演算子は事実上ピュア演算子と同じものである．
+ではなぜユニット演算子とピュア演算子を字面上区別しておくかというと，ひとつはモナドにより強い柔軟性を持たせるため，もう一つは，簡潔さのためである．
+というのも，もしモナドがアプリカティブ関手とピュア演算子を共有するとなると，同時に一般アプリカティブマップ演算子も共有することになるが，モナドなマップ演算子から一般アプリカティブマップ演算子は合成できないため，モナドが「焼け太り」してしまうからである．
+%!!!!!!!!!! CHECK !!!!!!!!!!
+
 この関数$\phi$をコンテナにつめられた変数$x$に適用するための「モナドな」マップ演算子$\hsklMonadMap$を導入する．
 $$x'=\phi\hsklMonadMap x$$
 
