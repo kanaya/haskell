@@ -791,7 +791,7 @@ $\hsklFloat$
 型クラス$\hsklOrd$に属する型は比較演算子$<,\le,\ge,>$を提供する．
 
 型$\hsklType{a}$の変数どうしの間で四則演算関係が定義されている場合，かつその型が型クラス$\hsklEq$に属する場合，その型は型クラス$\hsklNum$にも属する．
-型クラス$\hsklNum$に属する型は比較演算子$+,-,*,/$を提供する．
+型クラス$\hsklNum$に属する型は二項演算子$+,-,*,/$を提供する．
 ここに$-$は二項演算子のマイナスである．
 
 型$\hsklType{a}$が型クラス$\hsklOrd$及び型クラス$\hsklNum$に属しているとき，かつそのときに限り，型$\hsklType{a}$は型クラス$\hsklReal$にも属する．
@@ -960,6 +960,7 @@ a
 プログラマはよくこういう場合に「例外」という機構を用いるが，数学に例外は持ち込みたくない．
 そこで変数$x$が正しく計算されたかもしれないし，されていないかもしれないということを，$\hsklMaybe{m}$のように印をつけた別の変数に入れて，忘れないようにしておこう．
 ここで変数$\hsklMaybe{m}$が取り得る値は正しく計算された値$x$か，あるいはエラーを表す値$\hsklNothing$である．
+このように計算結果に「意味付け」をすることを\keyword{文脈}に入れると言う．
 
 この変数$\hsklMaybe{m}$はもはや整数型とは言えない．
 そこでこの$\hsklMaybe{m}$の型を$\hsklMaybeType{\hsklInt}$と表して「きっと整数」型と呼ぶことにしよう．
@@ -1051,12 +1052,12 @@ a
 
 同じことが型コンストラクタ$\hsklMaybeConstructor$とMaybeバージョンのマップ演算子$\hsklMaybeMap$の組み合わせ$(\hsklMaybeConstructor,\hsklMaybeMap)$にも言える．
 
-そこでマップ演算子$\hsklMap$，Maybeバージョンのマップ演算子$\hsklMaybeMap$をひとくくりにして\keyword{一般マップ演算子}$\hsklFmap$とする．
+そこで（リストの）マップ演算子($\hsklMap$)，Maybeバージョンのマップ演算子($\hsklMaybeMap$)をひとくくりにして\keyword{一般マップ演算子} ($\hsklFmap$)とする．
 一般マップ演算子は，右引数がリストであればマップ演算子を，右引数がMaybeであればMaybeバージョンのマップ演算子に「化ける」．
 この意味は，もし$f\hsklFmap\hsklList{l}$と書いてあれば$f\hsklMap\hsklList{l}$のことであるし，もし$f\hsklFmap\hsklMaybe{m}$と書いてあれば$f\hsklMaybeMap\hsklMaybe{m}$のことであると，自動的に解釈することである．
 そして，何の飾りもつけられていない変数$x$がふらっと現れ，目の前に$f\hsklFmap x$という式が登場しても，落ち着いて変数$x$の型を調べ，変数$x$がリストならば$\hsklFmap$の部分に$\hsklMap$を，変数$x$がMaybeならば$\hsklFmap$の部分に$\hsklMaybeMap$をはめ込むのだ．\footnote{Haskellでは一般マップ演算子は\code{fmap}である．ただしその実装は与えられず，対象とする型に応じて定義されるものとする．例えばリストに対しては\code{fmap = map}と定義されている．}
 
-関手，というよりは一般マップ演算子$\hsklFmap$には従うべき規則がある．
+関手，というよりは一般マップ演算子($\hsklFmap$)には従うべき規則がある．
 これらを関手則と呼ぶので，我々もその用語に従うことにする．
 関手則は次の二つである．
 \begin{description}
@@ -1081,13 +1082,13 @@ $$I=\mathLambdaAnonymousParameter$$
 \section{アプリカティブ関手}
 
 関手の一般化マップ演算子をさらに汎用性のあるものにするために，二つの要素に分解する．
-その要素とは\keyword{ピュア演算子}と\keyword{一般アプリカティブマップ演算子}$\hsklApplicativeMap$である．\footnote{Haskellでは一般アプリカティブマップ演算子を\code{<*>}と書く．}
+その要素とは\keyword{ピュア演算子}と\keyword{一般アプリカティブマップ演算子} ($\hsklApplicativeMap$) である．\footnote{Haskellでは一般アプリカティブマップ演算子を\code{<*>}と書く．}
 
 一般化マップ演算子が「普通の関数」$f$をコンテナの中の変数に適用するのに対し，アプリカティブマップ演算子はコンテナの中の関数をコンテナの中の変数へ適用する．
 
 一般マップ演算子の実装に（リストバージョンの）マップ演算子，Maybeバージョンのマップ演算子があったように，一般アプリカティブマップ演算子にもリストバージョンのアプリカティブマップ演算子，Maybeバージョンのアプリカティブマップ演算子がある．
 
-リストバージョンのアプリカティブマップ演算子$\hsklApplicativeListMap$は左引数のリスト内のすべての関数を順番に右引数のリスト内の変数に適用し，その結果をリストとして返す．
+リストバージョンのアプリカティブマップ演算子($\hsklApplicativeListMap$)は左引数のリスト内のすべての関数を順番に右引数のリスト内の変数に適用し，その結果をリストとして返す．
 例えば$$[f,g,h]\hsklApplicativeMap[x,y,z]$$とした場合，左引数，右引数ともリストであるため$$[f,g,h]\hsklApplicativeMap[x,y,z]=[f,g,h]\hsklApplicativeListMap[x,y,z]$$となり，その結果は
 \begin{align*}
 [f,g,h]\hsklApplicativeMap[x,y,z]&=[f,g,h]\hsklApplicativeListMap[x,y,z]\\
@@ -1095,7 +1096,7 @@ $$I=\mathLambdaAnonymousParameter$$
 \end{align*}
 である．
 
-Maybeバージョンのアプリカティブマップ演算子$\hsklApplicativeMaybeMap$は左引数がもし$\hsklJust{f}$の形をしていれば，その$f$を右変数$\hsklMaybe{n}$に対して$f\hsklMaybeMap\hsklMaybe{n}$と適用する．
+Maybeバージョンのアプリカティブマップ演算子($\hsklApplicativeMaybeMap$)は左引数がもし$\hsklJust{f}$の形をしていれば，その$f$を右変数$\hsklMaybe{n}$に対して$f\hsklMaybeMap\hsklMaybe{n}$と適用する．
 具体的には，もし$\hsklJust{(*)100}\hsklApplicativeMaybeMap{}\hsklJust{68}$という式が現れたとすると，アプリカティブマップ演算子の左引数から中身の関数$((*)100)$を抜き出して，右引数の中身$68$に適用し，その結果を再びMaybe値にして返す．
 式で書けば
 $$\hsklJust{(*)100}\hsklApplicativeMaybeMap{}\hsklJust{68}=\hsklJust{68000}$$
@@ -1136,14 +1137,12 @@ f\hsklMaybeMap\hsklMaybe{n}&\mathIf\hsklMaybe{m}\equiv\hsklJust{f}\\
 ピュア演算子は，いまのところ便宜上導入されたものと考えて差し支えない．
 というのも，その主たる使い道が（アプリカティブではない）関手との後方互換性のためだからである．\footnote{Haskellは一般のピュア演算子の実装を与えていない．}
 
-関手における一般マップ演算子$\hsklFmap$は，ピュア演算子と一般アプリカティブマップ演算子を使って$$f\hsklFmap x=\hsklPure{f}\hsklApplicativeMap x$$と再定義できる．
+関手における一般マップ演算子($\hsklFmap$)は，ピュア演算子と一般アプリカティブマップ演算子を使って$$f\hsklFmap x=\hsklPure{f}\hsklApplicativeMap x$$と再定義できる．
 
 \section*{余計な話：アプリカティブスタイル}
 
-関数適用演算子$\mathApply$とよく似た演算子$\hsklApplicativeApply$ただし
-$$f\hsklApplicativeApply g=\hsklPure{f\mathCompose g}$$
-なる演算子を導入する．
-この演算子は\keyword{アプリカティブ関数適用演算子}と呼ぶ．\footnote{Haskellでは\code{<\$>}と書く．}
+関数適用演算子$\mathApply$とよく似た演算子$\hsklApplicativeApply$ただし$$f\hsklApplicativeApply g=\hsklPure{f\mathCompose g}$$なる演算子を導入する．
+この演算子は特別に\keyword{アプリカティブ関数適用演算子}と呼ぶ．\footnote{Haskellでは\code{<\$>}と書く．}
 
 アプリカティブ関数適用演算子があると，わざわざピュア演算子を用いなくとも連続的に「普通の」関数をコンテナ型の引数に適用できる．
 いま変数$x$がコンテナ型とし，関数$f$と関数$g$が「普通」であるとすると$$f\hsklApplicativeApply g\hsklApplicativeMap x$$のようにして変数$x$に関数$g$，関数$f$を順に作用させることができる．
