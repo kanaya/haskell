@@ -439,7 +439,7 @@ g&\mathIn\mathMorph{\mathSet{Y}}{\mathSet{Z}}
 任意の二項演算子$\mathAnyBinaryOperator$について$$x\mathAnyBinaryOperator y$$及び$$(\mathAnyBinaryOperator)xy$$は全く同じ意味である．
 従って，二項演算子と2引数関数に本質的な差はない．
 本書では演算子と関数という用語は全く同じ意味で用いる．
-\footnote{Haskellでは任意の二項演算子を括弧で包むことで前置演算子として使うことができる．例えば\code{x+y}と \code{(+)x y} は同じ結果を返す．逆に任意の二引数関数\code{f}は \code{x `f` y} と書くことで中置することができる．}
+\footnote{Haskellでは任意の二項演算子を括弧で包むことで前置演算子として使うことができる．例えば\code{x + y}と \code{(+)x y} は同じ結果を返す．逆に任意の二引数関数\code{f}は \code{x `f` y} と書くことで中置することができる．}
 
 二項演算子の結合性，すなわち左結合か右結合かは，演算子によって異なる．
 
@@ -453,7 +453,7 @@ g&\mathIn\mathMorph{\mathSet{Y}}{\mathSet{Z}}
 引数$x$をとり値$1+x$を返す\keyword{ラムダ式}は次のように書くことにする．
 $$\mathLambdaExpression{x}{1+x}$$
 この式はラムダ式を発明したチャーチのオリジナルの論文の記法であれば$\Hat x\,.\,1+x$と書かれたところであり，現在でも多くの書物で$\lambda x\,.\,1+x$と記述されるところである．
-しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号($.$)が今後登場する二項演算子$\cdot$と紛らわしいため，上述の記法を用いる．\footnote{Haskellではこのラムダ式を \code{\textbackslash x->1+x} と書く．}
+しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号($.$)が今後登場する二項演算子$\cdot$と紛らわしいため，上述の記法を用いる．\footnote{Haskellではこのラムダ式を \code{\textbackslash x -> 1 + x} と書く．}
 
 ラムダ式は関数である．
 ラムダ式を適用するには，ラムダ式を括弧で包む必要がある．
@@ -490,7 +490,7 @@ let, where.
 ラムダ式を用いた\keyword{関数}の定義が可能である．
 例えば引数$x$をとり値$1+x$を返す関数$f$は$$f=\mathLambdaExpression{x}{1+x}$$と定義できる．
 この省略形として$$fx=1+x$$と書いても良いし，さらに省略して$$f=(+)1$$と書いても良い．
-もちろん$f=+1$でないことに注意しよう．\footnote{Haskellでは$f=\mathLambdaExpression{x}{1+x}$を\code{f=\textbackslash x->1+x}，$fx=1+x$を\code{f x = 1+x}，$f=(+)1$を\code{f=(+)1}のように書く．}
+もちろん$f=+1$でないことに注意しよう．\footnote{Haskellでは$f=\mathLambdaExpression{x}{1+x}$を\code{f = \textbackslash x -> 1 + x}，$fx=1+x$を\code{f x = 1 + x}，$f=(+)1$を\code{f = (+)1}のように書く．}
 
 関数に\keyword{スペシャルバージョン}がある場合はそれらを列挙する．
 例えば引数が$0$の場合は特別に戻り値も$0$であり，その他の場合は関数$f$と同じ振る舞いをする関数$f'$を考える．
@@ -519,7 +519,7 @@ f''x&\mathGuard{x<0}=-1\\
 &\mathGuard{\mathOtherwise}=1+x
 \end{split}
 \end{equation*}
-という風に定義することにする．\footnote{Haskellでは
+という風に定義する．\footnote{Haskellでは
 \begin{Verbatim}[xleftmargin=10mm]
 f'' x | x<0       = -1
       | x==0      = 0
@@ -561,7 +561,7 @@ x*s(x-1)&\mathOtherwise
 関数合成の演算子$\mathCompose$は関数適用よりも優先順位が高く，$(f\mathCompose g)x$は単に$f\mathCompose g\,x$と書いても良い．
 この記法は括弧の数を減らすためにしばしば用いられる．\footnote{Haskellでは関数\code{f}と関数\code{g}の合成は\code{f.g}である．}
 
-関数合成演算子とは逆に，優先順位の低い関数適用演算子も考えておくと括弧の数を減らすのに便利である．
+関数合成演算子とは逆に，優先順位の低い\keyword{関数適用演算子}も考えておくと括弧の数を減らすのに便利である．
 関数適用演算子$\mathApply$を次のように定義しておく．
 $$f\mathApply gx=f(gx)$$
 演算子$\mathApply$の優先順位は足し算演算子よりも低いものとする．
@@ -584,8 +584,9 @@ $$f\mathApply gx=f(gx)$$
 複数引数をとる関数を1引数関数に分解することを\keyword{カリー化}と呼ぶ．
 これはこの分野の先駆者であるハスケル・カリーの名前に由来する．
 
-\section*{余計な話：ラムダ*}
+\section*{余計な話：数値と条件式}
 
+ラムダで．
 
 \chapter{型と型クラス*}
 
@@ -624,7 +625,8 @@ $$f\mathApply gx=f(gx)$$
 これは関数$f$が集合$\hsklInt$から集合$\hsklInt$への写像であると読む．
 
 整数引数を二つ取り，整数を返す関数$f'$は$$f'\mathIn\mathMorphII{\hsklInt}{\hsklInt}{\hsklInt}$$という型を持つ．
-これは$$f'\mathIn\mathMorphIIWithParenthesis{\hsklInt}{\hsklInt}{\hsklInt}$$と同じ意味である．
+写像の矢印記号は右結合するので，これは$$f'\mathIn\mathMorphIIWithParenthesis{\hsklInt}{\hsklInt}{\hsklInt}$$と同じ意味である．
+自然言語で考えると，$\hsklInt$型の引数を一つ取り，$\hsklInt$型の引数を一つ取って$\hsklInt$型の値を返す関数を返す，と読める．
 
 \begin{table}
 \caption{単位的半群}
@@ -804,7 +806,7 @@ $\hsklFloat$
 
 
 
-\section*{余計な話*}
+\section*{余計な話：クラス*}
 
 \chapter{リスト*}
 
@@ -845,6 +847,9 @@ $0$から$9$までのリストは$[0,1\dots9]$と書いても良い．
 
 $\hsklType{a}$型の変数$x$を入れた$\hsklListType{\hsklType{a}}$型のリストを作る演算子を\keyword{リスト値コンストラクタ}と呼ぶ．
 $\hsklType{a}$型の変数$x$からリスト値コンストラクタを使ってリスト$\hsklList{l}$を作ることは$$\hsklList{l}=[x]$$と書く．\footnote{Haskellでは\code{l = [x]}と書く．}
+
+リスト型を表す$\hsklListType{\hsklType{a}}$と，1要素のリストである$[x]$の違いにはいつも気をつけておこう．
+本書ではリスト型を表す場合はブラケットを太くし，型名を太字のローマン体で書く一方，リストの場合はブラケットを細くし，変数名を細字のイタリック体で書く．
 
 ある型を包み込んだ別の型を一般に\keyword{コンテナ型}または単に\keyword{コンテナ}と呼ぶ．
 
@@ -1211,6 +1216,15 @@ $\hsklUnit{x}$は\keyword{ユニット演算子}と言って，変数を最も�
 ではなぜユニット演算子とピュア演算子を字面上区別しておくかというと，ひとつはモナドにより強い柔軟性を持たせるため，もう一つは，簡潔さのためである．
 というのも，もしモナドがアプリカティブ関手とピュア演算子を共有するとなると，同時に一般アプリカティブマップ演算子も共有することになるが，モナドなマップ演算子から一般アプリカティブマップ演算子は合成できないため，モナドが「焼け太り」してしまうからである．
 %!!!!!!!!!! CHECK !!!!!!!!!!
+
+\begin{align*}
+\hsklFmap&\mathIn{}\mathMorphII{(\mathMorph{\hsklType{a}}{\hsklType{b}})}{\langle\hsklType{a}\rangle}{\langle\hsklType{b}
+\rangle}\\
+\hsklApplicativeMap&\mathIn{}\mathMorphII{\langle\mathMorph{\hsklType{a}}{\hsklType{b}}\rangle}{\langle\hsklType{a}\rangle}{\langle\hsklType{b}\rangle}\\
+\hsklMonadMap&\mathIn{}\mathMorphII{(\mathMorph{\hsklType{a}}{\langle\hsklType{b}\rangle})}{\langle\hsklType{a}\rangle}{\langle{\hsklType{b}}\rangle}
+\end{align*}
+
+$$\hsklPure{\mathSomething}\mathIn\mathMorph{\hsklType{a}}{\langle\hsklType{a}\rangle}$$
 
 この関数$\phi$をコンテナにつめられた変数$x$に適用するための「モナドな」マップ演算子$\hsklMonadMap$を導入する．
 $$x'=\phi\hsklMonadMap x$$
