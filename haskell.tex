@@ -470,6 +470,16 @@ $$\left(\mathLambdaExpression{x}{1+x}\right)2$$
 例えばラムダ式$\mathLambdaExpression{xy}{x+y}$は$$\mathLambdaAnonymousParameter+\mathLambdaAnonymousParameter$$と書いても良い．
 式を左から読んで1番目の$\mathLambdaAnonymousParameter$が元々の$x$すなわち第1引数を，2番目の$\mathLambdaAnonymousParameter$が元々の$y$すなわち第2引数を意味する．この省略記法はプログラミング言語Schemeにおけるcutプロシジャに由来する．\footnote{この記法はHaskellにはない．}
 
+\begin{itembox}[r]{Python}
+\begin{tabbing}
+\hspace*{2em}\=\hspace*{2em}\=\hspace*{2em}\=\hspace*{2em}\=\kill
+$\textbf{def}\;f(x):$\\
+\>$\mathop{\textbf{return}}1+x$
+\end{tabbing}
+\end{itembox}
+
+$f=\mathop{\textbf{lambda}}x:1+x$
+
 \section*{余計な話：局所変数*}
 
 let, where.
