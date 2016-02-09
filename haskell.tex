@@ -8,11 +8,26 @@
 \def\[{[\![}
 \def\]{]\!]}
 
+\newcommand{\cxx}{\textrm{C}\texttt{++}}
+
 \newcommand{\keyword}[1]{\underline{\emph{#1}}}
 \newcommand{\code}[1]{\texttt{#1}}
 \newenvironment{leader}{\begingroup\bf}{\endgroup}
 \newenvironment{point}{\begin{screen}}{\end{screen}}
-\newenvironment{footnotecode}{\begin{Verbatim}[xleftmargin=10mm]}{\end{Verbatim}}
+\newenvironment{cxxcode}{\begin{itembox}[r]{\cxx}}{\end{itembox}}
+\newenvironment{javacode}{\begin{itembox}[r]{Java}}{\end{itembox}}
+\newenvironment{pythoncode}{\begin{itembox}[r]{Python}}{\end{itembox}}
+\newenvironment{python}{\begin{tabbing}\hspace*{2em}\=\hspace*{2em}\=\hspace*{2em}\=\hspace*{2em}\=\kill}{\end{tabbing}}
+
+
+
+
+
+% \newenvironment{footnotecode}{\begin{Verbatim}[xleftmargin=10mm]}{\end{Verbatim}}
+
+\newcommand{\pthnKeyword}[1]{\textbf{#1}}
+\DeclareMathOperator{\pthnDef}{\pthnKeyword{def}}
+\DeclareMathOperator{\pthnReturn}{\pthnKeyword{return}}
 
 \newcommand{\hsklType}[1]{\textbf{#1}}
 \newcommand{\hsklTypeclass}[1]{\mathsf{#1}}
@@ -501,6 +516,14 @@ let, where.
 例えば引数$x$をとり値$1+x$を返す関数$f$は$$f=\mathLambdaExpression{x}{1+x}$$と定義できる．
 この省略形として$$fx=1+x$$と書いても良いし，さらに省略して$$f=(+)1$$と書いても良い．
 もちろん$f=+1$でないことに注意しよう．\footnote{Haskellでは$f=\mathLambdaExpression{x}{1+x}$を\code{f = \textbackslash x -> 1 + x}，$fx=1+x$を\code{f x = 1 + x}，$f=(+)1$を\code{f = (+)1}のように書く．}
+
+\begin{pythoncode}
+関数$fx=1+x$の定義はPythonでは次のように書く．
+\begin{python}
+$\pthnDef f(x):$\\
+\>$\pthnReturn1+x$
+\end{python}
+\end{pythoncode}
 
 関数に\keyword{スペシャルバージョン}がある場合はそれらを列挙する．
 例えば引数が$0$の場合は特別に戻り値も$0$であり，その他の場合は関数$f$と同じ振る舞いをする関数$f'$を考える．
