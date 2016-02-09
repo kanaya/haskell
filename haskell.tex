@@ -215,20 +215,228 @@ print("Hello, world.")
 第I部は対応するHaskellのコードを脚注に記載している．脚注部分はHaskellを一通り覚えた後で読み返してもらいたい．\footnote{Haskellのコードも\code{x = 1}のようにタイプライタ体で書く．}
 
 \chapter{関数*}
+\begin{leader}
+プログラムはひとつの関数であり，その関数はいくつかの部分的な関数から合成される．
+つまり，関数はプログラムの全体であり，またビルディングブロックである．
+プログラムという関数をより小さな関数の合成で作るのは，それらの小さな関数が他のプログラムに再利用されることを期待するためである．
+このように関数と関数の合成はプログラミングの中心的な概念である．
+% プログラミング言語Cは，プログラムが関数だけからでも構成できることを示した．
+% Pascalの「手続き」はCでは値を返さない関数であり，Pascalの「本文」はmainという名前の関数である．
+\end{leader}
+
 
 \section{Pythonの関数*}
 
+関数引数には括弧を付けない．Pythonでは引数$x$をとる関数$f$を
+\begin{pythoncode}
+\begin{python}
+$f(x)$
+\end{python}
+\end{pythoncode}
+と書くが，括弧は冗長なので今後は$fx$と書くことにする．引数$x$を関数$f$に「食わせる」ことを\keyword{関数適用}と呼ぶ．もし$ab$と書いてあっても，それは$a*b$ではなくて従来の$a(b)$すなわち関数$a$に引数$b$を与えているものと解釈する．\footnote{Haskellでは関数\code{f}に引数\code{x}を適用させることを \code{f x} と書く．}
+
+複数引数をとる関数をPythonでは
+\begin{pythoncode}
+\begin{python}
+$g(x,y)$
+\end{python}
+\end{pythoncode}
+と書くが，これも括弧が冗長なので今後は$gxy$と書くことにする．この場合式$gxy$は左を優先して結合するものとする．つまり$$gxy=(gx)y$$である．引数に「飢えた」関数$(gx)$を\keyword{部分適用}された関数と呼ぶ．
+
+このように式の左側を優先的に演算していくことを\keyword{左結合}と呼ぶ．関数適用は左結合である．他に式の右側を優先的に演算する\keyword{右結合}の演算子も存在する．
+
+
+
 \section{関数$=$ラムダ式*}
+
+引数$x$をとり値$1+x$を返す\keyword{ラムダ式}をPythonでは
+\begin{pythoncode}
+\begin{python}
+$\pthnLambda x:1+x$
+\end{python}
+\end{pythoncode}
+と書くが，我々は$$\mathLambdaExpression{x}{1+x}$$のように書くことにする．
+この式はラムダ式を発明したチャーチのオリジナルの論文の記法であれば$\Hat x\,.\,1+x$と書かれたところであり，現在でも多くの書物で$\lambda x\,.\,1+x$と記述されるところである．
+しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号($.$)が今後登場する二項演算子$\cdot$と紛らわしいため，上述の記法を用いる．\footnote{Haskellではこのラムダ式を \code{\textbackslash x -> 1 + x} と書く．}
+
+ラムダ式は関数である．
+ラムダ式を適用するには，ラムダ式を括弧で包む必要がある．
+例を挙げる．
+$$\left(\mathLambdaExpression{x}{1+x}\right)2$$
+この式は結果として$3$を返す．
+
+複数引数をとるラムダ式は例えば$$\mathLambdaExpression{xy}{x+y}$$のように引数を並べて書く．
+
+本書では新たに，次のラムダ式記法も導入する．
+式中に記号$\mathLambdaAnonymousParameter$が現れた場合，その式全体がラムダ式であるとみなす．
+記号$\mathLambdaAnonymousParameter$の部分には引数が入る．
+第$n$番目の$\mathLambdaAnonymousParameter$には第$n$番目の引数が入る．
+例えばラムダ式$\mathLambdaExpression{xy}{x+y}$は$$\mathLambdaAnonymousParameter+\mathLambdaAnonymousParameter$$と書いても良い．
+式を左から読んで1番目の$\mathLambdaAnonymousParameter$が元々の$x$すなわち第1引数を，2番目の$\mathLambdaAnonymousParameter$が元々の$y$すなわち第2引数を意味する．この省略記法はプログラミング言語Schemeにおけるcutプロシジャに由来する．\footnote{この記法はHaskellにはない．}
+
+let, where.
+
 
 \section{関数適用と関数定義*}
 
+\keyword{関数}$fx=1+x$の定義はPythonでは
+\begin{pythoncode}
+\begin{python}
+$\pthnDef f(x):$\\
+\>$\pthnReturn1+x$
+\end{python}
+\end{pythoncode}
+のように書くことが普通である．これは，ある値をとってある値を返す関数の記述方法としてはいささかオーバーキルである．事実，ラムダ式を用いた
+\begin{pythoncode}
+\begin{python}
+$f=\pthnLambda x:1+x$
+\end{python}
+\end{pythoncode}
+も全く同じ意味になる．
+
+関数の定義は，基本的にはラムダ式の変数への代入である．引数$x$をとり値$1+x$を返す関数$f$は$$f=\mathLambdaExpression{x}{1+x}$$と定義できる．ただし，この省略形として$$fx=1+x$$と書いても良いし，さらに省略して$$f=(+)1$$と書いても良い．もちろん$f=+1$でないことに注意しよう．\footnote{Haskellでは$f=\mathLambdaExpression{x}{1+x}$を\code{f = \textbackslash x -> 1 + x}，$fx=1+x$を\code{f x = 1 + x}，$f=(+)1$を\code{f = (+)1}のように書く．}
+
+関数に\keyword{スペシャルバージョン}がある場合はそれらを列挙する．例えば引数が$0$の場合は特別に戻り値も$0$であり，その他の場合は関数$f$と同じ振る舞いをする関数$f'$を考える．このとき$f'$は
+\begin{equation*}
+\left\{
+\begin{split}
+f'0&=0\\
+f'x&=1+x
+\end{split}
+\right.
+\end{equation*}
+ように定義することになる．\footnote{Haskellでは
+\begin{Verbatim}[xleftmargin=10mm]
+f' 0 = 0
+f' x = 1+x
+\end{Verbatim}
+と書く．}
+
+関数定義に\keyword{場合分け}が必要な場合は\keyword{ガード}を用いる．例えば引数の値が負の場合は$-1$を，$0$の場合は$0$を，それ以外の場合は関数$f$と同じ振る舞いをする関数$f''$は
+\begin{equation*}
+\begin{split}
+f''x&\mathGuard{x<0}=-1\\
+&\mathGuard{x\equiv 0}=0\\
+&\mathGuard{\mathOtherwise}=1+x
+\end{split}
+\end{equation*}
+という風に定義する．\footnote{Haskellでは
+\begin{Verbatim}[xleftmargin=10mm]
+f'' x | x<0       = -1
+      | x==0      = 0
+      | otherwise = 1+x
+\end{Verbatim}
+と書く．}
+
+関数のスペシャルバージョン，場合分けといった左辺での条件付けではなく，定義式の右辺で条件付けをすることも可能である．それには\keyword{条件式}を使う．条件式とは$$fx=\mathIf x\equiv0\mathThen0\mathElse1+x$$のように$\mathIf$節，$\mathThen$節，及び$\mathElse$節からなるものである．$\mathIf$節の式の値が真($T$)であれば$\mathThen$節の式が評価され，そうでなければ$\mathElse$節の式が評価される．$\mathIf$節の中身は真理値を返す関数であれば良いので，関数$p$を$$p=(\equiv)0$$としておき，$$fx=\mathIf px\mathThen0\mathElse1+x$$と書く方法もしばしば用いられる．\footnote{Haskellでは$fx=\mathIf x\equiv0\mathThen0\mathElse1+x$を\code{f x = if x == 0 then 0 else 1+x}と書く．}
+
+条件式が値を持っていることに注意しよう．Pythonの条件文（if文）は値を返すわけではなく，プログラムの\keyword{制御構造}を表しているため，次のようなコードになる．
+\begin{pythoncode}
+\begin{python}
+$\pthnDef f(x):$\\
+\>$\pthnIf x\equiv0:$\\
+\>\>$\pthnReturn 0$\\
+\>$\pthnElse:$\\
+\>\>$\pthnReturn 1+x$
+\end{python}
+\end{pythoncode}
+プログラムの制御構造は値を持った式として評価できないため，数式としては扱いにくい．そこで我々は前述の条件式だけを使うことにする．
+
+条件式は紙面が許せば次のように書いても良い．
+\begin{equation*}
+fx=\begin{cases}
+0&\mathIf x\equiv0\\
+1+x&\mathOtherwise
+\end{cases}
+\end{equation*}
+左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっていることに注目しよう．
+
+関数は内部で自分自身を呼んでも良い．例えば$x$の階乗を返す関数$s$は
+\begin{equation*}
+sx=\begin{cases}
+1&\mathIf x\equiv0\\
+x*s(x-1)&\mathOtherwise
+\end{cases}
+\end{equation*}
+と定義できる．関数が自分自身を呼び出すことを\keyword{再帰呼び出し}と呼ぶ．
+
+
+
+
+\section*{余計な話：数値と条件式}
+
+ラムダで．
+
+
 \chapter{演算子*}
 
+\begin{leader}
+本書では一般の数学書やプログラミングの教科書からは少し異なった記法を用いる．ある概念が発明されてからずっと後になって正しい記法が見つかり，それがきっかけとなって正しく理解されるという現象は歴史上よくあることである．本書でも様々な新しい記号，記法を導入するが，この章では既に比較的広く知られている記法を紹介する．
+\end{leader}
+
+
+
 \section{Pythonの演算子*}
+
+単項演算子には論理否定($\neg$)とマイナス($-$)がある．
+本書で扱う基本的な単項演算子はこの2種類だけであるが，複数の演算子を組み合わせて単項演算子を新たに作ることはある．
+本書に登場する単項演算子は全て\keyword{前置}である．
+
+二項演算子のうちよく使われるものは和($+$)，積($*$)，論理和($\vee$)，論理積($\wedge$)，同値($\equiv$)，大なり($>$)，小なり($<$)等である．
+二項演算子はたとえ積記号であっても省略できない．
+二項演算子は多数あるので，その都度説明する．
+
+二項演算子は中置することが基本であるが，括弧で包むことで前置することも可能である．
+任意の二項演算子$\mathAnyBinaryOperator$について$$x\mathAnyBinaryOperator y$$及び$$(\mathAnyBinaryOperator)xy$$は全く同じ意味である．
+従って，二項演算子と2引数関数に本質的な差はない．
+本書では演算子と関数という用語は全く同じ意味で用いる．
+\footnote{Haskellでは任意の二項演算子を括弧で包むことで前置演算子として使うことができる．例えば\code{x + y}と \code{(+)x y} は同じ結果を返す．逆に任意の二引数関数\code{f}は \code{x `f` y} と書くことで中置することができる．}
+
+二項演算子の結合性，すなわち左結合か右結合かは，演算子によって異なる．
+
+演算の優先順位を明示的に与えるために括弧が用いられる．
+
+\begin{point}
+任意の二項演算子$\mathAnyBinaryOperator$について$$x\mathAnyBinaryOperator y=(\mathAnyBinaryOperator)xy$$である．
+\end{point}
+
 
 \section{演算子$=$関数*}
 
 \section{関数合成演算子と関数適用演算子*}
+
+ある変数に複数の関数を順に適用することはよくあることである．例えば
+\begin{pythoncode}
+\begin{python}
+$y=g(x)$\\
+$z=f(y)$
+\end{python}
+\end{pythoncode}
+あるいは，同じことであるが
+\begin{pythoncode}
+\begin{python}
+$z=f(g(x))$
+\end{python}
+\end{pythoncode}
+とすることがある．
+
+ここで，引数のことは忘れて，関数$f$と関数$g$を先に\keyword{合成}しておきたいとしよう．その合成を$f\mathCompose g$と書く．合成はラムダ式を使って$$(f\mathCompose g)x=f(gx)$$と定義できる．関数合成の演算子$\mathCompose$は関数適用よりも優先順位が高く，$(f\mathCompose g)x$は単に$f\mathCompose g\,x$と書いても良い．この記法は括弧の数を減らすためにしばしば用いられる．\footnote{Haskellでは関数\code{f}と関数\code{g}の合成は\code{f.g}である．}
+
+関数合成演算子とは逆に，優先順位の低い\keyword{関数適用演算子}も考えておくと括弧の数を減らすのに便利である．関数適用演算子$\mathApply$を次のように定義しておく．$$f\mathApply gx=f(gx)$$演算子$\mathApply$の優先順位は足し算演算子よりも低いものとする．よって$f(x+1)$は$f\mathApply x+1$と書くこともできる．\footnote{Haskellでは$f\mathApply gx$を\code{f \$ g x}と書く．}
+
+
+
+\section*{余計な話：カリー化}
+
+どのような関数であれ，引数は1個しかとらない．引数が2個あるように見える関数として，例えば$fxy$があったとしよう．関数適用が左結合であるから，これは$(fx)y$である．ここに$(fx)$は引数$y$をとる関数であると見ることができる．つまり，関数$f$とは引数$x$をとり「引数$y$をとって値を返す関数$(fx)$を返す」関数であると言える．
+
+二項演算$x+y$は$$(+)xy$$とも書けたことを思い出そう．これも左結合を思い出すと$$((+)x)y$$と書けるから，$y$という引数を$((+)x)$という関数に食わせていると解釈できる．
+
+ラムダ式の場合は話はもっと単純で，機械的に$$\mathLambdaExpression{xy}{x+y}=\mathLambdaExpression{x}{(\mathLambdaExpression{y}{x+y})}$$のように展開するだけである．矢印$\mathLambdaArrow$は右結合であるから，このラムダ式は括弧を省略して$$\mathLambdaExpression{xy}{x+y}=\mathLambdaExpression{x}{\mathLambdaExpression{y}{x+y}}$$とも書かれる．
+
+複数引数をとる関数を1引数関数に分解することを\keyword{カリー化}と呼ぶ．これはこの分野の先駆者であるハスケル・カリーの名前に由来する．
+
+
 
 \chapter{代数的構造*}
 
@@ -405,258 +613,6 @@ g&\mathIn\mathMorph{\mathSet{Y}}{\mathSet{Z}}
 
 \chapter{型*}
 
-\section{集合と型*}
-
-\section{関数の型*}
-
-\section{型クラス**}
-
-\chapter{リスト*}
-
-\section{Pythonのリスト*}
-
-\section{畳み込みとマップ*}
-
-\section{リストの実装*}
-
-\chapter{Maybe*}
-
-\section{Pythonに文脈を*}
-
-\section{Maybeと演算*}
-
-\section{リストとMaybe*}
-
-\chapter{関手*}
-
-\section{型コンストラクタと関手*}
-
-\section{アプリカティブ関手*}
-
-\section{関数と関手の関係*}
-
-\chapter{モナド}
-
-\section{もうひとつの関手*}
-
-\section{モナドな関数*}
-
-\section{モナド則*}
-
-\chapter{---}
-
-\chapter{記法*}
-
-\begin{leader}
-本書では一般の数学書やプログラミングの教科書からは少し異なった記法を用いる．ある概念が発明されてからずっと後になって正しい記法が見つかり，それがきっかけとなって正しく理解されるという現象は歴史上よくあることである．本書でも様々な新しい記号，記法を導入するが，この章では既に比較的広く知られている記法を紹介する．
-\end{leader}
-
-\section{関数}
-
-関数引数には括弧を付けない．Pythonでは引数$x$をとる関数$f$を
-\begin{pythoncode}
-\begin{python}
-$f(x)$
-\end{python}
-\end{pythoncode}
-と書くが，括弧は冗長なので今後は$fx$と書くことにする．引数$x$を関数$f$に「食わせる」ことを\keyword{関数適用}と呼ぶ．もし$ab$と書いてあっても，それは$a*b$ではなくて従来の$a(b)$すなわち関数$a$に引数$b$を与えているものと解釈する．\footnote{Haskellでは関数\code{f}に引数\code{x}を適用させることを \code{f x} と書く．}
-
-複数引数をとる関数をPythonでは
-\begin{pythoncode}
-\begin{python}
-$g(x,y)$
-\end{python}
-\end{pythoncode}
-と書くが，これも括弧が冗長なので今後は$gxy$と書くことにする．この場合式$gxy$は左を優先して結合するものとする．つまり$$gxy=(gx)y$$である．引数に「飢えた」関数$(gx)$を\keyword{部分適用}された関数と呼ぶ．
-
-このように式の左側を優先的に演算していくことを\keyword{左結合}と呼ぶ．関数適用は左結合である．他に式の右側を優先的に演算する\keyword{右結合}の演算子も存在する．
-
-\section{演算子}
-
-単項演算子には論理否定($\neg$)とマイナス($-$)がある．
-本書で扱う基本的な単項演算子はこの2種類だけであるが，複数の演算子を組み合わせて単項演算子を新たに作ることはある．
-本書に登場する単項演算子は全て\keyword{前置}である．
-
-二項演算子のうちよく使われるものは和($+$)，積($*$)，論理和($\vee$)，論理積($\wedge$)，同値($\equiv$)，大なり($>$)，小なり($<$)等である．
-二項演算子はたとえ積記号であっても省略できない．
-二項演算子は多数あるので，その都度説明する．
-
-二項演算子は中置することが基本であるが，括弧で包むことで前置することも可能である．
-任意の二項演算子$\mathAnyBinaryOperator$について$$x\mathAnyBinaryOperator y$$及び$$(\mathAnyBinaryOperator)xy$$は全く同じ意味である．
-従って，二項演算子と2引数関数に本質的な差はない．
-本書では演算子と関数という用語は全く同じ意味で用いる．
-\footnote{Haskellでは任意の二項演算子を括弧で包むことで前置演算子として使うことができる．例えば\code{x + y}と \code{(+)x y} は同じ結果を返す．逆に任意の二引数関数\code{f}は \code{x `f` y} と書くことで中置することができる．}
-
-二項演算子の結合性，すなわち左結合か右結合かは，演算子によって異なる．
-
-演算の優先順位を明示的に与えるために括弧が用いられる．
-
-\begin{point}
-任意の二項演算子$\mathAnyBinaryOperator$について$$x\mathAnyBinaryOperator y=(\mathAnyBinaryOperator)xy$$である．
-\end{point}
-
-\section{ラムダ式}
-引数$x$をとり値$1+x$を返す\keyword{ラムダ式}をPythonでは
-\begin{pythoncode}
-\begin{python}
-$\pthnLambda x:1+x$
-\end{python}
-\end{pythoncode}
-と書くが，我々は$$\mathLambdaExpression{x}{1+x}$$のように書くことにする．
-この式はラムダ式を発明したチャーチのオリジナルの論文の記法であれば$\Hat x\,.\,1+x$と書かれたところであり，現在でも多くの書物で$\lambda x\,.\,1+x$と記述されるところである．
-しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号($.$)が今後登場する二項演算子$\cdot$と紛らわしいため，上述の記法を用いる．\footnote{Haskellではこのラムダ式を \code{\textbackslash x -> 1 + x} と書く．}
-
-ラムダ式は関数である．
-ラムダ式を適用するには，ラムダ式を括弧で包む必要がある．
-例を挙げる．
-$$\left(\mathLambdaExpression{x}{1+x}\right)2$$
-この式は結果として$3$を返す．
-
-複数引数をとるラムダ式は例えば$$\mathLambdaExpression{xy}{x+y}$$のように引数を並べて書く．
-
-本書では新たに，次のラムダ式記法も導入する．
-式中に記号$\mathLambdaAnonymousParameter$が現れた場合，その式全体がラムダ式であるとみなす．
-記号$\mathLambdaAnonymousParameter$の部分には引数が入る．
-第$n$番目の$\mathLambdaAnonymousParameter$には第$n$番目の引数が入る．
-例えばラムダ式$\mathLambdaExpression{xy}{x+y}$は$$\mathLambdaAnonymousParameter+\mathLambdaAnonymousParameter$$と書いても良い．
-式を左から読んで1番目の$\mathLambdaAnonymousParameter$が元々の$x$すなわち第1引数を，2番目の$\mathLambdaAnonymousParameter$が元々の$y$すなわち第2引数を意味する．この省略記法はプログラミング言語Schemeにおけるcutプロシジャに由来する．\footnote{この記法はHaskellにはない．}
-
-\section*{余計な話：局所変数*}
-
-let, where.
-
-\chapter{関数*}
-
-\begin{leader}
-プログラムはひとつの関数であり，その関数はいくつかの部分的な関数から合成される．
-つまり，関数はプログラムの全体であり，またビルディングブロックである．
-プログラムという関数をより小さな関数の合成で作るのは，それらの小さな関数が他のプログラムに再利用されることを期待するためである．
-このように関数と関数の合成はプログラミングの中心的な概念である．
-% プログラミング言語Cは，プログラムが関数だけからでも構成できることを示した．
-% Pascalの「手続き」はCでは値を返さない関数であり，Pascalの「本文」はmainという名前の関数である．
-\end{leader}
-
-\section{Pythonの関数*}
-
-\section{関数の定義}
-
-\keyword{関数}$fx=1+x$の定義はPythonでは
-\begin{pythoncode}
-\begin{python}
-$\pthnDef f(x):$\\
-\>$\pthnReturn1+x$
-\end{python}
-\end{pythoncode}
-のように書くことが普通である．これは，ある値をとってある値を返す関数の記述方法としてはいささかオーバーキルである．事実，ラムダ式を用いた
-\begin{pythoncode}
-\begin{python}
-$f=\pthnLambda x:1+x$
-\end{python}
-\end{pythoncode}
-も全く同じ意味になる．
-
-関数の定義は，基本的にはラムダ式の変数への代入である．引数$x$をとり値$1+x$を返す関数$f$は$$f=\mathLambdaExpression{x}{1+x}$$と定義できる．ただし，この省略形として$$fx=1+x$$と書いても良いし，さらに省略して$$f=(+)1$$と書いても良い．もちろん$f=+1$でないことに注意しよう．\footnote{Haskellでは$f=\mathLambdaExpression{x}{1+x}$を\code{f = \textbackslash x -> 1 + x}，$fx=1+x$を\code{f x = 1 + x}，$f=(+)1$を\code{f = (+)1}のように書く．}
-
-関数に\keyword{スペシャルバージョン}がある場合はそれらを列挙する．例えば引数が$0$の場合は特別に戻り値も$0$であり，その他の場合は関数$f$と同じ振る舞いをする関数$f'$を考える．このとき$f'$は
-\begin{equation*}
-\left\{
-\begin{split}
-f'0&=0\\
-f'x&=1+x
-\end{split}
-\right.
-\end{equation*}
-ように定義することになる．\footnote{Haskellでは
-\begin{Verbatim}[xleftmargin=10mm]
-f' 0 = 0
-f' x = 1+x
-\end{Verbatim}
-と書く．}
-
-関数定義に\keyword{場合分け}が必要な場合は\keyword{ガード}を用いる．例えば引数の値が負の場合は$-1$を，$0$の場合は$0$を，それ以外の場合は関数$f$と同じ振る舞いをする関数$f''$は
-\begin{equation*}
-\begin{split}
-f''x&\mathGuard{x<0}=-1\\
-&\mathGuard{x\equiv 0}=0\\
-&\mathGuard{\mathOtherwise}=1+x
-\end{split}
-\end{equation*}
-という風に定義する．\footnote{Haskellでは
-\begin{Verbatim}[xleftmargin=10mm]
-f'' x | x<0       = -1
-      | x==0      = 0
-      | otherwise = 1+x
-\end{Verbatim}
-と書く．}
-
-関数のスペシャルバージョン，場合分けといった左辺での条件付けではなく，定義式の右辺で条件付けをすることも可能である．それには\keyword{条件式}を使う．条件式とは$$fx=\mathIf x\equiv0\mathThen0\mathElse1+x$$のように$\mathIf$節，$\mathThen$節，及び$\mathElse$節からなるものである．$\mathIf$節の式の値が真($T$)であれば$\mathThen$節の式が評価され，そうでなければ$\mathElse$節の式が評価される．$\mathIf$節の中身は真理値を返す関数であれば良いので，関数$p$を$$p=(\equiv)0$$としておき，$$fx=\mathIf px\mathThen0\mathElse1+x$$と書く方法もしばしば用いられる．\footnote{Haskellでは$fx=\mathIf x\equiv0\mathThen0\mathElse1+x$を\code{f x = if x == 0 then 0 else 1+x}と書く．}
-
-条件式が値を持っていることに注意しよう．Pythonの条件文（if文）は値を返すわけではなく，プログラムの\keyword{制御構造}を表しているため，次のようなコードになる．
-\begin{pythoncode}
-\begin{python}
-$\pthnDef f(x):$\\
-\>$\pthnIf x\equiv0:$\\
-\>\>$\pthnReturn 0$\\
-\>$\pthnElse:$\\
-\>\>$\pthnReturn 1+x$
-\end{python}
-\end{pythoncode}
-プログラムの制御構造は値を持った式として評価できないため，数式としては扱いにくい．そこで我々は前述の条件式だけを使うことにする．
-
-条件式は紙面が許せば次のように書いても良い．
-\begin{equation*}
-fx=\begin{cases}
-0&\mathIf x\equiv0\\
-1+x&\mathOtherwise
-\end{cases}
-\end{equation*}
-左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっていることに注目しよう．
-
-関数は内部で自分自身を呼んでも良い．例えば$x$の階乗を返す関数$s$は
-\begin{equation*}
-sx=\begin{cases}
-1&\mathIf x\equiv0\\
-x*s(x-1)&\mathOtherwise
-\end{cases}
-\end{equation*}
-と定義できる．関数が自分自身を呼び出すことを\keyword{再帰呼び出し}と呼ぶ．
-
-\section{関数の合成}
-
-ある変数に複数の関数を順に適用することはよくあることである．例えば
-\begin{pythoncode}
-\begin{python}
-$y=g(x)$\\
-$z=f(y)$
-\end{python}
-\end{pythoncode}
-あるいは，同じことであるが
-\begin{pythoncode}
-\begin{python}
-$z=f(g(x))$
-\end{python}
-\end{pythoncode}
-とすることがある．
-
-ここで，引数のことは忘れて，関数$f$と関数$g$を先に\keyword{合成}しておきたいとしよう．その合成を$f\mathCompose g$と書く．合成はラムダ式を使って$$(f\mathCompose g)x=f(gx)$$と定義できる．関数合成の演算子$\mathCompose$は関数適用よりも優先順位が高く，$(f\mathCompose g)x$は単に$f\mathCompose g\,x$と書いても良い．この記法は括弧の数を減らすためにしばしば用いられる．\footnote{Haskellでは関数\code{f}と関数\code{g}の合成は\code{f.g}である．}
-
-関数合成演算子とは逆に，優先順位の低い\keyword{関数適用演算子}も考えておくと括弧の数を減らすのに便利である．関数適用演算子$\mathApply$を次のように定義しておく．$$f\mathApply gx=f(gx)$$演算子$\mathApply$の優先順位は足し算演算子よりも低いものとする．よって$f(x+1)$は$f\mathApply x+1$と書くこともできる．\footnote{Haskellでは$f\mathApply gx$を\code{f \$ g x}と書く．}
-
-\section{カリー化}
-
-どのような関数であれ，引数は1個しかとらない．引数が2個あるように見える関数として，例えば$fxy$があったとしよう．関数適用が左結合であるから，これは$(fx)y$である．ここに$(fx)$は引数$y$をとる関数であると見ることができる．つまり，関数$f$とは引数$x$をとり「引数$y$をとって値を返す関数$(fx)$を返す」関数であると言える．
-
-二項演算$x+y$は$$(+)xy$$とも書けたことを思い出そう．これも左結合を思い出すと$$((+)x)y$$と書けるから，$y$という引数を$((+)x)$という関数に食わせていると解釈できる．
-
-ラムダ式の場合は話はもっと単純で，機械的に$$\mathLambdaExpression{xy}{x+y}=\mathLambdaExpression{x}{(\mathLambdaExpression{y}{x+y})}$$のように展開するだけである．矢印$\mathLambdaArrow$は右結合であるから，このラムダ式は括弧を省略して$$\mathLambdaExpression{xy}{x+y}=\mathLambdaExpression{x}{\mathLambdaExpression{y}{x+y}}$$とも書かれる．
-
-複数引数をとる関数を1引数関数に分解することを\keyword{カリー化}と呼ぶ．これはこの分野の先駆者であるハスケル・カリーの名前に由来する．
-
-\section*{余計な話：数値と条件式}
-
-ラムダで．
-
-\chapter{型と型クラス*}
 
 \begin{leader}
 プログラマのいう型とは，数学者のいう集合のことである．
@@ -685,6 +641,8 @@ $z=f(g(x))$
 整数ではあるが，わざわざ別な型とするのには理由がある．
 歴史的には文字は小さな整数として表現されることが多かったため，計算機のメモリが高価であった時代背景もあり，メモリの節約のために文字を表す型が存在した．
 現在では，文字が数値にエンコードされる方式がより複雑になってきたために，文字を通常の数値と区別するために特別な型が用意さてれいる．
+
+
 
 \section{関数の型}
 
@@ -740,6 +698,8 @@ $\hsklFloat$
 \end{tabular}
 \end{center}
 \end{table}
+
+
 
 
 \begin{table*}
@@ -873,16 +833,13 @@ $\hsklFloat$
 これらの関係を表にまとめたものが表\ref{tab:type-and-typeclass}である．
 
 
-
-\section*{余計な話：クラス*}
-
 \chapter{リスト*}
-
 \begin{leader}
 型から作る型をコンテナと呼ぶ．代表的なコンテナはある型のホモジニアスな配列であるリストである．この章ではリストと，リストに対する重要な演算である畳み込み，マップを取り扱う．
 \end{leader}
 
-\section{リスト}
+
+\section{Pythonのリスト*}
 
 同じ型の値を一列に並べたもの，つまりホモジニアスな配列のことを\keyword{リスト}と呼ぶ．我々もPythonのように，例えば$0$から始まり$9$まで続く整数のリストを$[0,1,2,3,4,5,6,7,8,9]$と書くことにしよう．これはPythonの次のコードと同じことである．
 \begin{pythoncode}
@@ -930,6 +887,8 @@ $\hsklType{a}$型の変数$x$を入れた$\hsklListType{\hsklType{a}}$型のリ�
 本書ではリスト型を表す場合はブラケットを太くし，型名を太字のローマン体で書く一方，リストの場合はブラケットを細くし，変数名を細字のイタリック体で書く．
 
 ある型を包み込んだ別の型を一般に\keyword{コンテナ型}または単に\keyword{コンテナ}と呼ぶ．
+
+
 
 \section{畳み込みとマップ}
 
@@ -983,6 +942,8 @@ f\hsklMap&\mathIn\mathMorph{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType
 \end{align*}
 となり，マップ演算子が何をしているのか一目瞭然になる．
 
+
+
 \section{リストの実装}
 
 ここでリストの実装について若干述べておかねばならない．紙上ではリストは自由に考えられるが，計算機上ではそれほど自由ではないからである．ここではリストはLISPにおけるリストと同じ構造を持つものとする．LISPにおけるリストとは要素$\mathFirst$と要素$\mathRest$からなるペアの集合である．要素$\mathFirst$がリストの要素を持ち，要素$\mathRest$が次のペアを参照する．リストの最後のペアの$\mathRest$は空リストを参照する．
@@ -1011,6 +972,7 @@ f\hsklMap\hsklEmptyList&=\hsklEmptyList
 \end{align*}
 これらはLISPのcar関数，cdr関数と同じものである．
 
+
 \section*{余計な話：リストを引数にとる関数}
 
 リストを分解する関数$\hsklHead$と$\hsklTail$さえあればどのようなリスト処理も可能であるが，リストを引数にとる関数を考えると最初から分解されたリストを渡された方が何かと便利である．そこで結合演算子を関数引数のパタンにも使えることにしよう．これで，例えばリストの和をとる関数$f$は
@@ -1028,12 +990,9 @@ fx:\hsklList{y}&=x+f\hsklList{y}
 
 \chapter{Maybe*}
 
-\begin{leader}
-a
-\end{leader}
+\section{Pythonに文脈を*}
 
-
-\section{Maybe}
+\section{Maybeと演算*}
 
 整数$x$を$0$で除算することはエラーである．
 しかし除算の度にエラーが起こったかどうか調べるのは面倒であるし，記述も煩雑になってしまう．
@@ -1139,12 +1098,8 @@ mapOver(Consumer<a> f, Maybe<a> m)
 \end{javacode}
 
 
-\section{Maybeを含む演算*}
 
 \section{リストとMaybe*}
-
----
-
 
 \section*{余計な話：単位的半群としてのコンテナ}
 
@@ -1153,19 +1108,11 @@ $$\mathMonoid{\hsklListType{\hsklType{a}}}{\hsklAppend}{\hsklEmptyList}$$
 $$\mathMonoid{\hsklMaybeType{\hsklType{a}}}{\hsklMaybeAppend}{\hsklNothing}$$
 
 
-% \section{コンテナの型クラスと種}
-
-
-
-\chapter{関手}
+\chapter{関手*}
 \label{ch:functor}
 
-\begin{leader}
-a
-\end{leader}
 
-
-\section{関手}
+\section{型コンストラクタと関手*}
 
 圏$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$があるとする．
 ここに集合$\mathSet{C}$は射の\keyword{対象}となる集合の集合であり，集合$\mathSet{P}$は射の集合である．
@@ -1207,7 +1154,8 @@ $$(f\mathCompose g)\hsklFmap h=(f\hsklFmap h)\mathCompose(g\hsklFmap h)$$
 $$I=\mathLambdaAnonymousParameter$$
 のことである．\footnote{Haskellでは恒等関数は\code{id}として定義されている．}
 
-\section{関数と関手の関係*}
+
+
 
 
 \section{アプリカティブ関手}
@@ -1270,6 +1218,10 @@ f\hsklMaybeMap\hsklMaybe{n}&\mathIf\hsklMaybe{m}\equiv\hsklJust{f}\\
 
 関手における一般マップ演算子($\hsklFmap$)は，ピュア演算子と一般アプリカティブマップ演算子を使って$$f\hsklFmap x=\hsklPure{f}\hsklApplicativeMap x$$と再定義できる．
 
+
+
+\section{関数と関手の関係*}
+
 \section*{余計な話：アプリカティブスタイル}
 
 関数適用演算子$\mathApply$とよく似た演算子$\hsklApplicativeApply$ただし$$f\hsklApplicativeApply g=\hsklPure{f\mathCompose g}$$なる演算子を導入する．
@@ -1289,16 +1241,12 @@ f\hsklMaybeMap\hsklMaybe{n}&\mathIf\hsklMaybe{m}\equiv\hsklJust{f}\\
 （後者はアプリカティブスタイルでも扱えない．そのために次章で述べる「モナド」が登場する．）
 
 
-\chapter{モナド*}
-
-% 文脈
-
-\begin{leader}
-a
-\end{leader}
 
 
-\section{もう一つの関手*}
+\chapter{モナド}
+
+\section{もうひとつの関手*}
+
 
 アプリカティブ関手は関手の一般マップ演算子をピュア演算子と一般アプリカティブマップ演算子に分解することで，式の見通しを良くすることができるアプリカティブスタイルという記法を採用できた．
 しかしながら，アプリカティブスタイル変数に文脈を与えるタイミングは最初すなわち式の右端の1回に限られている．
@@ -1362,7 +1310,9 @@ $$f\hsklFmap x=\hsklUnit{f}\hsklMonadMap x$$
 
 ピュア演算子，ユニット演算子．
 
+
 \section{モナドな関数*}
+
 
 具体例として引数が$2^{32}$未満なら引数の値をそのまま，それ以上なら$\hsklNothing$を返す関数$a$を考えてみよう．
 \begin{equation*}
@@ -1382,12 +1332,6 @@ ax=\begin{cases}
 とする．
 ただし$\hsklMaybe{m}$は$\hsklJust{x}$か，あるいは$\hsklNothing$かのどちらかの値が入っている．
 $x\neq\hsklNothing$かつ$y\neq0$のときの戻り値が$x/y$ではなく$\hsklJust{x/y}$なのは，計算結果が汚染の可能性を持つからである．
-
-
-
-\section{モナド則*}
-
-\section*{余計な話：群とモナド*}
 
 
 \begin{table*}
@@ -1452,6 +1396,22 @@ Int（参考）
 \end{tabular}
 \end{center}
 \end{table*}
+
+
+\section{モナド則*}
+
+\section*{余計な話：モナドプラス}
+
+
+---
+
+
+
+
+
+
+
+
 
 \part{モナドから見る世界}
 
