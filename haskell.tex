@@ -36,6 +36,8 @@
 \DeclareMathOperator{\pthnReduce}{reduce}
 \DeclareMathOperator{\pthnUp}{**}
 
+\newcommand{\pthnNextLine}{$\blacktriangleright\blacktriangleright$}
+
 \newcommand{\hsklType}[1]{\textbf{#1}}
 \newcommand{\hsklTypeclass}[1]{\mathsf{#1}}
 \newcommand{\hsklTypeConstructor}[1]{\mathop{\mathrm{#1}}}
@@ -203,7 +205,8 @@ Pythonコードはこのように登場する．
 $\pthnPrint(\texttt{"Hello, world."})$
 \end{python}
 \end{pythoncode}
-本文中に登場するPythonコードは文字通り打ち込めばそのまま使えるが，比較演算子\code{==}だけ数学記号$\equiv$で置き換えている．
+本文中に登場するPythonコードは文字通り打ち込めばそのまま使えるが，
+比較演算子$\equiv$だけはキーボードにない記号なので\code{==}に置き換えてもらいたい．
 
 また，一部の章でどうしても型に触れないといけない部分だけ，理解の助けとして\cxx14によるコードを例示した．
 
@@ -933,8 +936,8 @@ $l=[x\pthnUp2\pthnFor x\pthnIn\pthnRange(0,10)]$
 
 \begin{pythoncode}
 \begin{python}
-$l=[x+y\pthnFor x\pthnIn\pthnRange(0,10)\pthnFor y\pthnIn\pthnRange(0,6)$\\
-\>$\pthnIf x+y>3]$
+$l=[x+y\pthnFor x\pthnIn\pthnRange(0,10)\pthnFor y$ \pthnNextLine\\
+\>$\pthnIn\pthnRange(0,6)\pthnIf x+y>3]$
 \end{python}
 \end{pythoncode}
 
