@@ -30,6 +30,7 @@
 \DeclareMathOperator{\pthnIn}{\pthnKeyword{in}}
 \DeclareMathOperator{\pthnLambda}{\pthnKeyword{lambda}}
 \DeclareMathOperator{\pthnMap}{map}
+\DeclareMathOperator{\pthnPrint}{print}
 \DeclareMathOperator{\pthnReturn}{\pthnKeyword{return}}
 \DeclareMathOperator{\pthnRange}{range}
 \DeclareMathOperator{\pthnReduce}{reduce}
@@ -122,6 +123,7 @@
 \newcommand{\mathFunctor}[1]{\mathrm{#1}}
 \newcommand{\mathGuard}[1]{\mathop{\mid_{#1}}}
 \newcommand{\mathSet}[1]{\mathbf{#1}}
+\newcommand{\mathSpecialSet}[1]{\mathbb{#1}}
 \newcommand{\mathVector}[1]{\vec{#1}}
 
 \newcommand{\mathCategoryShort}[2]{(#1,#2)}
@@ -154,6 +156,7 @@
 定数&イタリック体，大文字（1文字）&$I$, $T$\\
 特別な関数&ローマン体，小文字で始める&$\hsklSucc$, $\hsklPred$\\
 キーワード&ボールド体，小文字で始める&$\mathIf$, $\mathOtherwise$\\
+特別な集合&ブラックボード体&$\mathSpecialSet{R}$, $\mathSpecialSet{Q}$, $\mathSpecialSet{Z}$\\
 集合と型&ボールド体，大文字で始める&$\mathSet{S}$, $\hsklInt$\\
 型パラメタ&ボールド体，小文字（1文字）&$\hsklType{a}$, $\hsklType{b}$\\
 関手と型コンストラクタ&ローマン体，大文字で始める&$\mathFunctor{F}$, $\hsklListConstructor$\\
@@ -189,17 +192,29 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 
 近代的なプログラミング言語を知っていれば，すでにある程度抽象数学に足を踏み入れているからである．
 
----
+そこで，本書では近代的なプログラマを対象に，プログラミング言語を登山口に抽象数学の山を登り，その高みからHaskellという丘を見下ろすことにする．
 
-Big five: Java, \cxx, C, C\texttt{\#}, Python
+さて，登山口にどのプログラミング言語を選ぶのが適当であろうか．
+IEEE Spectrum による ``The 2015 Top Ten Programming Languages'' という記事によると「ビッグファイブ」として Java, C, \cxx, Python, C\texttt{\#} が挙げられている．
+そこで本書では，多くのプログラマが読めて，シンプルに記述ができ，なおかつHaskellと対極的にある言語であるPythonを登山口に選ぶことにした．
+Pythonコードはこのように登場する．
+\begin{pythoncode}
+\begin{python}
+$\pthnPrint(\texttt{"Hello, world."})$
+\end{python}
+\end{pythoncode}
+本文中に登場するPythonコードは文字通り打ち込めばそのまま使えるが，比較演算子\code{==}だけ数学記号$\equiv$で置き換えている．
 
----
+また，一部の章でどうしても型に触れないといけない部分だけ，理解の助けとして\cxx14によるコードを例示した．
 
-1. 具象(Python, C++/Java)→抽象（数学）
+本書は3部構成になっている．
+第1部はプログラミング言語から抽象数学への登山である．
+第2部は抽象数学の山頂からHaskellの丘へ下っていく道である．
+第3部はこれまで歩いた道全体を俯瞰する．
 
-2. 抽象→具象(Haskell)
+第1部は対応するHaskellのコードを脚注に記載している．
+脚注部分はHaskellを一通り覚えた後で読み返してもらいたい．\footnote{Haskellのコードは\code{x = 1}のようにタイプライタ体で書く．}
 
-3. 抽象（数学）→抽象（数学）
 
 \chapter{数学的準備*}
 
@@ -219,23 +234,23 @@ Big five: Java, \cxx, C, C\texttt{\#}, Python
 
 まず最初に，我々にとって一番身近な代数的構造である\keyword{数}を見てみよう．
 数の代表例は\keyword{実数}であるから，実数を例にとって考えてみよう．
-実数全体の集合を$\mathSet{R}$で表すことにする．
+実数全体の集合を$\mathSpecialSet{R}$で表すことにする．
 また任意の実数を$x,y,z$で表すこととする．
-このことを数学者は$x,y,z\in\mathSet{R}$と書くが，我々は記号$\in$を別の用途に使いたいので，本書では$$x,y,z\mathIn\mathSet{R}$$と表すことにする．
+このことを数学者は$x,y,z\in\mathSpecialSet{R}$と書くが，我々は記号$\in$を別の用途に使いたいので，本書では$$x,y,z\mathIn\mathSpecialSet{R}$$と表すことにする．
 
 以下に実数の備える代数的性質を列挙する．
 どれも当たり前のことに見えるが，ひとつひとつ見ていこう．
-ここで$x,y,z\mathIn\mathSet{R}$とする．
+ここで$x,y,z\mathIn\mathSpecialSet{R}$とする．
 \begin{description}
-\item[実数の性質1. 足し算] 任意の$x$と任意の$y$の足し算（\keyword{加法}）の結果（\keyword{和}）$x+y$は$\mathSet{R}$の元すなわち実数である．
+\item[実数の性質1. 足し算] 任意の$x$と任意の$y$の足し算（\keyword{加法}）の結果（\keyword{和}）$x+y$は$\mathSpecialSet{R}$の元すなわち実数である．
 \item[実数の性質2. 足し算の結合則] 任意の$x,y,z$について$$(x+y)+z=x+(y+z)$$である．これを\keyword{結合則}と呼ぶ．
-\item[実数の性質3. 零元（加法単位元）の存在] 特別な実数$0\mathIn\mathSet{R}$があり$$0+x=x+0=x$$である．この$0$は足し算の\keyword{単位元}である．\keyword{零元}または\keyword{加法単位元}と呼ぶこともある．
-\item[実数の性質4. 負元（加法逆元）の存在] 任意の$x$に対して$-x\mathIn\mathSet{R}$があり$$-x+x=0$$である．この$-x$は$x$の足し算の\keyword{逆元}である．\keyword{負元}または\keyword{加法逆元}と呼ぶこともある．
+\item[実数の性質3. 零元（加法単位元）の存在] 特別な実数$0\mathIn\mathSpecialSet{R}$があり$$0+x=x+0=x$$である．この$0$は足し算の\keyword{単位元}である．\keyword{零元}または\keyword{加法単位元}と呼ぶこともある．
+\item[実数の性質4. 負元（加法逆元）の存在] 任意の$x$に対して$-x\mathIn\mathSpecialSet{R}$があり$$-x+x=0$$である．この$-x$は$x$の足し算の\keyword{逆元}である．\keyword{負元}または\keyword{加法逆元}と呼ぶこともある．
 \item[実数の性質5. 足し算の可換性] 任意の$x,y$について$$x+y=y+x$$である．このことを足し算の\keyword{可換性}と呼ぶ．
-\item[実数の性質6. 掛け算] 任意の$x$と任意の$y$の掛け算（\keyword{乗法}）の結果（\keyword{積}）$x*y$は$\mathSet{R}$の元すなわち実数である．
+\item[実数の性質6. 掛け算] 任意の$x$と任意の$y$の掛け算（\keyword{乗法}）の結果（\keyword{積}）$x*y$は$\mathSpecialSet{R}$の元すなわち実数である．
 \item[実数の性質7. 掛け算の結合則] 任意の$x,y,z$について$$(x*y)*z=x*(y*z)$$である．
-\item[実数の性質8. 単位元の存在] 特別な実数$1\mathIn\mathSet{R}$があり$$1*x=x*1=x$$である．この$1$を掛け算の単位元または\keyword{乗法単位元}と呼ぶ．
-\item[実数の性質9. 逆元の存在] 任意の$x$に対して$x^{-1}\mathIn\mathSet{R}$があり$$x^{-1}*x=1$$である．この$x^{-1}$は$x$の掛け算の逆元である．\keyword{乗法逆元}と呼ぶこともある．ただし性質11で述べる通り，加法単位元については逆元がなくても良い．
+\item[実数の性質8. 単位元の存在] 特別な実数$1\mathIn\mathSpecialSet{R}$があり$$1*x=x*1=x$$である．この$1$を掛け算の単位元または\keyword{乗法単位元}と呼ぶ．
+\item[実数の性質9. 逆元の存在] 任意の$x$に対して$x^{-1}\mathIn\mathSpecialSet{R}$があり$$x^{-1}*x=1$$である．この$x^{-1}$は$x$の掛け算の逆元である．\keyword{乗法逆元}と呼ぶこともある．ただし性質11で述べる通り，加法単位元については逆元がなくても良い．
 \item[実数の性質10. 掛け算の可換性] 任意の$x,y$について$$x*y=y*x$$である．このことを掛け算の可換性と呼ぶ．
 \item[実数の性質11. 加法単位元の乗法逆元] 加法単位元に対する掛け算の逆元は存在しなくても良い．（つまり$0^{-1}$のことは考えなくて良い．）
 \item[実数の性質12. 分配則] 足し算と掛け算が混在する場合$$(x+y)*z=(x*z)+(y*z)$$と掛け算を\keyword{分配}する．
@@ -313,9 +328,9 @@ z\uparrow2&=z*z\\
 このような性質が満たされる時，組み合わせ$\mathGroup{\mathSet{G}}{\mathAnyBinaryOperator}{O}{\mathInverse}$を\keyword{可換群}または\keyword{加群}と呼ぶ．
 この可換群が最初の構成要素「可換・単位元あり・逆元あり」の正体である．
 
-例えば$\mathGroup{\mathSet{R}}{+}{0}{-}$は可換群である．
-整数全体の集合を$\mathSet{Z}$とすると$\mathGroup{\mathSet{Z}}{+}{0}{-}$も可換群である．
-また，集合$\mathSet{R}$から$0$だけを取り除いた集合を$\mathSet{R}\setminus0$とするとき$\mathGroup{\mathSet{R}\setminus0}{*}{1}{\mathSomething^{-1}}$も可換群である．
+例えば$\mathGroup{\mathSpecialSet{R}}{+}{0}{-}$は可換群である．
+整数全体の集合を$\mathSpecialSet{Z}$とすると$\mathGroup{\mathSpecialSet{Z}}{+}{0}{-}$も可換群である．
+また，集合$\mathSpecialSet{R}$から$0$だけを取り除いた集合を$\mathSpecialSet{R}\setminus0$とするとき$\mathGroup{\mathSpecialSet{R}\setminus0}{*}{1}{\mathSomething^{-1}}$も可換群である．
 
 可換群は代表的な代数的構造のひとつであり，他にも数学のあちこちに顔を出している．
 例えば回転角を$t$とする二次元の回転変換を$R_t$として，回転変換$R_t$すべてからなる集合$\mathSet{R}$を考えてみよう．
@@ -330,14 +345,14 @@ R_{t_1}\bullet R_{t_2}=R_{(t_1+t_2)}
 
 次にに回転変換に単位元があるかどうか調べてみよう．
 回転しない変換は\keyword{恒等変換}とも言い，しばしば$I$で表す．
-何もしない回転変換は$0$度の回転であるから$I=U_0$である．
+何もしない回転変換は$0$度の回転であるから$I=R_0$である．
 このとき式\eqref{eq:rotation}から$$I\bullet R_t=R_t\bullet I=R_t$$であるから，$I$は回転変換の単位元であると言える．
 
 最後に回転変換に逆元があるかも調べてみよう．
 $t$回転の逆は明らかに$-t$であるから$$R_{-t}\bullet R_t=R_t\bullet R_{-t}=I$$が成り立つ．
 そこで$$R_{t}^{-1}=R_{-t}$$として$R_t$の逆元$R_t^{-1}$を定義することができる．
 
-このように，組み合わせ$\mathGroup{\mathSet{R}}{\bullet}{I}{\mathSomething^{-1}}$も可換群である．（回転$U_r$全体の集合$\mathSet{R}$が群を形成することは，パラメタ$t$が所属する実数全体の集合$\mathSet{R}$が群を形成することに大いに頼っている．この部分を詳細に調べるとリー群という美しい代数的構造が見つかる．）
+このように，組み合わせ$\mathGroup{\mathSet{R}}{\bullet}{I}{\mathSomething^{-1}}$も可換群である．（回転$R_t$全体の集合$\mathSet{R}$が群を形成することは，パラメタ$t$が所属する実数全体の集合$\mathSpecialSet{R}$が群を形成することに大いに頼っている．この部分を詳細に調べるとリー群という美しい代数的構造が見つかる．）
 % !!!!!!!!!!
 
 なお，回転されるものをベクトルと呼ぶ．
@@ -415,10 +430,10 @@ $t$回転の逆は明らかに$-t$であるから$$R_{-t}\bullet R_t=R_t\bullet 
 実はこれまでにも登場した逆元を作る演算子はまさに$\mathMorph{\mathSet{M}}{\mathSet{M}}$という写像である．
 
 またベクトルには，実数倍や回転といった写像がある．
-これらは実数のパラメタを一つとるので，ベクトル全体の集合を$\mathSet{V}$，実数全体の集合を$\mathSet{R}$として，実数のパラメタを$r$としたときに$$\mathAnyUnaryOperator_r\mathIn{}\mathMorph{(\mathSet{R}\mathSetTimes\mathSet{V})}{\mathSet{V}}$$と書ける．
+これらは実数のパラメタを一つとるので，ベクトル全体の集合を$\mathSet{V}$，実数全体の集合を$\mathSpecialSet{R}$として，実数のパラメタを$r$としたときに$$\mathAnyUnaryOperator_r\mathIn{}\mathMorph{(\mathSpecialSet{R}\mathSetTimes\mathSet{V})}{\mathSet{V}}$$と書ける．
 例えば回転の場合は$\mathAnyUnaryOperator_r=U_r$である．
 
-このようにとある集合（例えば$\mathSet{M}\mathSetTimes\mathSet{M}$や$\mathSet{R}\mathSetTimes\mathSet{V}$）から異なる別な集合（例えば$\mathSet{M}$や$\mathSet{V}$）へという写像を一般化するとどうなるだろうか．
+このようにとある集合（例えば$\mathSet{M}\mathSetTimes\mathSet{M}$や$\mathSpecialSet{R}\mathSetTimes\mathSet{V}$）から異なる別な集合（例えば$\mathSet{M}$や$\mathSet{V}$）へという写像を一般化するとどうなるだろうか．
 いま，集合$\mathSet{X}$から集合$\mathSet{Y}$への写像$f$があり，集合$\mathSet{Y}$から集合$\mathSet{Z}$への写像$g$があるとする．
 すなわち
 \begin{align*}
@@ -675,7 +690,7 @@ $$f\mathApply gx=f(gx)$$
 \section{型}
 
 型とは変数が取りうる値に与えた制約のことである．
-数学者がよく扱う型は論理型($\mathSet{B}$)，整数型($\mathSet{Z}$)，実数型($\mathSet{R}$)といったところであろう．
+数学者がよく扱う型は論理型($\mathSet{B}$)，整数型($\mathSpecialSet{Z}$)，実数型($\mathSpecialSet{R}$)といったところであろう．
 ただし数学者たちは型ではなく集合と呼ぶ．
 括弧内に示した記号は数学者たちが慣用的に用いているものである．
 
@@ -1151,15 +1166,28 @@ public class Maybe<a> {
 
 \begin{javacode}
 \begin{Verbatim}
-Maybe<int> a = new Maybe<int>(10);
+Maybe<int> m = new Maybe<int>(10);
 int square(int x) { return x * x; }
-int x = square(a);  // エラー！
-int y = square(a.getvalue());
-  // 間違いではないが文脈を失う
-Maybe<int> z = mapOver(square, a);
-  // OK!
+int x = square(m);  // 型エラー！
+int y = square(m.getvalue());
+Maybe<int> z = Maybe<int>.mapOver(square, m);
 \end{Verbatim}
+\end{javacode}
 
+変数\code{x}への代入文は引数の型が一致していないためエラーである．
+変数\code{y}への代入文はエラーではないが，元々\code{a}が持っていた文脈を捨てることになる．
+変数\code{z}への代入文ならば関数\code{square}に手を入れることなく，また\code{a}の文脈も保存できる．
+ただし次の関数\code{mapOver}が必要になる．
+
+\begin{javacode}
+% !!!!!! not Consumer...
+\begin{Verbatim}
+static public Maybe<a>
+mapOver(Consumer<a> f, Maybe<a> m)
+{
+  return new Maybe<a>(f(m.getValue()));
+}
+\end{Verbatim}
 \end{javacode}
 
 
