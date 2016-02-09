@@ -18,8 +18,8 @@
 \newenvironment{leader}{\begingroup\bf}{\endgroup}
 \newenvironment{point}{\begin{screen}}{\end{screen}}
 \newenvironment{cxxcode}{\begin{itembox}[r]{\cxx}}{\end{itembox}}
-\newenvironment{javacode}{\begin{itembox}[r]{Java}}{\end{itembox}}
-\newenvironment{pythoncode}{\begin{itembox}[r]{Python}}{\end{itembox}}
+\newenvironment{javacode}{\begin{itembox}[r]{\textsl{Java}}}{\end{itembox}}
+\newenvironment{pythoncode}{\begin{itembox}[r]{\textsl{Python}}}{\end{itembox}}
 \newenvironment{rubycode}{\begin{itembox}[r]{Ruby}}{\end{itembox}}
 \newenvironment{python}{\begin{tabbing}\hspace*{1em}\=\hspace*{1em}\=\hspace*{1em}\=\hspace*{1em}\=\kill}{\end{tabbing}}
 
@@ -182,7 +182,7 @@
 \end{center}
 \end{table*}
 
-\part{代数構造とプログラミング}
+\part{代数的構造とプログラミング}
 
 \chapter{はじめに}
 
@@ -196,22 +196,41 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 
 そこで，本書では近代的なプログラマを対象に，プログラミング言語を登山口に抽象数学の山を登り，その高みからHaskellという海を見下ろすことにする．
 
-さて，登山口にどのプログラミング言語を選ぶのが適当であろうか．IEEE Spectrum による ``The 2015 Top Ten Programming Languages'' という記事によると「ビッグファイブ」として Java, C, \cxx, Python, C\texttt{\#} が挙げられている．そこで本書では，多くのプログラマが読めて，シンプルに記述ができ，なおかつHaskellと対極にある言語であるPythonを登山口に選ぶことにした．Pythonコードはこのように登場する．
+さて，登山口にどのプログラミング言語を選ぶのが適当であろうか．IEEE Spectrum による ``The 2015 Top Ten Programming Languages'' という記事によると「ビッグファイブ」として Java, C, \cxx, Python, C\texttt{\#} が挙げられている．そこで本書では，多くのプログラマが読めて，シンプルに記述ができ，なおかつHaskellと対極にある言語であるPython（バージョン3）を登山口に選ぶことにした．Pythonコードはこのように登場する．
 \begin{pythoncode}
-\begin{python}
-$\pthnPrint(\texttt{"Hello, world."})$
-\end{python}
+\begin{Verbatim}
+print("Hello, world.")
+\end{Verbatim}
+% \begin{python}
+% $\pthnPrint(\texttt{"Hello, world."})$
+% \end{python}
 \end{pythoncode}
-本文中に登場するPythonコードは文字通り打ち込めばそのまま使えるが，比較演算子$\equiv$だけはキーボードにない記号なので\code{==}に置き換えてもらいたい．
+本文中に登場するPythonコードは文字通り打ち込めばそのまま使える．
+% が，比較演算子$\equiv$だけはキーボードにない記号なので\code{==}に置き換えてもらいたい．
 
 また，一部の章でどうしても型に触れないといけない部分がある．Pythonは動的型付け言語であり，型の説明には不適切であるため，この部分だけ理解の助けとしてJavaによるコードを例示した．この部分はコードを読まなくても先に進める．
 
 本書は3部構成になっている．第I部はプログラミング言語から抽象数学への登山である．第II部は抽象数学の山頂からHaskellの丘へ下っていく道である．第III部はこれまで歩いた道全体を俯瞰する．
 
-第I部は対応するHaskellのコードを脚注に記載している．脚注部分はHaskellを一通り覚えた後で読み返してもらいたい．\footnote{Haskellのコードは\code{x = 1}のようにタイプライタ体で書く．}
+第I部は対応するHaskellのコードを脚注に記載している．脚注部分はHaskellを一通り覚えた後で読み返してもらいたい．\footnote{Haskellのコードも\code{x = 1}のようにタイプライタ体で書く．}
 
+\chapter{関数*}
 
-\chapter{数学的準備*}
+\section{Pythonの関数*}
+
+\section{関数$=$ラムダ式*}
+
+\section{関数適用と関数定義*}
+
+\chapter{演算子*}
+
+\section{Pythonの演算子*}
+
+\section{演算子$=$関数*}
+
+\section{関数合成演算子と関数適用演算子*}
+
+\chapter{代数的構造*}
 
 \begin{leader}
 この章では「代数的構造」を見ていくことにする．代数的構造とは，四則演算のような数に関する基本的な性質を抽象化していくことで，数の背後にある基本的なメカニズムを抽出したものである．代数的構造はあらゆるプログラミング言語に明示的，あるいは非明示的に見られる要素である．
@@ -384,13 +403,53 @@ g&\mathIn\mathMorph{\mathSet{Y}}{\mathSet{Z}}
 
 \section*{余計な話：束*}
 
+\chapter{型*}
+
+\section{集合と型*}
+
+\section{関数の型*}
+
+\section{型クラス**}
+
+\chapter{リスト*}
+
+\section{Pythonのリスト*}
+
+\section{畳み込みとマップ*}
+
+\section{リストの実装*}
+
+\chapter{Maybe*}
+
+\section{Pythonに文脈を*}
+
+\section{Maybeと演算*}
+
+\section{リストとMaybe*}
+
+\chapter{関手*}
+
+\section{型コンストラクタと関手*}
+
+\section{アプリカティブ関手*}
+
+\section{関数と関手の関係*}
+
+\chapter{モナド}
+
+\section{もうひとつの関手*}
+
+\section{モナドな関数*}
+
+\section{モナド則*}
+
+\chapter{---}
 
 \chapter{記法*}
 
 \begin{leader}
 本書では一般の数学書やプログラミングの教科書からは少し異なった記法を用いる．ある概念が発明されてからずっと後になって正しい記法が見つかり，それがきっかけとなって正しく理解されるという現象は歴史上よくあることである．本書でも様々な新しい記号，記法を導入するが，この章では既に比較的広く知られている記法を紹介する．
 \end{leader}
-
 
 \section{関数}
 
@@ -476,6 +535,8 @@ let, where.
 % プログラミング言語Cは，プログラムが関数だけからでも構成できることを示した．
 % Pascalの「手続き」はCでは値を返さない関数であり，Pascalの「本文」はmainという名前の関数である．
 \end{leader}
+
+\section{Pythonの関数*}
 
 \section{関数の定義}
 
