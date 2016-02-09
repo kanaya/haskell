@@ -182,7 +182,7 @@
 
 \part{代数構造とプログラミング}
 
-\chapter{はじめに*}
+\chapter{はじめに}
 
 Haskellというプログラミング言語を知ろうとすると，従来のプログラミング言語の知識が邪魔をする．
 モダンで，人気があって，Haskellから影響を受けた言語，例えばRubyやSwiftの知識さえ，Haskellを学ぶ障害になり得る．
@@ -198,7 +198,7 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 
 さて，登山口にどのプログラミング言語を選ぶのが適当であろうか．
 IEEE Spectrum による ``The 2015 Top Ten Programming Languages'' という記事によると「ビッグファイブ」として Java, C, \cxx, Python, C\texttt{\#} が挙げられている．
-そこで本書では，多くのプログラマが読めて，シンプルに記述ができ，なおかつHaskellと対極的にある言語であるPythonを登山口に選ぶことにした．
+そこで本書では，多くのプログラマが読めて，シンプルに記述ができ，なおかつHaskellと対極にある言語であるPythonを登山口に選ぶことにした．
 Pythonコードはこのように登場する．
 \begin{pythoncode}
 \begin{python}
@@ -208,7 +208,9 @@ $\pthnPrint(\texttt{"Hello, world."})$
 本文中に登場するPythonコードは文字通り打ち込めばそのまま使えるが，
 比較演算子$\equiv$だけはキーボードにない記号なので\code{==}に置き換えてもらいたい．
 
-また，一部の章でどうしても型に触れないといけない部分だけ，理解の助けとして\cxx14によるコードを例示した．
+また，一部の章でどうしても型に触れないといけない部分がある．
+Pythonは動的型付け言語であり，型の説明には不適切であるため，この部分だけ理解の助けとして\cxx14によるコードを例示した．
+ただし，この部分はコードを読まなくても先に進める．
 
 本書は3部構成になっている．
 第1部はプログラミング言語から抽象数学への登山である．
@@ -229,13 +231,13 @@ $\pthnPrint(\texttt{"Hello, world."})$
 
 \section{数}
 
-% Python のクラス
-
 これから各種の\keyword{代数的構造}を見ていくことにする．
 代数的構造と言っても，身構える必要はない．
 それは，我々プログラマが日々接している概念に，共通した名前を与えたにすぎない．
 
 まず最初に，我々にとって一番身近な代数的構造である\keyword{数}を見てみよう．
+Pythonでもおなじみの「数」だ．
+
 数の代表例は\keyword{実数}であるから，実数を例にとって考えてみよう．
 実数全体の集合を$\mathSpecialSet{R}$で表すことにする．
 また任意の実数を$x,y,z$で表すこととする．
@@ -253,13 +255,13 @@ $\pthnPrint(\texttt{"Hello, world."})$
 \item[実数の性質6. 掛け算] 任意の$x$と任意の$y$の掛け算（\keyword{乗法}）の結果（\keyword{積}）$x*y$は$\mathSpecialSet{R}$の元すなわち実数である．
 \item[実数の性質7. 掛け算の結合則] 任意の$x,y,z$について$$(x*y)*z=x*(y*z)$$である．
 \item[実数の性質8. 単位元の存在] 特別な実数$1\mathIn\mathSpecialSet{R}$があり$$1*x=x*1=x$$である．この$1$を掛け算の単位元または\keyword{乗法単位元}と呼ぶ．
-\item[実数の性質9. 逆元の存在] 任意の$x$に対して$x^{-1}\mathIn\mathSpecialSet{R}$があり$$x^{-1}*x=1$$である．この$x^{-1}$は$x$の掛け算の逆元である．\keyword{乗法逆元}と呼ぶこともある．ただし性質11で述べる通り，加法単位元については逆元がなくても良い．
+\item[実数の性質9. 逆元の存在] 任意の$x$に対して$x^{-1}\mathIn\mathSpecialSet{R}$があり$$x^{-1}*x=1$$である．この$x^{-1}$は$x$の掛け算の逆元である．\keyword{乗法逆元}と呼ぶこともある．ただし性質11で述べる通り，加法単位元については逆元がなくても良い．Pythonでは$x^{-1}$とキーボードから打てないため$1/x$という書き方をする．
 \item[実数の性質10. 掛け算の可換性] 任意の$x,y$について$$x*y=y*x$$である．このことを掛け算の可換性と呼ぶ．
 \item[実数の性質11. 加法単位元の乗法逆元] 加法単位元に対する掛け算の逆元は存在しなくても良い．（つまり$0^{-1}$のことは考えなくて良い．）
 \item[実数の性質12. 分配則] 足し算と掛け算が混在する場合$$(x+y)*z=(x*z)+(y*z)$$と掛け算を\keyword{分配}する．
 \end{description}
 以上が実数の代数的性質の全てである．
-我々がよく使う引き算，割り算はプログラミングでいう糖衣構文 (syntax sugar) である．
+我々がよく使う引き算，割り算は数学上は糖衣構文 (syntax sugar) である．
 
 上述の12個の条件が当てはまる数には，\keyword{有理数}や\keyword{複素数}がある．
 この12個の性質をまとめて，数学では\keyword{体}または可換体と呼ぶ．
@@ -475,13 +477,13 @@ g&\mathIn\mathMorph{\mathSet{Y}}{\mathSet{Z}}
 
 \section{関数}
 
-関数引数には括弧を付けない．我々はよく引数$x$をとる関数$f$を$f(x)$と書くが，括弧は冗長なので今後は$fx$と書くことにする．
+関数引数には括弧を付けない．Pythonでは引数$x$をとる関数$f$を$f(x)$と書くが，括弧は冗長なので今後は$fx$と書くことにする．
 引数$x$を関数$f$に「食わせる」ことを\keyword{関数適用}と呼ぶ．
-もし$ab$と書いてあっても，それは$a*b$ではなくて従来の$a(b)$すなわち関数$a$に引数$b$を与えているものと解釈する．
+もし$ab$と書いてあっても，それは$a*b$ではなくて従来の$a(b)$すなわち関数$a$に引数$b$を与えているものと解釈する．\footnote{Haskellでは関数\code{f}に引数\code{x}を適用させることを \code{f x} と書く．}
 
-複数引数をとる関数を我々はよく$f'(x,y)$と書くが，これも括弧が冗長なので今後は$f'xy$と書くことにする．
-この場合式$f'xy$は左を優先して結合するものとする．つまり$$f'xy=(f'x)y$$である．
-引数に「飢えた」関数$(fx)$を\keyword{部分適用}された関数と呼ぶ．\footnote{Haskellでは関数\code{f}に引数\code{x}を適用させることを \code{f x} と書く．}
+複数引数をとる関数をPythonでは$g(x,y)$と書くが，これも括弧が冗長なので今後は$gxy$と書くことにする．
+この場合式$gxy$は左を優先して結合するものとする．つまり$$gxy=(gx)y$$である．
+引数に「飢えた」関数$(gx)$を\keyword{部分適用}された関数と呼ぶ．
 
 このように式の左側を優先的に演算していくことを\keyword{左結合}と呼ぶ．
 関数適用は左結合である．
@@ -512,8 +514,13 @@ g&\mathIn\mathMorph{\mathSet{Y}}{\mathSet{Z}}
 \end{point}
 
 \section{ラムダ式}
-引数$x$をとり値$1+x$を返す\keyword{ラムダ式}は次のように書くことにする．
-$$\mathLambdaExpression{x}{1+x}$$
+引数$x$をとり値$1+x$を返す\keyword{ラムダ式}をPythonでは
+\begin{pythoncode}
+\begin{python}
+$\pthnLambda x:1+x$
+\end{python}
+\end{pythoncode}
+と書くが，我々は$$\mathLambdaExpression{x}{1+x}$$のように書くことにする．
 この式はラムダ式を発明したチャーチのオリジナルの論文の記法であれば$\Hat x\,.\,1+x$と書かれたところであり，現在でも多くの書物で$\lambda x\,.\,1+x$と記述されるところである．
 しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号($.$)が今後登場する二項演算子$\cdot$と紛らわしいため，上述の記法を用いる．\footnote{Haskellではこのラムダ式を \code{\textbackslash x -> 1 + x} と書く．}
 
@@ -531,19 +538,6 @@ $$\left(\mathLambdaExpression{x}{1+x}\right)2$$
 第$n$番目の$\mathLambdaAnonymousParameter$には第$n$番目の引数が入る．
 例えばラムダ式$\mathLambdaExpression{xy}{x+y}$は$$\mathLambdaAnonymousParameter+\mathLambdaAnonymousParameter$$と書いても良い．
 式を左から読んで1番目の$\mathLambdaAnonymousParameter$が元々の$x$すなわち第1引数を，2番目の$\mathLambdaAnonymousParameter$が元々の$y$すなわち第2引数を意味する．この省略記法はプログラミング言語Schemeにおけるcutプロシジャに由来する．\footnote{この記法はHaskellにはない．}
-
-\begin{pythoncode}
-\begin{python}
-$\textbf{def}\;f(x):$\\
-\>$\mathop{\textbf{return}}1+x$
-\end{python}
-\end{pythoncode}
-
-\begin{pythoncode}
-\begin{python}
-$f=\pthnLambda x:1+x$
-\end{python}
-\end{pythoncode}
 
 \section*{余計な話：局所変数*}
 
@@ -563,15 +557,21 @@ let, where.
 \section{関数の定義}
 
 ラムダ式を用いた\keyword{関数}の定義が可能である．
-例えば引数$x$をとり値$1+x$を返す関数$f$は$$f=\mathLambdaExpression{x}{1+x}$$と定義できる．
+引数$x$をとり値$1+x$を返す関数$f$は$$f=\mathLambdaExpression{x}{1+x}$$と定義できる．
 この省略形として$$fx=1+x$$と書いても良いし，さらに省略して$$f=(+)1$$と書いても良い．
 もちろん$f=+1$でないことに注意しよう．\footnote{Haskellでは$f=\mathLambdaExpression{x}{1+x}$を\code{f = \textbackslash x -> 1 + x}，$fx=1+x$を\code{f x = 1 + x}，$f=(+)1$を\code{f = (+)1}のように書く．}
 
+関数$fx=1+x$の定義はPythonでは次のように書くことが普通である．
 \begin{pythoncode}
-関数$fx=1+x$の定義はPythonでは次のように書く．
 \begin{python}
 $\pthnDef f(x):$\\
 \>$\pthnReturn1+x$
+\end{python}
+\end{pythoncode}
+もちろん次のようにラムダ式を用いることも可能であるが，一般的とは言えない．
+\begin{pythoncode}
+\begin{python}
+$f=\pthnLambda x:1+x$
 \end{python}
 \end{pythoncode}
 
@@ -618,6 +618,19 @@ $$fx=\mathIf x\equiv0\mathThen0\mathElse1+x$$
 $\mathIf$節の式の値が真($T$)であれば$\mathThen$節の式が評価され，そうでなければ$\mathElse$節の式が評価される．
 $\mathIf$節の中身は真理値を返す関数であれば良いので，関数$p$を$$p=(\equiv)0$$としておき，$$fx=\mathIf px\mathThen0\mathElse1+x$$と書く方法もしばしば用いられる．\footnote{Haskellでは$fx=\mathIf x\equiv0\mathThen0\mathElse1+x$を\code{f x = if x == 0 then 0 else 1+x}と書く．}
 
+条件式が値を持っていることに注意しよう．
+Pythonの条件文（if文）は値を返すわけではなく，プログラムの\keyword{制御構造}を表しているため，次のようなコードになる．
+\begin{pythoncode}
+\begin{python}
+$\pthnDef f(x):$\\
+\>$\pthnIf x\equiv0:$\\
+\>\>$\pthnReturn 0$\\
+\>$\pthnElse:$\\
+\>\>$\pthnReturn 1+x$
+\end{python}
+\end{pythoncode}
+一方で我々は，プログラムの制御構造というようなものを数式の中に混入させたくない．
+
 条件式は紙面が許せば次のように書いても良い．
 \begin{equation*}
 fx=\begin{cases}
@@ -627,15 +640,6 @@ fx=\begin{cases}
 \end{equation*}
 左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっていることに注目しよう．
 
-\begin{pythoncode}
-\begin{python}
-$\pthnDef f(x):$\\
-\>$\pthnIf x\equiv0:$\\
-\>\>$\pthnReturn 0$\\
-\>$\pthnElse$\\
-\>\>$\pthnReturn 1+x$
-\end{python}
-\end{pythoncode}
 
 
 
@@ -914,22 +918,34 @@ $\hsklFloat$
 \section{リスト}
 
 同じ型の値を一列に並べたもの，つまりホモジニアスな配列のことを\keyword{リスト}と呼ぶ．
-例えば$0$から始まり$9$まで続く整数のリストは$[0,1,2,3,4,5,6,7,8,9]$と書く．
-等差数列に限って，簡略化した書き方が許される．
-$0$から$9$までのリストは$[0,1\dots9]$と書いても良い．
-複数の型の要素が混在してもよい配列のことをヘテロジニアスな配列と呼び，ホモジニアスな配列とは区別する．\footnote{この書き方はHaskellでもそのまま使える．}
+我々もPythonのように，例えば$0$から始まり$9$まで続く整数のリストを$[0,1,2,3,4,5,6,7,8,9]$と書くことにしよう．
+これはPythonの次のコードと同じことである．
 
-リストは変数に代入できる．
+\begin{pythoncode}
+\begin{python}
+$l=[0,1,2,3,4,5,6,7,8,9]$
+\end{python}
+\end{pythoncode}
+
+これはいささか冗長なので，等差数列に限って，簡略化した書き方が許されることにする．
+$0$から$9$までのリストは$[0,1\dots9]$と書いても良い．\footnote{Haskellでは\code{l = [0,1...9]}と書く．}
+
+複数の型の要素が混在してもよい配列のことをヘテロジニアスな配列と呼び，ホモジニアスな配列とは区別する．
+
 今後，リストを指す変数にはバーをつけて$\hsklList{l}$と書くことにして$$\hsklList{l}=[0,1\dots9]$$のように書くことにしよう．\footnote{Haskellコンパイラは人間よりも記憶力が優れているため，変数名にバーをつける必要はない．}
 
-より高度なリスト，例えば$0$から$9$までの平方数のリストは$$\hsklList{l}=\left[x^2\mathGuard{x\mathFrom{[0,1\dots9]}}\right]$$のようにガードを用いて書く．
-ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mathFrom$を用いた．
-
+Pythonではリスト内包表記が使える．
+例えば$0$から$9$までの平方数のリストは次のように作った．
 \begin{pythoncode}
 \begin{python}
 $l=[x\pthnUp2\pthnFor x\pthnIn\pthnRange(0,10)]$
 \end{python}
 \end{pythoncode}
+ここに$\pthnRange(a,b)$は$a$から連続する$b$個の数値からなるリストを返すPython関数である．
+
+我々は内包表記のかわりにガードを使って$$\hsklList{l}=\left[x^2\mathGuard{x\mathFrom{[0,1\dots9]}}\right]$$のように書こう．
+ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mathFrom$を用いた．
+
 
 ガードの中の式は複数あっても良い．
 例えば$$\hsklList{l}=\left[x+y\mathGuard{x\mathFrom[0,1\dots9],\,y\mathFrom[0,1\dots5],\,x+y>3}\right]$$は$0\le x\le 10$かつ$0\le y\le 5$の範囲で$x+y>3$となる$x$及び$y$から$x+y$を並べたリストである．\footnote{Haskellでは\code{l = [x+y | x<-[0,1..9], y<-[0,1..5], x+y>3]}と書く．}
