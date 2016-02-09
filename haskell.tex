@@ -17,14 +17,23 @@
 \newenvironment{cxxcode}{\begin{itembox}[r]{\cxx}}{\end{itembox}}
 \newenvironment{javacode}{\begin{itembox}[r]{Java}}{\end{itembox}}
 \newenvironment{pythoncode}{\begin{itembox}[r]{Python}}{\end{itembox}}
-\newenvironment{python}{\begin{tabbing}\hspace*{2em}\=\hspace*{2em}\=\hspace*{2em}\=\hspace*{2em}\=\kill}{\end{tabbing}}
+\newenvironment{rubycode}{\begin{itembox}[r]{Ruby}}{\end{itembox}}
+\newenvironment{python}{\begin{tabbing}\hspace*{1em}\=\hspace*{1em}\=\hspace*{1em}\=\hspace*{1em}\=\kill}{\end{tabbing}}
 
 % \newenvironment{footnotecode}{\begin{Verbatim}[xleftmargin=10mm]}{\end{Verbatim}}
 
 \newcommand{\pthnKeyword}[1]{\textbf{#1}}
 \DeclareMathOperator{\pthnDef}{\pthnKeyword{def}}
+\DeclareMathOperator{\pthnElse}{\pthnKeyword{else}}
+\DeclareMathOperator{\pthnFor}{\pthnKeyword{for}}
+\DeclareMathOperator{\pthnIf}{\pthnKeyword{if}}
+\DeclareMathOperator{\pthnIn}{\pthnKeyword{in}}
 \DeclareMathOperator{\pthnLambda}{\pthnKeyword{lambda}}
+\DeclareMathOperator{\pthnMap}{map}
 \DeclareMathOperator{\pthnReturn}{\pthnKeyword{return}}
+\DeclareMathOperator{\pthnRange}{range}
+\DeclareMathOperator{\pthnReduce}{reduce}
+\DeclareMathOperator{\pthnUp}{**}
 
 \newcommand{\hsklType}[1]{\textbf{#1}}
 \newcommand{\hsklTypeclass}[1]{\mathsf{#1}}
@@ -88,6 +97,7 @@
 \DeclareMathOperator{\mathApply}{\$}
 \DeclareMathOperator{\mathAnyUnaryOperator}{\star}
 \DeclareMathOperator{\mathCompose}{\bullet}
+\DeclareMathOperator{\mathI}{i}
 \DeclareMathOperator{\mathIn}{::}
 \DeclareMathOperator{\mathElse}{\mathKeyword{else}}
 \DeclareMathOperator*{\mathFold}{\bigcup}
@@ -201,6 +211,8 @@ Big five: Java, \cxx, C, C\texttt{\#}, Python
 
 \section{数}
 
+% Python のクラス
+
 これから各種の\keyword{代数的構造}を見ていくことにする．
 代数的構造と言っても，身構える必要はない．
 それは，我々プログラマが日々接している概念に，共通した名前を与えたにすぎない．
@@ -234,6 +246,7 @@ Big five: Java, \cxx, C, C\texttt{\#}, Python
 上述の12個の条件が当てはまる数には，\keyword{有理数}や\keyword{複素数}がある．
 この12個の性質をまとめて，数学では\keyword{体}または可換体と呼ぶ．
 わざわざ可換と断るのは，現代の数学では$x*y\neq y*x$であるような体系がよく用いられるからである．
+% Python では．．．
 
 体の要素は，集合$\mathSet{K}$，二項演算子$+$，二項演算子$+$の単位元$0$，二項演算子$+$の逆元生成演算子$-$，もう一つの二項演算子$*$，二項演算子$*$の単位元$1$，二項演算子$*$の逆元生成演算子$\mathSomething^{-1}$であるから，体はそれらを列挙して$\mathField{\mathSet{K}}{+}{0}{-}{*}{1}{\mathSomething^{-1}}$と表現する．
 
@@ -305,26 +318,37 @@ z\uparrow2&=z*z\\
 また，集合$\mathSet{R}$から$0$だけを取り除いた集合を$\mathSet{R}\setminus0$とするとき$\mathGroup{\mathSet{R}\setminus0}{*}{1}{\mathSomething^{-1}}$も可換群である．
 
 可換群は代表的な代数的構造のひとつであり，他にも数学のあちこちに顔を出している．
-例えば回転角を$r$とする二次元の回転変換（行列）を$U_r$ただし$$U_r=\begin{bmatrix}\cos r&-\sin r\\\sin r&\cos r\end{bmatrix}$$として，回転変換$U_r$すべてからなる集合$\mathSet{U}$を考えてみよう．
+例えば回転角を$t$とする二次元の回転変換を$R_t$として，回転変換$R_t$すべてからなる集合$\mathSet{R}$を考えてみよう．
 回転の合成を$\bullet$で表すとすると
 \begin{equation}
 \label{eq:rotation}
-U_{r_1}\bullet U_{r_2}=U_{(r_1+r_2)}
+R_{t_1}\bullet R_{t_2}=R_{(t_1+t_2)}
 \end{equation}
 であるから，回転を合成した結果も回転である．
-また式\eqref{eq:rotation}から$$U_{r_1}\bullet\left(U_{r_2}\bullet U_{r_3}\right)=\left(U_{r_1}\bullet U_{r_2}\right)\bullet U_{r_3}$$
+また式\eqref{eq:rotation}から$$R_{t_1}\bullet\left(R_{t_2}\bullet R_{t_3}\right)=\left(R_{t_1}\bullet R_{t_2}\right)\bullet R_{t_3}$$
 であるから，回転変換は結合則も満たしている．
 
 次にに回転変換に単位元があるかどうか調べてみよう．
 回転しない変換は\keyword{恒等変換}とも言い，しばしば$I$で表す．
 何もしない回転変換は$0$度の回転であるから$I=U_0$である．
-このとき式\eqref{eq:rotation}から$$I\bullet U_r=U_r\bullet I=U_r$$であるから，$I$は回転変換の単位元であると言える．
+このとき式\eqref{eq:rotation}から$$I\bullet R_t=R_t\bullet I=R_t$$であるから，$I$は回転変換の単位元であると言える．
 
 最後に回転変換に逆元があるかも調べてみよう．
-$r$回転の逆は明らかに$-r$であるから$$U_{-r}\bullet U_r=U_r\bullet U_{-r}=I$$が成り立つ．
-そこで$$U_{r}^{-1}=U_{-r}$$として$U_r$の逆元$U_r^{-1}$を定義することができる．
+$t$回転の逆は明らかに$-t$であるから$$R_{-t}\bullet R_t=R_t\bullet R_{-t}=I$$が成り立つ．
+そこで$$R_{t}^{-1}=R_{-t}$$として$R_t$の逆元$R_t^{-1}$を定義することができる．
 
-このように，組み合わせ$\mathGroup{\mathSet{U}}{\bullet}{I}{\mathSomething^{-1}}$も可換群である．（回転$U_r$全体の集合$\mathSet{U}$が群を形成することは，パラメタ$r$が所属する実数全体の集合$\mathSet{R}$が群を形成することに大いに頼っている．この部分を詳細に調べるとリー群という美しい代数的構造が見つかる．）
+このように，組み合わせ$\mathGroup{\mathSet{R}}{\bullet}{I}{\mathSomething^{-1}}$も可換群である．（回転$U_r$全体の集合$\mathSet{R}$が群を形成することは，パラメタ$t$が所属する実数全体の集合$\mathSet{R}$が群を形成することに大いに頼っている．この部分を詳細に調べるとリー群という美しい代数的構造が見つかる．）
+% !!!!!!!!!!
+
+なお，回転されるものをベクトルと呼ぶ．
+ベクトルや回転変換の実装方法はいくつかあり，例えば第1座標値を$u$，第2座標値を$v$としたときにベクトル$\mathVector{p}$を$$\mathVector{v}=\begin{bmatrix}u\\v\end{bmatrix}$$と表した場合，回転変換は$$R_t=\begin{bmatrix}\cos t&-\sin t\\\sin t&\cos t\end{bmatrix}$$と行列で表すことになり，回転後のベクトル$\mathVector{p'}$は$$\mathVector{p'}=R_t*\mathVector{p}$$となる．
+ここに演算子$*$は行列の積である．
+また，この場合変換の合成$\mathCompose$は行列積$*$となる．
+
+他にもベクトルを複素数で表現する方法もある．
+いま$\mathVector{p}$を$$\mathVector{p}=u+\mathI v$$と表して，回転変換$R_t$を$$R_t=\cos t+\mathI\sin t$$とすると，回転後の$\mathVector{p'}$はやはり$$\mathVector{p'}=R_t*\mathVector{p}$$と書ける．
+ここに演算子$*$は複素数の積である．
+また，この場合変換の合成$\mathCompose$も複素数積$*$となる．
 
 任意次元のベクトル全体からなる集合を$\mathSet{V}$として，零ベクトルを$\mathVector{Z}$で表すことにしよう．
 % 矢印はベクトルであることを忘れないようにするための飾りである．
@@ -584,6 +608,18 @@ fx=\begin{cases}
 \end{cases}
 \end{equation*}
 左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっていることに注目しよう．
+
+\begin{pythoncode}
+\begin{python}
+$\pthnDef f(x):$\\
+\>$\pthnIf x\equiv0:$\\
+\>\>$\pthnReturn 0$\\
+\>$\pthnElse$\\
+\>\>$\pthnReturn 1+x$
+\end{python}
+\end{pythoncode}
+
+
 
 関数は内部で自分自身を呼んでも良い．
 例えば$x$の階乗を返す関数$s$は
@@ -869,10 +905,23 @@ $0$から$9$までのリストは$[0,1\dots9]$と書いても良い．
 今後，リストを指す変数にはバーをつけて$\hsklList{l}$と書くことにして$$\hsklList{l}=[0,1\dots9]$$のように書くことにしよう．\footnote{Haskellコンパイラは人間よりも記憶力が優れているため，変数名にバーをつける必要はない．}
 
 より高度なリスト，例えば$0$から$9$までの平方数のリストは$$\hsklList{l}=\left[x^2\mathGuard{x\mathFrom{[0,1\dots9]}}\right]$$のようにガードを用いて書く．
-ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mathFrom$を用いた．\footnote{Haskellでは\code{l = [x+y | x<-[0,1..9], y<-[0,1..5], x+y>3]}と書く．}
+ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mathFrom$を用いた．
+
+\begin{pythoncode}
+\begin{python}
+$l=[x\pthnUp2\pthnFor x\pthnIn\pthnRange(0,10)]$
+\end{python}
+\end{pythoncode}
 
 ガードの中の式は複数あっても良い．
-例えば$$\hsklList{l}=\left[x+y\mathGuard{x\mathFrom[0,1\dots9],\,y\mathFrom[0,1\dots5],\,x+y>3}\right]$$は$0\le x\le 10$かつ$0\le y\le 5$の範囲で$x+y>3$となる$x$及び$y$から$x+y$を並べたリストである．
+例えば$$\hsklList{l}=\left[x+y\mathGuard{x\mathFrom[0,1\dots9],\,y\mathFrom[0,1\dots5],\,x+y>3}\right]$$は$0\le x\le 10$かつ$0\le y\le 5$の範囲で$x+y>3$となる$x$及び$y$から$x+y$を並べたリストである．\footnote{Haskellでは\code{l = [x+y | x<-[0,1..9], y<-[0,1..5], x+y>3]}と書く．}
+
+\begin{pythoncode}
+\begin{python}
+$l=[x+y\pthnFor x\pthnIn\pthnRange(0,10)\pthnFor y\pthnIn\pthnRange(0,6)$\\
+\>$\pthnIf x+y>3]$
+\end{python}
+\end{pythoncode}
 
 リストは\keyword{結合}できる．
 例えばリスト$\hsklList{l}$とリスト$\hsklList{m}$を結合したリストは$$\hsklList{l}\hsklAppend\hsklList{m}$$で得られる．\footnote{Haskellでは\code{l++m}と書く．}
@@ -908,6 +957,19 @@ $\hsklType{a}$型の変数$x$からリスト値コンストラクタを使って
 リストの総和をとる演算子$\sum$は$$\sum=\mathFold^+_0$$とすれば得られる．
 同じようにリストの要素のすべての積をとる演算子$\prod$は$$\prod=\mathFold^*_1$$とすれば得られる．
 
+\begin{pythoncode}
+\begin{python}
+$\pthnReduce(\pthnLambda a,b:a+b,l,0)$
+\end{python}
+\end{pythoncode}
+
+\begin{rubycode}
+\begin{verbatim}
+l.inject(0) { |m, x| m + x }
+\end{verbatim}
+\end{rubycode}
+
+
 畳み込み演算子は第1（上）引数に$\hsklType{a}$型と$\hsklType{b}$型の引数を取り$\hsklType{a}$型の戻り値を返す二項演算子，第2（下）引数に$\hsklType{a}$型，第3（右）引数に$\hsklType{b}$型のリストすなわち$\hsklListType{\hsklType{b}}$型を取り，$\hsklType{a}$型の値を返す．
 従って畳み込み演算子の型は$$\mathFold\mathIn\mathMorphIII{(\mathMorphII{\hsklType{a}}{\hsklType{b}}{\hsklType{a}})}{\hsklType{a}}{\hsklListType{\hsklType{b}}}{\hsklType{a}}$$と定義できる．
 
@@ -927,6 +989,13 @@ $$\mathFold_\hsklEmptyList^\hsklAppend[[0,1,2],[3,4,5],\dots]=[0,1,2,3,4,5,\dots
 引数として関数$f$とリスト$[x_0,x_1\dots x_n]$を取り，戻り値として$[fx_0,fx_1\dots fx_n]$を返す演算子$\hsklMap$を考えよう．
 このとき$$f\hsklMap[x_0,x_1\dots x_n]=[fx_0,fx_1\dots fx_n]$$であると定義する．
 この$\hsklMap$演算子を\keyword{マップ演算子}と呼ぶ．\footnote{Haskellでは$f\hsklMap l$を\code{map f l}または\code{f `map` l}と書く．}
+
+\begin{pythoncode}
+\begin{python}
+$\pthnMap(f,l)$
+\end{python}
+\end{pythoncode}
+
 
 マップ演算子の型は
 $$\hsklMap\hsklOf{}\mathMorphII{(\mathMorph{\hsklType{a}}{\hsklType{b}})}{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType{b}}}$$
@@ -966,7 +1035,9 @@ LISPにおけるリストとは要素$\mathFirst$と要素$\mathRest$からな�
 f\hsklMap x:\hsklList{y}&=fx:f\hsklMap\hsklList{y}\\
 f\hsklMap\hsklEmptyList&=\hsklEmptyList
 \end{align*}
-とマップ演算子$\hsklMap$を定義できる．
+とマップ演算子($\hsklMap$)を定義できる．
+つまりマップ演算子($\hsklMap$)は結合演算子(:)から作ることができる．
+換言すれば，マップ演算子は糖衣構文である．
 
 任意のリスト$\hsklList{l}$に対し，次の関数が用意されている．
 \begin{align*}
@@ -1075,6 +1146,20 @@ public class Maybe<a> {
   }
 \end{Verbatim}
 コンストラクタ呼び出し\code{Maybe<int>(x)}は$\hsklJust{x}$に相当し，コンストラクタ呼び出し\code{Maybe<int>()}は$\hsklNothing$に相当する．
+\end{javacode}
+
+
+\begin{javacode}
+\begin{Verbatim}
+Maybe<int> a = new Maybe<int>(10);
+int square(int x) { return x * x; }
+int x = square(a);  // エラー！
+int y = square(a.getvalue());
+  // 間違いではないが文脈を失う
+Maybe<int> z = mapOver(square, a);
+  // OK!
+\end{Verbatim}
+
 \end{javacode}
 
 
