@@ -19,14 +19,11 @@
 \newenvironment{pythoncode}{\begin{itembox}[r]{Python}}{\end{itembox}}
 \newenvironment{python}{\begin{tabbing}\hspace*{2em}\=\hspace*{2em}\=\hspace*{2em}\=\hspace*{2em}\=\kill}{\end{tabbing}}
 
-
-
-
-
 % \newenvironment{footnotecode}{\begin{Verbatim}[xleftmargin=10mm]}{\end{Verbatim}}
 
 \newcommand{\pthnKeyword}[1]{\textbf{#1}}
 \DeclareMathOperator{\pthnDef}{\pthnKeyword{def}}
+\DeclareMathOperator{\pthnLambda}{\pthnKeyword{lambda}}
 \DeclareMathOperator{\pthnReturn}{\pthnKeyword{return}}
 
 \newcommand{\hsklType}[1]{\textbf{#1}}
@@ -184,7 +181,15 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 
 ---
 
-具象(C++)→1→抽象（数学）→2→具象(Haskell)→3→抽象（数学）
+Big five: Java, \cxx, C, C\texttt{\#}, Python
+
+---
+
+1. 具象(Python, C++/Java)→抽象（数学）
+
+2. 抽象→具象(Haskell)
+
+3. 抽象（数学）→抽象（数学）
 
 \chapter{数学的準備*}
 
@@ -485,15 +490,18 @@ $$\left(\mathLambdaExpression{x}{1+x}\right)2$$
 例えばラムダ式$\mathLambdaExpression{xy}{x+y}$は$$\mathLambdaAnonymousParameter+\mathLambdaAnonymousParameter$$と書いても良い．
 式を左から読んで1番目の$\mathLambdaAnonymousParameter$が元々の$x$すなわち第1引数を，2番目の$\mathLambdaAnonymousParameter$が元々の$y$すなわち第2引数を意味する．この省略記法はプログラミング言語Schemeにおけるcutプロシジャに由来する．\footnote{この記法はHaskellにはない．}
 
-\begin{itembox}[r]{Python}
-\begin{tabbing}
-\hspace*{2em}\=\hspace*{2em}\=\hspace*{2em}\=\hspace*{2em}\=\kill
+\begin{pythoncode}
+\begin{python}
 $\textbf{def}\;f(x):$\\
 \>$\mathop{\textbf{return}}1+x$
-\end{tabbing}
-\end{itembox}
+\end{python}
+\end{pythoncode}
 
-$f=\mathop{\textbf{lambda}}x:1+x$
+\begin{pythoncode}
+\begin{python}
+$f=\pthnLambda x:1+x$
+\end{python}
+\end{pythoncode}
 
 \section*{余計な話：局所変数*}
 
@@ -1045,6 +1053,30 @@ f\hsklMaybeMap\hsklNothing&=\hsklNothing
 
 % $$(\typeconstructor{\typemaybe}{\typename{a}},\binarymaybeappend,\constantnothing)$$
 % \boxplus == \boxdot???
+
+\begin{javacode}
+Maybeの定義を数式で書くと簡単であるが，Javaで書く場合には例えば次のようなコードが必要になる．
+\begin{Verbatim}
+public class Maybe<a> {
+  private a value;
+  private boolean valid;
+  public Maybe(a aValue) {
+    value = aValue;
+    valid = true;
+  }
+  public Maybe() {
+    valid = false;
+  }
+  public a getValue() {
+    return value;
+  }
+  public Bool isValid() {
+    return valid;
+  }
+\end{Verbatim}
+コンストラクタ呼び出し\code{Maybe<int>(x)}は$\hsklJust{x}$に相当し，コンストラクタ呼び出し\code{Maybe<int>()}は$\hsklNothing$に相当する．
+\end{javacode}
+
 
 \section{Maybeを含む演算*}
 
