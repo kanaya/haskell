@@ -11,13 +11,14 @@ public:
   bool isValid() const { return valid; }
 };
 
-template <typename a, typename F> Maybe<a> mapOver(const Maybe<a> m, F f) {
+template <typename a, typename F> Maybe<a> mapOver(F f, const Maybe<a> m) {
   return Maybe<a>(f(m.getValue()));
 }
 
 int main() {
-  Maybe<int> x(100);
+  Maybe<int> m(100);
   auto f = [](int x) -> int { return x * 100; };
-  std::cout << x.getValue() << std::endl;
+  std::cout << m.getValue() << std::endl;
+  std::cout << mapOver(f, m).getValue() << std::endl;
   return 0;
 }
