@@ -5,14 +5,17 @@ private:
   a value;
   bool valid;
 public:
-  Maybe(): a(0), valid(false) { }
+  Maybe(): value(0), valid(false) { }
   Maybe(a aValue): value(aValue), valid(true) { }
   a getValue() const { return value; }
   bool isValid() const { return valid; }
 };
 
 template <typename a, typename fn> Maybe<a> mapOver(fn f, Maybe<a> m) {
-  return Maybe<a>(f(m.getValue()));
+  if (m.isValid())
+    return Maybe<a>(f(m.getValue()));
+  else
+    return Maybe<a>();
 }
 
 int main() {
