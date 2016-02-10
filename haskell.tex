@@ -881,7 +881,9 @@ $\hsklFloat$
 \end{pythoncode}
 のように定義できる．
 
-我々もPythonのように，例えば$0$から始まり$9$まで続く整数のリストを$[0,1,2,3,4,5,6,7,8,9]$と書くことにしよう．ただし，これでは冗長なので，等差数列に限って，簡略化した書き方が許されることにする．$0$から$9$までのリストは$[0,1\dots9]$と書いても良い．\footnote{Haskellでは\code{l = [0,1...9]}と書く．}
+我々もPythonのように，例えば$0$から始まり$9$まで続く整数のリストを$[0,1,2,3,4,5,6,7,8,9]$と書くことにしよう．ただし，これでは冗長なので，等差数列に限って，簡略化した書き方を許す．例えば$0$から$9$までのリストは$[0,1\dots9]$と書いても良い．\footnote{Haskellでは\code{l = [0,1..9]}と書く．}
+
+リストの中身の一つ一つの値のことを\keyword{要素}と呼ぶ．
 
 複数の型の要素が混在してもよい配列のことをヘテロジニアスな配列と呼び，ホモジニアスな配列とは区別する．
 
@@ -893,11 +895,11 @@ Pythonではリスト内包表記が使える．例えば$0$から$9$までの�
 \pthnId{l} \pthnOp{=} [\pthnId{x} \pthnOp{**} $2$ \pthnKeyword{for} \pthnId{x} \pthnKeyword{in} \pthnId{range}($0$, $10$)]
 \end{python}
 \end{pythoncode}
-ここに\pthnId{range}(\pthnId{a}, \pthnId{b})は\pthnId{a}から連続する\pthnId{b}個の数値からなるリストを返すPython関数である．
+ここに\pthnId{range}(\pthnId{a}, \pthnId{b})は\pthnId{a}から増加する方向に連続する\pthnId{b}個の整数からなるリストを返すPythonの関数である．
 
 我々は内包表記のかわりにガードを使って$$\hsklList{l}=\left[x^2\mathGuard{x\mathFrom{[0,1\dots9]}}\right]$$のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mathFrom$を用いた．
 
-ガードの中の式は複数あっても良い．例えば$$\hsklList{l}=\left[x+y\mathGuard{x\mathFrom[0,1\dots9],\,y\mathFrom[0,1\dots5],\,x+y>3}\right]$$は$0\le x\le 10$かつ$0\le y\le 5$の範囲で$x+y>3$となる$x$及び$y$から$x+y$を並べたリストである．これはPythonでいう
+ガードの中の式は複数あっても良い．例えば$$\hsklList{l}=\left[x+y\mathGuard{x\mathFrom[0,1\dots9],\,y\mathFrom[0,1\dots5],\,x+y>3}\right]$$は$0\le x\le9$かつ$0\le y\le5$の範囲で$x+y>3$となる$x$及び$y$から$x+y$を並べたリストである．これはPythonでいう
 \begin{pythoncode}
 \begin{python}
 \pthnId{l} \pthnOp{=} [\pthnId{x} \pthnOp{+} \pthnId{y} \pthnNextLine\\
@@ -908,7 +910,7 @@ Pythonではリスト内包表記が使える．例えば$0$から$9$までの�
 \end{pythoncode}
 のことである．\footnote{Haskellでは\code{l = [x + y | x <- [0, 1..9], y <- [0, 1..5], x + y > 3]}と書く．}
 
-リストは\keyword{結合}できる．例えばリスト$\hsklList{l}$とリスト$\hsklList{m}$を結合したリストは$$\hsklList{l}\hsklAppend\hsklList{m}$$で得られる．\footnote{Haskellでは\code{l++m}と書く．}
+リストは\keyword{結合}できる．例えばリスト$\hsklList{l}$とリスト$\hsklList{m}$を結合したリストは$$\hsklList{l}\hsklAppend\hsklList{m}$$と表現する．\footnote{Haskellでは\code{l ++ m}と書く．}
 
 リストは無限個の要素を持っても良い．例えば自然数全体を表すリスト$\hsklList{n}$は$$\hsklList{n}=[1,2\dots]$$のように定義して良い．\footnote{Haskellでは\code{n = [1,2..]}と書く．}
 
@@ -916,9 +918,9 @@ Pythonではリスト内包表記が使える．例えば$0$から$9$までの�
 
 任意の型を$\hsklType{a}$とするとき，$\hsklType{a}$型のリスト型を$\hsklListType{\hsklType{a}}$と書く．型$\hsklType{a}$から型$\hsklListType{\hsklType{a}}$を生成する演算子を\keyword{リスト型コンストラクタ}と呼んで$\hsklListConstructor$と書き$$\hsklListType{\hsklType{a}}=\hsklTypeConstruct{\hsklListConstructor}{\hsklType{a}}$$とする．この等式の両辺は変数ではなく型名であることに注意しよう．型コンストラクタの概念はPythonには無い（必要無い）が，静的型付け言語であるJavaの「総称型」や\cxx の「クラステンプレート」が相当する．\footnote{Haskellでは表記上コンテナ型$\hsklListType{a}$と型コンストラクタ式$\hsklTypeConstruct{\hsklListConstructor}{\hsklType{a}}$を区別せず，両者とも\code{[a]}と書く．}
 
-$\hsklType{a}$型の変数$x$を入れた$\hsklListType{\hsklType{a}}$型のリストを作る演算子を\keyword{リスト値コンストラクタ}と呼ぶ．$\hsklType{a}$型の変数$x$からリスト値コンストラクタを使ってリスト$\hsklList{l}$を作ることは$$\hsklList{l}=[x]$$と書く．\footnote{Haskellでは\code{l = [x]}と書く．}
+$\hsklType{a}$型の変数$x$を入れた$\hsklListType{\hsklType{a}}$型の変数（リスト変数）を作る演算子を\keyword{リスト値コンストラクタ}と呼ぶ．$\hsklType{a}$型の変数$x$からリスト値コンストラクタを使ってリスト$\hsklList{l}$を作ることは$$\hsklList{l}=[x]$$と書く．\footnote{Haskellでは\code{l = [x]}と書く．}
 
-リスト型を表す$\hsklListType{\hsklType{a}}$と，1要素のリストである$[x]$の違いにはいつも気をつけておこう．本書では中身がボールドローマン体ならばリスト型，中身がオイラー体ならリスト値だ．またリストを保持する変数にも，本書ではバーをつけておくことにする．
+リスト型を表す$\hsklListType{\hsklType{a}}$と，1要素のリストである$[x]$の違いにはいつも気をつけておこう．本書では中身がボールドローマン体ならばリスト型，中身がオイラー体ならリスト値である．またリストを保持する変数にも，本書では$\hsklList{l}$のようにバーをつけておくことにする．
 
 ある型を包み込んだ別の型を一般に\keyword{コンテナ型}または単に\keyword{コンテナ}と呼ぶ．
 
@@ -931,27 +933,26 @@ $\hsklType{a}$型の変数$x$を入れた$\hsklListType{\hsklType{a}}$型のリ�
 この新しい記号$\mathFold$は\keyword{畳み込み演算子}と呼ばれる．変数$a$はアキュムレータと呼ぶ．アキュムレータは右側の引数が空であった場合のデフォルト値と考えても良い．\footnote{Haskellでは$\mathFold^{*}_{a}l$を\code{foldl * a l}と書く．}
 % !!!!!!!!!! CHECK !!!!!!!!!!
 
-Python 2.7 には畳み込み演算子に相当する\pthnId{reduce}関数があり，リスト\pthnId{l}の総和\pthnId{sum}を
+Python 2.7 には畳み込み演算子に相当する\pthnId{reduce}関数があり，リスト\pthnId{l}の総和\pthnId{s}を
 \begin{pythoncode}
 \begin{python}
 \texttt{\# Python 2.7}\\
 \pthnId{l} \pthnOp{=} [$0$, $1$, $2$, $3$, $4$, $5$]\\
-\pthnId{sum} \pthnOp{=} \pthnId{reduce}(\pthnKeyword{lambda} \pthnId{x}, \pthnId{y}: \pthnId{x} \pthnOp{+} \pthnId{y}, \pthnId{l}, $0$)
+\pthnId{s} \pthnOp{=} \pthnId{reduce}(\pthnKeyword{lambda} \pthnId{x}, \pthnId{y}: \pthnId{x} \pthnOp{+} \pthnId{y}, \pthnId{l}, $0$)
 \end{python}
 \end{pythoncode}
 のように求めることができる．この\pthnId{reduce}関数はPythonバージョン3では非推奨になっているが，Rubyには受け継がれていて，Rubyでは
 \begin{rubycode}
 \begin{Verbatim}
-l = [0,1,2,3,4,5]
-sum = l.inject(0) { |x, y| x + y }
+l = [0, 1, 2, 3, 4, 5]
+s = l.inject(0) { |x, y| x + y }
 \end{Verbatim}
 \end{rubycode}
 と書ける．
-% !!!!!! CHECK !!!!!
 
 リストの総和をとる演算子$\sum$は$$\sum=\mathFold^+_0$$とすれば得られる．同じようにリストの要素のすべての積をとる演算子$\prod$は$$\prod=\mathFold^*_1$$とすれば得られる．
 
-畳み込み演算子は第1（上）引数に$\hsklType{a}$型と$\hsklType{b}$型の引数を取り$\hsklType{a}$型の戻り値を返す二項演算子，第2（下）引数に$\hsklType{a}$型，第3（右）引数に$\hsklType{b}$型のリストすなわち$\hsklListType{\hsklType{b}}$型を取り，$\hsklType{a}$型の値を返す．従って畳み込み演算子の型は$$\mathFold\mathIn\mathMorphIII{(\mathMorphII{\hsklType{a}}{\hsklType{b}}{\hsklType{a}})}{\hsklType{a}}{\hsklListType{\hsklType{b}}}{\hsklType{a}}$$と定義できる．
+畳み込み演算子は第1（上）引数に$\hsklType{a}$型と$\hsklType{b}$型の引数を取り$\hsklType{a}$型の戻り値を返す二項演算子，第2（下）引数に$\hsklType{a}$型，第3（右）引数に$\hsklType{b}$型のリストすなわち$\hsklListType{\hsklType{b}}$型を取り，$\hsklType{a}$型の値を返す．従って畳み込み演算子の型は$$\mathFold\mathIn\mathMorphIII{(\mathMorphII{\hsklType{a}}{\hsklType{b}}{\hsklType{a}})}{\hsklType{a}}{\hsklListType{\hsklType{b}}}{\hsklType{a}}$$である．
 
 畳み込み演算子には次のようなもう一つのバリエーションがある．$$\mathFoldRight^{\mathAnyBinaryOperator}_{a}[x_0,x_1\dotsb x_n]=\left(x_0\mathAnyBinaryOperator\left(x_1\mathAnyBinaryOperator\dotsb\mathAnyBinaryOperator\left(x_n\mathAnyBinaryOperator a\right)\right)\right)$$
 これは右畳み込みと呼ばれる演算子である．\footnote{Haskellでは$\mathFoldRight^{*}_{a}l$を\code{foldr l a *}と書く．}
@@ -979,14 +980,14 @@ f\hsklMap&\mathIn\mathMorph{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType
 
 \section{リストの実装}
 
-ここでリストの実装について若干述べておかねばならない．紙上ではリストは自由に考えられるが，計算機上ではそれほど自由ではないからである．我々はリストをLISPにおけるリストと同じ構造を持つものとしておく．LISPにおけるリストとは要素$\mathFirst$と要素$\mathRest$からなるペアの集合である．要素$\mathFirst$がリストの要素を持ち，要素$\mathRest$が次のペアを参照する．リストの最後のペアの$\mathRest$は空リストを参照する．
+ここでリストの実装について述べておかねばならない．紙上ではリストは自由に考えられるが，計算機上ではそれほど自由ではないからである．我々はリストをLISPにおけるリストと同じ構造を持つものとする．LISPにおけるリストとはリファレンス$\mathFirst$とリファレンス$\mathRest$からなるペアの集合である．リファレンス$\mathFirst$がリストの要素を参照し，リファレンス$\mathRest$が次のペアを参照する．リストの最後のペアの$\mathRest$は空リストを参照する特別な値を持つ．
 
-リストのための特別な表現$$\mathFirst:\mathRest$$を用い，第1要素$\mathFirst$はリストが保持する型，第2要素$\mathRest$はリスト型であるとする．演算子$:$を\keyword{結合演算子}と呼ぶ．\footnote{Haskellでも要素\code{x}をリスト\code{l}の先頭に追加することを\code{x:l}と書く．}
+リストのための特別な表現$$\mathFirst:\mathRest$$を用い，リファレンス$\mathFirst$はリストが保持する型，リファレンス$\mathRest$はリスト型であるとする．演算子$:$を\keyword{結合演算子}と呼ぶ．\footnote{Haskellでも要素\code{x}をリスト\code{l}の先頭に追加することを\code{x:l}と書く．}
 
 要素$\mathRest$はリストまたは空リストであるから，一般にリストは次のように展開できることになる．
 \begin{align*}
-[x_0,x_1,x_2\rangedots x_n]&=x_0:[x_1,x_2\rangedots x_n]\\
-&=x_0:x_1:[x_2\rangedots x_n]\\
+[x_0,x_1,x_2\dots x_n]&=x_0:[x_1,x_2\dots x_n]\\
+&=x_0:x_1:[x_2\dots x_n]\\
 &=x_0:x_1:x_2:\dots:x_n:\hsklEmptyList
 \end{align*}
 結合演算子$:$は右結合する．すなわち$$x_0:x_1:x_2=x_0:(x_1:x_2)$$である．
