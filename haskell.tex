@@ -1136,7 +1136,7 @@ f\hsklMaybeMap\hsklNothing&=\hsklNothing
 \end{equation*}
 である．
 
-今後，普通の（引数にMaybeが来ることを想定していない）関数$f$をMaybe型である変数$\hsklMaybe{m}$に適用させるときには，必ず$$\hsklMaybe{n}=f\hsklMaybeMap\hsklMaybe{m}$$のようにMaybeバージョンのマップ演算子$\hsklMaybeMap$を用いることにする．\footnote{HaskellではMaybeバージョンのマップ演算子に特別な記号，関数名が与えられていない．その代わり\ref{ch:functor}章で述べる一般化マップ演算子$\hsklFmap$に相当する\code{fmap}関数を用い\code{n = fmap f m}または\code{n = f `fmap` m}のようにする．Haskellは型推論を行なうため変数\code{m}がMaybeであればMaybeバージョンのマップ演算子（関数）が適用される．（もし\code{m}がリストであれば通常のマップ関数である\code{map}が適用される．）}
+今後，普通の（引数にMaybeが来ることを想定していない）関数$f$をMaybe型である変数$\hsklMaybe{m}$に適用させるときには，必ず$$\hsklMaybe{n}=f\hsklMaybeMap\hsklMaybe{m}$$のようにMaybeバージョンのマップ演算子$\hsklMaybeMap$を用いることにする．\footnote{HaskellではMaybeバージョンのマップ演算子に特別な記号，関数名が与えられていない．その代わり第\ref{ch:functor}章で述べる一般化マップ演算子$\hsklFmap$に相当する\code{fmap}関数を用い\code{n = fmap f m}または\code{n = f `fmap` m}のようにする．Haskellは型推論を行なうため変数\code{m}がMaybeであればMaybeバージョンのマップ演算子（関数）が適用される．（もし\code{m}がリストであれば通常のマップ関数である\code{map}が適用される．）}
 
 % 従って，結果を受け取る変数も$\typeconstructor{\typemaybe}{\typeint}$型でなければならず，それを忘れないように印を付けておかねばならない．
 % 例えば$$\maybetype{y}=f\binarymaybefunctormap\maybetype{x}$$のように書くことになるであろう．
@@ -1148,45 +1148,52 @@ PythonでMaybeの概念を忠実になぞることは難しい．と言うのも
 
 Maybeは次の\code{Maybe}クラステンプレートで表現できる．
 \begin{cxxcode}
-\begin{Verbatim}
-template <typename a> class Maybe {
-private:
-  a value;
-  bool valid;
-public:
-  Maybe(): value(0), valid(false) { }
-  Maybe(a aValue):
-    value(aValue), valid(true) { }
-  a getValue() const { return value; }
-  bool isValid() const { return valid; }
-};
-\end{Verbatim}
+\begin{python}
+\pthnKeyword{template} $\langle$\pthnKeyword{typename} a$\rangle$ \pthnKeyword{class} Maybe \{\\
+\pthnKeyword{private}:\\
+\>a \pthnId{value};\\
+\>\pthnKeyword{bool} \pthnId{valid};\\
+\pthnKeyword{public}:\\
+\>Maybe(): \pthnId{value}($0$), \pthnId{valid}(\pthnId{false}) \{ \}\\
+\>Maybe(a \pthnId{a\_value}):\\
+\>\>\pthnId{value}(\pthnId{a\_value}), \pthnId{valid}(\pthnId{true}) \{ \}\\
+\>a \pthnId{get\_value}() \pthnKeyword{const} \{ \pthnKeyword{return} \pthnId{value}; \}\\
+\>\pthnKeyword{bool} \pthnId{is\_valid}() \pthnKeyword{const} \{ \pthnKeyword{return} \pthnId{valid}; \}\\
+\};
+\end{python}
 \end{cxxcode}
 デフォルトコンストラクタは例外的な状況を表す$\hsklNothing$を生成し，1引数コンストラクタはMaybeで包んだ引数値を生成する．
 
 当然我々にはMaybeバージョンのマップ演算子が必要である．ここでは\code{mapOver}関数として書いてみよう．
 \begin{cxxcode}
-\begin{Verbatim}
-template <typename a, typename fn>
-Maybe<a> mapOver(fn f, Maybe<a> m) {
-  if (m.isValid())
-    return Maybe<a>(f(m.getValue()));
-  else
-    return Maybe<a>();
-}
-\end{Verbatim}
+\begin{python}
+\pthnKeyword{template} $\langle$\pthnKeyword{typename} a, \pthnKeyword{typename} fn$\rangle$\\
+Maybe$\langle$a$\rangle$ \pthnId{map\_over}(fn \pthnId{f}, Maybe$\langle$a$\rangle$ \pthnId{m}) \{\\
+\>\pthnKeyword{if} (\pthnId{m}.\pthnId{is\_valid}())\\
+\>\>\pthnKeyword{return} Maybe$\langle$a$\rangle$(\pthnId{f}(\pthnId{m}.\pthnId{get\_value}()));\\
+\>\pthnKeyword{else}\\
+\>\>\pthnKeyword{return} Maybe$\langle$a$\rangle$();\\
+\}
+\end{python}
 \end{cxxcode}
 
 整数$z$からMaybe値$\hsklMaybe{m}=\hsklJust{z}$を作り，関数$fx=100*x$をMaybe値$\hsklMaybe{m}$に食わせてMaybe値$\hsklMaybe{n}$ただし$$\hsklMaybe{n}=f\hsklMaybeMap\hsklMaybe{m}$$を得ることを，\cxx では次のように書くことになる．
 \begin{cxxcode}
-\begin{Verbatim}
-int z = 123;
-Maybe<int> m(z);
-auto f = [](int x) { return x * 100; }
-Maybe<int> n = mapOver(f, m);
-\end{Verbatim}
+\begin{python}
+\pthnKeyword{int} \pthnId{z} \pthnOp{=} $123$;\\
+Maybe$\langle$\pthnKeyword{int}$\rangle$ \pthnId{m}(\pthnId{z});\\
+\pthnKeyword{auto} \pthnId{f} \pthnOp{=} \pthnOp{[]}(\pthnKeyword{int} \pthnId{x}) $\rightarrow$ \pthnKeyword{int} \{ \pthnKeyword{return} \pthnId{x} \pthnOp{*} $100$; \};\\
+Maybe$\langle$\pthnKeyword{int}$\rangle$ \pthnId{n} \pthnOp{=} \pthnId{map\_over}(\pthnId{f}, \pthnId{m});
+\end{python}
 \end{cxxcode}
-注意してほしいのは\code{f(z)}も\code{mapOver(f, m)}も正当なコードだが\code{f(m)}は型エラーであることだ．また\code{f(m.getValue())}は正当なコードだが，わざわざ\code{m}が持つ文脈を捨てることになる．（ところで，関数\code{f}の実装は，ラムダ式の使えない\cxx03ではファンクター (functor) という機構を使うことになる．このファンクターは第\ref{ch:functor}章の関手 (functor) とは全く別な概念である．）
+注意してほしいのは\pthnId{f}(\pthnId{z})も\pthnId{map\_over}(\pthnId{f}, \pthnId{m})も正当なコードだが\pthnId{f}(\pthnId{m})は型エラーであることだ．また\pthnId{f}(\pthnId{m}.\pthnId{get\_value}())は正当なコードだが，わざわざ\pthnId{m}が持つ文脈を捨てることになる．
+
+ところで，関数\pthnId{f}の実装は，ラムダ式の使えない\cxx03ではファンクター (functor) という機構を使うことになる．このファンクターは第\ref{ch:functor}章の関手 (functor) とは全く別な概念である．
+
+
+
+
+
 
 
 \section{リストとMaybe*}
@@ -1204,6 +1211,11 @@ $$\mathMonoid{\hsklMaybeType{\hsklType{a}}}{\hsklMaybeAppend}{\hsklNothing}$$
 \begin{leader}
 a
 \end{leader}
+
+\begin{boxnote}
+関手は英語でファンクター(functor)と言うが，\cxx のファンクター(functor)とは異なる概念である．本書の関手（ファンクター）は数学における圏論のそれであるのに対し，\cxx のファンクターは「関数のように振る舞う」インスタンスのクラスのことであり，圏論とは関係がない．\cxx のファンクターは「関数オブジェクト」とも言うが，関数でもオブジェクトでもなく，実態は\cxx03までの文法で無理やり再現したラムダ式のことである．
+\end{boxnote}
+
 
 \section{型コンストラクタと関手*}
 
