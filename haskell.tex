@@ -12,7 +12,8 @@
 
 \newcommand{\cxx}{\textrm{C}\texttt{++}}
 
-\newcommand{\keyword}[1]{\underline{\emph{#1}}}
+\newcommand{\keyword}[1]{{\emph{#1}}}
+% \newcommand{\keyword}[1]{\underline{\emph{#1}}}
 
 \newcommand{\code}[1]{\texttt{#1}}
 \newenvironment{leader}{\begingroup\bf}{\endgroup}
@@ -27,7 +28,7 @@
 
 \newcommand{\pthnId}[1]{\textit{#1}}
 \newcommand{\pthnKeyword}[1]{\textbf{#1}}
-\newcommand{\pthnOperator}[1]{\texttt{#1}}
+\newcommand{\pthnOp}[1]{\texttt{#1}}
 \newcommand{\pthnString}[1]{\texttt{#1}}
 
 \DeclareMathOperator{\pthnDef}{\pthnKeyword{def}}
@@ -90,10 +91,10 @@
 \newcommand{\hsklFunction}[1]{\Hat{#1}}
 \newcommand{\hsklJust}[1]{\[#1\]}
 \newcommand{\hsklList}[1]{\Bar{#1}}
-\newcommand{\hsklListType}[1]{\boldsymbol{[}#1\boldsymbol{]}}
+\newcommand{\hsklListType}[1]{[#1]}
 \newcommand{\hsklMaybe}[1]{\Tilde{#1}}
 \newcommand{\hsklMaybeW}[1]{\widetilde{#1}}
-\newcommand{\hsklMaybeType}[1]{\boldsymbol{\[}#1\boldsymbol{\]}}
+\newcommand{\hsklMaybeType}[1]{\[#1\]}
 \newcommand{\hsklPure}[1]{\langle#1\rangle_\textsf{pure}}
 \newcommand{\hsklUnit}[1]{\langle#1\rangle_\textsf{unit}}
 
@@ -109,17 +110,20 @@
 \DeclareMathOperator{\mathAnyUnaryOperator}{\star}
 \DeclareMathOperator{\mathCompose}{\bullet}
 \DeclareMathOperator{\mathI}{i}
+\DeclareMathOperator{\mathIf}{\mathKeyword{if}}
 \DeclareMathOperator{\mathIn}{::}
 \DeclareMathOperator{\mathElse}{\mathKeyword{else}}
 \DeclareMathOperator*{\mathFold}{\bigcup}
 \DeclareMathOperator*{\mathFoldRight}{\bigsqcup}
 \DeclareMathOperator{\mathFrom}{\in}
-\DeclareMathOperator{\mathIf}{\mathKeyword{if}}
 \DeclareMathOperator{\mathLambda}{\backslash}
+\DeclareMathOperator{\mathLet}{\mathKeyword{let}}
+\DeclareMathOperator{\mathLetIn}{\mathKeyword{in}}
 \DeclareMathOperator{\mathMapsTo}{\mapsto}
 \DeclareMathOperator{\mathOr}{\vee}
 \DeclareMathOperator{\mathSetTimes}{\circledast}
 \DeclareMathOperator{\mathThen}{\mathKeyword{then}}
+\DeclareMathOperator{\mathWhere}{\mathKeyword{where}}
 
 \newcommand{\mathFirst}{\mathVarKeyword{First}}
 \newcommand{\mathLambdaAnonymousParameter}{\lozenge}
@@ -151,6 +155,7 @@
 \newcommand{\mathField}[7]{(#1,#2,#3,#4,#5,#6,#7)}
 
 \begin{document}
+\setlength{\baselineskip}{17pt}
 \maketitle
 \tableofcontents
 
@@ -161,32 +166,32 @@
 \hline
 種類&字体・表記法&例\\
 \hline
-変数&オイラー体，小文字（1文字）&$x$, $y$\\
-関数&オイラー体，小文字（1文字）&$f$, $g$\\
-定数&オイラー体，大文字（1文字）&$I$, $T$\\
-特別な関数&ローマン体，小文字で始める&$\hsklSucc$, $\hsklPred$\\
+定数&オイラー体，大文字（1文字）&$T$, $F$, $I$\\
+変数&オイラー体，小文字（1文字）&$x$, $y$, $z$\\
+関数&オイラー体，小文字（1文字）&$f$, $g$, $h$\\
+有名な関数&ローマン体，小文字で始める&$\sin$, $\cos$, $\tan$\\
 キーワード&ボールドローマン体，小文字で始める&$\mathIf$, $\mathOtherwise$\\
-特別な集合&ブラックボード体&$\mathSpecialSet{R}$, $\mathSpecialSet{Q}$, $\mathSpecialSet{Z}$\\
-集合と型&ボールドローマン体，大文字で始める&$\mathSet{S}$, $\hsklInt$\\
-型パラメタ&ボールドローマン体，小文字（1文字）&$\hsklType{a}$, $\hsklType{b}$\\
-関手と型コンストラクタ&ローマン体，大文字で始める&$\mathFunctor{F}$, $\hsklListConstructor$\\
+集合と型&ボールドローマン体，大文字で始める&$\mathSet{S}$, $\hsklInt$, $\hsklFloat$\\
+有名な集合&ブラックボード体，大文字（1文字）&$\mathSpecialSet{R}$, $\mathSpecialSet{Q}$, $\mathSpecialSet{Z}$\\
+型パラメタ&ボールドローマン体，小文字（1文字）&$\hsklType{a}$, $\hsklType{b}$, $\hsklType{c}$\\
+関手と型コンストラクタ&ローマン体，大文字で始める&$\mathFunctor{F}$, $\hsklListConstructor$, $\hsklMaybeConstructor$\\
 型クラス&サンセリフ体，大文字で始める&$\hsklEq$, $\hsklIntegral$\\
 \hline
 リスト&ブラケットで包む&$[x,y,z]$\\
 集合&ブレースで包む&$\{x,y,z\}$\\
 組み合わせ（タプル）&丸括弧で包む&$(x,y,z)$\\
-% \hline
-% リスト変数&名前にバーをつける&$\hsklList{x}$\\
-% Maybe変数&名前にチルダをつける&$\hsklMaybe{x}$\\
-% 関数変数&名前にハットをつける&$\hsklFunction{x}$\\
-% ベクトル変数&名前に矢印をつける&$\mathVector{x}$\\
-% \hline
-% コード&タイプライタ体&\texttt{1+x}\\
 \hline
-Pythonキーワード&ボールドローマン体&\pthnKeyword{def}, \pthnKeyword{return}\\
-Python変数・関数・定数&イタリック体&\pthnId{x}, \pthnId{y}, \pthnId{z}\\
+リスト変数&名前にバーをつける&$\hsklList{x}$\\
+Maybe変数&名前にチルダをつける&$\hsklMaybe{x}$\\
+関数変数&名前にハットをつける&$\hsklFunction{x}$\\
+ベクトル変数&名前に矢印をつける&$\mathVector{x}$\\
+\hline
+Python定数&イタリック体，大文字で始める&\pthnId{True}, \pthnId{False}, \pthnId{None}\\
+Python変数&イタリック体，小文字で始める&\pthnId{x}, \pthnId{y}, \pthnId{z}\\
+Python関数&イタリック体，小文字で始める&\pthnId{f}, \pthnId{g}, \pthnId{h}\\
+Pythonキーワード&ボールドローマン体，小文字で始める&\pthnKeyword{def}, \pthnKeyword{return}\\
+Python演算子&タイプライタ体&\pthnOp{=}, \pthnOp{+}, \pthnOp{*}\\
 Python文字列リテラル&タイプライタ体&\pthnString{"Hello, world."}\\
-Python演算子&タイプライタ体&\pthnOperator{=}, \pthnOperator{+}, \pthnOperator{*}\\
 \hline
 \end{tabular}
 \end{center}
@@ -195,6 +200,12 @@ Python演算子&タイプライタ体&\pthnOperator{=}, \pthnOperator{+}, \pthnO
 \part{代数的構造とプログラミング}
 
 \chapter{はじめに}
+
+\section{数学とプログラミングの関係*}
+
+
+
+\section{Haskellという森}
 
 Haskellというプログラミング言語を知ろうとすると，従来のプログラミング言語の知識が邪魔をする．モダンで，人気があって，Haskellから影響を受けた言語，例えばRubyやSwiftの知識さえ，Haskellを学ぶ障害になり得る．ではどのようにしてHaskellの深みに到達すればいいのだろうか．
 
@@ -221,29 +232,34 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 
 第I部は対応するHaskellのコードを脚注に記載している．脚注部分はHaskellを一通り覚えた後で読み返してもらいたい．\footnote{Haskellのコードは\code{x = 1}のようにタイプライタ体で書く．}
 
-\chapter{関数*}
+\section{関数型プログラミング*}
+
+\section{余計な話}
+
+
+\chapter{カリー風な書き方}
 
 \begin{leader}
-プログラムはひとつの関数であり，その関数はいくつかの部分的な関数から合成される．
-つまり，関数はプログラムの全体であり，またビルディングブロックである．
-プログラムという関数をより小さな関数の合成で作るのは，それらの小さな関数が他のプログラムに再利用されることを期待するためである．
-このように関数と関数の合成はプログラミングの中心的な概念である．
-% プログラミング言語Cは，プログラムが関数だけからでも構成できることを示した．
-% Pascalの「手続き」はCでは値を返さない関数であり，Pascalの「本文」はmainという名前の関数である．
+本書では一般の数学書やプログラミングの教科書からは少し異なった記法を用いる．ある概念が発明されてからずっと後になって正しい記法が見つかり，それがきっかけとなって正しく理解されるという現象は歴史上よくあることである．本書でも様々な新しい記号，記法を導入するが，この章では既に比較的広く知られている記法を紹介する．
 \end{leader}
 
+\section{関数}
 
-% カリー風
+数学やプログラミミング言語には書き方に一定の決まりがある．この章ではまず「カリー風の」数式記述方式を見てみることにする．「カリー風」というのは，数学者ハスケル・カリーから名前を借りた言い方で，筆者が勝手に命名したものだ．
 
-\section{Pythonの関数*}
+カリー風の書き方は数学の教科書やプログラミングの教科書で見かけるものとは若干違うが，圧倒的にシンプルで，Haskellとの親和性も高く，慣れてくると非常に読みやすいものなので，本書でも全面的に採用する．
 
-関数引数には括弧を付けない．Pythonでは引数$x$をとる関数$f$を
+まずは\keyword{関数}から見ていくことにしよう．Pythonでは引数$x$をとる関数$f$を
 \begin{pythoncode}
 \begin{python}
 \pthnId{f}(\pthnId{x})
 \end{python}
 \end{pythoncode}
-と書くが，括弧は冗長なので今後は$fx$と書くことにする．引数$x$を関数$f$に「食わせる」ことを\keyword{関数適用}と呼ぶ．もし$ab$と書いてあっても，それは$a*b$ではなくて従来の$a(b)$すなわち関数$a$に引数$b$を与えているものと解釈する．\footnote{Haskellでは関数\code{f}に引数\code{x}を適用させることを \code{f x} と書く．}
+と書くが，括弧は冗長なので今後は$fx$と書くことにする．
+
+本書ではPythonのコード片は上述のように囲みにいれることにし，Pythonコードに現れる変数名や関数名は\pthnId{f}や\pthnId{x}のようにイタリック体で書くことにする．またカリー風の数式記法ではオイラー体を使って$f$や$x$のように書くことにする．
+
+関数$f$に引数$x$を「食わせる」ことを\keyword{関数適用}と呼ぶ．もし$fx$と書いてあったら，それは$f*x$ではなくて従来の$f(x)$すなわち関数$f$に引数$x$を与えているものと解釈する．\footnote{Haskellでは関数\code{f}に引数\code{x}を適用させることを \code{f x} と書く．}
 
 複数引数をとる関数をPythonでは
 \begin{pythoncode}
@@ -251,23 +267,21 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 \pthnId{g}(\pthnId{x}, \pthnId{y})
 \end{python}
 \end{pythoncode}
-と書くが，これも括弧が冗長なので今後は$gxy$と書くことにする．この場合式$gxy$は左を優先して結合するものとする．つまり$$gxy=(gx)y$$である．引数に「飢えた」関数$(gx)$を\keyword{部分適用}された関数と呼ぶ．
+と書くが，これも括弧が冗長なので今後は$gxy$と書く．この場合式$gxy$は左を優先して結合する．つまり$$gxy=(gx)y$$である．引数に「飢えた」関数$(gx)$を\keyword{部分適用}された関数と呼ぶ．
 
 このように式の左側を優先的に演算していくことを\keyword{左結合}と呼ぶ．関数適用は左結合である．他に式の右側を優先的に演算する\keyword{右結合}の演算子も存在する．
 
-
-
-\section{関数$=$ラムダ式*}
+\section{ラムダ式}
 
 引数$x$をとり値$1+x$を返す\keyword{ラムダ式}をPythonでは
 \begin{pythoncode}
 \begin{python}
-\pthnKeyword{lambda} \pthnId{x}: 1 \pthnOperator{+} \pthnId{x}
+\pthnKeyword{lambda} \pthnId{x}: $1$ \pthnOp{+} \pthnId{x}
 \end{python}
 \end{pythoncode}
-と書くが，我々は$$\mathLambdaExpression{x}{1+x}$$のように書くことにする．
+と書くが，我々は$$\mathLambdaExpression{x}{1+x}$$と書くことにする．
 この式はラムダ式を発明したチャーチのオリジナルの論文の記法であれば$\Hat x\,.\,1+x$と書かれたところであり，現在でも多くの書物で$\lambda x\,.\,1+x$と記述されるところである．
-しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号($.$)が今後登場する二項演算子$\cdot$と紛らわしいため，上述の記法を用いる．\footnote{Haskellではこのラムダ式を \code{\textbackslash x -> 1 + x} と書く．}
+しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号($.$)が今後登場する二項演算子$\cdot$と紛らわしいため，上述の記法を用いる．\footnote{Haskellではラムダ式$\mathLambdaExpression{x}{1+x}$を \code{\textbackslash x -> 1 + x} と書く．}
 
 ラムダ式は関数である．
 ラムダ式を適用するには，ラムダ式を括弧で包む必要がある．
@@ -284,27 +298,28 @@ $$\left(\mathLambdaExpression{x}{1+x}\right)2$$
 例えばラムダ式$\mathLambdaExpression{xy}{x+y}$は$$\mathLambdaAnonymousParameter+\mathLambdaAnonymousParameter$$と書いても良い．
 式を左から読んで1番目の$\mathLambdaAnonymousParameter$が元々の$x$すなわち第1引数を，2番目の$\mathLambdaAnonymousParameter$が元々の$y$すなわち第2引数を意味する．この省略記法はプログラミング言語Schemeにおけるcutプロシジャに由来する．\footnote{この記法はHaskellにはない．}
 
-let, where.
+% let, where.
 
 
-\section{関数適用と関数定義*}
+\section{関数定義}
 
-\keyword{関数}$fx=1+x$の定義はPythonでは
+関数$f$を$fx=1+x$としたいときに，Pythonでは
 \begin{pythoncode}
 \begin{python}
 \pthnKeyword{def} \pthnId{f}(\pthnId{x}):\\
-\>\pthnKeyword{return} 1 \pthnOperator{+} \pthnId{x}
+\>\pthnKeyword{return} $1$ \pthnOp{+} \pthnId{x}
 \end{python}
 \end{pythoncode}
-のように書くことが普通である．これは，ある値をとってある値を返す関数の記述方法としてはいささかオーバーキルである．事実，ラムダ式を用いた
+と書くことが普通である．これは，ある値をとってある値を返す関数の記述方法としてはいささかオーバーキルである．事実，ラムダ式を用いた
 \begin{pythoncode}
 \begin{python}
-\pthnId{f} \pthnOperator{=} \pthnKeyword{lambda} \pthnId{x}: 1 \pthnOperator{+} \pthnId{x}
+\pthnId{f} \pthnOp{=} \pthnKeyword{lambda} \pthnId{x}: $1$ \pthnOp{+} \pthnId{x}
 \end{python}
 \end{pythoncode}
-も全く同じ意味になる．
+も全く同じ意味になるので，ラムダ式を使う方法を基本に据えよう．
 
-関数の定義は，基本的にはラムダ式の変数への代入である．引数$x$をとり値$1+x$を返す関数$f$は$$f=\mathLambdaExpression{x}{1+x}$$と定義できる．ただし，この省略形として$$fx=1+x$$と書いても良いし，さらに省略して$$f=(+)1$$と書いても良い．もちろん$f=+1$でないことに注意しよう．\footnote{Haskellでは$f=\mathLambdaExpression{x}{1+x}$を\code{f = \textbackslash x -> 1 + x}，$fx=1+x$を\code{f x = 1 + x}，$f=(+)1$を\code{f = (+)1}のように書く．}
+関数の定義は，基本的にはラムダ式の変数への代入である．引数$x$をとり値$1+x$を返す関数$f$は$$f=\mathLambdaExpression{x}{1+x}$$と定義できる．ただし，この省略形として$$fx=1+x$$と書いても良い．
+\footnote{Haskellでは$f=\mathLambdaExpression{x}{1+x}$を\code{f = \textbackslash x -> 1 + x}，$fx=1+x$を\code{f x = 1 + x}と書く．}
 
 関数に\keyword{スペシャルバージョン}がある場合はそれらを列挙する．例えば引数が$0$の場合は特別に戻り値も$0$であり，その他の場合は関数$f$と同じ振る舞いをする関数$f'$を考える．このとき$f'$は
 \begin{equation*}
@@ -315,10 +330,10 @@ f'x&=1+x
 \end{split}
 \right.
 \end{equation*}
-ように定義することになる．\footnote{Haskellでは
+ように定義する．\footnote{Haskellでは
 \begin{Verbatim}[xleftmargin=10mm]
 f' 0 = 0
-f' x = 1+x
+f' x = 1 + x
 \end{Verbatim}
 と書く．}
 
@@ -332,62 +347,31 @@ f''x&\mathGuard{x<0}=-1\\
 \end{equation*}
 という風に定義する．\footnote{Haskellでは
 \begin{Verbatim}[xleftmargin=10mm]
-f'' x | x<0       = -1
-      | x==0      = 0
-      | otherwise = 1+x
+f'' x | x < 0     = -1
+      | x == 0    = 0
+      | otherwise = 1 + x
 \end{Verbatim}
 と書く．}
 
-関数のスペシャルバージョン，場合分けといった左辺での条件付けではなく，定義式の右辺で条件付けをすることも可能である．それには\keyword{条件式}を使う．条件式とは$$fx=\mathIf x\equiv0\mathThen0\mathElse1+x$$のように$\mathIf$節，$\mathThen$節，及び$\mathElse$節からなるものである．$\mathIf$節の式の値が真($T$)であれば$\mathThen$節の式が評価され，そうでなければ$\mathElse$節の式が評価される．$\mathIf$節の中身は真理値を返す関数であれば良いので，関数$p$を$$p=(\equiv)0$$としておき，$$fx=\mathIf px\mathThen0\mathElse1+x$$と書く方法もしばしば用いられる．\footnote{Haskellでは$fx=\mathIf x\equiv0\mathThen0\mathElse1+x$を\code{f x = if x == 0 then 0 else 1+x}と書く．}
+\section{余計な話：局所変数}
 
-条件式が値を持っていることに注意しよう．Pythonの条件文（if文）は値を返すわけではなく，プログラムの\keyword{制御構造}を表しているため，次のようなコードになる．
-\begin{pythoncode}
-\begin{python}
-\pthnKeyword{def} \pthnId{f}(\pthnId{x})\\
-\>\pthnKeyword{if} \pthnId{x} \pthnOperator{==} 0:\\
-\>\>\pthnKeyword{return} 0\\
-\>\pthnKeyword{else}:\\
-\>\>\pthnKeyword{return} 1 \pthnOperator{+} \pthnId{x}
-\end{python}
-\end{pythoncode}
-プログラムの制御構造は値を持った式として評価できないため，数式としては扱いにくい．そこで我々は前述の条件式だけを使うことにする．
+数式が長く続くとき，読みやすさのために局所変数を導入すると便利である．例えば$$y=f(100*x+50)$$という式のうち，先に$100*x+50$の部分に名前をつけておきたいこともあるであろう．そんなときは
+\begin{equation}
+\label{eq:letin}
+y=\mathLet(x'=100*x+50)\mathLetIn fx'
+\end{equation}
+と書くことにする．このようにして導入された$x'$を\keyword{局所変数}と呼ぶ．
 
-条件式は紙面が許せば次のように書いても良い．
-\begin{equation*}
-fx=\begin{cases}
-0&\mathIf x\equiv0\\
-1+x&\mathOtherwise
-\end{cases}
-\end{equation*}
-左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっていることに注目しよう．
+式\eqref{eq:letin}は局所変数を後ろに回して$$y=fx'\mathWhere x'=100*x+50$$次のように書いても良い．
 
-関数は内部で自分自身を呼んでも良い．例えば$x$の階乗を返す関数$s$は
-\begin{equation*}
-sx=\begin{cases}
-1&\mathIf x\equiv0\\
-x*s(x-1)&\mathOtherwise
-\end{cases}
-\end{equation*}
-と定義できる．関数が自分自身を呼び出すことを\keyword{再帰呼び出し}と呼ぶ．
-
-
-
-
-
-\section{余計な話：数値と条件式}
-
-ラムダで．
-
-
-\chapter{演算子*}
+\chapter{さらにカリー風な書き方}
 
 \begin{leader}
-本書では一般の数学書やプログラミングの教科書からは少し異なった記法を用いる．ある概念が発明されてからずっと後になって正しい記法が見つかり，それがきっかけとなって正しく理解されるという現象は歴史上よくあることである．本書でも様々な新しい記号，記法を導入するが，この章では既に比較的広く知られている記法を紹介する．
+a
 \end{leader}
 
 
-
-\section{Pythonの演算子*}
+\section{演算子*}
 
 単項演算子には論理否定($\neg$)とマイナス($-$)がある．
 本書で扱う基本的な単項演算子はこの2種類だけであるが，複数の演算子を組み合わせて単項演算子を新たに作ることはある．
@@ -411,9 +395,6 @@ x*s(x-1)&\mathOtherwise
 任意の二項演算子$\mathAnyBinaryOperator$について$$x\mathAnyBinaryOperator y=(\mathAnyBinaryOperator)xy$$である．
 \end{point}
 
-
-\section{演算子$=$関数*}
-
 \section{関数合成演算子と関数適用演算子*}
 
 ある変数に複数の関数を順に適用することはよくあることである．例えば
@@ -435,9 +416,47 @@ $z=f(g(x))$
 
 関数合成演算子とは逆に，優先順位の低い\keyword{関数適用演算子}も考えておくと括弧の数を減らすのに便利である．関数適用演算子$\mathApply$を次のように定義しておく．$$f\mathApply gx=f(gx)$$演算子$\mathApply$の優先順位は足し算演算子よりも低いものとする．よって$f(x+1)$は$f\mathApply x+1$と書くこともできる．\footnote{Haskellでは$f\mathApply gx$を\code{f \$ g x}と書く．}
 
-\section{余計な話：クイックソート*}
+\section{条件分岐と再帰}
 
+関数のスペシャルバージョン，場合分けを駆使すれば\keyword{条件式}はなくても構わないが，条件式の記法があるのは便利である．Pythonには
+\begin{pythoncode}
+\begin{python}
+\pthnKeyword{def} \pthnId{f}(\pthnId{x})\\
+\>\pthnKeyword{if} \pthnId{x} \pthnOp{==} $0$:\\
+\>\>\pthnKeyword{return} $0$\\
+\>\pthnKeyword{else}:\\
+\>\>\pthnKeyword{return} $1$ \pthnOp{+} \pthnId{x}
+\end{python}
+\end{pythoncode}
+のような\keyword{制御構造}としての条件文があるが，我々は値として使える，すなわち値を持つ条件式を考える．
 
+我々の条件式とは$$fx=\mathIf x\equiv0\mathThen0\mathElse1+x$$のように$\mathIf$節，$\mathThen$節，及び$\mathElse$節からなるものであって，$\mathThen$節も$\mathElse$節も省略できないものとする．$\mathIf$節の式の値が真($T$)であれば$\mathThen$節の式が評価され，そうでなければ$\mathElse$節の式が評価される．
+
+$\mathIf$節の中身は真理値を返す関数であれば良いので，関数$p$を$$p=(\equiv)0$$としておき，$$fx=\mathIf px\mathThen0\mathElse1+x$$と書く方法もしばしば用いられる．\footnote{Haskellでは$fx=\mathIf x\equiv0\mathThen0\mathElse1+x$を\code{f x = if x == 0 then 0 else 1+x}と書く．}
+
+条件式は紙面が許せば次のように書いても良い．
+\begin{equation*}
+fx=\begin{cases}
+0&\mathIf x\equiv0\\
+1+x&\mathOtherwise
+\end{cases}
+\end{equation*}
+左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっていることに注目しよう．
+
+関数は内部で自分自身を呼んでも良い．例えば$x$の階乗を返す関数$s$は
+\begin{equation*}
+sx=\begin{cases}
+1&\mathIf x\equiv0\\
+x*s(x-1)&\mathOtherwise
+\end{cases}
+\end{equation*}
+と定義できる．関数が自分自身を呼び出すことを関数の\keyword{再帰呼び出し}と呼ぶ．
+
+我々は関数の適用，変数の代入，ラムダ式，条件式，再帰の方法を学んだわけである．これだけあれば，原理的にはどのようなアルゴリズムも書くことができる．今日からはカリー風な数学であらゆるアルゴリズムを表現できるのである！
+
+\section{余計な話：数値と条件式*}
+
+% ラムダで．
 
 \chapter{代数的構造*}
 
@@ -612,7 +631,7 @@ g&\mathIn\mathMorph{\mathSet{Y}}{\mathSet{Z}}
 
 \section{余計な話：束*}
 
-\chapter{型*}
+\chapter{型}
 
 
 \begin{leader}
@@ -620,7 +639,7 @@ g&\mathIn\mathMorph{\mathSet{Y}}{\mathSet{Z}}
 \end{leader}
 
 
-\section{型}
+\section{型*}
 
 型とは変数が取りうる値に与えた制約のことである．
 数学者がよく扱う型は論理型($\mathSet{B}$)，整数型($\mathSpecialSet{Z}$)，実数型($\mathSpecialSet{R}$)といったところであろう．
@@ -645,7 +664,7 @@ g&\mathIn\mathMorph{\mathSet{Y}}{\mathSet{Z}}
 
 
 
-\section{関数の型}
+\section{関数の型*}
 
 関数にも型がある．
 例えば整数引数を一つ取り，整数を返す関数$f$は$$f\mathIn\mathMorph{\hsklInt}{\hsklInt}$$という型を持つ．
@@ -802,7 +821,7 @@ $\hsklFloat$
 \end{center}
 \end{table*}
 
-\section{型クラス}
+\section{型クラス*}
 
 組み合わせ$\mathMonoid{\hsklInt}{+}{0}$は単位的半群である．
 同様に$\mathMonoid{\hsklInt}{*}{1}$, $\mathMonoid{\hsklFloat}{+}{0}$, $\mathMonoid{\hsklFloat}{*}{1}$, $\mathMonoid{\hsklBool}{\vee}{F}$, $\mathMonoid{\hsklBool}{\wedge}{T}$ も単位的半群である．
@@ -845,22 +864,23 @@ $\hsklFloat$
 
 
 
-\chapter{リスト*}
+\chapter{リスト}
 \begin{leader}
 型から作る型をコンテナと呼ぶ．代表的なコンテナはある型のホモジニアスな配列であるリストである．この章ではリストと，リストに対する重要な演算である畳み込み，マップを取り扱う．
 \end{leader}
 
 
-\section{Pythonのリスト*}
+\section{Pythonのリスト}
 
-同じ型の値を一列に並べたもの，つまりホモジニアスな配列のことを\keyword{リスト}と呼ぶ．我々もPythonのように，例えば$0$から始まり$9$まで続く整数のリストを$[0,1,2,3,4,5,6,7,8,9]$と書くことにしよう．これはPythonの次のコードと同じことである．
+同じ型の値を一列に並べたもの，つまりホモジニアスな配列のことを\keyword{リスト}と呼ぶ．Pythonではリスト\pthnId{l}を
 \begin{pythoncode}
 \begin{python}
-$l=[0,1,2,3,4,5,6,7,8,9]$
+\pthnId{l} \pthnOp{=} [$0$, $1$, $2$, $3$, $4$, $5$, $6$, $7$, $8$, $9$]
 \end{python}
 \end{pythoncode}
+のように定義できる．
 
-これはいささか冗長なので，等差数列に限って，簡略化した書き方が許されることにする．$0$から$9$までのリストは$[0,1\dots9]$と書いても良い．\footnote{Haskellでは\code{l = [0,1...9]}と書く．}
+我々もPythonのように，例えば$0$から始まり$9$まで続く整数のリストを$[0,1,2,3,4,5,6,7,8,9]$と書くことにしよう．ただし，これでは冗長なので，等差数列に限って，簡略化した書き方が許されることにする．$0$から$9$までのリストは$[0,1\dots9]$と書いても良い．\footnote{Haskellでは\code{l = [0,1...9]}と書く．}
 
 複数の型の要素が混在してもよい配列のことをヘテロジニアスな配列と呼び，ホモジニアスな配列とは区別する．
 
@@ -869,21 +889,23 @@ $l=[0,1,2,3,4,5,6,7,8,9]$
 Pythonではリスト内包表記が使える．例えば$0$から$9$までの平方数のリストは次のように作った．
 \begin{pythoncode}
 \begin{python}
-$l=[x\pthnUp2\pthnFor x\pthnIn\pthnRange(0,10)]$
+\pthnId{l} \pthnOp{=} [\pthnId{x} \pthnOp{**} $2$ \pthnKeyword{for} \pthnId{x} \pthnKeyword{in} \pthnId{range}($0$, $10$)]
 \end{python}
 \end{pythoncode}
-ここに$\pthnRange(a,b)$は$a$から連続する$b$個の数値からなるリストを返すPython関数である．
+ここに\pthnId{range}(\pthnId{a}, \pthnId{b})は\pthnId{a}から連続する\pthnId{b}個の数値からなるリストを返すPython関数である．
 
 我々は内包表記のかわりにガードを使って$$\hsklList{l}=\left[x^2\mathGuard{x\mathFrom{[0,1\dots9]}}\right]$$のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mathFrom$を用いた．
 
 ガードの中の式は複数あっても良い．例えば$$\hsklList{l}=\left[x+y\mathGuard{x\mathFrom[0,1\dots9],\,y\mathFrom[0,1\dots5],\,x+y>3}\right]$$は$0\le x\le 10$かつ$0\le y\le 5$の範囲で$x+y>3$となる$x$及び$y$から$x+y$を並べたリストである．これはPythonでいう
 \begin{pythoncode}
 \begin{python}
-$l=[x+y\pthnFor x\pthnIn\pthnRange(0,10)\pthnFor y$ \pthnNextLine\\
-\>$\pthnIn\pthnRange(0,6)\pthnIf x+y>3]$
+\pthnId{l} \pthnOp{=} [\pthnId{x} \pthnOp{+} \pthnId{y} \pthnNextLine\\
+\>\pthnKeyword{for} \pthnId{x} \pthnKeyword{in} \pthnId{range}($0$, $10$) \pthnNextLine\\
+\>\pthnKeyword{for} \pthnId{y} \pthnKeyword{in} \pthnId{range}($0$, $6$) \pthnNextLine\\
+\>\pthnKeyword{if} \pthnId{x} \pthnOp{+} \pthnId{y} \pthnOp{>} $3$]
 \end{python}
 \end{pythoncode}
-のことである．\footnote{Haskellでは\code{l = [x+y | x<-[0,1..9], y<-[0,1..5], x+y>3]}と書く．}
+のことである．\footnote{Haskellでは\code{l = [x + y | x <- [0, 1..9], y <- [0, 1..5], x + y > 3]}と書く．}
 
 リストは\keyword{結合}できる．例えばリスト$\hsklList{l}$とリスト$\hsklList{m}$を結合したリストは$$\hsklList{l}\hsklAppend\hsklList{m}$$で得られる．\footnote{Haskellでは\code{l++m}と書く．}
 
@@ -891,18 +913,16 @@ $l=[x+y\pthnFor x\pthnIn\pthnRange(0,10)\pthnFor y$ \pthnNextLine\\
 
 \keyword{空リスト}は$\hsklEmptyList$で表す．\footnote{Haskellでは空リストを\code{[]}で表す．}
 
-任意の型を$\hsklType{a}$とするとき，$\hsklType{a}$型のリスト型を$\hsklListType{\hsklType{a}}$と書く．型$\hsklType{a}$から型$\hsklListType{\hsklType{a}}$を生成する演算子を\keyword{リスト型コンストラクタ}と呼んで$\hsklListConstructor$と書き$$\hsklListType{\hsklType{a}}=\hsklTypeConstruct{\hsklListConstructor}{\hsklType{a}}$$とする．この等式の両辺は変数ではなく型名であることに注意しよう．\footnote{Haskellでは表記上コンテナ型$\hsklListType{a}$と型コンストラクタ式$\hsklTypeConstruct{\hsklListConstructor}{\hsklType{a}}$を区別せず，両者とも\code{[a]}と書く．}
+任意の型を$\hsklType{a}$とするとき，$\hsklType{a}$型のリスト型を$\hsklListType{\hsklType{a}}$と書く．型$\hsklType{a}$から型$\hsklListType{\hsklType{a}}$を生成する演算子を\keyword{リスト型コンストラクタ}と呼んで$\hsklListConstructor$と書き$$\hsklListType{\hsklType{a}}=\hsklTypeConstruct{\hsklListConstructor}{\hsklType{a}}$$とする．この等式の両辺は変数ではなく型名であることに注意しよう．型コンストラクタの概念はPythonには無い（必要無い）が，静的型付け言語であるJavaの「総称型」や\cxx の「クラステンプレート」が相当する．\footnote{Haskellでは表記上コンテナ型$\hsklListType{a}$と型コンストラクタ式$\hsklTypeConstruct{\hsklListConstructor}{\hsklType{a}}$を区別せず，両者とも\code{[a]}と書く．}
 
 $\hsklType{a}$型の変数$x$を入れた$\hsklListType{\hsklType{a}}$型のリストを作る演算子を\keyword{リスト値コンストラクタ}と呼ぶ．$\hsklType{a}$型の変数$x$からリスト値コンストラクタを使ってリスト$\hsklList{l}$を作ることは$$\hsklList{l}=[x]$$と書く．\footnote{Haskellでは\code{l = [x]}と書く．}
 
-リスト型を表す$\hsklListType{\hsklType{a}}$と，1要素のリストである$[x]$の違いにはいつも気をつけておこう．
-本書ではリスト型を表す場合はブラケットを太くし，型名を太字のローマン体で書く一方，リストの場合はブラケットを細くし，変数名を細字のイタリック体で書く．
+リスト型を表す$\hsklListType{\hsklType{a}}$と，1要素のリストである$[x]$の違いにはいつも気をつけておこう．本書では中身がボールドローマン体ならばリスト型，中身がオイラー体ならリスト値だ．またリストを保持する変数にも，本書ではバーをつけておくことにする．
 
 ある型を包み込んだ別の型を一般に\keyword{コンテナ型}または単に\keyword{コンテナ}と呼ぶ．
 
 
-
-\section{畳み込みとマップ}
+\section{畳み込みとマップ*}
 
 我々はよくリストの総和を表現するためにシグマ記号($\sum$)を使う．リスト$[x_0,x_1\dots x_n]$の総和を$$\sum[x_0,x_1\dots x_n]=x_0+x_1+\dotsb+x_n$$とするようなシグマ記号である．この表現を一般化してみよう．
 リスト$[x_0,x_1\dots x_n]$が与えられたとき，$$\mathFold^{\mathAnyBinaryOperator}_{a}[x_0,x_1\dots x_n]=a\mathAnyBinaryOperator x_0\mathAnyBinaryOperator x_1\mathAnyBinaryOperator\dotsb\mathAnyBinaryOperator x_n$$であると定義する．
@@ -910,21 +930,23 @@ $\hsklType{a}$型の変数$x$を入れた$\hsklListType{\hsklType{a}}$型のリ�
 この新しい記号$\mathFold$は\keyword{畳み込み演算子}と呼ばれる．変数$a$はアキュムレータと呼ぶ．アキュムレータは右側の引数が空であった場合のデフォルト値と考えても良い．\footnote{Haskellでは$\mathFold^{*}_{a}l$を\code{foldl * a l}と書く．}
 % !!!!!!!!!! CHECK !!!!!!!!!!
 
-Python 2.7 には畳み込み演算子に相当する$\pthnReduce$関数があり，リスト$l$の総和$s$を
+Python 2.7 には畳み込み演算子に相当する\pthnId{reduce}関数があり，リスト\pthnId{l}の総和\pthnId{sum}を
 \begin{pythoncode}
 \begin{python}
 \texttt{\# Python 2.7}\\
-$l=[0,1,2,3,4,5]$\\
-$s=\pthnReduce(\pthnLambda x,y:x+y,l,0)$
+\pthnId{l} \pthnOp{=} [$0$, $1$, $2$, $3$, $4$, $5$]\\
+\pthnId{sum} \pthnOp{=} \pthnId{reduce}(\pthnKeyword{lambda} \pthnId{x}, \pthnId{y}: \pthnId{x} \pthnOp{+} \pthnId{y}, \pthnId{l}, $0$)
 \end{python}
 \end{pythoncode}
-のように求めることができる．この$\pthnReduce$関数は Python 3 では非推奨である．% 一方，Rubyでは
-% \begin{rubycode}
-% \begin{verbatim}
-% [0,1,2,3,4,5].inject(0) { |x,y| x+y }
-% \end{verbatim}
-% \end{rubycode}
-% のような書き方がサポートされている．
+のように求めることができる．この\pthnId{reduce}関数はPythonバージョン3では非推奨になっているが，Rubyには受け継がれていて，Rubyでは
+\begin{rubycode}
+\begin{Verbatim}
+l = [0,1,2,3,4,5]
+sum = l.inject(0) { |x, y| x + y }
+\end{Verbatim}
+\end{rubycode}
+と書ける．
+% !!!!!! CHECK !!!!!
 
 リストの総和をとる演算子$\sum$は$$\sum=\mathFold^+_0$$とすれば得られる．同じようにリストの要素のすべての積をとる演算子$\prod$は$$\prod=\mathFold^*_1$$とすれば得られる．
 
@@ -937,15 +959,15 @@ $s=\pthnReduce(\pthnLambda x,y:x+y,l,0)$
 畳み込み演算子の面白い応用例を示そう．$$\mathFold_\hsklEmptyList^\hsklAppend[[0,1,2],[3,4,5],\dots]=[0,1,2,3,4,5,\dots]$$であるから，演算子$$\mathFold_\hsklEmptyList^\hsklAppend$$はリストを平坦化する\keyword{平坦化演算子}である．平坦化演算子はconcat演算子とも呼ばれることもあるが，基本的な演算子であるため特別な記号をつけておこう．我々は$$\hsklConcat=\mathFold_\hsklEmptyList^\hsklAppend$$と定義することにする．\footnote{Haskellでは演算子$\hsklConcat$の代わりに\code{concat}関数を使う．}
 % !!!!!!!!!! CHECK !!!!!!!!!!
 
-リストの各要素に決まった関数を適用したい場合がある．引数として関数$f$とリスト$[x_0,x_1\dots x_n]$を取り，戻り値として$[fx_0,fx_1\dots fx_n]$を返す演算子$\hsklMap$を考えよう．このとき$$f\hsklMap[x_0,x_1\dots x_n]=[fx_0,fx_1\dots fx_n]$$であると定義する．この$\hsklMap$演算子を\keyword{マップ演算子}と呼ぶ．\footnote{Haskellでは$f\hsklMap l$を\code{map f l}または\code{f `map` l}と書く．}
-
-マップ演算子はPythonの$\pthnMap$関数と同じものである．リストを$l$，関数を$f$とした時に
+リストの各要素に決まった関数を適用したい場合がある．Pythonではリスト\pthnId{l}に関数\pthnId{f}を適用するときには
 \begin{pythoncode}
 \begin{python}
-$\pthnMap(f,l)$
+\pthnId{map}(\pthnId{f}, \pthnId{l})
 \end{python}
 \end{pythoncode}
-は関数$f$をリスト$l$の各要素に適用する．
+のように\pthnId{map}関数を用いる．
+
+このように引数として関数$f$とリスト$[x_0,x_1\dots x_n]$を取り，戻り値として$[fx_0,fx_1\dots fx_n]$を返す演算子$\hsklMap$を考えよう．このとき$$f\hsklMap[x_0,x_1\dots x_n]=[fx_0,fx_1\dots fx_n]$$であると定義する．この$\hsklMap$演算子を\keyword{マップ演算子}と呼ぶ．\footnote{Haskellでは$f\hsklMap l$を\code{map f l}または\code{f `map` l}と書く．}
 
 マップ演算子の型は$$\hsklMap\hsklOf{}\mathMorphII{(\mathMorph{\hsklType{a}}{\hsklType{b}})}{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType{b}}}$$である．矢印$\mathMapsTo$は右結合なので，これは$$\hsklMap\hsklOf{}\mathMorph{(\mathMorph{\hsklType{a}}{\hsklType{b}})}{(\mathMorph{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType{b}}})}$$の意味でもある．ここで$f$と$f\hsklMap$の型を並べてみると
 \begin{align*}
@@ -954,11 +976,9 @@ f\hsklMap&\mathIn\mathMorph{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType
 \end{align*}
 となり，マップ演算子が何をしているのか一目瞭然になる．
 
-
-
 \section{リストの実装}
 
-ここでリストの実装について若干述べておかねばならない．紙上ではリストは自由に考えられるが，計算機上ではそれほど自由ではないからである．ここではリストはLISPにおけるリストと同じ構造を持つものとする．LISPにおけるリストとは要素$\mathFirst$と要素$\mathRest$からなるペアの集合である．要素$\mathFirst$がリストの要素を持ち，要素$\mathRest$が次のペアを参照する．リストの最後のペアの$\mathRest$は空リストを参照する．
+ここでリストの実装について若干述べておかねばならない．紙上ではリストは自由に考えられるが，計算機上ではそれほど自由ではないからである．我々はリストをLISPにおけるリストと同じ構造を持つものとしておく．LISPにおけるリストとは要素$\mathFirst$と要素$\mathRest$からなるペアの集合である．要素$\mathFirst$がリストの要素を持ち，要素$\mathRest$が次のペアを参照する．リストの最後のペアの$\mathRest$は空リストを参照する．
 
 リストのための特別な表現$$\mathFirst:\mathRest$$を用い，第1要素$\mathFirst$はリストが保持する型，第2要素$\mathRest$はリスト型であるとする．演算子$:$を\keyword{結合演算子}と呼ぶ．\footnote{Haskellでも要素\code{x}をリスト\code{l}の先頭に追加することを\code{x:l}と書く．}
 
@@ -1000,7 +1020,7 @@ fx:\hsklList{y}&=x+f\hsklList{y}
 のように定義できる．
 
 
-\chapter{Maybe*}
+\chapter{Maybe}
 
 \section{Pythonに文脈を*}
 
@@ -1120,7 +1140,7 @@ $$\mathMonoid{\hsklListType{\hsklType{a}}}{\hsklAppend}{\hsklEmptyList}$$
 $$\mathMonoid{\hsklMaybeType{\hsklType{a}}}{\hsklMaybeAppend}{\hsklNothing}$$
 
 
-\chapter{関手*}
+\chapter{関手}
 \label{ch:functor}
 
 
