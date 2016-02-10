@@ -363,7 +363,7 @@ x*s(x-1)&\mathOtherwise
 
 
 
-\section*{余計な話：数値と条件式}
+\section{余計な話：数値と条件式}
 
 ラムダで．
 
@@ -424,17 +424,7 @@ $z=f(g(x))$
 
 関数合成演算子とは逆に，優先順位の低い\keyword{関数適用演算子}も考えておくと括弧の数を減らすのに便利である．関数適用演算子$\mathApply$を次のように定義しておく．$$f\mathApply gx=f(gx)$$演算子$\mathApply$の優先順位は足し算演算子よりも低いものとする．よって$f(x+1)$は$f\mathApply x+1$と書くこともできる．\footnote{Haskellでは$f\mathApply gx$を\code{f \$ g x}と書く．}
 
-
-
-\section*{余計な話：カリー化}
-
-どのような関数であれ，引数は1個しかとらない．引数が2個あるように見える関数として，例えば$fxy$があったとしよう．関数適用が左結合であるから，これは$(fx)y$である．ここに$(fx)$は引数$y$をとる関数であると見ることができる．つまり，関数$f$とは引数$x$をとり「引数$y$をとって値を返す関数$(fx)$を返す」関数であると言える．
-
-二項演算$x+y$は$$(+)xy$$とも書けたことを思い出そう．これも左結合を思い出すと$$((+)x)y$$と書けるから，$y$という引数を$((+)x)$という関数に食わせていると解釈できる．
-
-ラムダ式の場合は話はもっと単純で，機械的に$$\mathLambdaExpression{xy}{x+y}=\mathLambdaExpression{x}{(\mathLambdaExpression{y}{x+y})}$$のように展開するだけである．矢印$\mathLambdaArrow$は右結合であるから，このラムダ式は括弧を省略して$$\mathLambdaExpression{xy}{x+y}=\mathLambdaExpression{x}{\mathLambdaExpression{y}{x+y}}$$とも書かれる．
-
-複数引数をとる関数を1引数関数に分解することを\keyword{カリー化}と呼ぶ．これはこの分野の先駆者であるハスケル・カリーの名前に由来する．
+\section{余計な話：クイックソート*}
 
 
 
@@ -609,7 +599,7 @@ g&\mathIn\mathMorph{\mathSet{Y}}{\mathSet{Z}}
 
 いまある単位的半群$\mathMonoid{\mathSet{M}}{\mathAnyBinaryOperator}{O}$があるとする．集合$\mathSet{C}$を$\mathSet{M}$及び$\mathSet{M}\mathSetTimes\mathSet{M}$を元とする集合すなわち$$\mathSet{C}=\{\mathSet{M},\mathSet{M}\mathSetTimes\mathSet{M}\}$$とし，集合$\mathSet{P}$を$\mathAnyBinaryOperator$のみを元とする集合すなわち$$\mathSet{P}=\{\mathAnyBinaryOperator\}$$とすると，組み合わせ$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$は圏になっている．
 
-\section*{余計な話：束*}
+\section{余計な話：束*}
 
 \chapter{型*}
 
@@ -832,6 +822,17 @@ $\hsklFloat$
 
 これらの関係を表にまとめたものが表\ref{tab:type-and-typeclass}である．
 
+\section{余計な話：カリー化}
+
+どのような関数であれ，引数は1個しかとらない．引数が2個あるように見える関数として，例えば$fxy$があったとしよう．関数適用が左結合であるから，これは$(fx)y$である．ここに$(fx)$は引数$y$をとる関数であると見ることができる．つまり，関数$f$とは引数$x$をとり「引数$y$をとって値を返す関数$(fx)$を返す」関数であると言える．
+
+二項演算$x+y$は$$(+)xy$$とも書けたことを思い出そう．これも左結合を思い出すと$$((+)x)y$$と書けるから，$y$という引数を$((+)x)$という関数に食わせていると解釈できる．
+
+ラムダ式の場合は話はもっと単純で，機械的に$$\mathLambdaExpression{xy}{x+y}=\mathLambdaExpression{x}{(\mathLambdaExpression{y}{x+y})}$$のように展開するだけである．矢印$\mathLambdaArrow$は右結合であるから，このラムダ式は括弧を省略して$$\mathLambdaExpression{xy}{x+y}=\mathLambdaExpression{x}{\mathLambdaExpression{y}{x+y}}$$とも書かれる．
+
+複数引数をとる関数を1引数関数に分解することを\keyword{カリー化}と呼ぶ．これはこの分野の先駆者であるハスケル・カリーの名前に由来する．
+
+
 
 \chapter{リスト*}
 \begin{leader}
@@ -973,7 +974,7 @@ f\hsklMap\hsklEmptyList&=\hsklEmptyList
 これらはLISPのcar関数，cdr関数と同じものである．
 
 
-\section*{余計な話：リストを引数にとる関数}
+\section{余計な話：リストを引数にとる関数}
 
 リストを分解する関数$\hsklHead$と$\hsklTail$さえあればどのようなリスト処理も可能であるが，リストを引数にとる関数を考えると最初から分解されたリストを渡された方が何かと便利である．そこで結合演算子を関数引数のパタンにも使えることにしよう．これで，例えばリストの和をとる関数$f$は
 \begin{equation*}
@@ -1101,7 +1102,7 @@ mapOver(Consumer<a> f, Maybe<a> m)
 
 \section{リストとMaybe*}
 
-\section*{余計な話：単位的半群としてのコンテナ}
+\section{余計な話：単位的半群としてのコンテナ}
 
 $$\mathMonoid{\hsklListType{\hsklType{a}}}{\hsklAppend}{\hsklEmptyList}$$
 
@@ -1222,7 +1223,7 @@ f\hsklMaybeMap\hsklMaybe{n}&\mathIf\hsklMaybe{m}\equiv\hsklJust{f}\\
 
 \section{関数と関手の関係*}
 
-\section*{余計な話：アプリカティブスタイル}
+\section{余計な話：アプリカティブスタイル}
 
 関数適用演算子$\mathApply$とよく似た演算子$\hsklApplicativeApply$ただし$$f\hsklApplicativeApply g=\hsklPure{f\mathCompose g}$$なる演算子を導入する．
 この演算子は特別に\keyword{アプリカティブ関数適用演算子}と呼ぶ．\footnote{Haskellでは\code{<\$>}と書く．}
@@ -1400,26 +1401,24 @@ Int（参考）
 
 \section{Haskellのモナド*}
 
-\section*{余計な話：モナドプラス}
+\section{余計な話：モナドプラス}
 
 
 ---
-
-
-
-
-
-
-
-
 
 \part{モナドから見る世界}
 
 \chapter{IO}
 
+\section{参照透過性}
+
+\section{アクション}
+
+\section{IOモナド}
+
 \chapter{do}
 
-\chapter{新しい型を作る}
+\section{do記法}
 
 \chapter{例外}
 
@@ -1429,21 +1428,18 @@ Int（参考）
 
 \chapter{非決定性}
 
-\chapter{プログラミングスタイル}
+\chapter{新しい型を作る}
 
-\section{副作用}
+\chapter{木構造}
 
-\section{クロージャ}
+\chapter{継続}
 
-\section{マクロ}
-
-\chapter{様々なアルゴリズム}
-
-\section{ソート}
+\section{継続とは}
 
 
 
-\part{圏とモナド}
+
+\part{圏・モナド・プログラミング言語}
 
 \chapter{群論}
 
@@ -1451,7 +1447,7 @@ Int（参考）
 
 \chapter{クライスリ・トリプル}
 
-\chapter{ラムダ}
+\chapter{*ラムダ}
 
 \section{数}
 
@@ -1459,7 +1455,7 @@ Int（参考）
 
 \section{条件式}
 
-\chapter{Yコンビネータ}
+\chapter{*Yコンビネータ}
 
 \section{ループ}
 
@@ -1467,7 +1463,8 @@ Int（参考）
 
 \section{Yコンビネータ}
 
-\chapter{継続}
+\chapter{*マクロ}
 
+\chapter{*最小の言語}
 
 \end{document}
