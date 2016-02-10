@@ -227,7 +227,7 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 本文中に登場するPythonコードは文字通り打ち込めばそのまま使える．
 % が，比較演算子$\equiv$だけはキーボードにない記号なので\code{==}に置き換えてもらいたい．
 
-また，一部の章でどうしても型に触れないといけない部分がある．Pythonは動的型付け言語であり，型の説明には不適切であるため，この部分だけ理解の助けとしてJavaによるコードを例示した．この部分はコードを読まなくても先に進める．
+また，一部の章でどうしても型に触れないといけない部分がある．Pythonは動的型付け言語であり，型の説明には不適切であるため，この部分だけ理解の助けとして\cxx によるコードを例示した．この部分はコードを読まなくても先に進める． （Javaではなく\cxx を採用したのは OS X がJavaを排除するからである．型システムに関する限り\cxx よりもJavaのほうが簡潔に記述できるが，致し方無い．）
 
 本書は3部構成になっている．第I部はプログラミング言語から抽象数学への登山である．第II部は抽象数学の山頂からHaskellの森へ下っていく道である．第III部はこれまで歩いた道全体を俯瞰する．
 
@@ -1019,54 +1019,97 @@ fx:\hsklList{y}&=x+f\hsklList{y}
 \end{split}
 \right.
 \end{equation*}
-のように定義できる．
+のようにも定義できる．
 
 
 \chapter{Maybe}
 
 \section{Pythonに文脈を*}
 
+\begin{pythoncode}
+\begin{python}
+\pthnKeyword{class} {Possibly}:\\
+\>\pthnKeyword{def} \pthnId{\_\_init\_\_}(\pthnKeyword{self}, \pthnId{is\_valid}, \pthnId{a\_value} \pthnOp{=} $0$):\\
+\>\>\pthnKeyword{self}.\pthnId{validness} \pthnOp{=} \pthnId{is\_valid}\\
+\>\>\pthnKeyword{self}.\pthnId{value} \pthnOp{=} \pthnId{a\_value}
+\end{python}
+\end{pythoncode}
+
+
+\begin{pythoncode}
+\begin{python}
+\pthnId{m} \pthnOp{=} Possibly(\pthnId{True}, 123)
+\end{python}
+\end{pythoncode}
+
+
+\begin{pythoncode}
+\begin{python}
+\pthnId{m} \pthnOp{=} Possibly(\pthnId{False})
+\end{python}
+\end{pythoncode}
+
+
+\begin{pythoncode}
+\begin{python}
+\pthnId{f} \pthnOp{=} \pthnKeyword{lambda} \pthnId{x}: $100$ \pthnOp{*} \pthnId{x}
+\end{python}
+\end{pythoncode}
+
+\begin{pythoncode}
+\begin{python}
+\pthnId{n} \pthnOp{=} \pthnId{f}(\pthnId{m}) \texttt{\#} エラー!! 
+\end{python}
+\end{pythoncode}
+
+\begin{pythoncode}
+\begin{python}
+\pthnId{n} \pthnOp{=} \pthnId{map\_over}(\pthnId{f}, \pthnId{m}) 
+\end{python}
+\end{pythoncode}
+
+
+\begin{pythoncode}
+\begin{python}
+\pthnKeyword{def} \pthnId{map\_over}(\pthnId{f}, \pthnId{m}):\\
+\>\pthnKeyword{if} \pthnId{m}.\pthnId{validness} \pthnOp{==} \pthnId{True}:\\
+\>\>\pthnKeyword{return} Possibly(\pthnId{True}, \pthnId{f}(\pthnId{m}.\pthnId{value}))\\
+\>\pthnKeyword{else}:\\
+\>\>\pthnKeyword{return} Possibly(\pthnId{False})
+\end{python}
+\end{pythoncode}
+
+
 \section{Maybeと演算*}
 
-整数$x$を$0$で除算することはエラーである．
-しかし除算の度にエラーが起こったかどうか調べるのは面倒であるし，記述も煩雑になってしまう．
-プログラマはよくこういう場合に「例外」という機構を用いるが，数学に例外は持ち込みたくない．
-そこで変数$x$が正しく計算されたかもしれないし，されていないかもしれないということを，$\hsklMaybe{m}$のように印をつけた別の変数に入れて，忘れないようにしておこう．
-ここで変数$\hsklMaybe{m}$が取り得る値は正しく計算された値$x$か，あるいはエラーを表す値$\hsklNothing$である．
-このように計算結果に「意味付け」をすることを\keyword{文脈}に入れると言う．
+整数$x$と整数$y$があり$z=y/x$という式があるとする．この式は$x\equiv0$のときには$0$除算エラーである．しかし除算の度にエラーが起こったかどうか調べるのは面倒であるし，記述も煩雑になってしまう．プログラマはよくこういう場合に「例外」という機構を用いるが，例外とは内部状態の書き換えであり，我々が計算に入れたくないものである．
+
+そこで変数$z$が正しく計算されたかもしれないし，されていないかもしれないということを，$\hsklMaybe{m}$のように印をつけた別の変数に入れて，忘れないようにしておこう．ここで変数$\hsklMaybe{m}$が取り得る値は正しく計算された値$z$か，あるいはエラーを表す値$\hsklNothing$である．このように計算結果に「意味付け」をすることを\keyword{文脈}に入れると言う．
 
 この変数$\hsklMaybe{m}$はもはや整数型とは言えない．
 そこでこの$\hsklMaybe{m}$の型を$\hsklMaybeType{\hsklInt}$と表して「きっと整数」型と呼ぶことにしよう．
 型$\hsklType{a}$から型$\hsklMaybeType{\hsklType{a}}$を生成する型コンストラクタを$\hsklMaybeConstructor$と呼び$$\hsklMaybeType{\hsklType{a}}=\hsklTypeConstruct{\hsklMaybeConstructor}{\hsklType{a}}$$とする．\footnote{Haskellでは表記上コンテナ型$\hsklMaybeType{a}$と型コンストラクタ式$\hsklTypeConstruct{\hsklMaybeConstructor}{\hsklType{a}}$を区別せず，両者とも\code{Maybe a}と書く．}
 
-$\hsklType{a}$型の変数を$\hsklMaybeType{\hsklType{a}}$型の変数に代入するには，次の値コンストラクタを用いて
-$$\hsklMaybe{m}=\hsklJust{x}$$
-と書く．\footnote{Haskellでは\code{m = Just x}と書く．}
+$\hsklType{a}$型の変数を$\hsklMaybeType{\hsklType{a}}$型の変数に代入するには，次の値コンストラクタを用いて$$\hsklMaybe{m}=\hsklJust{z}$$と書く．\footnote{Haskellでは\code{m = Just z}と書く．}
 
-変数$x$が一度$0$除算の危険性に汚染された場合，その後ずっと$\hsklMaybe{m}$というコンテナに入れ続けなければいけない．
+変数$z$が一度$0$除算の危険性に汚染された場合，その後ずっと$\hsklMaybe{m}$というコンテナに入れ続けなければいけない．
 このきっと整数$\hsklMaybe{m}$に対して整数を引数にとる関数$f$を適用させるには，何らかの関数マップ演算子が必要である．
-そこできっと整数の中身に直接関数を適用する演算子を$\hsklMaybeMap$としよう．
-具体的には$$f\hsklMaybeMap\hsklMaybe{m}=\hsklMaybeW{fx}$$のように関数$f$を変数$\hsklMaybe{m}$に適用させる．
-その結果はまた$\hsklMaybeType{\hsklInt}$型である．
+そこできっと整数の中身に直接関数を適用する演算子を$\hsklMaybeMap$としよう．具体的には$$f\hsklMaybeMap\hsklMaybe{m}=\hsklMaybeW{fz}$$のように関数$f$を変数$\hsklMaybe{m}$に適用させる．その結果はまた$\hsklMaybeType{\hsklInt}$型である．
 
-いま引数の$100$倍の値を返す関数$fx=100*x$があるとしよう．
-% この関数は桁あふれも何も考えずに，とにかく引数を$100$倍するものとする．
-これを「きっと整数」な$\hsklMaybe{m}$に適用するには，$\hsklMaybe{m}$がもし$\hsklMaybe{m}=\hsklJust{x}$ならば中身$x$を取り出して$fx$を計算し，もし$\hsklMaybe{m}=\hsklNothing$であれば$\hsklNothing$を返すような適用演算子である．
-引数$\hsklMaybe{m}$がいつ$\hsklJust{x}$でいつ$\hsklNothing$になるのかは，いまは問わないことにする．
+いま引数の$100$倍の値を返す関数$fz=100*z$があるとしよう．これを「きっと整数」な$\hsklMaybe{m}$に適用するには，$\hsklMaybe{m}$がもし$\hsklMaybe{m}=\hsklJust{z}$ならば中身$z$を取り出して$fz$を計算し，もし$\hsklMaybe{m}=\hsklNothing$であれば$\hsklNothing$を返すような適用演算子である．引数$\hsklMaybe{m}$がいつ$\hsklJust{z}$でいつ$\hsklNothing$になるのかは，いまは問わないことにする．
 
 さて，我々が欲しいのは
 \begin{equation*}
 f\hsklMaybeMap\hsklMaybe{m}=\begin{cases}
-\hsklJust{fx}&\mathIf\hsklMaybe{m}\equiv\hsklJust{x}\\
+\hsklJust{fz}&\mathIf\hsklMaybe{m}\equiv\hsklJust{z}\\
 \hsklNothing&\mathOtherwise
 \end{cases}
 \end{equation*}
-であるようなMaybeバージョンのマップ演算子$\hsklMaybeMap$である．
-その実装は実はいたって単純で
+であるようなMaybeバージョンのマップ演算子$\hsklMaybeMap$である．その実装は実はいたって単純で
 \begin{equation*}
 \left\{
 \begin{split}
-f\hsklMaybeMap\hsklJust{x}&=\hsklJust{fx}\\
+f\hsklMaybeMap\hsklJust{z}&=\hsklJust{fz}\\
 f\hsklMaybeMap\hsklNothing&=\hsklNothing
 \end{split}
 \right.
@@ -1081,57 +1124,51 @@ f\hsklMaybeMap\hsklNothing&=\hsklNothing
 % $$(\typeconstructor{\typemaybe}{\typename{a}},\binarymaybeappend,\constantnothing)$$
 % \boxplus == \boxdot???
 
-\begin{javacode}
-Maybeの定義を数式で書くと簡単であるが，Javaで書く場合には例えば次のようなコードが必要になる．
+---
+
+Maybeを\cxx で実現することはそれほど難しいことではない．少なくとも\cxx11以降であれば比較的簡潔に書ける概念である．そこで\cxx プログラマのために本物のコードで示しておこう．ただし参照を使わないでおいたのでJavaプログラマも参考にできるだろう．
+
+Maybeは次の\code{Maybe}クラステンプレートで表現できる．
+\begin{cxxcode}
 \begin{Verbatim}
-public class Maybe<a> {
-  private a value;
-  private boolean valid;
-  public Maybe(a aValue) {
-    value = aValue;
-    valid = true;
-  }
-  public Maybe() {
-    valid = false;
-  }
-  public a getValue() {
-    return value;
-  }
-  public Bool isValid() {
-    return valid;
-  }
+template <class a> Maybe {
+private:
+  a value;
+  bool valid;
+public:
+  Maybe(): value(0), valid(false) { }
+  Maybe(a aValue):
+    value(aValue), valid(true) { }
+  a getValue() const { return value; }
+  bool isValid() const { return valid; }
+};
 \end{Verbatim}
-コンストラクタ呼び出し\code{Maybe<int>(x)}は$\hsklJust{x}$に相当し，コンストラクタ呼び出し\code{Maybe<int>()}は$\hsklNothing$に相当する．
-\end{javacode}
+\end{cxxcode}
+デフォルトコンストラクタは例外的な状況を表す$\hsklNothing$を生成し，1引数コンストラクタはMaybeで包んだ引数値を生成する．
 
-
-\begin{javacode}
+当然我々にはMaybeバージョンのマップ演算子が必要である．ここでは\code{mapOver}関数として書いてみよう．
+\begin{cxxcode}
 \begin{Verbatim}
-Maybe<int> m = new Maybe<int>(10);
-int square(int x) { return x * x; }
-int x = square(m);  // 型エラー！
-int y = square(m.getvalue());
-Maybe<int> z = Maybe<int>.mapOver(square, m);
-\end{Verbatim}
-\end{javacode}
-
-変数\code{x}への代入文は引数の型が一致していないためエラーである．
-変数\code{y}への代入文はエラーではないが，元々\code{a}が持っていた文脈を捨てることになる．
-変数\code{z}への代入文ならば関数\code{square}に手を入れることなく，また\code{a}の文脈も保存できる．
-ただし次の関数\code{mapOver}が必要になる．
-
-\begin{javacode}
-% !!!!!! not Consumer...
-\begin{Verbatim}
-static public Maybe<a>
-mapOver(Consumer<a> f, Maybe<a> m)
-{
-  return new Maybe<a>(f(m.getValue()));
+template <class a, class fn> Maybe<a>
+mapOver(fn f, Maybe<a> m) {
+  if (m.isValid())
+    return Maybe<a>(f(m.getValue()));
+  else
+    return Maybe<a>();
 }
 \end{Verbatim}
-\end{javacode}
+\end{cxxcode}
 
-
+整数$z$からMaybe値$\hsklMaybe{m}=\hsklJust{z}$を作り，関数$fx=100*x$をMaybe値$\hsklMaybe{m}$に食わせてMaybe値$\hsklMaybe{n}$ただし$$\hsklMaybe{n}=f\hsklMaybeMap\hsklMaybe{m}$$を得ることを，\cxx では次のように書くことになる．
+\begin{cxxcode}
+\begin{Verbatim}
+int z = 123;
+Maybe<int> m(z);
+auto f = [](int x) { return x * 100; }
+Maybe<int> n = mapOver(f, m);
+\end{Verbatim}
+\end{cxxcode}
+注意してほしいのは\code{f(z)}も\code{mapOver(f, m)}も正当なコードだが\code{f(m)}は型エラーであることだ．また\code{f(m.getValue())}は正当なコードだが，わざわざ\code{m}が持つ文脈を捨てることになる．
 
 \section{リストとMaybe*}
 
