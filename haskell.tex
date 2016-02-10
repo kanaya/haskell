@@ -1028,7 +1028,7 @@ fx:\hsklList{y}&=x+f\hsklList{y}
 \chapter{Maybe}
 
 \begin{leader}
-a
+この章では計算結果が正しいかもしれないし，正しくないかもしれないという曖昧な状況を表す型を導入する．手始めにPythonでクラスPossiblyを実装し，それがカリー風の数式で綺麗に書けることを示す．またリストとの共通点についても見ていくことにする．
 \end{leader}
 
 \section{Possibly}
@@ -1099,14 +1099,15 @@ a
 
 さて，次節では以上のようなことを抽象数学的に綺麗に描いてみよう．
 
-\section{Maybeコンテナ*}
+\section{Maybeコンテナ}
 
-整数$x$と整数$y$があり$z=y/x$という式があるとする．この式は$x\equiv0$のときには$0$除算エラーである．しかし除算の度にエラーが起こったかどうか調べるのは面倒であるし，記述も煩雑になってしまう．プログラマはよくこういう場合に「例外」という機構を用いるが，例外とは内部状態の書き換えであり，我々が計算に入れたくないものである．
+もう一度振り出しに戻る．
+
+整数$x$と整数$y$があり$z=y/x$という式があるとする．この式は$x\equiv0$のときには$0$除算エラーである．しかし除算の度にエラーが起こったかどうか調べるのは面倒であるし，記述も煩雑になってしまう．プログラマはよくこういう場合に「例外」という大域ジャンプ機構を用いるが，例外とは内部状態の書き換えであり，我々の計算に入れたくないものである．
 
 そこで変数$z$が正しく計算されたかもしれないし，されていないかもしれないということを，$\hsklMaybe{m}$のように印をつけた別の変数に入れて，忘れないようにしておこう．ここで変数$\hsklMaybe{m}$が取り得る値は正しく計算された値$z$か，あるいはエラーを表す値$\hsklNothing$である．このように計算結果に「意味付け」をすることを\keyword{文脈}に入れると言う．
 
-この変数$\hsklMaybe{m}$はもはや整数型とは言えない．
-そこでこの$\hsklMaybe{m}$の型を$\hsklMaybeType{\hsklInt}$と表して「きっと整数」型と呼ぶことにしよう．
+この変数$\hsklMaybe{m}$はもはや整数型とは言えない．そこでこの$\hsklMaybe{m}$の型を$\hsklMaybeType{\hsklInt}$と表して「きっと整数」型と呼ぶことにしよう．
 型$\hsklType{a}$から型$\hsklMaybeType{\hsklType{a}}$を生成する型コンストラクタを$\hsklMaybeConstructor$と呼び$$\hsklMaybeType{\hsklType{a}}=\hsklTypeConstruct{\hsklMaybeConstructor}{\hsklType{a}}$$とする．\footnote{Haskellでは表記上コンテナ型$\hsklMaybeType{a}$と型コンストラクタ式$\hsklTypeConstruct{\hsklMaybeConstructor}{\hsklType{a}}$を区別せず，両者とも\code{Maybe a}と書く．}
 
 $\hsklType{a}$型の変数を$\hsklMaybeType{\hsklType{a}}$型の変数に代入するには，次の値コンストラクタを用いて$$\hsklMaybe{m}=\hsklJust{z}$$と書く．\footnote{Haskellでは\code{m = Just z}と書く．}
@@ -1148,7 +1149,7 @@ PythonでMaybeの概念を忠実になぞることは難しい．と言うのも
 Maybeは次の\code{Maybe}クラステンプレートで表現できる．
 \begin{cxxcode}
 \begin{Verbatim}
-template <class a> Maybe {
+template <typename a> class Maybe {
 private:
   a value;
   bool valid;
@@ -1166,8 +1167,8 @@ public:
 当然我々にはMaybeバージョンのマップ演算子が必要である．ここでは\code{mapOver}関数として書いてみよう．
 \begin{cxxcode}
 \begin{Verbatim}
-template <class a, class fn> Maybe<a>
-mapOver(fn f, Maybe<a> m) {
+template <typename a, typename fn>
+Maybe<a> mapOver(fn f, Maybe<a> m) {
   if (m.isValid())
     return Maybe<a>(f(m.getValue()));
   else
@@ -1200,6 +1201,9 @@ $$\mathMonoid{\hsklMaybeType{\hsklType{a}}}{\hsklMaybeAppend}{\hsklNothing}$$
 \chapter{関手}
 \label{ch:functor}
 
+\begin{leader}
+a
+\end{leader}
 
 \section{型コンストラクタと関手*}
 
@@ -1264,12 +1268,6 @@ $$I=\mathLambdaAnonymousParameter$$
 \end{align*}
 である．
 
-Maybeバージョンのアプリカティブマップ演算子($\hsklApplicativeMaybeMap$)は左引数がもし$\hsklJust{f}$の形をしていれば，その$f$を右変数$\hsklMaybe{n}$に対して$f\hsklMaybeMap\hsklMaybe{n}$と適用する．
-具体的には，もし$\hsklJust{(*)100}\hsklApplicativeMaybeMap{}\hsklJust{68}$という式が現れたとすると，アプリカティブマップ演算子の左引数から中身の関数$((*)100)$を抜き出して，右引数の中身$68$に適用し，その結果を再びMaybe値にして返す．
-式で書けば
-$$\hsklJust{(*)100}\hsklApplicativeMaybeMap{}\hsklJust{68}=\hsklJust{68000}$$
-となる．
-
 リストバージョンのアプリカティブマップ演算子は，（リストバージョンの）マップ演算子から再帰的に実装できる．
 リストバージョンのアプリカティブマップ演算子の実装は
 \begin{align*}
@@ -1278,22 +1276,28 @@ $$\hsklJust{(*)100}\hsklApplicativeMaybeMap{}\hsklJust{68}=\hsklJust{68000}$$
 \end{align*}
 である．
 
+Maybeバージョンのアプリカティブマップ演算子($\hsklApplicativeMaybeMap$)は左引数がもし$\hsklJust{f}$の形をしていれば，その$f$を右変数$\hsklMaybe{m}$に対して$f\hsklMaybeMap\hsklMaybe{m}$と適用する．
+具体的には，もし$\hsklJust{(*)100}\hsklApplicativeMaybeMap{}\hsklJust{68}$という式が現れたとすると，アプリカティブマップ演算子の左引数から中身の関数$((*)100)$を抜き出して，右引数の中身$68$に適用し，その結果を再びMaybe値にして返す．
+式で書けば
+$$\hsklJust{(*)100}\hsklApplicativeMaybeMap{}\hsklJust{68}=\hsklJust{68000}$$
+となる．
+
 Maybeバージョンのアプリカティブマップ演算子は，Maybeバージョンのマップ演算子から実装できる．
 その実装は
 \begin{equation*}
-\hsklMaybe{m}\hsklApplicativeMaybeMap\hsklMaybe{n}=\begin{cases}
-f\hsklMaybeMap\hsklMaybe{n}&\mathIf\hsklMaybe{m}\equiv\hsklJust{f}\\
+\hsklMaybe{n}\hsklApplicativeMaybeMap\hsklMaybe{m}=\begin{cases}
+f\hsklMaybeMap\hsklMaybe{m}&\mathIf\hsklMaybe{n}\equiv\hsklJust{f}\\
 \hsklNothing&\mathOtherwise
 \end{cases}
 \end{equation*}
 であり，さらにMaybeバージョンのマップ演算子を展開すると
 \begin{equation*}
-\hsklMaybe{m}\hsklApplicativeMaybeMap\hsklMaybe{n}=\begin{cases}
+\hsklMaybe{n}\hsklApplicativeMaybeMap\hsklMaybe{m}=\begin{cases}
 \left\{
 \begin{array}{ll}
-\hsklJust{fx}&\mathIf\hsklMaybe{n}\equiv\hsklJust{x}\\
+\hsklJust{fx}&\mathIf\hsklMaybe{m}\equiv\hsklJust{x}\\
 \hsklNothing&\mathOtherwise
-\end{array}\right\}&\mathIf\hsklMaybe{m}\equiv\hsklJust{f}\\
+\end{array}\right\}&\mathIf\hsklMaybe{n}\equiv\hsklJust{f}\\
 \hsklNothing&\mathOtherwise
 \end{cases}
 \end{equation*}
@@ -1325,7 +1329,7 @@ f\hsklMaybeMap\hsklMaybe{n}&\mathIf\hsklMaybe{m}\equiv\hsklJust{f}\\
 これは$f\hsklApplicativeApply g\hsklApplicativeMap h$と$\hsklPure{f\mathCompose g\mathCompose h}$が同値だからである．
 
 アプリカティブスタイルは，計算の流れを明確にしているとも言える．
-例えば$f\hsklApplicativeApply g\hsklApplicativeMap h\hsklApplicativeMap x$は$$x\leadsto h\leadsto g\leadsto f$$という計算の流れを示す．
+例えば$f\hsklApplicativeApply g\hsklApplicativeMap h\hsklApplicativeMap x$は$$x\xrightarrow{\;x\;}h\xrightarrow{\;hx\;}g\xrightarrow{\;g\mathCompose hx\;}f$$という計算の流れを示す．
 もちろん関数合成演算子と関数適用演算子でも似たことはできるが，関数合成演算子と関数適用演算子だけでは$x$が例えば$\hsklNothing$でる可能性を扱えないし，また計算の途中経過がなんらかのエラーで$\hsklNothing$になるような系も扱えない．
 （後者はアプリカティブスタイルでも扱えない．そのために次章で述べる「モナド」が登場する．）
 
