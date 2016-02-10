@@ -190,6 +190,7 @@ Maybe変数&名前にチルダをつける&$\hsklMaybe{x}$\\
 Python定数&イタリック体，大文字で始める&\pthnId{True}, \pthnId{False}, \pthnId{None}\\
 Python変数&イタリック体，小文字で始める&\pthnId{x}, \pthnId{y}, \pthnId{z}\\
 Python関数&イタリック体，小文字で始める&\pthnId{f}, \pthnId{g}, \pthnId{h}\\
+Pythonクラス名&ローマン体，大文字で始める&Perhaps\\
 Pythonキーワード&ボールドローマン体，小文字で始める&\pthnKeyword{def}, \pthnKeyword{return}\\
 Python演算子&タイプライタ体&\pthnOp{=}, \pthnOp{+}, \pthnOp{*}\\
 Python文字列リテラル&タイプライタ体&\pthnString{"Hello, world."}\\
@@ -234,6 +235,8 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 第I部は対応するHaskellのコードを脚注に記載している．脚注部分はHaskellを一通り覚えた後で読み返してもらいたい．\footnote{Haskellのコードは\code{x = 1}のようにタイプライタ体で書く．}
 
 \section{関数型プログラミング*}
+
+\keyword{破壊的代入}はだめ．
 
 \section{余計な話}
 
@@ -1024,8 +1027,21 @@ fx:\hsklList{y}&=x+f\hsklList{y}
 
 \chapter{Maybe}
 
-\section{Pythonに文脈を*}
+\begin{leader}
+a
+\end{leader}
 
+\section{Possibly}
+
+計算の途中で，計算にまつわる状態を残りの計算に引き継ぎたくなる場合がある．例えば，整数$x$と整数$y$があり$z=y/x$なる値を続く計算で利用したいとする．だが$x\equiv0$のときには$z$は正しく計算されない．こんなときプログラマが取れる手段は
+\begin{itemize}
+\item $z=y/x$を計算した時点で$0$除算例外を発生させ，プログラムの制御を他の場所へ移す（大域ジャンプを行う）
+\item グローバル変数に$0$除算エラーが起こったことを記録しておき，$z$にはとりあえずの数値，例えば$0$を代入しておいて，計算を続行させる
+\item $z$にエラー状態を示す印をつけておいて，計算を続行させる
+\end{itemize}
+といったところだろう．
+
+大域ジャンプも，グローバル変数の書き換えも破壊的代入を伴うものであり，受け入れがたい．そこで我々は第3のエラー状態を示す印をつける方法を採用することにする．普通変数が整数だろうが実数だろうが，計算機表現には余分なビットが残っていないので，次のようなクラスPossiblyを導入することにしよう．メンバ変数\pthnId{value}が値を，メンバ変数\pthnId{validness}がエラーの有無を表す．
 \begin{pythoncode}
 \begin{python}
 \pthnKeyword{class} {Possibly}:\\
@@ -1035,40 +1051,42 @@ fx:\hsklList{y}&=x+f\hsklList{y}
 \end{python}
 \end{pythoncode}
 
-
+例えば整数値$123$を持つPossibly値\pthnId{m}は
 \begin{pythoncode}
 \begin{python}
 \pthnId{m} \pthnOp{=} Possibly(\pthnId{True}, 123)
 \end{python}
 \end{pythoncode}
-
-
+として生成できるし，Possibly値\pthnId{m}が計算エラーを表す場合は
 \begin{pythoncode}
 \begin{python}
 \pthnId{m} \pthnOp{=} Possibly(\pthnId{False})
 \end{python}
 \end{pythoncode}
+と初期化できる．
 
-
+ここで，引数を$100$倍にして返す関数\pthnId{f}があるとしよう．関数\pthnId{f}の定義は次の通りである．
 \begin{pythoncode}
 \begin{python}
 \pthnId{f} \pthnOp{=} \pthnKeyword{lambda} \pthnId{x}: $100$ \pthnOp{*} \pthnId{x}
 \end{python}
 \end{pythoncode}
 
+関数\pthnId{f}に直接Possibly値\pthnId{m}を食わせるのはエラーである．
 \begin{pythoncode}
 \begin{python}
 \pthnId{n} \pthnOp{=} \pthnId{f}(\pthnId{m}) \texttt{\#} エラー!! 
 \end{python}
 \end{pythoncode}
-
+これは関数\pthnId{f}が引数として数値を期待していたにもかかわらず，Possibly値が渡されたからである．もし関数\pthnId{f}のほうをいじりたくないとすれば，次のような関数\pthnId{map\_over}を使って
 \begin{pythoncode}
 \begin{python}
 \pthnId{n} \pthnOp{=} \pthnId{map\_over}(\pthnId{f}, \pthnId{m}) 
 \end{python}
 \end{pythoncode}
+というふうに間接的に関数適用を行う必要がある．
 
-
+関数\pthnId{map\_over}(\pthnId{f}, \pthnId{m})はもし\pthnId{m}がエラーを表す値でなければ中身の値を関数\pthnId{f}に適用し，その結果をPossiblyクラスに包んで返す．もし\pthnId{m}がエラー値を表す値であれば，結果もエラー値である．関数\pthnId{map\_over}の実装は次のようになる．
 \begin{pythoncode}
 \begin{python}
 \pthnKeyword{def} \pthnId{map\_over}(\pthnId{f}, \pthnId{m}):\\
@@ -1079,8 +1097,9 @@ fx:\hsklList{y}&=x+f\hsklList{y}
 \end{python}
 \end{pythoncode}
 
+さて，次節では以上のようなことを抽象数学的に綺麗に描いてみよう．
 
-\section{Maybeと演算*}
+\section{Maybeコンテナ*}
 
 整数$x$と整数$y$があり$z=y/x$という式があるとする．この式は$x\equiv0$のときには$0$除算エラーである．しかし除算の度にエラーが起こったかどうか調べるのは面倒であるし，記述も煩雑になってしまう．プログラマはよくこういう場合に「例外」という機構を用いるが，例外とは内部状態の書き換えであり，我々が計算に入れたくないものである．
 
@@ -1124,9 +1143,7 @@ f\hsklMaybeMap\hsklNothing&=\hsklNothing
 % $$(\typeconstructor{\typemaybe}{\typename{a}},\binarymaybeappend,\constantnothing)$$
 % \boxplus == \boxdot???
 
----
-
-Maybeを\cxx で実現することはそれほど難しいことではない．少なくとも\cxx11以降であれば比較的簡潔に書ける概念である．そこで\cxx プログラマのために本物のコードで示しておこう．ただし参照を使わないでおいたのでJavaプログラマも参考にできるだろう．
+PythonでMaybeの概念を忠実になぞることは難しい．と言うのもPythonは動的型付け言語であるため，型コンストラクタという概念が無いからだ．一方で，Maybeの概念を\cxx で実現することはそれほど難しいことではない．しかも\cxx11以降であれば比較的簡潔に書ける．そこで\cxx プログラマのために本物のコードで示しておこう．ただし参照を使わないでおいたのでJavaプログラマも参考にできるだろう．
 
 Maybeは次の\code{Maybe}クラステンプレートで表現できる．
 \begin{cxxcode}
@@ -1168,7 +1185,8 @@ auto f = [](int x) { return x * 100; }
 Maybe<int> n = mapOver(f, m);
 \end{Verbatim}
 \end{cxxcode}
-注意してほしいのは\code{f(z)}も\code{mapOver(f, m)}も正当なコードだが\code{f(m)}は型エラーであることだ．また\code{f(m.getValue())}は正当なコードだが，わざわざ\code{m}が持つ文脈を捨てることになる．
+注意してほしいのは\code{f(z)}も\code{mapOver(f, m)}も正当なコードだが\code{f(m)}は型エラーであることだ．また\code{f(m.getValue())}は正当なコードだが，わざわざ\code{m}が持つ文脈を捨てることになる．（ところで，関数\code{f}の実装は，ラムダ式の使えない\cxx03ではファンクター (functor) という機構を使うことになる．このファンクターは第\ref{ch:functor}章の関手 (functor) とは全く別な概念である．）
+
 
 \section{リストとMaybe*}
 
