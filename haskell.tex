@@ -1,5 +1,5 @@
 \documentclass[twocolumn]{jsbook}
-\usepackage{amsmath,amssymb,ascmac,bm,multirow,fancyvrb,makeidx}
+\usepackage{amsmath,amssymb,ascmac,bm,multirow,fancyvrb,eulervm}
 \makeindex
 
 \title{プログラマのための代数構造}
@@ -18,14 +18,18 @@
 \newenvironment{leader}{\begingroup\bf}{\endgroup}
 \newenvironment{point}{\begin{screen}}{\end{screen}}
 \newenvironment{cxxcode}{\begin{itembox}[r]{\cxx}}{\end{itembox}}
-\newenvironment{javacode}{\begin{itembox}[r]{\textsl{Java}}}{\end{itembox}}
-\newenvironment{pythoncode}{\begin{itembox}[r]{\textsl{Python}}}{\end{itembox}}
+\newenvironment{javacode}{\begin{itembox}[r]{Java}}{\end{itembox}}
+\newenvironment{pythoncode}{\begin{itembox}[r]{Python}}{\end{itembox}}
 \newenvironment{rubycode}{\begin{itembox}[r]{Ruby}}{\end{itembox}}
 \newenvironment{python}{\begin{tabbing}\hspace*{1em}\=\hspace*{1em}\=\hspace*{1em}\=\hspace*{1em}\=\kill}{\end{tabbing}}
 
 % \newenvironment{footnotecode}{\begin{Verbatim}[xleftmargin=10mm]}{\end{Verbatim}}
 
+\newcommand{\pthnId}[1]{\textit{#1}}
 \newcommand{\pthnKeyword}[1]{\textbf{#1}}
+\newcommand{\pthnOperator}[1]{\texttt{#1}}
+\newcommand{\pthnString}[1]{\texttt{#1}}
+
 \DeclareMathOperator{\pthnDef}{\pthnKeyword{def}}
 \DeclareMathOperator{\pthnElse}{\pthnKeyword{else}}
 \DeclareMathOperator{\pthnFor}{\pthnKeyword{for}}
@@ -38,6 +42,7 @@
 \DeclareMathOperator{\pthnRange}{range}
 \DeclareMathOperator{\pthnReduce}{reduce}
 \DeclareMathOperator{\pthnUp}{**}
+
 
 \newcommand{\pthnNextLine}{$\blacktriangleright\blacktriangleright$}
 
@@ -156,14 +161,14 @@
 \hline
 種類&字体・表記法&例\\
 \hline
-変数&イタリック体，小文字（1文字）&$x$, $y$\\
-関数&イタリック体，小文字（1文字）&$f$, $g$\\
-定数&イタリック体，大文字（1文字）&$I$, $T$\\
+変数&オイラー体，小文字（1文字）&$x$, $y$\\
+関数&オイラー体，小文字（1文字）&$f$, $g$\\
+定数&オイラー体，大文字（1文字）&$I$, $T$\\
 特別な関数&ローマン体，小文字で始める&$\hsklSucc$, $\hsklPred$\\
-キーワード&ボールド体，小文字で始める&$\mathIf$, $\mathOtherwise$\\
+キーワード&ボールドローマン体，小文字で始める&$\mathIf$, $\mathOtherwise$\\
 特別な集合&ブラックボード体&$\mathSpecialSet{R}$, $\mathSpecialSet{Q}$, $\mathSpecialSet{Z}$\\
-集合と型&ボールド体，大文字で始める&$\mathSet{S}$, $\hsklInt$\\
-型パラメタ&ボールド体，小文字（1文字）&$\hsklType{a}$, $\hsklType{b}$\\
+集合と型&ボールドローマン体，大文字で始める&$\mathSet{S}$, $\hsklInt$\\
+型パラメタ&ボールドローマン体，小文字（1文字）&$\hsklType{a}$, $\hsklType{b}$\\
 関手と型コンストラクタ&ローマン体，大文字で始める&$\mathFunctor{F}$, $\hsklListConstructor$\\
 型クラス&サンセリフ体，大文字で始める&$\hsklEq$, $\hsklIntegral$\\
 \hline
@@ -177,6 +182,11 @@
 % ベクトル変数&名前に矢印をつける&$\mathVector{x}$\\
 % \hline
 % コード&タイプライタ体&\texttt{1+x}\\
+\hline
+Pythonキーワード&ボールドローマン体&\pthnKeyword{def}, \pthnKeyword{return}\\
+Python変数・関数・定数&イタリック体&\pthnId{x}, \pthnId{y}, \pthnId{z}\\
+Python文字列リテラル&タイプライタ体&\pthnString{"Hello, world."}\\
+Python演算子&タイプライタ体&\pthnOperator{=}, \pthnOperator{+}, \pthnOperator{*}\\
 \hline
 \end{tabular}
 \end{center}
@@ -198,12 +208,9 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 
 さて，登山口にどのプログラミング言語を選ぶのが適当であろうか．IEEE Spectrum による ``The 2015 Top Ten Programming Languages'' という記事によると「ビッグファイブ」として Java, C, \cxx, Python, C\texttt{\#} が挙げられている．そこで本書では，多くのプログラマが読めて，シンプルに記述ができ，なおかつHaskellと対極にある言語であるPython（バージョン3）を登山口に選ぶことにした．Pythonコードはこのように登場する．
 \begin{pythoncode}
-\begin{Verbatim}
-print("Hello, world.")
-\end{Verbatim}
-% \begin{python}
-% $\pthnPrint(\texttt{"Hello, world."})$
-% \end{python}
+\begin{python}
+\pthnId{print} \pthnString{"Hello, world."}
+\end{python}
 \end{pythoncode}
 本文中に登場するPythonコードは文字通り打ち込めばそのまま使える．
 % が，比較演算子$\equiv$だけはキーボードにない記号なので\code{==}に置き換えてもらいたい．
@@ -231,7 +238,7 @@ print("Hello, world.")
 関数引数には括弧を付けない．Pythonでは引数$x$をとる関数$f$を
 \begin{pythoncode}
 \begin{python}
-$f(x)$
+\pthnId{f}(\pthnId{x})
 \end{python}
 \end{pythoncode}
 と書くが，括弧は冗長なので今後は$fx$と書くことにする．引数$x$を関数$f$に「食わせる」ことを\keyword{関数適用}と呼ぶ．もし$ab$と書いてあっても，それは$a*b$ではなくて従来の$a(b)$すなわち関数$a$に引数$b$を与えているものと解釈する．\footnote{Haskellでは関数\code{f}に引数\code{x}を適用させることを \code{f x} と書く．}
@@ -239,7 +246,7 @@ $f(x)$
 複数引数をとる関数をPythonでは
 \begin{pythoncode}
 \begin{python}
-$g(x,y)$
+\pthnId{g}(\pthnId{x}, \pthnId{y})
 \end{python}
 \end{pythoncode}
 と書くが，これも括弧が冗長なので今後は$gxy$と書くことにする．この場合式$gxy$は左を優先して結合するものとする．つまり$$gxy=(gx)y$$である．引数に「飢えた」関数$(gx)$を\keyword{部分適用}された関数と呼ぶ．
@@ -253,7 +260,7 @@ $g(x,y)$
 引数$x$をとり値$1+x$を返す\keyword{ラムダ式}をPythonでは
 \begin{pythoncode}
 \begin{python}
-$\pthnLambda x:1+x$
+\pthnKeyword{lambda} \pthnId{x}: 1 \pthnOperator{+} \pthnId{x}
 \end{python}
 \end{pythoncode}
 と書くが，我々は$$\mathLambdaExpression{x}{1+x}$$のように書くことにする．
@@ -283,14 +290,14 @@ let, where.
 \keyword{関数}$fx=1+x$の定義はPythonでは
 \begin{pythoncode}
 \begin{python}
-$\pthnDef f(x):$\\
-\>$\pthnReturn1+x$
+\pthnKeyword{def} \pthnId{f}(\pthnId{x}):\\
+\>\pthnKeyword{return} 1 \pthnOperator{+} \pthnId{x}
 \end{python}
 \end{pythoncode}
 のように書くことが普通である．これは，ある値をとってある値を返す関数の記述方法としてはいささかオーバーキルである．事実，ラムダ式を用いた
 \begin{pythoncode}
 \begin{python}
-$f=\pthnLambda x:1+x$
+\pthnId{f} \pthnOperator{=} \pthnKeyword{lambda} \pthnId{x}: 1 \pthnOperator{+} \pthnId{x}
 \end{python}
 \end{pythoncode}
 も全く同じ意味になる．
@@ -334,11 +341,11 @@ f'' x | x<0       = -1
 条件式が値を持っていることに注意しよう．Pythonの条件文（if文）は値を返すわけではなく，プログラムの\keyword{制御構造}を表しているため，次のようなコードになる．
 \begin{pythoncode}
 \begin{python}
-$\pthnDef f(x):$\\
-\>$\pthnIf x\equiv0:$\\
-\>\>$\pthnReturn 0$\\
-\>$\pthnElse:$\\
-\>\>$\pthnReturn 1+x$
+\pthnKeyword{def} \pthnId{f}(\pthnId{x})\\
+\>\pthnKeyword{if} \pthnId{x} \pthnOperator{==} 0:\\
+\>\>\pthnKeyword{return} 0\\
+\>\pthnKeyword{else}:\\
+\>\>\pthnKeyword{return} 1 \pthnOperator{+} \pthnId{x}
 \end{python}
 \end{pythoncode}
 プログラムの制御構造は値を持った式として評価できないため，数式としては扱いにくい．そこで我々は前述の条件式だけを使うことにする．
@@ -360,6 +367,7 @@ x*s(x-1)&\mathOtherwise
 \end{cases}
 \end{equation*}
 と定義できる．関数が自分自身を呼び出すことを\keyword{再帰呼び出し}と呼ぶ．
+
 
 
 
