@@ -877,10 +877,10 @@ $\hsklFloat$
 
 \section{Pythonのリスト}
 
-同じ型の値を一列に並べたもの，つまりホモジニアスな配列のことを\keyword{リスト}と呼ぶ．Pythonではリスト\pthnId{l}を
+同じ型の値を一列に並べたもの，つまりホモジニアスな配列のことを\keyword{リスト}と呼ぶ．Pythonではリスト\pthnId{t}を
 \begin{pythoncode}
 \begin{python}
-\pthnId{l} \pthnOp{=} [$0$, $1$, $2$, $3$, $4$, $5$, $6$, $7$, $8$, $9$]
+\pthnId{t} \pthnOp{=} [$0$, $1$, $2$, $3$, $4$, $5$, $6$, $7$, $8$, $9$]
 \end{python}
 \end{pythoncode}
 のように定義できる．
@@ -891,30 +891,30 @@ $\hsklFloat$
 
 複数の型の要素が混在してもよい配列のことをヘテロジニアスな配列と呼び，ホモジニアスな配列とは区別する．
 
-今後，リストを指す変数にはバーをつけて$\hsklList{l}$と書くことにして$$\hsklList{l}=[0,1\dots9]$$のように書くことにしよう．\footnote{Haskellコンパイラは人間よりも記憶力が優れているため，変数名にバーをつける必要はない．}
+今後，リストを指す変数にはバーをつけて$\hsklList{t}$と書くことにして$$\hsklList{t}=[0,1\dots9]$$のように書くことにしよう．\footnote{Haskellコンパイラは人間よりも記憶力が優れているため，変数名にバーをつける必要はない．}
 
 Pythonではリスト内包表記が使える．例えば$0$から$9$までの平方数のリストは次のように作った．
 \begin{pythoncode}
 \begin{python}
-\pthnId{l} \pthnOp{=} [\pthnId{x} \pthnOp{**} $2$ \pthnKeyword{for} \pthnId{x} \pthnKeyword{in} \pthnId{range}($0$, $10$)]
+\pthnId{t} \pthnOp{=} [\pthnId{x} \pthnOp{**} $2$ \pthnKeyword{for} \pthnId{x} \pthnKeyword{in} \pthnId{range}($0$, $10$)]
 \end{python}
 \end{pythoncode}
 ここに\pthnId{range}(\pthnId{a}, \pthnId{b})は\pthnId{a}から増加する方向に連続する\pthnId{b}個の整数からなるリストを返すPythonの関数である．
 
-我々は内包表記のかわりにガードを使って$$\hsklList{l}=\left[x^2\mathGuard{x\mathFrom{[0,1\dots9]}}\right]$$のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mathFrom$を用いた．
+我々は内包表記のかわりにガードを使って$$\hsklList{t}=\left[x^2\mathGuard{x\mathFrom{[0,1\dots9]}}\right]$$のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mathFrom$を用いた．
 
-ガードの中の式は複数あっても良い．例えば$$\hsklList{l}=\left[x+y\mathGuard{x\mathFrom[0,1\dots9],\,y\mathFrom[0,1\dots5],\,x+y>3}\right]$$は$0\le x\le9$かつ$0\le y\le5$の範囲で$x+y>3$となる$x$及び$y$から$x+y$を並べたリストである．これはPythonでいう
+ガードの中の式は複数あっても良い．例えば$$\hsklList{t}=\left[x+y\mathGuard{x\mathFrom[0,1\dots9],\,y\mathFrom[0,1\dots5],\,x+y>3}\right]$$は$0\le x\le9$かつ$0\le y\le5$の範囲で$x+y>3$となる$x$及び$y$から$x+y$を並べたリストである．これはPythonでいう
 \begin{pythoncode}
 \begin{python}
-\pthnId{l} \pthnOp{=} [\pthnId{x} \pthnOp{+} \pthnId{y} \pthnNextLine\\
+\pthnId{t} \pthnOp{=} [\pthnId{x} \pthnOp{+} \pthnId{y} \pthnNextLine\\
 \>\pthnKeyword{for} \pthnId{x} \pthnKeyword{in} \pthnId{range}($0$, $10$) \pthnNextLine\\
 \>\pthnKeyword{for} \pthnId{y} \pthnKeyword{in} \pthnId{range}($0$, $6$) \pthnNextLine\\
 \>\pthnKeyword{if} \pthnId{x} \pthnOp{+} \pthnId{y} \pthnOp{>} $3$]
 \end{python}
 \end{pythoncode}
-のことである．\footnote{Haskellでは\code{l = [x + y | x <- [0, 1..9], y <- [0, 1..5], x + y > 3]}と書く．}
+のことである．\footnote{Haskellでは\code{t = [x + y | x <- [0, 1..9], y <- [0, 1..5], x + y > 3]}と書く．}
 
-リストは\keyword{結合}できる．例えばリスト$\hsklList{l}$とリスト$\hsklList{m}$を結合したリストは$$\hsklList{l}\hsklAppend\hsklList{m}$$と表現する．\footnote{Haskellでは\code{l ++ m}と書く．}
+リストは\keyword{結合}できる．例えばリスト$\hsklList{t}$とリスト$\hsklList{u}$を結合したリストは$$\hsklList{t}\hsklAppend\hsklList{u}$$と表現する．\footnote{Haskellでは\code{t ++ u}と書く．}
 
 リストは無限個の要素を持っても良い．例えば自然数全体を表すリスト$\hsklList{n}$は$$\hsklList{n}=[1,2\dots]$$のように定義して良い．\footnote{Haskellでは\code{n = [1,2..]}と書く．}
 
@@ -922,9 +922,9 @@ Pythonではリスト内包表記が使える．例えば$0$から$9$までの�
 
 任意の型を$\hsklType{a}$とするとき，$\hsklType{a}$型のリスト型を$\hsklListType{\hsklType{a}}$と書く．型$\hsklType{a}$から型$\hsklListType{\hsklType{a}}$を生成する演算子を\keyword{リスト型コンストラクタ}と呼んで$\hsklListConstructor$と書き$$\hsklListType{\hsklType{a}}=\hsklTypeConstruct{\hsklListConstructor}{\hsklType{a}}$$とする．この等式の両辺は変数ではなく型名であることに注意しよう．型コンストラクタの概念はPythonには無い（必要無い）が，静的型付け言語であるJavaの「総称型」や\cxx の「クラステンプレート」が相当する．\footnote{Haskellでは表記上コンテナ型$\hsklListType{a}$と型コンストラクタ式$\hsklTypeConstruct{\hsklListConstructor}{\hsklType{a}}$を区別せず，両者とも\code{[a]}と書く．}
 
-$\hsklType{a}$型の変数$x$を入れた$\hsklListType{\hsklType{a}}$型の変数（リスト変数）を作る演算子を\keyword{リスト値コンストラクタ}と呼ぶ．$\hsklType{a}$型の変数$x$からリスト値コンストラクタを使ってリスト$\hsklList{l}$を作ることは$$\hsklList{l}=[x]$$と書く．\footnote{Haskellでは\code{l = [x]}と書く．}
+$\hsklType{a}$型の変数$x$を入れた$\hsklListType{\hsklType{a}}$型の変数（リスト変数）を作る演算子を\keyword{リスト値コンストラクタ}と呼ぶ．$\hsklType{a}$型の変数$x$からリスト値コンストラクタを使ってリスト$\hsklList{t}$を作ることは$$\hsklList{t}=[x]$$と書く．\footnote{Haskellでは\code{t = [x]}と書く．}
 
-リスト型を表す$\hsklListType{\hsklType{a}}$と，1要素のリストである$[x]$の違いにはいつも気をつけておこう．本書では中身がボールドローマン体ならばリスト型，中身がオイラー体ならリスト値である．またリストを保持する変数にも，本書では$\hsklList{l}$のようにバーをつけておくことにする．
+リスト型を表す$\hsklListType{\hsklType{a}}$と，1要素のリストである$[x]$の違いにはいつも気をつけておこう．本書では中身がボールドローマン体ならばリスト型，中身がオイラー体ならリスト値である．またリストを保持する変数にも，本書では$\hsklList{t}$のようにバーをつけておくことにする．
 
 ある型を包み込んだ別の型を一般に\keyword{コンテナ型}または単に\keyword{コンテナ}と呼ぶ．
 
@@ -934,22 +934,22 @@ $\hsklType{a}$型の変数$x$を入れた$\hsklListType{\hsklType{a}}$型の変�
 我々はよくリストの総和を表現するためにシグマ記号($\sum$)を使う．リスト$[x_0,x_1\dots x_n]$の総和を$$\sum[x_0,x_1\dots x_n]=x_0+x_1+\dotsb+x_n$$とするようなシグマ記号である．この表現を一般化してみよう．
 リスト$[x_0,x_1\dots x_n]$が与えられたとき，$$\mathFold^{\mathAnyBinaryOperator}_{a}[x_0,x_1\dots x_n]=a\mathAnyBinaryOperator x_0\mathAnyBinaryOperator x_1\mathAnyBinaryOperator\dotsb\mathAnyBinaryOperator x_n$$であると定義する．
 
-この新しい記号$\mathFold$は\keyword{畳み込み演算子}と呼ばれる．変数$a$はアキュムレータと呼ぶ．アキュムレータは右側の引数が空であった場合のデフォルト値と考えても良い．\footnote{Haskellでは$\mathFold^{*}_{a}l$を\code{foldl * a l}と書く．}
+この新しい記号$\mathFold$は\keyword{畳み込み演算子}と呼ばれる．変数$a$はアキュムレータと呼ぶ．アキュムレータは右側の引数が空であった場合のデフォルト値と考えても良い．\footnote{Haskellでは$\mathFold^{*}_{a}\hsklList{t}$を\code{foldl * a t}と書く．}
 % !!!!!!!!!! CHECK !!!!!!!!!!
 
-Python 2.7 には畳み込み演算子に相当する\pthnId{reduce}関数があり，リスト\pthnId{l}の総和\pthnId{s}を
+Python 2.7 には畳み込み演算子に相当する\pthnId{reduce}関数があり，リスト\pthnId{t}の総和\pthnId{s}を
 \begin{pythoncode}
 \begin{python}
 \texttt{\# Python 2.7}\\
-\pthnId{l} \pthnOp{=} [$0$, $1$, $2$, $3$, $4$, $5$]\\
-\pthnId{s} \pthnOp{=} \pthnId{reduce}(\pthnKeyword{lambda} \pthnId{x}, \pthnId{y}: \pthnId{x} \pthnOp{+} \pthnId{y}, \pthnId{l}, $0$)
+\pthnId{t} \pthnOp{=} [$0$, $1$, $2$, $3$, $4$, $5$]\\
+\pthnId{s} \pthnOp{=} \pthnId{reduce}(\pthnKeyword{lambda} \pthnId{x}, \pthnId{y}: \pthnId{x} \pthnOp{+} \pthnId{y}, \pthnId{t}, $0$)
 \end{python}
 \end{pythoncode}
 のように求めることができる．この\pthnId{reduce}関数はPythonバージョン3では非推奨になっているが，Rubyには受け継がれていて，Rubyでは
 \begin{rubycode}
 \begin{Verbatim}
-l = [0, 1, 2, 3, 4, 5]
-s = l.inject(0) { |x, y| x + y }
+t = [0, 1, 2, 3, 4, 5]
+s = t.inject(0) { |x, y| x + y }
 \end{Verbatim}
 \end{rubycode}
 と書ける．
@@ -965,10 +965,10 @@ s = l.inject(0) { |x, y| x + y }
 畳み込み演算子の面白い応用例を示そう．$$\mathFold_\hsklEmptyList^\hsklAppend[[0,1,2],[3,4,5],\dots]=[0,1,2,3,4,5,\dots]$$であるから，演算子$$\mathFold_\hsklEmptyList^\hsklAppend$$はリストを平坦化する\keyword{平坦化演算子}である．平坦化演算子はconcat演算子とも呼ばれることもあるが，基本的な演算子であるため特別な記号をつけておこう．我々は$$\hsklConcat=\mathFold_\hsklEmptyList^\hsklAppend$$と定義することにする．\footnote{Haskellでは演算子$\hsklConcat$の代わりに\code{concat}関数を使う．}
 % !!!!!!!!!! CHECK !!!!!!!!!!
 
-リストの各要素に決まった関数を適用したい場合がある．Pythonではリスト\pthnId{l}に関数\pthnId{f}を適用するときには
+リストの各要素に決まった関数を適用したい場合がある．Pythonではリスト\pthnId{t}に関数\pthnId{f}を適用するときには
 \begin{pythoncode}
 \begin{python}
-\pthnId{map}(\pthnId{f}, \pthnId{l})
+\pthnId{map}(\pthnId{f}, \pthnId{t})
 \end{python}
 \end{pythoncode}
 のように\pthnId{map}関数を用いる．
@@ -1042,12 +1042,12 @@ fx:\hsklList{y}&=x+f\hsklList{y}
 \end{itemize}
 といったところだろう．
 
-大域ジャンプも，グローバル変数の書き換えも破壊的代入を伴うものであり，受け入れがたい．そこで我々は第3のエラー状態を示す印をつける方法を採用することにする．普通変数が整数だろうが実数だろうが，計算機表現には余分なビットが残っていないので，次のようなクラスPossiblyを導入することにしよう．メンバ変数\pthnId{value}が値を，メンバ変数\pthnId{validness}がエラーの有無を表す．
+大域ジャンプも，グローバル変数の書き換えも破壊的代入を伴うものであり，受け入れがたい．そこで我々は第3のエラー状態を示す印をつける方法を採用することにする．普通変数が整数だろうが実数だろうが，計算機表現には余分なビットが残っていないので，次のようなクラス\pthnClassname{Possibly}を導入することにしよう．メンバ変数\pthnId{value}が値を，メンバ変数\pthnId{valid}がエラーの有無を表す．
 \begin{pythoncode}
 \begin{python}
-\pthnKeyword{class} {Possibly}:\\
+\pthnKeyword{class} \pthnClassname{Possibly}:\\
 \>\pthnKeyword{def} \pthnId{\_\_init\_\_}(\pthnKeyword{self}, \pthnId{is\_valid}, \pthnId{a\_value} \pthnOp{=} $0$):\\
-\>\>\pthnKeyword{self}.\pthnId{validness} \pthnOp{=} \pthnId{is\_valid}\\
+\>\>\pthnKeyword{self}.\pthnId{valid} \pthnOp{=} \pthnId{is\_valid}\\
 \>\>\pthnKeyword{self}.\pthnId{value} \pthnOp{=} \pthnId{a\_value}
 \end{python}
 \end{pythoncode}
@@ -1055,13 +1055,13 @@ fx:\hsklList{y}&=x+f\hsklList{y}
 例えば整数値$123$を持つPossibly値\pthnId{m}は
 \begin{pythoncode}
 \begin{python}
-\pthnId{m} \pthnOp{=} Possibly(\pthnId{True}, 123)
+\pthnId{m} \pthnOp{=} \pthnClassname{Possibly}(\pthnId{True}, 123)
 \end{python}
 \end{pythoncode}
-として生成できるし，Possibly値\pthnId{m}が計算エラーを表す場合は
+として生成できるし，\pthnClassname{Possibly}値\pthnId{m}が計算エラーを表す場合は
 \begin{pythoncode}
 \begin{python}
-\pthnId{m} \pthnOp{=} Possibly(\pthnId{False})
+\pthnId{m} \pthnOp{=} \pthnClassname{Possibly}(\pthnId{False})
 \end{python}
 \end{pythoncode}
 と初期化できる．
@@ -1073,13 +1073,13 @@ fx:\hsklList{y}&=x+f\hsklList{y}
 \end{python}
 \end{pythoncode}
 
-関数\pthnId{f}に直接Possibly値\pthnId{m}を食わせるのはエラーである．
+関数\pthnId{f}に直接\pthnClassname{Possibly}値\pthnId{m}を食わせるとランタイムエラーを引き起こす．
 \begin{pythoncode}
 \begin{python}
 \pthnId{n} \pthnOp{=} \pthnId{f}(\pthnId{m}) \texttt{\#} エラー!! 
 \end{python}
 \end{pythoncode}
-これは関数\pthnId{f}が引数として数値を期待していたにもかかわらず，Possibly値が渡されたからである．もし関数\pthnId{f}のほうをいじりたくないとすれば，次のような関数\pthnId{map\_over}を使って
+これは関数\pthnId{f}が引数として数値を期待していたにもかかわらず，\pthnClassname{Possibly}値が渡されたからである．もし関数\pthnId{f}のほうをいじりたくないとすれば，次のような関数\pthnId{map\_over}を使って
 \begin{pythoncode}
 \begin{python}
 \pthnId{n} \pthnOp{=} \pthnId{map\_over}(\pthnId{f}, \pthnId{m}) 
@@ -1087,14 +1087,14 @@ fx:\hsklList{y}&=x+f\hsklList{y}
 \end{pythoncode}
 というふうに間接的に関数適用を行う必要がある．
 
-関数\pthnId{map\_over}(\pthnId{f}, \pthnId{m})はもし\pthnId{m}がエラーを表す値でなければ中身の値を関数\pthnId{f}に適用し，その結果をPossiblyクラスに包んで返す．もし\pthnId{m}がエラー値を表す値であれば，結果もエラー値である．関数\pthnId{map\_over}の実装は次のようになる．
+関数\pthnId{map\_over}(\pthnId{f}, \pthnId{m})はもし\pthnId{m}がエラーを表す値でなければ中身の値を関数\pthnId{f}に適用し，その結果を\pthnClassname{Possibly}クラスに包んで返す．もし\pthnId{m}がエラー値を表す値であれば，結果もエラー値である．関数\pthnId{map\_over}の実装は次のようになる．
 \begin{pythoncode}
 \begin{python}
 \pthnKeyword{def} \pthnId{map\_over}(\pthnId{f}, \pthnId{m}):\\
-\>\pthnKeyword{if} \pthnId{m}.\pthnId{validness} \pthnOp{==} \pthnId{True}:\\
-\>\>\pthnKeyword{return} Possibly(\pthnId{True}, \pthnId{f}(\pthnId{m}.\pthnId{value}))\\
+\>\pthnKeyword{if} \pthnId{m}.\pthnId{valid} \pthnOp{==} \pthnId{True}:\\
+\>\>\pthnKeyword{return} \pthnClassname{Possibly}(\pthnId{True}, \pthnId{f}(\pthnId{m}.\pthnId{value}))\\
 \>\pthnKeyword{else}:\\
-\>\>\pthnKeyword{return} Possibly(\pthnId{False})
+\>\>\pthnKeyword{return} \pthnClassname{Possibly}(\pthnId{False})
 \end{python}
 \end{pythoncode}
 
@@ -1104,9 +1104,7 @@ fx:\hsklList{y}&=x+f\hsklList{y}
 
 もう一度振り出しに戻る．
 
-整数$x$と整数$y$があり$z=y/x$という式があるとする．この式は$x\equiv0$のときには$0$除算エラーである．しかし除算の度にエラーが起こったかどうか調べるのは面倒であるし，記述も煩雑になってしまう．プログラマはよくこういう場合に「例外」という大域ジャンプ機構を用いるが，例外とは内部状態の書き換えであり，我々の計算に入れたくないものである．
-
-そこで変数$z$が正しく計算されたかもしれないし，されていないかもしれないということを，$\hsklMaybe{m}$のように印をつけた別の変数に入れて，忘れないようにしておこう．ここで変数$\hsklMaybe{m}$が取り得る値は正しく計算された値$z$か，あるいはエラーを表す値$\hsklNothing$である．このように計算結果に「意味付け」をすることを\keyword{文脈}に入れると言う．
+整数$x$と整数$y$があり$z=y/x$という式があるとする．この式は$x\equiv0$のときには$0$除算エラーである．しかし「例外」は内部状態の書き換えであり，我々の計算に入れたくない．そこで変数$z$が正しく計算されたかもしれないし，されていないかもしれないということを，$\hsklMaybe{m}$のように印をつけた別の変数に入れて，忘れないようにしておこう．ここで変数$\hsklMaybe{m}$が取り得る値は正しく計算された値$z$か，あるいはエラーを表す値$\hsklNothing$である．このように計算結果に「意味付け」をすることを\keyword{文脈}に入れると言う．
 
 この変数$\hsklMaybe{m}$はもはや整数型とは言えない．そこでこの$\hsklMaybe{m}$の型を$\hsklMaybeType{\hsklInt}$と表して「きっと整数」型と呼ぶことにしよう．
 型$\hsklType{a}$から型$\hsklMaybeType{\hsklType{a}}$を生成する型コンストラクタを$\hsklMaybeConstructor$と呼び$$\hsklMaybeType{\hsklType{a}}=\hsklTypeConstruct{\hsklMaybeConstructor}{\hsklType{a}}$$とする．\footnote{Haskellでは表記上コンテナ型$\hsklMaybeType{a}$と型コンストラクタ式$\hsklTypeConstruct{\hsklMaybeConstructor}{\hsklType{a}}$を区別せず，両者とも\code{Maybe a}と書く．}
@@ -1126,7 +1124,7 @@ f\hsklMaybeMap\hsklMaybe{m}=\begin{cases}
 \hsklNothing&\mathOtherwise
 \end{cases}
 \end{equation*}
-であるようなMaybeバージョンのマップ演算子$\hsklMaybeMap$である．その実装は実はいたって単純で
+であるようなMaybeバージョンのマップ演算子$\hsklMaybeMap$である．そこで演算子$\hsklMaybeMap$を
 \begin{equation*}
 \left\{
 \begin{split}
@@ -1135,7 +1133,7 @@ f\hsklMaybeMap\hsklNothing&=\hsklNothing
 \end{split}
 \right.
 \end{equation*}
-である．
+のように定義する．
 
 今後，普通の（引数にMaybeが来ることを想定していない）関数$f$をMaybe型である変数$\hsklMaybe{m}$に適用させるときには，必ず$$\hsklMaybe{n}=f\hsklMaybeMap\hsklMaybe{m}$$のようにMaybeバージョンのマップ演算子$\hsklMaybeMap$を用いることにする．\footnote{HaskellではMaybeバージョンのマップ演算子に特別な記号，関数名が与えられていない．その代わり第\ref{ch:functor}章で述べる一般化マップ演算子$\hsklFmap$に相当する\code{fmap}関数を用い\code{n = fmap f m}または\code{n = f `fmap` m}のようにする．Haskellは型推論を行なうため変数\code{m}がMaybeであればMaybeバージョンのマップ演算子（関数）が適用される．（もし\code{m}がリストであれば通常のマップ関数である\code{map}が適用される．）}
 
@@ -1145,9 +1143,9 @@ f\hsklMaybeMap\hsklNothing&=\hsklNothing
 % $$(\typeconstructor{\typemaybe}{\typename{a}},\binarymaybeappend,\constantnothing)$$
 % \boxplus == \boxdot???
 
-PythonでMaybeの概念を忠実になぞることは難しい．と言うのもPythonは動的型付け言語であるため，型コンストラクタという概念が無いからだ．一方で，Maybeの概念を\cxx で実現することはそれほど難しいことではない．しかも\cxx11以降であれば比較的簡潔に書ける．そこで\cxx プログラマのために本物のコードで示しておこう．ただし参照を使わないでおいたのでJavaプログラマも参考にできるだろう．
+PythonでMaybeの概念を忠実になぞることは難しい．と言うのもPythonは動的型付け言語であるため，型コンストラクタという概念が無いからだ．一方で，Maybeの概念を静的型付け言語である\cxx やJavaで実現することはそれほど難しいことではない．そこで\cxx の本物のコードで示しておこう．ただし参照を使わないでおいたので\cxx プログラマもJavaプログラマも参考にできるだろう．
 
-Maybeは次の\code{Maybe}クラステンプレートで表現できる．
+Maybeは次の\pthnClassname{maybe}クラステンプレートで表現できる．（Javaプログラマへの注意：これは\pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$クラスの定義と同じ意味である．）
 \begin{cxxcode}
 \begin{python}
 \pthnKeyword{template} $\langle$\pthnKeyword{typename} \pthnClassname{a}$\rangle$ \pthnKeyword{class} \pthnClassname{maybe} \{\\
@@ -1163,11 +1161,11 @@ Maybeは次の\code{Maybe}クラステンプレートで表現できる．
 \};
 \end{python}
 \end{cxxcode}
-デフォルトコンストラクタは例外的な状況を表す$\hsklNothing$を生成し，1引数コンストラクタはMaybeで包んだ引数値を生成する．
+デフォルトコンストラクタは例外的な状況を表す$\hsklNothing$を生成し，1引数コンストラクタは\pthnClassname{maybe}で包んだ引数値を生成する．
 
 \cxx プログラムで良く見かけるクラス設計と違い，この\pthnClassname{maybe}クラスはコンストラクタ以外に中身を書き換える手段が提供されていない．これが破壊的代入の禁止が意味することである．
 
-当然我々にはMaybeバージョンのマップ演算子が必要である．ここでは\pthnId{map\_over}関数として書いてみよう．
+当然我々にはMaybeバージョンのマップ演算子が必要である．ここでは関数\pthnId{map\_over}として書いてみよう．（Javaプログラマへの注意：関数\pthnId{map\_over}はどのクラスにも属していないが，それで正解なのである．）
 \begin{cxxcode}
 \begin{python}
 \pthnKeyword{template} $\langle$\pthnKeyword{typename} \pthnClassname{a}, \pthnKeyword{typename} \pthnClassname{fn}$\rangle$\\
@@ -1179,7 +1177,8 @@ Maybeは次の\code{Maybe}クラステンプレートで表現できる．
 \}
 \end{python}
 \end{cxxcode}
-テンプレートの2番目の引数\pthnClassname{fn}は関数\pthnId{f}を受け取るために必要である．こうすることで，Cスタイルの関数ポインタも，\cxx03スタイルの関数オブジェクトも，\cxx11スタイルのラムダ式も受け取ることができる．
+テンプレートの2番目の引数\pthnClassname{fn}は関数\pthnId{f}を受け取るために必要である．\cxx はコンパイル時までにすべての変数の型が決定していないといけないが，関数\pthnId{f}の型は関数\pthnId{map\_over}設計時には確定できないため，このようにテンプレートにしている．（\cxx03プログラマへの注意：関数\pthnId{f}には関数オブジェクトを渡しても良い．）
+% こうすることで，Cスタイルの関数ポインタも，\cxx03スタイルの関数オブジェクトも，\cxx11スタイルのラムダ式も受け取ることができる．
 
 整数$z$からMaybe値$\hsklMaybe{m}=\hsklJust{z}$を作り，関数$fx=100*x$をMaybe値$\hsklMaybe{m}$に食わせてMaybe値$\hsklMaybe{n}$ただし$$\hsklMaybe{n}=f\hsklMaybeMap\hsklMaybe{m}$$を得ることを，\cxx では次のように書くことになる．
 \begin{cxxcode}
@@ -1196,20 +1195,49 @@ Maybeは次の\code{Maybe}クラステンプレートで表現できる．
 
 \section{リストとMaybe*}
 
+関数$f$をMayby値$\hsklMaybe{m}$に適用するために$$\hsklMaybe{n}=f\hsklMaybeMap\hsklMaybe{m}$$のようなMaybeバージョンのマップ演算子($\hsklMaybeMap$)を使った．一方で，同じ関数$f$をリスト$\hsklList{t}$に適用するには$$\hsklList{u}=f\hsklMap\hsklList{t}$$
+
 リストバージョンのマップ演算子($\hsklMap$)をもし\cxx で書くとしたら，次のようなコードになる．ここでリスト型として\cxx の標準テンプレートライブラリ(STL)の\pthnClassname{list}クラスを流用した．
 \begin{cxxcode}
 \begin{python}
 \pthnKeyword{template} $\langle$\pthnKeyword{typename} \pthnClassname{a}, \pthnKeyword{typename} \pthnClassname{fn}$\rangle$\\
-\pthnId{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$ \pthnId{map\_over}(\pthnClassname{fn} \pthnId{f}, \pthnId{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$ \pthnId{l}) \{\\
-\>\pthnId{std}::\pthnClassname{list}$\langle$a$\rangle$ \pthnId{r}(\pthnId{l}.\pthnId{size}());\\
-\>\pthnKeyword{auto} \pthnId{i} \pthnOp{=} \pthnId{l}.\pthnId{cbegin}(), \pthnId{j} \pthnOp{=} \pthnId{r}.\pthnId{begin}();\\
-\>\pthnKeyword{while} (\pthnId{i} \pthnOp{!=} \pthnId{l}.\pthnId{cend}()) \pthnOp{*}\pthnId{j}\pthnOp{++} \pthnOp{=} \pthnOp{*}\pthnId{i}\pthnOp{++};\\
+\pthnId{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$ \pthnId{map\_over}(\pthnClassname{fn} \pthnId{f}, \pthnId{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$ \pthnId{t}) \{\\
+\>\pthnId{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$ \pthnId{r}(\pthnId{t}.\pthnId{size}());\\
+% \>\pthnKeyword{typename} \pthnId{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$::\pthnClassname{const\_iterator}\\
+% \>\>\pthnId{i} \pthnOp{=} \pthnId{l}.\pthnId{cbegin}();\\
+% \>\pthnKeyword{typename} \pthnId{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$::\pthnClassname{iterator} \pthnId{j} \pthnOp{=} \pthnId{r}.\pthnId{begin}();\\
+\>\pthnKeyword{auto} \pthnId{i} \pthnOp{=} \pthnId{t}.\pthnId{cbegin}();\\
+\>\pthnKeyword{auto} \pthnId{j} \pthnOp{=} \pthnId{r}.\pthnId{begin}();\\
+\>\pthnKeyword{while} (\pthnId{i} \pthnOp{!=} \pthnId{l}.\pthnId{cend}())\\
+\>\>\pthnOp{*}\pthnId{j}\pthnOp{++} \pthnOp{=} \pthnId{f}(\pthnOp{*}\pthnId{i}\pthnOp{++});\\
 \>\pthnKeyword{return} \pthnId{r};\\
 \}
 \end{python}
 \end{cxxcode}
+この関数\pthnId{map\_over}の中身部分はどうでもよろしい．それよりも，リストバージョンのマップ演算子の\cxx 関数のインタフェースと，Maybeバージョンのマップ演算子の\cxx 関数のインタフェースを見比べてみよう．
+\begin{cxxcode}
+\begin{python}
+\verb|//| List\\
+\pthnKeyword{template} $\langle$\pthnKeyword{typename} \pthnClassname{a}, \pthnKeyword{typename} \pthnClassname{fn}$\rangle$\\
+\pthnId{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$ \pthnId{map\_over}(\pthnClassname{fn} \pthnId{f}, \pthnId{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$ \pthnId{t});\\
+\verb|//| Maybe\\
+\pthnKeyword{template} $\langle$\pthnKeyword{typename} \pthnClassname{a}, \pthnKeyword{typename} \pthnClassname{fn}$\rangle$\\
+\pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$ \pthnId{map\_over}(\pthnClassname{fn} \pthnId{f}, \pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$ \pthnId{m});
+\end{python}
+\end{cxxcode}
+やはりそっくりである．であるならば
+\begin{cxxcode}
+\begin{python}
+\verb|//| \pthnClassname{X} \pthnOp{=} \pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$ or \pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$ \\
+\pthnKeyword{template} $\langle$\pthnKeyword{typename} \pthnClassname{X}, \pthnKeyword{typename} \pthnClassname{fn}$\rangle$\\
+\pthnClassname{X} \pthnId{map\_over}(\pthnClassname{fn} \pthnId{f}, \pthnClassname{X} \pthnId{x});
+\end{python}
+\end{cxxcode}
+として，型\pthnClassname{X}に応じてリストバージョンかMaybeバージョンを切り替えられると便利である．
 
+残念ながら，\cxx で楽に進める道はここら辺までである．型\pthnClassname{X}がマップ可能なコンテナであることをテンプレート機構を使って保証することができないため，この\pthnId{map\_over}関数を誤った型に対して使った場合のコンパイル時エラーはひどく読みにくいものになるだろう．
 
+一方で，数学者たちが見つけた圏という代数的構造が，リストもMaybeも統一的に扱うことを可能にしている．これを発見したのは XYZ Moggi という数学者である．
 
 
 \section{余計な話：単位的半群としてのコンテナ}
@@ -1227,8 +1255,10 @@ a
 \end{leader}
 
 \begin{boxnote}
-関手は英語でファンクター(functor)と言うが，\cxx のファンクター(functor)とは異なる概念である．本書の関手（ファンクター）は数学における圏論のそれであるのに対し，\cxx のファンクターは「関数のように振る舞う」インスタンスのクラスのことであり，圏論とは関係がない．\cxx のファンクターは「関数オブジェクト」とも言うが，関数でもオブジェクトでもなく，実態は\cxx03までの文法で無理やり再現したラムダ式のことである．
-%!!!!!!!!!! CHECK
+\begin{center}
+注意
+\end{center}
+関手は英語でファンクター(functor)と言うが，\cxx の関数オブジェクト(functional)もかつてはファンクター(functor)と呼ばれていた．\cxx のファンクターとはラムダ式の粗末な代用品のことで，本書で述べる関手とは異なる概念である．混同しないように注意しよう．
 \end{boxnote}
 
 
