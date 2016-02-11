@@ -1164,7 +1164,7 @@ Maybeは次の\code{Maybe}クラステンプレートで表現できる．
 \end{cxxcode}
 デフォルトコンストラクタは例外的な状況を表す$\hsklNothing$を生成し，1引数コンストラクタはMaybeで包んだ引数値を生成する．
 
-当然我々にはMaybeバージョンのマップ演算子が必要である．ここでは\code{mapOver}関数として書いてみよう．
+当然我々にはMaybeバージョンのマップ演算子が必要である．ここでは\pthnId{map\_over}関数として書いてみよう．
 \begin{cxxcode}
 \begin{python}
 \pthnKeyword{template} $\langle$\pthnKeyword{typename} a, \pthnKeyword{typename} fn$\rangle$\\
@@ -1192,11 +1192,23 @@ Maybe$\langle$\pthnKeyword{int}$\rangle$ \pthnId{n} \pthnOp{=} \pthnId{map\_over
 
 
 
-
-
-
-
 \section{リストとMaybe*}
+
+\begin{cxxcode}
+\begin{python}
+\pthnKeyword{template} $\langle$\pthnKeyword{typename} a, \pthnKeyword{typename} fn$\rangle$\\
+\pthnId{std}::list$\langle$a$\rangle$ \pthnId{map\_over}(fn \pthnId{f}, \pthnId{std}::list$\langle$a$\rangle$ \pthnId{l}) \{\\
+\>\pthnId{std}::list$\langle$a$\rangle$ \pthnId{r}(\pthnId{l}.\pthnId{size}());\\
+\>\pthnKeyword{auto} \pthnId{i} \pthnOp{=} \pthnId{r}.\pthnId{begin}();\\
+\>\pthnKeyword{auto} \pthnId{j} \pthnOp{=} \pthnId{l}.\pthnId{cbegin}();\\
+\>\pthnKeyword{while} (\pthnId{j} \pthnOp{!=} \pthnId{l}.\pthnId{cend}()) \pthnOp{*}\pthnId{i}\pthnOp{++} \pthnOp{=} \pthnOp{*}\pthnId{j}\pthnOp{++};\\
+\>\pthnKeyword{return} \pthnId{r};\\
+\}
+\end{python}
+\end{cxxcode}
+
+
+
 
 \section{余計な話：単位的半群としてのコンテナ}
 
@@ -1214,6 +1226,7 @@ a
 
 \begin{boxnote}
 関手は英語でファンクター(functor)と言うが，\cxx のファンクター(functor)とは異なる概念である．本書の関手（ファンクター）は数学における圏論のそれであるのに対し，\cxx のファンクターは「関数のように振る舞う」インスタンスのクラスのことであり，圏論とは関係がない．\cxx のファンクターは「関数オブジェクト」とも言うが，関数でもオブジェクトでもなく，実態は\cxx03までの文法で無理やり再現したラムダ式のことである．
+%!!!!!!!!!! CHECK
 \end{boxnote}
 
 
