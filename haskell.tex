@@ -26,6 +26,7 @@
 
 % \newenvironment{footnotecode}{\begin{Verbatim}[xleftmargin=10mm]}{\end{Verbatim}}
 
+\newcommand{\pthnClassname}[1]{\textrm{#1}}
 \newcommand{\pthnId}[1]{\textit{#1}}
 \newcommand{\pthnKeyword}[1]{\textbf{#1}}
 \newcommand{\pthnOp}[1]{\texttt{#1}}
@@ -1147,17 +1148,17 @@ f\hsklMaybeMap\hsklNothing&=\hsklNothing
 PythonでMaybeの概念を忠実になぞることは難しい．と言うのもPythonは動的型付け言語であるため，型コンストラクタという概念が無いからだ．一方で，Maybeの概念を\cxx で実現することはそれほど難しいことではない．しかも\cxx11以降であれば比較的簡潔に書ける．そこで\cxx プログラマのために本物のコードで示しておこう．ただし参照を使わないでおいたのでJavaプログラマも参考にできるだろう．
 
 Maybeは次の\code{Maybe}クラステンプレートで表現できる．
-\begin{cxxcode}
+\begin{cxxcode}maybe
 \begin{python}
-\pthnKeyword{template} $\langle$\pthnKeyword{typename} a$\rangle$ \pthnKeyword{class} Maybe \{\\
+\pthnKeyword{template} $\langle$\pthnKeyword{typename} \pthnClassname{a}$\rangle$ \pthnKeyword{class} \pthnClassname{maybe} \{\\
 \pthnKeyword{private}:\\
-\>a \pthnId{value};\\
+\>\pthnClassname{a} \pthnId{value};\\
 \>\pthnKeyword{bool} \pthnId{valid};\\
 \pthnKeyword{public}:\\
-\>Maybe(): \pthnId{value}($0$), \pthnId{valid}(\pthnId{false}) \{ \}\\
-\>Maybe(a \pthnId{a\_value}):\\
+\>\pthnClassname{maybe}(): \pthnId{value}($0$), \pthnId{valid}(\pthnId{false}) \{ \}\\
+\>\pthnClassname{maybe}(\pthnClassname{a} \pthnId{a\_value}):\\
 \>\>\pthnId{value}(\pthnId{a\_value}), \pthnId{valid}(\pthnId{true}) \{ \}\\
-\>a \pthnId{get\_value}() \pthnKeyword{const} \{ \pthnKeyword{return} \pthnId{value}; \}\\
+\>\pthnClassname{a} \pthnId{get\_value}() \pthnKeyword{const} \{ \pthnKeyword{return} \pthnId{value}; \}\\
 \>\pthnKeyword{bool} \pthnId{is\_valid}() \pthnKeyword{const} \{ \pthnKeyword{return} \pthnId{valid}; \}\\
 \};
 \end{python}
@@ -1167,12 +1168,12 @@ Maybeは次の\code{Maybe}クラステンプレートで表現できる．
 当然我々にはMaybeバージョンのマップ演算子が必要である．ここでは\pthnId{map\_over}関数として書いてみよう．
 \begin{cxxcode}
 \begin{python}
-\pthnKeyword{template} $\langle$\pthnKeyword{typename} a, \pthnKeyword{typename} fn$\rangle$\\
-Maybe$\langle$a$\rangle$ \pthnId{map\_over}(fn \pthnId{f}, Maybe$\langle$a$\rangle$ \pthnId{m}) \{\\
+\pthnKeyword{template} $\langle$\pthnKeyword{typename} \pthnClassname{a}, \pthnKeyword{typename} \pthnClassname{fn}$\rangle$\\
+\pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$ \pthnId{map\_over}(\pthnClassname{fn} \pthnId{f}, \pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$ \pthnId{m}) \{\\
 \>\pthnKeyword{if} (\pthnId{m}.\pthnId{is\_valid}())\\
-\>\>\pthnKeyword{return} Maybe$\langle$a$\rangle$(\pthnId{f}(\pthnId{m}.\pthnId{get\_value}()));\\
+\>\>\pthnKeyword{return} \pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$(\pthnId{f}(\pthnId{m}.\pthnId{get\_value}()));\\
 \>\pthnKeyword{else}\\
-\>\>\pthnKeyword{return} Maybe$\langle$a$\rangle$();\\
+\>\>\pthnKeyword{return} \pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$();\\
 \}
 \end{python}
 \end{cxxcode}
@@ -1181,24 +1182,23 @@ Maybe$\langle$a$\rangle$ \pthnId{map\_over}(fn \pthnId{f}, Maybe$\langle$a$\rang
 \begin{cxxcode}
 \begin{python}
 \pthnKeyword{int} \pthnId{z} \pthnOp{=} $123$;\\
-Maybe$\langle$\pthnKeyword{int}$\rangle$ \pthnId{m}(\pthnId{z});\\
+\pthnClassname{maybe}$\langle$\pthnKeyword{int}$\rangle$ \pthnId{m}(\pthnId{z});\\
 \pthnKeyword{auto} \pthnId{f} \pthnOp{=} \pthnOp{[]}(\pthnKeyword{int} \pthnId{x}) $\rightarrow$ \pthnKeyword{int} \{ \pthnKeyword{return} \pthnId{x} \pthnOp{*} $100$; \};\\
-Maybe$\langle$\pthnKeyword{int}$\rangle$ \pthnId{n} \pthnOp{=} \pthnId{map\_over}(\pthnId{f}, \pthnId{m});
+\pthnClassname{maybe}$\langle$\pthnKeyword{int}$\rangle$ \pthnId{n} \pthnOp{=} \pthnId{map\_over}(\pthnId{f}, \pthnId{m});
 \end{python}
 \end{cxxcode}
 注意してほしいのは\pthnId{f}(\pthnId{z})も\pthnId{map\_over}(\pthnId{f}, \pthnId{m})も正当なコードだが\pthnId{f}(\pthnId{m})は型エラーであることだ．また\pthnId{f}(\pthnId{m}.\pthnId{get\_value}())は正当なコードだが，わざわざ\pthnId{m}が持つ文脈を捨てることになる．
 
 ところで，関数\pthnId{f}の実装は，ラムダ式の使えない\cxx03ではファンクター (functor) という機構を使うことになる．このファンクターは第\ref{ch:functor}章の関手 (functor) とは全く別な概念である．
 
-
-
 \section{リストとMaybe*}
 
+リストバージョンのマップ演算子($\hsklMap$)をもし\cxx で書くとしたら，次のようなコードになる．ここでリスト型として\cxx のlistクラスを
 \begin{cxxcode}
 \begin{python}
-\pthnKeyword{template} $\langle$\pthnKeyword{typename} a, \pthnKeyword{typename} fn$\rangle$\\
-\pthnId{std}::list$\langle$a$\rangle$ \pthnId{map\_over}(fn \pthnId{f}, \pthnId{std}::list$\langle$a$\rangle$ \pthnId{l}) \{\\
-\>\pthnId{std}::list$\langle$a$\rangle$ \pthnId{r}(\pthnId{l}.\pthnId{size}());\\
+\pthnKeyword{template} $\langle$\pthnKeyword{typename} \pthnClassname{a}, \pthnKeyword{typename} \pthnClassname{fn}$\rangle$\\
+\pthnId{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$ \pthnId{map\_over}(\pthnClassname{fn} \pthnId{f}, \pthnId{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$ \pthnId{l}) \{\\
+\>\pthnId{std}::\pthnClassname{list}$\langle$a$\rangle$ \pthnId{r}(\pthnId{l}.\pthnId{size}());\\
 \>\pthnKeyword{auto} \pthnId{i} \pthnOp{=} \pthnId{r}.\pthnId{begin}();\\
 \>\pthnKeyword{auto} \pthnId{j} \pthnOp{=} \pthnId{l}.\pthnId{cbegin}();\\
 \>\pthnKeyword{while} (\pthnId{j} \pthnOp{!=} \pthnId{l}.\pthnId{cend}()) \pthnOp{*}\pthnId{i}\pthnOp{++} \pthnOp{=} \pthnOp{*}\pthnId{j}\pthnOp{++};\\
