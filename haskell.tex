@@ -1148,7 +1148,7 @@ f\hsklMaybeMap\hsklNothing&=\hsklNothing
 PythonでMaybeの概念を忠実になぞることは難しい．と言うのもPythonは動的型付け言語であるため，型コンストラクタという概念が無いからだ．一方で，Maybeの概念を\cxx で実現することはそれほど難しいことではない．しかも\cxx11以降であれば比較的簡潔に書ける．そこで\cxx プログラマのために本物のコードで示しておこう．ただし参照を使わないでおいたのでJavaプログラマも参考にできるだろう．
 
 Maybeは次の\code{Maybe}クラステンプレートで表現できる．
-\begin{cxxcode}maybe
+\begin{cxxcode}
 \begin{python}
 \pthnKeyword{template} $\langle$\pthnKeyword{typename} \pthnClassname{a}$\rangle$ \pthnKeyword{class} \pthnClassname{maybe} \{\\
 \pthnKeyword{private}:\\
@@ -1165,6 +1165,8 @@ Maybeは次の\code{Maybe}クラステンプレートで表現できる．
 \end{cxxcode}
 デフォルトコンストラクタは例外的な状況を表す$\hsklNothing$を生成し，1引数コンストラクタはMaybeで包んだ引数値を生成する．
 
+\cxx プログラムで良く見かけるクラス設計と違い，この\pthnClassname{maybe}クラスはコンストラクタ以外に中身を書き換える手段が提供されていない．これが破壊的代入の禁止が意味することである．
+
 当然我々にはMaybeバージョンのマップ演算子が必要である．ここでは\pthnId{map\_over}関数として書いてみよう．
 \begin{cxxcode}
 \begin{python}
@@ -1177,6 +1179,7 @@ Maybeは次の\code{Maybe}クラステンプレートで表現できる．
 \}
 \end{python}
 \end{cxxcode}
+テンプレートの2番目の引数\pthnClassname{fn}は関数\pthnId{f}を受け取るために必要である．こうすることで，Cスタイルの関数ポインタも，\cxx03スタイルの関数オブジェクトも，\cxx11スタイルのラムダ式も受け取ることができる．
 
 整数$z$からMaybe値$\hsklMaybe{m}=\hsklJust{z}$を作り，関数$fx=100*x$をMaybe値$\hsklMaybe{m}$に食わせてMaybe値$\hsklMaybe{n}$ただし$$\hsklMaybe{n}=f\hsklMaybeMap\hsklMaybe{m}$$を得ることを，\cxx では次のように書くことになる．
 \begin{cxxcode}
@@ -1189,11 +1192,11 @@ Maybeは次の\code{Maybe}クラステンプレートで表現できる．
 \end{cxxcode}
 注意してほしいのは\pthnId{f}(\pthnId{z})も\pthnId{map\_over}(\pthnId{f}, \pthnId{m})も正当なコードだが\pthnId{f}(\pthnId{m})は型エラーであることだ．また\pthnId{f}(\pthnId{m}.\pthnId{get\_value}())は正当なコードだが，わざわざ\pthnId{m}が持つ文脈を捨てることになる．
 
-ところで，関数\pthnId{f}の実装は，ラムダ式の使えない\cxx03ではファンクター (functor) という機構を使うことになる．このファンクターは第\ref{ch:functor}章の関手 (functor) とは全く別な概念である．
+% ところで，関数\pthnId{f}の実装は，ラムダ式の使えない\cxx03ではファンクター (functor) という機構を使うことになる．このファンクターは第\ref{ch:functor}章の関手 (functor) とは全く別な概念である．
 
 \section{リストとMaybe*}
 
-リストバージョンのマップ演算子($\hsklMap$)をもし\cxx で書くとしたら，次のようなコードになる．ここでリスト型として\cxx のlistクラスを
+リストバージョンのマップ演算子($\hsklMap$)をもし\cxx で書くとしたら，次のようなコードになる．ここでリスト型として\cxx の標準テンプレートライブラリ(STL)の\pthnClassname{list}クラスを流用した．
 \begin{cxxcode}
 \begin{python}
 \pthnKeyword{template} $\langle$\pthnKeyword{typename} \pthnClassname{a}, \pthnKeyword{typename} \pthnClassname{fn}$\rangle$\\
