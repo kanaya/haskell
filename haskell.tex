@@ -1199,9 +1199,8 @@ Maybeは次の\code{Maybe}クラステンプレートで表現できる．
 \pthnKeyword{template} $\langle$\pthnKeyword{typename} \pthnClassname{a}, \pthnKeyword{typename} \pthnClassname{fn}$\rangle$\\
 \pthnId{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$ \pthnId{map\_over}(\pthnClassname{fn} \pthnId{f}, \pthnId{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$ \pthnId{l}) \{\\
 \>\pthnId{std}::\pthnClassname{list}$\langle$a$\rangle$ \pthnId{r}(\pthnId{l}.\pthnId{size}());\\
-\>\pthnKeyword{auto} \pthnId{i} \pthnOp{=} \pthnId{r}.\pthnId{begin}();\\
-\>\pthnKeyword{auto} \pthnId{j} \pthnOp{=} \pthnId{l}.\pthnId{cbegin}();\\
-\>\pthnKeyword{while} (\pthnId{j} \pthnOp{!=} \pthnId{l}.\pthnId{cend}()) \pthnOp{*}\pthnId{i}\pthnOp{++} \pthnOp{=} \pthnOp{*}\pthnId{j}\pthnOp{++};\\
+\>\pthnKeyword{auto} \pthnId{i} \pthnOp{=} \pthnId{l}.\pthnId{cbegin}(), \pthnId{j} \pthnOp{=} \pthnId{r}.\pthnId{begin}();\\
+\>\pthnKeyword{while} (\pthnId{i} \pthnOp{!=} \pthnId{l}.\pthnId{cend}()) \pthnOp{*}\pthnId{j}\pthnOp{++} \pthnOp{=} \pthnOp{*}\pthnId{i}\pthnOp{++};\\
 \>\pthnKeyword{return} \pthnId{r};\\
 \}
 \end{python}
