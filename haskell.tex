@@ -156,7 +156,7 @@
 \newcommand{\mathField}[7]{(#1,#2,#3,#4,#5,#6,#7)}
 
 \begin{document}
-\setlength{\baselineskip}{17pt}
+% \setlength{\baselineskip}{17pt}
 \maketitle
 \tableofcontents
 
@@ -369,6 +369,9 @@ y=\mathLet(x'=100*x+50)\mathLetIn fx'
 
 式\eqref{eq:letin}は局所変数を後ろに回して$$y=fx'\mathWhere x'=100*x+50$$次のように書いても良い．
 
+式\eqref{eq:letin}はラムダ式を使った糖衣構文であり，一般に$$\mathLet(x'=gx)\mathLetIn fx'=(\mathLambdaExpression{x'}{fx'})(gx)$$である．
+
+
 \chapter{さらにカリー風な書き方}
 
 \begin{leader}
@@ -433,9 +436,9 @@ $z=f(g(x))$
 \>\>\pthnKeyword{return} $1$ \pthnOp{+} \pthnId{x}
 \end{python}
 \end{pythoncode}
-のような\keyword{制御構造}としての条件文があるが，我々は値として使える，すなわち値を持つ条件式を考える．
+のような\keyword{制御構造}としての条件文があるが，我々は値を持つ条件式を考える．
 
-我々の条件式とは$$fx=\mathIf x\equiv0\mathThen0\mathElse1+x$$のように$\mathIf$節，$\mathThen$節，及び$\mathElse$節からなるものであって，$\mathThen$節も$\mathElse$節も省略できないものとする．$\mathIf$節の式の値が真($T$)であれば$\mathThen$節の式が評価され，そうでなければ$\mathElse$節の式が評価される．
+我々の条件式とは$$fx=\mathIf x\equiv0\mathThen0\mathElse1+x$$のように$\mathIf$節，$\mathThen$節，及び$\mathElse$節からなるものであって，$\mathThen$節も$\mathElse$節も省略できないものとする．$\mathIf$節の式の値が真($T$)であれば$\mathThen$節の式が評価され，偽($F$)であれば$\mathElse$節の式が評価される．
 
 $\mathIf$節の中身は真理値を返す関数であれば良いので，関数$p$を$$p=(\equiv)0$$としておき，$$fx=\mathIf px\mathThen0\mathElse1+x$$と書く方法もしばしば用いられる．\footnote{Haskellでは$fx=\mathIf x\equiv0\mathThen0\mathElse1+x$を\code{f x = if x == 0 then 0 else 1+x}と書く．}
 
@@ -448,11 +451,11 @@ fx=\begin{cases}
 \end{equation*}
 左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっていることに注目しよう．
 
-関数は内部で自分自身を呼んでも良い．例えば$x$の階乗を返す関数$s$は
+関数は内部で自分自身を呼んでも良い．例えば$x$の階乗($x!$)を返す関数$f$は
 \begin{equation*}
-sx=\begin{cases}
+fx=\begin{cases}
 1&\mathIf x\equiv0\\
-x*s(x-1)&\mathOtherwise
+x*f(x-1)&\mathOtherwise
 \end{cases}
 \end{equation*}
 と定義できる．関数が自分自身を呼び出すことを関数の\keyword{再帰呼び出し}と呼ぶ．
@@ -1003,10 +1006,10 @@ f\hsklMap\hsklEmptyList&=\hsklEmptyList
 \end{align*}
 とマップ演算子($\hsklMap$)を定義できる．つまりマップ演算子($\hsklMap$)は結合演算子(:)から作ることができる．換言すれば，マップ演算子は糖衣構文である．
 
-任意のリスト$\hsklList{l}$に対し，次の関数が用意されている．
+任意のリスト$\hsklList{t}$に対し，次の関数が用意されている．
 \begin{align*}
-\hsklHead\hsklList{l}&\dots\text{$\hsklList{l}$の先頭要素}\\
-\hsklTail\hsklList{l}&\dots\text{$\hsklList{l}$の2番目以降の要素からなるリスト}
+\hsklHead\hsklList{t}&\dots\text{$\hsklList{t}$の先頭要素}\\
+\hsklTail\hsklList{t}&\dots\text{$\hsklList{t}$の2番目以降の要素からなるリスト}
 \end{align*}
 これらはLISPのcar関数，cdr関数と同じものである．
 
@@ -1019,7 +1022,7 @@ f\hsklMap\hsklEmptyList&=\hsklEmptyList
 \begin{split}
 f\hsklEmptyList&=0\\
 % fx:\hsklEmptyList&=x\\
-fx:\hsklList{y}&=x+f\hsklList{y}
+fx:\hsklList{t}&=x+f\hsklList{t}
 \end{split}
 \right.
 \end{equation*}
@@ -1177,7 +1180,8 @@ Maybeは次の\pthnClassname{maybe}クラステンプレートで表現できる
 \}
 \end{python}
 \end{cxxcode}
-テンプレートの2番目の引数\pthnClassname{fn}は関数\pthnId{f}を受け取るために必要である．\cxx はコンパイル時までにすべての変数の型が決定していないといけないが，関数\pthnId{f}の型は関数\pthnId{map\_over}設計時には確定できないため，このようにテンプレートにしている．（\cxx03プログラマへの注意：関数\pthnId{f}には関数オブジェクトを渡しても良い．）
+テンプレートの2番目の引数\pthnClassname{fn}は関数\pthnId{f}を受け取るために必要である．\cxx はコンパイル時までにすべての変数の型が決定していないといけないが，関数\pthnId{f}の型は関数\pthnId{map\_over}設計時には確定できないため，このようにテンプレートにしている．
+% （\cxx03プログラマへの注意：関数\pthnId{f}には関数オブジェクトを渡しても良い．）
 % こうすることで，Cスタイルの関数ポインタも，\cxx03スタイルの関数オブジェクトも，\cxx11スタイルのラムダ式も受け取ることができる．
 
 整数$z$からMaybe値$\hsklMaybe{m}=\hsklJust{z}$を作り，関数$fx=100*x$をMaybe値$\hsklMaybe{m}$に食わせてMaybe値$\hsklMaybe{n}$ただし$$\hsklMaybe{n}=f\hsklMaybeMap\hsklMaybe{m}$$を得ることを，\cxx では次のように書くことになる．
@@ -1235,9 +1239,9 @@ Maybeは次の\pthnClassname{maybe}クラステンプレートで表現できる
 \end{cxxcode}
 として，型\pthnClassname{X}に応じてリストバージョンかMaybeバージョンを切り替えられると便利である．
 
-残念ながら，\cxx で楽に進める道はここら辺までである．型\pthnClassname{X}がマップ可能なコンテナであることをテンプレート機構を使って保証することができないため，この\pthnId{map\_over}関数を誤った型に対して使った場合のコンパイル時エラーはひどく読みにくいものになるだろう．
+残念ながら，\cxx で楽に進める道はここら辺までである．型\pthnClassname{X}がマップ可能なコンテナであることをテンプレート機構を使って保証することができないため，この\pthnId{map\_over}関数を誤った型に対して使った場合のコンパイル時エラーはひどく読みにくいものになる．ヒューマンエラーを防ぐための型システムが，まさに形無しになってしまうのだ．
 
-一方で，数学者たちが見つけた圏という代数的構造が，リストもMaybeも統一的に扱うことを可能にしている．これを発見したのは XYZ Moggi という数学者である．
+一方で，数学者たちが見つけた圏という代数的構造が，リストもMaybeも統一的に扱うことを可能にしている．これを発見したのは Eugenio Moggi を始めとする計算機科学者たちである．この人類の英知は第\ref{ch:functor}章から見ていくことにしよう．
 
 
 \section{余計な話：単位的半群としてのコンテナ}
@@ -1280,31 +1284,20 @@ a
 
 同じことが型コンストラクタ$\hsklMaybeConstructor$とMaybeバージョンのマップ演算子$\hsklMaybeMap$の組み合わせ$(\hsklMaybeConstructor,\hsklMaybeMap)$にも言える．
 
-そこで（リストの）マップ演算子($\hsklMap$)，Maybeバージョンのマップ演算子($\hsklMaybeMap$)をひとくくりにして\keyword{一般マップ演算子} ($\hsklFmap$)とする．
-一般マップ演算子は，右引数がリストであればマップ演算子を，右引数がMaybeであればMaybeバージョンのマップ演算子に「化ける」．
-この意味は，もし$f\hsklFmap\hsklList{l}$と書いてあれば$f\hsklMap\hsklList{l}$のことであるし，もし$f\hsklFmap\hsklMaybe{m}$と書いてあれば$f\hsklMaybeMap\hsklMaybe{m}$のことであると，自動的に解釈することである．
-そして，何の飾りもつけられていない変数$x$がふらっと現れ，目の前に$f\hsklFmap x$という式が登場しても，落ち着いて変数$x$の型を調べ，変数$x$がリストならば$\hsklFmap$の部分に$\hsklMap$を，変数$x$がMaybeならば$\hsklFmap$の部分に$\hsklMaybeMap$をはめ込むのだ．\footnote{Haskellでは一般マップ演算子は\code{fmap}である．ただしその実装は与えられず，対象とする型に応じて定義されるものとする．例えばリストに対しては\code{fmap = map}と定義されている．}
+そこでリストのマップ演算子($\hsklMap$)，Maybeのマップ演算子($\hsklMaybeMap$)をひとくくりにして\keyword{一般マップ演算子} ($\hsklFmap$)とする．一般マップ演算子は，右引数がリストであればリストのマップ演算子を，右引数がMaybeであればMaybeのマップ演算子に「化ける」．この意味は，もし$f\hsklFmap\hsklList{t}$と書いてあれば$f\hsklMap\hsklList{t}$のことであるし，もし$f\hsklFmap\hsklMaybe{m}$と書いてあれば$f\hsklMaybeMap\hsklMaybe{m}$のことであると，自動的に解釈することである．そして，何の飾りもつけられていない変数$x$がふらっと現れ，目の前に$f\hsklFmap x$という式が登場しても，落ち着いて変数$x$の型を調べ，変数$x$がリストならば$\hsklFmap$の部分に$\hsklMap$を，変数$x$がMaybeならば$\hsklFmap$の部分に$\hsklMaybeMap$をはめ込むのだ．\footnote{Haskellでは一般マップ演算子は\code{fmap}である．ただしその実装は与えられず，対象とする型に応じて定義されるものとする．例えばリストに対しては\code{fmap = map}と定義されている．}
 
-関手，というよりは一般マップ演算子($\hsklFmap$)には従うべき規則がある．
-これらを関手則と呼ぶので，我々もその用語に従うことにする．
-関手則は次の二つである．
-\begin{description}
-\item[関手則1.] 任意の関数を$f$，\keyword{恒等関数}を$I$とするとき
-$$I\hsklFmap f=If=f$$
-である．
-なお$I\hsklFmap f=If=f$は$f$を省略して
-$$I\hsklFmap=I$$
-と書いても良い．
-\item[関手則2.] 任意の関数 $f,g,h$ があるとき
-$$(f\mathCompose g)\hsklFmap h=(f\hsklFmap h)\mathCompose(g\hsklFmap h)$$
-である．
-なお$(f\mathCompose g)\hsklFmap h=(f\hsklFmap h)\mathCompose(g\hsklFmap h)$は$h$を省略して$$(f\mathCompose g)\hsklFmap=(f\hsklFmap)\mathCompose(g\hsklFmap)$$と書いても良い．
-\end{description}
-なお恒等関数$I$とは
-$$I=\mathLambdaAnonymousParameter$$
-のことである．\footnote{Haskellでは恒等関数は\code{id}として定義されている．}
+% 一般マップ演算子($\hsklFmap$)には従うべき規則がある．これらを関手則と呼ぶので，我々もその用語に従うことにする．関手則は次の二つである．
+% \begin{description}
+% \item[関手則1.] 任意の関手を$\mathFunctor{F}$，\keyword{恒等関数}を$I$とするとき$$I\hsklFmap\mathFunctor{F}=I\mathFunctor{F}=\mathFunctor{F}$$である．なお$I\hsklFmap\mathFunctor{F}=I\mathFunctor{F}=\mathFunctor{F}$は$\mathFunctor{F}$を省略して$$I\hsklFmap=I$$と書いても良い
+% \item[関手則2.] 任意の関数 $f,g,h$ があるとき$$(f\mathCompose g)\hsklFmap h=(f\hsklFmap h)\mathCompose(g\hsklFmap h)$$である．なお$(f\mathCompose g)\hsklFmap h=(f\hsklFmap h)\mathCompose(g\hsklFmap h)$は$h$を省略して$$(f\mathCompose g)\hsklFmap=(f\hsklFmap)\mathCompose(g\hsklFmap)$$と書いても良い
+% \end{description}
+% なお恒等関数$I$とは$$I=\mathLambdaAnonymousParameter$$のことである．\footnote{Haskellでは恒等関数は\code{id}として定義されている．}
 
-
+% リストのマップ演算子が関手則を満たしていることを確認しよう．
+% \begin{description}
+% \item[関手則1.] 任意の関数を$f$とするとき$$(I\hsklMap f)$$
+% \item[関手則2.]
+% \end{description}
 
 
 
