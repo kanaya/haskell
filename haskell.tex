@@ -888,7 +888,7 @@ $\hsklFloat$
 \end{pythoncode}
 のように定義できる．
 
-我々もPythonのように，例えば$0$から始まり$9$まで続く整数のリストを$[0,1,2,3,4,5,6,7,8,9]$と書くことにしよう．ただし，これでは冗長なので，等差数列に限って，簡略化した書き方を許す．例えば$0$から$9$までのリストは$[0,1\dots9]$と書いても良い．\footnote{Haskellでは\code{l = [0,1..9]}と書く．}
+我々もPythonのように，例えば$0$から始まり$9$まで続く整数のリストを$[0,1,2,3,4,5,6,7,8,9]$と書くことにしよう．ただし，これでは冗長なので，等差数列に限って，簡略化した書き方を許す．例えば$0$から$9$までのリストは$[0,1\dots9]$と書いても良い．\footnote{Haskellでは\code{l = [0,1..9]}と書く．ピリオドの数に注意しよう．}
 
 リストの中身の一つ一つの値のことを\keyword{要素}と呼ぶ．
 
@@ -965,7 +965,7 @@ s = t.inject(0) { |x, y| x + y }
 これは右畳み込みと呼ばれる演算子である．\footnote{Haskellでは$\mathFoldRight^{*}_{a}l$を\code{foldr l a *}と書く．}
 % !!!!!!!!!! CHECK !!!!!!!!!!
 
-畳み込み演算子の面白い応用例を示そう．$$\mathFold_\hsklEmptyList^\hsklAppend[[0,1,2],[3,4,5],\dots]=[0,1,2,3,4,5,\dots]$$であるから，演算子$$\mathFold_\hsklEmptyList^\hsklAppend$$はリストを平坦化する\keyword{平坦化演算子}である．平坦化演算子はconcat演算子とも呼ばれることもあるが，基本的な演算子であるため特別な記号をつけておこう．我々は$$\hsklConcat=\mathFold_\hsklEmptyList^\hsklAppend$$と定義することにする．\footnote{Haskellでは演算子$\hsklConcat$の代わりに\code{concat}関数を使う．}
+畳み込み演算子の面白い応用例を示そう．リストの結合演算子($\hsklAppend$)を使うと$$\mathFold_\hsklEmptyList^\hsklAppend[[0,1,2],[3,4,5],\dots]=[0,1,2,3,4,5,\dots]$$であるから，演算子$$\mathFold_\hsklEmptyList^\hsklAppend$$はリストを平坦化する\keyword{平坦化演算子}である．平坦化演算子はconcat演算子とも呼ばれることもあるが，基本的な演算子であるため特別な記号をつけておこう．我々は$$\hsklConcat=\mathFold_\hsklEmptyList^\hsklAppend$$と定義することにする．\footnote{Haskellでは演算子$\hsklConcat$の代わりに\code{concat}関数を使う．}
 % !!!!!!!!!! CHECK !!!!!!!!!!
 
 リストの各要素に決まった関数を適用したい場合がある．Pythonではリスト\pthnId{t}に関数\pthnId{f}を適用するときには
@@ -976,7 +976,7 @@ s = t.inject(0) { |x, y| x + y }
 \end{pythoncode}
 のように\pthnId{map}関数を用いる．
 
-このように引数として関数$f$とリスト$[x_0,x_1\dots x_n]$を取り，戻り値として$[fx_0,fx_1\dots fx_n]$を返す演算子$\hsklMap$を考えよう．このとき$$f\hsklMap[x_0,x_1\dots x_n]=[fx_0,fx_1\dots fx_n]$$であると定義する．この$\hsklMap$演算子を\keyword{マップ演算子}と呼ぶ．\footnote{Haskellでは$f\hsklMap l$を\code{map f l}または\code{f `map` l}と書く．}
+このように引数として関数$f$とリスト$[x_0,x_1\dots x_n]$を取り，戻り値として$[fx_0,fx_1\dots fx_n]$を返す演算子$\hsklMap$を考えよう．このとき$$f\hsklMap[x_0,x_1\dots x_n]=[fx_0,fx_1\dots fx_n]$$であると定義する．この演算子$\hsklMap$を\keyword{マップ演算子}と呼ぶ．\footnote{Haskellでは$f\hsklMap l$を\code{map f l}または\code{f `map` l}と書く．}
 
 マップ演算子の型は$$\hsklMap\hsklOf{}\mathMorphII{(\mathMorph{\hsklType{a}}{\hsklType{b}})}{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType{b}}}$$である．矢印$\mathMapsTo$は右結合なので，これは$$\hsklMap\hsklOf{}\mathMorph{(\mathMorph{\hsklType{a}}{\hsklType{b}})}{(\mathMorph{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType{b}}})}$$の意味でもある．ここで$f$と$f\hsklMap$の型を並べてみると
 \begin{align*}
@@ -999,11 +999,15 @@ f\hsklMap&\mathIn\mathMorph{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType
 \end{align*}
 結合演算子$:$は右結合する．すなわち$$x_0:x_1:x_2=x_0:(x_1:x_2)$$である．
 
-マップ演算子の実装は，リストの実装に踏み込めば簡単である．空でないリストは必ず$x:\hsklList{y}$へと分解できるから
-\begin{align*}
-f\hsklMap x:\hsklList{y}&=fx:f\hsklMap\hsklList{y}\\
+マップ演算子の実装は，リストの実装に踏み込めば簡単である．空でないリストは必ず$x:\hsklList{t}$へと分解できるから
+\begin{equation*}
+\left\{
+\begin{split}
+f\hsklMap(x:\hsklList{t})&=(fx):(f\hsklMap\hsklList{t})\\
 f\hsklMap\hsklEmptyList&=\hsklEmptyList
-\end{align*}
+\end{split}
+\right.
+\end{equation*}
 とマップ演算子($\hsklMap$)を定義できる．つまりマップ演算子($\hsklMap$)は結合演算子(:)から作ることができる．換言すれば，マップ演算子は糖衣構文である．
 
 任意のリスト$\hsklList{t}$に対し，次の関数が用意されている．
@@ -1013,7 +1017,6 @@ f\hsklMap\hsklEmptyList&=\hsklEmptyList
 \end{align*}
 これらはLISPのcar関数，cdr関数と同じものである．
 
-
 \section{余計な話：リストを引数にとる関数}
 
 リストを分解する関数$\hsklHead$と$\hsklTail$さえあればどのようなリスト処理も可能であるが，リストを引数にとる関数を考えると最初から分解されたリストを渡された方が何かと便利である．そこで結合演算子を関数引数のパタンにも使えることにしよう．これで，例えばリストの和をとる関数$f$は
@@ -1022,7 +1025,7 @@ f\hsklMap\hsklEmptyList&=\hsklEmptyList
 \begin{split}
 f\hsklEmptyList&=0\\
 % fx:\hsklEmptyList&=x\\
-fx:\hsklList{t}&=x+f\hsklList{t}
+f(x:\hsklList{t})&=x+f\hsklList{t}
 \end{split}
 \right.
 \end{equation*}
@@ -1284,7 +1287,29 @@ a
 
 同じことが型コンストラクタ$\hsklMaybeConstructor$とMaybeバージョンのマップ演算子$\hsklMaybeMap$の組み合わせ$(\hsklMaybeConstructor,\hsklMaybeMap)$にも言える．
 
-そこでリストのマップ演算子($\hsklMap$)，Maybeのマップ演算子($\hsklMaybeMap$)をひとくくりにして\keyword{一般マップ演算子} ($\hsklFmap$)とする．一般マップ演算子は，右引数がリストであればリストのマップ演算子を，右引数がMaybeであればMaybeのマップ演算子に「化ける」．この意味は，もし$f\hsklFmap\hsklList{t}$と書いてあれば$f\hsklMap\hsklList{t}$のことであるし，もし$f\hsklFmap\hsklMaybe{m}$と書いてあれば$f\hsklMaybeMap\hsklMaybe{m}$のことであると，自動的に解釈することである．そして，何の飾りもつけられていない変数$x$がふらっと現れ，目の前に$f\hsklFmap x$という式が登場しても，落ち着いて変数$x$の型を調べ，変数$x$がリストならば$\hsklFmap$の部分に$\hsklMap$を，変数$x$がMaybeならば$\hsklFmap$の部分に$\hsklMaybeMap$をはめ込むのだ．\footnote{Haskellでは一般マップ演算子は\code{fmap}である．ただしその実装は与えられず，対象とする型に応じて定義されるものとする．例えばリストに対しては\code{fmap = map}と定義されている．}
+そこでリストのマップ演算子($\hsklMap$)，Maybeのマップ演算子($\hsklMaybeMap$)をひとくくりにして抽象的な\keyword{一般マップ演算子} ($\hsklFmap$)とする．一般マップ演算子は，右引数がリストであればリストのマップ演算子を，右引数がMaybeであればMaybeのマップ演算子に「化ける」．右引数がただの数であれば，ただの空白になる．
+
+この意味は，もし$f\hsklFmap\hsklList{t}$と書いてあれば$f\hsklMap\hsklList{t}$のことであるし，もし$f\hsklFmap\hsklMaybe{m}$と書いてあれば$f\hsklMaybeMap\hsklMaybe{m}$のことであると，自動的に解釈することである．そして，何の飾りもつけられていない変数$x$がふらっと現れ，目の前に$f\hsklFmap x$という式が登場しても，落ち着いて変数$x$の型を調べ，変数$x$がリストならば$\hsklFmap$の部分に$\hsklMap$を，変数$x$がMaybeならば$\hsklFmap$の部分に$\hsklMaybeMap$をはめ込むのだ．\footnote{Haskellでは一般マップ演算子は\code{fmap}である．ただしその実装は与えられず，対象とする型に応じて定義されるものとする．例えばリストに対しては\code{fmap = map}と定義されている．}
+
+つまり，型コンストラクタ$\hsklTypeConstructor{List}$は
+\begin{equation*}
+\left\{
+\begin{split}
+\hsklFmap&\xrightarrow{\;\hsklTypeConstructor{List}\;}\hsklMap\\
+\hsklType{a}&\xrightarrow{\;\hsklTypeConstructor{List}\;}\hsklListType{\hsklType{a}}
+\end{split}
+\right.
+\end{equation*}
+という射であり，型コンストラクタ$\hsklTypeConstructor{Maybe}$は
+\begin{equation*}
+\left\{
+\begin{split}
+\hsklFmap&\xrightarrow{\;\hsklTypeConstructor{Maybe}\;}\hsklMaybeMap\\
+\hsklType{a}&\xrightarrow{\;\hsklTypeConstructor{Maybe}\;}\hsklMaybeType{\hsklType{a}}
+\end{split}
+\right.
+\end{equation*}
+という射である．
 
 % 一般マップ演算子($\hsklFmap$)には従うべき規則がある．これらを関手則と呼ぶので，我々もその用語に従うことにする．関手則は次の二つである．
 % \begin{description}
@@ -1318,12 +1343,15 @@ a
 \end{align*}
 である．
 
-リストバージョンのアプリカティブマップ演算子は，（リストバージョンの）マップ演算子から再帰的に実装できる．
-リストバージョンのアプリカティブマップ演算子の実装は
-\begin{align*}
-(f:\hsklList{g})\hsklApplicativeListMap\hsklList{l}&=\hsklConcat((f\hsklMap\hsklList{l}):(\hsklList{g}\hsklApplicativeListMap\hsklList{l}))\\
-\hsklEmptyList\hsklApplicativeListMap\hsklList{l}&=\hsklEmptyList
-\end{align*}
+リストバージョンのアプリカティブマップ演算子は，（リストバージョンの）マップ演算子から再帰的に実装できる．リストバージョンのアプリカティブマップ演算子の実装は
+\begin{equation*}
+\left\{
+\begin{split}
+(f:\hsklList{g})\hsklApplicativeListMap\hsklList{t}&=\hsklConcat((f\hsklMap\hsklList{t}):(\hsklList{g}\hsklApplicativeListMap\hsklList{t}))\\
+\hsklEmptyList\hsklApplicativeListMap\hsklList{t}&=\hsklEmptyList
+\end{split}
+\right.
+\end{equation*}
 である．
 
 Maybeバージョンのアプリカティブマップ演算子($\hsklApplicativeMaybeMap$)は左引数がもし$\hsklJust{f}$の形をしていれば，その$f$を右変数$\hsklMaybe{m}$に対して$f\hsklMaybeMap\hsklMaybe{m}$と適用する．
@@ -1332,8 +1360,7 @@ Maybeバージョンのアプリカティブマップ演算子($\hsklApplicative
 $$\hsklJust{(*)100}\hsklApplicativeMaybeMap{}\hsklJust{68}=\hsklJust{68000}$$
 となる．
 
-Maybeバージョンのアプリカティブマップ演算子は，Maybeバージョンのマップ演算子から実装できる．
-その実装は
+Maybeバージョンのアプリカティブマップ演算子は，Maybeバージョンのマップ演算子から実装できる．その実装は
 \begin{equation*}
 \hsklMaybe{n}\hsklApplicativeMaybeMap\hsklMaybe{m}=\begin{cases}
 f\hsklMaybeMap\hsklMaybe{m}&\mathIf\hsklMaybe{n}\equiv\hsklJust{f}\\
@@ -1379,7 +1406,7 @@ f\hsklMaybeMap\hsklMaybe{m}&\mathIf\hsklMaybe{n}\equiv\hsklJust{f}\\
 これは$f\hsklApplicativeApply g\hsklApplicativeMap h$と$\hsklPure{f\mathCompose g\mathCompose h}$が同値だからである．
 
 アプリカティブスタイルは，計算の流れを明確にしているとも言える．
-例えば$f\hsklApplicativeApply g\hsklApplicativeMap h\hsklApplicativeMap x$は$$x\xrightarrow{\;x\;}h\xrightarrow{\;hx\;}g\xrightarrow{\;g\mathCompose hx\;}f$$という計算の流れを示す．
+例えば$f\hsklApplicativeApply g\hsklApplicativeMap h\hsklApplicativeMap x$は$$x\leadsto h\leadsto g\leadsto f$$という計算の流れを示す．
 もちろん関数合成演算子と関数適用演算子でも似たことはできるが，関数合成演算子と関数適用演算子だけでは$x$が例えば$\hsklNothing$でる可能性を扱えないし，また計算の途中経過がなんらかのエラーで$\hsklNothing$になるような系も扱えない．
 （後者はアプリカティブスタイルでも扱えない．そのために次章で述べる「モナド」が登場する．）
 
@@ -1388,43 +1415,57 @@ f\hsklMaybeMap\hsklMaybe{m}&\mathIf\hsklMaybe{n}\equiv\hsklJust{f}\\
 
 \chapter{モナド}
 
+\begin{leader}
+A.
+\end{leader}
+
+
 \section{もうひとつの関手*}
 
 
-アプリカティブ関手は関手の一般マップ演算子をピュア演算子と一般アプリカティブマップ演算子に分解することで，式の見通しを良くすることができるアプリカティブスタイルという記法を採用できた．
-しかしながら，アプリカティブスタイル変数に文脈を与えるタイミングは最初すなわち式の右端の1回に限られている．
-任意のタイミングで変数に文脈を与えられるように関手を改造したものが\keyword{モナド}である．
+アプリカティブ関手は関手の一般マップ演算子をピュア演算子と一般アプリカティブマップ演算子に分解することで，式の見通しを良くすることができるアプリカティブスタイルという記法を採用できた．しかしながら，アプリカティブスタイル変数に文脈を与えるタイミングは最初すなわち式の右端の1回に限られている．そこで，任意のタイミングで変数に文脈を与えられるように関手を改造したものが\keyword{モナド}である．
 
-リストのマップ演算子$$\hsklList{l}'=f\hsklMap\hsklList{l}$$を思い出そう．
-もし$\hsklList{l}\equiv\hsklEmptyList$ならば$\hsklList{l}'=\hsklEmptyList$になる．
-もし$\hsklList{l}\equiv[x_0,x_1\dots]$ならば$\hsklList{l}'=[fx_0,fx_1\dots]$になる．
+普通の（コンテナに入っていない）変数$x$をとり，普通の（コンテナに入っていない）戻り値を返す関数$f$があるとしよう．マップ演算子はコンテナに入れられた変数，例えば$\hsklList{t}=[x]$から中身$x$を取り出して関数$f$を適用し，その結果$fx$を再びコンテナに入れて$[fx]$を返す演算子であった．
 
-Maybeのマップ演算子$$\hsklMaybe{m}'=g\hsklMaybeMap\hsklMaybe{m}$$を思い出そう．
-もし$\hsklMaybe{m}\equiv\hsklNothing$ならば$\hsklMaybe{m}'=\hsklNothing$になる．
-もし$\hsklMaybe{m}\equiv\hsklJust{y}$ならば$\hsklMaybe{m}'=\hsklJust{fy}$になる．
+もし，普通の変数$x$をとり，なんらかの不都合があった時には空のコンテナを返す関数$\phi$があればどうだろう．不都合があった時には空のコンテナを返すということは，不都合がなくても計算結果をコンテナにに詰めることになる．さもなければ関数の型がひとつに決まらないことになる．
 
-これらをまとめた一般マップ演算子$$z'=h\hsklFmap z$$を思い出そう．
-関数$h$は「普通の」関数である．
+関数$\phi$は次のような形になるだろう．
+$$\phi x=\begin{cases}\hsklUnit{fx}&\text{普通に計算をしたとき}\\
+\mathcal{O}&\text{不都合があったとき}\end{cases}$$
+ここでコンテナに入れる演算を$\hsklUnit{\mathSomething}$とし，空のコンテナを$\mathcal{O}$とした．
 
-リストのアプリカティブマップ演算子$$\hsklList{l}'=\hsklList{f}\hsklApplicativeListMap\hsklList{l}$$を思い出そう．
-もし$\hsklList{f}\equiv\hsklEmptyList$ならば$\hsklList{l}'=\hsklEmptyList$になる．
-もし$\hsklList{f}\equiv[u_0,u_1\dots]$ならば$\hsklList{l}'=[u_0\hsklMap\hsklList{l},u_1\hsklMap\hsklList{l}\dots]$になる．
+---
 
-Maybeのアプリカティブマップ演算子$$\hsklMaybe{m}'=\hsklMaybe{g}\hsklApplicativeMaybeMap\hsklMaybe{m}$$を思い出そう．
-もし$\hsklMaybe{g}\equiv\hsklNothing$ならば$\hsklMaybe{m}'=\hsklNothing$になる．
-もし$\hsklMaybe{g}\equiv\hsklJust{v}$ならば$\hsklMaybe{m}'=\hsklJust{vy}$になる．
+では「普通ではない」関数はどうしたらいいだろうか．最も考えられる「普通ではない」関数とは「普通の」（コンテナに入っていない裸の）引数をとり，コンテナにつめた戻り値を返す関数である．
 
-これらをまとめた一般アプリカティブマップ演算子$$z'=h\hsklApplicativeMap z$$を思い出そう．
-関数$h$は「普通の」関数をコンテナにつめたものである．
-ピュア演算子を用いると，元の一般マップ演算子との互換性が$$w\hsklFmap z=\hsklPure{w}\hsklApplicativeMap z$$のようにとれる．
-ここに$w$は「普通の」関数である．
+ここでようやく$0$除算の課題を扱える．
+$$x\mathop{\%}y=\begin{cases}
+\hsklJust{x/y}&\mathIf y\neq0\\
+\hsklNothing&\mathOtherwise
+\end{cases}
+$$
 
-では「普通ではない」関数はどうしたらいいだろうか．
-最も考えられる「普通ではない」関数とは「普通の」（コンテナに入っていない裸の）引数をとり，コンテナにつめた戻り値を返す関数である．
+---
+
+リストのマップ演算子$$\hsklList{t}'=f\hsklMap\hsklList{t}$$を思い出そう．もし$\hsklList{t}\equiv\hsklEmptyList$ならば$\hsklList{t}'=\hsklEmptyList$になる．もし$\hsklList{t}\equiv[x_0,x_1\dots]$ならば$\hsklList{t}'=[fx_0,fx_1\dots]$になる．
+
+Maybeのマップ演算子$$\hsklMaybe{m}'=g\hsklMaybeMap\hsklMaybe{m}$$を思い出そう．もし$\hsklMaybe{m}\equiv\hsklNothing$ならば$\hsklMaybe{m}'=\hsklNothing$になる．もし$\hsklMaybe{m}\equiv\hsklJust{y}$ならば$\hsklMaybe{m}'=\hsklJust{fy}$になる．
+
+これらをまとめた一般マップ演算子$$z'=h\hsklFmap z$$も思い出そう．関数$h$は「普通の」関数である．
+
+リストのアプリカティブマップ演算子$$\hsklList{t}'=\hsklList{f}\hsklApplicativeListMap\hsklList{t}$$を思い出そう．もし$\hsklList{f}\equiv\hsklEmptyList$ならば$\hsklList{t}'=\hsklEmptyList$になる．もし$\hsklList{f}\equiv[u_0,u_1\dots]$ならば$\hsklList{t}'=[u_0\hsklMap\hsklList{t},u_1\hsklMap\hsklList{t}\dots]$になる．
+
+Maybeのアプリカティブマップ演算子$$\hsklMaybe{m}'=\hsklMaybe{g}\hsklApplicativeMaybeMap\hsklMaybe{m}$$を思い出そう．もし$\hsklMaybe{g}\equiv\hsklNothing$ならば$\hsklMaybe{m}'=\hsklNothing$になる．もし$\hsklMaybe{g}\equiv\hsklJust{v}$ならば$\hsklMaybe{m}'=\hsklJust{vy}$になる．
+
+これらをまとめた一般アプリカティブマップ演算子$$z'=h\hsklApplicativeMap z$$も思い出そう．関数$h$は「普通の」関数をコンテナにつめたものである．
+% ピュア演算子を用いると，元の一般マップ演算子との互換性が$$w\hsklFmap z=\hsklPure{w}\hsklApplicativeMap z$$のようにとれる．ここに$w$は「普通の」関数である．
+
+
+---
+
 そのような関数$\phi$があるとしよう．
-% ユニット演算子の説明
-$$\phi x=\begin{cases}\hsklUnit{\text{result}}&\text{if nothing happened}\\
-\text{some context}&\text{when something happened}\end{cases}$$
+$$\phi x=\begin{cases}\hsklUnit{x}&\text{普通に計算をしたとき}\\
+\text{空のコンテナ}&\text{何かあったとき}\end{cases}$$
 ちょっと待った．
 $\hsklUnit{x}$とは何だろうか．
 $\hsklUnit{x}$は\keyword{ユニット演算子}と言って，変数を最もシンプルな形でコンテナに納めるものである．
