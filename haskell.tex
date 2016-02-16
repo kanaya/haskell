@@ -113,6 +113,7 @@
 \DeclareMathOperator{\mathI}{i}
 \DeclareMathOperator{\mathIf}{\mathKeyword{if}}
 \DeclareMathOperator{\mathIn}{::}
+\DeclareMathOperator{\mathInverse}{\neg}
 \DeclareMathOperator{\mathElse}{\mathKeyword{else}}
 \DeclareMathOperator*{\mathFold}{\bigcup}
 \DeclareMathOperator*{\mathFoldRight}{\bigsqcup}
@@ -380,6 +381,14 @@ a
 
 
 \section{演算子*}
+
+\keyword{演算子}は関数の特別な姿である．演算子は作用素と呼んでも良い．どちらも英語のoperatorの和訳である．演算子は普通アルファベット以外のシンボル1個で表現し，変数や関数の前に置いて直後の変数や関数に作用させるか，2個の変数や関数の中間に置いてその両者に作用させる．簡単に言うと$-x$のマイナス記号$(-)$は変数の前に置いて直後の変数$(x)$に作用する演算子であり，$x+y$のプラス記号$(+)$は2個の変数の間に置いてその両者$(x,y)$に作用する．
+
+1個の変数または関数に作用する演算子を\keyword{単項演算子}と呼び，2個の変数または関数に作用する演算子を\keyword{二項演算子}と呼ぶ．本書では単項演算子いつも変数の前に置く，すなわち\keyword{前置}する．わざわざこう断るのは，数学者がたまに単項演算子を変数の前以外に置くからである．例えば自然数$n$の階乗を数学者はしばしば$n!$と書くし，実数$x$の乗法逆元を$x^{-1}$と書く．実際，このふたつだけは本書でも例外的に前置しない単項演算子とする．
+
+本書では3個の変数に同時に作用する演算子は扱わない．例えばC言語は3個の変数を扱う演算子をサポートするが，読みやすいとは言いがたく，また広く使われているわけでもない．
+
+---
 
 単項演算子には論理否定($\neg$)とマイナス($-$)がある．
 本書で扱う基本的な単項演算子はこの2種類だけであるが，複数の演算子を組み合わせて単項演算子を新たに作ることはある．
@@ -890,7 +899,7 @@ $\hsklFloat$
 
 我々もPythonのように，例えば$0$から始まり$9$まで続く整数のリストを$[0,1,2,3,4,5,6,7,8,9]$と書くことにしよう．ただし，これでは冗長なので，等差数列に限って，簡略化した書き方を許す．例えば$0$から$9$までのリストは$[0,1\dots9]$と書いても良い．\footnote{Haskellでは\code{l = [0,1..9]}と書く．ピリオドの数に注意しよう．}
 
-リストの中身の一つ一つの値のことを\keyword{要素}と呼ぶ．
+リストの中身の一つ一つの値のことを\keyword{要素}と呼ぶ．要素のことは元と呼んでも良いが，本書では要素と呼ぶことにする．要素も元も英語のelementの和訳である．
 
 複数の型の要素が混在してもよい配列のことをヘテロジニアスな配列と呼び，ホモジニアスな配列とは区別する．
 
@@ -1052,8 +1061,8 @@ f(x:\hsklList{t})&=x+f\hsklList{t}
 \begin{pythoncode}
 \begin{python}
 \pthnKeyword{class} \pthnClassname{Possibly}:\\
-\>\pthnKeyword{def} \pthnId{\_\_init\_\_}(\pthnKeyword{self}, \pthnId{is\_valid}, \pthnId{a\_value} \pthnOp{=} $0$):\\
-\>\>\pthnKeyword{self}.\pthnId{valid} \pthnOp{=} \pthnId{is\_valid}\\
+\>\pthnKeyword{def} \pthnId{\_\_init\_\_}(\pthnKeyword{self}, \pthnId{a\_valid}, \pthnId{a\_value} \pthnOp{=} $0$):\\
+\>\>\pthnKeyword{self}.\pthnId{valid} \pthnOp{=} \pthnId{a\_valid}\\
 \>\>\pthnKeyword{self}.\pthnId{value} \pthnOp{=} \pthnId{a\_value}
 \end{python}
 \end{pythoncode}
@@ -1242,7 +1251,7 @@ Maybeは次の\pthnClassname{maybe}クラステンプレートで表現できる
 \end{cxxcode}
 として，型\pthnClassname{X}に応じてリストバージョンかMaybeバージョンを切り替えられると便利である．
 
-残念ながら，\cxx で楽に進める道はここら辺までである．型\pthnClassname{X}がマップ可能なコンテナであることをテンプレート機構を使って保証することができないため，この\pthnId{map\_over}関数を誤った型に対して使った場合のコンパイル時エラーはひどく読みにくいものになる．ヒューマンエラーを防ぐための型システムが，まさに形無しになってしまうのだ．
+残念ながら，\cxx で楽に進める道はここら辺までである．型\pthnClassname{X}がマップ可能なコンテナであることをテンプレート機構を使って保証することができないため，この\pthnId{map\_over}関数を誤った型に対して使った場合のコンパイル時エラーはひどく読みにくいものになる．ヒューマンエラーを防ぐための型システムが，まさに型無しになってしまうのだ．
 
 一方で，数学者たちが見つけた圏という代数的構造が，リストもMaybeも統一的に扱うことを可能にしている．これを発見したのは Eugenio Moggi を始めとする計算機科学者たちである．この人類の英知は第\ref{ch:functor}章から見ていくことにしよう．
 
