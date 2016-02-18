@@ -549,6 +549,8 @@ x*\mathFactorial(x-1)&\mathOtherwise
 
 計算機科学者が末尾再帰を好む理由は，幾つかのプログラミング言語処理系が\keyword{末尾再帰最適化}を行うからである．末尾再帰最適化とは，一言で言うと再帰をコンピュータが扱いやすいループに置き換えることである．では最初から我々もループで関数を表現しておけば，と思われるかもしれないが，再帰以外の方法でループを表現する場合には必ず変数への破壊的代入が必要になるため，我々は末尾再帰に慎ましくループを隠すのである．
 
+% Y combinator
+
 \chapter{代数的構造}
 
 \begin{leader}
@@ -911,9 +913,21 @@ A...
 
 \section{関数の型*}
 
-関数にも型がある．例えば整数引数を一つ取り，整数を返す関数$f$は$$f\mathIn\mathMorph{\hsklInt}{\hsklInt}$$という型を持つ．これは関数$f$が集合$\hsklInt$から集合$\hsklInt$への写像であると読む．
+関数にも型がある．例えば整数引数を一つ取り，整数を返す関数$f$は
+\begin{equation*}
+f\mathIn\mathMorph{\hsklInt}{\hsklInt}
+\end{equation*}
+という型を持つ．これは関数$f$が集合$\hsklInt$から集合$\hsklInt$への写像であると読む．
 
-整数引数を二つ取り，整数を返す関数$f'$は$$f'\mathIn\mathMorphII{\hsklInt}{\hsklInt}{\hsklInt}$$という型を持つ．写像の矢印記号は右結合するので，これは$$f'\mathIn\mathMorphIIWithParenthesis{\hsklInt}{\hsklInt}{\hsklInt}$$と同じ意味である．自然言語で考えると，$\hsklInt$型の引数を一つ取り，$\hsklInt$型の引数を一つ取って$\hsklInt$型の値を返す関数を返す，と読める．
+整数引数を二つ取り，整数を返す関数$f'$は
+\begin{equation*}
+f'\mathIn\mathMorphII{\hsklInt}{\hsklInt}{\hsklInt}
+\end{equation*}
+という型を持つ．写像の矢印記号は右結合するので，これは
+\begin{equation*}
+f'\mathIn\mathMorphIIWithParenthesis{\hsklInt}{\hsklInt}{\hsklInt}
+\end{equation*}
+と同じ意味である．自然言語で考えると，$\hsklInt$型の引数を一つ取り，$\hsklInt$型の引数を一つ取って$\hsklInt$型の値を返す関数を返す，と読める．
 
 \begin{table}
 \caption{単位的半群}
@@ -1061,20 +1075,23 @@ $\hsklFloat$
 
 \section{型クラス*}
 
-組み合わせ$\mathMonoid{\hsklInt}{+}{0}$は単位的半群である．同様に$\mathMonoid{\hsklInt}{*}{1}$, $\mathMonoid{\hsklFloat}{+}{0}$, $\mathMonoid{\hsklFloat}{*}{1}$, $\mathMonoid{\hsklBool}{\vee}{F}$, $\mathMonoid{\hsklBool}{\wedge}{T}$ も単位的半群である．そこで，任意の型$\hsklType{a}$について，組み合わせ$\mathMonoid{\hsklType{a}}{\mathAnyBinaryOperator}{O}$が単位的半群である場合には$$\mathMonoid{\hsklType{a}}{\mathAnyBinaryOperator}{O}\mathIn\hsklMonoid$$と書くことにする．二項演算子，単位元が自明な場合は簡略化して$$\hsklType{a}\mathIn\hsklMonoid$$と書くことにする．
+組み合わせ$\mathMonoid{\hsklInt}{+}{0}$は単位的半群である．同様に$\mathMonoid{\hsklInt}{*}{1}$, $\mathMonoid{\hsklFloat}{+}{0}$, $\mathMonoid{\hsklFloat}{*}{1}$, $\mathMonoid{\hsklBool}{\vee}{F}$, $\mathMonoid{\hsklBool}{\wedge}{T}$ も単位的半群である．そこで，任意の型$\hsklType{a}$について，組み合わせ$\mathMonoid{\hsklType{a}}{\mathAnyBinaryOperator}{O}$が単位的半群である場合には
+\begin{equation*}
+\mathMonoid{\hsklType{a}}{\mathAnyBinaryOperator}{O}\mathIn\hsklMonoid
+\end{equation*}
+と書くことにする．二項演算子，単位元が自明な場合は簡略化して
+\begin{equation*}
+\hsklType{a}\mathIn\hsklMonoid
+\end{equation*}
+と書くことにする．
 
 このような型をより抽象化した型のようなものを\keyword{型クラス}と呼ぶ．単位的半群は型クラスの例である．表\ref{tab:monoids}に型と対応する単位的半群の単位元，演算子の一覧を示す．
 
-もっと身近な型クラスもある．
-例えば，型$\hsklType{a}$の変数どうしの間で等値性が定義されている場合，その型は型クラス$\hsklEq$に属することになる．
-型クラス$\hsklEq$に属する型は等値演算子$\equiv$を提供する．
+もっと身近な型クラスもある．例えば，型$\hsklType{a}$の変数どうしの間で等値性が定義されている場合，その型は型クラス$\hsklEq$に属することになる．型クラス$\hsklEq$に属する型は等値演算子$\equiv$を提供する．
 
-型$\hsklType{a}$の変数どうしの間で大小関係が定義されている場合，かつその型が型クラス$\hsklEq$に属する場合，その型は型クラス$\hsklOrd$にも属する．
-型クラス$\hsklOrd$に属する型は比較演算子$<,\le,\ge,>$を提供する．
+型$\hsklType{a}$の変数どうしの間で大小関係が定義されている場合，かつその型が型クラス$\hsklEq$に属する場合，その型は型クラス$\hsklOrd$にも属する．型クラス$\hsklOrd$に属する型は比較演算子$<,\le,\ge,>$を提供する．
 
-型$\hsklType{a}$の変数どうしの間で四則演算関係が定義されている場合，かつその型が型クラス$\hsklEq$に属する場合，その型は型クラス$\hsklNum$にも属する．
-型クラス$\hsklNum$に属する型は二項演算子$+,-,*,/$を提供する．
-ここに$-$は二項演算子のマイナスである．
+型$\hsklType{a}$の変数どうしの間で四則演算関係が定義されている場合，かつその型が型クラス$\hsklEq$に属する場合，その型は型クラス$\hsklNum$にも属する．型クラス$\hsklNum$に属する型は二項演算子$+,-,*,/$を提供する．ここに$-$は二項演算子のマイナスである．
 
 型$\hsklType{a}$が型クラス$\hsklOrd$及び型クラス$\hsklNum$に属しているとき，かつそのときに限り，型$\hsklType{a}$は型クラス$\hsklReal$にも属する．
 
@@ -1088,9 +1105,21 @@ $\hsklFloat$
 
 どのような関数であれ，引数は1個しかとらない．引数が2個あるように見える関数として，例えば$fxy$があったとしよう．関数適用が左結合であるから，これは$(fx)y$である．ここに$(fx)$は引数$y$をとる関数であると見ることができる．つまり，関数$f$とは引数$x$をとり「引数$y$をとって値を返す関数$(fx)$を返す」関数であると言える．
 
-二項演算$x+y$は$$(+)xy$$とも書けたことを思い出そう．これも左結合を思い出すと$$((+)x)y$$と書けるから，$y$という引数を$((+)x)$という関数に食わせていると解釈できる．
+二項演算$x+y$は$(+)xy$とも書けたことを思い出そう．これも左結合を思い出すと
+\begin{equation}
+(+)xy=((+)x)y
+\end{equation}
+であるから，$y$という引数を$((+)x)$という関数に食わせていると解釈できる．
 
-ラムダ式の場合は話はもっと単純で，機械的に$$\mathLambdaExpression{xy}{x+y}=\mathLambdaExpression{x}{(\mathLambdaExpression{y}{x+y})}$$のように展開するだけである．矢印$\mathLambdaArrow$は右結合であるから，このラムダ式は括弧を省略して$$\mathLambdaExpression{xy}{x+y}=\mathLambdaExpression{x}{\mathLambdaExpression{y}{x+y}}$$とも書かれる．
+ラムダ式の場合は話はもっと単純で，機械的に
+\begin{equation}
+\mathLambdaExpression{xy}{x+y}=\mathLambdaExpression{x}{(\mathLambdaExpression{y}{x+y})}
+\end{equation}
+のように展開するだけである．矢印$\mathLambdaArrow$は右結合であるから，このラムダ式は括弧を省略して
+\begin{equation}
+\mathLambdaExpression{xy}{x+y}=\mathLambdaExpression{x}{\mathLambdaExpression{y}{x+y}}
+\end{equation}
+とも書かれる．
 
 複数引数をとる関数を1引数関数に分解することを\keyword{カリー化}と呼ぶ．これはこの分野の先駆者であるハスケル・カリーの名前に由来する．
 
@@ -1118,7 +1147,11 @@ $\hsklFloat$
 
 複数の型の要素が混在してもよい配列のことをヘテロジニアスな配列と呼び，ホモジニアスな配列とは区別する．
 
-今後，リストを指す変数にはバーをつけて$\hsklList{t}$と書くことにして$$\hsklList{t}=[0,1\dots9]$$のように書くことにしよう．\footnote{Haskellコンパイラは人間よりも記憶力が優れているため，変数名にバーをつける必要はない．}
+今後，リストを指す変数にはバーをつけて$\hsklList{t}$と書くことにして
+\begin{equation}
+\hsklList{t}=[0,1\dots9]
+\end{equation}
+のように書くことにしよう．\footnote{Haskellコンパイラは人間よりも記憶力が優れているため，変数名にバーをつける必要はない．}
 
 Pythonではリスト内包表記が使える．例えば$0$から$9$までの平方数のリストは次のように作った．
 \begin{pythoncode}
@@ -1128,9 +1161,17 @@ Pythonではリスト内包表記が使える．例えば$0$から$9$までの�
 \end{pythoncode}
 ここに\pthnId{range}(\pthnId{a}, \pthnId{b})は\pthnId{a}から増加する方向に連続する\pthnId{b}個の整数からなるリストを返すPythonの関数である．
 
-我々は内包表記のかわりにガードを使って$$\hsklList{t}=\left[x^2\mathGuard{x\mathFrom{[0,1\dots9]}}\right]$$のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mathFrom$を用いた．
+我々は内包表記のかわりにガードを使って
+\begin{equation}
+\hsklList{t}=\left[x^2\mathGuard{x\mathFrom{[0,1\dots9]}}\right]
+\end{equation}
+のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mathFrom$を用いた．
 
-ガードの中の式は複数あっても良い．例えば$$\hsklList{t}=\left[x+y\mathGuard{x\mathFrom[0,1\dots9],\,y\mathFrom[0,1\dots5],\,x+y>3}\right]$$は$0\le x\le9$かつ$0\le y\le5$の範囲で$x+y>3$となる$x$及び$y$から$x+y$を並べたリストである．これはPythonでいう
+ガードの中の式は複数あっても良い．例えば
+\begin{equation}
+\hsklList{t}=\left[x+y\mathGuard{x\mathFrom[0,1\dots9],\,y\mathFrom[0,1\dots5],\,x+y>3}\right]
+\end{equation}
+は$0\le x\le9$かつ$0\le y\le5$の範囲で$x+y>3$となる$x$及び$y$から$x+y$を並べたリストである．これはPythonでいう
 \begin{pythoncode}
 \begin{python}
 \pthnId{t} \pthnOp{=} [\pthnId{x} \pthnOp{+} \pthnId{y} \pthnNextLine\\
@@ -1141,25 +1182,48 @@ Pythonではリスト内包表記が使える．例えば$0$から$9$までの�
 \end{pythoncode}
 のことである．\footnote{Haskellでは\code{t = [x + y | x <- [0, 1..9], y <- [0, 1..5], x + y > 3]}と書く．}
 
-リストは\keyword{結合}できる．例えばリスト$\hsklList{t}$とリスト$\hsklList{u}$を結合したリストは$$\hsklList{t}\hsklAppend\hsklList{u}$$と表現する．\footnote{Haskellでは\code{t ++ u}と書く．}
+リストは\keyword{結合}できる．例えばリスト$\hsklList{t}$とリスト$\hsklList{u}$を結合したリストは
+\begin{equation*}
+\hsklList{t}\hsklAppend\hsklList{u}
+\end{equation*}
+と表現する．\footnote{Haskellでは\code{t ++ u}と書く．}
 
-リストは無限個の要素を持っても良い．例えば自然数全体を表すリスト$\hsklList{n}$は$$\hsklList{n}=[1,2\dots]$$のように定義して良い．\footnote{Haskellでは\code{n = [1,2..]}と書く．}
+リストは無限個の要素を持っても良い．例えば自然数全体を表すリスト$\hsklList{n}$は
+\begin{equation}
+\hsklList{n}=[1,2\dots]
+\end{equation}
+のように定義して良い．\footnote{Haskellでは\code{n = [1,2..]}と書く．}
 
 \keyword{空リスト}は$\hsklEmptyList$で表す．\footnote{Haskellでは空リストを\code{[]}で表す．}
 
-任意の型を$\hsklType{a}$とするとき，$\hsklType{a}$型のリスト型を$\hsklListType{\hsklType{a}}$と書く．型$\hsklType{a}$から型$\hsklListType{\hsklType{a}}$を生成する演算子を\keyword{リスト型コンストラクタ}と呼んで$\hsklListConstructor$と書き$$\hsklListType{\hsklType{a}}=\hsklTypeConstruct{\hsklListConstructor}{\hsklType{a}}$$とする．この等式の両辺は変数ではなく型名であることに注意しよう．型コンストラクタの概念はPythonには無い（必要無い）が，静的型付け言語であるJavaの「総称型」や\cxx の「クラステンプレート」が相当する．\footnote{Haskellでは表記上コンテナ型$\hsklListType{a}$と型コンストラクタ式$\hsklTypeConstruct{\hsklListConstructor}{\hsklType{a}}$を区別せず，両者とも\code{[a]}と書く．}
+任意の型を$\hsklType{a}$とするとき，$\hsklType{a}$型のリスト型を$\hsklListType{\hsklType{a}}$と書く．型$\hsklType{a}$から型$\hsklListType{\hsklType{a}}$を生成する演算子を\keyword{リスト型コンストラクタ}と呼んで$\hsklListConstructor$と書き
+\begin{equation}
+\hsklListType{\hsklType{a}}=\hsklTypeConstruct{\hsklListConstructor}{\hsklType{a}}
+\end{equation}
+とする．この等式の両辺は変数ではなく型名であることに注意しよう．型コンストラクタの概念はPythonには無い（必要無い）が，静的型付け言語であるJavaの「総称型」や\cxx の「クラステンプレート」が相当する．\footnote{Haskellでは表記上コンテナ型$\hsklListType{a}$と型コンストラクタ式$\hsklTypeConstruct{\hsklListConstructor}{\hsklType{a}}$を区別せず，両者とも\code{[a]}と書く．}
 
-$\hsklType{a}$型の変数$x$を入れた$\hsklListType{\hsklType{a}}$型の変数（リスト変数）を作る演算子を\keyword{リスト値コンストラクタ}と呼ぶ．$\hsklType{a}$型の変数$x$からリスト値コンストラクタを使ってリスト$\hsklList{t}$を作ることは$$\hsklList{t}=[x]$$と書く．\footnote{Haskellでは\code{t = [x]}と書く．}
+$\hsklType{a}$型の変数$x$を入れた$\hsklListType{\hsklType{a}}$型の変数（リスト変数）を作る演算子を\keyword{リスト値コンストラクタ}と呼ぶ．$\hsklType{a}$型の変数$x$からリスト値コンストラクタを使ってリスト$\hsklList{t}$を作ることは
+\begin{equation}
+\hsklList{t}=[x]
+\end{equation}
+と書く．\footnote{Haskellでは\code{t = [x]}と書く．}
 
 リスト型を表す$\hsklListType{\hsklType{a}}$と，1要素のリストである$[x]$の違いにはいつも気をつけておこう．本書では中身がボールドローマン体ならばリスト型，中身がオイラー体ならリスト値である．またリストを保持する変数にも，本書では$\hsklList{t}$のようにバーをつけておくことにする．
 
 ある型を包み込んだ別の型を一般に\keyword{コンテナ型}または単に\keyword{コンテナ}と呼ぶ．
 
-
 \section{畳み込みとマップ*}
 
-我々はよくリストの総和を表現するためにシグマ記号($\sum$)を使う．リスト$[x_0,x_1\dots x_n]$の総和を$$\sum[x_0,x_1\dots x_n]=x_0+x_1+\dotsb+x_n$$とするようなシグマ記号である．この表現を一般化してみよう．
-リスト$[x_0,x_1\dots x_n]$が与えられたとき，$$\mathFold^{\mathAnyBinaryOperator}_{a}[x_0,x_1\dots x_n]=a\mathAnyBinaryOperator x_0\mathAnyBinaryOperator x_1\mathAnyBinaryOperator\dotsb\mathAnyBinaryOperator x_n$$であると定義する．
+我々はよくリストの総和を表現するためにシグマ記号($\sum$)を使う．リスト$[x_0,x_1\dots x_n]$の総和を
+\begin{equation}
+\sum[x_0,x_1\dots x_n]=x_0+x_1+\dotsb+x_n
+\end{equation}
+とするようなシグマ記号である．この表現を一般化してみよう．
+リスト$[x_0,x_1\dots x_n]$が与えられたとき
+\begin{equation}
+\mathFold^{\mathAnyBinaryOperator}_{a}[x_0,x_1\dots x_n]=a\mathAnyBinaryOperator x_0\mathAnyBinaryOperator x_1\mathAnyBinaryOperator\dotsb\mathAnyBinaryOperator x_n
+\end{equation}
+であると定義する．
 
 この新しい記号$\mathFold$は\keyword{畳み込み演算子}と呼ばれる．変数$a$はアキュムレータと呼ぶ．アキュムレータは右側の引数が空であった場合のデフォルト値と考えても良い．\footnote{Haskellでは$\mathFold^{*}_{a}\hsklList{t}$を\code{foldl * a t}と書く．}
 % !!!!!!!!!! CHECK !!!!!!!!!!
@@ -1181,15 +1245,42 @@ s = t.inject(0) { |x, y| x + y }
 \end{rubycode}
 と書ける．
 
-リストの総和をとる演算子$\sum$は$$\sum=\mathFold^+_0$$とすれば得られる．同じようにリストの要素のすべての積をとる演算子$\prod$は$$\prod=\mathFold^*_1$$とすれば得られる．
+リストの総和をとる演算子$\sum$は
+\begin{equation}
+\sum=\mathFold^+_0
+\end{equation}
+とすれば得られる．同じようにリストの要素のすべての積をとる演算子$\prod$は
+\begin{equation}
+\prod=\mathFold^*_1
+\end{equation}
+とすれば得られる．
 
-畳み込み演算子は第1（上）引数に$\hsklType{a}$型と$\hsklType{b}$型の引数を取り$\hsklType{a}$型の戻り値を返す二項演算子，第2（下）引数に$\hsklType{a}$型，第3（右）引数に$\hsklType{b}$型のリストすなわち$\hsklListType{\hsklType{b}}$型を取り，$\hsklType{a}$型の値を返す．従って畳み込み演算子の型は$$\mathFold\mathIn\mathMorphIII{(\mathMorphII{\hsklType{a}}{\hsklType{b}}{\hsklType{a}})}{\hsklType{a}}{\hsklListType{\hsklType{b}}}{\hsklType{a}}$$である．
+畳み込み演算子は第1（上）引数に$\hsklType{a}$型と$\hsklType{b}$型の引数を取り$\hsklType{a}$型の戻り値を返す二項演算子，第2（下）引数に$\hsklType{a}$型，第3（右）引数に$\hsklType{b}$型のリストすなわち$\hsklListType{\hsklType{b}}$型を取り，$\hsklType{a}$型の値を返す．従って畳み込み演算子の型は
+\begin{equation}
+\mathFold\mathIn\mathMorphIII{(\mathMorphII{\hsklType{a}}{\hsklType{b}}{\hsklType{a}})}{\hsklType{a}}{\hsklListType{\hsklType{b}}}{\hsklType{a}}
+\end{equation}
+である．
 
-畳み込み演算子には次のようなもう一つのバリエーションがある．$$\mathFoldRight^{\mathAnyBinaryOperator}_{a}[x_0,x_1\dotsb x_n]=\left(x_0\mathAnyBinaryOperator\left(x_1\mathAnyBinaryOperator\dotsb\mathAnyBinaryOperator\left(x_n\mathAnyBinaryOperator a\right)\right)\right)$$
+畳み込み演算子には次のようなもう一つのバリエーションがある．
+\begin{equation}
+\mathFoldRight^{\mathAnyBinaryOperator}_{a}[x_0,x_1\dotsb x_n]=\left(x_0\mathAnyBinaryOperator\left(x_1\mathAnyBinaryOperator\dotsb\mathAnyBinaryOperator\left(x_n\mathAnyBinaryOperator a\right)\right)\right)
+\end{equation}
 これは右畳み込みと呼ばれる演算子である．\footnote{Haskellでは$\mathFoldRight^{*}_{a}l$を\code{foldr l a *}と書く．}
 % !!!!!!!!!! CHECK !!!!!!!!!!
 
-畳み込み演算子の面白い応用例を示そう．リストの結合演算子($\hsklAppend$)を使うと$$\mathFold_\hsklEmptyList^\hsklAppend[[0,1,2],[3,4,5],\dots]=[0,1,2,3,4,5,\dots]$$であるから，演算子$$\mathFold_\hsklEmptyList^\hsklAppend$$はリストを平坦化する\keyword{平坦化演算子}である．平坦化演算子はconcat演算子とも呼ばれることもあるが，基本的な演算子であるため特別な記号をつけておこう．我々は$$\hsklConcat=\mathFold_\hsklEmptyList^\hsklAppend$$と定義することにする．\footnote{Haskellでは演算子$\hsklConcat$の代わりに\code{concat}関数を使う．}
+畳み込み演算子の面白い応用例を示そう．リストの結合演算子$(\hsklAppend)$を使うと
+\begin{equation}
+\mathFold_\hsklEmptyList^\hsklAppend[[0,1,2],[3,4,5],\dots]=[0,1,2,3,4,5,\dots]
+\end{equation}
+であるから，演算子
+\begin{equation}
+\mathFold_\hsklEmptyList^\hsklAppend
+\end{equation}
+はリストを平坦化する\keyword{平坦化演算子}である．平坦化演算子はconcat演算子とも呼ばれることもあるが，基本的な演算子であるため特別な記号をつけておこう．我々は
+\begin{equation}
+\hsklConcat=\mathFold_\hsklEmptyList^\hsklAppend
+\end{equation}
+と定義することにする．\footnote{Haskellでは演算子$\hsklConcat$の代わりに\code{concat}関数を使う．}
 % !!!!!!!!!! CHECK !!!!!!!!!!
 
 リストの各要素に決まった関数を適用したい場合がある．Pythonではリスト\pthnId{t}に関数\pthnId{f}を適用するときには
@@ -1200,9 +1291,21 @@ s = t.inject(0) { |x, y| x + y }
 \end{pythoncode}
 のように\pthnId{map}関数を用いる．
 
-このように引数として関数$f$とリスト$[x_0,x_1\dots x_n]$を取り，戻り値として$[fx_0,fx_1\dots fx_n]$を返す演算子$\hsklMap$を考えよう．このとき$$f\hsklMap[x_0,x_1\dots x_n]=[fx_0,fx_1\dots fx_n]$$であると定義する．この演算子$\hsklMap$を\keyword{マップ演算子}と呼ぶ．\footnote{Haskellでは$f\hsklMap l$を\code{map f l}または\code{f `map` l}と書く．}
+このように引数として関数$f$とリスト$[x_0,x_1\dots x_n]$を取り，戻り値として$[fx_0,fx_1\dots fx_n]$を返す演算子$\hsklMap$を考えよう．このとき
+\begin{equation}
+f\hsklMap[x_0,x_1\dots x_n]=[fx_0,fx_1\dots fx_n]
+\end{equation}
+であると定義する．この演算子$\hsklMap$を\keyword{マップ演算子}と呼ぶ．\footnote{Haskellでは$f\hsklMap l$を\code{map f l}または\code{f `map` l}と書く．}
 
-マップ演算子の型は$$\hsklMap\hsklOf{}\mathMorphII{(\mathMorph{\hsklType{a}}{\hsklType{b}})}{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType{b}}}$$である．矢印$\mathMapsTo$は右結合なので，これは$$\hsklMap\hsklOf{}\mathMorph{(\mathMorph{\hsklType{a}}{\hsklType{b}})}{(\mathMorph{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType{b}}})}$$の意味でもある．ここで$f$と$f\hsklMap$の型を並べてみると
+マップ演算子の型は
+\begin{equation*}
+\hsklMap\hsklOf{}\mathMorphII{(\mathMorph{\hsklType{a}}{\hsklType{b}})}{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType{b}}}
+\end{equation*}
+である．矢印$\mathMapsTo$は右結合なので，これは
+\begin{equation*}
+\hsklMap\hsklOf{}\mathMorph{(\mathMorph{\hsklType{a}}{\hsklType{b}})}{(\mathMorph{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType{b}}})}
+\end{equation*}
+の意味でもある．ここで$f$と$f\hsklMap$の型を並べてみると
 \begin{align*}
 f&\mathIn\mathMorph{\hsklType{a}}{\hsklType{b}}\\
 f\hsklMap&\mathIn\mathMorph{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType{b}}}
@@ -1213,7 +1316,11 @@ f\hsklMap&\mathIn\mathMorph{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType
 
 ここでリストの実装について述べておかねばならない．紙上ではリストは自由に考えられるが，計算機上ではそれほど自由ではないからである．我々はリストをLISPにおけるリストと同じ構造を持つものとする．LISPにおけるリストとはリファレンス$\mathFirst$とリファレンス$\mathRest$からなるペアの集合である．リファレンス$\mathFirst$がリストの要素を参照し，リファレンス$\mathRest$が次のペアを参照する．リストの最後のペアの$\mathRest$は空リストを参照する特別な値を持つ．
 
-リストのための特別な表現$$\mathFirst:\mathRest$$を用い，リファレンス$\mathFirst$はリストが保持する型，リファレンス$\mathRest$はリスト型であるとする．演算子$:$を\keyword{結合演算子}と呼ぶ．\footnote{Haskellでも要素\code{x}をリスト\code{t}の先頭に追加することを\code{x:t}と書く．}
+リストのための特別な表現
+\begin{equation*}
+\mathFirst:\mathRest
+\end{equation*}
+を用い，リファレンス$\mathFirst$はリストが保持する型，リファレンス$\mathRest$はリスト型であるとする．演算子$:$を\keyword{結合演算子}と呼ぶ．\footnote{Haskellでも要素\code{x}をリスト\code{t}の先頭に追加することを\code{x:t}と書く．}
 
 要素$\mathRest$はリストまたは空リストであるから，一般にリストは次のように展開できることになる．
 \begin{align*}
@@ -1224,14 +1331,14 @@ f\hsklMap&\mathIn\mathMorph{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType
 結合演算子$:$は右結合する．すなわち$$x_0:x_1:x_2=x_0:(x_1:x_2)$$である．
 
 マップ演算子の実装は，リストの実装に踏み込めば簡単である．空でないリストは必ず$x:\hsklList{t}$へと分解できるから
-\begin{equation*}
+\begin{equation}
 \left\{
 \begin{split}
 f\hsklMap(x:\hsklList{t})&=(fx):(f\hsklMap\hsklList{t})\\
 f\hsklMap\hsklEmptyList&=\hsklEmptyList
 \end{split}
 \right.
-\end{equation*}
+\end{equation}
 とマップ演算子($\hsklMap$)を定義できる．つまりマップ演算子($\hsklMap$)は結合演算子(:)から作ることができる．換言すれば，マップ演算子は糖衣構文である．
 
 任意のリスト$\hsklList{t}$に対し，次の関数が用意されている．
@@ -1244,7 +1351,7 @@ f\hsklMap\hsklEmptyList&=\hsklEmptyList
 \section{余計な話：リストを引数にとる関数}
 
 リストを分解する関数$\hsklHead$と$\hsklTail$さえあればどのようなリスト処理も可能であるが，リストを引数にとる関数を考えると最初から分解されたリストを渡された方が何かと便利である．そこで結合演算子を関数引数のパタンにも使えることにしよう．これで，例えばリストの和をとる関数$f$は
-\begin{equation*}
+\begin{equation}
 \left\{
 \begin{split}
 f\hsklEmptyList&=0\\
@@ -1252,7 +1359,7 @@ f\hsklEmptyList&=0\\
 f(x:\hsklList{t})&=x+f\hsklList{t}
 \end{split}
 \right.
-\end{equation*}
+\end{equation}
 のようにも定義できる．
 
 
