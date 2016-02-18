@@ -110,14 +110,15 @@
 \DeclareMathOperator{\mathApply}{\$}
 \DeclareMathOperator{\mathAnyUnaryOperator}{\star}
 \DeclareMathOperator{\mathCompose}{\bullet}
+\DeclareMathOperator{\mathElse}{\mathKeyword{else}}
+\DeclareMathOperator{\mathFactorial}{fact}
+\DeclareMathOperator*{\mathFold}{\bigcup}
+\DeclareMathOperator*{\mathFoldRight}{\bigsqcup}
+\DeclareMathOperator{\mathFrom}{\in}
 \DeclareMathOperator{\mathI}{i}
 \DeclareMathOperator{\mathIf}{\mathKeyword{if}}
 \DeclareMathOperator{\mathIn}{::}
 \DeclareMathOperator{\mathInverse}{\neg}
-\DeclareMathOperator{\mathElse}{\mathKeyword{else}}
-\DeclareMathOperator*{\mathFold}{\bigcup}
-\DeclareMathOperator*{\mathFoldRight}{\bigsqcup}
-\DeclareMathOperator{\mathFrom}{\in}
 \DeclareMathOperator{\mathLambda}{\backslash}
 \DeclareMathOperator{\mathLet}{\mathKeyword{let}}
 \DeclareMathOperator{\mathLetIn}{\mathKeyword{in}}
@@ -168,9 +169,9 @@
 \hline
 種類&字体・表記法&例\\
 \hline
-定数&オイラー体，大文字（1文字）&$T$, $F$, $I$\\
-変数&オイラー体，小文字（1文字）&$x$, $y$, $z$\\
-関数&オイラー体，小文字（1文字）&$f$, $g$, $h$\\
+定数&オイラー書体，大文字（1文字）&$T$, $F$, $I$\\
+変数&オイラー書体，小文字（1文字）&$x$, $y$, $z$\\
+関数&オイラー書体，小文字（1文字）&$f$, $g$, $h$\\
 有名な関数&ローマン体，小文字で始める&$\sin$, $\cos$, $\tan$\\
 集合と型&ボールドローマン体，大文字で始める&$\mathSet{S}$, $\hsklInt$, $\hsklFloat$\\
 型パラメタ&ボールドローマン体，小文字（1文字）&$\hsklType{a}$, $\hsklType{b}$, $\hsklType{c}$\\
@@ -228,7 +229,7 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 さて，登山口にどのプログラミング言語を選ぶのが適当であろうか．IEEE Spectrum による ``The 2015 Top Ten Programming Languages'' という記事によると「ビッグファイブ」として Java, C, \cxx, Python, C\texttt{\#} が挙げられている．そこで本書では，多くのプログラマが読めて，シンプルに記述ができ，なおかつHaskellと対極にある言語であるPython（バージョン3）を登山口に選ぶことにした．Pythonコードはこのように登場する．
 \begin{pythoncode}
 \begin{python}
-\pthnId{print} \pthnString{"Hello, world."}
+\pthnId{print}(\pthnString{"Hello, world."})
 \end{python}
 \end{pythoncode}
 本文中に登場するPythonコードは文字通り打ち込めばそのまま使える．
@@ -244,7 +245,7 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 
 \keyword{破壊的代入}はだめ．
 
-\section{余計な話}
+\section{余計な話*}
 
 A...
 
@@ -384,8 +385,7 @@ y=\mathLet(x'=100*x+50)\mathLetIn fx'
 A...
 \end{leader}
 
-
-\section{演算子*}
+\section{演算子}
 
 \keyword{演算子}は関数の特別な姿である．演算子は作用素と呼んでも良い．どちらも英語のoperatorの和訳である．演算子は普通アルファベット以外のシンボル1個で表現し，変数や関数の前に置いて直後の変数や関数に作用させるか，2個の変数や関数の中間に置いてその両者に作用させる．簡単に言うと$-x$のマイナス記号$(-)$は変数の前に置いて直後の変数$(x)$に作用する演算子であり，$x+y$のプラス記号$(+)$は2個の変数の間に置いてその両者$(x,y)$に作用する．
 
@@ -407,7 +407,7 @@ A...
 
 本書では3個の変数に同時に作用する演算子は扱わない．
 
-\section{関数合成演算子と関数適用演算子*}
+\section{関数合成演算子と関数適用演算子}
 
 ある変数に複数の関数を順に適用することはよくあることである．例えば
 \begin{pythoncode}
@@ -455,22 +455,46 @@ fx=\begin{cases}
 \end{equation*}
 左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっていることに注目しよう．
 
-関数は内部で自分自身を呼んでも良い．例えば$x$の階乗$(x!)$を返す関数$fx=x!$は
-\begin{equation*}
-fx=\begin{cases}
+関数は内部で自分自身を呼んでも良い．例えば$x$の階乗$(x!)$を返す関数$\mathFactorial x=x!$は
+\begin{equation}
+\mathFactorial x=\begin{cases}
 1&\mathIf x\equiv0\\
-x*f(x-1)&\mathOtherwise
+x*\mathFactorial(x-1)&\mathOtherwise
 \end{cases}
-\end{equation*}
+\end{equation}
 と定義できる．関数が自分自身を呼び出すことを関数の\keyword{再帰呼び出し}と呼ぶ．
 
 我々は関数の適用，変数の代入，ラムダ式，条件式，再帰の方法を学んだわけである．これだけあれば，原理的にはどのようなアルゴリズムも書くことができる．今日からはカリー風な数学であらゆるアルゴリズムを表現できるのである！
 
-\section{余計な話：数値と条件式*}
+\section{余計な話：末尾再帰}
 
-% ラムダで．
+計算機科学者は，同じ再帰でも\keyword{末尾再帰}という再帰のスタイルを好む．末尾再帰とは，関数の再帰呼び出しを関数定義の末尾にすることである．この章に出てきた階乗関数$\mathFactorial$を例にとろう．階乗関数$\mathFactorial$は
+\begin{equation*}
+\mathFactorial x=\begin{cases}
+1&\mathIf x\equiv0\\
+x*\mathFactorial(x-1)&\mathOtherwise
+\end{cases}
+\end{equation*}
+のような形をしていた．この定義の末尾の式は
+\begin{equation*}
+x*\mathFactorial(x-1)
+\end{equation*}
+である．これだと末尾の関数は$\mathFactorial$ではなく演算子$*$なので，末尾に再帰呼び出しを行ったことにはならない．
 
-\chapter{代数的構造*}
+そこで，次のように形を変えた階乗関数$\mathFactorial'$を考えてみる．
+\begin{equation}
+\mathFactorial'ax=\begin{cases}
+1&\mathIf x\equiv0\\
+\mathFactorial'(a*x)(x-1)&\mathOtherwise
+\end{cases}
+\end{equation}
+こうすれば末尾の関数が大元の$\mathFactorial'$と一致する．
+
+関数$\mathFactorial$と違い関数$\mathFactorial'$は引数を2個とる．関数$\mathFactorial'$を使って$x$の階乗を求める場合は$\mathFactorial'1x$と第1引数に$1$を与えることにする．この第1引数$a$はアキュムレータという．アキュムレータが演算の途中経過を引き渡していくイメージを描けば，末尾再帰の意味が理解できる．
+
+計算機科学者が末尾再帰を好む理由は，幾つかのプログラミング言語処理系が\keyword{末尾再帰最適化}を行うからである．末尾再帰最適化とは，一言で言うと再帰をコンピュータが扱いやすいループに置き換えることである．では最初から我々もループで関数を表現しておけば，と思われるかもしれないが，再帰以外の方法でループを表現する場合には必ず変数への破壊的代入が必要になるため，我々は末尾再帰に慎ましくループを隠すのである．
+
+\chapter{代数的構造}
 
 \begin{leader}
 この章では「代数的構造」を見ていくことにする．代数的構造とは，四則演算のような数に関する基本的な性質を抽象化していくことで，数の背後にある基本的なメカニズムを抽出したものである．代数的構造はあらゆるプログラミング言語に明示的，あるいは非明示的に見られる要素である．
