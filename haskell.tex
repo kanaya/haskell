@@ -475,11 +475,18 @@ x*\mathFactorial(x-1)&\mathOtherwise
 x*\mathFactorial(x-1)&\mathOtherwise
 \end{cases}
 \end{equation*}
-のような形をしていた．この定義の末尾の式は
+のような形をしていた．末尾の関数をよりはっきりさせるために演算子$*$を前置にして
+\begin{equation}
+\mathFactorial x=\begin{cases}
+1&\mathIf x\equiv0\\
+(*)x\mathFactorial(x-1)&\mathOtherwise
+\end{cases}
+\end{equation}
+と書いてみよう．この定義の末尾の式は
 \begin{equation*}
-x*\mathFactorial(x-1)
+(*)x\mathFactorial(x-1)
 \end{equation*}
-である．これだと末尾の関数は$\mathFactorial$ではなく演算子$*$なので，末尾に再帰呼び出しを行ったことにはならない．
+である．これだと末尾の関数は$\mathFactorial$ではなく演算子$(*)$なので，末尾に再帰呼び出しを行ったことにはならない．
 
 そこで，次のように形を変えた階乗関数$\mathFactorial'$を考えてみる．
 \begin{equation}
