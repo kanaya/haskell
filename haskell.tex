@@ -1521,7 +1521,7 @@ Maybeは次の\pthnClassname{maybe}クラステンプレートで表現できる
 \pthnClassname{maybe}$\langle$\pthnKeyword{int}$\rangle$ \pthnId{n} \pthnOp{=} \pthnId{map\_over}(\pthnId{f}, \pthnId{m});
 \end{python}
 \end{cxxcode}
-注意してほしいのは\pthnId{f}(\pthnId{z})も\pthnId{map\_over}(\pthnId{f}, \pthnId{m})も正当なコードだが\pthnId{f}(\pthnId{m})は型エラーであることだ．また\pthnId{f}(\pthnId{m}.\pthnId{get\_value}())は正当なコードだが，わざわざ\pthnId{m}が持つ文脈を捨てることになる．
+注意してほしいのは\pthnId{f}(\pthnId{z})も\pthnId{map\_over}(\pthnId{f}, \pthnId{m})も正当なコードだが\pthnId{f}(\pthnId{m})は型エラーであることだ．また\pthnId{f}(\pthnId{m}.\pthnId{get\_value}())は正当なコードだが，わざわざ\pthnId{m}が持つ文脈を捨てることになる．（\cxx プログラマへの注意：$\pthnKeyword{int}$型の使用は現在では非推奨である．）
 
 % ところで，関数\pthnId{f}の実装は，ラムダ式の使えない\cxx03ではファンクター (functor) という機構を使うことになる．このファンクターは第\ref{ch:functor}章の関手 (functor) とは全く別な概念である．
 
