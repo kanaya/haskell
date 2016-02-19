@@ -4,54 +4,61 @@
 
 \title{プログラマのための代数構造}
 \author{Ichi Kanaya}
-\date{2016}
 
 \def\[{[\![}
 \def\]{]\!]}
-% \def\keyword#1{#1\index{#1}}
 
-\newcommand{\cxx}{\textrm{C}\texttt{++}}
+% Special keywords
+\newcommand{\cxx}{C\texttt{++}}
 
-\newcommand{\keyword}[1]{{\emph{#1}}}
-% \newcommand{\keyword}[1]{\underline{\emph{#1}}}
-
+% Font Specifiers
 \newcommand{\code}[1]{\texttt{#1}}
-\newenvironment{leader}{\begingroup\bf}{\endgroup}
-\newenvironment{point}{\begin{screen}}{\end{screen}}
+\newcommand{\keyword}[1]{{\emph{#1}}}
+
+% Environments
 \newenvironment{cxxcode}{\begin{itembox}[r]{\cxx}}{\end{itembox}}
 \newenvironment{javacode}{\begin{itembox}[r]{Java}}{\end{itembox}}
+\newenvironment{leader}{\begingroup\bf}{\endgroup}
+\newenvironment{point}{\begin{screen}}{\end{screen}}
 \newenvironment{pythoncode}{\begin{itembox}[r]{Python}}{\end{itembox}}
-\newenvironment{rubycode}{\begin{itembox}[r]{Ruby}}{\end{itembox}}
 \newenvironment{python}{\begin{tabbing}\hspace*{1em}\=\hspace*{1em}\=\hspace*{1em}\=\hspace*{1em}\=\kill}{\end{tabbing}}
-
+\newenvironment{rubycode}{\begin{itembox}[r]{Ruby}}{\end{itembox}}
 % \newenvironment{footnotecode}{\begin{Verbatim}[xleftmargin=10mm]}{\end{Verbatim}}
 
+%%
+%% Python
+%%
+
+% Python Pretty Printers
 \newcommand{\pthnClassname}[1]{\textrm{#1}}
 \newcommand{\pthnId}[1]{\textit{#1}}
 \newcommand{\pthnKeyword}[1]{\textbf{#1}}
 \newcommand{\pthnOp}[1]{\texttt{#1}}
 \newcommand{\pthnString}[1]{\texttt{#1}}
 
+% Python Reserved Keywords
 \DeclareMathOperator{\pthnDef}{\pthnKeyword{def}}
 \DeclareMathOperator{\pthnElse}{\pthnKeyword{else}}
 \DeclareMathOperator{\pthnFor}{\pthnKeyword{for}}
 \DeclareMathOperator{\pthnIf}{\pthnKeyword{if}}
 \DeclareMathOperator{\pthnIn}{\pthnKeyword{in}}
 \DeclareMathOperator{\pthnLambda}{\pthnKeyword{lambda}}
-\DeclareMathOperator{\pthnMap}{map}
-\DeclareMathOperator{\pthnPrint}{print}
 \DeclareMathOperator{\pthnReturn}{\pthnKeyword{return}}
-\DeclareMathOperator{\pthnRange}{range}
-\DeclareMathOperator{\pthnReduce}{reduce}
-\DeclareMathOperator{\pthnUp}{**}
 
-
+% Python Metasymbols
 \newcommand{\pthnNextLine}{$\blacktriangleright\blacktriangleright$}
 
+%%
+%% Haskell
+%%
+
+% Haskell Typenames
 \newcommand{\hsklType}[1]{\textbf{#1}}
 \newcommand{\hsklTypeclass}[1]{\textsl{#1}}
-\newcommand{\hsklTypeConstructor}[1]{\mathop{\mathrm{#1}}}
+% \newcommand{\hsklTypeConstructor}[1]{\mathop{\mathrm{#1}}}
 
+% Haskell Operators
+\newcommand{\hsklAppend}{\oplus}
 \DeclareMathOperator{\hsklApplicativeApply}{\S}
 \DeclareMathOperator{\hsklApplicativeMap}{\times}
 \DeclareMathOperator{\hsklApplicativeListMap}{\otimes}
@@ -59,9 +66,9 @@
 \DeclareMathOperator{\hsklConcat}{\flat}
 \DeclareMathOperator{\hsklFmap}{\cdot}
 \DeclareMathOperator{\hsklHead}{head}
-\DeclareMathOperator{\hsklListConstructor}{\hsklTypeConstructor{List}}
+\DeclareMathOperator{\hsklListConstructor}{List}
 \DeclareMathOperator{\hsklMap}{\odot}
-\DeclareMathOperator{\hsklMaybeConstructor}{\hsklTypeConstructor{Maybe}}
+\DeclareMathOperator{\hsklMaybeConstructor}{Maybe}
 \DeclareMathOperator{\hsklMaybeAppend}{\boxplus}
 \DeclareMathOperator{\hsklMaybeMap}{\boxdot}
 \DeclareMathOperator{\hsklMonadMap}{\heartsuit}
@@ -70,11 +77,14 @@
 \DeclareMathOperator{\hsklSucc}{succ}
 \DeclareMathOperator{\hsklTail}{tail}
 
-\newcommand{\hsklAppend}{\oplus}
+% Haskell Symbols
+\newcommand{\hsklEmptyList}{\emptyset}
+\newcommand{\hsklNothing}{\varnothing}
+
+% Haskell Types and Typeclasses
 \newcommand{\hsklApplicative}{\hsklTypeclass{Applicative}}
 \newcommand{\hsklBool}{\hsklType{Bool}}
 \newcommand{\hsklChar}{\hsklType{Char}}
-\newcommand{\hsklEmptyList}{\emptyset}
 \newcommand{\hsklEnum}{\hsklTypeclass{Enum}}
 \newcommand{\hsklInt}{\hsklType{Int}}
 \newcommand{\hsklIntegral}{\hsklTypeclass{Integral}}
@@ -84,26 +94,35 @@
 \newcommand{\hsklMonad}{\hsklTypeclass{Monad}}
 \newcommand{\hsklMonadplus}{\hsklTypeclass{Monadplus}}
 \newcommand{\hsklMonoid}{\hsklTypeclass{Monoid}}
-\newcommand{\hsklNothing}{\varnothing}
 \newcommand{\hsklNum}{\hsklTypeclass{Num}}
 \newcommand{\hsklOrd}{\hsklTypeclass{Ord}}
 \newcommand{\hsklReal}{\hsklTypeclass{Real}}
 
-\newcommand{\hsklFunction}[1]{\Hat{#1}}
+% Haskell Value Constructors
 \newcommand{\hsklJust}[1]{\[#1\]}
-\newcommand{\hsklList}[1]{\Bar{#1}}
 \newcommand{\hsklListType}[1]{[#1]}
-\newcommand{\hsklMaybe}[1]{\Tilde{#1}}
-\newcommand{\hsklMaybeW}[1]{\widetilde{#1}}
 \newcommand{\hsklMaybeType}[1]{\[#1\]}
 \newcommand{\hsklPure}[1]{\langle#1\rangle_\textsf{pure}}
 \newcommand{\hsklUnit}[1]{\langle#1\rangle_\textsf{unit}}
 
+% Haskell Type Constructor
 \newcommand{\hsklTypeConstruct}[2]{#1\,#2}
 
+% Haskell Decorations
+\newcommand{\hsklFunction}[1]{\Hat{#1}}
+\newcommand{\hsklList}[1]{\Bar{#1}}
+\newcommand{\hsklMaybe}[1]{\Tilde{#1}}
+\newcommand{\hsklMaybeW}[1]{\widetilde{#1}}
+
+%%
+%% Math
+%%
+
+% Math Keywords
 \newcommand{\mathKeyword}[1]{\mathbf{#1}}
 \newcommand{\mathVarKeyword}[1]{\mathsf{#1}}
 
+% Math Operators
 \DeclareMathOperator{\mathAnyBinaryOperator}{\bigstar}
 \DeclareMathOperator{\mathInverse}{\sharp}
 \DeclareMathOperator{\mathAnd}{\wedge}
@@ -128,6 +147,7 @@
 \DeclareMathOperator{\mathThen}{\mathKeyword{then}}
 \DeclareMathOperator{\mathWhere}{\mathKeyword{where}}
 
+% Math Special Keywords
 \newcommand{\mathFirst}{\mathVarKeyword{first}}
 \newcommand{\mathLambdaAnonymousParameter}{\lozenge}
 \newcommand{\mathLambdaArrow}{\rightarrow}
@@ -137,6 +157,7 @@
 \newcommand{\mathRight}{\mathKeyword{right}}
 \newcommand{\mathSomething}{\square}
 
+% Math Pretty Printers
 \newcommand{\mathFunctor}[1]{\mathrm{#1}}
 \newcommand{\mathGuard}[1]{\mathop{\mid_{#1}}}
 \newcommand{\mathSet}[1]{\mathbf{#1}}
@@ -210,10 +231,6 @@ Python文字列リテラル&タイプライタ体&\pthnString{"Hello, world."}\\
 A...
 \end{leader}
 
-\section{数学とプログラミングの関係*}
-
-A...
-
 \section{Haskellという森}
 
 Haskellというプログラミング言語を知ろうとすると，従来のプログラミング言語の知識が邪魔をする．モダンで，人気があって，Haskellから影響を受けた言語，例えばRubyやSwiftの知識さえ，Haskellを学ぶ障害になり得る．ではどのようにしてHaskellの深みに到達すればいいのだろうか．
@@ -240,6 +257,14 @@ Haskellというプログラミング言語を知ろうとすると，従来の�
 本書は3部構成になっている．第I部はプログラミング言語から抽象数学への登山である．第II部は抽象数学の山頂からHaskellの森へ下っていく道である．第III部はこれまで歩いた道全体を俯瞰する．
 
 第I部は対応するHaskellのコードを脚注に記載している．脚注部分はHaskellを一通り覚えた後で読み返してもらいたい．\footnote{Haskellのコードは\code{x = 1}のようにタイプライタ体で書く．}
+
+\section{数学とプログラミングの関係*}
+
+チューリングマシンというアプローチ．
+
+ラムダ式というアプローチ．
+
+A...
 
 \section{関数型プログラミング*}
 
@@ -1616,21 +1641,21 @@ a
 
 この意味は，もし$f\hsklFmap\hsklList{t}$と書いてあれば$f\hsklMap\hsklList{t}$のことであるし，もし$f\hsklFmap\hsklMaybe{m}$と書いてあれば$f\hsklMaybeMap\hsklMaybe{m}$のことであると，自動的に解釈することである．そして，何の飾りもつけられていない変数$x$がふらっと現れ，目の前に$f\hsklFmap x$という式が登場しても，落ち着いて変数$x$の型を調べ，変数$x$がリストならば$\hsklFmap$の部分に$\hsklMap$を，変数$x$がMaybeならば$\hsklFmap$の部分に$\hsklMaybeMap$をはめ込むのだ．\footnote{Haskellでは一般マップ演算子は\code{fmap}である．ただしその実装は与えられず，対象とする型に応じて定義されるものとする．例えばリストに対しては\code{fmap = map}と定義されている．}
 
-つまり，型コンストラクタ$\hsklTypeConstructor{List}$は
+つまり，型コンストラクタ$\hsklListConstructor$は
 \begin{equation*}
 \left\{
 \begin{split}
-\hsklFmap&\xrightarrow{\;\hsklTypeConstructor{List}\;}\hsklMap\\
-\hsklType{a}&\xrightarrow{\;\hsklTypeConstructor{List}\;}\hsklListType{\hsklType{a}}
+\hsklFmap&\xrightarrow{\;\hsklListConstructor\;}\hsklMap\\
+\hsklType{a}&\xrightarrow{\;\hsklListConstructor\;}\hsklListType{\hsklType{a}}
 \end{split}
 \right.
 \end{equation*}
-という射であり，型コンストラクタ$\hsklTypeConstructor{Maybe}$は
+という射であり，型コンストラクタ$\hsklMaybeConstructor$は
 \begin{equation*}
 \left\{
 \begin{split}
-\hsklFmap&\xrightarrow{\;\hsklTypeConstructor{Maybe}\;}\hsklMaybeMap\\
-\hsklType{a}&\xrightarrow{\;\hsklTypeConstructor{Maybe}\;}\hsklMaybeType{\hsklType{a}}
+\hsklFmap&\xrightarrow{\;\hsklMaybeConstructor\;}\hsklMaybeMap\\
+\hsklType{a}&\xrightarrow{\;\hsklMaybeConstructor\;}\hsklMaybeType{\hsklType{a}}
 \end{split}
 \right.
 \end{equation*}
