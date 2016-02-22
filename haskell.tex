@@ -26,7 +26,8 @@
 
 % Environments
 \newenvironment{cxxcode}{\begin{itembox}[r]{\cxx}}{\end{itembox}}
-\newenvironment{javacode}{\begin{itembox}[r]{Java}}{\end{itembox}}
+\newenvironment{javacode}{\begin{itembox}[r]{\java}}{\end{itembox}}
+\newenvironment{haskellcode}{\begin{itembox}[r]{\haskell}}{\end{itembox}}
 \newenvironment{leader}{\begingroup\bf}{\endgroup}
 \newenvironment{point}{\begin{screen}}{\end{screen}}
 \newenvironment{pythoncode}{\begin{itembox}[r]{\python}}{\end{itembox}}
@@ -237,12 +238,12 @@ Python文字列リテラル&タイプライタ体&\pthnString{"Hello, world."}\\
 \chapter{はじめに}
 
 \begin{leader}
-本書はプログラミング言語\haskell の入門書である．入門書という意味は，本書を読むことで読者が\haskell プログラミングを出来るようになる，ということを筆者が願っているということである...
+本書はプログラミング言語\haskell の入門書である．
 \end{leader}
 
 \section{\haskell という森}
 
-これからのプログラマにとって，\haskell を無視することはできない．避けることはできるだろうし，攻撃することもできるが，無視することだけはできない．それは\haskell がプログラミング言語の本質に深く関わっているからである．
+これからのプログラマにとって，\haskell を無視することはできない．避けることはできるだろうし，攻撃することもできるが，無視することだけはできない．それは\haskell がプログラミングの本質に深く関わっているからである．
 
 \haskell というプログラミング言語を知ろうとすると，従来のプログラミング言語の知識が邪魔をする．モダンで，人気があって，\haskell から影響を受けた言語，例えば\ruby や\swift の知識さえ，\haskell を学ぶ障害になり得る．ではどのようにして\haskell の深みに到達すればいいのだろうか．
 
@@ -569,20 +570,20 @@ fx=\begin{cases}
 \end{equation}
 左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっていることに注目しよう．
 
-関数は内部で自分自身を呼んでも良い．例えば$x$の階乗$(x!)$を返す関数$\mathFactorial x=x!$は
+関数は内部で自分自身を適用しても良い．例えば$x$の階乗$(x!)$を返す関数$\mathFactorial x=x!$は
 \begin{equation}
 \mathFactorial x=\begin{cases}
 1&\mathIf x\equiv0\\
 x*\mathFactorial(x-1)&\mathOtherwise
 \end{cases}
 \end{equation}
-と定義できる．関数が自分自身を呼び出すことを関数の\keyword{再帰呼び出し}と呼ぶ．
+と定義できる．関数が自分自身を適用することを関数の\keyword{再帰適用}と呼ぶ．
 
 我々は関数の適用，変数の代入，ラムダ式，条件式，再帰の方法を学んだわけである．これだけあれば，原理的にはどのようなアルゴリズムも書くことができる．今日からはカリー風な数学であらゆるアルゴリズムを表現できるのである！
 
 \section{余計な話：末尾再帰}
 
-計算機科学者は，同じ再帰でも\keyword{末尾再帰}という再帰のスタイルを好む．末尾再帰とは，関数の再帰呼び出しを関数定義の末尾にすることである．この章に出てきた階乗関数$\mathFactorial$を例にとろう．階乗関数$\mathFactorial$は
+計算機科学者は，同じ再帰でも\keyword{末尾再帰}という再帰のスタイルを好む．末尾再帰とは，関数の再帰適用を関数定義の末尾にすることである．この章に出てきた階乗関数$\mathFactorial$を例にとろう．階乗関数$\mathFactorial$は
 \begin{equation*}
 \mathFactorial x=\begin{cases}
 1&\mathIf x\equiv0\\
@@ -600,7 +601,7 @@ x*\mathFactorial(x-1)&\mathOtherwise
 \begin{equation*}
 (*)x(\mathFactorial(x-1))
 \end{equation*}
-である．これだと末尾の関数は$\mathFactorial$ではなく演算子$(*)$なので，末尾に再帰呼び出しを行ったことにはならない．
+である．これだと末尾の関数は$\mathFactorial$ではなく演算子$(*)$なので，末尾に再帰適用を行ったことにはならない．
 
 そこで，次のように形を変えた階乗関数$\mathFactorial'$を考えてみる．
 \begin{equation}
@@ -712,7 +713,7 @@ z\uparrow2&=z*z\\
 \label{eq:xysq}
 (x+y)\uparrow2=x\uparrow2+x*y+y*x+y\uparrow2
 \end{equation}
-を得る．式\eqref{eq:xysq}は体の性質だけを使って導いた関係なので，実数だけでなく有理数や複素数にもそのまま使える．実際には式\eqref{eq:xysq}は体の性質のうち分配則だけを使っいるので，体以外にも応用が利く式である．
+を得る．式\eqref{eq:xysq}は体の性質だけを使って導いた関係なので，実数だけでなく有理数や複素数にもそのまま使える．実際には式\eqref{eq:xysq}は体の性質のうち分配則だけを使っいるので，体以外にも応用が利く式でもある．
 
 \begin{table*}
 \caption{代表的な代数的構造の性質(1)}
@@ -800,7 +801,7 @@ R_{-t}\bullet R_t=R_t\bullet R_{-t}=I
 \begin{equation}
 \mathVector{p}=\begin{bmatrix}u\\v\end{bmatrix}
 \end{equation}
-と表した場合，回転変換は
+と表すことにしよう．矢印は変数$p$がベクトルであることを忘れないようにするための飾りである．このとき，回転変換は
 \begin{equation}
 R_t=\begin{bmatrix}\cos t&-\sin t\\\sin t&\cos t\end{bmatrix}
 \end{equation}
@@ -912,7 +913,7 @@ O_\mathLeft\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O_\mathRight=x
 \begin{equation}
 \mathAnyUnaryOperator_r\mathIn{}\mathMorph{(\mathSpecialSet{R}\mathSetTimes\mathSet{V})}{\mathSet{V}}
 \end{equation}
-と書ける．例えば回転の場合は$\mathAnyUnaryOperator_r=U_r$である．
+と書ける．例えば回転の場合は$\mathAnyUnaryOperator_r=R_r$である．
 
 このようにとある集合（例えば$\mathSet{M}\mathSetTimes\mathSet{M}$や$\mathSpecialSet{R}\mathSetTimes\mathSet{V}$）から異なる別な集合（例えば$\mathSet{M}$や$\mathSet{V}$）へという写像を一般化するとどうなるだろうか．いま，集合$\mathSet{X}$から集合$\mathSet{Y}$への写像$f$があり，集合$\mathSet{Y}$から集合$\mathSet{Z}$への写像$g$があるとする．すなわち
 \begin{align}
@@ -939,7 +940,7 @@ I_\mathSet{Z}\mathCompose g=g\mathCompose I_\mathSet{Y}
 \end{equation}
 であるとする．このような写像$I_\mathSet{X},I_\mathSet{Y},I_\mathSet{Z}$を\keyword{恒等写像}と呼ぶ．
 
-集合$\mathSet{X}$，集合$\mathSet{Y}$，集合$\mathSet{Z}$の集合$\mathSet{C}$と，写像$f$と写像$g$の集合$\mathSet{P}$と，写像合成演算子$\mathCompose$と，恒等写像の集合$\mathSet{I}$の組み合わせ$\mathCategory{\mathSet{C}}{\mathSet{P}}{\mathCompose}{\mathSet{I}}$を\keyword{圏}と呼ぶ．写像合成演算子$(\mathCompose)$と恒等写像の集合$(\mathSet{I})$は自明であるためしばしば省略され，組み合わせ$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$を圏とする書き方もよくされる．
+集合$\mathSet{X}$，集合$\mathSet{Y}$，集合$\mathSet{Z}$の集合$\mathSet{C}=\{\mathSet{X},\mathSet{Y},\mathSet{Z}\}$と，写像$f$と写像$g$の集合$\mathSet{P}=\{f,g\}$と，写像合成演算子$\mathCompose$と，恒等写像の集合$\mathSet{I}$の組み合わせ$\mathCategory{\mathSet{C}}{\mathSet{P}}{\mathCompose}{\mathSet{I}}$を\keyword{圏}と呼ぶ．写像合成演算子$(\mathCompose)$と恒等写像の集合$(\mathSet{I})$は自明であるためしばしば省略され，組み合わせ$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$を圏とする書き方もよくされる．
 
 圏を考えるとき，変換や写像は全て\keyword{射}と呼ぶ決まりである．
 
@@ -969,7 +970,7 @@ A...
 
 型とは変数が取りうる値に与えた制約のことである．Haskellを含む多くのコンパイラ言語は，\keyword{静的型付け}と言って，コンパイル時までに変数の型が決まっていることをプログラマに要求する．一方，Pythonのようなインタプリタ言語はたいてい\keyword{動的型付け}と言って，プログラムの実行時まで変数の型を決めない．
 
-変数に型の制約を設ける理由は，プログラム上のエラーが減ることを期待するためである．例えば真理値が必要とされるところに整数値の変数が来ることは悪い予兆である．一方で，C言語のように全ての変数にいちいち型を明記していくのも骨が折れる．数学者や物理学者は変数に型の制約を求める一方，新しい変数の型は明記せず読者に推論させる方法をしばしばとる．例えば，質量$m$と加速度$a$の積$m*a$は「力」という型を持つが，それをいちいち明記はしない．
+変数に型の制約を設ける理由は，プログラム上のエラーが減ることを期待するためである．例えば真理値が必要とされるところに整数値の変数が来ることは悪い予兆である．一方で，C言語のように全ての変数にいちいち型を明記していくのも骨が折れる．数学者や物理学者は変数に型の制約を求める一方，新しい変数の型は明記せず読者に推論させる方法をしばしばとる．例えば，質量$m$と加速度$a$の積$m*a$は「実数」かつ「力」という型を持つが，それをいちいち明記はしない．
 
 我々がよく使う型はは論理型$(\mathSpecialSet{B})$，整数型$(\mathSpecialSet{Z})$，実数型$(\mathSpecialSet{R})$といったところだ．ただし数学者たちは型ではなく集合と呼ぶ．括弧内に示した記号は数学者たちが慣用的に用いているものである．我々は計算機での実装を考慮して，数学者たちとは若干異なる型と表記方法を扱うことにする．
 
@@ -980,6 +981,28 @@ A...
 計算機は残念ながら無限精度の実数を扱えない．そこで標準精度の浮動小数点数を表す型を$\hsklFloat$で表す．
 
 もう一つ，計算機ならではの型を導入しておこう．それは$\hsklInt$とよく似ているが，特別に文字を扱うために考えられた型$\hsklChar$である．文字といってもその中身は整数である．整数ではあるが，わざわざ別な型とするのには理由がある．歴史的には文字は小さな整数として表現されることが多かったため，計算機のメモリが高価であった時代背景もあり，メモリの節約のために文字を表す型が存在した．現在では，文字が数値にエンコードされる方式がより複雑になってきたために，文字を通常の数値と区別するために特別な型が用意さてれいる．
+
+\section{カリー化}
+
+どのような関数であれ，引数は1個しかとらない．引数が2個あるように見える関数として，例えば$fxy$があったとしよう．関数適用が左結合であるから，これは$(fx)y$である．ここに$(fx)$は引数$y$をとる関数であると見ることができる．つまり，関数$f$とは引数$x$をとり「引数$y$をとって値を返す関数$(fx)$を返す」関数であると言える．
+
+二項演算$x+y$は$(+)xy$とも書けたことを思い出そう．これも左結合を思い出すと
+\begin{equation}
+(+)xy=((+)x)y
+\end{equation}
+であるから，$y$という引数を$((+)x)$という関数に食わせていると解釈できる．
+
+ラムダ式の場合は話はもっと単純で，機械的に
+\begin{equation}
+\mathLambdaExpression{xy}{x+y}=\mathLambdaExpression{x}{(\mathLambdaExpression{y}{x+y})}
+\end{equation}
+のように展開するだけである．矢印$\mathLambdaArrow$は右結合であるから，このラムダ式は括弧を省略して
+\begin{equation}
+\mathLambdaExpression{xy}{x+y}=\mathLambdaExpression{x}{\mathLambdaExpression{y}{x+y}}
+\end{equation}
+とも書かれる．
+
+複数引数をとる関数を1引数関数に分解することを\keyword{カリー化}と呼ぶ．これはこの分野の先駆者であるハスケル・カリーの名前に由来する．
 
 \section{関数の型}
 
@@ -1143,7 +1166,7 @@ $\hsklFloat$
 \end{center}
 \end{table*}
 
-\section{型クラス}
+\section{余計な話：型クラス}
 
 組み合わせ$\mathMonoid{\hsklInt}{+}{0}$は単位的半群である．同様に$\mathMonoid{\hsklInt}{*}{1}$, $\mathMonoid{\hsklFloat}{+}{0}$, $\mathMonoid{\hsklFloat}{*}{1}$, $\mathMonoid{\hsklBool}{\vee}{F}$, $\mathMonoid{\hsklBool}{\wedge}{T}$ も単位的半群である．そこで，任意の型$\hsklType{a}$について，組み合わせ$\mathMonoid{\hsklType{a}}{\mathAnyBinaryOperator}{O}$が単位的半群である場合には
 \begin{equation*}
@@ -1170,28 +1193,6 @@ $\hsklFloat$
 型$\hsklType{a}$が型クラス$\hsklReal$及び型クラス$\hsklEnum$に属しているとき，かつそのときに限り，型$\hsklType{a}$は型クラス$\hsklIntegral$にも属する．
 
 これらの関係を表にまとめたものが表\ref{tab:type-and-typeclass}である．
-
-\section{余計な話：カリー化}
-
-どのような関数であれ，引数は1個しかとらない．引数が2個あるように見える関数として，例えば$fxy$があったとしよう．関数適用が左結合であるから，これは$(fx)y$である．ここに$(fx)$は引数$y$をとる関数であると見ることができる．つまり，関数$f$とは引数$x$をとり「引数$y$をとって値を返す関数$(fx)$を返す」関数であると言える．
-
-二項演算$x+y$は$(+)xy$とも書けたことを思い出そう．これも左結合を思い出すと
-\begin{equation}
-(+)xy=((+)x)y
-\end{equation}
-であるから，$y$という引数を$((+)x)$という関数に食わせていると解釈できる．
-
-ラムダ式の場合は話はもっと単純で，機械的に
-\begin{equation}
-\mathLambdaExpression{xy}{x+y}=\mathLambdaExpression{x}{(\mathLambdaExpression{y}{x+y})}
-\end{equation}
-のように展開するだけである．矢印$\mathLambdaArrow$は右結合であるから，このラムダ式は括弧を省略して
-\begin{equation}
-\mathLambdaExpression{xy}{x+y}=\mathLambdaExpression{x}{\mathLambdaExpression{y}{x+y}}
-\end{equation}
-とも書かれる．
-
-複数引数をとる関数を1引数関数に分解することを\keyword{カリー化}と呼ぶ．これはこの分野の先駆者であるハスケル・カリーの名前に由来する．
 
 
 
@@ -1951,15 +1952,24 @@ Int（参考）
 
 ---
 
+\part{\haskell の文法}
+
 \part{モナドから見る世界}
 
 \chapter{IO}
 
-\section{参照透過性}
+\section{参照透過性とIO}
 
 \section{アクション}
 
 \section{IOモナド}
+
+\begin{haskellcode}
+\begin{Verbatim}
+class
+\end{Verbatim}
+\end{haskellcode}
+
 
 \chapter{例外}
 
@@ -1992,8 +2002,10 @@ Int（参考）
 \chapter{ラムダ*}
 
 \begin{thebibliography}{99}
-\bibitem{haskellplatform} Haskell.org; \texttt{https://www.haskell.org/platform/}
+\bibitem{haskellplatform} Haskell.org; \texttt{https://www.haskell.org/}
 \bibitem{osx} 金谷一朗: 「新しいLinuxの教科書」をMacで実践する;  \texttt{http://bit.ly/brew-on-mac}
+\bibitem{greatgood}Miran Lipovaca: ``Learn You a Haskell for Great Good: A Beginner's Guide''; No Starch Press, 2011.
+\bibitem{types} Benjamin C.~Pierce: Types and Programming Languages; The MIT Press, 2002.
 \end{thebibliography}
 
 
