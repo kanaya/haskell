@@ -255,7 +255,9 @@ Python文字列リテラル&タイプライタ体&\pthnString{"Hello, world."}\\
 
 そこで，本書では近代的なプログラマを対象に，プログラミング言語を登山口に抽象数学の山を登り，その高みからHaskellという森を見下ろすことにする．
 
-さて，登山口にどのプログラミング言語を選ぶのが適当であろうか．IEEE Spectrum による ``The 2015 Top Ten Programming Languages'' という記事によると「ビッグファイブ」として\java, \clang, \cxx, \python, \csharp が挙げられている．そこで本書では，多くのプログラマが読めて，シンプルに記述ができ，なおかつ\haskell と対極にある言語である\python（バージョン3）を登山口に選ぶことにした．\python コードはこのように登場する．
+さて，登山口にどのプログラミング言語を選ぶのが適当であろうか．IEEE Spectrum による ``The 2015 Top Ten Programming Languages'' という記事によると「ビッグファイブ」として\java, \clang, \cxx, \python, \csharp が挙げられている．そこで本書では，多くのプログラマが読めて，\java, \cxx, \csharp よりもシンプルで，なおかつ\haskell と対極にある言語である\python（バージョン3）を登山口に選ぶことにした．念のため書いておくと，\clang は「多くのプログラマが読める」以外にメリットが無く，その唯一のメリットさえ最近は怪しくなっているため，登山口候補から外した．
+
+本書では\python コードはこのように登場する．
 \begin{pythoncode}
 \begin{pythontab}
 \pthnId{print}(\pthnString{"Hello, world."})
@@ -263,7 +265,7 @@ Python文字列リテラル&タイプライタ体&\pthnString{"Hello, world."}\\
 \end{pythoncode}
 本文中に登場する\python コードは文字通り打ち込めばそのまま使える．
 
-また，一部の章でどうしても型に触れないといけない部分がある．\python は動的型付け言語であり，型の説明には不適切であるため，この部分だけ理解の助けとして\cxx によるコードを例示した．この部分はコードを読まなくても先に進める． （Javaではなく\cxx を採用したのはOS Xが\java を排除するからである．型システムに関する限り\cxx よりも\java のほうが簡潔に記述できるが，致し方無い．）
+また，一部の章でどうしても型に触れないといけない部分がある．\python は動的型付け言語であり，型の説明には不適切であるため，この部分だけ理解の助けとして\cxx によるコードを例示した．この部分はコードを読まなくても先に進める． \java ではなく\cxx を採用したのはOS Xでも簡単に試せるようにである．型システムに関する限り\cxx よりも\java のほうが簡潔に記述できるが，致し方無い．
 
 \section{関数型プログラミング}
 
@@ -291,18 +293,16 @@ Python文字列リテラル&タイプライタ体&\pthnString{"Hello, world."}\\
 
 \haskell コンパイラの中で最もよく使われているものは Glasgow's Haskell Compiler (GHC) である．本書に登場する\haskell コードもすべてGHCでテストをしている．
 
-GHCは公式サイト\cite{haskellplatform}からダウンロード可能であるが，OS X, Linux はそれぞれのパッケージマネージャからインストールすることを勧める．インストール方法は以下の参考文献にアクセスしてもらいたい．
+GHCは公式サイト\cite{haskellplatform}からダウンロード可能であるが，GNU/Linuxシステム（以下Linux），OS Xはそれぞれのパッケージマネージャからインストールすることを勧める．インストール方法は以下の参考文献にアクセスしてもらいたい．
 \begin{description}
-\item[OS X] 参考文献\cite{osx}にHomebrewのインストール方法が書かれているので，Homebrewのインストールまでしておき，ターミナルで
+\item[Linux] パッケージマネージャからghciをインストールする．Debian系ならAPT，Red Hat系ならYumを使うのが一般的であろう．文献\cite{linux}を参考にしてもらいたい．
+\item[OS X] 文献\cite{osx}にHomebrewのインストール方法が書かれているので，Homebrewのインストールまでしておき，ターミナルで
 \begin{Verbatim}
 $ brew install ghci
 \end{Verbatim}%$
 とする．
-\item[Linux] パッケージマネージャからghciをインストールする．Debian系ならAPT，Red Hat 系ならYumを使うのが一般的であろう．
 \item[Windows 10] GHC公式サイト\cite{haskellplatform}からパッケージをインストールする．
 \end{description}
-
-
 
 \section{余計な話：本書の構成}
 
@@ -703,9 +703,9 @@ z\uparrow2=z*z
 \begin{align}
 z\uparrow2&=z*z\\
 &=z*(x+y)\\
-&=z*x+z*y\;\dots\;\text{分配則}\\
+&=z*x+z*y\;\text{---分配則}\\
 &=(x+y)*x+(x+y)*y\\
-&=x*x+y*x+x*y+y*y\;\dots\;\text{分配則}\\
+&=x*x+y*x+x*y+y*y\;\text{---分配則}\\
 &=x\uparrow2+x*y+y*x+y\uparrow2
 \end{align}
 となり
@@ -713,7 +713,7 @@ z\uparrow2&=z*z\\
 \label{eq:xysq}
 (x+y)\uparrow2=x\uparrow2+x*y+y*x+y\uparrow2
 \end{equation}
-を得る．式\eqref{eq:xysq}は体の性質だけを使って導いた関係なので，実数だけでなく有理数や複素数にもそのまま使える．実際には式\eqref{eq:xysq}は体の性質のうち分配則だけを使っいるので，体以外にも応用が利く式でもある．
+を得る．式\eqref{eq:xysq}は体の性質だけを使って導いた関係なので，実数だけでなく有理数や複素数にもそのまま使える．実際には式\eqref{eq:xysq}は体の性質のうち分配則だけを使っいるので，体以外にも応用が利く式でもある．\footnote{Knuthの矢印は\haskell では演算子\code{\^}として提供されている．}
 
 \begin{table*}
 \caption{代表的な代数的構造の性質(1)}
@@ -2003,12 +2003,15 @@ class
 
 \begin{thebibliography}{99}
 \bibitem{haskellplatform} Haskell.org; \texttt{https://www.haskell.org/}
+\bibitem{linux} 大角祐介: 新しいLinuxの教科書; SBクリエイティブ, 2015.
 \bibitem{osx} 金谷一朗: 「新しいLinuxの教科書」をMacで実践する;  \texttt{http://bit.ly/brew-on-mac}
+\bibitem{fap} 金谷一朗: ファンクション+アクション=プログラム; 工学社, 2011.
 \bibitem{greatgood}Miran Lipovaca: ``Learn You a Haskell for Great Good: A Beginner's Guide''; No Starch Press, 2011.
 \bibitem{types} Benjamin C.~Pierce: Types and Programming Languages; The MIT Press, 2002.
 \bibitem{patterns} Ryan Lemmer: Haskell Design Patterns; Packt Publishing, 2015.
 \bibitem{realworld} Bryan O'Sullivan: ``Real World Haskell: Code You Can Believe In''; O'Reilly Media, 2008.
 \bibitem{programming} Graham Hutton: Programming in Haskell; Cambridge University Press; 2007.
+\bibitem{functionally} Richard Bird: Thinking Functionally with Haskell; Cambridge University Press, 2014.
 \end{thebibliography}
 
 
