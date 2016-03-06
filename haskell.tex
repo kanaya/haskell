@@ -1993,10 +1993,15 @@ y=\mathop{\text{main}}x
 \end{equation}
 と部分関数に分解することがプログラマの能力である．
 
-プログラムが副作用を持つ場合は，文脈を持った変数に入れると見通しが良くなるのであった．
+プログラムが副作用を持つ場合は，文脈を持った変数に入れると見通しが良くなるのであった．文脈を持った変数を$u,v$とするとき，副作用を持つプログラムは
 \begin{equation}
 v=\mathop{\text{main}}u
 \end{equation}
+という$\text{main}$関数であり，それを
+\begin{equation}
+\mathop{\text{main}}=f_1\hsklFmap f_2\hsklFmap\dots\hsklFmap f_n
+\end{equation}
+と部分関数に分解することがプログラマの能力となる．
 
 
 \part{モナドから見る世界}
