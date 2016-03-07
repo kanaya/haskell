@@ -445,7 +445,14 @@ f'x=\mathCase x\mathOf\left\{
 \end{split}
 \right.
 \end{equation}
-のように書く．ここに$\_$は任意の値の意味である．パタンマッチは上から順番にマッチングしていくため，この場合は$0$以外を意味する．
+のように書く．ここに$\_$は任意の値の意味である．パタンマッチは上から順番にマッチングしていくため，この場合は$0$以外を意味する．\footnote{\haskell では
+\begin{Verbatim}[xleftmargin=10mm]
+f' x = case x of
+  0 -> 0
+  _ -> 1 + x
+\end{Verbatim}
+と書く．}
+
 
 関数定義に\keyword{場合分け}が必要な場合は\keyword{ガード}を用いる．例えば引数の値が負の場合は$-1$を，$0$の場合は$0$を，それ以外の場合は関数$f$と同じ振る舞いをする関数$f''$は
 \begin{equation}
@@ -2032,6 +2039,8 @@ v=\mathMain u
 \mathMain=f_1\hsklFmap f_2\hsklFmap\dots\hsklFmap f_n
 \end{equation}
 と部分関数に分解することがプログラマの能力となる．
+
+% タプル
 
 
 % 新しいデータ型を作る http://qiita.com/7shi/items/1ce76bde464b4a55c143
