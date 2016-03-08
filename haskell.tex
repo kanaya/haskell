@@ -147,7 +147,7 @@
 \DeclareMathOperator{\mathI}{i}
 \DeclareMathOperator{\mathIf}{\mathKeyword{if}}
 \DeclareMathOperator{\mathIfFunc}{if}
-\DeclareMathOperator{\mathIn}{::}
+\DeclareMathOperator{\mathIn}{:\!:}
 % \DeclareMathOperator{\mathInverse}{\neg}
 \DeclareMathOperator{\mathInverse}{\sharp}
 \DeclareMathOperator{\mathLambda}{\backslash}
@@ -615,9 +615,9 @@ F&=\mathLambdaExpression{xy}{y}\\
 プログラマのいう型とは，数学者のいう集合のことである．
 \end{leader}
 
-\section{モノイド*}
+\section{モノイド}
 
-整数全てからなる\keyword{集合}を$\mathSpecialSet{Z}$で表すことにする．集合$\mathSpecialSet{Z}$の任意の\keyword{元}（\keyword{要素}）$z$のことを，数学者は$z\in\mathSpecialSet{Z}$と書くことを好むが，我々は
+整数全てからなる\keyword{集合}を$\mathSpecialSet{Z}$で表すことにする．集合$\mathSpecialSet{Z}$の任意の\keyword{元}（\keyword{要素}）$z$のことを，数学者は$z\in\mathSpecialSet{Z}$と書くことを好むが，我々は$\in$記号を別な用途に用いたいため
 \begin{equation}
 \label{eq:totality}
 z\mathIn\mathSpecialSet{Z}
@@ -626,25 +626,40 @@ z\mathIn\mathSpecialSet{Z}
 
 二つの整数$z_1,z_2$があるとしよう．両者の間には\keyword{足し算}$(+)$が定義されており，その結果すなわち\keyword{和}もまた整数である，すなわち
 \begin{equation}
-\label{eq:associativity}
 z_1+z_2\mathIn\mathSpecialSet{Z}
 \end{equation}
-である．このような集合$\mathSpecialSet{Z}$と演算子$+$の性質を\keyword{全域性}と呼ぶ．
+である．このような集合$\mathSpecialSet{Z}$と演算子$+$の性質を\keyword{全域性}と呼ぶ．一般に集合$\mathSet{A}$の元に対して二項演算子$\mathAnyBinaryOperator$が定義されていて，$a_1,a_2\mathIn\mathSet{A}$のときに
+\begin{equation}
+\label{eq:totality}
+a_1\mathAnyBinaryOperator a_2\mathIn\mathSet{A}
+\end{equation}
+である場合，つまり演算子$\mathAnyBinaryOperator$が集合$\mathSet{A}$に対して全域性を持つ場合，組み合わせ$(\mathSet{A},\mathAnyBinaryOperator)$を\keyword{マグマ}（\keyword{亜群}）と呼ぶ．
+
+例えば\keyword{ブーリアン集合}$\mathSpecialSet{B}=\{T,F\}$に対して，\keyword{論理和}$(\vee)$は全域性を持つから，組み合わせ$(\mathSpecialSet{B},\vee)$はマグマであるし，同様に\keyword{論理積}$(\wedge)$も全域性を持つから，組み合わせ$(\mathSpecialSet{B},\wedge)$もマグマである．
+
 マグマのうち，演算を2回続ける場合，その順序によって結果が異ならない，つまり
 \begin{equation}
-(z_1+z_2)+z_3=z_1+(z_2+z_3)
+\label{eq:associativity}
+(a_1\mathAnyBinaryOperator a_2)\mathAnyBinaryOperator a_3=a_1\mathAnyBinaryOperator(a_2\mathAnyBinaryOperator a_3)
 \end{equation}
-ただし$z_1,z_2,z_3\mathIn\mathSpecialSet{Z}$のとき，組み合わせ$(\mathSpecialSet{Z},+)$のことを\keyword{半群}と呼ぶ．組み合わせ$(\mathSpecialSet{Z},+)$が\keyword{全域性}を持つとき，この組み合わせを\keyword{マグマ}（\keyword{亜群}）と呼ぶ．式\eqref{eq:associativity}で表される性質を\keyword{結合性}と呼ぶ．
+ただし$a_1,a_2,a_3\mathIn\mathSet{A}$のとき，組み合わせ$(\mathSet{A},\mathAnyBinaryOperator)$のことを\keyword{半群}と呼ぶ．この式\eqref{eq:associativity}で表される性質を\keyword{結合性}と呼ぶ．組み合わせ$(\mathSpecialSet{Z},+)$, $(\mathSpecialSet{B},\vee)$, $(\mathSpecialSet{B},\wedge)$ などはすべて半群である．
 
 ところで，整数全体の集合$\mathSpecialSet{Z}$には特別な元$0$がある．この元$0$は，$z\mathIn\mathSpecialSet{Z}$のとき
 \begin{equation}
-\label{eq:identity}
 0+z=z+0=z
 \end{equation}
 という性質を持つ．この$0$を演算$+$における\keyword{単位元}と呼ぶ．足し算のことを\keyword{加法}とも言うので$0$のことは\keyword{加法単位元}と呼ぶこともあるし，文字通り\keyword{零元}と呼ぶこともある．
 
-組み合わせ$(\mathSpecialSet{Z},+,0)$のように，集合$\mathSpecialSet{Z}$について演算子$+$があり，その演算結果も$\mathSpecialSet{Z}$の元であり，かつ単位元$0$があるようなものを\keyword{モノイド}と呼ぶ．
+一般に，$I_\mathLeft,I_\mathRight,a\mathIn\mathSet{A}$として
+\begin{equation}
+\label{eq:identity}
+I_\mathLeft\mathAnyBinaryOperator a=a\mathAnyBinaryOperator I_\mathRight=a
+\end{equation}
+であるとき，元$I_\mathLeft,I_\mathRight$を単位元と呼ぶ．我々は多くの場合$I_\mathLeft=I_\mathRight$であるケースを扱うので，二つの単位元を区別する必要はほとんどないが，必要な場合は$I_\mathLeft$を\keyword{左単位元}，$I_\mathRight$を\keyword{右単位元}と呼ぶ．
 
+組み合わせ$(\mathSet{A},\mathAnyBinaryOperator,I_\mathLeft,I_\mathRight)$のことを\keyword{モノイド}（\keyword{単位的半群}）と呼ぶ．例えば$(\mathSpecialSet{Z},+,0,0)$はモノイドであるし，$(\mathSpecialSet{B},\vee,F,F)$, $(\mathSpecialSet{B},\wedge,T,T)$もモノイドである．
+
+このように，数学者は数の性質を抽象化し，集合とその集合に対する演算というものの見方をよく行う．プログラミングの言葉で言えば，複数のクラスに共通のインタフェースを定義するようなものだ．
 
 \section{型}
 
@@ -668,9 +683,7 @@ f\mathIn\mathMorph{\hsklInt}{\hsklInt}
 \end{equation*}
 という型を持つ．これは関数$f$が集合$\hsklInt$から集合$\hsklInt$への写像であると読む．
 
-
-
-\section{カリー化と関数の型}
+\section{カリー化}
 
 どのような関数であれ，引数は1個しかとらない．引数が2個あるように見える関数として，例えば$fxy$があったとしよう．関数適用が左結合であるから，これは$(fx)y$である．ここに$(fx)$は引数$y$をとる関数であると見ることができる．つまり，関数$f$とは引数$x$をとり「引数$y$をとって値を返す関数$(fx)$を返す」関数であると言える．
 
@@ -850,7 +863,7 @@ $\hsklFloat$
 
 \section{余計な話：型クラス}
 
-組み合わせ$\mathMonoid{\hsklInt}{+}{0}$は単位的半群である．同様に$\mathMonoid{\hsklInt}{*}{1}$, $\mathMonoid{\hsklFloat}{+}{0}$, $\mathMonoid{\hsklFloat}{*}{1}$, $\mathMonoid{\hsklBool}{\vee}{F}$, $\mathMonoid{\hsklBool}{\wedge}{T}$ も単位的半群である．そこで，任意の型$\hsklType{a}$について，組み合わせ$\mathMonoid{\hsklType{a}}{\mathAnyBinaryOperator}{O}$が単位的半群である場合には
+組み合わせ$\mathMonoid{\hsklInt}{+}{0}$はモノイドである．同様に$\mathMonoid{\hsklInt}{*}{1}$, $\mathMonoid{\hsklFloat}{+}{0}$, $\mathMonoid{\hsklFloat}{*}{1}$, $\mathMonoid{\hsklBool}{\vee}{F}$, $\mathMonoid{\hsklBool}{\wedge}{T}$ もモノイドである．そこで，任意の型$\hsklType{a}$について，組み合わせ$\mathMonoid{\hsklType{a}}{\mathAnyBinaryOperator}{O}$がモノイドである場合には
 \begin{equation*}
 \mathMonoid{\hsklType{a}}{\mathAnyBinaryOperator}{O}\mathIn\hsklMonoid
 \end{equation*}
@@ -860,7 +873,7 @@ $\hsklFloat$
 \end{equation*}
 と書くことにする．
 
-このような型をより抽象化した型のようなものを\keyword{型クラス}と呼ぶ．単位的半群は型クラスの例である．表\ref{tab:monoids}に型と対応する単位的半群の単位元，演算子の一覧を示す．
+このような型をより抽象化した型のようなものを\keyword{型クラス}と呼ぶ．モノイドは型クラスの例である．表\ref{tab:monoids}に型と対応するモノイドの単位元，演算子の一覧を示す．
 
 もっと身近な型クラスもある．例えば，型$\hsklType{a}$の変数どうしの間で等値性が定義されている場合，その型は型クラス$\hsklEq$に属することになる．型クラス$\hsklEq$に属する型は等値演算子$\equiv$を提供する．
 
@@ -1383,7 +1396,7 @@ Maybeは次の\pthnClassname{maybe}クラステンプレートで表現できる
 一方で，数学者たちが見つけた圏という代数的構造が，リストもMaybeも統一的に扱うことを可能にしている．これを発見したのは Eugenio Moggi を始めとする計算機科学者たちである．この人類の英知は第\ref{ch:functor}章から見ていくことにしよう．
 
 
-\section{余計な話：単位的半群としてのコンテナ}
+\section{余計な話：モノイドとしてのコンテナ}
 
 $$\mathMonoid{\hsklListType{\hsklType{a}}}{\hsklAppend}{\hsklEmptyList}$$
 
