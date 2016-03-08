@@ -617,7 +617,9 @@ F&=\mathLambdaExpression{xy}{y}\\
 
 \section{モノイド}
 
-整数全てからなる\keyword{集合}を$\mathSpecialSet{Z}$で表すことにする．集合$\mathSpecialSet{Z}$の任意の\keyword{元}（\keyword{要素}）$z$のことを，数学者は$z\in\mathSpecialSet{Z}$と書くことを好むが，我々は$\in$記号を別な用途に用いたいため
+整数全てからなる\keyword{集合}を$\mathSpecialSet{Z}$で表すことにする．計算機科学で整数と言うと，本当の整数と，例えば$-2^{63}$から$2^{63}-1$までの間の整数の意味と両方あるが，今は前者の意味である．
+
+集合$\mathSpecialSet{Z}$の任意の\keyword{元}（\keyword{要素}）$z$のことを，数学者は$z\in\mathSpecialSet{Z}$と書くことを好むが，我々は$\in$記号を別な用途に用いたいため
 \begin{equation}
 \label{eq:totality}
 z\mathIn\mathSpecialSet{Z}
@@ -633,22 +635,23 @@ z_1+z_2\mathIn\mathSpecialSet{Z}
 \label{eq:totality}
 a_1\mathAnyBinaryOperator a_2\mathIn\mathSet{A}
 \end{equation}
-である場合，つまり演算子$\mathAnyBinaryOperator$が集合$\mathSet{A}$に対して全域性を持つ場合，組み合わせ$(\mathSet{A},\mathAnyBinaryOperator)$を\keyword{マグマ}（\keyword{亜群}）と呼ぶ．
+である場合，つまり演算子$\mathAnyBinaryOperator$が集合$\mathSet{A}$に対して全域性を持つ場合，組み合わせ$(\mathSet{A},\mathAnyBinaryOperator)$を\keyword{マグマ}（\keyword{亜群}）と呼ぶ．組み合わせ$(\mathSpecialSet{Z},+)$はマグマの例であり，もちろん$(\mathSpecialSet{Z},*)$もマグマの例である．
 
-例えば\keyword{ブーリアン集合}$\mathSpecialSet{B}=\{T,F\}$に対して，\keyword{論理和}$(\vee)$は全域性を持つから，組み合わせ$(\mathSpecialSet{B},\vee)$はマグマであるし，同様に\keyword{論理積}$(\wedge)$も全域性を持つから，組み合わせ$(\mathSpecialSet{B},\wedge)$もマグマである．
+他に\keyword{ブーリアン集合}$\mathSpecialSet{B}=\{T,F\}$に対して，\keyword{論理和}$(\vee)$は全域性を持つから，組み合わせ$(\mathSpecialSet{B},\vee)$はマグマであるし，同様に\keyword{論理積}$(\wedge)$も全域性を持つから，組み合わせ$(\mathSpecialSet{B},\wedge)$もマグマである．
 
 マグマのうち，演算を2回続ける場合，その順序によって結果が異ならない，つまり
 \begin{equation}
 \label{eq:associativity}
 (a_1\mathAnyBinaryOperator a_2)\mathAnyBinaryOperator a_3=a_1\mathAnyBinaryOperator(a_2\mathAnyBinaryOperator a_3)
 \end{equation}
-ただし$a_1,a_2,a_3\mathIn\mathSet{A}$のとき，組み合わせ$(\mathSet{A},\mathAnyBinaryOperator)$のことを\keyword{半群}と呼ぶ．この式\eqref{eq:associativity}で表される性質を\keyword{結合性}と呼ぶ．組み合わせ$(\mathSpecialSet{Z},+)$, $(\mathSpecialSet{B},\vee)$, $(\mathSpecialSet{B},\wedge)$ などはすべて半群である．
+ただし$a_1,a_2,a_3\mathIn\mathSet{A}$のとき，組み合わせ$(\mathSet{A},\mathAnyBinaryOperator)$のことを\keyword{半群}と呼ぶ．この式\eqref{eq:associativity}で表される性質を\keyword{結合性}と呼ぶ．組み合わせ$(\mathSpecialSet{Z},+)$, $(\mathSpecialSet{Z},*)$, $(\mathSpecialSet{B},\vee)$, $(\mathSpecialSet{B},\wedge)$ はすべて半群である．
 
 ところで，整数全体の集合$\mathSpecialSet{Z}$には特別な元$0$がある．この元$0$は，$z\mathIn\mathSpecialSet{Z}$のとき
 \begin{equation}
 0+z=z+0=z
 \end{equation}
-という性質を持つ．この$0$を演算$+$における\keyword{単位元}と呼ぶ．足し算のことを\keyword{加法}とも言うので$0$のことは\keyword{加法単位元}と呼ぶこともあるし，文字通り\keyword{零元}と呼ぶこともある．
+という性質を持つ．この$0$を演算$+$における\keyword{単位元}と呼ぶ．
+% 足し算のことを\keyword{加法}とも言うので$0$のことは\keyword{加法単位元}と呼ぶこともあるし，文字通り\keyword{零元}と呼ぶこともある．
 
 一般に，$I_\mathLeft,I_\mathRight,a\mathIn\mathSet{A}$として
 \begin{equation}
@@ -657,7 +660,7 @@ I_\mathLeft\mathAnyBinaryOperator a=a\mathAnyBinaryOperator I_\mathRight=a
 \end{equation}
 であるとき，元$I_\mathLeft,I_\mathRight$を単位元と呼ぶ．我々は多くの場合$I_\mathLeft=I_\mathRight$であるケースを扱うので，二つの単位元を区別する必要はほとんどないが，必要な場合は$I_\mathLeft$を\keyword{左単位元}，$I_\mathRight$を\keyword{右単位元}と呼ぶ．
 
-組み合わせ$(\mathSet{A},\mathAnyBinaryOperator,I_\mathLeft,I_\mathRight)$のことを\keyword{モノイド}（\keyword{単位的半群}）と呼ぶ．例えば$(\mathSpecialSet{Z},+,0,0)$はモノイドであるし，$(\mathSpecialSet{B},\vee,F,F)$, $(\mathSpecialSet{B},\wedge,T,T)$もモノイドである．
+組み合わせ$(\mathSet{A},\mathAnyBinaryOperator,I_\mathLeft,I_\mathRight)$のことを\keyword{モノイド}（\keyword{単位的半群}）と呼ぶ．例えば$(\mathSpecialSet{Z},+,0,0)$はモノイドであるし，$(\mathSpecialSet{Z},*,1,1)$, $(\mathSpecialSet{B},\vee,F,F)$, $(\mathSpecialSet{B},\wedge,T,T)$もモノイドである．
 
 このように，数学者は数の性質を抽象化し，集合とその集合に対する演算というものの見方をよく行う．プログラミングの言葉で言えば，複数のクラスに共通のインタフェースを定義するようなものだ．
 
@@ -861,7 +864,7 @@ $\hsklFloat$
 \end{center}
 \end{table*}
 
-\section{余計な話：型クラス}
+\section{余計な話：型クラス*}
 
 組み合わせ$\mathMonoid{\hsklInt}{+}{0}$はモノイドである．同様に$\mathMonoid{\hsklInt}{*}{1}$, $\mathMonoid{\hsklFloat}{+}{0}$, $\mathMonoid{\hsklFloat}{*}{1}$, $\mathMonoid{\hsklBool}{\vee}{F}$, $\mathMonoid{\hsklBool}{\wedge}{T}$ もモノイドである．そこで，任意の型$\hsklType{a}$について，組み合わせ$\mathMonoid{\hsklType{a}}{\mathAnyBinaryOperator}{O}$がモノイドである場合には
 \begin{equation*}
