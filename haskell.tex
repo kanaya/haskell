@@ -255,8 +255,7 @@ Maybe変数&名前にチルダをつける&$\hsklMaybe{x}$\\
 
 と言っても，あわてる必要はない．
 
-近代的なプログラミング言語を知っていれば，すでにある程度抽象数学に足を踏み入れているからである．
-そこで，本書では近代的なプログラマを対象に，プログラミング言語を登山口に抽象数学の山を登り，その高みから\haskell という森を見下ろすことにする．
+近代的なプログラミング言語を知っていれば，すでにある程度抽象数学に足を踏み入れているからである．そこで，本書では近代的なプログラマを対象に，プログラミング言語を登山口に抽象数学の山を登り，その高みから\haskell という森を見下ろすことにする．
 
 さて，登山口にどのプログラミング言語を選ぶのが適当であろうか．IEEE Spectrum の ``The 2015 Top Ten Programming Languages'' という記事によると「ビッグ5」として\java, \clang, \cxx, \python, \csharp が挙げられている．そこで本書では，多くのプログラマが読めて，\java, \cxx, \csharp よりもシンプルで，なおかつ\haskell と対極にある言語である\python（バージョン3）を登山口に選ぶことにした．念のため書いておくと，\clang は「多くのプログラマが読める」以外にメリットが無く，その唯一のメリットさえ最近は怪しくなっているため，登山口候補から外した．
 
@@ -330,6 +329,7 @@ $ stack install ghc
 
 第I部は対応する\haskell のコードを脚注に記載している．脚注部分は\haskell を一通り覚えた後で読み返してもらいたい．\footnote{\haskell のコードは\code{x = 1}のようにタイプライタ体で書く．}
 
+
 \chapter{カリー風な書き方}
 
 \begin{leader}
@@ -352,7 +352,7 @@ $ stack install ghc
 
 本書では\python のコード片は上述のように囲みにいれることにし，\python コードに現れる変数名や関数名は\pthnId{f}や\pthnId{x}のようにイタリック体で書くことにする．またカリー風の数式記法ではオイラー書体を使って$f$や$x$のように書くことにする．
 
-関数$f$に引数$x$を「食わせる」ことを\keyword{関数適用}と呼ぶ．もし$fx$と書いてあったら，それは$f$と$x$の積，つまり$f*x$ではなく，従来の$f(x)$すなわち関数$f$に引数$x$を与えているものと解釈する．\footnote{\haskell では関数\code{f}に引数\code{x}を適用させることを \code{f x} と書く．}
+関数$f$に引数$x$を「食わせる」ことを\keyword{関数適用}と呼ぶ．もし$fx$と書いてあったら，それは$f$と$x$の積，つまり$f*x$ではなく，従来の$f(x)$すなわち関数$f$に引数$x$を与えているものと解釈する．高校生向けの数学書でも三角関数に限ってはカリー風に書くことになっているので，まるで馴染みがないということもないだろう．\footnote{\haskell では関数\code{f}に引数\code{x}を適用させることを \code{f x} と書く．}
 
 複数引数をとる関数を\python では
 \begin{pythoncode}
@@ -402,7 +402,6 @@ gxy=(gx)y
 と書いても良い．式を左から読んで1番目の$\mathLambdaAnonymousParameter$が元々の$x$すなわち第1引数を，2番目の$\mathLambdaAnonymousParameter$が元々の$y$すなわち第2引数を意味する．この省略記法はプログラミング言語Schemeにおけるcutプロシジャに由来する．\footnote{この記法は\haskell にはない．}
 
 % let, where.
-
 
 \section{関数定義}
 
@@ -517,7 +516,7 @@ y=fx'\mathWhere x'=100*x+50
 
 \section{演算子}
 
-\keyword{演算子}は関数の特別な姿である．演算子は作用素と呼んでも良い．どちらも英語のoperatorの和訳である．演算子は普通アルファベット以外のシンボル1個で表現し，変数や関数の前に置いて直後の変数や関数に作用させるか，2個の変数や関数の中間に置いてその両者に作用させる．簡単に言うと$-x$のマイナス記号$(-)$は変数の前に置いて直後の変数$(x)$に作用する演算子であり，$x+y$のプラス記号$(+)$は2個の変数の間に置いてその両者$(x,y)$に作用する．
+\keyword{演算子}は関数の特別な姿である．演算子は作用素と呼んでも良い．どちらも英語のoperatorの和訳である．演算子は普通アルファベット以外のシンボル1個で表現し，変数や関数の前に置いて直後の変数や関数に作用させるか，2個の変数や関数の中間に置いてその両者に作用させる．例えば$-x$のマイナス記号$(-)$は変数の前に置いて直後の変数$(x)$に作用する演算子であり，$x+y$のプラス記号$(+)$は2個の変数の間に置いてその両者$(x,y)$に作用する．
 
 1個の変数または関数に作用する演算子を\keyword{単項演算子}と呼び，2個の変数または関数に作用する演算子を\keyword{二項演算子}と呼ぶ．本書では単項演算子を二つの例外を除いて変数の前に置く，すなわち\keyword{前置}する．二つの例外とは，数学者が自然数$n$の階乗をしばしば$n!$と書き，実数$x$の逆数（乗法逆元）を$x^{-1}$と書くことに倣い，このふたつだけは本書でも例外的に前置しない単項演算子とする．
 
@@ -533,7 +532,7 @@ y=fx'\mathWhere x'=100*x+50
 
 演算の優先順位を明示的に与えるために括弧が用いられる．
 
-本書では3個の変数に同時に作用する演算子は扱わない．
+本書では3個以上の変数に同時に作用する演算子は扱わない．
 
 \section{関数合成演算子と関数適用演算子}
 
@@ -613,9 +612,7 @@ F&=\mathLambdaExpression{xy}{y}\\
 \end{align}
 
 
-
 \chapter{型}
-
 
 \begin{leader}
 プログラマのいう型とは，数学者のいう集合のことである．
@@ -641,7 +638,8 @@ z_1+z_2\mathIn\mathSpecialSet{Z}
 \label{eq:totality}
 a_1\mathAnyBinaryOperator a_2\mathIn\mathSet{A}
 \end{equation}
-である場合，つまり演算子$\mathAnyBinaryOperator$が集合$\mathSet{A}$に対して全域性を持つ場合，組み合わせ$(\mathSet{A},\mathAnyBinaryOperator)$を\keyword{マグマ}と呼ぶ．組み合わせ$(\mathSpecialSet{Z},+)$はマグマの例であり，もちろん$(\mathSpecialSet{Z},*)$もマグマの例である．マグマはかつて亜群と呼ばれていたが，現在は亜群は別の意味(groupoid)の訳語に使われている．
+である場合，つまり演算子$\mathAnyBinaryOperator$が集合$\mathSet{A}$に対して全域性を持つ場合，組み合わせ$(\mathSet{A},\mathAnyBinaryOperator)$を\keyword{マグマ}と呼ぶ．組み合わせ$(\mathSpecialSet{Z},+)$はマグマの例であり，もちろん$(\mathSpecialSet{Z},*)$もマグマの例である．
+% マグマはかつて亜群と呼ばれていたが，現在は亜群は別の意味(groupoid)の訳語に使われている．
 
 他に\keyword{ブーリアン集合}$\mathSpecialSet{B}=\{T,F\}$に対して，\keyword{論理和}$(\vee)$は全域性を持つから，組み合わせ$(\mathSpecialSet{B},\vee)$はマグマであるし，同様に\keyword{論理積}$(\wedge)$も全域性を持つから，組み合わせ$(\mathSpecialSet{B},\wedge)$もマグマである．
 
@@ -666,7 +664,7 @@ I_\mathLeft\mathAnyBinaryOperator a=a\mathAnyBinaryOperator I_\mathRight=a
 \end{equation}
 であるとき，元$I_\mathLeft,I_\mathRight$を単位元と呼ぶ．我々は多くの場合$I_\mathLeft=I_\mathRight$であるケースを扱うので，二つの単位元を区別する必要はほとんどないが，必要な場合は$I_\mathLeft$を\keyword{左単位元}，$I_\mathRight$を\keyword{右単位元}と呼ぶ．
 
-組み合わせ$(\mathSet{A},\mathAnyBinaryOperator,I_\mathLeft,I_\mathRight)$のことを\keyword{モノイド}（\keyword{単位的半群}）と呼ぶ．例えば$(\mathSpecialSet{Z},+,0,0)$はモノイドであるし，$(\mathSpecialSet{Z},*,1,1)$, $(\mathSpecialSet{B},\vee,F,F)$, $(\mathSpecialSet{B},\wedge,T,T)$もモノイドである．
+組み合わせ$(\mathSet{A},\mathAnyBinaryOperator,I_\mathLeft,I_\mathRight)$のことを\keyword{モノイド}（\keyword{単位的半群}）と呼ぶ．例えば$(\mathSpecialSet{Z},+,0,0)$はモノイドであるし，$(\mathSpecialSet{Z},*,1,1)$, $(\mathSpecialSet{B},\vee,F,F)$, $(\mathSpecialSet{B},\wedge,T,T)$もモノイドである．これらのモノイドは全て左単位元と右単位元が同じなので，それぞれ$(\mathSpecialSet{Z},+,0)$, $(\mathSpecialSet{Z},*,1)$, $(\mathSpecialSet{B},\vee,F)$, $(\mathSpecialSet{B},\wedge,T)$とも書く．
 
 このように，数学者は数の性質を抽象化し，集合とその集合に対する演算というものの見方をよく行う．プログラミングの言葉で言えば，複数のクラスに共通のインタフェースを定義するようなものだ．
 
@@ -716,13 +714,13 @@ f\mathIn\mathMorph{\hsklInt}{\hsklInt}
 
 % \section{関数の型}
 
-整数引数を二つ取り，整数を返す関数$f'$は
+整数引数を二つ取り，整数を返す関数$f$は
 \begin{equation*}
-f'\mathIn\mathMorphII{\hsklInt}{\hsklInt}{\hsklInt}
+f\mathIn\mathMorphII{\hsklInt}{\hsklInt}{\hsklInt}
 \end{equation*}
 という型を持つ．写像の矢印記号は右結合するので，これは
 \begin{equation*}
-f'\mathIn\mathMorphIIWithParenthesis{\hsklInt}{\hsklInt}{\hsklInt}
+f\mathIn\mathMorphIIWithParenthesis{\hsklInt}{\hsklInt}{\hsklInt}
 \end{equation*}
 と同じ意味である．自然言語で考えると，$\hsklInt$型の引数を一つ取り，$\hsklInt$型の引数を一つ取って$\hsklInt$型の値を返す関数を返す，と読める．
 
@@ -740,8 +738,8 @@ f'\mathIn\mathMorphIIWithParenthesis{\hsklInt}{\hsklInt}{\hsklInt}
     &単位元\\
 \hline
 $\hsklChar$
-    &---
-    &---\\
+    &
+    &\\
 \hline
 $\hsklBool$
     &$\vee$
@@ -817,10 +815,10 @@ $\hsklChar$
     &$\checkmark$
     &$\checkmark$
     &$\checkmark$
-    &---
-    &---
-    &---
-    &---
+    &
+    &
+    &
+    &
     &$\checkmark$
     &$\checkmark$\\
 \hline
@@ -831,10 +829,10 @@ $\hsklBool$
     &$\checkmark$
     &$\checkmark$
     &$\checkmark$
-    &---
-    &---
-    &---
-    &---
+    &
+    &
+    &
+    &
     &$\checkmark$
     &$\checkmark$\\
 \hline
@@ -863,8 +861,8 @@ $\hsklFloat$
     &$\checkmark$
     &$\checkmark$
     &$\checkmark$
-    &---
-    &---\\
+    &
+    &\\
 \hline
 \end{tabular}
 \end{center}
@@ -898,8 +896,6 @@ $\hsklFloat$
 
 これらの関係を表にまとめたものが表\ref{tab:type-and-typeclass}である．
 
-
-
 \chapter{リスト}
 \begin{leader}
 型から作る型をコンテナと呼ぶ．代表的なコンテナはある型のホモジニアスな配列であるリストである．この章ではリストと，リストに対する重要な演算である畳み込み，マップを取り扱う．
@@ -928,17 +924,17 @@ $\hsklFloat$
 \end{equation}
 のように書くことにしよう．\footnote{\haskell コンパイラは人間よりも記憶力が優れているため，変数名にバーをつける必要はない．}
 
-\python ではリスト内包表記が使える．例えば$0$から$9$までの平方数のリストは次のように作った．
+\python ではリスト内包表記が使える．例えば$0$から$9$までの倍数のリストは次のように作った．
 \begin{pythoncode}
 \begin{pythontab}
-\pthnId{t} \pthnOp{=} [\pthnId{x} \pthnOp{**} $2$ \pthnKeyword{for} \pthnId{x} \pthnKeyword{in} \pthnId{range}($0$, $10$)]
+\pthnId{t} \pthnOp{=} [\pthnId{x} \pthnOp{*} $2$ \pthnKeyword{for} \pthnId{x} \pthnKeyword{in} \pthnId{range}($0$, $10$)]
 \end{pythontab}
 \end{pythoncode}
 ここに\pthnId{range}(\pthnId{a}, \pthnId{b})は\pthnId{a}から増加する方向に連続する\pthnId{b}個の整数からなるリストを返す\python の関数である．
 
 我々は内包表記のかわりにガードを使って
 \begin{equation}
-\hsklList{t}=\left[x^2\mathGuard{x\mathFrom{[0,1\dots9]}}\right]
+\hsklList{t}=\left[x*2\mathGuard{x\mathFrom{[0,1\dots9]}}\right]
 \end{equation}
 のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mathFrom$を用いた．
 
@@ -1089,7 +1085,7 @@ f\hsklMap&\mathIn\mathMorph{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType
 
 \section{リストの実装}
 
-ここでリストの実装について述べておかねばならない．紙上ではリストは自由に考えられるが，計算機上ではそれほど自由ではないからである．我々はリストをLISPにおけるリストと同じ構造を持つものとする．LISPにおけるリストとはリファレンス$\mathFirst$とリファレンス$\mathRest$からなるペアの集合である．リファレンス$\mathFirst$がリストの要素を参照し，リファレンス$\mathRest$が次のペアを参照する．リストの最後のペアの$\mathRest$は空リストを参照する特別な値を持つ．
+ここでリストの実装について述べておかねばならない．紙上ではリストは自由に考えられるが，計算機上ではそれほど自由ではないからである．我々はリストをLISPにおけるリストと同じ構造を持つものとする．LISPにおけるリストとは変数$\mathFirst$と変数$\mathRest$からなるペアの集合である．変数$\mathFirst$がリストの要素を参照し，変数$\mathRest$が次のペアを参照する．リストの最後のペアの$\mathRest$は空リストを参照する特別な値を持つ．
 
 リストのための特別な表現
 \begin{equation*}
@@ -1196,6 +1192,7 @@ x*\mathFactorial(x-1)&\mathOtherwise
 
 \section{余計な話：Yコンビネータ*}
 
+
 \chapter{Maybe}
 
 \begin{leader}
@@ -1281,11 +1278,9 @@ x*\mathFactorial(x-1)&\mathOtherwise
 
 $\hsklType{a}$型の変数を$\hsklMaybeType{\hsklType{a}}$型の変数に代入するには，次の値コンストラクタを用いて$$\hsklMaybe{m}=\hsklJust{z}$$と書く．\footnote{\haskell では\code{m = Just z}と書く．}
 
-変数$z$が一度$0$除算の危険性に汚染された場合，その後ずっと$\hsklMaybe{m}$というコンテナに入れ続けなければいけない．
-このきっと整数$\hsklMaybe{m}$に対して整数を引数にとる関数$f$を適用させるには，何らかの関数マップ演算子が必要である．
-そこできっと整数の中身に直接関数を適用する演算子を$\hsklMaybeMap$としよう．具体的には$$f\hsklMaybeMap\hsklMaybe{m}=\hsklMaybeW{fz}$$のように関数$f$を変数$\hsklMaybe{m}$に適用させる．その結果はまた$\hsklMaybeType{\hsklInt}$型である．
+変数$z$が一度$0$除算の危険性に汚染された場合，その後ずっと$\hsklMaybe{m}$というコンテナに入れ続けなければいけない．このきっと整数$\hsklMaybe{m}$に対して整数を引数にとる関数$f$を適用させるには，何らかの関数マップ演算子が必要である．そこできっと整数の中身に直接関数を適用する演算子を$\hsklMaybeMap$としよう．具体的には$$f\hsklMaybeMap\hsklMaybe{m}=\hsklMaybeW{fz}$$のように関数$f$を変数$\hsklMaybe{m}$に適用させる．その結果はまた$\hsklMaybeType{\hsklInt}$型である．
 
-いま引数の$100$倍の値を返す関数$fz=100*z$があるとしよう．これを「きっと整数」な$\hsklMaybe{m}$に適用するには，$\hsklMaybe{m}$がもし$\hsklMaybe{m}=\hsklJust{z}$ならば中身$z$を取り出して$fz$を計算し，もし$\hsklMaybe{m}=\hsklNothing$であれば$\hsklNothing$を返すような適用演算子である．引数$\hsklMaybe{m}$がいつ$\hsklJust{z}$でいつ$\hsklNothing$になるのかは，いまは問わないことにする．
+いま引数の$100$倍の値を返す関数$fz=z*100$があるとしよう．これを「きっと整数」な$\hsklMaybe{m}$に適用するには，$\hsklMaybe{m}$がもし$\hsklMaybe{m}=\hsklJust{z}$ならば中身$z$を取り出して$fz$を計算し，もし$\hsklMaybe{m}=\hsklNothing$であれば$\hsklNothing$を返すような適用演算子である．引数$\hsklMaybe{m}$がいつ$\hsklJust{z}$でいつ$\hsklNothing$になるのかは，いまは問わないことにする．
 
 そこで我々が欲しいのは
 \begin{equation*}
@@ -1345,7 +1340,7 @@ Maybeは次の\pthnClassname{maybe}クラステンプレートで表現できる
 % （\cxx03プログラマへの注意：関数\pthnId{f}には関数オブジェクトを渡しても良い．）
 % こうすることで，Cスタイルの関数ポインタも，\cxx03スタイルの関数オブジェクトも，\cxx11スタイルのラムダ式も受け取ることができる．
 
-整数$z$からMaybe値$\hsklMaybe{m}=\hsklJust{z}$を作り，関数$fx=100*x$をMaybe値$\hsklMaybe{m}$に食わせてMaybe値$\hsklMaybe{n}$ただし$$\hsklMaybe{n}=f\hsklMaybeMap\hsklMaybe{m}$$を得ることを，\cxx では次のように書くことになる．
+整数$z$からMaybe値$\hsklMaybe{m}=\hsklJust{z}$を作り，関数$fx=x*100$をMaybe値$\hsklMaybe{m}$に食わせてMaybe値$\hsklMaybe{n}$ただし$$\hsklMaybe{n}=f\hsklMaybeMap\hsklMaybe{m}$$を得ることを，\cxx では次のように書くことになる．
 \begin{cxxcode}
 \begin{pythontab}
 \pthnKeyword{int} \pthnId{z} \pthnOp{=} $123$;\\
@@ -1354,7 +1349,7 @@ Maybeは次の\pthnClassname{maybe}クラステンプレートで表現できる
 \pthnClassname{maybe}$\langle$\pthnKeyword{int}$\rangle$ \pthnId{n} \pthnOp{=} \pthnId{map\_over}(\pthnId{f}, \pthnId{m});
 \end{pythontab}
 \end{cxxcode}
-注意してほしいのは\pthnId{f}(\pthnId{z})も\pthnId{map\_over}(\pthnId{f}, \pthnId{m})も正当なコードだが\pthnId{f}(\pthnId{m})は型エラーであることだ．また\pthnId{f}(\pthnId{m}.\pthnId{get\_value}())は正当なコードだが，わざわざ\pthnId{m}が持つ文脈を捨てることになる．（\cxx プログラマへの注意：$\pthnKeyword{int}$型の使用は現在では非推奨である．）
+注意してほしいのは\pthnId{f}(\pthnId{z})も\pthnId{map\_over}(\pthnId{f}, \pthnId{m})も正当なコードだが\pthnId{f}(\pthnId{m})は型エラーであることだ．また\pthnId{f}(\pthnId{m}.\pthnId{get\_value}())は正当なコードだが，わざわざ\pthnId{m}が持つ文脈を捨てることになる．（\cxx プログラマへの注意：$\pthnKeyword{int}$型の使用は現在では非推奨である．本書ではコードの読みやすさのためにあえて$\pthnKeyword{int}$を使用している．）
 
 % ところで，関数\pthnId{f}の実装は，ラムダ式の使えない\cxx03ではファンクター (functor) という機構を使うことになる．このファンクターは第\ref{ch:functor}章の関手 (functor) とは全く別な概念である．
 
