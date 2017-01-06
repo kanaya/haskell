@@ -25,6 +25,7 @@
 \newcommand{\keyword}[1]{{\emph{#1}}}
 
 % Environments
+
 \newenvironment{cxxcode}{\begin{itembox}[r]{\cxx}}{\end{itembox}}
 \newenvironment{javacode}{\begin{itembox}[r]{\java}}{\end{itembox}}
 \newenvironment{haskellcode}{\begin{itembox}[r]{\haskell}}{\end{itembox}}
@@ -33,7 +34,7 @@
 \newenvironment{pythoncode}{\begin{itembox}[r]{\python}}{\end{itembox}}
 \newenvironment{pythontab}{\begin{tabbing}\hspace*{1em}\=\hspace*{1em}\=\hspace*{1em}\=\hspace*{1em}\=\kill}{\end{tabbing}}
 \newenvironment{rubycode}{\begin{itembox}[r]{Ruby}}{\end{itembox}}
-% \newenvironment{footnotecode}{\begin{Verbatim}[xleftmargin=10mm]}{\end{Verbatim}}
+% \newenvironment{footnotecode}{\begin{verbatim}[xleftmargin=10mm]}{\end{verbatim}}
 
 %%
 %% Python
@@ -266,9 +267,9 @@ Maybe変数&名前にチルダをつける&$\hsklMaybe{x}$\\
 \end{pythontab}
 \end{pythoncode}
 本文中に登場する\python コードは関数名や予約語に対して特別な書体を用いているが，コンピュータには文字通り打ち込めばそのまま使える．上のコードは一般的なコンピュータスクリーン上では
-\begin{Verbatim}[xleftmargin=10mm]
+\begin{verbatim}[xleftmargin=10mm]
 print("Hello, world.")
-\end{Verbatim}
+\end{verbatim}
 と見えるであろう．
 
 ところで，一部の章でどうしても型に触れないといけない部分がある．\python は動的型付け言語であり，型の説明には不適切であるため，この部分だけ理解の助けとして\cxx によるコードを例示した．この部分はコードを読まなくても先に進める． \java ではなく\cxx を採用したのはOS Xでも簡単に試せるようにである．型システムに関する限り\cxx よりも\java のほうが簡潔に記述できるが，致し方無い．
@@ -303,14 +304,14 @@ GHCは公式サイト\cite{haskellplatform}からダウンロード可能であ�
 \begin{description}
 \item[Linux] パッケージマネージャからghciをインストールする．Debian系ならAPT，Red Hat系ならYumを使うのが一般的であろう．文献\cite{linux}を参考にしてもらいたい．
 \item[OS X] 文献\cite{osx}にHomebrewのインストール方法が書かれているので，Homebrewのインストールまでしておき，ターミナルで
-\begin{Verbatim}[xleftmargin=10mm]
+\begin{verbatim}[xleftmargin=10mm]
 $ brew install ghci
-\end{Verbatim}%$
+\end{verbatim}%
 とする．（本書執筆時点でHaskell Stackという新しいパッケージングシステムが登場してきている．将来的にはGCH本体もHaskell Stackからインストールすることが望ましくなるだろう．Haskell Stackを用いたGHCのインストールはOS XではHomebrewを用いて
-\begin{Verbatim}[xleftmargin=10mm]
+\begin{verbatim}[xleftmargin=10mm]
 $ brew install haskell-stack
 $ stack install ghc
-\end{Verbatim}%$
+\end{verbatim}%$
 とすれば良い．本書はひとまずGHCを直接インストールすることを前提に進める．）
 \item[Windows 10] GHC公式サイト\cite{haskellplatform}からパッケージをインストールする．
 \end{description}
@@ -438,10 +439,10 @@ f'x&=1+x
 \right.
 \end{equation}
 ように定義する．これを関数の\keyword{パタンマッチ}と呼ぶ．\footnote{\haskell では
-\begin{Verbatim}[xleftmargin=10mm]
+\begin{verbatim}[xleftmargin=10mm]
 f' 0 = 0
 f' x = 1 + x
-\end{Verbatim}
+\end{verbatim}
 と書く．}
 
 関数のパタンマッチは，関数の内部に書いても良い．関数内部にパタンマッチを描きたい場合は
@@ -454,11 +455,11 @@ f'x=\mathCase x\mathOf\left\{
 \right.
 \end{equation}
 のように書く．ここに$\_$は任意の値の意味である．パタンマッチは上から順番にマッチングしていくため，この場合は$0$以外を意味する．\footnote{\haskell では
-\begin{Verbatim}[xleftmargin=10mm]
+\begin{verbatim}[xleftmargin=10mm]
 f' x = case x of
   0 -> 0
   _ -> 1 + x
-\end{Verbatim}
+\end{verbatim}
 と書く．}
 
 
@@ -471,11 +472,11 @@ f''x&\mathGuard{x<0}=-1\\
 \end{split}
 \end{equation}
 という風に定義する．\footnote{\haskell では
-\begin{Verbatim}[xleftmargin=10mm]
+\begin{verbatim}[xleftmargin=10mm]
 f'' x | x < 0     = -1
       | x == 0    = 0
       | otherwise = 1 + x
-\end{Verbatim}
+\end{verbatim}
 と書く．}
 
 場合分けを関数の中に書きたい場合は後述の$\mathIf$構文を用いる（第\ref{sec:if}節参照）．
@@ -1007,10 +1008,10 @@ $\hsklType{a}$型の変数$x$を入れた$\hsklListType{\hsklType{a}}$型の変�
 \end{pythoncode}
 のように求めることができる．この\pthnId{reduce}関数は\python バージョン3では非推奨になっているが，Rubyには受け継がれていて，Rubyでは
 \begin{rubycode}
-\begin{Verbatim}
+\begin{verbatim}
 t = [0, 1, 2, 3, 4, 5]
 s = t.inject(0) { |x, y| x + y }
-\end{Verbatim}
+\end{verbatim}
 \end{rubycode}
 と書ける．
 
@@ -1241,13 +1242,13 @@ x*\mathFactorial(x-1)&\mathOtherwise
 関数\pthnId{f}に直接\pthnClassname{Possibly}値\pthnId{m}を食わせるとランタイムエラーを引き起こす．
 \begin{pythoncode}
 \begin{pythontab}
-\pthnId{n} \pthnOp{=} \pthnId{f}(\pthnId{m}) \texttt{\#} エラー!! 
+\pthnId{n} \pthnOp{=} \pthnId{f}(\pthnId{m}) \texttt{\#} エラー!!
 \end{pythontab}
 \end{pythoncode}
 これは関数\pthnId{f}が引数として数値を期待していたにもかかわらず，\pthnClassname{Possibly}値が渡されたからである．もし関数\pthnId{f}のほうをいじりたくないとすれば，次のような関数\pthnId{map\_over}を使って
 \begin{pythoncode}
 \begin{pythontab}
-\pthnId{n} \pthnOp{=} \pthnId{map\_over}(\pthnId{f}, \pthnId{m}) 
+\pthnId{n} \pthnOp{=} \pthnId{map\_over}(\pthnId{f}, \pthnId{m})
 \end{pythontab}
 \end{pythoncode}
 というふうに間接的に関数適用を行う必要がある．
@@ -2143,9 +2144,9 @@ A...
 \section{IOモナド}
 
 \begin{haskellcode}
-\begin{Verbatim}
+\begin{verbatim}
 class
-\end{Verbatim}
+\end{verbatim}
 \end{haskellcode}
 
 
