@@ -1,5 +1,5 @@
 \documentclass[twocolumn]{jsbook}
-\usepackage{amsmath,amssymb,ascmac,bm,multirow,fancyvrb,eulervm}
+\usepackage{amsmath,amssymb,ascmac,bm,multirow,fancyvrb,eulervm,lmodern}
 \makeindex
 
 \newcommand{\haskell}{\textsf{Haskell}}
@@ -65,8 +65,8 @@
 
 % Haskell Typenames
 \newcommand{\hsklType}[1]{\textbf{#1}}
-\newcommand{\hsklTypeclass}[1]{\textsl{#1}}
-% \newcommand{\hsklTypeConstructor}[1]{\mathop{\mathrm{#1}}}
+\newcommand{\hsklTypeConstructor}[1]{\textsl{#1}}
+\newcommand{\hsklTypeClass}[1]{\textbf{\emph{#1}}}
 
 % Haskell Operators
 \newcommand{\hsklAppend}{\oplus}
@@ -77,9 +77,9 @@
 \DeclareMathOperator{\hsklConcat}{\flat}
 \DeclareMathOperator{\hsklFmap}{\cdot}
 \DeclareMathOperator{\hsklHead}{head}
-\DeclareMathOperator{\hsklListConstructor}{List}
+\DeclareMathOperator{\hsklListConstructor}{\hsklTypeConstructor{List}}
 \DeclareMathOperator{\hsklMap}{\odot}
-\DeclareMathOperator{\hsklMaybeConstructor}{Maybe}
+\DeclareMathOperator{\hsklMaybeConstructor}{\hsklTypeConstructor{Maybe}}
 \DeclareMathOperator{\hsklMaybeAppend}{\boxplus}
 \DeclareMathOperator{\hsklMaybeMap}{\boxdot}
 \DeclareMathOperator{\hsklMonadMap}{\heartsuit}
@@ -92,22 +92,22 @@
 \newcommand{\hsklEmptyList}{\emptyset}
 \newcommand{\hsklNothing}{\varnothing}
 
-% Haskell Types and Typeclasses
-\newcommand{\hsklApplicative}{\hsklTypeclass{Applicative}}
+% Haskell Types and TypeClasses
+\newcommand{\hsklApplicative}{\hsklTypeClass{Applicative}}
 \newcommand{\hsklBool}{\hsklType{Bool}}
 \newcommand{\hsklChar}{\hsklType{Char}}
-\newcommand{\hsklEnum}{\hsklTypeclass{Enum}}
+\newcommand{\hsklEnum}{\hsklTypeClass{Enum}}
 \newcommand{\hsklInt}{\hsklType{Int}}
-\newcommand{\hsklIntegral}{\hsklTypeclass{Integral}}
-\newcommand{\hsklEq}{\hsklTypeclass{Eq}}
+\newcommand{\hsklIntegral}{\hsklTypeClass{Integral}}
+\newcommand{\hsklEq}{\hsklTypeClass{Eq}}
 \newcommand{\hsklFloat}{\hsklType{Float}}
-\newcommand{\hsklFunctor}{\hsklTypeclass{Functor}}
-\newcommand{\hsklMonad}{\hsklTypeclass{Monad}}
-\newcommand{\hsklMonadplus}{\hsklTypeclass{Monadplus}}
-\newcommand{\hsklMonoid}{\hsklTypeclass{Monoid}}
-\newcommand{\hsklNum}{\hsklTypeclass{Num}}
-\newcommand{\hsklOrd}{\hsklTypeclass{Ord}}
-\newcommand{\hsklReal}{\hsklTypeclass{Real}}
+\newcommand{\hsklFunctor}{\hsklTypeClass{Functor}}
+\newcommand{\hsklMonad}{\hsklTypeClass{Monad}}
+\newcommand{\hsklMonadplus}{\hsklTypeClass{Monadplus}}
+\newcommand{\hsklMonoid}{\hsklTypeClass{Monoid}}
+\newcommand{\hsklNum}{\hsklTypeClass{Num}}
+\newcommand{\hsklOrd}{\hsklTypeClass{Ord}}
+\newcommand{\hsklReal}{\hsklTypeClass{Real}}
 
 % Haskell Value Constructors
 \newcommand{\hsklJust}[1]{\[#1\]}
@@ -130,7 +130,7 @@
 %%
 
 % Math Keywords
-\newcommand{\mathKeyword}[1]{\mathbf{#1}}
+\newcommand{\mathKeyword}[1]{\mathsf{#1}}
 \newcommand{\mathVarKeyword}[1]{\mathsf{#1}}
 
 % Math Operators
@@ -163,17 +163,18 @@
 \DeclareMathOperator{\mathWhere}{\mathKeyword{where}}
 
 % Math Special Keywords
-\newcommand{\mathFirst}{\mathVarKeyword{first}}
+\newcommand{\mathFirst}{\mathVarKeyword{First}}
 \newcommand{\mathLambdaAnonymousParameter}{\lozenge}
 \newcommand{\mathLambdaArrow}{\rightarrow}
 \newcommand{\mathLeft}{\mathKeyword{left}}
 \newcommand{\mathOtherwise}{\mathKeyword{otherwise}}
-\newcommand{\mathRest}{\mathVarKeyword{rest}}
+\newcommand{\mathRest}{\mathVarKeyword{Rest}}
 \newcommand{\mathRight}{\mathKeyword{right}}
 \newcommand{\mathSomething}{\square}
 
 % Math Pretty Printers
-\newcommand{\mathFunctor}[1]{\mathrm{#1}}
+\newcommand{\mathConstant}[1]{\mathrm{#1}}
+\newcommand{\mathFunctor}[1]{\mathop{\textsl{#1}}}
 \newcommand{\mathGuard}[1]{\mathop{\mid_{#1}}}
 \newcommand{\mathSet}[1]{\mathbf{#1}}
 \newcommand{\mathSpecialSet}[1]{\mathbb{#1}}
@@ -205,17 +206,19 @@
 \hline
 種類&字体・表記法&例\\
 \hline
-定数&オイラー書体，大文字（1文字）&$T$, $F$, $I$\\
+定数&ローマン書体，大文字（1文字）&$\mathConstant{A}$, $\mathConstant{B}$, $\mathConstant{C}$\\
 変数&オイラー書体，小文字（1文字）&$x$, $y$, $z$\\
 関数&オイラー書体，小文字（1文字）&$f$, $g$, $h$\\
 有名な関数&ローマン体，小文字で始める&$\sin$, $\cos$, $\tan$\\
-集合と型&ボールドローマン体，大文字で始める&$\mathSet{S}$, $\hsklInt$, $\hsklFloat$\\
-型パラメタ&ボールドローマン体，小文字（1文字）&$\hsklType{a}$, $\hsklType{b}$, $\hsklType{c}$\\
+集合&ボールドローマン体，大文字（1文字）&$\mathSet{A}$, $\mathSet{B}$, $\mathSet{C}$\\
 有名な集合&ブラックボード体，大文字（1文字）&$\mathSpecialSet{R}$, $\mathSpecialSet{Q}$, $\mathSpecialSet{Z}$\\
-関手と型コンストラクタ&ローマン体，大文字で始める&$\mathFunctor{F}$, $\hsklListConstructor$, $\hsklMaybeConstructor$\\
-型クラス&スラント体，大文字で始める&$\hsklEq$, $\hsklIntegral$\\
-キーワード&ボールドローマン体，小文字で始める&$\mathIf$, $\mathOtherwise$\\
-リストの構造&サンセリフ体&$\mathFirst$, $\mathRest$\\
+型パラメタ&ボールドローマン体，小文字（1文字）&$\hsklType{a}$, $\hsklType{b}$, $\hsklType{c}$\\
+組み込み型&ボールドローマン体，大文字で始める&$\hsklInt$, $\hsklFloat$\\
+関手&スラント体，大文字（1文字）&$\mathFunctor{F}$, $\mathFunctor{G}$, $\mathFunctor{H}$\\
+型コンストラクタ&スラント体，大文字で始める&$\hsklListConstructor$, $\hsklMaybeConstructor$\\
+型クラス&ボールドイタリック体，大文字で始める&$\hsklEq$, $\hsklIntegral$\\
+キーワード&サンセリフ体，小文字で始める&$\mathIf$, $\mathOtherwise$\\
+リストの構造&サンセリフ体，大文字で始める&$\mathFirst$, $\mathRest$\\
 \hline
 リスト&ブラケットで包む&$[x,y,z]$\\
 集合&ブレースで包む&$\{x,y,z\}$\\
