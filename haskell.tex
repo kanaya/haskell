@@ -144,7 +144,8 @@
 \DeclareMathOperator{\mathAnd}{\wedge}
 \DeclareMathOperator{\mathApply}{\$}
 \DeclareMathOperator{\mathAnyUnaryOperator}{\star}
-\DeclareMathOperator{\mathCase}{\mathKeyword{case}}
+\DeclareMathOperator{\mathCaseCase}{\mathKeyword{case}}
+\DeclareMathOperator{\mathCaseOf}{\mathKeyword{of}}
 \DeclareMathOperator{\mathCompose}{\bullet}
 \DeclareMathOperator{\mathElse}{\mathKeyword{else}}
 \DeclareMathOperator{\mathFactorial}{fact}
@@ -162,7 +163,6 @@
 \DeclareMathOperator{\mathLetIn}{\mathKeyword{in}}
 \DeclareMathOperator{\mathMapsTo}{\mapsto}
 \DeclareMathOperator{\mathMain}{main}
-\DeclareMathOperator{\mathOf}{\mathKeyword{of}}
 \DeclareMathOperator{\mathOr}{\vee}
 \DeclareMathOperator{\mathSetTimes}{\circledast}
 \DeclareMathOperator{\mathThen}{\mathKeyword{then}}
@@ -189,6 +189,7 @@
 \newcommand{\mathSpecialSet}[1]{\mathbb{#1}} % Use capital letter
 \newcommand{\mathVector}[1]{\vec{#1}}
 
+\newcommand{\mathCase}[2]{\mathCaseCase#1\mathCaseOf#2}
 \newcommand{\mathCategoryShort}[2]{(#1,#2)}
 \newcommand{\mathLambdaExpression}[2]{\mathLambda#1\mathLambdaArrow#2}
 \newcommand{\mathLet}[2]{\mathLetLet#1\mathLetIn#2}
@@ -231,7 +232,7 @@
 有名な関手&カリグラフィ体，大文字（1文字）&$\mathSpecialFunctor{I}$\\
 型コンストラクタ&スラント体，大文字で始める&$\hsklListConstructor$, $\hsklMaybeConstructor$\\
 型クラス&ボールドイタリック体，大文字で始める&$\hsklEq$, $\hsklIntegral$\\\hline
-キーワード&サンセリフ体，小文字で始める&$\mathIf$, $\mathOtherwise$, $\mathCase$, $\mathOf$\\
+キーワード&サンセリフ体，小文字で始める&$\mathIf$, $\mathOtherwise$\\
 リストの構造&サンセリフ体，大文字で始める&$\mathFirst$, $\mathRest$\\
 \hline
 リスト&ブラケットで包む&$\left[x,y,z\right]$\\
@@ -546,12 +547,12 @@ f' x = 1 + x
 関数のパタンマッチは，関数の内部に書いても良い．
 関数内部にパタンマッチを描きたい場合は
 \begin{equation}
-f'x=\mathCase x\mathOf\left\{
+f'x=\mathCase{x}{\left\{
 \begin{split}
 0&\rightarrow0\\
 \_&\rightarrow1+x
 \end{split}
-\right.
+\right.}
 \end{equation}
 のように書く．
 ここに$\_$は任意の値の意味である．
