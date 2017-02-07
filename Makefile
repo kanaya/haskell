@@ -2,6 +2,7 @@
 
 PLATEX=platex
 DVIPDF=dvipdfmx
+RM=rm
 
 %.dvi: %.tex
 	$(PLATEX) $<
@@ -10,3 +11,6 @@ DVIPDF=dvipdfmx
 	$(DVIPDF) $<
 
 all: haskell.pdf
+
+clean:
+	$(RM) *.aux *.dvi *.idx *.log *.toc
