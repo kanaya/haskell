@@ -7,47 +7,54 @@
 \title{\haskell （仮）}
 \author{金谷一朗}
 
-\def\[{[\![}
-\def\]{]\!]}
+\def\[{\left[\!\left[}
+\def\]{\right]\!\right]}
 
-% Special keywords
-\newcommand{\clang}{\textsf{C}}
-\newcommand{\csharp}{\textsf{C}\texttt{\#}}
-\newcommand{\cxx}{\textsf{C}\texttt{++}}
-\newcommand{\java}{\textsf{Java}}
-\newcommand{\python}{\textsf{Python}}
-\newcommand{\ruby}{\textsf{Ruby}}
-\newcommand{\scheme}{\textsf{Scheme}}
-\newcommand{\swift}{\textsf{Swift}}
+%% Programming Languages
 
-% Font Specifiers
+\newcommand{\programminglanguage}[1]{#1}
+\newcommand{\clang}{\programminglanguage{C}}
+\newcommand{\csharp}{\programminglanguage{C}\texttt{\#}}
+\newcommand{\cxx}{\programminglanguage{C}\texttt{++}}
+\newcommand{\java}{\programminglanguage{Java}}
+\newcommand{\python}{\programminglanguage{Python}}
+\newcommand{\ruby}{\programminglanguage{Ruby}}
+\newcommand{\scheme}{\programminglanguage{Scheme}}
+\newcommand{\swift}{\programminglanguage{Swift}}
+
+%% Inline Codes
+
 \newcommand{\code}[1]{\texttt{#1}}
+
+%% Keywords
+
 \newcommand{\keyword}[1]{{\emph{#1}}}
 
-% Environments
+%% Code Blocks
 
 \newenvironment{cxxcode}{\begin{itembox}[r]{\cxx}}{\end{itembox}}
 \newenvironment{javacode}{\begin{itembox}[r]{\java}}{\end{itembox}}
 \newenvironment{haskellcode}{\begin{itembox}[r]{\haskell}}{\end{itembox}}
-\newenvironment{leader}{\begingroup\bf}{\endgroup}
-\newenvironment{point}{\begin{screen}}{\end{screen}}
 \newenvironment{pythoncode}{\begin{itembox}[r]{\python}}{\end{itembox}}
 \newenvironment{pythontab}{\begin{tabbing}\hspace*{1em}\=\hspace*{1em}\=\hspace*{1em}\=\hspace*{1em}\=\kill}{\end{tabbing}}
 \newenvironment{rubycode}{\begin{itembox}[r]{Ruby}}{\end{itembox}}
 % \newenvironment{footnotecode}{\begin{verbatim}[xleftmargin=10mm]}{\end{verbatim}}
 
-%%
-%% Python
-%%
+%% Leaders and Key Points
 
-% Python Pretty Printers
+\newenvironment{leader}{\begingroup\bf}{\endgroup}
+\newenvironment{keypoint}{\begin{screen}}{\end{screen}}
+
+%% Python Pretty Printers
+
 \newcommand{\pthnClassname}[1]{\textrm{#1}}
 \newcommand{\pthnId}[1]{\textit{#1}}
 \newcommand{\pthnKeyword}[1]{\textbf{#1}}
 \newcommand{\pthnOp}[1]{\texttt{#1}}
 \newcommand{\pthnString}[1]{\texttt{#1}}
 
-% Python Reserved Keywords
+%% Python Keywords
+
 \DeclareMathOperator{\pthnDef}{\pthnKeyword{def}}
 \DeclareMathOperator{\pthnElse}{\pthnKeyword{else}}
 \DeclareMathOperator{\pthnFor}{\pthnKeyword{for}}
@@ -56,19 +63,18 @@
 \DeclareMathOperator{\pthnLambda}{\pthnKeyword{lambda}}
 \DeclareMathOperator{\pthnReturn}{\pthnKeyword{return}}
 
-% Python Metasymbols
+%% Python Metasymbols
+
 \newcommand{\pthnNextLine}{$\blacktriangleright\blacktriangleright$}
 
-%%
-%% Haskell
-%%
+%% Haskell Pretty Printers
 
-% Haskell Typenames
 \newcommand{\hsklType}[1]{\textbf{#1}}
 \newcommand{\hsklTypeConstructor}[1]{\textsl{#1}}
 \newcommand{\hsklTypeClass}[1]{\textbf{\emph{#1}}}
 
-% Haskell Operators
+%% Haskell Operators
+
 \newcommand{\hsklAppend}{\oplus}
 \DeclareMathOperator{\hsklApplicativeApply}{\S}
 \DeclareMathOperator{\hsklApplicativeMap}{\times}
@@ -88,11 +94,13 @@
 \DeclareMathOperator{\hsklSucc}{succ}
 \DeclareMathOperator{\hsklTail}{tail}
 
-% Haskell Symbols
+%% Haskell Symbols
+
 \newcommand{\hsklEmptyList}{\emptyset}
 \newcommand{\hsklNothing}{\varnothing}
 
-% Haskell Types and TypeClasses
+%% Haskell Types and Type Classes
+
 \newcommand{\hsklApplicative}{\hsklTypeClass{Applicative}}
 \newcommand{\hsklBool}{\hsklType{Bool}}
 \newcommand{\hsklChar}{\hsklType{Char}}
@@ -109,31 +117,32 @@
 \newcommand{\hsklOrd}{\hsklTypeClass{Ord}}
 \newcommand{\hsklReal}{\hsklTypeClass{Real}}
 
-% Haskell Value Constructors
+%% Haskell Value Constructors
+
 \newcommand{\hsklJust}[1]{\[#1\]}
 \newcommand{\hsklListType}[1]{[#1]}
 \newcommand{\hsklMaybeType}[1]{\[#1\]}
 \newcommand{\hsklPure}[1]{\langle#1\rangle_\textsf{pure}}
 \newcommand{\hsklUnit}[1]{\langle#1\rangle_\textsf{unit}}
 
-% Haskell Type Constructor
+%% Haskell Type Constructor
+
 \newcommand{\hsklTypeConstruct}[2]{#1\,#2}
 
-% Haskell Decorations
+%% Haskell Decorations
+
 \newcommand{\hsklFunction}[1]{\Hat{#1}}
 \newcommand{\hsklList}[1]{\Bar{#1}}
 \newcommand{\hsklMaybe}[1]{\Tilde{#1}}
 \newcommand{\hsklMaybeW}[1]{\widetilde{#1}}
 
-%%
-%% Math
-%%
+%% Math Keywords
 
-% Math Keywords
 \newcommand{\mathKeyword}[1]{\mathsf{#1}}
 \newcommand{\mathVarKeyword}[1]{\mathsf{#1}}
 
-% Math Operators
+%% Math Operators
+
 \DeclareMathOperator{\mathAnyBinaryOperator}{\bigstar}
 \DeclareMathOperator{\mathAnd}{\wedge}
 \DeclareMathOperator{\mathApply}{\$}
@@ -162,7 +171,8 @@
 \DeclareMathOperator{\mathThen}{\mathKeyword{then}}
 \DeclareMathOperator{\mathWhere}{\mathKeyword{where}}
 
-% Math Special Keywords
+%% Math Special Keywords
+
 \newcommand{\mathFirst}{\mathVarKeyword{First}}
 \newcommand{\mathLambdaAnonymousParameter}{\lozenge}
 \newcommand{\mathLambdaArrow}{\rightarrow}
@@ -172,12 +182,14 @@
 \newcommand{\mathRight}{\mathKeyword{right}}
 \newcommand{\mathSomething}{\square}
 
-% Math Pretty Printers
-\newcommand{\mathConstant}[1]{\mathrm{#1}}
-\newcommand{\mathFunctor}[1]{\mathop{\textsl{#1}}}
+%% Math Pretty Printers
+
+\newcommand{\mathConstant}[1]{\mathrm{#1}} % Use capital letter
+\newcommand{\mathFunctor}[1]{\mathop{\textsl{#1}}} % Use capital letter
 \newcommand{\mathGuard}[1]{\mathop{\mid_{#1}}}
-\newcommand{\mathSet}[1]{\mathbf{#1}}
-\newcommand{\mathSpecialSet}[1]{\mathbb{#1}}
+\newcommand{\mathSet}[1]{\mathbf{#1}} % Use capital letter
+\newcommand{\mathSpecialFunctor}[1]{\mathcal{#1}} % Use capital letter
+\newcommand{\mathSpecialSet}[1]{\mathbb{#1}} % Use capital letter
 \newcommand{\mathVector}[1]{\vec{#1}}
 
 \newcommand{\mathCategoryShort}[2]{(#1,#2)}
@@ -209,20 +221,21 @@
 定数&ローマン書体，大文字（1文字）&$\mathConstant{A}$, $\mathConstant{B}$, $\mathConstant{C}$\\
 変数&オイラー書体，小文字（1文字）&$x$, $y$, $z$\\
 関数&オイラー書体，小文字（1文字）&$f$, $g$, $h$\\
-有名な関数&ローマン体，小文字で始める&$\sin$, $\cos$, $\tan$\\
+有名な関数&ローマン体，小文字で始める&$\sin$, $\cos$, $\tan$\\\hline
 集合&ボールドローマン体，大文字（1文字）&$\mathSet{A}$, $\mathSet{B}$, $\mathSet{C}$\\
 有名な集合&ブラックボード体，大文字（1文字）&$\mathSpecialSet{R}$, $\mathSpecialSet{Q}$, $\mathSpecialSet{Z}$\\
-型パラメタ&ボールドローマン体，小文字（1文字）&$\hsklType{a}$, $\hsklType{b}$, $\hsklType{c}$\\
-組み込み型&ボールドローマン体，大文字で始める&$\hsklInt$, $\hsklFloat$\\
+型&ボールドローマン体，小文字（1文字）&$\hsklType{a}$, $\hsklType{b}$, $\hsklType{c}$\\
+有名な型&ボールドローマン体，大文字で始める&$\hsklInt$, $\hsklFloat$\\\hline
 関手&スラント体，大文字（1文字）&$\mathFunctor{F}$, $\mathFunctor{G}$, $\mathFunctor{H}$\\
+有名な関手&カリグラフィ体，大文字（1文字）&$\mathSpecialFunctor{I}$\\
 型コンストラクタ&スラント体，大文字で始める&$\hsklListConstructor$, $\hsklMaybeConstructor$\\
-型クラス&ボールドイタリック体，大文字で始める&$\hsklEq$, $\hsklIntegral$\\
+型クラス&ボールドイタリック体，大文字で始める&$\hsklEq$, $\hsklIntegral$\\\hline
 キーワード&サンセリフ体，小文字で始める&$\mathIf$, $\mathOtherwise$\\
 リストの構造&サンセリフ体，大文字で始める&$\mathFirst$, $\mathRest$\\
 \hline
-リスト&ブラケットで包む&$[x,y,z]$\\
+リスト&ブラケットで包む&$\left[x,y,z\right]$\\
 集合&ブレースで包む&$\{x,y,z\}$\\
-組み合わせ（タプル）&丸括弧で包む&$(x,y,z)$\\
+タプル&丸括弧で包む&$\left(x,y,z\right)$\\
 \hline
 リスト変数&名前にバーをつける&$\hsklList{x}$\\
 Maybe変数&名前にチルダをつける&$\hsklMaybe{x}$\\
@@ -232,7 +245,7 @@ Maybe変数&名前にチルダをつける&$\hsklMaybe{x}$\\
 \python 定数&イタリック体，大文字で始める&\pthnId{True}, \pthnId{False}, \pthnId{None}\\
 \python 変数&イタリック体，小文字で始める&\pthnId{x}, \pthnId{y}, \pthnId{z}\\
 \python 関数&イタリック体，小文字で始める&\pthnId{f}, \pthnId{g}, \pthnId{h}\\
-\python クラス名&ローマン体，大文字で始める&Perhaps\\
+\python クラス名&ローマン体，大文字で始める&Possibly\\
 \python キーワード&ボールドローマン体，小文字で始める&\pthnKeyword{def}, \pthnKeyword{return}\\
 \python 演算子&タイプライタ体&\pthnOp{=}, \pthnOp{+}, \pthnOp{*}\\
 \python 文字列リテラル&タイプライタ体&\pthnString{"Hello, world."}\\
