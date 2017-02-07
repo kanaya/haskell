@@ -1,2 +1,6 @@
+*.aux
 *.dvi
+*.idx
+*.log
+*.toc
 .texpadtmp/
