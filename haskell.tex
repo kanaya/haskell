@@ -2,20 +2,16 @@
 \usepackage{amsmath,amssymb,ascmac,bm,multirow,fancyvrb,eulervm,lmodern}
 \makeindex
 
-\newcommand{\haskell}{\textsf{Haskell}}
-
-\title{\haskell （仮）}
-\author{金谷一朗}
-
 \def\[{\left[\!\left[}
 \def\]{\right]\!\right]}
 
 %% Programming Languages
 
-\newcommand{\programminglanguage}[1]{#1}
+\newcommand{\programminglanguage}[1]{\textsf{#1}}
 \newcommand{\clang}{\programminglanguage{C}}
 \newcommand{\csharp}{\programminglanguage{C}\texttt{\#}}
 \newcommand{\cxx}{\programminglanguage{C}\texttt{++}}
+\newcommand{\haskell}{\programminglanguage{Haskell}}
 \newcommand{\java}{\programminglanguage{Java}}
 \newcommand{\python}{\programminglanguage{Python}}
 \newcommand{\ruby}{\programminglanguage{Ruby}}
@@ -205,6 +201,9 @@
 \newcommand{\mathMorphIII}[4]{#1\mathMapsTo#2\mathMapsTo#3\mathMapsTo#4}
 
 \newcommand{\mathField}[7]{(#1,#2,#3,#4,#5,#6,#7)}
+
+\title{\haskell （仮）}
+\author{金谷一朗}
 
 \begin{document}
 % \setlength{\baselineskip}{17pt}
