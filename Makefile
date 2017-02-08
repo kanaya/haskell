@@ -1,7 +1,7 @@
 # Makefile for haskell.pdf
 
 PLATEX=platex
-DVIPDF=dvipdfmx
+DVIPDF=dvipdfmx -p a5
 RM=rm
 
 %.dvi: %.tex

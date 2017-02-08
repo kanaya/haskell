@@ -1,4 +1,4 @@
-\documentclass[twocolumn]{jsbook}
+\documentclass[a5paper,draft]{jsbook}
 % \usepackage{eulervm}
 \usepackage{amsmath,amssymb,ascmac,bm,multirow,lmodern}
 \makeindex
@@ -222,20 +222,20 @@
 \hline
 種類&字体・表記法&例\\
 \hline
-定数&ローマン書体，大文字（1文字）&$\mathConstant{A}$, $\mathConstant{B}$, $\mathConstant{C}$\\
-変数&オイラー書体，小文字（1文字）&$x$, $y$, $z$\\
-関数&オイラー書体，小文字（1文字）&$f$, $g$, $h$\\
-有名な関数&ローマン体，小文字で始める&$\sin$, $\cos$, $\tan$\\\hline
-集合&ボールドローマン体，大文字（1文字）&$\mathSet{A}$, $\mathSet{B}$, $\mathSet{C}$\\
-有名な集合&ブラックボード体，大文字（1文字）&$\mathSpecialSet{R}$, $\mathSpecialSet{Q}$, $\mathSpecialSet{Z}$\\
-型パラメタ&ボールドローマン体，小文字（1文字）&$\hsklType{a}$, $\hsklType{b}$, $\hsklType{c}$\\
-型&ボールドローマン体，大文字で始める&$\hsklInt$, $\hsklFloat$\\\hline
-関手&スラント体，大文字（1文字）&$\mathFunctor{F}$, $\mathFunctor{G}$, $\mathFunctor{H}$\\
-有名な関手&カリグラフィ体，大文字（1文字）&$\mathSpecialFunctor{I}$\\
-型コンストラクタ&スラント体，大文字で始める&$\hsklListConstructor$, $\hsklMaybeConstructor$\\
-型クラス&ボールドイタリック体，大文字で始める&$\hsklEq$, $\hsklIntegral$\\\hline
-キーワード&サンセリフ体，小文字で始める&$\mathIf$, $\mathOtherwise$\\
-リストの構造&サンセリフ体，大文字で始める&$\mathFirst$, $\mathRest$\\
+定数&ローマン，大文字&$\mathConstant{A}$, $\mathConstant{B}$, $\mathConstant{C}$\\
+変数&イタリック，小文字&$x$, $y$, $z$\\
+関数&イタリック，小文字&$f$, $g$, $h$\\
+有名な関数&ローマン，小文字で始める&$\sin$, $\cos$, $\tan$\\\hline
+集合&ボールドローマン，大文字&$\mathSet{A}$, $\mathSet{B}$, $\mathSet{C}$\\
+有名な集合&ブラックボード，大文字&$\mathSpecialSet{R}$, $\mathSpecialSet{Q}$, $\mathSpecialSet{Z}$\\
+型パラメタ&ボールドローマン，小文字&$\hsklType{a}$, $\hsklType{b}$, $\hsklType{c}$\\
+型&ボールドローマン，大文字で始める&$\hsklInt$, $\hsklFloat$\\\hline
+関手&スラント，大文字&$\mathFunctor{F}$, $\mathFunctor{G}$, $\mathFunctor{H}$\\
+有名な関手&カリグラフィ，大文字&$\mathSpecialFunctor{I}$\\
+型コンストラクタ&スラント，大文字で始める&$\hsklListConstructor$, $\hsklMaybeConstructor$\\
+型クラス&ボールドイタリック，大文字で始める&$\hsklEq$, $\hsklIntegral$\\\hline
+キーワード&サンセリフ，小文字&$\mathIf$, $\mathOtherwise$\\
+リストの構造&サンセリフ，大文字で始める&$\mathFirst$, $\mathRest$\\
 \hline
 リスト&ブラケットで包む&$\left[x,y,z\right]$\\
 集合&ブレースで包む&$\{x,y,z\}$\\
@@ -245,6 +245,17 @@
 Maybe変数&名前にチルダをつける&$\hsklMaybe{x}$\\
 関数変数&名前にハットをつける&$\hsklFunction{x}$\\
 ベクトル変数&名前に矢印をつける&$\mathVector{x}$\\
+\hline
+\end{tabular}
+\end{center}
+\end{table*}
+
+\begin{table*}
+\caption{凡例2}
+\begin{center}
+\begin{tabular}{||c|c|c||}
+\hline
+種類&字体・表記法&例\\
 \hline
 \python 定数&イタリック体，大文字で始める&\pthnId{True}, \pthnId{False}, \pthnId{None}\\
 \python 変数&イタリック体，小文字で始める&\pthnId{x}, \pthnId{y}, \pthnId{z}\\
