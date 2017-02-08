@@ -67,7 +67,7 @@
 %% Haskell Pretty Printers
 
 \newcommand{\hsklType}[1]{\textbf{#1}}
-\newcommand{\hsklTypeConstructor}[1]{\textsl{#1}}
+\newcommand{\hsklTypeConstructor}[1]{\textit{#1}}
 \newcommand{\hsklTypeClass}[1]{\textbf{\emph{#1}}}
 
 %% Haskell Operators
@@ -136,7 +136,7 @@
 %% Math Keywords
 
 \newcommand{\mathKeyword}[1]{\mathsf{#1}}
-\newcommand{\mathVarKeyword}[1]{\mathsf{#1}}
+\newcommand{\mathVarKeyword}[1]{\mathrm{#1}}
 
 %% Math Operators
 
@@ -171,7 +171,7 @@
 %% Math Pretty Printers
 
 \newcommand{\mathConstant}[1]{\mathrm{#1}} % Use capital letter
-\newcommand{\mathFunctor}[1]{\mathop{\textsl{#1}}} % Use capital letter
+\newcommand{\mathFunctor}[1]{\mathop{#1}} % Use capital letter
 \newcommand{\mathGuard}[1]{\mathop{\mid_{#1}}}
 \newcommand{\mathSet}[1]{\mathbf{#1}} % Use capital letter
 \newcommand{\mathSpecialFunctor}[1]{\mathcal{#1}} % Use capital letter
@@ -197,7 +197,7 @@
 %% Math Special Keywords
 
 \newcommand{\mathFalse}{\mathConstant{F}}
-\newcommand{\mathFirst}{\mathVarKeyword{First}}
+\newcommand{\mathFirst}{\mathKeyword{First}}
 \newcommand{\mathLambdaAnonymousParameter}{\lozenge}
 \newcommand{\mathLambdaArrow}{\rightarrow}
 \newcommand{\mathLeft}{\mathVarKeyword{left}}
@@ -222,17 +222,18 @@
 \hline
 種類&字体・表記法&例\\
 \hline
-定数&ローマン，大文字&$\mathConstant{A}$, $\mathConstant{B}$, $\mathConstant{C}$\\
 変数&イタリック，小文字&$x$, $y$, $z$\\
+定数&ローマン，大文字&$\mathConstant{A}$, $\mathConstant{B}$, $\mathConstant{C}$\\
 関数&イタリック，小文字&$f$, $g$, $h$\\
-有名な関数&ローマン，小文字&$\sin$, $\cos$, $\tan$\\\hline
+有名な関数&ローマン，小文字&$\sin$, $\cos$, $\tan$\\
+特別な添字&ローマン，小文字&$x_\mathLeft$, $x_\mathRight$\\\hline
 集合&ボールドローマン，大文字&$\mathSet{A}$, $\mathSet{B}$, $\mathSet{C}$\\
 有名な集合&ブラックボード，大文字&$\mathSpecialSet{R}$, $\mathSpecialSet{Q}$, $\mathSpecialSet{Z}$\\
 型パラメタ&ボールドローマン，小文字&$\hsklType{a}$, $\hsklType{b}$, $\hsklType{c}$\\
 型&ボールドローマン，大文字&$\hsklInt$, $\hsklFloat$\\\hline
-関手&スラント，大文字&$\mathFunctor{F}$, $\mathFunctor{G}$, $\mathFunctor{H}$\\
+関手&イタリック，大文字&$\mathFunctor{F}$, $\mathFunctor{G}$, $\mathFunctor{H}$\\
 有名な関手&カリグラフィ，大文字&$\mathSpecialFunctor{I}$\\
-型コンストラクタ&スラント，大文字&$\hsklListConstructor$, $\hsklMaybeConstructor$\\
+型コンストラクタ&イタリック，大文字&$\hsklListConstructor$, $\hsklMaybeConstructor$\\
 型クラス&ボールドイタリック，大文字&$\hsklEq$, $\hsklIntegral$\\\hline
 キーワード&サンセリフ，小文字&$\mathIf$, $\mathOtherwise$\\
 リストの構造&サンセリフ，大文字&$\mathFirst$, $\mathRest$\\
