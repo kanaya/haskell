@@ -1,6 +1,6 @@
 \documentclass[a5paper,draft]{jsbook}
 % \usepackage{eulervm}
-\usepackage{amsmath,amssymb,ascmac,bm,multirow,lmodern}
+\usepackage{amsmath,amssymb,ascmac,bm,multirow,lmodern,okuverb}
 \makeindex
 
 \def\[{\left[\!\left[}
@@ -313,7 +313,7 @@ Top Ten Programming Languages'' という記事によると「ビッグ5」と�
 本文中に登場する\python コードは関数名や予約語に対して特別な書体を用いているが，
 コンピュータには文字通り打ち込めばそのまま使える．
 上のコードは一般的なコンピュータスクリーン上では
-\begin{verbatim}%[xleftmargin=10mm]
+\begin{verbatim}
 print("Hello, world.")
 \end{verbatim}
 と見えるであろう．
@@ -373,16 +373,16 @@ Debian系ならAPT，Red Hat系ならYumを使うのが一般的であろう．
 文献\cite{linux}を参考にしてもらいたい．
 \item[macOS] 文献\cite{osx}にHomebrewのインストール方法が書かれているので，
 Homebrewのインストールまでしておき，ターミナルで
-\begin{verbatim}%[xleftmargin=10mm]
+\begin{verbatim}
 $ brew install ghci
-\end{verbatim}%
+\end{verbatim}
 とする．（本書執筆時点でHaskell Stackという新しいパッケージングシステムが登場してきている．
 将来的にはGCH本体もHaskell Stackからインストールすることが望ましくなるだろう．
 Haskell Stackを用いたGHCのインストールはmacOSではHomebrewを用いて
-\begin{verbatim}[xleftmargin=10mm]
+\begin{verbatim}
 $ brew install haskell-stack
 $ stack install ghc
-\end{verbatim}%$
+\end{verbatim}
 とすれば良い．本書はひとまずGHCを直接インストールすることを前提に進める．）
 \item[Windows 10] GHC公式サイト\cite{haskellplatform}からパッケージをインストールする．
 \end{description}
@@ -434,11 +434,13 @@ $ stack install ghc
 \pthnId{f}(\pthnId{x})
 \end{pythontab}
 \end{pythoncode}
-と書くが，括弧は冗長なので今後は$fx$と書くことにする．
+と書くが，括弧は冗長なので今後は
+\begin{equation}
+fx
+\end{equation}
+と書くことにする．
 
-本書では\python のコード片は上述のように囲みにいれることにし，
-\python コードに現れる変数名や関数名は\pthnId{f}や\pthnId{x}のようにイタリック体で書くことにする．
-またカリー風の数式記法ではオイラー書体を使って$f$や$x$のように書くことにする．
+% 本書では\python のコード片は上述のように囲みにいれることにする．
 
 関数$f$に引数$x$を「食わせる」ことを\keyword{関数適用}と呼ぶ．
 もし$fx$と書いてあったら，それは$f$と$x$の積，つまり$f*x$ではなく，
@@ -536,7 +538,7 @@ f=\mathLambdaExpression{x}{1+x}
 \begin{equation}
 fx=1+x
 \end{equation}
-と書いても良い．\footnote{\haskell では$f=\mathLambdaExpression{x}{1+x}$を\code{f = \textbackslash x -> 1 + x}，$fx=1+x$を\code{f x = 1 + x}と書く．}
+と書いても良い．\footnote{\haskell では$f=\mathLambdaExpression{x}{1+x}$を\code{f = \textbackslash x -> 1 + x}と書き，$fx=1+x$を\code{f x = 1 + x}と書く．}
 
 関数に\keyword{スペシャルバージョン}がある場合はそれらを列挙する．
 例えば引数が$0$の場合は特別に戻り値も$0$であり，
@@ -552,9 +554,9 @@ f'x&=1+x
 \end{equation}
 ように定義する．
 これを関数の\keyword{パタンマッチ}と呼ぶ．\footnote{\haskell では
-\begin{verbatim}[xleftmargin=10mm]
-f' 0 = 0
-f' x = 1 + x
+\begin{verbatim}
+  f' 0 = 0
+  f' x = 1 + x
 \end{verbatim}
 と書く．}
 
@@ -571,10 +573,10 @@ f'x=\mathCase{x}{\left\{
 のように書く．
 ここに$\_$は任意の値の意味である．
 パタンマッチは上から順番にマッチングしていくため，この場合は$0$以外を意味する．\footnote{\haskell では
-\begin{verbatim}[xleftmargin=10mm]
-f' x = case x of
-  0 -> 0
-  _ -> 1 + x
+\begin{verbatim}
+  f' x = case x of
+    0 -> 0
+    _ -> 1 + x
 \end{verbatim}
 と書く．}
 
@@ -589,10 +591,10 @@ f''x&\mathGuard{x<0}=-1\\
 \end{split}
 \end{equation}
 という風に定義する．\footnote{\haskell では
-\begin{verbatim}[xleftmargin=10mm]
-f'' x | x < 0     = -1
-      | x == 0    = 0
-      | otherwise = 1 + x
+\begin{verbatim}
+  f'' x | x < 0     = -1
+        | x == 0    = 0
+        | otherwise = 1 + x
 \end{verbatim}
 と書く．}
 
