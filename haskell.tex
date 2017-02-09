@@ -116,23 +116,25 @@
 
 %% Special Unary Operators
 
-\DeclareMathOperator{\mathAnyUnaryOperator}{\star}
-\DeclareMathOperator{\mathInverse}{\sharp}
-\DeclareMathOperator{\mathLambda}{\backslash}
+\newcommand{\mathUnaryOperator}[1]{\operatorname{#1}}
+\newcommand{\mathAnyUnaryOperator}{\mathUnaryOperator{\star}}
+\newcommand{\mathInverse}{\mathUnaryOperator{\sharp}}
+\newcommand{\mathLambda}{\mathUnaryOperator{\backslash}}
 
 \DeclareMathOperator*{\mathFold}{\bigcup}
 \DeclareMathOperator*{\mathFoldRight}{\bigsqcup}
 
 %% Special Binary Operators
 
-\DeclareMathOperator{\mathAnyBinaryOperator}{\bigstar}
-\DeclareMathOperator{\mathAnd}{\wedge}
-\DeclareMathOperator{\mathApply}{\$}
-\DeclareMathOperator{\mathCompose}{\bullet}
-\DeclareMathOperator{\mathFrom}{\in}
-\DeclareMathOperator{\mathIn}{:\!:}
-\DeclareMathOperator{\mathOr}{\vee}
-\DeclareMathOperator{\mathSetTimes}{\circledast}
+\newcommand{\mathBinaryOperator}[1]{\operatorname{#1}}
+\newcommand{\mathAnyBinaryOperator}{\mathBinaryOperator{\bigstar}}
+\newcommand{\mathAnd}{\mathBinaryOperator{\wedge}}
+\newcommand{\mathApply}{\mathBinaryOperator{\$}}
+\newcommand{\mathCompose}{\mathBinaryOperator{\bullet}}
+\newcommand{\mathFrom}{\mathBinaryOperator{\in}}
+\newcommand{\mathIn}{\mathBinaryOperator{:\!:}}
+\newcommand{\mathOr}{\mathBinaryOperator{\vee}}
+\newcommand{\mathSetTimes}{\mathBinaryOperator{\circledast}}
 
 %% Special Arrow Operators
 
