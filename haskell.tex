@@ -211,7 +211,7 @@
 \author{金谷一朗}
 
 \begin{document}
-% \setlength{\baselineskip}{17pt}
+\setlength{\baselineskip}{17pt}
 \maketitle
 \tableofcontents
 
@@ -251,24 +251,24 @@ Maybe変数&名前にチルダをつける&$\hsklMaybe{x}$\\
 \end{center}
 \end{table*}
 
-\begin{table*}
-\caption{\python コード内の凡例}
-\begin{center}
-\begin{tabular}{||c|c|c||}
-\hline
-種類&字体・表記法&例\\
-\hline
-定数&イタリック，大文字&\pthnId{True}, \pthnId{False}, \pthnId{None}\\
-変数&イタリック，小文字&\pthnId{x}, \pthnId{y}, \pthnId{z}\\
-関数&イタリック，小文字&\pthnId{f}, \pthnId{g}, \pthnId{h}\\
-クラス名&ローマン，大文字&Possibly\\
-キーワード&ボールドローマン，小文字&\pthnKeyword{def}, \pthnKeyword{return}\\
-演算子&タイプライタ&\pthnOp{=}, \pthnOp{+}, \pthnOp{*}\\
-文字列リテラル&タイプライタ&\pthnString{"Hello, world."}\\
-\hline
-\end{tabular}
-\end{center}
-\end{table*}
+% \begin{table*}
+% \caption{\python コード内の凡例}
+% \begin{center}
+% \begin{tabular}{||c|c|c||}
+% \hline
+% 種類&字体・表記法&例\\
+% \hline
+% 定数&イタリック，大文字&\pthnId{True}, \pthnId{False}, \pthnId{None}\\
+% 変数&イタリック，小文字&\pthnId{x}, \pthnId{y}, \pthnId{z}\\
+% 関数&イタリック，小文字&\pthnId{f}, \pthnId{g}, \pthnId{h}\\
+% クラス名&ローマン，大文字&Possibly\\
+% キーワード&ボールドローマン，小文字&\pthnKeyword{def}, \pthnKeyword{return}\\
+% 演算子&タイプライタ&\pthnOp{=}, \pthnOp{+}, \pthnOp{*}\\
+% 文字列リテラル&タイプライタ&\pthnString{"Hello, world."}\\
+% \hline
+% \end{tabular}
+% \end{center}
+% \end{table*}
 
 \part{代数的構造とプログラミング}
 
@@ -306,17 +306,17 @@ Top Ten Programming Languages'' という記事によると「ビッグ5」と�
 
 本書では\python コードはこのように登場する．
 \begin{pythoncode}
-\begin{pythontab}
-\pthnId{print}(\pthnString{"Hello, world."})
-\end{pythontab}
-\end{pythoncode}
-本文中に登場する\python コードは関数名や予約語に対して特別な書体を用いているが，
-コンピュータには文字通り打ち込めばそのまま使える．
-上のコードは一般的なコンピュータスクリーン上では
 \begin{verbatim}
-print("Hello, world.")
+print "Hello, world."
 \end{verbatim}
-と見えるであろう．
+\end{pythoncode}
+% 本文中に登場する\python コードは関数名や予約語に対して特別な書体を用いているが，
+% コンピュータには文字通り打ち込めばそのまま使える．
+% 上のコードは一般的なコンピュータスクリーン上では
+% \begin{verbatim}
+% print("Hello, world.")
+% \end{verbatim}
+% と見えるであろう．
 
 ところで，一部の章でどうしても型に触れないといけない部分がある．
 \python は動的型付け言語であり，型の説明には不適切であるため，
@@ -430,9 +430,12 @@ $ stack install ghc
 まずは\keyword{関数}から見ていくことにしよう．
 \python や一般的な数学書では引数$x$をとる関数$f$を
 \begin{pythoncode}
-\begin{pythontab}
-\pthnId{f}(\pthnId{x})
-\end{pythontab}
+% \begin{pythontab}
+% \pthnId{f}(\pthnId{x})
+% \end{pythontab}
+\begin{verbatim}
+f(x)
+\end{verbatim}
 \end{pythoncode}
 と書くが，括弧は冗長なので今後は
 \begin{equation}
@@ -450,9 +453,12 @@ fx
 
 複数引数をとる関数を\python では
 \begin{pythoncode}
-\begin{pythontab}
-\pthnId{g}(\pthnId{x}, \pthnId{y})
-\end{pythontab}
+% \begin{pythontab}
+% \pthnId{g}(\pthnId{x}, \pthnId{y})
+% \end{pythontab}
+\begin{verbatim}
+g(x, y)
+\end{verbatim}
 \end{pythoncode}
 と書くが，これも括弧が冗長なので今後は$gxy$と書く．
 この場合式$gxy$は左を優先して結合する．つまり
@@ -468,9 +474,12 @@ gxy=\left(gx\right)y
 
 引数$x$をとり値$1+x$を返す\keyword{ラムダ式}を\python では
 \begin{pythoncode}
-\begin{pythontab}
-\pthnKeyword{lambda} \pthnId{x}: $1$ \pthnOp{+} \pthnId{x}
-\end{pythontab}
+% \begin{pythontab}
+% \pthnKeyword{lambda} \pthnId{x}: $1$ \pthnOp{+} \pthnId{x}
+% \end{pythontab}
+\begin{verbatim}
+lambda x: 1 + x
+\end{verbatim}
 \end{pythoncode}
 と書くが，我々はより簡潔に
 \begin{equation*}
@@ -515,18 +524,25 @@ gxy=\left(gx\right)y
 
 関数$f$を$fx=1+x$としたいときに，\python では
 \begin{pythoncode}
-\begin{pythontab}
-\pthnKeyword{def} \pthnId{f}(\pthnId{x}):\\
-\>\pthnKeyword{return} $1$ \pthnOp{+} \pthnId{x}
-\end{pythontab}
+% \begin{pythontab}
+% \pthnKeyword{def} \pthnId{f}(\pthnId{x}):\\
+% \>\pthnKeyword{return} $1$ \pthnOp{+} \pthnId{x}
+% \end{pythontab}
+\begin{verbatim}
+def f(x):
+  return 1 + x
+\end{verbatim}
 \end{pythoncode}
 と書くことが普通である．
 これは，ある値をとってある値を返す関数の記述方法としてはいささかオーバーキルである．
 事実，ラムダ式を用いた
 \begin{pythoncode}
-\begin{pythontab}
-\pthnId{f} \pthnOp{=} \pthnKeyword{lambda} \pthnId{x}: $1$ \pthnOp{+} \pthnId{x}
-\end{pythontab}
+% \begin{pythontab}
+% \pthnId{f} \pthnOp{=} \pthnKeyword{lambda} \pthnId{x}: $1$ \pthnOp{+} \pthnId{x}
+% \end{pythontab}
+\begin{verbatim}
+f = lambda x: 1 + x
+\end{verbatim}
 \end{pythoncode}
 も全く同じ意味になるので，ラムダ式を使う方法を基本に据えよう．
 
@@ -681,16 +697,23 @@ $x+y$のプラス記号$(+)$は2個の変数の間に置いてその両者$\left
 
 ある変数に複数の関数を順に適用することはよくあることである．例えば
 \begin{pythoncode}
-\begin{pythontab}
-$y=g\left(x\right)$\\
-$z=f\left(y\right)$
-\end{pythontab}
+% \begin{pythontab}
+% $y=g\left(x\right)$\\
+% $z=f\left(y\right)$
+% \end{pythontab}
+\begin{verbatim}
+y = g(x)
+z = f(y)
+\end{verbatim}
 \end{pythoncode}
 あるいは，同じことであるが
 \begin{pythoncode}
-\begin{pythontab}
-$z=f(g(x))$
-\end{pythontab}
+% \begin{pythontab}
+% $z=f(g(x))$
+% \end{pythontab}
+\begin{verbatim}
+z = f(g(x))
+\end{verbatim}
 \end{pythoncode}
 とすることがある．
 
@@ -720,13 +743,20 @@ f\mathApply gx=f\left(gx\right)
 関数のスペシャルバージョン，場合分けを駆使すれば\keyword{条件式}はなくても構わないが，
 条件式の記法があるのは便利である．\python には
 \begin{pythoncode}
-\begin{pythontab}
-\pthnKeyword{def} \pthnId{f}(\pthnId{x}):\\
-\>\pthnKeyword{if} \pthnId{x} \pthnOp{==} $0$:\\
-\>\>\pthnKeyword{return} $0$\\
-\>\pthnKeyword{else}:\\
-\>\>\pthnKeyword{return} $1$ \pthnOp{+} \pthnId{x}
-\end{pythontab}
+% \begin{pythontab}
+% \pthnKeyword{def} \pthnId{f}(\pthnId{x}):\\
+% \>\pthnKeyword{if} \pthnId{x} \pthnOp{==} $0$:\\
+% \>\>\pthnKeyword{return} $0$\\
+% \>\pthnKeyword{else}:\\
+% \>\>\pthnKeyword{return} $1$ \pthnOp{+} \pthnId{x}
+% \end{pythontab}
+\begin{verbatim}
+def f(x):
+  if x == 0:
+    return 0
+  else:
+    return 1 + x
+\end{verbatim}
 \end{pythoncode}
 のような\keyword{制御構造}としての条件文があるが，我々は値を持つ条件式を考える．
 
@@ -1075,13 +1105,18 @@ $\hsklFloat$
 
 同じ型の値を一列に並べたもの，つまりホモジニアスな配列のことを\keyword{リスト}と呼ぶ．\python ではリスト\pthnId{t}を
 \begin{pythoncode}
-\begin{pythontab}
-\pthnId{t} \pthnOp{=} [$0$, $1$, $2$, $3$, $4$, $5$, $6$, $7$, $8$, $9$]
-\end{pythontab}
+% \begin{pythontab}
+% \pthnId{t} \pthnOp{=} [$0$, $1$, $2$, $3$, $4$, $5$, $6$, $7$, $8$, $9$]
+% \end{pythontab}
+\begin{verbatim}
+t = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+\end{verbatim}
 \end{pythoncode}
 のように定義できる．
 
-我々も\python のように，例えば$0$から始まり$9$まで続く整数のリストを$[0,1,2,3,4,5,6,7,8,9]$と書くことにしよう．ただし，これでは冗長なので，等差数列に限って，簡略化した書き方を許す．例えば$0$から$9$までのリストは$[0,1\dots9]$と書いても良い．\footnote{\haskell では\code{l = [0,1..9]}と書く．ピリオドの数に注意しよう．}
+我々も\python のように，例えば$0$から始まり$9$まで続く整数のリストを$[0,1,2,3,4,5,6,7,8,9]$と書くことにしよう．
+ただし，これでは冗長なので，等差数列に限って，簡略化した書き方を許す．
+例えば$0$から$9$までのリストは$[0,1\dots9]$と書いても良い．\footnote{\haskell では\code{t = [0,1..9]}と書く．ピリオドの数に注意しよう．}
 
 リストの中身の一つ一つの値のことを\keyword{要素}と呼ぶ．要素のことは元と呼んでも良いが，本書では要素と呼ぶことにする．要素も元も英語のelementの和訳である．
 
@@ -1095,9 +1130,12 @@ $\hsklFloat$
 
 \python ではリスト内包表記が使える．例えば$0$から$9$までの倍数のリストは次のように作った．
 \begin{pythoncode}
-\begin{pythontab}
-\pthnId{t} \pthnOp{=} [\pthnId{x} \pthnOp{*} $2$ \pthnKeyword{for} \pthnId{x} \pthnKeyword{in} \pthnId{range}($0$, $10$)]
-\end{pythontab}
+% \begin{pythontab}
+% \pthnId{t} \pthnOp{=} [\pthnId{x} \pthnOp{*} $2$ \pthnKeyword{for} \pthnId{x} \pthnKeyword{in} \pthnId{range}($0$, $10$)]
+% \end{pythontab}
+\begin{verbatim}
+t = [x * 2 for x in range(0, 10)]
+\end{verbatim}
 \end{pythoncode}
 ここに\pthnId{range}(\pthnId{a}, \pthnId{b})は\pthnId{a}から増加する方向に連続する\pthnId{b}個の整数からなるリストを返す\python の関数である．
 
@@ -1113,12 +1151,16 @@ $\hsklFloat$
 \end{equation}
 は$0\le x\le9$かつ$0\le y\le5$の範囲で$x+y>3$となる$x$及び$y$から$x+y$を並べたリストである．これは\python でいう
 \begin{pythoncode}
-\begin{pythontab}
-\pthnId{t} \pthnOp{=} [\pthnId{x} \pthnOp{+} \pthnId{y} \pthnNextLine\\
-\>\pthnKeyword{for} \pthnId{x} \pthnKeyword{in} \pthnId{range}($0$, $10$) \pthnNextLine\\
-\>\>\pthnKeyword{for} \pthnId{y} \pthnKeyword{in} \pthnId{range}($0$, $6$) \pthnNextLine\\
-\>\>\>\pthnKeyword{if} \pthnId{x} \pthnOp{+} \pthnId{y} \pthnOp{>} $3$]
-\end{pythontab}
+% \begin{pythontab}
+% \pthnId{t} \pthnOp{=} [\pthnId{x} \pthnOp{+} \pthnId{y} \pthnNextLine\\
+% \>\pthnKeyword{for} \pthnId{x} \pthnKeyword{in} \pthnId{range}($0$, $10$) \pthnNextLine\\
+% \>\>\pthnKeyword{for} \pthnId{y} \pthnKeyword{in} \pthnId{range}($0$, $6$) \pthnNextLine\\
+% \>\>\>\pthnKeyword{if} \pthnId{x} \pthnOp{+} \pthnId{y} \pthnOp{>} $3$]
+% \end{pythontab}
+\begin{verbatim}
+t = [x + y for x in range(0, 10) for y in range(0, 6) \
+  if x + y > 3]
+\end{verbatim}
 \end{pythoncode}
 のことである．\footnote{\haskell では\code{t = [x + y | x <- [0, 1..9], y <- [0, 1..5], x + y > 3]}と書く．}
 
@@ -1170,11 +1212,16 @@ $\hsklType{a}$型の変数$x$を入れた$\hsklListType{\hsklType{a}}$型の変�
 
 \python\ 2.7 には畳み込み演算子に相当する\pthnId{reduce}関数があり，リスト\pthnId{t}の総和\pthnId{s}を
 \begin{pythoncode}
-\begin{pythontab}
-\texttt{\# \python\  2.7}\\
-\pthnId{t} \pthnOp{=} [$0$, $1$, $2$, $3$, $4$, $5$]\\
-\pthnId{s} \pthnOp{=} \pthnId{reduce}(\pthnKeyword{lambda} \pthnId{x}, \pthnId{y}: \pthnId{x} \pthnOp{+} \pthnId{y}, \pthnId{t}, $0$)
-\end{pythontab}
+% \begin{pythontab}
+% \texttt{\# \python\  2.7}\\
+% \pthnId{t} \pthnOp{=} [$0$, $1$, $2$, $3$, $4$, $5$]\\
+% \pthnId{s} \pthnOp{=} \pthnId{reduce}(\pthnKeyword{lambda} \pthnId{x}, \pthnId{y}: \pthnId{x} \pthnOp{+} \pthnId{y}, \pthnId{t}, $0$)
+% \end{pythontab}
+\begin{verbatim}
+# Python 2.7
+t = [0, 1, 2, 3, 4, 5]
+s = reduce(lambda x, y: x + y, t, 0)
+\end{verbatim}
 \end{pythoncode}
 のように求めることができる．この\pthnId{reduce}関数は\python バージョン3では非推奨になっているが，Rubyには受け継がれていて，Rubyでは
 \begin{rubycode}
@@ -1225,9 +1272,12 @@ s = t.inject(0) { |x, y| x + y }
 
 リストの各要素に決まった関数を適用したい場合がある．\python ではリスト\pthnId{t}に関数\pthnId{f}を適用するときには
 \begin{pythoncode}
-\begin{pythontab}
-\pthnId{map}(\pthnId{f}, \pthnId{t})
-\end{pythontab}
+% \begin{pythontab}
+% \pthnId{map}(\pthnId{f}, \pthnId{t})
+% \end{pythontab}
+\begin{verbatim}
+map(f, t)
+\end{verbatim}
 \end{pythoncode}
 のように\pthnId{map}関数を用いる．
 
@@ -1380,58 +1430,86 @@ x*\mathFactorial(x-1)&\mathOtherwise
 
 大域ジャンプも，グローバル変数の書き換えも破壊的代入を伴うものであり，受け入れがたい．そこで我々は第3のエラー状態を示す印をつける方法を採用することにする．普通変数が整数だろうが実数だろうが，計算機表現には余分なビットが残っていないので，次のようなクラス\pthnClassname{Possibly}を導入することにしよう．メンバ変数\pthnId{value}が値を，メンバ変数\pthnId{valid}がエラーの有無を表す．
 \begin{pythoncode}
-\begin{pythontab}
-\pthnKeyword{class} \pthnClassname{Possibly}:\\
-\>\pthnKeyword{def} \pthnId{\_\_init\_\_}(\pthnKeyword{self}, \pthnId{a\_valid}, \pthnId{a\_value} \pthnOp{=} $0$):\\
-\>\>\pthnKeyword{self}.\pthnId{valid} \pthnOp{=} \pthnId{a\_valid}\\
-\>\>\pthnKeyword{self}.\pthnId{value} \pthnOp{=} \pthnId{a\_value}
-\end{pythontab}
+% \begin{pythontab}
+% \pthnKeyword{class} \pthnClassname{Possibly}:\\
+% \>\pthnKeyword{def} \pthnId{\_\_init\_\_}(\pthnKeyword{self}, \pthnId{a\_valid}, \pthnId{a\_value} \pthnOp{=} $0$):\\
+% \>\>\pthnKeyword{self}.\pthnId{valid} \pthnOp{=} \pthnId{a\_valid}\\
+% \>\>\pthnKeyword{self}.\pthnId{value} \pthnOp{=} \pthnId{a\_value}
+% \end{pythontab}
+\begin{verbatim}
+class Possibly:
+  def __init__(self, a_valid, a_value = 0):
+    self.valid = a_valid
+    self.value = a_value
+\end{verbatim}
 \end{pythoncode}
 
 例えば整数値$123$を持つPossibly値\pthnId{m}は
 \begin{pythoncode}
-\begin{pythontab}
-\pthnId{m} \pthnOp{=} \pthnClassname{Possibly}(\pthnId{True}, 123)
-\end{pythontab}
+% \begin{pythontab}
+% \pthnId{m} \pthnOp{=} \pthnClassname{Possibly}(\pthnId{True}, 123)
+% \end{pythontab}
+\begin{verbatim}
+m = Possibly(True, 123)
+\end{verbatim}
 \end{pythoncode}
 として生成できるし，\pthnClassname{Possibly}値\pthnId{m}が計算エラーを表す場合は
 \begin{pythoncode}
-\begin{pythontab}
-\pthnId{m} \pthnOp{=} \pthnClassname{Possibly}(\pthnId{False})
-\end{pythontab}
+% \begin{pythontab}
+% \pthnId{m} \pthnOp{=} \pthnClassname{Possibly}(\pthnId{False})
+% \end{pythontab}
+\begin{verbatim}
+m = Possibly(False)
+\end{verbatim}
 \end{pythoncode}
 と初期化できる．
 
 ここで，引数を$100$倍にして返す関数\pthnId{f}があるとしよう．関数\pthnId{f}の定義は次の通りである．
 \begin{pythoncode}
-\begin{pythontab}
-\pthnId{f} \pthnOp{=} \pthnKeyword{lambda} \pthnId{x}: $100$ \pthnOp{*} \pthnId{x}
-\end{pythontab}
+% \begin{pythontab}
+% \pthnId{f} \pthnOp{=} \pthnKeyword{lambda} \pthnId{x}: $100$ \pthnOp{*} \pthnId{x}
+% \end{pythontab}
+\begin{verbatim}
+f = lambda x: 100 * x
+\end{verbatim}
 \end{pythoncode}
 
 関数\pthnId{f}に直接\pthnClassname{Possibly}値\pthnId{m}を食わせるとランタイムエラーを引き起こす．
 \begin{pythoncode}
-\begin{pythontab}
-\pthnId{n} \pthnOp{=} \pthnId{f}(\pthnId{m}) \texttt{\#} エラー!!
-\end{pythontab}
+% \begin{pythontab}
+% \pthnId{n} \pthnOp{=} \pthnId{f}(\pthnId{m}) \texttt{\#} エラー!!
+% \end{pythontab}
+\begin{verbatim}
+m = f(m) # エラー!!
+\end{verbatim}
 \end{pythoncode}
 これは関数\pthnId{f}が引数として数値を期待していたにもかかわらず，\pthnClassname{Possibly}値が渡されたからである．もし関数\pthnId{f}のほうをいじりたくないとすれば，次のような関数\pthnId{map\_over}を使って
 \begin{pythoncode}
-\begin{pythontab}
-\pthnId{n} \pthnOp{=} \pthnId{map\_over}(\pthnId{f}, \pthnId{m})
-\end{pythontab}
+% \begin{pythontab}
+% \pthnId{n} \pthnOp{=} \pthnId{map\_over}(\pthnId{f}, \pthnId{m})
+% \end{pythontab}
+\begin{verbatim}
+n = map_over(f, m)
+\end{verbatim}
 \end{pythoncode}
 というふうに間接的に関数適用を行う必要がある．
 
 関数\pthnId{map\_over}(\pthnId{f}, \pthnId{m})はもし\pthnId{m}がエラーを表す値でなければ中身の値を関数\pthnId{f}に適用し，その結果を\pthnClassname{Possibly}クラスに包んで返す．もし\pthnId{m}がエラー値を表す値であれば，結果もエラー値である．関数\pthnId{map\_over}の実装は次のようになる．
 \begin{pythoncode}
-\begin{pythontab}
-\pthnKeyword{def} \pthnId{map\_over}(\pthnId{f}, \pthnId{m}):\\
-\>\pthnKeyword{if} \pthnId{m}.\pthnId{valid} \pthnOp{==} \pthnId{True}:\\
-\>\>\pthnKeyword{return} \pthnClassname{Possibly}(\pthnId{True}, \pthnId{f}(\pthnId{m}.\pthnId{value}))\\
-\>\pthnKeyword{else}:\\
-\>\>\pthnKeyword{return} \pthnClassname{Possibly}(\pthnId{False})
-\end{pythontab}
+% \begin{pythontab}
+% \pthnKeyword{def} \pthnId{map\_over}(\pthnId{f}, \pthnId{m}):\\
+% \>\pthnKeyword{if} \pthnId{m}.\pthnId{valid} \pthnOp{==} \pthnId{True}:\\
+% \>\>\pthnKeyword{return} \pthnClassname{Possibly}(\pthnId{True}, \pthnId{f}(\pthnId{m}.\pthnId{value}))\\
+% \>\pthnKeyword{else}:\\
+% \>\>\pthnKeyword{return} \pthnClassname{Possibly}(\pthnId{False})
+% \end{pythontab}
+\begin{verbatim}
+def map_over(f, m):
+  if m.valid == True:
+    return Possibly(True, f(m.value))
+  else:
+    return Possibly(False)
+\end{verbatim}
 \end{pythoncode}
 
 さて，次節では以上のようなことを抽象数学的に綺麗に描いてみよう．
@@ -1475,19 +1553,31 @@ f\hsklMaybeMap\hsklNothing&=\hsklNothing
 
 Maybeは次の\pthnClassname{maybe}クラステンプレートで表現できる．（Javaプログラマへの注意：これは\pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$クラスの定義と同じ意味である．）
 \begin{cxxcode}
-\begin{pythontab}
-\pthnKeyword{template} $\langle$\pthnKeyword{typename} \pthnClassname{a}$\rangle$ \pthnKeyword{class} \pthnClassname{maybe} \{\\
-\pthnKeyword{private}:\\
-\>\pthnClassname{a} \pthnId{value};\\
-\>\pthnKeyword{bool} \pthnId{valid};\\
-\pthnKeyword{public}:\\
-\>\pthnClassname{maybe}(): \pthnId{value}($0$), \pthnId{valid}(\pthnId{false}) \{ \}\\
-\>\pthnClassname{maybe}(\pthnClassname{a} \pthnId{a\_value}):\\
-\>\>\pthnId{value}(\pthnId{a\_value}), \pthnId{valid}(\pthnId{true}) \{ \}\\
-\>\pthnClassname{a} \pthnId{get\_value}() \pthnKeyword{const} \{ \pthnKeyword{return} \pthnId{value}; \}\\
-\>\pthnKeyword{bool} \pthnId{is\_valid}() \pthnKeyword{const} \{ \pthnKeyword{return} \pthnId{valid}; \}\\
-\};
-\end{pythontab}
+% \begin{pythontab}
+% \pthnKeyword{template} $\langle$\pthnKeyword{typename} \pthnClassname{a}$\rangle$ \pthnKeyword{class} \pthnClassname{maybe} \{\\
+% \pthnKeyword{private}:\\
+% \>\pthnClassname{a} \pthnId{value};\\
+% \>\pthnKeyword{bool} \pthnId{valid};\\
+% \pthnKeyword{public}:\\
+% \>\pthnClassname{maybe}(): \pthnId{value}($0$), \pthnId{valid}(\pthnId{false}) \{ \}\\
+% \>\pthnClassname{maybe}(\pthnClassname{a} \pthnId{a\_value}):\\
+% \>\>\pthnId{value}(\pthnId{a\_value}), \pthnId{valid}(\pthnId{true}) \{ \}\\
+% \>\pthnClassname{a} \pthnId{get\_value}() \pthnKeyword{const} \{ \pthnKeyword{return} \pthnId{value}; \}\\
+% \>\pthnKeyword{bool} \pthnId{is\_valid}() \pthnKeyword{const} \{ \pthnKeyword{return} \pthnId{valid}; \}\\
+% \};
+% \end{pythontab}
+\begin{verbatim}
+template <typename a> class maybe {
+  private:
+    a value;
+    bool valid;
+  public:
+    maybe(): value(0), valid(false) { }
+    maybe(a a_value): value(a_value), valid(true) { }
+    a get_value() const { return value; }
+    bool is_valid() const { return valid; }
+}
+\end{verbatim}
 \end{cxxcode}
 デフォルトコンストラクタは例外的な状況を表す$\hsklNothing$を生成し，1引数コンストラクタは\pthnClassname{maybe}で包んだ引数値を生成する．
 
@@ -1495,15 +1585,26 @@ Maybeは次の\pthnClassname{maybe}クラステンプレートで表現できる
 
 当然我々にはMaybeバージョンのマップ演算子が必要である．ここでは関数\pthnId{map\_over}として書いてみよう．（Javaプログラマへの注意：関数\pthnId{map\_over}はどのクラスにも属していないが，それで正解なのである．）
 \begin{cxxcode}
-\begin{pythontab}
-\pthnKeyword{template} $\langle$\pthnKeyword{typename} \pthnClassname{a}, \pthnKeyword{typename} \pthnClassname{fn}$\rangle$\\
-\pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$ \pthnId{map\_over}(\pthnClassname{fn} \pthnId{f}, \pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$ \pthnId{m}) \{\\
-\>\pthnKeyword{if} (\pthnId{m}.\pthnId{is\_valid}())\\
-\>\>\pthnKeyword{return} \pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$(\pthnId{f}(\pthnId{m}.\pthnId{get\_value}()));\\
-\>\pthnKeyword{else}\\
-\>\>\pthnKeyword{return} \pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$();\\
-\}
-\end{pythontab}
+% \begin{pythontab}
+% \pthnKeyword{template} $\langle$\pthnKeyword{typename} \pthnClassname{a}, \pthnKeyword{typename} \pthnClassname{fn}$\rangle$\\
+% \pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$ \pthnId{map\_over}(\pthnClassname{fn} \pthnId{f}, \pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$ \pthnId{m}) \{\\
+% \>\pthnKeyword{if} (\pthnId{m}.\pthnId{is\_valid}())\\
+% \>\>\pthnKeyword{return} \pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$(\pthnId{f}(\pthnId{m}.\pthnId{get\_value}()));\\
+% \>\pthnKeyword{else}\\
+% \>\>\pthnKeyword{return} \pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$();\\
+% \}
+% \end{pythontab}
+\begin{verbatim}
+template <typename a, typename fn>
+maybe<a> map_over(fn f, maybe<a> m) {
+  if (m.is_valid()) {
+    return maybe<a>(f(m.get_value()));
+  }
+  else {
+    return maybe<a>();
+  }
+}
+\end{verbatim}
 \end{cxxcode}
 テンプレートの2番目の引数\pthnClassname{fn}は関数\pthnId{f}を受け取るために必要である．\cxx はコンパイル時までにすべての変数の型が決定していないといけないが，関数\pthnId{f}の型は関数\pthnId{map\_over}設計時には確定できないため，このようにテンプレートにしている．
 % （\cxx03プログラマへの注意：関数\pthnId{f}には関数オブジェクトを渡しても良い．）
@@ -1511,12 +1612,18 @@ Maybeは次の\pthnClassname{maybe}クラステンプレートで表現できる
 
 整数$z$からMaybe値$\hsklMaybe{m}=\hsklJust{z}$を作り，関数$fx=x*100$をMaybe値$\hsklMaybe{m}$に食わせてMaybe値$\hsklMaybe{n}$ただし$$\hsklMaybe{n}=f\hsklMaybeMap\hsklMaybe{m}$$を得ることを，\cxx では次のように書くことになる．
 \begin{cxxcode}
-\begin{pythontab}
-\pthnKeyword{int} \pthnId{z} \pthnOp{=} $123$;\\
-\pthnClassname{maybe}$\langle$\pthnKeyword{int}$\rangle$ \pthnId{m}(\pthnId{z});\\
-\pthnKeyword{auto} \pthnId{f} \pthnOp{=} \pthnOp{[]}(\pthnKeyword{int} \pthnId{x}) $\rightarrow$ \pthnKeyword{int} \{ \pthnKeyword{return} \pthnId{x} \pthnOp{*} $100$; \};\\
-\pthnClassname{maybe}$\langle$\pthnKeyword{int}$\rangle$ \pthnId{n} \pthnOp{=} \pthnId{map\_over}(\pthnId{f}, \pthnId{m});
-\end{pythontab}
+% \begin{pythontab}
+% \pthnKeyword{int} \pthnId{z} \pthnOp{=} $123$;\\
+% \pthnClassname{maybe}$\langle$\pthnKeyword{int}$\rangle$ \pthnId{m}(\pthnId{z});\\
+% \pthnKeyword{auto} \pthnId{f} \pthnOp{=} \pthnOp{[]}(\pthnKeyword{int} \pthnId{x}) $\rightarrow$ \pthnKeyword{int} \{ \pthnKeyword{return} \pthnId{x} \pthnOp{*} $100$; \};\\
+% \pthnClassname{maybe}$\langle$\pthnKeyword{int}$\rangle$ \pthnId{n} \pthnOp{=} \pthnId{map\_over}(\pthnId{f}, \pthnId{m});
+% \end{pythontab}
+\begin{verbatim}
+int z = 123;
+maybe<int> m(z);
+auto f = [](int x) -> int { return x * 100; };
+maybe<int> n = map_over(f, m);
+\end{verbatim}
 \end{cxxcode}
 注意してほしいのは\pthnId{f}(\pthnId{z})も\pthnId{map\_over}(\pthnId{f}, \pthnId{m})も正当なコードだが\pthnId{f}(\pthnId{m})は型エラーであることだ．また\pthnId{f}(\pthnId{m}.\pthnId{get\_value}())は正当なコードだが，わざわざ\pthnId{m}が持つ文脈を捨てることになる．（\cxx プログラマへの注意：$\pthnKeyword{int}$型の使用は現在では非推奨である．本書ではコードの読みやすさのためにあえて$\pthnKeyword{int}$を使用している．）
 
@@ -1528,43 +1635,74 @@ Maybeは次の\pthnClassname{maybe}クラステンプレートで表現できる
 
 リストバージョンのマップ演算子($\hsklMap$)をもし\cxx で書くとしたら，次のようなコードになる．ここでリスト型として\cxx の標準テンプレートライブラリ(STL)の\pthnClassname{list}クラスを流用した．
 \begin{cxxcode}
-\begin{pythontab}
-\pthnKeyword{template} $\langle$\pthnKeyword{typename} \pthnClassname{a}, \pthnKeyword{typename} \pthnClassname{fn}$\rangle$\\
-\pthnId{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$ \pthnId{map\_over}(\pthnClassname{fn} \pthnId{f}, \pthnId{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$ \pthnId{t}) \{\\
-\>\pthnId{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$ \pthnId{r}(\pthnId{t}.\pthnId{size}());\\
-% \>\pthnKeyword{typename} \pthnId{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$::\pthnClassname{const\_iterator}\\
-% \>\>\pthnId{i} \pthnOp{=} \pthnId{l}.\pthnId{cbegin}();\\
-% \>\pthnKeyword{typename} \pthnId{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$::\pthnClassname{iterator} \pthnId{j} \pthnOp{=} \pthnId{r}.\pthnId{begin}();\\
-\>\pthnKeyword{auto} \pthnId{i} \pthnOp{=} \pthnId{t}.\pthnId{cbegin}();\\
-\>\pthnKeyword{auto} \pthnId{j} \pthnOp{=} \pthnId{r}.\pthnId{begin}();\\
-\>\pthnKeyword{while} (\pthnId{i} \pthnOp{!=} \pthnId{l}.\pthnId{cend}())\\
-\>\>\pthnOp{*}\pthnId{j}\pthnOp{++} \pthnOp{=} \pthnId{f}(\pthnOp{*}\pthnId{i}\pthnOp{++});\\
-\>\pthnKeyword{return} \pthnId{r};\\
-\}
-\end{pythontab}
+% \begin{pythontab}
+% \pthnKeyword{template} $\langle$\pthnKeyword{typename} \pthnClassname{a}, \pthnKeyword{typename} \pthnClassname{fn}$\rangle$\\
+% \pthnId{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$ \pthnId{map\_over}(\pthnClassname{fn} \pthnId{f}, \pthnId{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$ \pthnId{t}) \{\\
+% \>\pthnId{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$ \pthnId{r}(\pthnId{t}.\pthnId{size}());\\
+% % \>\pthnKeyword{typename} \pthnId{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$::\pthnClassname{const\_iterator}\\
+% % \>\>\pthnId{i} \pthnOp{=} \pthnId{l}.\pthnId{cbegin}();\\
+% % \>\pthnKeyword{typename} \pthnId{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$::\pthnClassname{iterator} \pthnId{j} \pthnOp{=} \pthnId{r}.\pthnId{begin}();\\
+% \>\pthnKeyword{auto} \pthnId{i} \pthnOp{=} \pthnId{t}.\pthnId{cbegin}();\\
+% \>\pthnKeyword{auto} \pthnId{j} \pthnOp{=} \pthnId{r}.\pthnId{begin}();\\
+% \>\pthnKeyword{while} (\pthnId{i} \pthnOp{!=} \pthnId{l}.\pthnId{cend}())\\
+% \>\>\pthnOp{*}\pthnId{j}\pthnOp{++} \pthnOp{=} \pthnId{f}(\pthnOp{*}\pthnId{i}\pthnOp{++});\\
+% \>\pthnKeyword{return} \pthnId{r};\\
+% \}
+% \end{pythontab}
+\begin{verbatim}
+template <typename a, typename fn>
+std::list<a> map_over(fn f, std::list<a> t) {
+  std::list<a> r(t.size());
+  auto i = t.cbegin();
+  auto j = r.begin();
+  while (i != l.cend()) {
+    *j++ = f(*i++);
+  }
+  return r;
+}
+\end{verbatim}
 \end{cxxcode}
 この関数\pthnId{map\_over}の中身部分はどうでもよろしい．それよりも，リストバージョンのマップ演算子の\cxx 関数のインタフェースと，Maybeバージョンのマップ演算子の\cxx 関数のインタフェースを見比べてみよう．
 \begin{cxxcode}
-\begin{pythontab}
-\verb|//| List\\
-\pthnKeyword{template} $\langle$\pthnKeyword{typename} \pthnClassname{a}, \pthnKeyword{typename} \pthnClassname{fn}$\rangle$\\
-\pthnId{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$ \pthnId{map\_over}(\pthnClassname{fn} \pthnId{f}, \pthnId{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$ \pthnId{t});\\
-\verb|//| Maybe\\
-\pthnKeyword{template} $\langle$\pthnKeyword{typename} \pthnClassname{a}, \pthnKeyword{typename} \pthnClassname{fn}$\rangle$\\
-\pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$ \pthnId{map\_over}(\pthnClassname{fn} \pthnId{f}, \pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$ \pthnId{m});
-\end{pythontab}
+% \begin{pythontab}
+% \verb|//| List\\
+% \pthnKeyword{template} $\langle$\pthnKeyword{typename} \pthnClassname{a}, \pthnKeyword{typename} \pthnClassname{fn}$\rangle$\\
+% \pthnId{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$ \pthnId{map\_over}(\pthnClassname{fn} \pthnId{f}, \pthnId{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$ \pthnId{t});\\
+% \verb|//| Maybe\\
+% \pthnKeyword{template} $\langle$\pthnKeyword{typename} \pthnClassname{a}, \pthnKeyword{typename} \pthnClassname{fn}$\rangle$\\
+% \pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$ \pthnId{map\_over}(\pthnClassname{fn} \pthnId{f}, \pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$ \pthnId{m});
+% \end{pythontab}
+\begin{verbatim}
+// List
+template <typename a, typename fn>
+std::list<a> map_over(fn f, std::list<a> t);
+// Maybe
+template <typename a, typename fn>
+maybe<a> map_over(fn f, maybe<a> m);
+\end{verbatim}
 \end{cxxcode}
 やはりそっくりである．であるならば
 \begin{cxxcode}
-\begin{pythontab}
-\verb|//| \pthnClassname{X} \pthnOp{=} \pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$ or \pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$ \\
-\pthnKeyword{template} $\langle$\pthnKeyword{typename} \pthnClassname{X}, \pthnKeyword{typename} \pthnClassname{fn}$\rangle$\\
-\pthnClassname{X} \pthnId{map\_over}(\pthnClassname{fn} \pthnId{f}, \pthnClassname{X} \pthnId{x});
-\end{pythontab}
+% \begin{pythontab}
+% \verb|//| \pthnClassname{X} \pthnOp{=} \pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$ or \pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$ \\
+% \pthnKeyword{template} $\langle$\pthnKeyword{typename} \pthnClassname{X}, \pthnKeyword{typename} \pthnClassname{fn}$\rangle$\\
+% \pthnClassname{X} \pthnId{map\_over}(\pthnClassname{fn} \pthnId{f}, \pthnClassname{X} \pthnId{x});
+% \end{pythontab}
+\begin{verbatim}
+// X = list<a> or maybe<a>
+template <typename X, typename fn>
+X map_over(fn f, X x);
+\end{verbatim}
 \end{cxxcode}
 として，型\pthnClassname{X}に応じてリストバージョンかMaybeバージョンを切り替えられると便利である．
 
 残念ながら，\cxx で楽に進める道はここら辺までである．型\pthnClassname{X}がマップ可能なコンテナであることをテンプレート機構を使って保証することができないため，この\pthnId{map\_over}関数を誤った型に対して使った場合のコンパイル時エラーはひどく読みにくいものになる．ヒューマンエラーを防ぐための型システムが，まさに型無しになってしまうのだ．
+
+---
+
+\cxx17
+
+---
 
 一方で，数学者たちが見つけた圏という代数的構造が，リストもMaybeも統一的に扱うことを可能にしている．これを発見したのは Eugenio Moggi を始めとする計算機科学者たちである．この人類の英知は第\ref{ch:functor}章から見ていくことにしよう．
 
