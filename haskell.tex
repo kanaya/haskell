@@ -19,29 +19,29 @@
 \newcommand{\scheme}{\programminglanguage{Scheme}}
 \newcommand{\swift}{\programminglanguage{Swift}}
 
-%% Inline Codes
+%% Leaders and Key Points
 
-\newcommand{\code}[1]{\texttt{#1}}
+\newenvironment{leader}{\begingroup\bf}{\endgroup}
+\newenvironment{keypoint}{\begin{screen}}{\end{screen}}
+\newenvironment{caution}{\begin{boxnote}\begin{center}注意\end{center}}{\end{boxnote}}
 
 %% Keywords
 
 \newcommand{\keyword}[1]{{\emph{#1}}}
 
-%% Code Blocks
+%% Inline Codes (like `...` of Markdown doc)
+
+\newcommand{\code}[1]{\texttt{#1}}
+
+%% Code Blocks (like ``` ... ``` of Markdown doc)
 
 \newenvironment{cxxcode}{\begin{itembox}[r]{\cxx}}{\end{itembox}}
 \newenvironment{javacode}{\begin{itembox}[r]{\java}}{\end{itembox}}
 \newenvironment{haskellcode}{\begin{itembox}[r]{\haskell}}{\end{itembox}}
 \newenvironment{pythoncode}{\begin{itembox}[r]{\python}}{\end{itembox}}
-\newenvironment{pythontab}{\begin{tabbing}\hspace*{1em}\=\hspace*{1em}\=\hspace*{1em}\=\hspace*{1em}\=\kill}{\end{tabbing}}
 \newenvironment{rubycode}{\begin{itembox}[r]{Ruby}}{\end{itembox}}
-% \newenvironment{footnotecode}{\begin{verbatim}[xleftmargin=10mm]}{\end{verbatim}}
 
-%% Leaders and Key Points
-
-\newenvironment{leader}{\begingroup\bf}{\endgroup}
-\newenvironment{keypoint}{\begin{screen}}{\end{screen}}
-
+%% FOR BACKWARD COMPATIBILITY ONLY
 %% Python Pretty Printers
 
 \newcommand{\pthnClassname}[1]{\textrm{#1}}
@@ -50,6 +50,7 @@
 \newcommand{\pthnOp}[1]{\texttt{#1}}
 \newcommand{\pthnString}[1]{\texttt{#1}}
 
+%% FOR BACKWARD COMPATIBILITY ONLY
 %% Python Keywords
 
 \DeclareMathOperator{\pthnDef}{\pthnKeyword{def}}
@@ -60,9 +61,89 @@
 \DeclareMathOperator{\pthnLambda}{\pthnKeyword{lambda}}
 \DeclareMathOperator{\pthnReturn}{\pthnKeyword{return}}
 
-%% Python Metasymbols
+% %% Python Metasymbols
+%
+% \newcommand{\pthnNextLine}{$\blacktriangleright\blacktriangleright$}
 
-\newcommand{\pthnNextLine}{$\blacktriangleright\blacktriangleright$}
+%% Math Keywords
+
+\newcommand{\mathKeyword}[1]{\mathsf{#1}}
+\newcommand{\mathVarKeyword}[1]{\mathrm{#1}}
+
+%% Math Pretty Printers
+
+\newcommand{\mathConstant}[1]{\mathrm{#1}} % Use capital letter
+\newcommand{\mathFunctor}[1]{\mathop{#1}} % Use capital letter
+\newcommand{\mathGuard}[1]{\mathop{\mid_{#1}}}
+\newcommand{\mathSet}[1]{\mathbf{#1}} % Use capital letter
+\newcommand{\mathSpecialFunctor}[1]{\mathcal{#1}} % Use capital letter
+\newcommand{\mathSpecialSet}[1]{\mathbb{#1}} % Use capital letter
+\newcommand{\mathVector}[1]{\vec{#1}}
+
+\newcommand{\mathCase}[2]{\mathCaseCase#1\mathCaseOf#2}
+\newcommand{\mathCategoryShort}[2]{(#1,#2)}
+\newcommand{\mathLambdaExpression}[2]{\mathLambda#1\mathLambdaArrow#2}
+\newcommand{\mathLet}[2]{\mathLetLet#1\mathLetIn#2}
+\newcommand{\mathMorph}[2]{#1\mathMapsTo#2}
+
+\newcommand{\mathMonoid}[3]{(#1,#2,#3)}
+\newcommand{\mathMorphII}[3]{#1\mathMapsTo#2\mathMapsTo#3}
+\newcommand{\mathMorphIIWithParenthesis}[3]{#1\mathMapsTo(#2\mathMapsTo#3)}
+
+\newcommand{\mathCategory}[4]{(#1,#2,#3,#4)}
+\newcommand{\mathGroup}[4]{(#1,#2,#3,#4)}
+\newcommand{\mathMorphIII}[4]{#1\mathMapsTo#2\mathMapsTo#3\mathMapsTo#4}
+
+\newcommand{\mathField}[7]{(#1,#2,#3,#4,#5,#6,#7)}
+
+%% Math Special Keywords and Operators
+
+\newcommand{\mathFalse}{\mathConstant{F}}
+\newcommand{\mathFirst}{\mathKeyword{First}}
+\newcommand{\mathLambdaAnonymousParameter}{\lozenge}
+\newcommand{\mathLambdaArrow}{\rightarrow}
+\newcommand{\mathLeft}{\mathVarKeyword{left}}
+\newcommand{\mathOtherwise}{\mathKeyword{otherwise}}
+\newcommand{\mathRest}{\mathKeyword{Rest}}
+\newcommand{\mathRight}{\mathVarKeyword{right}}
+\newcommand{\mathSomething}{\square}
+\newcommand{\mathTrue}{\mathConstant{T}}
+
+\DeclareMathOperator{\mathAnyBinaryOperator}{\bigstar}
+\DeclareMathOperator{\mathAnd}{\wedge}
+\DeclareMathOperator{\mathApply}{\$}
+\DeclareMathOperator{\mathAnyUnaryOperator}{\star}
+\DeclareMathOperator{\mathCaseCase}{\mathKeyword{case}}
+\DeclareMathOperator{\mathCaseOf}{\mathKeyword{of}}
+\DeclareMathOperator{\mathCompose}{\bullet}
+\DeclareMathOperator{\mathElse}{\mathKeyword{else}}
+\DeclareMathOperator{\mathFactorial}{fact}
+\DeclareMathOperator*{\mathFold}{\bigcup}
+\DeclareMathOperator*{\mathFoldRight}{\bigsqcup}
+\DeclareMathOperator{\mathFrom}{\in}
+\DeclareMathOperator{\mathI}{i}
+\DeclareMathOperator{\mathIf}{\mathKeyword{if}}
+\DeclareMathOperator{\mathIfFunc}{if}
+\DeclareMathOperator{\mathIn}{:\!:}
+% \DeclareMathOperator{\mathInverse}{\neg}
+\DeclareMathOperator{\mathInverse}{\sharp}
+\DeclareMathOperator{\mathLambda}{\backslash}
+\DeclareMathOperator{\mathLetLet}{\mathKeyword{let}}
+\DeclareMathOperator{\mathLetIn}{\mathKeyword{in}}
+\DeclareMathOperator{\mathMapsTo}{\mapsto}
+\DeclareMathOperator{\mathMain}{main}
+\DeclareMathOperator{\mathOr}{\vee}
+\DeclareMathOperator{\mathSetTimes}{\circledast}
+\DeclareMathOperator{\mathThen}{\mathKeyword{then}}
+\DeclareMathOperator{\mathWhere}{\mathKeyword{where}}
+
+
+
+
+
+
+
+
 
 %% Haskell Pretty Printers
 
@@ -133,79 +214,6 @@
 \newcommand{\hsklMaybe}[1]{\Tilde{#1}}
 \newcommand{\hsklMaybeW}[1]{\widetilde{#1}}
 
-%% Math Keywords
-
-\newcommand{\mathKeyword}[1]{\mathsf{#1}}
-\newcommand{\mathVarKeyword}[1]{\mathrm{#1}}
-
-%% Math Operators
-
-\DeclareMathOperator{\mathAnyBinaryOperator}{\bigstar}
-\DeclareMathOperator{\mathAnd}{\wedge}
-\DeclareMathOperator{\mathApply}{\$}
-\DeclareMathOperator{\mathAnyUnaryOperator}{\star}
-\DeclareMathOperator{\mathCaseCase}{\mathKeyword{case}}
-\DeclareMathOperator{\mathCaseOf}{\mathKeyword{of}}
-\DeclareMathOperator{\mathCompose}{\bullet}
-\DeclareMathOperator{\mathElse}{\mathKeyword{else}}
-\DeclareMathOperator{\mathFactorial}{fact}
-\DeclareMathOperator*{\mathFold}{\bigcup}
-\DeclareMathOperator*{\mathFoldRight}{\bigsqcup}
-\DeclareMathOperator{\mathFrom}{\in}
-\DeclareMathOperator{\mathI}{i}
-\DeclareMathOperator{\mathIf}{\mathKeyword{if}}
-\DeclareMathOperator{\mathIfFunc}{if}
-\DeclareMathOperator{\mathIn}{:\!:}
-% \DeclareMathOperator{\mathInverse}{\neg}
-\DeclareMathOperator{\mathInverse}{\sharp}
-\DeclareMathOperator{\mathLambda}{\backslash}
-\DeclareMathOperator{\mathLetLet}{\mathKeyword{let}}
-\DeclareMathOperator{\mathLetIn}{\mathKeyword{in}}
-\DeclareMathOperator{\mathMapsTo}{\mapsto}
-\DeclareMathOperator{\mathMain}{main}
-\DeclareMathOperator{\mathOr}{\vee}
-\DeclareMathOperator{\mathSetTimes}{\circledast}
-\DeclareMathOperator{\mathThen}{\mathKeyword{then}}
-\DeclareMathOperator{\mathWhere}{\mathKeyword{where}}
-
-%% Math Pretty Printers
-
-\newcommand{\mathConstant}[1]{\mathrm{#1}} % Use capital letter
-\newcommand{\mathFunctor}[1]{\mathop{#1}} % Use capital letter
-\newcommand{\mathGuard}[1]{\mathop{\mid_{#1}}}
-\newcommand{\mathSet}[1]{\mathbf{#1}} % Use capital letter
-\newcommand{\mathSpecialFunctor}[1]{\mathcal{#1}} % Use capital letter
-\newcommand{\mathSpecialSet}[1]{\mathbb{#1}} % Use capital letter
-\newcommand{\mathVector}[1]{\vec{#1}}
-
-\newcommand{\mathCase}[2]{\mathCaseCase#1\mathCaseOf#2}
-\newcommand{\mathCategoryShort}[2]{(#1,#2)}
-\newcommand{\mathLambdaExpression}[2]{\mathLambda#1\mathLambdaArrow#2}
-\newcommand{\mathLet}[2]{\mathLetLet#1\mathLetIn#2}
-\newcommand{\mathMorph}[2]{#1\mathMapsTo#2}
-
-\newcommand{\mathMonoid}[3]{(#1,#2,#3)}
-\newcommand{\mathMorphII}[3]{#1\mathMapsTo#2\mathMapsTo#3}
-\newcommand{\mathMorphIIWithParenthesis}[3]{#1\mathMapsTo(#2\mathMapsTo#3)}
-
-\newcommand{\mathCategory}[4]{(#1,#2,#3,#4)}
-\newcommand{\mathGroup}[4]{(#1,#2,#3,#4)}
-\newcommand{\mathMorphIII}[4]{#1\mathMapsTo#2\mathMapsTo#3\mathMapsTo#4}
-
-\newcommand{\mathField}[7]{(#1,#2,#3,#4,#5,#6,#7)}
-
-%% Math Special Keywords
-
-\newcommand{\mathFalse}{\mathConstant{F}}
-\newcommand{\mathFirst}{\mathKeyword{First}}
-\newcommand{\mathLambdaAnonymousParameter}{\lozenge}
-\newcommand{\mathLambdaArrow}{\rightarrow}
-\newcommand{\mathLeft}{\mathVarKeyword{left}}
-\newcommand{\mathOtherwise}{\mathKeyword{otherwise}}
-\newcommand{\mathRest}{\mathVarKeyword{Rest}}
-\newcommand{\mathRight}{\mathVarKeyword{right}}
-\newcommand{\mathSomething}{\square}
-\newcommand{\mathTrue}{\mathConstant{T}}
 
 \title{\haskell （仮）}
 \author{金谷一朗}
@@ -1721,12 +1729,13 @@ $$\mathMonoid{\hsklMaybeType{\hsklType{a}}}{\hsklMaybeAppend}{\hsklNothing}$$
 A...
 \end{leader}
 
-\begin{boxnote}
-\begin{center}
-注意
-\end{center}
-関手は英語でファンクター(functor)と言うが，\cxx の関数オブジェクト(functional)もかつてはファンクター(functor)と呼ばれていた．\cxx のファンクターとはラムダ式の粗末な代用品のことで，本書で述べる関手とは異なる概念である．混同しないように注意しよう．
-\end{boxnote}
+\begin{caution}
+関手は英語でファンクター(functor)と言うが，
+\cxx の関数オブジェクト(functional)もかつてはファンクター(functor)と呼ばれていた．
+\cxx のファンクターとはラムダ式の粗末な代用品のことで，
+本書で述べる関手とは異なる概念である．
+混同しないように注意しよう．
+\end{caution}
 
 
 \section{型コンストラクタと関手*}
@@ -2068,16 +2077,23 @@ y=\mathMain x
 
 副作用のない関数を合成するのはわけのないことだ．もし\python ならば
 \begin{pythoncode}
-\begin{pythontab}
-\pthnId{y} \pthnOp{=} \pthnId{f}${}_1$(\pthnId{f}${}_2$(\pthnId{x}))
-\end{pythontab}
+% \begin{pythontab}
+% \pthnId{y} \pthnOp{=} \pthnId{f}${}_1$(\pthnId{f}${}_2$(\pthnId{x}))
+% \end{pythontab}
+\begin{verbatim}
+y = f1(f2(x))
+\end{verbatim}
 \end{pythoncode}
 のように関数を入れ子にしても良いし，読みづらければ途中経過を一時変数にして
 \begin{pythoncode}
-\begin{pythontab}
-\pthnId{y}${}_2$ \pthnOp{=} \pthnId{f}${}_2$(\pthnId{x})\\
-\pthnId{y} \pthnOp{=} \pthnId{f}${}_1$(\pthnId{y}${}_2$)
-\end{pythontab}
+% \begin{pythontab}
+% \pthnId{y}${}_2$ \pthnOp{=} \pthnId{f}${}_2$(\pthnId{x})\\
+% \pthnId{y} \pthnOp{=} \pthnId{f}${}_1$(\pthnId{y}${}_2$)
+% \end{pythontab}
+\begin{verbatim}
+y_2 = f_2(x)
+y = f1(y_2)
+\end{verbatim}
 \end{pythoncode}
 としてもよい．副作用のない関数の場合，これが関数合成の規則である．
 
