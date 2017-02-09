@@ -67,18 +67,106 @@
 
 %% Math Keywords
 
-\newcommand{\mathKeyword}[1]{\mathsf{#1}}
-\newcommand{\mathVarKeyword}[1]{\mathrm{#1}}
+% \newcommand{\mathKeyword}[1]{\mathsf{#1}}  %% DO NOT USE
+% \newcommand{\mathVarKeyword}[1]{\mathrm{#1}}
 
 %% Math Pretty Printers
 
 \newcommand{\mathConstant}[1]{\mathrm{#1}} % Use capital letter
-\newcommand{\mathFunctor}[1]{\mathop{#1}} % Use capital letter
-\newcommand{\mathGuard}[1]{\mathop{\mid_{#1}}}
+\newcommand{\mathSub}[1]{\textrm{#1}}
+
 \newcommand{\mathSet}[1]{\mathbf{#1}} % Use capital letter
-\newcommand{\mathSpecialFunctor}[1]{\mathcal{#1}} % Use capital letter
 \newcommand{\mathSpecialSet}[1]{\mathbb{#1}} % Use capital letter
-\newcommand{\mathVector}[1]{\vec{#1}}
+\newcommand{\mathTypeParameter}[1]{\mathbf{#1}}
+\newcommand{\mathTypeName}[1]{\textbf{#1}}
+
+\newcommand{\mathFunctor}[1]{\mathop{#1}} % Use capital letter
+\newcommand{\mathSpecialFunctor}[1]{\mathcal{#1}} % Use capital letter
+\newcommand{\mathTypeConstructor}[1]{\textit{#1}} % Use capital letter
+\newcommand{\mathTypeClass}[1]{\textbf{\emph{#1}}} % Use capital letter
+
+\newcommand{\mathListWith}[1]{\left[#1\right]}
+\newcommand{\mathSetWith}[1]{\left\{#1\right\}}
+\newcommand{\mathTupleWith}[1]{\left(#1\right)}
+
+\newcommand{\mathListVar}[1]{\Bar{#1}}
+\newcommand{\mathMaybeVar}[1]{\Tilde{#1}}
+\newcommand{\mathFunctionVar}[1]{\Hat{#1}}
+\newcommand{\mathVectorVar}[1]{\vec{#1}}
+
+\newcommand{\mathGuard}[1]{\mathop{\mid_{#1}}}
+
+\newcommand{\mathVector}[1]{\vec{#1}} % DO NOT USE
+
+%% True and Fasle
+
+\newcommand{\mathFalse}{\mathConstant{F}}
+\newcommand{\mathTrue}{\mathConstant{T}}
+
+%% Special Parameters
+
+\newcommand{\mathAnonymousParameter}{\lozenge}
+\newcommand{\mathAny}{\_}
+\newcommand{\mathSomething}{\square}
+
+%% Left and Right
+
+\newcommand{\mathLeft}{\mathSub{left}}
+\newcommand{\mathRight}{\mathSub{right}}
+
+%% Special Unary Operators
+
+\DeclareMathOperator{\mathAnyUnaryOperator}{\star}
+\DeclareMathOperator{\mathInverse}{\sharp}
+\DeclareMathOperator{\mathLambda}{\backslash}
+
+\DeclareMathOperator*{\mathFold}{\bigcup}
+\DeclareMathOperator*{\mathFoldRight}{\bigsqcup}
+
+%% Special Binary Operators
+
+\DeclareMathOperator{\mathAnyBinaryOperator}{\bigstar}
+\DeclareMathOperator{\mathAnd}{\wedge}
+\DeclareMathOperator{\mathApply}{\$}
+\DeclareMathOperator{\mathCompose}{\bullet}
+\DeclareMathOperator{\mathFrom}{\in}
+\DeclareMathOperator{\mathIn}{:\!:}
+\DeclareMathOperator{\mathOr}{\vee}
+\DeclareMathOperator{\mathSetTimes}{\circledast}
+
+%% Special Arrow Operators
+
+\newcommand{\mathLambdaArrow}{\rightarrow}
+\newcommand{\mathMapsTo}{\mapsto}
+
+%% Special Functions (like \sin)
+
+\newcommand{\mathSpecialFunction}[1]{\operatorname{\mathrm{#1}}}
+
+\newcommand{\mathFirst}{\mathSpecialFunction{first}}
+\newcommand{\mathRest}{\mathSpecialFunction{rest}}
+
+\newcommand{\mathFactorial}{\mathSpecialFunction{fact}}
+
+\newcommand{\mathIfFunc}{\mathSpecialFunction{if}}
+
+%% Keywords
+
+\newcommand{\mathKeyword}[1]{\operatorname{\textsf{#1}}}
+
+\newcommand{\mathIf}{\mathKeyword{if}}
+\newcommand{\mathThen}{\mathKeyword{then}}
+\newcommand{\mathElse}{\mathKeyword{else}}
+\newcommand{\mathOtherwise}{\mathKeyword{otherwise}}
+
+\newcommand{\mathCaseCase}{\mathKeyword{case}}
+\newcommand{\mathCaseOf}{\mathKeyword{of}}
+
+\newcommand{\mathLetLet}{\mathKeyword{let}}
+\newcommand{\mathLetIn}{\mathKeyword{in}}
+\newcommand{\mathWhere}{\mathKeyword{where}}
+
+%% Utilities
 
 \newcommand{\mathCase}[2]{\mathCaseCase#1\mathCaseOf#2}
 \newcommand{\mathCategoryShort}[2]{(#1,#2)}
@@ -96,47 +184,18 @@
 
 \newcommand{\mathField}[7]{(#1,#2,#3,#4,#5,#6,#7)}
 
-%% Math Special Keywords and Operators
 
-\newcommand{\mathFalse}{\mathConstant{F}}
-\newcommand{\mathFirst}{\mathKeyword{First}}
-\newcommand{\mathLambdaAnonymousParameter}{\lozenge}
-\newcommand{\mathLambdaArrow}{\rightarrow}
-\newcommand{\mathLeft}{\mathVarKeyword{left}}
-\newcommand{\mathOtherwise}{\mathKeyword{otherwise}}
-\newcommand{\mathRest}{\mathKeyword{Rest}}
-\newcommand{\mathRight}{\mathVarKeyword{right}}
-\newcommand{\mathSomething}{\square}
-\newcommand{\mathTrue}{\mathConstant{T}}
 
-\DeclareMathOperator{\mathAnyBinaryOperator}{\bigstar}
-\DeclareMathOperator{\mathAnd}{\wedge}
-\DeclareMathOperator{\mathApply}{\$}
-\DeclareMathOperator{\mathAnyUnaryOperator}{\star}
-\DeclareMathOperator{\mathCaseCase}{\mathKeyword{case}}
-\DeclareMathOperator{\mathCaseOf}{\mathKeyword{of}}
-\DeclareMathOperator{\mathCompose}{\bullet}
-\DeclareMathOperator{\mathElse}{\mathKeyword{else}}
-\DeclareMathOperator{\mathFactorial}{fact}
-\DeclareMathOperator*{\mathFold}{\bigcup}
-\DeclareMathOperator*{\mathFoldRight}{\bigsqcup}
-\DeclareMathOperator{\mathFrom}{\in}
+% ---
+
+
 \DeclareMathOperator{\mathI}{i}
-\DeclareMathOperator{\mathIf}{\mathKeyword{if}}
-\DeclareMathOperator{\mathIfFunc}{if}
-\DeclareMathOperator{\mathIn}{:\!:}
 % \DeclareMathOperator{\mathInverse}{\neg}
-\DeclareMathOperator{\mathInverse}{\sharp}
-\DeclareMathOperator{\mathLambda}{\backslash}
-\DeclareMathOperator{\mathLetLet}{\mathKeyword{let}}
-\DeclareMathOperator{\mathLetIn}{\mathKeyword{in}}
-\DeclareMathOperator{\mathMapsTo}{\mapsto}
+% \DeclareMathOperator{\mathLetLet}{\mathKeyword{let}}
+% \DeclareMathOperator{\mathLetIn}{\mathKeyword{in}}
 \DeclareMathOperator{\mathMain}{main}
-\DeclareMathOperator{\mathOr}{\vee}
-\DeclareMathOperator{\mathSetTimes}{\circledast}
-\DeclareMathOperator{\mathThen}{\mathKeyword{then}}
-\DeclareMathOperator{\mathWhere}{\mathKeyword{where}}
-
+% \DeclareMathOperator{\mathThen}{\mathKeyword{then}}
+% \DeclareMathOperator{\mathWhere}{\mathKeyword{where}}
 
 
 
@@ -223,37 +282,40 @@
 \maketitle
 \tableofcontents
 
-\begin{table*}
+\begin{table*}[p]
 \caption{凡例}
 \begin{center}
 \begin{tabular}{||c|c|c||}
 \hline
 種類&字体・表記法&例\\
-\hline
+\hline\hline
 変数&イタリック，小文字&$x$, $y$, $z$\\
 定数&ローマン，大文字&$\mathConstant{A}$, $\mathConstant{B}$, $\mathConstant{C}$\\
 関数&イタリック，小文字&$f$, $g$, $h$\\
 有名な関数&ローマン，小文字&$\sin$, $\cos$, $\tan$\\
-特別な添字&ローマン，小文字&$x_\mathLeft$, $x_\mathRight$\\\hline
+特別な添字&ローマン，小文字&$x_\mathLeft$, $x_\mathRight$\\
+\hline
 集合&ボールドローマン，大文字&$\mathSet{A}$, $\mathSet{B}$, $\mathSet{C}$\\
 有名な集合&ブラックボード，大文字&$\mathSpecialSet{R}$, $\mathSpecialSet{Q}$, $\mathSpecialSet{Z}$\\
-型パラメタ&ボールドローマン，小文字&$\hsklType{a}$, $\hsklType{b}$, $\hsklType{c}$\\
-型&ボールドローマン，大文字&$\hsklInt$, $\hsklFloat$\\\hline
+型パラメタ&ボールドローマン，小文字&$\mathTypeParameter{a}$, $\mathTypeParameter{b}$, $\mathTypeParameter{c}$\\
+型&ボールドローマン，大文字&$\mathTypeName{Int}$, $\mathTypeName{Float}$\\
+\hline
 関手&イタリック，大文字&$\mathFunctor{F}$, $\mathFunctor{G}$, $\mathFunctor{H}$\\
 有名な関手&カリグラフィ，大文字&$\mathSpecialFunctor{I}$\\
-型コンストラクタ&イタリック，大文字&$\hsklListConstructor$, $\hsklMaybeConstructor$\\
-型クラス&ボールドイタリック，大文字&$\hsklEq$, $\hsklIntegral$\\\hline
+型コンストラクタ&イタリック，大文字&$\mathTypeConstructor{List}$, $\mathTypeConstructor{Maybe}$\\
+型クラス&ボールドイタリック，大文字&$\mathTypeClass{Eq}$, $\mathTypeClass{Integral}$\\
+\hline
 キーワード&サンセリフ，小文字&$\mathIf$, $\mathOtherwise$\\
-リストの構造&サンセリフ，大文字&$\mathFirst$, $\mathRest$\\
+% リストの構造&サンセリフ，大文字&$\mathFirst$, $\mathRest$\\
 \hline
-リスト&ブラケットで包む&$\left[x,y,z\right]$\\
-集合&ブレースで包む&$\{x,y,z\}$\\
-タプル&丸括弧で包む&$\left(x,y,z\right)$\\
+リスト&ブラケットで包む&$\mathListWith{x,y,z}$\\
+集合&ブレースで包む&$\mathSetWith{x,y,z}$\\
+タプル&丸括弧で包む&$\mathTupleWith{x,y,z}$\\
 \hline
-リスト変数&名前にバーをつける&$\hsklList{x}$\\
-Maybe変数&名前にチルダをつける&$\hsklMaybe{x}$\\
-関数変数&名前にハットをつける&$\hsklFunction{x}$\\
-ベクトル変数&名前に矢印をつける&$\mathVector{x}$\\
+リスト変数&名前にバーをつける&$\mathListVar{x}$\\
+Maybe変数&名前にチルダをつける&$\mathMaybeVar{x}$\\
+関数変数&名前にハットをつける&$\mathFunctionVar{x}$\\
+ベクトル変数&名前に矢印をつける&$\mathVectorVar{x}$\\
 \hline
 \end{tabular}
 \end{center}
@@ -513,17 +575,17 @@ lambda x: 1 + x
 のように引数を並べて書く．
 
 本書では新たに，次のラムダ式記法も導入する．
-式中に記号$\mathLambdaAnonymousParameter$が現れた場合，
+式中に記号$\mathAnonymousParameter$が現れた場合，
 その式全体がラムダ式であるとみなす．
-記号$\mathLambdaAnonymousParameter$の部分には引数が入る．
-第$n$番目の$\mathLambdaAnonymousParameter$には第$n$番目の引数が入る．
+記号$\mathAnonymousParameter$の部分には引数が入る．
+第$n$番目の$\mathAnonymousParameter$には第$n$番目の引数が入る．
 例えばラムダ式$\mathLambdaExpression{xy}{x+y}$は
 \begin{equation*}
-\mathLambdaAnonymousParameter+\mathLambdaAnonymousParameter
+\mathAnonymousParameter+\mathAnonymousParameter
 \end{equation*}
 と書いても良い．
-式を左から読んで1番目の$\mathLambdaAnonymousParameter$が元々の$x$すなわち第1引数を，
-2番目の$\mathLambdaAnonymousParameter$が元々の$y$すなわち第2引数を意味する．
+式を左から読んで1番目の$\mathAnonymousParameter$が元々の$x$すなわち第1引数を，
+2番目の$\mathAnonymousParameter$が元々の$y$すなわち第2引数を意味する．
 この省略記法はプログラミング言語\scheme における\code{cut}プロシジャに由来する．\footnote{この記法は\haskell にはない．}
 
 % let, where.
@@ -728,7 +790,7 @@ z = f(g(x))
 ここで，引数のことは忘れて，関数$f$と関数$g$を先に\keyword{合成}しておきたいとしよう．
 その合成を$f\mathCompose g$と書く．合成はラムダ式を使って
 \begin{equation}
-f\mathCompose g=f\left(g\mathLambdaAnonymousParameter\right)
+f\mathCompose g=f\left(g\mathAnonymousParameter\right)
 \end{equation}
 と定義できる．
 関数合成の演算子$\mathCompose$は関数適用よりも優先順位が高く，
@@ -2001,7 +2063,7 @@ Maybe
     &$\mathCompose$
     &$\langle\!\langle x\rangle\!\rangle$
     &$\circ$
-    &$\mathLambdaAnonymousParameter$
+    &$\mathAnonymousParameter$
     &$\mathCompose$\\
 \hline
 Int（参考）
