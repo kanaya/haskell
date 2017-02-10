@@ -27,7 +27,7 @@
 
 %% Keywords
 
-\newcommand{\keyword}[1]{{\emph{#1}}}
+\newcommand{\keyword}[1]{{\underline{\emph{#1}}}}
 
 %% Inline Codes (like `...` of Markdown doc)
 
@@ -102,6 +102,10 @@
 
 \newcommand{\mathFalse}{\mathConstant{F}}
 \newcommand{\mathTrue}{\mathConstant{T}}
+
+%% Identity
+
+\newcommand{\mathId}{\mathConstant{I}}
 
 %% Special Parameters
 
@@ -244,7 +248,7 @@
 \newcommand{\hsklBool}{\hsklType{Bool}}
 \newcommand{\hsklChar}{\hsklType{Char}}
 \newcommand{\hsklEnum}{\hsklTypeClass{Enum}}
-\newcommand{\hsklInt}{\hsklType{Int}}
+
 \newcommand{\hsklIntegral}{\hsklTypeClass{Integral}}
 \newcommand{\hsklEq}{\hsklTypeClass{Eq}}
 \newcommand{\hsklFloat}{\hsklType{Float}}
@@ -352,9 +356,10 @@ Maybe変数&名前にチルダをつける&$\mathMaybeVar{x}$\\
 
 \section{\haskell という森}
 
-これからのプログラマにとって，\haskell を無視することはできない．ス
-ティーブ・ジョブズが言ったように，欠点をあげつらうことも，攻撃することもできるが，
-無視することだけはできない．それは\haskell がプログラミングの本質に深く関わっているからである．
+これからのプログラマにとって\haskell を無視することはできない．
+スティーブ・ジョブズが言ったように，欠点をあげつらうことも，攻撃することもできるが，
+無視することだけはできない．
+それは\haskell がプログラミングの本質に深く関わっているからである．
 
 \haskell というプログラミング言語を知ろうとすると，従来のプログラミング言語の知識が邪魔をする．
 モダンで，人気があって，\haskell から影響を受けた言語，例えば\ruby や\swift の知識さえ，
@@ -382,13 +387,6 @@ Top Ten Programming Languages'' という記事によると「ビッグ5」と�
 print "Hello, world."
 \end{verbatim}
 \end{pythoncode}
-% 本文中に登場する\python コードは関数名や予約語に対して特別な書体を用いているが，
-% コンピュータには文字通り打ち込めばそのまま使える．
-% 上のコードは一般的なコンピュータスクリーン上では
-% \begin{verbatim}
-% print("Hello, world.")
-% \end{verbatim}
-% と見えるであろう．
 
 ところで，一部の章でどうしても型に触れないといけない部分がある．
 \python は動的型付け言語であり，型の説明には不適切であるため，
@@ -400,7 +398,7 @@ print "Hello, world."
 \section{関数型プログラミング}
 
 ところで，プログラマはなぜ\haskell を習得しなければならないのだろう．
-それは，\haskell と\keyword{関数型プログラミング}の間に密接な関係があるからである．
+それは\haskell と\keyword{関数型プログラミング}の間に密接な関係があるからである．
 
 関数型プログラミングとはプログラミングにおける一種のスローガンのようなもので，
 どの言語を用いたから関数型でどの言語を用いたから関数型ではない，というものではない．
@@ -476,7 +474,8 @@ $ stack install ghc
 第III部はこれまで歩いた道全体を俯瞰する．
 
 第I部は対応する\haskell のコードを脚注に記載している．
-脚注部分は\haskell を一通り覚えた後で読み返してもらいたい．\footnote{\haskell のコードは\code{x = 1}のようにタイプライタ体で書く．}
+脚注部分は\haskell を一通り覚えた後で読み返してもらいたい．\footnote{\haskell の
+コードは\code{x = 1}のようにタイプライタ体で書く．}
 
 
 \chapter{カリー風な書き方}
@@ -496,7 +495,7 @@ $ stack install ghc
 筆者が勝手に命名したものだ．
 
 カリー風の書き方は数学の教科書やプログラミングの教科書で見かけるものとは若干違うが，
-圧倒的にシンプルで，\haskell との親和性も高く，慣れてくると非常に読みやすいものなので，
+圧倒的にシンプルで\haskell との親和性も高く，慣れてくると非常に読みやすいものなので，
 本書でも全面的に採用する．
 
 まずは\keyword{関数}から見ていくことにしよう．
@@ -513,7 +512,8 @@ f(x)
 \begin{equation}
 fx
 \end{equation}
-と書くことにする．
+と書くことにする．\footnote{\haskell では
+関数\code{f}に引数\code{x}を適用させることを \code{f x} と書く．}
 
 % 本書では\python のコード片は上述のように囲みにいれることにする．
 
@@ -521,7 +521,7 @@ fx
 もし$fx$と書いてあったら，それは$f$と$x$の積，つまり$f*x$ではなく，
 従来の$f\left(x\right)$すなわち関数$f$に引数$x$を与えているものと解釈する．
 高校生向けの数学書でも$\sin x$のように三角関数に限ってはカリー風に書くことになっているので，
-まるで馴染みがないということもないだろう．\footnote{\haskell では関数\code{f}に引数\code{x}を適用させることを \code{f x} と書く．}
+まるで馴染みがないということもないだろう．
 
 複数引数をとる関数を\python では
 \begin{pythoncode}
@@ -554,26 +554,27 @@ lambda x: 1 + x
 \end{verbatim}
 \end{pythoncode}
 と書くが，我々はより簡潔に
-\begin{equation*}
+\begin{equation}
 \mathLambdaExpression{x}{1+x}
-\end{equation*}
+\end{equation}
 と書くことにする．
 この式はラムダ式を発明したチャーチのオリジナルの論文の記法であれば$\Hat x\,.\,1+x$と書かれたところであり，
 現在でも多くの書物で$\lambda x\,.\,1+x$と記述されるところである．
 しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，
 ピリオド記号$\left(.\right)$が今後登場する二項演算子$\cdot$と紛らわしいため，
-上述の記法を用いる．\footnote{\haskell ではラムダ式$\mathLambdaExpression{x}{1+x}$を \code{\textbackslash x -> 1 + x} と書く．}
+上述の記法を用いる．\footnote{\haskell では
+ラムダ式$\mathLambdaExpression{x}{1+x}$を \code{\textbackslash x -> 1 + x} と書く．}
 
 ラムダ式は関数である．ラムダ式を適用するには，ラムダ式を括弧で包む必要がある．例を挙げる．
-\begin{equation*}
+\begin{equation}
 \left(\mathLambdaExpression{x}{1+x}\right)2
-\end{equation*}
+\end{equation}
 この式は結果として$3$を返す．
 
 複数引数をとるラムダ式は例えば
-\begin{equation*}
+\begin{equation}
 \mathLambdaExpression{xy}{x+y}
-\end{equation*}
+\end{equation}
 のように引数を並べて書く．
 
 本書では新たに，次のラムダ式記法も導入する．
@@ -582,9 +583,9 @@ lambda x: 1 + x
 記号$\mathAnonymousParameter$の部分には引数が入る．
 第$n$番目の$\mathAnonymousParameter$には第$n$番目の引数が入る．
 例えばラムダ式$\mathLambdaExpression{xy}{x+y}$は
-\begin{equation*}
+\begin{equation}
 \mathAnonymousParameter+\mathAnonymousParameter
-\end{equation*}
+\end{equation}
 と書いても良い．
 式を左から読んで1番目の$\mathAnonymousParameter$が元々の$x$すなわち第1引数を，
 2番目の$\mathAnonymousParameter$が元々の$y$すなわち第2引数を意味する．
@@ -626,7 +627,9 @@ f=\mathLambdaExpression{x}{1+x}
 \begin{equation}
 fx=1+x
 \end{equation}
-と書いても良い．\footnote{\haskell では$f=\mathLambdaExpression{x}{1+x}$を\code{f = \textbackslash x -> 1 + x}と書き，$fx=1+x$を\code{f x = 1 + x}と書く．}
+と書いても良い．\footnote{\haskell では
+$f=\mathLambdaExpression{x}{1+x}$を\code{f = \textbackslash x -> 1 + x}と書き，
+$fx=1+x$を\code{f x = 1 + x}と書く．}
 
 関数に\keyword{スペシャルバージョン}がある場合はそれらを列挙する．
 例えば引数が$0$の場合は特別に戻り値も$0$であり，
@@ -710,12 +713,13 @@ y=\mathLet{\left(x'=100*x+50\right)}{fx'}
 \begin{equation}
 y=fx'\mathWhere x'=100*x+50
 \end{equation}
-のように書いても良い．式\eqref{eq:letin}はラムダ式を使った糖衣構文であり，一般に
+のように書いても良い．\footnote{\haskell では\code{y = let x' = 100 * x + 50 in f x'}および\code{y = f x' where x' = 100 * x + 50}のように書く．}
+
+式\eqref{eq:letin}はラムダ式を使った糖衣構文であり，一般に
 \begin{equation}
 \mathLet{\left(x'=gx\right)}{fx'}=(\mathLambdaExpression{x'}{fx'})(gx)
 \end{equation}
-である．\footnote{\haskell では\code{y = let x' = 100 * x + 50 in f x'}および\code{y = f x' where x' = 100 * x + 50}のように書く．}
-
+である．
 
 \chapter{さらにカリー風な書き方}
 
@@ -749,15 +753,18 @@ $x+y$のプラス記号$(+)$は2個の変数の間に置いてその両者$\left
 二項演算子は多数あるので，その都度説明する．
 
 二項演算子は中置することが基本であるが，括弧で包むことで前置することも可能である．
-任意の二項演算子$\mathAnyBinaryOperator$について$x\mathAnyBinaryOperator y$及び$\left(\mathAnyBinaryOperator\right)xy$は全く同じ意味である．
-すなわち
+任意の二項演算子$\mathAnyBinaryOperator$について
+$x\mathAnyBinaryOperator y$及び$\left(\mathAnyBinaryOperator\right)xy$は
+全く同じ意味である．すなわち
 \begin{equation}
 \left(\mathAnyBinaryOperator\right)xy=x\mathAnyBinaryOperator y
 \end{equation}
 である．
 従って，二項演算子と2引数関数に本質的な差はない．
-本書では演算子と関数という用語は全く同じ意味で用いる．\footnote{\haskell では任意の二項演算子を括弧で包むことで前置演算子として使うことができる．
-例えば\code{x + y}と \code{(+)x y} は同じ結果を返す．逆に任意の二引数関数\code{f}は \code{x `f` y} と書くことで中置することができる．}
+本書では演算子と関数という用語は全く同じ意味で用いる．\footnote{\haskell では
+任意の二項演算子を括弧で包むことで前置演算子として使うことができる．
+例えば\code{x + y}と \code{(+)x y} は同じ結果を返す．
+逆に任意の二引数関数\code{f}は \code{x `f` y} と書くことで中置することができる．}
 
 二項演算子の結合性，すなわち左結合か右結合かは，演算子によって異なる．
 
@@ -796,8 +803,9 @@ f\mathCompose g=f\left(g\mathAnonymousParameter\right)
 \end{equation}
 と定義できる．
 関数合成の演算子$\mathCompose$は関数適用よりも優先順位が高く，
-$(f\mathCompose g)x$は単に$f\mathCompose g\,x$と書いても良い．
-この記法は括弧の数を減らすためにしばしば用いられる．\footnote{\haskell では関数\code{f}と関数\code{g}の合成は\code{f.g}である．}
+$\left(f\mathCompose g\right)x$は単に$f\mathCompose g\,x$と書いても良い．
+この記法は括弧の数を減らすためにしばしば用いられる．\footnote{\haskell では
+関数\code{f}と関数\code{g}の合成は\code{f.g}である．}
 
 関数合成演算子とは逆に，
 優先順位の低い\keyword{関数適用演算子}も考えておくと括弧の数を減らすのに便利である．
@@ -807,7 +815,8 @@ f\mathApply gx=f\left(gx\right)
 \end{equation}
 演算子$\mathApply$の優先順位は足し算演算子よりも低いものとする．
 よって$f(x+1)$は$f\mathApply x+1$と書くこともできる．
-演算子$\mathApply$を閉じ括弧のいらない開き括弧と考えてもよい．\footnote{\haskell では$f\mathApply gx$を\code{f \$ g x}と書く．}
+演算子$\mathApply$を閉じ括弧のいらない開き括弧と考えてもよい．\footnote{\haskell では
+$f\mathApply gx$を\code{f \$ g x}と書く．}
 
 \section{条件分岐}
 \label{sec:if}
@@ -840,7 +849,9 @@ fx=\mathIf x\equiv0\mathThen0\mathElse1+x
 $\mathThen$節も$\mathElse$節も省略できないものとする．
 $\mathIf$節の式の値が真$(\mathTrue)$であれば$\mathThen$節の式が評価され，
 偽$(\mathFalse)$であれば$\mathElse$節の式が評価される．
-我々の条件式は\clang/\cxx における三項演算子と等しい．\footnote{\haskell では$fx=\mathIf x\equiv0\mathThen0\mathElse1+x$を\code{f x = if x == 0 then 0 else 1+x}と書く．}
+我々の条件式は\clang/\cxx における三項演算子と等しい．\footnote{\haskell では
+$fx=\mathIf x\equiv0\mathThen0\mathElse1+x$を
+\code{f x = if x == 0 then 0 else 1+x}と書く．}
 
 $\mathIf$節の中身は真理値を返す関数であれば良いので，関数$p$を
 \begin{equation}
@@ -891,109 +902,192 @@ f&=\mathLambdaExpression{xy}{y}\\
 
 \section{モノイド}
 
-整数全てからなる\keyword{集合}を$\mathSpecialSet{Z}$で表すことにする．計算機科学で整数と言うと，本当の整数と，例えば$-2^{63}$から$2^{63}-1$までの間の整数の意味と両方あるが，今は前者の意味である．
+整数全てからなる\keyword{集合}を$\mathSpecialSet{Z}$で表すことにする．
+計算機科学で整数と言うと，本当の整数と，
+例えば$-2^{63}$から$2^{63}-1$までの間の整数の意味と両方あるが，今は前者の意味である．
 
-集合$\mathSpecialSet{Z}$の任意の\keyword{元}（\keyword{要素}）$z$のことを，数学者は$z\in\mathSpecialSet{Z}$と書くことを好むが，我々は$\in$記号を別な用途に用いたいため
+集合$\mathSpecialSet{Z}$の任意の\keyword{元}（\keyword{要素}）$z$のことを，
+数学者は$z\in\mathSpecialSet{Z}$と書くことを好むが，
+我々は$\in$記号を別な用途に用いたいため
 \begin{equation}
 \label{eq:totality}
 z\mathIn\mathSpecialSet{Z}
 \end{equation}
 と書くことにする．
 
-二つの整数$z_1,z_2$があるとしよう．両者の間には\keyword{足し算}$(+)$が定義されており，その結果すなわち\keyword{和}もまた整数である，すなわち
+二つの整数$z_1,z_2$があるとしよう．
+両者の間には\keyword{足し算}$(+)$が定義されており，
+その結果すなわち\keyword{和}もまた整数である，すなわち
 \begin{equation}
 z_1+z_2\mathIn\mathSpecialSet{Z}
 \end{equation}
-である．このような集合$\mathSpecialSet{Z}$と演算子$+$の性質を\keyword{全域性}と呼ぶ．一般に集合$\mathSet{A}$の元に対して二項演算子$\mathAnyBinaryOperator$が定義されていて，$a_1,a_2\mathIn\mathSet{A}$のときに
+である場合，
+このような集合$\mathSpecialSet{Z}$と演算子$+$の性質を\keyword{全域性}と呼ぶ．
+一般に集合$\mathSet{A}$の元に対して二項演算子$\mathAnyBinaryOperator$が定義されていて，
+$a_1,a_2\mathIn\mathSet{A}$のときに
 \begin{equation}
 \label{eq:totality}
 a_1\mathAnyBinaryOperator a_2\mathIn\mathSet{A}
 \end{equation}
-である場合，つまり演算子$\mathAnyBinaryOperator$が集合$\mathSet{A}$に対して全域性を持つ場合，組み合わせ$(\mathSet{A},\mathAnyBinaryOperator)$を\keyword{マグマ}と呼ぶ．組み合わせ$(\mathSpecialSet{Z},+)$はマグマの例であり，もちろん$(\mathSpecialSet{Z},*)$もマグマの例である．
-% マグマはかつて亜群と呼ばれていたが，現在は亜群は別の意味(groupoid)の訳語に使われている．
+である場合，
+つまり演算子$\mathAnyBinaryOperator$が集合$\mathSet{A}$に対して全域性を持つ場合，
+組み合わせ$\mathTupleWith{\mathSet{A},\mathAnyBinaryOperator}$を\keyword{マグマ}と呼ぶ．
+組み合わせ$\mathTupleWith{\mathSpecialSet{Z},+}$はマグマの例であり，
+もちろん$\mathTupleWith{\mathSpecialSet{Z},*}$もマグマの例である．
+マグマはかつて亜群と呼ばれていたが，現在は亜群は別の意味(groupoid)の訳語に使われている．
 
-他に\keyword{ブーリアン集合}$\mathSpecialSet{B}=\{T,F\}$に対して，\keyword{論理和}$(\vee)$は全域性を持つから，組み合わせ$(\mathSpecialSet{B},\vee)$はマグマであるし，同様に\keyword{論理積}$(\wedge)$も全域性を持つから，組み合わせ$(\mathSpecialSet{B},\wedge)$もマグマである．
+他に\keyword{ブーリアン}集合$\mathSpecialSet{B}=\mathSetWith{\mathTrue,\mathFalse}$に対して，
+\keyword{論理和}$(\vee)$は全域性を持つから，
+組み合わせ$\mathTupleWith{\mathSpecialSet{B},\vee}$はマグマであるし，
+同様に\keyword{論理積}$(\wedge)$も全域性を持つから，
+組み合わせ$\mathTupleWith{\mathSpecialSet{B},\wedge}$もマグマである．
 
 マグマのうち，演算を2回続ける場合，その順序によって結果が異ならない，つまり
 \begin{equation}
 \label{eq:associativity}
-(a_1\mathAnyBinaryOperator a_2)\mathAnyBinaryOperator a_3=a_1\mathAnyBinaryOperator(a_2\mathAnyBinaryOperator a_3)
+\left(a_1\mathAnyBinaryOperator a_2\right)\mathAnyBinaryOperator a_3
+=a_1\mathAnyBinaryOperator\left(a_2\mathAnyBinaryOperator a_3\right)
 \end{equation}
-ただし$a_1,a_2,a_3\mathIn\mathSet{A}$のとき，組み合わせ$(\mathSet{A},\mathAnyBinaryOperator)$のことを\keyword{半群}と呼ぶ．この式\eqref{eq:associativity}で表される性質を\keyword{結合性}と呼ぶ．組み合わせ$(\mathSpecialSet{Z},+)$, $(\mathSpecialSet{Z},*)$, $(\mathSpecialSet{B},\vee)$, $(\mathSpecialSet{B},\wedge)$ はすべて半群である．
+ただし$a_1,a_2,a_3\mathIn\mathSet{A}$のとき，
+組み合わせ$\mathTupleWith{\mathSet{A},\mathAnyBinaryOperator}$のことを\keyword{半群}と呼ぶ．
+この式\eqref{eq:associativity}で表される性質を\keyword{結合性}と呼ぶ．
+組み合わせ$\mathTupleWith{\mathSpecialSet{Z},+}$,
+$\mathTupleWith{\mathSpecialSet{Z},*}$,
+$\mathTupleWith{\mathSpecialSet{B},\vee}$,
+$\mathTupleWith{\mathSpecialSet{B},\wedge}$ はすべて半群である．
 
-ところで，整数全体の集合$\mathSpecialSet{Z}$には特別な元$0$がある．この元$0$は，$z\mathIn\mathSpecialSet{Z}$のとき
+ところで，整数全体の集合$\mathSpecialSet{Z}$には特別な元$0$がある．
+この元$0$は，$z\mathIn\mathSpecialSet{Z}$のとき
 \begin{equation}
 0+z=z+0=z
 \end{equation}
-という性質を持つ．この$0$を演算$+$における\keyword{単位元}と呼ぶ．
-% 足し算のことを\keyword{加法}とも言うので$0$のことは\keyword{加法単位元}と呼ぶこともあるし，文字通り\keyword{零元}と呼ぶこともある．
+という性質を持つ．
+この$0$を演算$+$における\keyword{単位元}と呼ぶ．
+足し算のことを\keyword{加法}とも言うので$0$のことは\keyword{加法単位元}と呼ぶこともあるし，
+文字通り\keyword{零元}と呼ぶこともある．
 
-一般に，$I_\mathLeft,I_\mathRight,a\mathIn\mathSet{A}$として
+一般に，$\mathId_\mathLeft,\mathId_\mathRight,a\mathIn\mathSet{A}$として
 \begin{equation}
 \label{eq:identity}
-I_\mathLeft\mathAnyBinaryOperator a=a\mathAnyBinaryOperator I_\mathRight=a
+\mathId_\mathLeft\mathAnyBinaryOperator a=a\mathAnyBinaryOperator\mathId_\mathRight=a
 \end{equation}
-であるとき，元$I_\mathLeft,I_\mathRight$を単位元と呼ぶ．我々は多くの場合$I_\mathLeft=I_\mathRight$であるケースを扱うので，二つの単位元を区別する必要はほとんどないが，必要な場合は$I_\mathLeft$を\keyword{左単位元}，$I_\mathRight$を\keyword{右単位元}と呼ぶ．
+であるとき，
+元$\mathId_\mathLeft,\mathId_\mathRight$を単位元と呼ぶ．
+我々は多くの場合$\mathId_\mathLeft=\mathId_\mathRight$であるケースを扱うので，
+二つの単位元を区別する必要はほとんどないが，
+必要な場合は$\mathId_\mathLeft$を\keyword{左単位元}，
+$\mathId_\mathRight$を\keyword{右単位元}と呼ぶ．
 
-組み合わせ$(\mathSet{A},\mathAnyBinaryOperator,I_\mathLeft,I_\mathRight)$のことを\keyword{モノイド}（\keyword{単位的半群}）と呼ぶ．例えば$(\mathSpecialSet{Z},+,0,0)$はモノイドであるし，$(\mathSpecialSet{Z},*,1,1)$, $(\mathSpecialSet{B},\vee,F,F)$, $(\mathSpecialSet{B},\wedge,T,T)$もモノイドである．これらのモノイドは全て左単位元と右単位元が同じなので，それぞれ$(\mathSpecialSet{Z},+,0)$, $(\mathSpecialSet{Z},*,1)$, $(\mathSpecialSet{B},\vee,F)$, $(\mathSpecialSet{B},\wedge,T)$とも書く．
+組み合わせ$\mathTupleWith{\mathSet{A},\mathAnyBinaryOperator,\mathId_\mathLeft,\mathId_\mathRight}$のことを
+\keyword{モノイド}（\keyword{単位的半群}）と呼ぶ．
+例えば$\mathTupleWith{\mathSpecialSet{Z},+,0,0}$はモノイドであるし，
+$\mathTupleWith{\mathSpecialSet{Z},*,1,1}$,
+$\mathTupleWith{\mathSpecialSet{B},\vee,\mathFalse,\mathFalse}$,
+$\mathTupleWith{\mathSpecialSet{B},\wedge,\mathTrue,\mathTrue}$もモノイドである．
+これらのモノイドは全て左単位元と右単位元が同じなので，
+それぞれ$\mathTupleWith{\mathSpecialSet{Z},+,0)}$,
+$\mathTupleWith{\mathSpecialSet{Z},*,1}$,
+$\mathTupleWith{\mathSpecialSet{B},\vee,\mathFalse}$,
+$\mathTupleWith{\mathSpecialSet{B},\wedge,\mathTrue}$とも書く．
 
-このように，数学者は数の性質を抽象化し，集合とその集合に対する演算というものの見方をよく行う．プログラミングの言葉で言えば，複数のクラスに共通のインタフェースを定義するようなものだ．
+このように，数学者は数の性質を抽象化し，集合とその集合に対する演算というものの見方をよく行う．
+プログラミングの言葉で言えば，複数のクラスに共通のインタフェースを定義するようなものだ．
 
 \section{型}
 
-型とは変数が取りうる値に与えた制約のことである．\haskell を含む多くのコンパイラ言語は，\keyword{静的型付け}と言って，コンパイル時までに変数の型が決まっていることをプログラマに要求する．一方，\python のようなインタプリタ言語はたいてい\keyword{動的型付け}と言って，プログラムの実行時まで変数の型を決めない．
+型とは変数が取りうる値に与えた制約のことである．
+\haskell を含む多くのコンパイラ言語は，\keyword{静的型付け}と言って，
+コンパイル時までに変数の型が決まっていることをプログラマに要求する．
+一方，\python のようなインタプリタ言語はたいてい\keyword{動的型付け}と言って，
+プログラムの実行時まで変数の型を決めない．
 
-変数に型の制約を設ける理由は，プログラム上のエラーが減ることを期待するためである．例えば真理値が必要とされるところに整数値の変数が来ることは悪い予兆である．一方で，\clang 言語のように全ての変数にいちいち型を明記していくのも骨が折れる．数学者や物理学者は変数に型の制約を求める一方，新しい変数の型は明記せず読者に推論させる方法をしばしばとる．例えば，質量$m$は「スカラー」という型を持つし，速度$v$は「3次元ベクトル」という型を持つ．スカラーと3次元ベクトルの間に足し算は定義されていないため，$m+v$という表記を見たときに，両者の型を知っていれば直ちにエラーであることがわかる．
+変数に型の制約を設ける理由は，プログラム上のエラーが減ることを期待するためである．
+例えば真理値が必要とされるところに整数値の変数が来ることは悪い予兆である．
+一方で\clang 言語のように全ての変数にいちいち型を明記していくのも骨が折れる．
+数学者や物理学者は変数に型の制約を求める一方，
+新しい変数の型は明記せず読者に推論させる方法をしばしばとる．
+例えば，質量$m$は「スカラー」という型を持つし，
+速度$\mathVectorVar{v}$は「3次元ベクトル」という型を持つ．
+スカラーと3次元ベクトルの間に足し算は定義されていないため，
+$m+\mathVectorVar{v}$という表記を見たときに，
+両者の型を知っていれば直ちにエラーであることがわかる．
 
-我々がよく使う型はは論理型$(\mathSpecialSet{B})$，整数型$(\mathSpecialSet{Z})$，実数型$(\mathSpecialSet{R})$といったところだ．ただし数学者たちは型ではなく集合と呼ぶ．括弧内に示した記号は数学者たちが慣用的に用いているものである．我々は計算機での実装を考慮して，数学者たちとは若干異なる型と表記方法を扱うことにする．
+我々がよく使う型はは論理型$(\mathSpecialSet{B})$，
+整数型$(\mathSpecialSet{Z})$，
+実数型$(\mathSpecialSet{R})$といったところだ．
+ただし数学者たちは型ではなく集合と呼ぶ．
+括弧内に示した記号は数学者たちが慣用的に用いているものである．
+我々は計算機での実装を考慮して，数学者たちとは若干異なる型と表記方法を扱うことにする．
 
-まず論理型$(\mathSpecialSet{B})$はそのまま論理型として$\hsklBool$で表す．
+まず論理型$(\mathSpecialSet{B})$はそのまま論理型として$\mathTypeName{Bool}$で表す．
 
-計算機にとって都合の良い整数の範囲を考慮した整数型を$\hsklInt$で表す．計算機にとって都合の良い整数の範囲とは，例えば64ビット計算機の場合$-2^{63}$から$2^{63}-1$までの範囲のことである．
+計算機にとって都合の良い整数の範囲を考慮した整数型を$\mathTypeName{Int}$で表す．
+計算機にとって都合の良い整数の範囲とは，
+例えば64ビット計算機の場合$-2^{63}$から$2^{63}-1$までの範囲のことである．
 
-計算機は残念ながら無限精度の実数を扱えない．そこで標準精度の浮動小数点数を表す型を$\hsklFloat$で表す．
+計算機は残念ながら無限精度の実数を扱えない．
+そこで標準精度の浮動小数点数を表す型を$\mathTypeName{Float}$で表す．
 
-もう一つ，計算機ならではの型を導入しておこう．それは$\hsklInt$とよく似ているが，特別に文字を扱うために考えられた型$\hsklChar$である．文字といってもその中身は整数である．整数ではあるが，わざわざ別な型とするのには理由がある．歴史的には文字は小さな整数として表現されることが多かったため，計算機のメモリが高価であった時代背景もあり，メモリの節約のために文字を表す型が存在した．現在では，文字が数値にエンコードされる方式がより複雑になってきたために，文字を通常の数値と区別するために特別な型が用意さてれいる．
+もう一つ，計算機ならではの型を導入しておこう．
+それは$\mathTypeName{Int}$とよく似ているが，
+特別に文字を扱うために考えられた型$\mathTypeName{Char}$である．
+文字といってもその中身は整数である．整数ではあるが，わざわざ別な型とするのには理由がある．
+歴史的には文字は小さな整数として表現されることが多かったため，
+計算機のメモリが高価であった時代背景もあり，メモリの節約のために文字を表す型が存在した．
+現在では，文字が数値にエンコードされる方式がより複雑になってきたために，
+文字を通常の数値と区別するために特別な型が用意さてれいる．
 
 関数にも型がある．例えば整数引数を一つ取り，整数を返す関数$f$は
-\begin{equation*}
-f\mathIn\mathMorph{\hsklInt}{\hsklInt}
-\end{equation*}
-という型を持つ．これは関数$f$が集合$\hsklInt$から集合$\hsklInt$への写像であると読む．
+\begin{equation}
+f\mathIn\mathMorph{\mathTypeName{Int}}{\mathTypeName{Int}}
+\end{equation}
+という型を持つ．
+これは関数$f$が集合$\mathTypeName{Int}$から集合$\mathTypeName{Int}$への写像であると読む．
 
 \section{カリー化}
 
-どのような関数であれ，引数は1個しかとらない．引数が2個あるように見える関数として，例えば$fxy$があったとしよう．関数適用が左結合であるから，これは$(fx)y$である．ここに$(fx)$は引数$y$をとる関数であると見ることができる．つまり，関数$f$とは引数$x$をとり「引数$y$をとって値を返す関数$(fx)$を返す」関数であると言える．
+どのような関数であれ，引数は1個しかとらない．
+引数が2個あるように見える関数として，例えば$fxy$があったとしよう．
+関数適用が左結合であるから，これは$\left(fx\right)y$である．
+ここに$\left(fx\right)$は引数$y$をとる関数であると見ることができる．
+つまり，関数$f$とは引数$x$をとり「引数$y$をとって値を返す関数$\left(fx\right)$を返す」関数であると言える．
 
 二項演算$x+y$は$(+)xy$とも書けたことを思い出そう．これも左結合を思い出すと
 \begin{equation}
-(+)xy=((+)x)y
+(+)xy=\left((+)x\right)y
 \end{equation}
-であるから，$y$という引数を$((+)x)$という関数に食わせていると解釈できる．
+であるから，$y$という引数を$\left((+)x\right)$という関数に食わせていると解釈できる．
 
 ラムダ式の場合は話はもっと単純で，機械的に
 \begin{equation}
-\mathLambdaExpression{xy}{x+y}=\mathLambdaExpression{x}{(\mathLambdaExpression{y}{x+y})}
+\mathLambdaExpression{xy}{x+y}
+=\mathLambdaExpression{x}{\left(\mathLambdaExpression{y}{x+y}\right)}
 \end{equation}
-のように展開するだけである．矢印$\mathLambdaArrow$は右結合であるから，このラムダ式は括弧を省略して
+のように展開するだけである．
+矢印$\mathLambdaArrow$は\keyword{右結合}である．
+そこでこのラムダ式は括弧を省略して
 \begin{equation}
 \mathLambdaExpression{xy}{x+y}=\mathLambdaExpression{x}{\mathLambdaExpression{y}{x+y}}
 \end{equation}
 とも書かれる．
 
-複数引数をとる関数を1引数関数に分解することを\keyword{カリー化}と呼ぶ．これはこの分野の先駆者であるハスケル・カリーの名前に由来する．
+複数引数をとる関数を1引数関数に分解することを\keyword{カリー化}と呼ぶ．
+これはこの分野の先駆者であるハスケル・カリーの名前に由来する．
 
 % \section{関数の型}
 
 整数引数を二つ取り，整数を返す関数$f$は
-\begin{equation*}
-f\mathIn\mathMorphII{\hsklInt}{\hsklInt}{\hsklInt}
-\end{equation*}
+\begin{equation}
+f\mathIn\mathMorphII{\mathTypeName{Int}}{\mathTypeName{Int}}{\mathTypeName{Int}}
+\end{equation}
 という型を持つ．写像の矢印記号は右結合するので，これは
-\begin{equation*}
-f\mathIn\mathMorphIIWithParenthesis{\hsklInt}{\hsklInt}{\hsklInt}
-\end{equation*}
-と同じ意味である．自然言語で考えると，$\hsklInt$型の引数を一つ取り，$\hsklInt$型の引数を一つ取って$\hsklInt$型の値を返す関数を返す，と読める．
+\begin{equation}
+f\mathIn\mathMorphIIWithParenthesis{\mathTypeName{Int}}{\mathTypeName{Int}}{\mathTypeName{Int}}
+\end{equation}
+と同じ意味である．
+自然言語で考えると，$\mathTypeName{Int}$型の引数を一つ取り，
+$\mathTypeName{Int}$型の引数を一つ取って$\mathTypeName{Int}$型の値を返す関数を返す，
+と読める．
 
 \begin{table}
 \caption{単位的半群}
@@ -1020,11 +1114,11 @@ $\hsklBool$
     &$\wedge$
     &$T$\\
 \hline
-$\hsklInt$
+$\mathTypeName{Int}$
     &$+$
     &$0$\\
 \hline
-$\hsklInt$
+$\mathTypeName{Int}$
     &$*$
     &$1$\\
 \hline
@@ -1047,7 +1141,7 @@ $\hsklFloat$
 \begin{tabular}{||c||c|c|c|c|c|c|c|c|c|c|c|c||}
 \hline
 \multirow{4}{*}{型クラス}
-    &\multicolumn{12}{|c||}{$\hsklIntegral$}\\
+    &\multicolumn{12}{|c||}{$\mathTypeName{Int}egral$}\\
 \cline{2-13}
 \multirow{3}{*}{}
     &\multicolumn{10}{|c|}{$\hsklReal$}
@@ -1107,7 +1201,7 @@ $\hsklBool$
     &$\checkmark$
     &$\checkmark$\\
 \hline
-$\hsklInt$
+$\mathTypeName{Int}$
     &$\checkmark$
     &$\checkmark$
     &$\checkmark$
@@ -1141,14 +1235,14 @@ $\hsklFloat$
 
 \section{余計な話：型クラス*}
 
-組み合わせ$\mathMonoid{\hsklInt}{+}{0}$はモノイドである．同様に$\mathMonoid{\hsklInt}{*}{1}$, $\mathMonoid{\hsklFloat}{+}{0}$, $\mathMonoid{\hsklFloat}{*}{1}$, $\mathMonoid{\hsklBool}{\vee}{F}$, $\mathMonoid{\hsklBool}{\wedge}{T}$ もモノイドである．そこで，任意の型$\hsklType{a}$について，組み合わせ$\mathMonoid{\hsklType{a}}{\mathAnyBinaryOperator}{O}$がモノイドである場合には
-\begin{equation*}
+組み合わせ$\mathMonoid{\mathTypeName{Int}}{+}{0}$はモノイドである．同様に$\mathMonoid{\mathTypeName{Int}}{*}{1}$, $\mathMonoid{\hsklFloat}{+}{0}$, $\mathMonoid{\hsklFloat}{*}{1}$, $\mathMonoid{\hsklBool}{\vee}{F}$, $\mathMonoid{\hsklBool}{\wedge}{T}$ もモノイドである．そこで，任意の型$\hsklType{a}$について，組み合わせ$\mathMonoid{\hsklType{a}}{\mathAnyBinaryOperator}{O}$がモノイドである場合には
+\begin{equation}
 \mathMonoid{\hsklType{a}}{\mathAnyBinaryOperator}{O}\mathIn\hsklMonoid
-\end{equation*}
+\end{equation}
 と書くことにする．二項演算子，単位元が自明な場合は簡略化して
-\begin{equation*}
+\begin{equation}
 \hsklType{a}\mathIn\hsklMonoid
-\end{equation*}
+\end{equation}
 と書くことにする．
 
 このような型をより抽象化した型のようなものを\keyword{型クラス}と呼ぶ．モノイドは型クラスの例である．表\ref{tab:monoids}に型と対応するモノイドの単位元，演算子の一覧を示す．
@@ -1163,7 +1257,7 @@ $\hsklFloat$
 
 型$\hsklType{a}$の変数について，一つ小さい値を返す関数$\hsklPred$と一つ大きい値を返す関数$\hsklSucc$が定義されているとき，かつそのときに限り，型$\hsklType{a}$は型クラス$\hsklEnum$に属する．
 
-型$\hsklType{a}$が型クラス$\hsklReal$及び型クラス$\hsklEnum$に属しているとき，かつそのときに限り，型$\hsklType{a}$は型クラス$\hsklIntegral$にも属する．
+型$\hsklType{a}$が型クラス$\hsklReal$及び型クラス$\hsklEnum$に属しているとき，かつそのときに限り，型$\hsklType{a}$は型クラス$\mathTypeName{Int}egral$にも属する．
 
 これらの関係を表にまとめたものが表\ref{tab:type-and-typeclass}である．
 
@@ -1237,9 +1331,9 @@ t = [x + y for x in range(0, 10) for y in range(0, 6) \
 のことである．\footnote{\haskell では\code{t = [x + y | x <- [0, 1..9], y <- [0, 1..5], x + y > 3]}と書く．}
 
 リストは\keyword{結合}できる．例えばリスト$\hsklList{t}$とリスト$\hsklList{u}$を結合したリストは
-\begin{equation*}
+\begin{equation}
 \hsklList{t}\hsklAppend\hsklList{u}
-\end{equation*}
+\end{equation}
 と表現する．\footnote{\haskell では\code{t ++ u}と書く．}
 
 リストは無限個の要素を持っても良い．例えば自然数全体を表すリスト$\hsklList{n}$は
@@ -1360,13 +1454,13 @@ f\hsklMap[x_0,x_1\dots x_n]=[fx_0,fx_1\dots fx_n]
 であると定義する．この演算子$\hsklMap$を\keyword{マップ演算子}と呼ぶ．\footnote{\haskell では$f\hsklMap l$を\code{map f l}または\code{f `map` l}と書く．}
 
 マップ演算子の型は
-\begin{equation*}
+\begin{equation}
 \hsklMap\hsklOf{}\mathMorphII{(\mathMorph{\hsklType{a}}{\hsklType{b}})}{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType{b}}}
-\end{equation*}
+\end{equation}
 である．矢印$\mathMapsTo$は右結合なので，これは
-\begin{equation*}
+\begin{equation}
 \hsklMap\hsklOf{}\mathMorph{(\mathMorph{\hsklType{a}}{\hsklType{b}})}{(\mathMorph{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType{b}}})}
-\end{equation*}
+\end{equation}
 の意味でもある．ここで$f$と$f\hsklMap$の型を並べてみると
 \begin{align*}
 f&\mathIn\mathMorph{\hsklType{a}}{\hsklType{b}}\\
@@ -1379,9 +1473,9 @@ f\hsklMap&\mathIn\mathMorph{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType
 ここでリストの実装について述べておかねばならない．紙上ではリストは自由に考えられるが，計算機上ではそれほど自由ではないからである．我々はリストをLISPにおけるリストと同じ構造を持つものとする．LISPにおけるリストとは変数$\mathFirst$と変数$\mathRest$からなるペアの集合である．変数$\mathFirst$がリストの要素を参照し，変数$\mathRest$が次のペアを参照する．リストの最後のペアの$\mathRest$は空リストを参照する特別な値を持つ．
 
 リストのための特別な表現
-\begin{equation*}
+\begin{equation}
 \mathFirst:\mathRest
-\end{equation*}
+\end{equation}
 を用い，リファレンス$\mathFirst$はリストが保持する型，リファレンス$\mathRest$はリスト型であるとする．演算子$:$を\keyword{結合演算子}と呼ぶ．\footnote{\haskell でも要素\code{x}をリスト\code{t}の先頭に追加することを\code{x:t}と書く．}
 
 要素$\mathRest$はリストまたは空リストであるから，一般にリストは次のように展開できることになる．
@@ -1447,12 +1541,12 @@ x*\mathFactorial(x-1)&\mathOtherwise
 \section{末尾再帰}
 
 計算機科学者は，同じ再帰でも\keyword{末尾再帰}という再帰のスタイルを好む．末尾再帰とは，関数の再帰適用を関数定義の末尾にすることである．この章に出てきた階乗関数$\mathFactorial$を例にとろう．階乗関数$\mathFactorial$は
-\begin{equation*}
+\begin{equation}
 \mathFactorial x=\begin{cases}
 1&\mathIf x\equiv0\\
 x*\mathFactorial(x-1)&\mathOtherwise
 \end{cases}
-\end{equation*}
+\end{equation}
 のような形をしていた．末尾の関数をよりはっきりさせるために演算子$*$を前置にして
 \begin{equation}
 \mathFactorial x=\begin{cases}
@@ -1461,9 +1555,9 @@ x*\mathFactorial(x-1)&\mathOtherwise
 \end{cases}
 \end{equation}
 と書いてみよう．この定義の末尾の式は
-\begin{equation*}
+\begin{equation}
 (*)x(\mathFactorial(x-1))
-\end{equation*}
+\end{equation}
 である．これだと末尾の関数は$\mathFactorial$ではなく演算子$(*)$なので，末尾に再帰適用を行ったことにはならない．
 
 そこで，次のように形を変えた階乗関数$\mathFactorial'$を考えてみる．
@@ -1592,31 +1686,31 @@ def map_over(f, m):
 
 整数$x$と整数$y$があり$z=y/x$という式があるとする．この式は$x\equiv0$のときには$0$除算エラーである．しかし「例外」は内部状態の書き換えであり，我々の計算に入れたくない．そこで変数$z$が正しく計算されたかもしれないし，されていないかもしれないということを，$\hsklMaybe{m}$のように印をつけた別の変数に入れて，忘れないようにしておこう．ここで変数$\hsklMaybe{m}$が取り得る値は正しく計算された値$z$か，あるいはエラーを表す値$\hsklNothing$である．このように計算結果に「意味付け」をすることを\keyword{文脈}に入れると言う．
 
-この変数$\hsklMaybe{m}$はもはや整数型とは言えない．そこでこの$\hsklMaybe{m}$の型を$\hsklMaybeType{\hsklInt}$と表して「きっと整数」型と呼ぶことにしよう．
+この変数$\hsklMaybe{m}$はもはや整数型とは言えない．そこでこの$\hsklMaybe{m}$の型を$\hsklMaybeType{\mathTypeName{Int}}$と表して「きっと整数」型と呼ぶことにしよう．
 型$\hsklType{a}$から型$\hsklMaybeType{\hsklType{a}}$を生成する型コンストラクタを$\hsklMaybeConstructor$と呼び$$\hsklMaybeType{\hsklType{a}}=\hsklTypeConstruct{\hsklMaybeConstructor}{\hsklType{a}}$$とする．\footnote{\haskell では表記上コンテナ型$\hsklMaybeType{a}$と型コンストラクタ式$\hsklTypeConstruct{\hsklMaybeConstructor}{\hsklType{a}}$を区別せず，両者とも\code{Maybe a}と書く．}
 
 $\hsklType{a}$型の変数を$\hsklMaybeType{\hsklType{a}}$型の変数に代入するには，次の値コンストラクタを用いて$$\hsklMaybe{m}=\hsklJust{z}$$と書く．\footnote{\haskell では\code{m = Just z}と書く．}
 
-変数$z$が一度$0$除算の危険性に汚染された場合，その後ずっと$\hsklMaybe{m}$というコンテナに入れ続けなければいけない．このきっと整数$\hsklMaybe{m}$に対して整数を引数にとる関数$f$を適用させるには，何らかの関数マップ演算子が必要である．そこできっと整数の中身に直接関数を適用する演算子を$\hsklMaybeMap$としよう．具体的には$$f\hsklMaybeMap\hsklMaybe{m}=\hsklMaybeW{fz}$$のように関数$f$を変数$\hsklMaybe{m}$に適用させる．その結果はまた$\hsklMaybeType{\hsklInt}$型である．
+変数$z$が一度$0$除算の危険性に汚染された場合，その後ずっと$\hsklMaybe{m}$というコンテナに入れ続けなければいけない．このきっと整数$\hsklMaybe{m}$に対して整数を引数にとる関数$f$を適用させるには，何らかの関数マップ演算子が必要である．そこできっと整数の中身に直接関数を適用する演算子を$\hsklMaybeMap$としよう．具体的には$$f\hsklMaybeMap\hsklMaybe{m}=\hsklMaybeW{fz}$$のように関数$f$を変数$\hsklMaybe{m}$に適用させる．その結果はまた$\hsklMaybeType{\mathTypeName{Int}}$型である．
 
 いま引数の$100$倍の値を返す関数$fz=z*100$があるとしよう．これを「きっと整数」な$\hsklMaybe{m}$に適用するには，$\hsklMaybe{m}$がもし$\hsklMaybe{m}=\hsklJust{z}$ならば中身$z$を取り出して$fz$を計算し，もし$\hsklMaybe{m}=\hsklNothing$であれば$\hsklNothing$を返すような適用演算子である．引数$\hsklMaybe{m}$がいつ$\hsklJust{z}$でいつ$\hsklNothing$になるのかは，いまは問わないことにする．
 
 そこで我々が欲しいのは
-\begin{equation*}
+\begin{equation}
 f\hsklMaybeMap\hsklMaybe{m}=\begin{cases}
 \hsklJust{fz}&\mathIf\hsklMaybe{m}\equiv\hsklJust{z}\\
 \hsklNothing&\mathOtherwise
 \end{cases}
-\end{equation*}
+\end{equation}
 であるようなMaybeバージョンのマップ演算子$\hsklMaybeMap$である．ゆえに我々は演算子$\hsklMaybeMap$を
-\begin{equation*}
+\begin{equation}
 \left\{
 \begin{split}
 f\hsklMaybeMap\hsklJust{z}&=\hsklJust{fz}\\
 f\hsklMaybeMap\hsklNothing&=\hsklNothing
 \end{split}
 \right.
-\end{equation*}
+\end{equation}
 のように定義する．
 
 今後，普通の（引数にMaybeが来ることを想定していない）関数$f$をMaybe型である変数$\hsklMaybe{m}$に適用させるときには，必ず$$\hsklMaybe{n}=f\hsklMaybeMap\hsklMaybe{m}$$のようにMaybeバージョンのマップ演算子$\hsklMaybeMap$を用いることにする．\footnote{\haskell ではMaybeバージョンのマップ演算子に特別な記号，関数名が与えられていない．その代わり第\ref{ch:functor}章で述べる一般化マップ演算子$\hsklFmap$に相当する\code{fmap}関数を用い\code{n = fmap f m}または\code{n = f `fmap` m}のようにする．\haskell は型推論を行なうため変数\code{m}がMaybeであればMaybeバージョンのマップ演算子（関数）が適用される．（もし\code{m}がリストであれば通常のマップ関数である\code{map}が適用される．）}
@@ -1805,11 +1899,11 @@ A...
 \section{型コンストラクタと関手*}
 
 圏$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$があるとする．
-ここに集合$\mathSet{C}$は射の\keyword{対象}となる集合の集合であり，集合$\mathSet{P}$は射の集合である．例えば$$\mathSet{C}=\{\hsklInt\},\;\mathSet{P}=\{-\}$$というのも圏の一つである．この場合，整数と，その符号を反転させる写像（の集合）が圏の要素である．
+ここに集合$\mathSet{C}$は射の\keyword{対象}となる集合の集合であり，集合$\mathSet{P}$は射の集合である．例えば$$\mathSet{C}=\{\mathTypeName{Int}\},\;\mathSet{P}=\{-\}$$というのも圏の一つである．この場合，整数と，その符号を反転させる写像（の集合）が圏の要素である．
 
-% ここにもう一つの圏$\mathCategoryShort{\mathSet{C}'}{\mathSet{P}'}$があるとする．対象$\mathSet{C}$の各元と対象$\mathSet{C}'$の各元の間に一対一対応があり，また射$\mathSet{F}$の各元と射$\mathSet{P}'$の各元の間に一対一対応があるとき，圏$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$から圏$\mathCategoryShort{\mathSet{C}'}{\mathSet{P}'}$への「射」が存在する．この射を\keyword{関手}と呼ぶ．例えば$$\mathSet{C}'=\{\hsklListType{\hsklInt}\},\;\mathSet{P}'=\{(-\hsklMap)\}$$であるとき，整数($\hsklInt$)に対する単項演算($-$)と，整数のリスト($\hsklListType{\hsklInt}$)全体に対する単項演算($-\hsklMap$)は一対一に対応する．
+% ここにもう一つの圏$\mathCategoryShort{\mathSet{C}'}{\mathSet{P}'}$があるとする．対象$\mathSet{C}$の各元と対象$\mathSet{C}'$の各元の間に一対一対応があり，また射$\mathSet{F}$の各元と射$\mathSet{P}'$の各元の間に一対一対応があるとき，圏$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$から圏$\mathCategoryShort{\mathSet{C}'}{\mathSet{P}'}$への「射」が存在する．この射を\keyword{関手}と呼ぶ．例えば$$\mathSet{C}'=\{\hsklListType{\mathTypeName{Int}}\},\;\mathSet{P}'=\{(-\hsklMap)\}$$であるとき，整数($\mathTypeName{Int}$)に対する単項演算($-$)と，整数のリスト($\hsklListType{\mathTypeName{Int}}$)全体に対する単項演算($-\hsklMap$)は一対一に対応する．
 
-% つまり，$\hsklInt$型から$\hsklListType{\hsklInt}$型を作る型コンストラクタ$\hsklListConstructor$とマップ演算子$\hsklMap$があれば，圏$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$から圏$\mathCategoryShort{\mathSet{C}'}{\mathSet{P}'}$へとジャンプできるのである．
+% つまり，$\mathTypeName{Int}$型から$\hsklListType{\mathTypeName{Int}}$型を作る型コンストラクタ$\hsklListConstructor$とマップ演算子$\hsklMap$があれば，圏$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$から圏$\mathCategoryShort{\mathSet{C}'}{\mathSet{P}'}$へとジャンプできるのである．
 
 ---
 
@@ -1822,23 +1916,23 @@ A...
 この意味は，もし$f\hsklFmap\hsklList{t}$と書いてあれば$f\hsklMap\hsklList{t}$のことであるし，もし$f\hsklFmap\hsklMaybe{m}$と書いてあれば$f\hsklMaybeMap\hsklMaybe{m}$のことであると，自動的に解釈することである．そして，何の飾りもつけられていない変数$x$がふらっと現れ，目の前に$f\hsklFmap x$という式が登場しても，落ち着いて変数$x$の型を調べ，変数$x$がリストならば$\hsklFmap$の部分に$\hsklMap$を，変数$x$がMaybeならば$\hsklFmap$の部分に$\hsklMaybeMap$をはめ込むのだ．\footnote{\haskell では一般マップ演算子は\code{fmap}である．ただしその実装は与えられず，対象とする型に応じて定義されるものとする．例えばリストに対しては\code{fmap = map}と定義されている．}
 
 つまり，型コンストラクタ$\hsklListConstructor$は
-\begin{equation*}
+\begin{equation}
 \left\{
 \begin{split}
 \hsklFmap&\xrightarrow{\;\hsklListConstructor\;}\hsklMap\\
 \hsklType{a}&\xrightarrow{\;\hsklListConstructor\;}\hsklListType{\hsklType{a}}
 \end{split}
 \right.
-\end{equation*}
+\end{equation}
 という射であり，型コンストラクタ$\hsklMaybeConstructor$は
-\begin{equation*}
+\begin{equation}
 \left\{
 \begin{split}
 \hsklFmap&\xrightarrow{\;\hsklMaybeConstructor\;}\hsklMaybeMap\\
 \hsklType{a}&\xrightarrow{\;\hsklMaybeConstructor\;}\hsklMaybeType{\hsklType{a}}
 \end{split}
 \right.
-\end{equation*}
+\end{equation}
 という射である．
 
 \section{アプリカティブ関手}
@@ -1859,25 +1953,25 @@ A...
 である．
 
 リストバージョンのアプリカティブマップ演算子は，（リストバージョンの）マップ演算子から再帰的に実装できる．リストバージョンのアプリカティブマップ演算子の実装は
-\begin{equation*}
+\begin{equation}
 \left\{
 \begin{split}
 (f:\hsklList{g})\hsklApplicativeListMap\hsklList{t}&=\hsklConcat((f\hsklMap\hsklList{t}):(\hsklList{g}\hsklApplicativeListMap\hsklList{t}))\\
 \hsklEmptyList\hsklApplicativeListMap\hsklList{t}&=\hsklEmptyList
 \end{split}
 \right.
-\end{equation*}
+\end{equation}
 である．
 
 Maybeバージョンのアプリカティブマップ演算子($\hsklApplicativeMaybeMap$)は左引数がもし$\hsklJust{f}$の形をしていれば，その$f$を右変数$\hsklMaybe{m}$に対して$f\hsklMaybeMap\hsklMaybe{m}$と適用する．具体的には，もし$\hsklJust{(*)100}\hsklApplicativeMaybeMap{}\hsklJust{68}$という式が現れたとすると，アプリカティブマップ演算子の左引数から中身の関数$((*)100)$を抜き出して，右引数の中身$68$に適用し，その結果を再びMaybe値にして返す．式で書けば$$\hsklJust{(*)100}\hsklApplicativeMaybeMap{}\hsklJust{68}=\hsklJust{68000}$$となる．
 
 Maybeバージョンのアプリカティブマップ演算子は，Maybeバージョンのマップ演算子から実装できる．その実装は
-\begin{equation*}
+\begin{equation}
 \hsklMaybe{n}\hsklApplicativeMaybeMap\hsklMaybe{m}=\begin{cases}
 f\hsklMaybeMap\hsklMaybe{m}&\mathIf\hsklMaybe{n}\equiv\hsklJust{f}\\
 \hsklNothing&\mathOtherwise
 \end{cases}
-\end{equation*}
+\end{equation}
 であり，さらにMaybeバージョンのマップ演算子を展開すると
 \begin{align*}
 \hsklMaybe{n}\hsklApplicativeMaybeMap\hsklMaybe{m}&=\begin{cases}
@@ -1999,20 +2093,20 @@ $$f\hsklFmap x=\hsklUnit{f}\hsklMonadMap x$$
 
 
 具体例として引数が$2^{32}$未満なら引数の値をそのまま，それ以上なら$\hsklNothing$を返す関数$a$を考えてみよう．
-\begin{equation*}
+\begin{equation}
 ax=\begin{cases}
 \hsklJust{x}&\mathIf x<2^{32}\\
 \hsklNothing&\mathOtherwise
 \end{cases}
-\end{equation*}
+\end{equation}
 
 
 もうひとつの具体例として「安全な」割り算演算子$\div$を定義してみよう．
 ここで
-\begin{equation*}
+\begin{equation}
 \hsklMaybe{m}\div y=\begin{cases}\hsklJust{x/y}&\mathIf m\neq\hsklNothing\mathAnd y\neq0\\
 \hsklNothing&\mathOtherwise\end{cases}
-\end{equation*}
+\end{equation}
 とする．
 ただし$\hsklMaybe{m}$は$\hsklJust{x}$か，あるいは$\hsklNothing$かのどちらかの値が入っている．
 $x\neq\hsklNothing$かつ$y\neq0$のときの戻り値が$x/y$ではなく$\hsklJust{x/y}$なのは，計算結果が汚染の可能性を持つからである．
@@ -2193,9 +2287,9 @@ v=\mathMain u
 これから各種の\keyword{代数的構造}を見ていくことにする．代数的構造と言っても，身構える必要はない．それは，我々プログラマが日々接している概念に，共通した名前を与えたにすぎない．
 
 まず最初に，我々にとって一番身近な代数的構造である\keyword{数}を見てみよう．数の代表例は\keyword{実数}であるから，実数を例にとって考えてみよう．実数全体の集合を$\mathSpecialSet{R}$で表すことにする．また任意の実数を$x,y,z$で表すこととする．このことを数学者は$x,y,z\in\mathSpecialSet{R}$と書くが，我々は記号$\in$を別の用途に使いたいので，本書では
-\begin{equation*}
+\begin{equation}
 x,y,z\mathIn\mathSpecialSet{R}
-\end{equation*}
+\end{equation}
 と表すことにする．
 
 以下に実数の備える代数的性質を列挙する．どれも当たり前のことに見えるが，ひとつひとつ見ていこう．ここで$x,y,z\mathIn\mathSpecialSet{R}$とする．
@@ -2448,9 +2542,9 @@ O\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O=x
 このとき，組み合わせ$\mathMonoid{\mathSet{M}}{\mathAnyBinaryOperator}{O}$が単位的半群である．可換群とこの単位的半群を組み合わせたのが環，可換群二つを組み合わせたのが体であった．
 
 なお，これまで単位元の定義として
-\begin{equation*}
+\begin{equation}
 O\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O=x
-\end{equation*}
+\end{equation}
 を掲げているが，厳密には単位元は
 \begin{equation}
 O_\mathLeft\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O_\mathRight=x
