@@ -91,6 +91,7 @@
 \newcommand{\mathListWith}[1]{\left[#1\right]}
 \newcommand{\mathSetWith}[1]{\left\{#1\right\}}
 \newcommand{\mathTupleWith}[1]{\left(#1\right)}
+\newcommand{\mathMaybeWith}[1]{\[#1\]}
 
 \newcommand{\mathListType}[1]{\left[#1\right]}
 \newcommand{\mathMaybeType}[1]{\[#1\]}
@@ -112,20 +113,20 @@
 
 % \newcommand{\mathVector}[1]{\vec{#1}} % {DO NOT USE}
 
-%% True and Fasle
+%% True and Fasle, Identity, Empty, Nothing
 
-\newcommand{\mathFalse}{\mathConstant{F}}
 \newcommand{\mathTrue}{\mathConstant{T}}
-
-%% Identity
+\newcommand{\mathFalse}{\mathConstant{F}}
 
 \newcommand{\mathId}{\mathConstant{I}}
+
+\newcommand{\mathEmptyList}{\emptyset}%{{[\,]}}
+\newcommand{\mathNothing}{\varnothing}
 
 %% Special Parameters
 
 \newcommand{\mathAnonymousParameter}{\lozenge}
 \newcommand{\mathAny}{\_}
-\newcommand{\mathEmptyList}{{[\,]}}%{\emptyset}
 \newcommand{\mathSomething}{\square}
 
 %% Left and Right
@@ -157,9 +158,11 @@
 \newcommand{\mathAppend}{\oplus}
 \newcommand{\mathApply}{\mathBinaryOperator{\$}}
 \newcommand{\mathCompose}{\mathBinaryOperator{\bullet}}
+\newcommand{\mathFMap}{\mathBinaryOperator{\cdot}}
 \newcommand{\mathFrom}{\mathBinaryOperator{\in}}
 \newcommand{\mathIn}{\mathBinaryOperator{:\!:}}
 \newcommand{\mathMap}{\mathBinaryOperator{\odot}}
+\newcommand{\mathMaybeMap}{\mathBinaryOperator{\boxdot}}
 \newcommand{\mathOr}{\mathBinaryOperator{\vee}}
 \newcommand{\mathSetTimes}{\mathBinaryOperator{\circledast}}
 
@@ -261,8 +264,6 @@
 
 %% Haskell Symbols
 
-\newcommand{\hsklEmptyList}{{DO NOT USE}--\emptyset}
-\newcommand{\hsklNothing}{{DO NOT USE}--\varnothing}
 
 %% Haskell Types and Type Classes
 
@@ -1668,20 +1669,33 @@ x*\mathFactorial(x-1)&\mathOtherwise
 \chapter{Maybe}
 
 \begin{leader}
-この章では計算結果が正しいかもしれないし，正しくないかもしれないという曖昧な状況を表す型を導入する．手始めに\python でクラスPossiblyを実装し，それがカリー風の数式で綺麗に書けることを示す．またリストとの共通点についても見ていくことにする．
+この章では計算結果が正しいかもしれないし，
+正しくないかもしれないという曖昧な状況を表す型を導入する．
+手始めに\python でクラス\code{Possibly}を実装し，
+それがカリー風の数式で綺麗に書けることを示す．
+またリストとの共通点についても見ていくことにする．
 \end{leader}
 
 \section{Possibly}
 
-計算の途中で，計算にまつわる状態を残りの計算に引き継ぎたくなる場合がある．例えば，整数$x$と整数$y$があり$z=y/x$なる値を続く計算で利用したいとする．だが$x\equiv0$のときには$z$は正しく計算されない．こんなときプログラマが取れる手段は
+計算の途中で，計算にまつわる状態を残りの計算に引き継ぎたくなる場合がある．
+例えば，整数$x$と整数$y$があり$z=y/x$なる値を続く計算で利用したいとする．
+だが$x\equiv0$のときには$z$は正しく計算されない．
+こんなときプログラマが取れる手段は
 \begin{itemize}
-\item $z=y/x$を計算した時点で$0$除算例外を発生させ，プログラムの制御を他の場所へ移す（大域ジャンプを行う）
-\item グローバル変数に$0$除算エラーが起こったことを記録しておき，$z$にはとりあえずの数値，例えば$0$を代入しておいて，計算を続行させる
+\item $z=y/x$を計算した時点で$0$除算例外を発生させ，
+プログラムの制御を他の場所へ移す（大域ジャンプを行う）
+\item グローバル変数に$0$除算エラーが起こったことを記録しておき，
+$z$にはとりあえずの数値，例えば$0$を代入しておいて，計算を続行させる
 \item $z$にエラー状態を示す印をつけておいて，計算を続行させる
 \end{itemize}
 といったところだろう．
 
-大域ジャンプも，グローバル変数の書き換えも破壊的代入を伴うものであり，受け入れがたい．そこで我々は第3のエラー状態を示す印をつける方法を採用することにする．普通変数が整数だろうが実数だろうが，計算機表現には余分なビットが残っていないので，次のようなクラス\pthnClassname{Possibly}を導入することにしよう．メンバ変数\code{value}が値を，メンバ変数\code{valid}がエラーの有無を表す．
+大域ジャンプも，グローバル変数の書き換えも破壊的代入を伴うものであり，受け入れがたい．
+そこで我々は第3のエラー状態を示す印をつける方法を採用することにする．
+普通変数が整数だろうが実数だろうが，計算機表現には余分なビットが残っていないので，
+次のようなクラス\code{Possibly}を導入することにしよう．
+メンバ変数\code{value}が値を，メンバ変数\code{valid}がエラーの有無を表す．
 \begin{pythoncode}
 % \begin{pythontab}
 % \pthnKeyword{class} \pthnClassname{Possibly}:\\
@@ -1697,65 +1711,52 @@ class Possibly:
 \end{verbatim}
 \end{pythoncode}
 
-例えば整数値$123$を持つPossibly値\code{m}は
+例えば整数値$123$を持つ\code{Possibly}クラスの値\code{m}は
 \begin{pythoncode}
-% \begin{pythontab}
-% \code{m} \pthnOp{=} \pthnClassname{Possibly}(\code{True}, 123)
-% \end{pythontab}
 \begin{verbatim}
 m = Possibly(True, 123)
 \end{verbatim}
 \end{pythoncode}
-として生成できるし，\pthnClassname{Possibly}値\code{m}が計算エラーを表す場合は
+として生成できるし，\code{Possibly}値\code{m}が計算エラーを表す場合は
 \begin{pythoncode}
-% \begin{pythontab}
-% \code{m} \pthnOp{=} \pthnClassname{Possibly}(\code{False})
-% \end{pythontab}
 \begin{verbatim}
 m = Possibly(False)
 \end{verbatim}
 \end{pythoncode}
 と初期化できる．
 
-ここで，引数を$100$倍にして返す関数\code{f}があるとしよう．関数\code{f}の定義は次の通りである．
+ここで，引数を$100$倍にして返す関数\code{f}があるとしよう．
+関数\code{f}の定義は次の通りである．
 \begin{pythoncode}
-% \begin{pythontab}
-% \code{f} \pthnOp{=} \pthnKeyword{lambda} \code{x}: $100$ \pthnOp{*} \code{x}
-% \end{pythontab}
 \begin{verbatim}
 f = lambda x: 100 * x
 \end{verbatim}
 \end{pythoncode}
 
-関数\code{f}に直接\pthnClassname{Possibly}値\code{m}を食わせるとランタイムエラーを引き起こす．
+関数\code{f}に直接\code{Possibly}値\code{m}を食わせるとランタイムエラーを引き起こす．
 \begin{pythoncode}
-% \begin{pythontab}
-% \code{n} \pthnOp{=} \code{f}(\code{m}) \texttt{\#} エラー!!
-% \end{pythontab}
 \begin{verbatim}
 m = f(m) # エラー!!
 \end{verbatim}
 \end{pythoncode}
-これは関数\code{f}が引数として数値を期待していたにもかかわらず，\pthnClassname{Possibly}値が渡されたからである．もし関数\code{f}のほうをいじりたくないとすれば，次のような関数\code{map\_over}を使って
+これは関数\code{f}が引数として数値を期待していたにもかかわらず，
+\code{Possibly}クラスの値が渡されたからである．
+もし関数\code{f}のほうをいじりたくないとすれば，
+次のような関数\code{map\_over}を使って
 \begin{pythoncode}
-% \begin{pythontab}
-% \code{n} \pthnOp{=} \code{map\_over}(\code{f}, \code{m})
-% \end{pythontab}
 \begin{verbatim}
 n = map_over(f, m)
 \end{verbatim}
 \end{pythoncode}
 というふうに間接的に関数適用を行う必要がある．
 
-関数\code{map\_over}(\code{f}, \code{m})はもし\code{m}がエラーを表す値でなければ中身の値を関数\code{f}に適用し，その結果を\pthnClassname{Possibly}クラスに包んで返す．もし\code{m}がエラー値を表す値であれば，結果もエラー値である．関数\code{map\_over}の実装は次のようになる．
+関数\code{map\_over}(\code{f}, \code{m})は
+もし\code{m}がエラーを表す値でなければ中身の値を
+関数\code{f}に適用し，
+その結果を\code{Possibly}クラスに包んで返す．
+もし\code{m}がエラー値を表す値であれば，結果もエラー値である．
+関数\code{map\_over}の実装は次のようになる．
 \begin{pythoncode}
-% \begin{pythontab}
-% \pthnKeyword{def} \code{map\_over}(\code{f}, \code{m}):\\
-% \>\pthnKeyword{if} \code{m}.\code{valid} \pthnOp{==} \code{True}:\\
-% \>\>\pthnKeyword{return} \pthnClassname{Possibly}(\code{True}, \code{f}(\code{m}.\code{value}))\\
-% \>\pthnKeyword{else}:\\
-% \>\>\pthnKeyword{return} \pthnClassname{Possibly}(\code{False})
-% \end{pythontab}
 \begin{verbatim}
 def map_over(f, m):
   if m.valid == True:
@@ -1771,10 +1772,19 @@ def map_over(f, m):
 
 もう一度振り出しに戻る．
 
-整数$x$と整数$y$があり$z=y/x$という式があるとする．この式は$x\equiv0$のときには$0$除算エラーである．しかし「例外」は内部状態の書き換えであり，我々の計算に入れたくない．そこで変数$z$が正しく計算されたかもしれないし，されていないかもしれないということを，$\hsklMaybe{m}$のように印をつけた別の変数に入れて，忘れないようにしておこう．ここで変数$\hsklMaybe{m}$が取り得る値は正しく計算された値$z$か，あるいはエラーを表す値$\hsklNothing$である．このように計算結果に「意味付け」をすることを\keyword{文脈}に入れると言う．
+整数$x$と整数$y$があり$z=y/x$という式があるとする．
+この式は$x\equiv0$のときには$0$除算エラーである．
+しかし「例外」は内部状態の書き換えであり，我々の計算に入れたくない．
+そこで変数$z$が正しく計算されたかもしれないし，
+されていないかもしれないということを，
+$\mathMaybeVar{m}$のように印をつけた別の変数に入れて，
+忘れないようにしておこう．
+ここで変数$\mathMaybeVar{m}$が取り得る値は正しく計算された値$z$か，
+あるいはエラーを表す値$\mathNothing$である．
+このように計算結果に「意味付け」をすることを\keyword{文脈}に入れると言う．
 
-この変数$\hsklMaybe{m}$はもはや整数型とは言えない．
-そこでこの$\hsklMaybe{m}$の型を$\hsklMaybeType{\mathTypeName{Int}}$と表して
+この変数$\mathMaybeVar{m}$はもはや整数型とは言えない．
+そこでこの$\mathMaybeVar{m}$の型を$\mathMaybeType{\mathTypeName{Int}}$と表して
 「きっと整数」型と呼ぶことにしよう．
 型$\mathTypeParameter{a}$から型$\mathMaybeType{\mathTypeParameter{a}}$を
 生成する型コンストラクタを$\mathMaybe$と呼び
@@ -1787,49 +1797,71 @@ $$
 型コンストラクタ式$\mathMaybe\mathTypeParameter{a}$を区別せず，
 両者とも\code{Maybe a}と書く．}
 
-$\mathTypeParameter{a}$型の変数を$\hsklMaybeType{\mathTypeParameter{a}}$型の変数に代入するには，次の値コンストラクタを用いて$$\hsklMaybe{m}=\hsklJust{z}$$と書く．\footnote{\haskell では\code{m = Just z}と書く．}
+$\mathTypeParameter{a}$型の変数を
+$\mathMaybeType{\mathTypeParameter{a}}$型の変数に代入するには，
+次の値コンストラクタを用いて
+$$
+\mathMaybeVar{m}=\mathMaybeWith{z}
+$$
+と書く．\footnote{\haskell では
+\code{m = Just z}と書く．}
 
-変数$z$が一度$0$除算の危険性に汚染された場合，その後ずっと$\hsklMaybe{m}$というコンテナに入れ続けなければいけない．このきっと整数$\hsklMaybe{m}$に対して整数を引数にとる関数$f$を適用させるには，何らかの関数マップ演算子が必要である．そこできっと整数の中身に直接関数を適用する演算子を$\hsklMaybeMap$としよう．具体的には$$f\hsklMaybeMap\hsklMaybe{m}=\hsklMaybeW{fz}$$のように関数$f$を変数$\hsklMaybe{m}$に適用させる．その結果はまた$\hsklMaybeType{\mathTypeName{Int}}$型である．
+変数$z$が一度$0$除算の危険性に汚染された場合，
+その後ずっと$\mathMaybeVar{m}$というコンテナに入れ続けなければいけない．
+このきっと整数$\mathMaybeVar{m}$に対して整数を引数にとる関数$f$を適用させるには，
+何らかの関数マップ演算子が必要である．
+そこできっと整数の中身に直接関数を適用する演算子を$\mathMaybeMap$としよう．
+具体的には
+$$
+f\mathMaybeMap\mathMaybeVar{m}=\mathMaybeWith{fz}
+$$
+のように関数$f$を変数$\mathMaybeVar{m}$に適用させる．
+その結果はまた$\mathMaybeType{\mathTypeName{Int}}$型である．
 
-いま引数の$100$倍の値を返す関数$fz=z*100$があるとしよう．これを「きっと整数」な$\hsklMaybe{m}$に適用するには，$\hsklMaybe{m}$がもし$\hsklMaybe{m}=\hsklJust{z}$ならば中身$z$を取り出して$fz$を計算し，もし$\hsklMaybe{m}=\hsklNothing$であれば$\hsklNothing$を返すような適用演算子である．引数$\hsklMaybe{m}$がいつ$\hsklJust{z}$でいつ$\hsklNothing$になるのかは，いまは問わないことにする．
+いま引数の$100$倍の値を返す関数$fz=z*100$があるとしよう．
+これを「きっと整数」な$\mathMaybeVar{m}$に適用するには，
+$\mathMaybeVar{m}$がもし$\mathMaybeVar{m}=\mathMaybeWith{z}$ならば
+中身$z$を取り出して$fz$を計算し，
+もし$\mathMaybeVar{m}=\mathNothing$であれば
+$\mathNothing$を返すような適用演算子である．
+引数$\mathMaybeVar{m}$がいつ$\mathMaybeWith{z}$で
+いつ$\mathNothing$になるのかは，いまは問わないことにする．
 
 そこで我々が欲しいのは
 \begin{equation}
-f\hsklMaybeMap\hsklMaybe{m}=\begin{cases}
-\hsklJust{fz}&\mathIf\hsklMaybe{m}\equiv\hsklJust{z}\\
-\hsklNothing&\mathOtherwise
+f\mathMaybeMap\mathMaybeVar{m}=\begin{cases}
+\mathMaybeWith{fz}&\mathIf\mathMaybeVar{m}\equiv\mathMaybeWith{z}\\
+\mathNothing&\mathOtherwise
 \end{cases}
 \end{equation}
-であるようなMaybeバージョンのマップ演算子$\hsklMaybeMap$である．ゆえに我々は演算子$\hsklMaybeMap$を
+であるようなMaybeバージョンのマップ演算子$\mathMaybeMap$である．ゆえに我々は演算子$\mathMaybeMap$を
 \begin{equation}
 \left\{
 \begin{split}
-f\hsklMaybeMap\hsklJust{z}&=\hsklJust{fz}\\
-f\hsklMaybeMap\hsklNothing&=\hsklNothing
+f\mathMaybeMap\mathMaybeWith{z}&=\mathMaybeWith{fz}\\
+f\mathMaybeMap\mathNothing&=\mathNothing
 \end{split}
 \right.
 \end{equation}
 のように定義する．
 
-今後，普通の（引数にMaybeが来ることを想定していない）関数$f$をMaybe型である変数$\hsklMaybe{m}$に適用させるときには，必ず$$\hsklMaybe{n}=f\hsklMaybeMap\hsklMaybe{m}$$のようにMaybeバージョンのマップ演算子$\hsklMaybeMap$を用いることにする．\footnote{\haskell ではMaybeバージョンのマップ演算子に特別な記号，関数名が与えられていない．その代わり第\ref{ch:functor}章で述べる一般化マップ演算子$\hsklFmap$に相当する\code{fmap}関数を用い\code{n = fmap f m}または\code{n = f `fmap` m}のようにする．\haskell は型推論を行なうため変数\code{m}がMaybeであればMaybeバージョンのマップ演算子（関数）が適用される．（もし\code{m}がリストであれば通常のマップ関数である\code{map}が適用される．）}
+今後，普通の（引数にMaybeが来ることを想定していない）関数$f$をMaybe型である
+変数$\mathMaybeVar{m}$に適用させるときには，
+必ず
+$$
+\mathMaybeVar{n}=f\mathMaybeMap\mathMaybeVar{m}
+$$
+のようにMaybeバージョンのマップ演算子$\mathMaybeMap$を用いることにする．\footnote{\haskell ではMaybeバージョンのマップ演算子に特別な記号，関数名が与えられていない．その代わり第\ref{ch:functor}章で述べる一般化マップ演算子$\mathFMap$に相当する\code{fmap}関数を用い\code{n = fmap f m}または\code{n = f `fmap` m}のようにする．\haskell は型推論を行なうため変数\code{m}がMaybeであればMaybeバージョンのマップ演算子（関数）が適用される．（もし\code{m}がリストであれば通常のマップ関数である\code{map}が適用される．）}
 
-\python でMaybeの概念を忠実になぞることは難しい．と言うのも\python は動的型付け言語であるため，型コンストラクタという概念が無いからだ．一方で，Maybeの概念を静的型付け言語である\cxx やJavaで実現することは出来る．そこで\cxx の本物のコードで示しておこう．ただし参照を使わないでおいたので\cxx プログラマもJavaプログラマも参考にできるだろう．
+\python でMaybeの概念を忠実になぞることは難しい．
+と言うのも\python は動的型付け言語であるため，型コンストラクタという概念が無いからだ．
+一方でMaybeの概念を静的型付け言語である\cxx や\java で実現することは出来る．
+そこで\cxx の本物のコードで示しておこう．
+ただし参照を使わないでおいたので\cxx プログラマも\java プログラマも参考にできるだろう．
 
-Maybeは次の\pthnClassname{maybe}クラステンプレートで表現できる．（Javaプログラマへの注意：これは\pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$クラスの定義と同じ意味である．）
+Maybeは次の\code{maybe}クラステンプレートで表現できる．
+（\java プログラマへの注意: これは\code{maybe<a>}クラスの定義と同じ意味である．）
 \begin{cxxcode}
-% \begin{pythontab}
-% \pthnKeyword{template} $\langle$\pthnKeyword{typename} \pthnClassname{a}$\rangle$ \pthnKeyword{class} \pthnClassname{maybe} \{\\
-% \pthnKeyword{private}:\\
-% \>\pthnClassname{a} \code{value};\\
-% \>\pthnKeyword{bool} \code{valid};\\
-% \pthnKeyword{public}:\\
-% \>\pthnClassname{maybe}(): \code{value}($0$), \code{valid}(\code{false}) \{ \}\\
-% \>\pthnClassname{maybe}(\pthnClassname{a} \code{a\_value}):\\
-% \>\>\code{value}(\code{a\_value}), \code{valid}(\code{true}) \{ \}\\
-% \>\pthnClassname{a} \code{get\_value}() \pthnKeyword{const} \{ \pthnKeyword{return} \code{value}; \}\\
-% \>\pthnKeyword{bool} \code{is\_valid}() \pthnKeyword{const} \{ \pthnKeyword{return} \code{valid}; \}\\
-% \};
-% \end{pythontab}
 \begin{verbatim}
 template <typename a> class maybe {
   private:
@@ -1843,21 +1875,18 @@ template <typename a> class maybe {
 }
 \end{verbatim}
 \end{cxxcode}
-デフォルトコンストラクタは例外的な状況を表す$\hsklNothing$を生成し，1引数コンストラクタは\pthnClassname{maybe}で包んだ引数値を生成する．
+デフォルトコンストラクタは例外的な状況を表す$\mathNothing$を生成し，
+1引数コンストラクタは\code{maybe}で包んだ引数値を生成する．
 
-\cxx プログラムで良く見かけるクラス設計と違い，この\pthnClassname{maybe}クラスはコンストラクタ以外に中身を書き換える手段が提供されていない．これが破壊的代入の禁止が意味することである．
+\cxx プログラムで良く見かけるクラス設計と違い，
+この\code{maybe}クラスはコンストラクタ以外に中身を書き換える手段が提供されていない．
+これが破壊的代入の禁止が意味することである．
 
-当然我々にはMaybeバージョンのマップ演算子が必要である．ここでは関数\code{map\_over}として書いてみよう．（Javaプログラマへの注意：関数\code{map\_over}はどのクラスにも属していないが，それで正解なのである．）
+当然我々にはMaybeバージョンのマップ演算子が必要である．
+ここでは関数\code{map\_over}として書いてみよう．
+（\java プログラマへの注意: 関数\code{map\_over}はどのクラスにも属していないが，
+それで正解なのである．）
 \begin{cxxcode}
-% \begin{pythontab}
-% \pthnKeyword{template} $\langle$\pthnKeyword{typename} \pthnClassname{a}, \pthnKeyword{typename} \pthnClassname{fn}$\rangle$\\
-% \pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$ \code{map\_over}(\pthnClassname{fn} \code{f}, \pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$ \code{m}) \{\\
-% \>\pthnKeyword{if} (\code{m}.\code{is\_valid}())\\
-% \>\>\pthnKeyword{return} \pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$(\code{f}(\code{m}.\code{get\_value}()));\\
-% \>\pthnKeyword{else}\\
-% \>\>\pthnKeyword{return} \pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$();\\
-% \}
-% \end{pythontab}
 \begin{verbatim}
 template <typename a, typename fn>
 maybe<a> map_over(fn f, maybe<a> m) {
@@ -1870,18 +1899,23 @@ maybe<a> map_over(fn f, maybe<a> m) {
 }
 \end{verbatim}
 \end{cxxcode}
-テンプレートの2番目の引数\pthnClassname{fn}は関数\code{f}を受け取るために必要である．\cxx はコンパイル時までにすべての変数の型が決定していないといけないが，関数\code{f}の型は関数\code{map\_over}設計時には確定できないため，このようにテンプレートにしている．
-% （\cxx03プログラマへの注意：関数\code{f}には関数オブジェクトを渡しても良い．）
-% こうすることで，Cスタイルの関数ポインタも，\cxx03スタイルの関数オブジェクトも，\cxx11スタイルのラムダ式も受け取ることができる．
+テンプレートの2番目の引数\code{fn}は関数\code{f}を受け取るために必要である．
+\cxx はコンパイル時までにすべての変数の型が決定していないといけないが，
+関数\code{f}の型は関数\code{map\_over}設計時には確定できないため，
+このようにテンプレートにしている．
+% こうすることで，Cスタイルの関数ポインタも，\cxx03スタイルの関数オブジェクトも，
+% \cxx11スタイルのラムダ式も受け取ることができる．
+（\cxx03プログラマへの注意: 関数\code{f}の代わりに
+関数オブジェクト---かつてfunctorと呼ばれていたもの---を渡しても良い．）
 
-整数$z$からMaybe値$\hsklMaybe{m}=\hsklJust{z}$を作り，関数$fx=x*100$をMaybe値$\hsklMaybe{m}$に食わせてMaybe値$\hsklMaybe{n}$ただし$$\hsklMaybe{n}=f\hsklMaybeMap\hsklMaybe{m}$$を得ることを，\cxx では次のように書くことになる．
+整数$z$からMaybe値$\mathMaybeVar{m}=\mathMaybeWith{z}$を作り，
+関数$fx=x*100$をMaybe値$\mathMaybeVar{m}$に食わせて
+Maybe値$\mathMaybeVar{n}$ただし
+$$
+\mathMaybeVar{n}=f\mathMaybeMap\mathMaybeVar{m}
+$$
+を得ることを\cxx では次のように書くことになる．
 \begin{cxxcode}
-% \begin{pythontab}
-% \pthnKeyword{int} \code{z} \pthnOp{=} $123$;\\
-% \pthnClassname{maybe}$\langle$\pthnKeyword{int}$\rangle$ \code{m}(\code{z});\\
-% \pthnKeyword{auto} \code{f} \pthnOp{=} \pthnOp{[]}(\pthnKeyword{int} \code{x}) $\rightarrow$ \pthnKeyword{int} \{ \pthnKeyword{return} \code{x} \pthnOp{*} $100$; \};\\
-% \pthnClassname{maybe}$\langle$\pthnKeyword{int}$\rangle$ \code{n} \pthnOp{=} \code{map\_over}(\code{f}, \code{m});
-% \end{pythontab}
 \begin{verbatim}
 int z = 123;
 maybe<int> m(z);
@@ -1889,30 +1923,33 @@ auto f = [](int x) -> int { return x * 100; };
 maybe<int> n = map_over(f, m);
 \end{verbatim}
 \end{cxxcode}
-注意してほしいのは\code{f}(\code{z})も\code{map\_over}(\code{f}, \code{m})も正当なコードだが\code{f}(\code{m})は型エラーであることだ．また\code{f}(\code{m}.\code{get\_value}())は正当なコードだが，わざわざ\code{m}が持つ文脈を捨てることになる．（\cxx プログラマへの注意：$\pthnKeyword{int}$型の使用は現在では非推奨である．本書ではコードの読みやすさのためにあえて$\pthnKeyword{int}$を使用している．）
+注意してほしいのは\code{f(z)}も\code{map\_over(f, m)}も
+正当なコードだが\code{f(m)}は型エラーであることだ．
+また\code{f(m.get\_value())}は正当なコードだが，
+わざわざ\code{m}が持つ文脈を捨てることになる．
+（\cxx プログラマへの注意: \code{int}型の使用は現在では非推奨である．
+本書ではコードの読みやすさのためにあえて\code{int}を使用している．）
 
 % ところで，関数\code{f}の実装は，ラムダ式の使えない\cxx03ではファンクター (functor) という機構を使うことになる．このファンクターは第\ref{ch:functor}章の関手 (functor) とは全く別な概念である．
 
 \section{リストとMaybe}
 
-関数$f$をMayby値$\hsklMaybe{m}$に適用するために$$\hsklMaybe{n}=f\hsklMaybeMap\hsklMaybe{m}$$のようなMaybeバージョンのマップ演算子($\hsklMaybeMap$)を使った．一方で，同じ関数$f$をリスト$\mathListVar{t}$に適用するには$$\mathListVar{u}=f\mathMap\mathListVar{t}$$
+関数$f$をMayby値$\mathMaybeVar{m}$に適用するために
+$$
+\mathMaybeVar{n}=f\mathMaybeMap\mathMaybeVar{m}
+$$
+のようなMaybeバージョンのマップ演算子($\mathMaybeMap$)を使った．
+一方で，同じ関数$f$をリスト$\mathListVar{t}$に適用するには
+$$
+\mathListVar{u}=f\mathMap\mathListVar{t}
+$$
+のようなリストバージョンのマップ演算子($\mathMap$)を使った．
 
-リストバージョンのマップ演算子($\mathMap$)をもし\cxx で書くとしたら，次のようなコードになる．ここでリスト型として\cxx の標準テンプレートライブラリ(STL)の\pthnClassname{list}クラスを流用した．
+リストバージョンのマップ演算子($\mathMap$)をもし\cxx で書くとしたら，
+次のようなコードになる．
+ここでリスト型として\cxx の標準テンプレートライブラリ(STL)の
+\code{list}クラスを流用した．
 \begin{cxxcode}
-% \begin{pythontab}
-% \pthnKeyword{template} $\langle$\pthnKeyword{typename} \pthnClassname{a}, \pthnKeyword{typename} \pthnClassname{fn}$\rangle$\\
-% \code{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$ \code{map\_over}(\pthnClassname{fn} \code{f}, \code{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$ \code{t}) \{\\
-% \>\code{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$ \code{r}(\code{t}.\code{size}());\\
-% % \>\pthnKeyword{typename} \code{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$::\pthnClassname{const\_iterator}\\
-% % \>\>\code{i} \pthnOp{=} \code{l}.\code{cbegin}();\\
-% % \>\pthnKeyword{typename} \code{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$::\pthnClassname{iterator} \code{j} \pthnOp{=} \code{r}.\code{begin}();\\
-% \>\pthnKeyword{auto} \code{i} \pthnOp{=} \code{t}.\code{cbegin}();\\
-% \>\pthnKeyword{auto} \code{j} \pthnOp{=} \code{r}.\code{begin}();\\
-% \>\pthnKeyword{while} (\code{i} \pthnOp{!=} \code{l}.\code{cend}())\\
-% \>\>\pthnOp{*}\code{j}\pthnOp{++} \pthnOp{=} \code{f}(\pthnOp{*}\code{i}\pthnOp{++});\\
-% \>\pthnKeyword{return} \code{r};\\
-% \}
-% \end{pythontab}
 \begin{verbatim}
 template <typename a, typename fn>
 std::list<a> map_over(fn f, std::list<a> t) {
@@ -1926,16 +1963,10 @@ std::list<a> map_over(fn f, std::list<a> t) {
 }
 \end{verbatim}
 \end{cxxcode}
-この関数\code{map\_over}の中身部分はどうでもよろしい．それよりも，リストバージョンのマップ演算子の\cxx 関数のインタフェースと，Maybeバージョンのマップ演算子の\cxx 関数のインタフェースを見比べてみよう．
+この関数\code{map\_over}の中身部分はどうでもよろしい．
+それよりも，リストバージョンのマップ演算子の\cxx 関数のインタフェースと，
+Maybeバージョンのマップ演算子の\cxx 関数のインタフェースを見比べてみよう．
 \begin{cxxcode}
-% \begin{pythontab}
-% \verb|//| List\\
-% \pthnKeyword{template} $\langle$\pthnKeyword{typename} \pthnClassname{a}, \pthnKeyword{typename} \pthnClassname{fn}$\rangle$\\
-% \code{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$ \code{map\_over}(\pthnClassname{fn} \code{f}, \code{std}::\pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$ \code{t});\\
-% \verb|//| Maybe\\
-% \pthnKeyword{template} $\langle$\pthnKeyword{typename} \pthnClassname{a}, \pthnKeyword{typename} \pthnClassname{fn}$\rangle$\\
-% \pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$ \code{map\_over}(\pthnClassname{fn} \code{f}, \pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$ \code{m});
-% \end{pythontab}
 \begin{verbatim}
 // List
 template <typename a, typename fn>
@@ -1947,35 +1978,30 @@ maybe<a> map_over(fn f, maybe<a> m);
 \end{cxxcode}
 やはりそっくりである．であるならば
 \begin{cxxcode}
-% \begin{pythontab}
-% \verb|//| \pthnClassname{X} \pthnOp{=} \pthnClassname{list}$\langle$\pthnClassname{a}$\rangle$ or \pthnClassname{maybe}$\langle$\pthnClassname{a}$\rangle$ \\
-% \pthnKeyword{template} $\langle$\pthnKeyword{typename} \pthnClassname{X}, \pthnKeyword{typename} \pthnClassname{fn}$\rangle$\\
-% \pthnClassname{X} \code{map\_over}(\pthnClassname{fn} \code{f}, \pthnClassname{X} \code{x});
-% \end{pythontab}
 \begin{verbatim}
 // X = list<a> or maybe<a>
 template <typename X, typename fn>
 X map_over(fn f, X x);
 \end{verbatim}
 \end{cxxcode}
-として，型\pthnClassname{X}に応じてリストバージョンかMaybeバージョンを切り替えられると便利である．
+として，型\code{X}に応じてリストバージョンかMaybeバージョンを切り替えられると便利である．
 
-残念ながら，\cxx で楽に進める道はここら辺までである．型\pthnClassname{X}がマップ可能なコンテナであることをテンプレート機構を使って保証することができないため，この\code{map\_over}関数を誤った型に対して使った場合のコンパイル時エラーはひどく読みにくいものになる．ヒューマンエラーを防ぐための型システムが，まさに型無しになってしまうのだ．
+残念ながら\cxx11で楽に進める道はここら辺までである．
+型\code{X}がマップ可能なコンテナであることをテンプレート機構を使って保証することができないため，この\code{map\_over}関数を誤った型に対して使った場合のコンパイル時エラーはひどく読みにくいものになる．
+ヒューマンエラーを防ぐための型システムが，まさに型無しになってしまうのだ．
+（この制約は\cxx17で改善される見込みである．）
 
----
-
-\cxx17
-
----
-
-一方で，数学者たちが見つけた圏という代数的構造が，リストもMaybeも統一的に扱うことを可能にしている．これを発見したのは Eugenio Moggi を始めとする計算機科学者たちである．この人類の英知は第\ref{ch:functor}章から見ていくことにしよう．
+一方で，数学者たちが見つけた圏という代数的構造が，
+リストもMaybeも統一的に扱うことを可能にしている．
+これを発見したのは Eugenio Moggi を始めとする計算機科学者たちである．
+この人類の英知は第\ref{ch:functor}章から見ていくことにしよう．
 
 
 \section{余計な話：モノイドとしてのコンテナ}
 
 $$\mathMonoid{\mathListType{\mathTypeParameter{a}}}{\mathAppend}{\mathEmptyList}$$
 
-$$\mathMonoid{\hsklMaybeType{\mathTypeParameter{a}}}{\hsklMaybeAppend}{\hsklNothing}$$
+$$\mathMonoid{\mathMaybeType{\mathTypeParameter{a}}}{\hsklMaybeAppend}{\mathNothing}$$
 
 
 \chapter{関手}
@@ -2007,18 +2033,18 @@ A...
 
 型コンストラクタ$\mathList$とマップ演算子$\mathMap$の組み合わせ$(\mathList,\mathMap)$は関手の一例である．
 
-同じことが型コンストラクタ$\mathMaybe$とMaybeバージョンのマップ演算子$\hsklMaybeMap$の組み合わせ$(\mathMaybe,\hsklMaybeMap)$にも言える．
+同じことが型コンストラクタ$\mathMaybe$とMaybeバージョンのマップ演算子$\mathMaybeMap$の組み合わせ$(\mathMaybe,\mathMaybeMap)$にも言える．
 
-そこでリストのマップ演算子($\mathMap$)，Maybeのマップ演算子($\hsklMaybeMap$)をひとくくりにして抽象的な\keyword{一般マップ演算子} ($\hsklFmap$)とする．一般マップ演算子は，右引数がリストであればリストのマップ演算子を，右引数がMaybeであればMaybeのマップ演算子に「化ける」．右引数がただの数であれば，ただの空白になる．
+そこでリストのマップ演算子($\mathMap$)，Maybeのマップ演算子($\mathMaybeMap$)をひとくくりにして抽象的な\keyword{一般マップ演算子} ($\mathFMap$)とする．一般マップ演算子は，右引数がリストであればリストのマップ演算子を，右引数がMaybeであればMaybeのマップ演算子に「化ける」．右引数がただの数であれば，ただの空白になる．
 
-この意味は，もし$f\hsklFmap\mathListVar{t}$と書いてあれば$f\mathMap\mathListVar{t}$のことであるし，もし$f\hsklFmap\hsklMaybe{m}$と書いてあれば$f\hsklMaybeMap\hsklMaybe{m}$のことであると，自動的に解釈することである．そして，何の飾りもつけられていない変数$x$がふらっと現れ，目の前に$f\hsklFmap x$という式が登場しても，落ち着いて変数$x$の型を調べ，変数$x$がリストならば$\hsklFmap$の部分に$\mathMap$を，変数$x$がMaybeならば$\hsklFmap$の部分に$\hsklMaybeMap$をはめ込むのだ．\footnote{\haskell では一般マップ演算子は\code{fmap}である．ただしその実装は与えられず，対象とする型に応じて定義されるものとする．例えばリストに対しては\code{fmap = map}と定義されている．}
+この意味は，もし$f\mathFMap\mathListVar{t}$と書いてあれば$f\mathMap\mathListVar{t}$のことであるし，もし$f\mathFMap\mathMaybeVar{m}$と書いてあれば$f\mathMaybeMap\mathMaybeVar{m}$のことであると，自動的に解釈することである．そして，何の飾りもつけられていない変数$x$がふらっと現れ，目の前に$f\mathFMap x$という式が登場しても，落ち着いて変数$x$の型を調べ，変数$x$がリストならば$\mathFMap$の部分に$\mathMap$を，変数$x$がMaybeならば$\mathFMap$の部分に$\mathMaybeMap$をはめ込むのだ．\footnote{\haskell では一般マップ演算子は\code{fmap}である．ただしその実装は与えられず，対象とする型に応じて定義されるものとする．例えばリストに対しては\code{fmap = map}と定義されている．}
 
 \newcommand{\mathEmptySet}{\emptyset}
 つまり，型コンストラクタ$\mathList$は
 \begin{equation}
 \left\{
 \begin{split}
-\hsklFmap&\xrightarrow{\;\mathList\;}\mathMap\\
+\mathFMap&\xrightarrow{\;\mathList\;}\mathMap\\
 \mathTypeParameter{a}&\xrightarrow{\;\mathList\;}\mathListType{\mathTypeParameter{a}}
 \end{split}
 \right.
@@ -2027,8 +2053,8 @@ A...
 \begin{equation}
 \left\{
 \begin{split}
-\hsklFmap&\xrightarrow{\;\mathMaybe\;}\hsklMaybeMap\\
-\mathTypeParameter{a}&\xrightarrow{\;\mathMaybe\;}\hsklMaybeType{\mathTypeParameter{a}}
+\mathFMap&\xrightarrow{\;\mathMaybe\;}\mathMaybeMap\\
+\mathTypeParameter{a}&\xrightarrow{\;\mathMaybe\;}\mathMaybeType{\mathTypeParameter{a}}
 \end{split}
 \right.
 \end{equation}
@@ -2062,35 +2088,35 @@ A...
 \end{equation}
 である．
 
-Maybeバージョンのアプリカティブマップ演算子($\hsklApplicativeMaybeMap$)は左引数がもし$\hsklJust{f}$の形をしていれば，その$f$を右変数$\hsklMaybe{m}$に対して$f\hsklMaybeMap\hsklMaybe{m}$と適用する．具体的には，もし$\hsklJust{(*)100}\hsklApplicativeMaybeMap{}\hsklJust{68}$という式が現れたとすると，アプリカティブマップ演算子の左引数から中身の関数$((*)100)$を抜き出して，右引数の中身$68$に適用し，その結果を再びMaybe値にして返す．式で書けば$$\hsklJust{(*)100}\hsklApplicativeMaybeMap{}\hsklJust{68}=\hsklJust{68000}$$となる．
+Maybeバージョンのアプリカティブマップ演算子($\hsklApplicativeMaybeMap$)は左引数がもし$\mathMaybeWith{f}$の形をしていれば，その$f$を右変数$\mathMaybeVar{m}$に対して$f\mathMaybeMap\mathMaybeVar{m}$と適用する．具体的には，もし$\mathMaybeWith{(*)100}\hsklApplicativeMaybeMap{}\mathMaybeWith{68}$という式が現れたとすると，アプリカティブマップ演算子の左引数から中身の関数$((*)100)$を抜き出して，右引数の中身$68$に適用し，その結果を再びMaybe値にして返す．式で書けば$$\mathMaybeWith{(*)100}\hsklApplicativeMaybeMap{}\mathMaybeWith{68}=\mathMaybeWith{68000}$$となる．
 
 Maybeバージョンのアプリカティブマップ演算子は，Maybeバージョンのマップ演算子から実装できる．その実装は
 \begin{equation}
-\hsklMaybe{n}\hsklApplicativeMaybeMap\hsklMaybe{m}=\begin{cases}
-f\hsklMaybeMap\hsklMaybe{m}&\mathIf\hsklMaybe{n}\equiv\hsklJust{f}\\
-\hsklNothing&\mathOtherwise
+\mathMaybeVar{n}\hsklApplicativeMaybeMap\mathMaybeVar{m}=\begin{cases}
+f\mathMaybeMap\mathMaybeVar{m}&\mathIf\mathMaybeVar{n}\equiv\mathMaybeWith{f}\\
+\mathNothing&\mathOtherwise
 \end{cases}
 \end{equation}
 であり，さらにMaybeバージョンのマップ演算子を展開すると
 \begin{align*}
-\hsklMaybe{n}\hsklApplicativeMaybeMap\hsklMaybe{m}&=\begin{cases}
+\mathMaybeVar{n}\hsklApplicativeMaybeMap\mathMaybeVar{m}&=\begin{cases}
 \left\{
 \begin{array}{ll}
-\hsklJust{fx}&\mathIf\hsklMaybe{m}\equiv\hsklJust{x}\\
-\hsklNothing&\mathOtherwise
-\end{array}\right\}&\mathIf\hsklMaybe{n}\equiv\hsklJust{f}\\
-\hsklNothing&\mathOtherwise
+\mathMaybeWith{fx}&\mathIf\mathMaybeVar{m}\equiv\mathMaybeWith{x}\\
+\mathNothing&\mathOtherwise
+\end{array}\right\}&\mathIf\mathMaybeVar{n}\equiv\mathMaybeWith{f}\\
+\mathNothing&\mathOtherwise
 \end{cases}\\
 &=\begin{cases}
-\hsklJust{fx}&\mathIf\hsklMaybe{m}\equiv\hsklJust{x}\wedge\hsklMaybe{n}\equiv\hsklJust{f}\\
-\hsklNothing&\mathOtherwise
+\mathMaybeWith{fx}&\mathIf\mathMaybeVar{m}\equiv\mathMaybeWith{x}\wedge\mathMaybeVar{n}\equiv\mathMaybeWith{f}\\
+\mathNothing&\mathOtherwise
 \end{cases}
 \end{align*}
 である．
 
-ピュア演算子とは型コンストラクタを利用した「最もシンプルな」型変換演算子である．例えばリストのピュア演算子は単に$[x]$であるし，Maybeのピュア演算子は$\hsklJust{x}$である．一般のピュア演算子は$\hsklPure{x}$と書くものとする．ピュア演算子は，いまのところ便宜上導入されたものと考えて差し支えない．というのも，その主たる使い道が（アプリカティブではない）関手との後方互換性のためだからである．\footnote{\haskell は一般のピュア演算子の実装を与えていない．変数の型に応じて対応する関数が適用される．}
+ピュア演算子とは型コンストラクタを利用した「最もシンプルな」型変換演算子である．例えばリストのピュア演算子は単に$[x]$であるし，Maybeのピュア演算子は$\mathMaybeWith{x}$である．一般のピュア演算子は$\hsklPure{x}$と書くものとする．ピュア演算子は，いまのところ便宜上導入されたものと考えて差し支えない．というのも，その主たる使い道が（アプリカティブではない）関手との後方互換性のためだからである．\footnote{\haskell は一般のピュア演算子の実装を与えていない．変数の型に応じて対応する関数が適用される．}
 
-関手における一般マップ演算子$(\hsklFmap)$は，ピュア演算子と一般アプリカティブマップ演算子を使って$$f\hsklFmap x=\hsklPure{f}\hsklApplicativeMap x$$と再定義できる．
+関手における一般マップ演算子$(\mathFMap)$は，ピュア演算子と一般アプリカティブマップ演算子を使って$$f\mathFMap x=\hsklPure{f}\hsklApplicativeMap x$$と再定義できる．
 
 \section{関数と関手の関係*}
 
@@ -2104,7 +2130,7 @@ A...
 
 アプリカティブスタイルのいいところは，「普通の」関数が増えてもスタイルを変えなくて良いことである．例えば$$f\hsklApplicativeApply g\hsklApplicativeMap h\hsklApplicativeMap x$$は期待通りコンテナ型変数$x$に関数$h$，関数$g$，関数$f$を順に作用させる．これは$f\hsklApplicativeApply g\hsklApplicativeMap h$と$\hsklPure{f\mathCompose g\mathCompose h}$が同値だからである．
 
-アプリカティブスタイルは，計算の流れを明確にしているとも言える．例えば$f\hsklApplicativeApply g\hsklApplicativeMap h\hsklApplicativeMap x$は$$x\leadsto h\leadsto g\leadsto f$$という計算の流れを示す．もちろん関数合成演算子と関数適用演算子でも似たことはできるが，関数合成演算子と関数適用演算子だけでは$x$が例えば$\hsklNothing$でる可能性を扱えないし，また計算の途中経過がなんらかのエラーで$\hsklNothing$になるような系も扱えない．（後者はアプリカティブスタイルでも扱えない．そのために次章で述べる「モナド」が登場する．）
+アプリカティブスタイルは，計算の流れを明確にしているとも言える．例えば$f\hsklApplicativeApply g\hsklApplicativeMap h\hsklApplicativeMap x$は$$x\leadsto h\leadsto g\leadsto f$$という計算の流れを示す．もちろん関数合成演算子と関数適用演算子でも似たことはできるが，関数合成演算子と関数適用演算子だけでは$x$が例えば$\mathNothing$でる可能性を扱えないし，また計算の途中経過がなんらかのエラーで$\mathNothing$になるような系も扱えない．（後者はアプリカティブスタイルでも扱えない．そのために次章で述べる「モナド」が登場する．）
 
 \chapter{モナド}
 
@@ -2133,8 +2159,8 @@ $$\phi x=\begin{cases}\hsklUnit{fx}&\text{普通に計算をしたとき}\\
 
 ここでようやく$0$除算の課題を扱える．
 $$x\mathop{\%}y=\begin{cases}
-\hsklJust{x/y}&\mathIf y\neq0\\
-\hsklNothing&\mathOtherwise
+\mathMaybeWith{x/y}&\mathIf y\neq0\\
+\mathNothing&\mathOtherwise
 \end{cases}
 $$
 
@@ -2142,16 +2168,16 @@ $$
 
 リストのマップ演算子$$\mathListVar{t}'=f\mathMap\mathListVar{t}$$を思い出そう．もし$\mathListVar{t}\equiv\mathEmptyList$ならば$\mathListVar{t}'=\mathEmptyList$になる．もし$\mathListVar{t}\equiv[x_0,x_1\dots]$ならば$\mathListVar{t}'=[fx_0,fx_1\dots]$になる．
 
-Maybeのマップ演算子$$\hsklMaybe{m}'=g\hsklMaybeMap\hsklMaybe{m}$$を思い出そう．もし$\hsklMaybe{m}\equiv\hsklNothing$ならば$\hsklMaybe{m}'=\hsklNothing$になる．もし$\hsklMaybe{m}\equiv\hsklJust{y}$ならば$\hsklMaybe{m}'=\hsklJust{fy}$になる．
+Maybeのマップ演算子$$\mathMaybeVar{m}'=g\mathMaybeMap\mathMaybeVar{m}$$を思い出そう．もし$\mathMaybeVar{m}\equiv\mathNothing$ならば$\mathMaybeVar{m}'=\mathNothing$になる．もし$\mathMaybeVar{m}\equiv\mathMaybeWith{y}$ならば$\mathMaybeVar{m}'=\mathMaybeWith{fy}$になる．
 
-これらをまとめた一般マップ演算子$$z'=h\hsklFmap z$$も思い出そう．関数$h$は「普通の」関数である．
+これらをまとめた一般マップ演算子$$z'=h\mathFMap z$$も思い出そう．関数$h$は「普通の」関数である．
 
 リストのアプリカティブマップ演算子$$\mathListVar{t}'=\mathListVar{f}\hsklApplicativeListMap\mathListVar{t}$$を思い出そう．もし$\mathListVar{f}\equiv\mathEmptyList$ならば$\mathListVar{t}'=\mathEmptyList$になる．もし$\mathListVar{f}\equiv[u_0,u_1\dots]$ならば$\mathListVar{t}'=[u_0\mathMap\mathListVar{t},u_1\mathMap\mathListVar{t}\dots]$になる．
 
-Maybeのアプリカティブマップ演算子$$\hsklMaybe{m}'=\hsklMaybe{g}\hsklApplicativeMaybeMap\hsklMaybe{m}$$を思い出そう．もし$\hsklMaybe{g}\equiv\hsklNothing$ならば$\hsklMaybe{m}'=\hsklNothing$になる．もし$\hsklMaybe{g}\equiv\hsklJust{v}$ならば$\hsklMaybe{m}'=\hsklJust{vy}$になる．
+Maybeのアプリカティブマップ演算子$$\mathMaybeVar{m}'=\mathMaybeVar{g}\hsklApplicativeMaybeMap\mathMaybeVar{m}$$を思い出そう．もし$\mathMaybeVar{g}\equiv\mathNothing$ならば$\mathMaybeVar{m}'=\mathNothing$になる．もし$\mathMaybeVar{g}\equiv\mathMaybeWith{v}$ならば$\mathMaybeVar{m}'=\mathMaybeWith{vy}$になる．
 
 これらをまとめた一般アプリカティブマップ演算子$$z'=h\hsklApplicativeMap z$$も思い出そう．関数$h$は「普通の」関数をコンテナにつめたものである．
-% ピュア演算子を用いると，元の一般マップ演算子との互換性が$$w\hsklFmap z=\hsklPure{w}\hsklApplicativeMap z$$のようにとれる．ここに$w$は「普通の」関数である．
+% ピュア演算子を用いると，元の一般マップ演算子との互換性が$$w\mathFMap z=\hsklPure{w}\hsklApplicativeMap z$$のようにとれる．ここに$w$は「普通の」関数である．
 
 
 ---
@@ -2169,7 +2195,7 @@ $\hsklUnit{x}$は\keyword{ユニット演算子}と言って，変数を最も�
 %!!!!!!!!!! CHECK !!!!!!!!!!
 
 \begin{align*}
-\hsklFmap&\mathIn{}\mathMorphII{(\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}})}{\langle\mathTypeParameter{a}\rangle}{\langle\mathTypeParameter{b}
+\mathFMap&\mathIn{}\mathMorphII{(\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}})}{\langle\mathTypeParameter{a}\rangle}{\langle\mathTypeParameter{b}
 \rangle}\\
 \hsklApplicativeMap&\mathIn{}\mathMorphII{\langle\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}}\rangle}{\langle\mathTypeParameter{a}\rangle}{\langle\mathTypeParameter{b}\rangle}\\
 \hsklMonadMap&\mathIn{}\mathMorphII{(\mathMorph{\mathTypeParameter{a}}{\langle\mathTypeParameter{b}\rangle})}{\langle\mathTypeParameter{a}\rangle}{\langle{\mathTypeParameter{b}}\rangle}
@@ -2181,7 +2207,7 @@ $$\hsklPure{\mathSomething}\mathIn\mathMorph{\mathTypeParameter{a}}{\langle\math
 $$x'=\phi\hsklMonadMap x$$
 
 関手とは
-$$f\hsklFmap x=\hsklUnit{f}\hsklMonadMap x$$
+$$f\mathFMap x=\hsklUnit{f}\hsklMonadMap x$$
 とすれば互換性がとれる．
 
 
@@ -2191,11 +2217,11 @@ $$f\hsklFmap x=\hsklUnit{f}\hsklMonadMap x$$
 \section{モナドな関数*}
 
 
-具体例として引数が$2^{32}$未満なら引数の値をそのまま，それ以上なら$\hsklNothing$を返す関数$a$を考えてみよう．
+具体例として引数が$2^{32}$未満なら引数の値をそのまま，それ以上なら$\mathNothing$を返す関数$a$を考えてみよう．
 \begin{equation}
 ax=\begin{cases}
-\hsklJust{x}&\mathIf x<2^{32}\\
-\hsklNothing&\mathOtherwise
+\mathMaybeWith{x}&\mathIf x<2^{32}\\
+\mathNothing&\mathOtherwise
 \end{cases}
 \end{equation}
 
@@ -2203,12 +2229,12 @@ ax=\begin{cases}
 もうひとつの具体例として「安全な」割り算演算子$\div$を定義してみよう．
 ここで
 \begin{equation}
-\hsklMaybe{m}\div y=\begin{cases}\hsklJust{x/y}&\mathIf m\neq\hsklNothing\mathAnd y\neq0\\
-\hsklNothing&\mathOtherwise\end{cases}
+\mathMaybeVar{m}\div y=\begin{cases}\mathMaybeWith{x/y}&\mathIf m\neq\mathNothing\mathAnd y\neq0\\
+\mathNothing&\mathOtherwise\end{cases}
 \end{equation}
 とする．
-ただし$\hsklMaybe{m}$は$\hsklJust{x}$か，あるいは$\hsklNothing$かのどちらかの値が入っている．
-$x\neq\hsklNothing$かつ$y\neq0$のときの戻り値が$x/y$ではなく$\hsklJust{x/y}$なのは，計算結果が汚染の可能性を持つからである．
+ただし$\mathMaybeVar{m}$は$\mathMaybeWith{x}$か，あるいは$\mathNothing$かのどちらかの値が入っている．
+$x\neq\mathNothing$かつ$y\neq0$のときの戻り値が$x/y$ではなく$\mathMaybeWith{x/y}$なのは，計算結果が汚染の可能性を持つからである．
 
 
 \begin{table*}
@@ -2228,7 +2254,7 @@ $x\neq\hsklNothing$かつ$y\neq0$のときの戻り値が$x/y$ではなく$\hskl
 型$\backslash$要素と演算子
     &$\hsklPure{x}$
     &$\hsklApplicativeMap$
-    &$\hsklFmap$
+    &$\mathFMap$
     &$\hsklUnit{x}$
     &$\hsklMonadMap$
     &$O$
@@ -2244,12 +2270,12 @@ $x\neq\hsklNothing$かつ$y\neq0$のときの戻り値が$x/y$ではなく$\hskl
     &$\mathAppend$\\
 \hline
 Maybe
-    &$\hsklJust{x}$
+    &$\mathMaybeWith{x}$
     &$\hsklApplicativeMaybeMap$
-    &$\hsklMaybeMap$
-    &$\hsklJust{x}$
+    &$\mathMaybeMap$
+    &$\mathMaybeWith{x}$
     &$\spadesuit$
-    &$\hsklNothing$
+    &$\mathNothing$
     &$\hsklMaybeAppend$\\
 \hline
 関数
@@ -2360,7 +2386,7 @@ v=\mathMain u
 \end{equation}
 という$\text{main}$関数であり，それを
 \begin{equation}
-\mathMain=f_1\hsklFmap f_2\hsklFmap\dots\hsklFmap f_n
+\mathMain=f_1\mathFMap f_2\mathFMap\dots\mathFMap f_n
 \end{equation}
 と部分関数に分解することがプログラマの能力となる．
 
