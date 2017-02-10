@@ -92,6 +92,7 @@
 \newcommand{\mathSetWith}[1]{\left\{#1\right\}}
 \newcommand{\mathTupleWith}[1]{\left(#1\right)}
 \newcommand{\mathMaybeWith}[1]{\[#1\]}
+\newcommand{\mathPureWith}[1]{\left\langle#1\right\rangle}
 
 \newcommand{\mathListType}[1]{\left[#1\right]}
 \newcommand{\mathMaybeType}[1]{\[#1\]}
@@ -109,7 +110,6 @@
 
 \DeclareMathOperator{\mathList}{\mathTypeConstructor{List}}
 \DeclareMathOperator{\mathMaybe}{\mathTypeConstructor{Maybe}}
-
 
 % \newcommand{\mathVector}[1]{\vec{#1}} % {DO NOT USE}
 
@@ -156,6 +156,10 @@
 \newcommand{\mathAnyBinaryOperator}{\mathBinaryOperator{\bigstar}}
 \newcommand{\mathAnd}{\mathBinaryOperator{\wedge}}
 \newcommand{\mathAppend}{\oplus}
+\newcommand{\mathApplicativeApply}{\mathBinaryOperator{\S}}
+\newcommand{\mathApplicativeGeneralMap}{\times}
+\newcommand{\mathApplicativeMap}{\otimes}
+\newcommand{\mathApplicativeMaybeMap}{\boxtimes}
 \newcommand{\mathApply}{\mathBinaryOperator{\$}}
 \newcommand{\mathCompose}{\mathBinaryOperator{\bullet}}
 \newcommand{\mathFMap}{\mathBinaryOperator{\cdot}}
@@ -248,10 +252,6 @@
 
 %% Haskell Operators
 
-\DeclareMathOperator{\hsklApplicativeApply}{{DO NOT USE}--\S}
-\DeclareMathOperator{\hsklApplicativeMap}{{DO NOT USE}--\times}
-\DeclareMathOperator{\hsklApplicativeListMap}{{DO NOT USE}--\otimes}
-\DeclareMathOperator{\hsklApplicativeMaybeMap}{{DO NOT USE}--\boxtimes}
 \DeclareMathOperator{\hsklConcat}{{DO NOT USE}--\flat}
 \DeclareMathOperator{\hsklFmap}{{DO NOT USE}--\cdot}
 \DeclareMathOperator{\hsklHead}{{DO NOT USE}--head}
@@ -1417,7 +1417,7 @@ $\mathTypeParameter{a}$型のリスト型を$\mathListType{\mathTypeParameter{a}
 とする．この等式の両辺は変数ではなく型名であることに注意しよう．
 型コンストラクタの概念は\python には無い（必要無い）が，
 静的型付け言語である\cxx の「クラステンプレート」が相当する．\footnote{\haskell では
-表記上コンテナ型$\mathListType{a}$と
+表記上コンテナ型$\mathListType{\mathTypeParameter{a}}$と
 型コンストラクタ式$\mathList\mathTypeParameter{a}$を区別せず，
 両者とも\code{[a]}と書く．}
 
@@ -1857,7 +1857,7 @@ $$
 と言うのも\python は動的型付け言語であるため，型コンストラクタという概念が無いからだ．
 一方でMaybeの概念を静的型付け言語である\cxx や\java で実現することは出来る．
 そこで\cxx の本物のコードで示しておこう．
-ただし参照を使わないでおいたので\cxx プログラマも\java プログラマも参考にできるだろう．
+ただしポインタを使わないでおいたので\cxx プログラマも\java プログラマも参考にできるだろう．
 
 Maybeは次の\code{maybe}クラステンプレートで表現できる．
 （\java プログラマへの注意: これは\code{maybe<a>}クラスの定義と同じ意味である．）
@@ -2022,6 +2022,10 @@ A...
 
 \section{型コンストラクタと関手*}
 
+圏の説明．
+
+---
+
 圏$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$があるとする．
 ここに集合$\mathSet{C}$は射の\keyword{対象}となる集合の集合であり，集合$\mathSet{P}$は射の集合である．例えば$$\mathSet{C}=\{\mathTypeName{Int}\},\;\mathSet{P}=\{-\}$$というのも圏の一つである．この場合，整数と，その符号を反転させる写像（の集合）が圏の要素である．
 
@@ -2063,43 +2067,58 @@ A...
 \section{アプリカティブ関手}
 
 関手の一般化マップ演算子をさらに汎用性のあるものにするために，二つの要素に分解する．
-その要素とは\keyword{ピュア演算子}と\keyword{一般アプリカティブマップ演算子} $(\hsklApplicativeMap)$である．\footnote{\haskell では一般アプリカティブマップ演算子を\code{<*>}と書く．}
+その要素とは\keyword{ピュア演算子}と\keyword{一般アプリカティブマップ演算子}$(\mathApplicativeGeneralMap)$である．\footnote{\haskell では一般アプリカティブマップ演算子を\code{<*>}と書く．}
 
-一般マップ演算子が「普通の関数」$f$をコンテナの中の変数に適用するのに対し，一般アプリカティブマップ演算子はコンテナの中の関数をコンテナの中の変数へ適用する．
+一般マップ演算子が「普通の関数」$f$をコンテナの中の変数に適用するのに対し，
+一般アプリカティブマップ演算子はコンテナの中の関数をコンテナの中の変数へ適用する．
 
-一般マップ演算子の実装に（リストバージョンの）マップ演算子，Maybeバージョンのマップ演算子があったように，一般アプリカティブマップ演算子にもリストバージョンのアプリカティブマップ演算子，Maybeバージョンのアプリカティブマップ演算子がある．
+一般マップ演算子の実装に（リストバージョンの）マップ演算子，
+Maybeバージョンのマップ演算子があったように，
+一般アプリカティブマップ演算子にもリストバージョンのアプリカティブマップ演算子，
+Maybeバージョンのアプリカティブマップ演算子がある．
 
-リストバージョンのアプリカティブマップ演算子$(\hsklApplicativeListMap)$は左引数のリスト内のすべての関数を順番に右引数のリスト内の変数に適用し，その結果をリストとして返す．
-例えば$$[f,g,h]\hsklApplicativeMap[x,y,z]$$とした場合，左引数，右引数ともリストであるため$$[f,g,h]\hsklApplicativeMap[x,y,z]=[f,g,h]\hsklApplicativeListMap[x,y,z]$$となり，その結果は
-\begin{align*}
-[f,g,h]\hsklApplicativeMap[x,y,z]&=[f,g,h]\hsklApplicativeListMap[x,y,z]\\
-&=[fx,fy,fz,gx,gy,gz,hx,hy,hz]
-\end{align*}
+リストバージョンのアプリカティブマップ演算子$(\mathApplicativeMap)$は左引数のリスト内の
+すべての関数を順番に右引数のリスト内の変数に適用し，その結果をリストとして返す．
+例えば
+$$
+\mathListWith{f,g,h}\mathApplicativeGeneralMap\mathListWith{x,y,z}
+$$
+とした場合，左引数，右引数ともリストであるため
+$$
+\mathListWith{f,g,h}\mathApplicativeGeneralMap\mathListWith{x,y,z}
+=\mathListWith{f,g,h}\mathApplicativeMap\mathListWith{x,y,z}
+$$
+となり，その結果は
+\begin{align}
+\mathListWith{f,g,h}\mathApplicativeGeneralMap\mathListWith{x,y,z}
+&=\mathListWith{f,g,h}\mathApplicativeMap\mathListWith{x,y,z}\\
+&=\mathListWith{fx,fy,fz,gx,gy,gz,hx,hy,hz}
+\end{align}
 である．
 
 リストバージョンのアプリカティブマップ演算子は，（リストバージョンの）マップ演算子から再帰的に実装できる．リストバージョンのアプリカティブマップ演算子の実装は
 \begin{equation}
 \left\{
 \begin{split}
-(f:\mathListVar{g})\hsklApplicativeListMap\mathListVar{t}&=\mathConcat((f\mathMap\mathListVar{t}):(\mathListVar{g}\hsklApplicativeListMap\mathListVar{t}))\\
-\mathEmptyList\hsklApplicativeListMap\mathListVar{t}&=\mathEmptyList
+(f:\mathListVar{g})\mathApplicativeMap\mathListVar{t}&=\mathConcat((f\mathMap\mathListVar{t}):(\mathListVar{g}\mathApplicativeMap\mathListVar{t}))\\
+\mathEmptyList\mathApplicativeMap\mathListVar{t}&=\mathEmptyList
 \end{split}
 \right.
 \end{equation}
 である．
 
-Maybeバージョンのアプリカティブマップ演算子($\hsklApplicativeMaybeMap$)は左引数がもし$\mathMaybeWith{f}$の形をしていれば，その$f$を右変数$\mathMaybeVar{m}$に対して$f\mathMaybeMap\mathMaybeVar{m}$と適用する．具体的には，もし$\mathMaybeWith{(*)100}\hsklApplicativeMaybeMap{}\mathMaybeWith{68}$という式が現れたとすると，アプリカティブマップ演算子の左引数から中身の関数$((*)100)$を抜き出して，右引数の中身$68$に適用し，その結果を再びMaybe値にして返す．式で書けば$$\mathMaybeWith{(*)100}\hsklApplicativeMaybeMap{}\mathMaybeWith{68}=\mathMaybeWith{68000}$$となる．
+Maybeバージョンのアプリカティブマップ演算子($\mathApplicativeMaybeMap$)は左引数がもし$\mathMaybeWith{f}$の形をしていれば，その$f$を右変数$\mathMaybeVar{m}$に対して$f\mathMaybeMap\mathMaybeVar{m}$と適用する．具体的には，もし$\mathMaybeWith{(*)100}\mathApplicativeMaybeMap{}\mathMaybeWith{68}$という式が現れたとすると，アプリカティブマップ演算子の左引数から中身の関数$((*)100)$を抜き出して，右引数の中身$68$に適用し，その結果を再びMaybe値にして返す．式で書けば$$\mathMaybeWith{(*)100}\mathApplicativeMaybeMap{}\mathMaybeWith{68}=\mathMaybeWith{68000}$$となる．
 
 Maybeバージョンのアプリカティブマップ演算子は，Maybeバージョンのマップ演算子から実装できる．その実装は
 \begin{equation}
-\mathMaybeVar{n}\hsklApplicativeMaybeMap\mathMaybeVar{m}=\begin{cases}
+\mathMaybeVar{n}\mathApplicativeMaybeMap\mathMaybeVar{m}=\begin{cases}
 f\mathMaybeMap\mathMaybeVar{m}&\mathIf\mathMaybeVar{n}\equiv\mathMaybeWith{f}\\
 \mathNothing&\mathOtherwise
 \end{cases}
 \end{equation}
 であり，さらにMaybeバージョンのマップ演算子を展開すると
 \begin{align*}
-\mathMaybeVar{n}\hsklApplicativeMaybeMap\mathMaybeVar{m}&=\begin{cases}
+\mathMaybeVar{n}\mathApplicativeMaybeMap\mathMaybeVar{m}&=\begin{cases}
 \left\{
 \begin{array}{ll}
 \mathMaybeWith{fx}&\mathIf\mathMaybeVar{m}\equiv\mathMaybeWith{x}\\
@@ -2114,9 +2133,9 @@ f\mathMaybeMap\mathMaybeVar{m}&\mathIf\mathMaybeVar{n}\equiv\mathMaybeWith{f}\\
 \end{align*}
 である．
 
-ピュア演算子とは型コンストラクタを利用した「最もシンプルな」型変換演算子である．例えばリストのピュア演算子は単に$[x]$であるし，Maybeのピュア演算子は$\mathMaybeWith{x}$である．一般のピュア演算子は$\hsklPure{x}$と書くものとする．ピュア演算子は，いまのところ便宜上導入されたものと考えて差し支えない．というのも，その主たる使い道が（アプリカティブではない）関手との後方互換性のためだからである．\footnote{\haskell は一般のピュア演算子の実装を与えていない．変数の型に応じて対応する関数が適用される．}
+ピュア演算子とは型コンストラクタを利用した「最もシンプルな」型変換演算子である．例えばリストのピュア演算子は単に$[x]$であるし，Maybeのピュア演算子は$\mathMaybeWith{x}$である．一般のピュア演算子は$\mathPureWith{x}$と書くものとする．ピュア演算子は，いまのところ便宜上導入されたものと考えて差し支えない．というのも，その主たる使い道が（アプリカティブではない）関手との後方互換性のためだからである．\footnote{\haskell は一般のピュア演算子の実装を与えていない．変数の型に応じて対応する関数が適用される．}
 
-関手における一般マップ演算子$(\mathFMap)$は，ピュア演算子と一般アプリカティブマップ演算子を使って$$f\mathFMap x=\hsklPure{f}\hsklApplicativeMap x$$と再定義できる．
+関手における一般マップ演算子$(\mathFMap)$は，ピュア演算子と一般アプリカティブマップ演算子を使って$$f\mathFMap x=\mathPureWith{f}\mathApplicativeGeneralMap x$$と再定義できる．
 
 \section{関数と関手の関係*}
 
@@ -2124,13 +2143,13 @@ A...
 
 \section{余計な話：アプリカティブスタイル}
 
-関数適用演算子$\mathApply$とよく似た演算子$\hsklApplicativeApply$ただし$$f\hsklApplicativeApply g=\hsklPure{f\mathCompose g}$$なる演算子を導入する．この演算子は特別に\keyword{アプリカティブ関数適用演算子}と呼ぶ．\footnote{\haskell では\code{<\$>}と書く．}
+関数適用演算子$\mathApply$とよく似た演算子$\mathApplicativeApply$ただし$$f\mathApplicativeApply g=\mathPureWith{f\mathCompose g}$$なる演算子を導入する．この演算子は特別に\keyword{アプリカティブ関数適用演算子}と呼ぶ．\footnote{\haskell では\code{<\$>}と書く．}
 
-アプリカティブ関数適用演算子があると，わざわざピュア演算子を用いなくとも連続的に「普通の」関数をコンテナ型の引数に適用できる．いま変数$x$をコンテナ型とし，関数$f$と関数$g$が「普通」であるとすると$$f\hsklApplicativeApply g\hsklApplicativeMap x$$のようにして変数$x$に関数$g$，関数$f$を順に作用させることができる．このような書き方を\keyword{アプリカティブスタイル}と呼ぶ．
+アプリカティブ関数適用演算子があると，わざわざピュア演算子を用いなくとも連続的に「普通の」関数をコンテナ型の引数に適用できる．いま変数$x$をコンテナ型とし，関数$f$と関数$g$が「普通」であるとすると$$f\mathApplicativeApply g\mathApplicativeGeneralMap x$$のようにして変数$x$に関数$g$，関数$f$を順に作用させることができる．このような書き方を\keyword{アプリカティブスタイル}と呼ぶ．
 
-アプリカティブスタイルのいいところは，「普通の」関数が増えてもスタイルを変えなくて良いことである．例えば$$f\hsklApplicativeApply g\hsklApplicativeMap h\hsklApplicativeMap x$$は期待通りコンテナ型変数$x$に関数$h$，関数$g$，関数$f$を順に作用させる．これは$f\hsklApplicativeApply g\hsklApplicativeMap h$と$\hsklPure{f\mathCompose g\mathCompose h}$が同値だからである．
+アプリカティブスタイルのいいところは，「普通の」関数が増えてもスタイルを変えなくて良いことである．例えば$$f\mathApplicativeApply g\mathApplicativeGeneralMap h\mathApplicativeGeneralMap x$$は期待通りコンテナ型変数$x$に関数$h$，関数$g$，関数$f$を順に作用させる．これは$f\mathApplicativeApply g\mathApplicativeGeneralMap h$と$\mathPureWith{f\mathCompose g\mathCompose h}$が同値だからである．
 
-アプリカティブスタイルは，計算の流れを明確にしているとも言える．例えば$f\hsklApplicativeApply g\hsklApplicativeMap h\hsklApplicativeMap x$は$$x\leadsto h\leadsto g\leadsto f$$という計算の流れを示す．もちろん関数合成演算子と関数適用演算子でも似たことはできるが，関数合成演算子と関数適用演算子だけでは$x$が例えば$\mathNothing$でる可能性を扱えないし，また計算の途中経過がなんらかのエラーで$\mathNothing$になるような系も扱えない．（後者はアプリカティブスタイルでも扱えない．そのために次章で述べる「モナド」が登場する．）
+アプリカティブスタイルは，計算の流れを明確にしているとも言える．例えば$f\mathApplicativeApply g\mathApplicativeGeneralMap h\mathApplicativeGeneralMap x$は$$x\leadsto h\leadsto g\leadsto f$$という計算の流れを示す．もちろん関数合成演算子と関数適用演算子でも似たことはできるが，関数合成演算子と関数適用演算子だけでは$x$が例えば$\mathNothing$でる可能性を扱えないし，また計算の途中経過がなんらかのエラーで$\mathNothing$になるような系も扱えない．（後者はアプリカティブスタイルでも扱えない．そのために次章で述べる「モナド」が登場する．）
 
 \chapter{モナド}
 
@@ -2172,12 +2191,12 @@ Maybeのマップ演算子$$\mathMaybeVar{m}'=g\mathMaybeMap\mathMaybeVar{m}$$�
 
 これらをまとめた一般マップ演算子$$z'=h\mathFMap z$$も思い出そう．関数$h$は「普通の」関数である．
 
-リストのアプリカティブマップ演算子$$\mathListVar{t}'=\mathListVar{f}\hsklApplicativeListMap\mathListVar{t}$$を思い出そう．もし$\mathListVar{f}\equiv\mathEmptyList$ならば$\mathListVar{t}'=\mathEmptyList$になる．もし$\mathListVar{f}\equiv[u_0,u_1\dots]$ならば$\mathListVar{t}'=[u_0\mathMap\mathListVar{t},u_1\mathMap\mathListVar{t}\dots]$になる．
+リストのアプリカティブマップ演算子$$\mathListVar{t}'=\mathListVar{f}\mathApplicativeMap\mathListVar{t}$$を思い出そう．もし$\mathListVar{f}\equiv\mathEmptyList$ならば$\mathListVar{t}'=\mathEmptyList$になる．もし$\mathListVar{f}\equiv[u_0,u_1\dots]$ならば$\mathListVar{t}'=[u_0\mathMap\mathListVar{t},u_1\mathMap\mathListVar{t}\dots]$になる．
 
-Maybeのアプリカティブマップ演算子$$\mathMaybeVar{m}'=\mathMaybeVar{g}\hsklApplicativeMaybeMap\mathMaybeVar{m}$$を思い出そう．もし$\mathMaybeVar{g}\equiv\mathNothing$ならば$\mathMaybeVar{m}'=\mathNothing$になる．もし$\mathMaybeVar{g}\equiv\mathMaybeWith{v}$ならば$\mathMaybeVar{m}'=\mathMaybeWith{vy}$になる．
+Maybeのアプリカティブマップ演算子$$\mathMaybeVar{m}'=\mathMaybeVar{g}\mathApplicativeMaybeMap\mathMaybeVar{m}$$を思い出そう．もし$\mathMaybeVar{g}\equiv\mathNothing$ならば$\mathMaybeVar{m}'=\mathNothing$になる．もし$\mathMaybeVar{g}\equiv\mathMaybeWith{v}$ならば$\mathMaybeVar{m}'=\mathMaybeWith{vy}$になる．
 
-これらをまとめた一般アプリカティブマップ演算子$$z'=h\hsklApplicativeMap z$$も思い出そう．関数$h$は「普通の」関数をコンテナにつめたものである．
-% ピュア演算子を用いると，元の一般マップ演算子との互換性が$$w\mathFMap z=\hsklPure{w}\hsklApplicativeMap z$$のようにとれる．ここに$w$は「普通の」関数である．
+これらをまとめた一般アプリカティブマップ演算子$$z'=h\mathApplicativeGeneralMap z$$も思い出そう．関数$h$は「普通の」関数をコンテナにつめたものである．
+% ピュア演算子を用いると，元の一般マップ演算子との互換性が$$w\mathFMap z=\mathPureWith{w}\mathApplicativeGeneralMap z$$のようにとれる．ここに$w$は「普通の」関数である．
 
 
 ---
@@ -2197,11 +2216,11 @@ $\hsklUnit{x}$は\keyword{ユニット演算子}と言って，変数を最も�
 \begin{align*}
 \mathFMap&\mathIn{}\mathMorphII{(\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}})}{\langle\mathTypeParameter{a}\rangle}{\langle\mathTypeParameter{b}
 \rangle}\\
-\hsklApplicativeMap&\mathIn{}\mathMorphII{\langle\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}}\rangle}{\langle\mathTypeParameter{a}\rangle}{\langle\mathTypeParameter{b}\rangle}\\
+\mathApplicativeGeneralMap&\mathIn{}\mathMorphII{\langle\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}}\rangle}{\langle\mathTypeParameter{a}\rangle}{\langle\mathTypeParameter{b}\rangle}\\
 \hsklMonadMap&\mathIn{}\mathMorphII{(\mathMorph{\mathTypeParameter{a}}{\langle\mathTypeParameter{b}\rangle})}{\langle\mathTypeParameter{a}\rangle}{\langle{\mathTypeParameter{b}}\rangle}
 \end{align*}
 
-$$\hsklPure{\mathSomething}\mathIn\mathMorph{\mathTypeParameter{a}}{\langle\mathTypeParameter{a}\rangle}$$
+$$\mathPureWith{\mathSomething}\mathIn\mathMorph{\mathTypeParameter{a}}{\langle\mathTypeParameter{a}\rangle}$$
 
 この関数$\phi$をコンテナにつめられた変数$x$に適用するための「モナドな」マップ演算子$\hsklMonadMap$を導入する．
 $$x'=\phi\hsklMonadMap x$$
@@ -2252,8 +2271,8 @@ $x\neq\mathNothing$かつ$y\neq0$のときの戻り値が$x/y$ではなく$\math
     &\multicolumn{2}{|c||}{$\mathTypeClass{Monoid}$}\\
 \hline\hline
 型$\backslash$要素と演算子
-    &$\hsklPure{x}$
-    &$\hsklApplicativeMap$
+    &$\mathPureWith{x}$
+    &$\mathApplicativeGeneralMap$
     &$\mathFMap$
     &$\hsklUnit{x}$
     &$\hsklMonadMap$
@@ -2262,7 +2281,7 @@ $x\neq\mathNothing$かつ$y\neq0$のときの戻り値が$x/y$ではなく$\math
 \hline
 リスト
     &$[x]$
-    &$\hsklApplicativeListMap$
+    &$\mathApplicativeMap$
     &$\mathMap$
     &$[x]$
     &$\clubsuit$
@@ -2271,7 +2290,7 @@ $x\neq\mathNothing$かつ$y\neq0$のときの戻り値が$x/y$ではなく$\math
 \hline
 Maybe
     &$\mathMaybeWith{x}$
-    &$\hsklApplicativeMaybeMap$
+    &$\mathApplicativeMaybeMap$
     &$\mathMaybeMap$
     &$\mathMaybeWith{x}$
     &$\spadesuit$
