@@ -44,22 +44,22 @@
 %% FOR BACKWARD COMPATIBILITY ONLY
 %% Python Pretty Printers
 
-\newcommand{\pthnClassname}[1]{\textrm{#1}}
-\newcommand{\pthnId}[1]{\textit{#1}}
-\newcommand{\pthnKeyword}[1]{\textbf{#1}}
-\newcommand{\pthnOp}[1]{\texttt{#1}}
-\newcommand{\pthnString}[1]{\texttt{#1}}
+\newcommand{\pthnClassname}[1]{{DO NOT USE}--\textrm{#1}}
+\newcommand{\pthnId}[1]{{DO NOT USE}--\textit{#1}}
+\newcommand{\pthnKeyword}[1]{{DO NOT USE}--\textbf{#1}}
+\newcommand{\pthnOp}[1]{{DO NOT USE}--\texttt{#1}}
+\newcommand{\pthnString}[1]{{DO NOT USE}--\texttt{#1}}
 
 %% FOR BACKWARD COMPATIBILITY ONLY
 %% Python Keywords
 
-\DeclareMathOperator{\pthnDef}{\pthnKeyword{def}}
-\DeclareMathOperator{\pthnElse}{\pthnKeyword{else}}
-\DeclareMathOperator{\pthnFor}{\pthnKeyword{for}}
-\DeclareMathOperator{\pthnIf}{\pthnKeyword{if}}
-\DeclareMathOperator{\pthnIn}{\pthnKeyword{in}}
-\DeclareMathOperator{\pthnLambda}{\pthnKeyword{lambda}}
-\DeclareMathOperator{\pthnReturn}{\pthnKeyword{return}}
+\DeclareMathOperator{\pthnDef}{{DO NOT USE}--\pthnKeyword{def}}
+\DeclareMathOperator{\pthnElse}{{DO NOT USE}--\pthnKeyword{else}}
+\DeclareMathOperator{\pthnFor}{{DO NOT USE}--\pthnKeyword{for}}
+\DeclareMathOperator{\pthnIf}{{DO NOT USE}--\pthnKeyword{if}}
+\DeclareMathOperator{\pthnIn}{{DO NOT USE}--\pthnKeyword{in}}
+\DeclareMathOperator{\pthnLambda}{{DO NOT USE}--\pthnKeyword{lambda}}
+\DeclareMathOperator{\pthnReturn}{{DO NOT USE}--\pthnKeyword{return}}
 
 % %% Python Metasymbols
 %
@@ -67,7 +67,7 @@
 
 %% Math Keywords
 
-% \newcommand{\mathKeyword}[1]{\mathsf{#1}}  %% DO NOT USE
+% \newcommand{\mathKeyword}[1]{\mathsf{#1}}  %% {DO NOT USE}
 % \newcommand{\mathVarKeyword}[1]{\mathrm{#1}}
 
 %% Math Pretty Printers
@@ -79,7 +79,7 @@
 \newcommand{\mathSpecialSet}[1]{\mathbb{#1}} % Use capital letter
 \newcommand{\mathTypeParameter}[1]{\mathbf{#1}}
 \newcommand{\mathTypeName}[1]{\textbf{#1}}
-\newcommand{\hsklTypeParameterConstructor}[1]{\textit{#1}}
+\newcommand{\mathTypeParameterConstructor}[1]{\textit{#1}}
 \newcommand{\mathTypeParameterClass}[1]{\textbf{\emph{#1}}}
 
 \newcommand{\mathFunctor}[1]{\mathop{#1}} % Use capital letter
@@ -109,7 +109,7 @@
 \DeclareMathOperator{\mathMaybe}{\mathTypeConstructor{Maybe}}
 
 
-% \newcommand{\mathVector}[1]{\vec{#1}} % DO NOT USE
+% \newcommand{\mathVector}[1]{\vec{#1}} % {DO NOT USE}
 
 %% True and Fasle
 
@@ -234,56 +234,54 @@
 
 %% Haskell Operators
 
-\DeclareMathOperator{\hsklApplicativeApply}{\S}
-\DeclareMathOperator{\hsklApplicativeMap}{\times}
-\DeclareMathOperator{\hsklApplicativeListMap}{\otimes}
-\DeclareMathOperator{\hsklApplicativeMaybeMap}{\boxtimes}
-\DeclareMathOperator{\hsklConcat}{\flat}
-\DeclareMathOperator{\hsklFmap}{\cdot}
-\DeclareMathOperator{\hsklHead}{head}
-\DeclareMathOperator{\hsklListConstructor}{\hsklTypeParameterConstructor{List}}
-\DeclareMathOperator{\hsklMap}{\odot}
-\DeclareMathOperator{\hsklMaybeConstructor}{\hsklTypeParameterConstructor{Maybe}}
-\DeclareMathOperator{\hsklMaybeAppend}{\boxplus}
-\DeclareMathOperator{\hsklMaybeMap}{\boxdot}
-\DeclareMathOperator{\hsklMonadMap}{\heartsuit}
-\DeclareMathOperator{\hsklOf}{::}
-\DeclareMathOperator{\hsklTail}{tail}
+\DeclareMathOperator{\hsklApplicativeApply}{{DO NOT USE}--\S}
+\DeclareMathOperator{\hsklApplicativeMap}{{DO NOT USE}--\times}
+\DeclareMathOperator{\hsklApplicativeListMap}{{DO NOT USE}--\otimes}
+\DeclareMathOperator{\hsklApplicativeMaybeMap}{{DO NOT USE}--\boxtimes}
+\DeclareMathOperator{\hsklConcat}{{DO NOT USE}--\flat}
+\DeclareMathOperator{\hsklFmap}{{DO NOT USE}--\cdot}
+\DeclareMathOperator{\hsklHead}{{DO NOT USE}--head}
+\DeclareMathOperator{\hsklMap}{{DO NOT USE}--\odot}
+\DeclareMathOperator{\hsklMaybeAppend}{{DO NOT USE}--\boxplus}
+\DeclareMathOperator{\hsklMaybeMap}{{DO NOT USE}--\boxdot}
+\DeclareMathOperator{\hsklMonadMap}{{DO NOT USE}--\heartsuit}
+\DeclareMathOperator{\hsklOf}{{DO NOT USE}--::}
+\DeclareMathOperator{\hsklTail}{{DO NOT USE}--tail}
 
 %% Haskell Symbols
 
-\newcommand{\hsklEmptyList}{\emptyset}
-\newcommand{\hsklNothing}{\varnothing}
+\newcommand{\hsklEmptyList}{{DO NOT USE}--\emptyset}
+\newcommand{\hsklNothing}{{DO NOT USE}--\varnothing}
 
 %% Haskell Types and Type Classes
 
-\newcommand{\hsklApplicative}{\mathTypeParameterClass{Applicative}}
-\newcommand{\hsklBool}{\mathTypeParameter{Bool}}
-\newcommand{\hsklChar}{\mathTypeParameter{Char}}
+\newcommand{\hsklApplicative}{{DO NOT USE}--\mathTypeParameterClass{Applicative}}
+\newcommand{\hsklBool}{{DO NOT USE}--\mathTypeParameter{Bool}}
+\newcommand{\hsklChar}{{DO NOT USE}--\mathTypeParameter{Char}}
 
-\newcommand{\hsklIntegral}{\mathTypeParameterClass{Integral}}
-\newcommand{\hsklFloat}{\mathTypeParameter{Float}}
-\newcommand{\hsklFunctor}{\mathTypeParameterClass{Functor}}
-\newcommand{\hsklMonad}{\mathTypeParameterClass{Monad}}
-\newcommand{\hsklMonadplus}{\mathTypeParameterClass{Monadplus}}
+\newcommand{\hsklIntegral}{{DO NOT USE}--\mathTypeParameterClass{Integral}}
+\newcommand{\hsklFloat}{{DO NOT USE}--\mathTypeParameter{Float}}
+\newcommand{\hsklFunctor}{{DO NOT USE}--\mathTypeParameterClass{Functor}}
+\newcommand{\hsklMonad}{{DO NOT USE}--\mathTypeParameterClass{Monad}}
+\newcommand{\hsklMonadplus}{{DO NOT USE}--\mathTypeParameterClass{Monadplus}}
 
 %% Haskell Value Constructors
 
-\newcommand{\hsklJust}[1]{\[#1\]}
-\newcommand{\hsklListType}[1]{[#1]}
-\newcommand{\hsklMaybeType}[1]{\[#1\]}
-\newcommand{\hsklPure}[1]{\langle#1\rangle_\textsf{pure}}
-\newcommand{\hsklUnit}[1]{\langle#1\rangle_\textsf{unit}}
+\newcommand{\hsklJust}[1]{{DO NOT USE}--\[#1\]}
+\newcommand{\hsklListType}[1]{{DO NOT USE}--[#1]}
+\newcommand{\hsklMaybeType}[1]{{DO NOT USE}--\[#1\]}
+\newcommand{\hsklPure}[1]{{DO NOT USE}--\langle#1\rangle_\textsf{pure}}
+\newcommand{\hsklUnit}[1]{{DO NOT USE}--\langle#1\rangle_\textsf{unit}}
 
 %% Haskell Type Constructor
 
-\newcommand{\hsklTypeParameterConstruct}[2]{#1\,#2}
+\newcommand{\hsklTypeParameterConstruct}[2]{{DO NOT USE}--#1\,#2}
 
 %% Haskell Decorations
 
-\newcommand{\hsklFunction}[1]{\Hat{#1}}
-\newcommand{\hsklMaybe}[1]{\Tilde{#1}}
-\newcommand{\hsklMaybeW}[1]{\widetilde{#1}}
+\newcommand{\hsklFunction}[1]{{DO NOT USE}--\Hat{#1}}
+\newcommand{\hsklMaybe}[1]{{DO NOT USE}--\Tilde{#1}}
+\newcommand{\hsklMaybeW}[1]{{DO NOT USE}--\widetilde{#1}}
 
 
 \title{\haskell （仮）}
@@ -1399,7 +1397,7 @@ t = [x + y for x in range(0, 10) for y in range(0, 6) \
 空リストを\code{[]}で表す．}
 
 任意の型を$\mathTypeParameter{a}$とするとき，
-$\mathTypeParameter{a}$型のリスト型を$\mathListType{\mathTypeParameter{a}}$と書く．型$\mathTypeParameter{a}$から型$\mathListType{\mathTypeParameter{a}}$を生成する演算子を\keyword{リスト型コンストラクタ}と呼んで$\hsklListConstructor$と書き
+$\mathTypeParameter{a}$型のリスト型を$\mathListType{\mathTypeParameter{a}}$と書く．型$\mathTypeParameter{a}$から型$\mathListType{\mathTypeParameter{a}}$を生成する演算子を\keyword{リスト型コンストラクタ}と呼んで$\mathList$と書き
 \begin{equation}
 \mathListType{\mathTypeParameter{a}}=\mathList\mathTypeParameter{a}
 \end{equation}
@@ -1750,7 +1748,7 @@ def map_over(f, m):
 そこでこの$\hsklMaybe{m}$の型を$\hsklMaybeType{\mathTypeName{Int}}$と表して
 「きっと整数」型と呼ぶことにしよう．
 型$\mathTypeParameter{a}$から型$\mathMaybeType{\mathTypeParameter{a}}$を
-生成する型コンストラクタを$\hsklMaybeConstructor$と呼び
+生成する型コンストラクタを$\mathMaybe$と呼び
 $$
 \mathMaybeType{\mathTypeParameter{a}}
 =\mathMaybe\mathTypeParameter{a}
@@ -1974,33 +1972,33 @@ A...
 
 % ここにもう一つの圏$\mathCategoryShort{\mathSet{C}'}{\mathSet{P}'}$があるとする．対象$\mathSet{C}$の各元と対象$\mathSet{C}'$の各元の間に一対一対応があり，また射$\mathSet{F}$の各元と射$\mathSet{P}'$の各元の間に一対一対応があるとき，圏$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$から圏$\mathCategoryShort{\mathSet{C}'}{\mathSet{P}'}$への「射」が存在する．この射を\keyword{関手}と呼ぶ．例えば$$\mathSet{C}'=\{\mathListType{\mathTypeName{Int}}\},\;\mathSet{P}'=\{(-\hsklMap)\}$$であるとき，整数($\mathTypeName{Int}$)に対する単項演算($-$)と，整数のリスト($\mathListType{\mathTypeName{Int}}$)全体に対する単項演算($-\hsklMap$)は一対一に対応する．
 
-% つまり，$\mathTypeName{Int}$型から$\mathListType{\mathTypeName{Int}}$型を作る型コンストラクタ$\hsklListConstructor$とマップ演算子$\hsklMap$があれば，圏$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$から圏$\mathCategoryShort{\mathSet{C}'}{\mathSet{P}'}$へとジャンプできるのである．
+% つまり，$\mathTypeName{Int}$型から$\mathListType{\mathTypeName{Int}}$型を作る型コンストラクタ$\mathList$とマップ演算子$\hsklMap$があれば，圏$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$から圏$\mathCategoryShort{\mathSet{C}'}{\mathSet{P}'}$へとジャンプできるのである．
 
 ---
 
-型コンストラクタ$\hsklListConstructor$とマップ演算子$\hsklMap$の組み合わせ$(\hsklListConstructor,\hsklMap)$は関手の一例である．
+型コンストラクタ$\mathList$とマップ演算子$\hsklMap$の組み合わせ$(\mathList,\hsklMap)$は関手の一例である．
 
-同じことが型コンストラクタ$\hsklMaybeConstructor$とMaybeバージョンのマップ演算子$\hsklMaybeMap$の組み合わせ$(\hsklMaybeConstructor,\hsklMaybeMap)$にも言える．
+同じことが型コンストラクタ$\mathMaybe$とMaybeバージョンのマップ演算子$\hsklMaybeMap$の組み合わせ$(\mathMaybe,\hsklMaybeMap)$にも言える．
 
 そこでリストのマップ演算子($\hsklMap$)，Maybeのマップ演算子($\hsklMaybeMap$)をひとくくりにして抽象的な\keyword{一般マップ演算子} ($\hsklFmap$)とする．一般マップ演算子は，右引数がリストであればリストのマップ演算子を，右引数がMaybeであればMaybeのマップ演算子に「化ける」．右引数がただの数であれば，ただの空白になる．
 
 この意味は，もし$f\hsklFmap\mathListVar{t}$と書いてあれば$f\hsklMap\mathListVar{t}$のことであるし，もし$f\hsklFmap\hsklMaybe{m}$と書いてあれば$f\hsklMaybeMap\hsklMaybe{m}$のことであると，自動的に解釈することである．そして，何の飾りもつけられていない変数$x$がふらっと現れ，目の前に$f\hsklFmap x$という式が登場しても，落ち着いて変数$x$の型を調べ，変数$x$がリストならば$\hsklFmap$の部分に$\hsklMap$を，変数$x$がMaybeならば$\hsklFmap$の部分に$\hsklMaybeMap$をはめ込むのだ．\footnote{\haskell では一般マップ演算子は\code{fmap}である．ただしその実装は与えられず，対象とする型に応じて定義されるものとする．例えばリストに対しては\code{fmap = map}と定義されている．}
 
-つまり，型コンストラクタ$\hsklListConstructor$は
+つまり，型コンストラクタ$\mathList$は
 \begin{equation}
 \left\{
 \begin{split}
-\hsklFmap&\xrightarrow{\;\hsklListConstructor\;}\hsklMap\\
-\mathTypeParameter{a}&\xrightarrow{\;\hsklListConstructor\;}\mathListType{\mathTypeParameter{a}}
+\hsklFmap&\xrightarrow{\;\mathList\;}\hsklMap\\
+\mathTypeParameter{a}&\xrightarrow{\;\mathList\;}\mathListType{\mathTypeParameter{a}}
 \end{split}
 \right.
 \end{equation}
-という射であり，型コンストラクタ$\hsklMaybeConstructor$は
+という射であり，型コンストラクタ$\mathMaybe$は
 \begin{equation}
 \left\{
 \begin{split}
-\hsklFmap&\xrightarrow{\;\hsklMaybeConstructor\;}\hsklMaybeMap\\
-\mathTypeParameter{a}&\xrightarrow{\;\hsklMaybeConstructor\;}\hsklMaybeType{\mathTypeParameter{a}}
+\hsklFmap&\xrightarrow{\;\mathMaybe\;}\hsklMaybeMap\\
+\mathTypeParameter{a}&\xrightarrow{\;\mathMaybe\;}\hsklMaybeType{\mathTypeParameter{a}}
 \end{split}
 \right.
 \end{equation}
