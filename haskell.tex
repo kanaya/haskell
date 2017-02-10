@@ -79,6 +79,8 @@
 \newcommand{\mathSpecialSet}[1]{\mathbb{#1}} % Use capital letter
 \newcommand{\mathTypeParameter}[1]{\mathbf{#1}}
 \newcommand{\mathTypeName}[1]{\textbf{#1}}
+\newcommand{\hsklTypeParameterConstructor}[1]{\textit{#1}}
+\newcommand{\mathTypeParameterClass}[1]{\textbf{\emph{#1}}}
 
 \newcommand{\mathFunctor}[1]{\mathop{#1}} % Use capital letter
 \newcommand{\mathSpecialFunctor}[1]{\mathcal{#1}} % Use capital letter
@@ -89,14 +91,25 @@
 \newcommand{\mathSetWith}[1]{\left\{#1\right\}}
 \newcommand{\mathTupleWith}[1]{\left(#1\right)}
 
+\newcommand{\mathListType}[1]{\left[#1\right]}
+\newcommand{\mathMaybeType}[1]{\[#1\]}
+
 \newcommand{\mathListVar}[1]{\Bar{#1}}
 \newcommand{\mathMaybeVar}[1]{\Tilde{#1}}
 \newcommand{\mathFunctionVar}[1]{\Hat{#1}}
 \newcommand{\mathVectorVar}[1]{\vec{#1}}
 
+%% Guard
+
 \newcommand{\mathGuard}[1]{\mathop{\mid_{#1}}}
 
-\newcommand{\mathVector}[1]{\vec{#1}} % DO NOT USE
+%% Type Constructors
+
+\DeclareMathOperator{\mathList}{\mathTypeConstructor{List}}
+\DeclareMathOperator{\mathMaybe}{\mathTypeConstructor{Maybe}}
+
+
+% \newcommand{\mathVector}[1]{\vec{#1}} % DO NOT USE
 
 %% True and Fasle
 
@@ -118,6 +131,11 @@
 \newcommand{\mathLeft}{\mathSub{left}}
 \newcommand{\mathRight}{\mathSub{right}}
 
+%% Special Functions
+
+\DeclareMathOperator{\mathPred}{pred}
+\DeclareMathOperator{\mathSucc}{succ}
+
 %% Special Unary Operators
 
 \newcommand{\mathUnaryOperator}[1]{\operatorname{#1}}
@@ -133,6 +151,7 @@
 \newcommand{\mathBinaryOperator}[1]{\operatorname{#1}}
 \newcommand{\mathAnyBinaryOperator}{\mathBinaryOperator{\bigstar}}
 \newcommand{\mathAnd}{\mathBinaryOperator{\wedge}}
+\newcommand{\mathAppend}{\oplus}
 \newcommand{\mathApply}{\mathBinaryOperator{\$}}
 \newcommand{\mathCompose}{\mathBinaryOperator{\bullet}}
 \newcommand{\mathFrom}{\mathBinaryOperator{\in}}
@@ -212,13 +231,9 @@
 
 %% Haskell Pretty Printers
 
-\newcommand{\hsklType}[1]{\textbf{#1}}
-\newcommand{\hsklTypeConstructor}[1]{\textit{#1}}
-\newcommand{\hsklTypeClass}[1]{\textbf{\emph{#1}}}
 
 %% Haskell Operators
 
-\newcommand{\hsklAppend}{\oplus}
 \DeclareMathOperator{\hsklApplicativeApply}{\S}
 \DeclareMathOperator{\hsklApplicativeMap}{\times}
 \DeclareMathOperator{\hsklApplicativeListMap}{\otimes}
@@ -226,15 +241,13 @@
 \DeclareMathOperator{\hsklConcat}{\flat}
 \DeclareMathOperator{\hsklFmap}{\cdot}
 \DeclareMathOperator{\hsklHead}{head}
-\DeclareMathOperator{\hsklListConstructor}{\hsklTypeConstructor{List}}
+\DeclareMathOperator{\hsklListConstructor}{\hsklTypeParameterConstructor{List}}
 \DeclareMathOperator{\hsklMap}{\odot}
-\DeclareMathOperator{\hsklMaybeConstructor}{\hsklTypeConstructor{Maybe}}
+\DeclareMathOperator{\hsklMaybeConstructor}{\hsklTypeParameterConstructor{Maybe}}
 \DeclareMathOperator{\hsklMaybeAppend}{\boxplus}
 \DeclareMathOperator{\hsklMaybeMap}{\boxdot}
 \DeclareMathOperator{\hsklMonadMap}{\heartsuit}
 \DeclareMathOperator{\hsklOf}{::}
-\DeclareMathOperator{\hsklPred}{pred}
-\DeclareMathOperator{\hsklSucc}{succ}
 \DeclareMathOperator{\hsklTail}{tail}
 
 %% Haskell Symbols
@@ -244,21 +257,15 @@
 
 %% Haskell Types and Type Classes
 
-\newcommand{\hsklApplicative}{\hsklTypeClass{Applicative}}
-\newcommand{\hsklBool}{\hsklType{Bool}}
-\newcommand{\hsklChar}{\hsklType{Char}}
-\newcommand{\hsklEnum}{\hsklTypeClass{Enum}}
+\newcommand{\hsklApplicative}{\mathTypeParameterClass{Applicative}}
+\newcommand{\hsklBool}{\mathTypeParameter{Bool}}
+\newcommand{\hsklChar}{\mathTypeParameter{Char}}
 
-\newcommand{\hsklIntegral}{\hsklTypeClass{Integral}}
-\newcommand{\hsklEq}{\hsklTypeClass{Eq}}
-\newcommand{\hsklFloat}{\hsklType{Float}}
-\newcommand{\hsklFunctor}{\hsklTypeClass{Functor}}
-\newcommand{\hsklMonad}{\hsklTypeClass{Monad}}
-\newcommand{\hsklMonadplus}{\hsklTypeClass{Monadplus}}
-\newcommand{\hsklMonoid}{\hsklTypeClass{Monoid}}
-\newcommand{\hsklNum}{\hsklTypeClass{Num}}
-\newcommand{\hsklOrd}{\hsklTypeClass{Ord}}
-\newcommand{\hsklReal}{\hsklTypeClass{Real}}
+\newcommand{\hsklIntegral}{\mathTypeParameterClass{Integral}}
+\newcommand{\hsklFloat}{\mathTypeParameter{Float}}
+\newcommand{\hsklFunctor}{\mathTypeParameterClass{Functor}}
+\newcommand{\hsklMonad}{\mathTypeParameterClass{Monad}}
+\newcommand{\hsklMonadplus}{\mathTypeParameterClass{Monadplus}}
 
 %% Haskell Value Constructors
 
@@ -270,12 +277,11 @@
 
 %% Haskell Type Constructor
 
-\newcommand{\hsklTypeConstruct}[2]{#1\,#2}
+\newcommand{\hsklTypeParameterConstruct}[2]{#1\,#2}
 
 %% Haskell Decorations
 
 \newcommand{\hsklFunction}[1]{\Hat{#1}}
-\newcommand{\hsklList}[1]{\Bar{#1}}
 \newcommand{\hsklMaybe}[1]{\Tilde{#1}}
 \newcommand{\hsklMaybeW}[1]{\widetilde{#1}}
 
@@ -308,7 +314,7 @@
 \hline
 関手&イタリック，大文字&$\mathFunctor{F}$, $\mathFunctor{G}$, $\mathFunctor{H}$\\
 有名な関手&カリグラフィ，大文字&$\mathSpecialFunctor{I}$\\
-型コンストラクタ&イタリック，大文字&$\mathTypeConstructor{List}$, $\mathTypeConstructor{Maybe}$\\
+型コンストラクタ&イタリック，大文字&$\mathList$, $\mathMaybe$\\
 型クラス&ボールドイタリック，大文字&$\mathTypeClass{Eq}$, $\mathTypeClass{Integral}$\\
 \hline
 キーワード&サンセリフ，小文字&$\mathIf$, $\mathOtherwise$\\
@@ -428,7 +434,7 @@ print "Hello, world."
 
 % ラムダ式は単純で，十分に数学的に定式化できるものだ．
 
-\section{\haskell コンパイラの準備}
+\section{\haskell コンパイラの準備*}
 
 \haskell コンパイラの中で最もよく使われているものは Glasgow's Haskell Compiler (GHC) である．
 本書に登場する\haskell コードもすべてGHCでテストをしている．
@@ -457,7 +463,7 @@ $ stack install ghc
 \item[Windows 10] GHC公式サイト\cite{haskellplatform}からパッケージをインストールする．
 \end{description}
 
-\section{余計な話：本書の構成}
+\section{余計な話: 本書の構成*}
 
 ところで，各章の終りにはこのような「余計な話」の節を設けている．
 余計な話には，本書を読み進めるに当たって本質的ではない話を詰め込んでいる．
@@ -693,7 +699,7 @@ f''x&\mathGuard{x<0}=-1\\
 
 \python にはスペシャルバージョンやガードに相当する文法はない．
 
-\section{余計な話：局所変数}
+\section{余計な話: 局所変数}
 
 数式が長く続くとき，読みやすさのために局所変数を導入すると便利である．
 例えば
@@ -872,7 +878,7 @@ fx=\begin{cases}
 \end{equation}
 左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっていることに注目しよう．
 
-\section{余計な話：ラムダ式と条件式*}
+\section{余計な話: ラムダ式と条件式*}
 
 条件式は一種のシンタックスシュガーである．次のように関数 $t$, $f$, $\mathIfFunc$ を定義すると，
 それぞれ真，偽，条件分岐のように振る舞う．
@@ -985,7 +991,7 @@ $\mathTupleWith{\mathSpecialSet{Z},*,1,1}$,
 $\mathTupleWith{\mathSpecialSet{B},\vee,\mathFalse,\mathFalse}$,
 $\mathTupleWith{\mathSpecialSet{B},\wedge,\mathTrue,\mathTrue}$もモノイドである．
 これらのモノイドは全て左単位元と右単位元が同じなので，
-それぞれ$\mathTupleWith{\mathSpecialSet{Z},+,0)}$,
+それぞれ$\mathTupleWith{\mathSpecialSet{Z},+,0}$,
 $\mathTupleWith{\mathSpecialSet{Z},*,1}$,
 $\mathTupleWith{\mathSpecialSet{B},\vee,\mathFalse}$,
 $\mathTupleWith{\mathSpecialSet{B},\wedge,\mathTrue}$とも書く．
@@ -1096,7 +1102,7 @@ $\mathTypeName{Int}$型の引数を一つ取って$\mathTypeName{Int}$型の値�
 \begin{tabular}{||c||c|c||}
 \hline
 型クラス
-    &\multicolumn{2}{|c||}{$\hsklMonoid$}\\
+    &\multicolumn{2}{|c||}{$\mathTypeClass{Monoid}$}\\
 \hline\hline
 型$\backslash$演算子と単位元
     &演算子
@@ -1141,21 +1147,21 @@ $\hsklFloat$
 \begin{tabular}{||c||c|c|c|c|c|c|c|c|c|c|c|c||}
 \hline
 \multirow{4}{*}{型クラス}
-    &\multicolumn{12}{|c||}{$\mathTypeName{Int}egral$}\\
+    &\multicolumn{12}{|c||}{$\mathTypeClass{Integral}$}\\
 \cline{2-13}
 \multirow{3}{*}{}
-    &\multicolumn{10}{|c|}{$\hsklReal$}
-    &\multicolumn{2}{|c||}{$\hsklEnum$}\\
+    &\multicolumn{10}{|c|}{$\mathTypeClass{Real}$}
+    &\multicolumn{2}{|c||}{$\mathTypeClass{Enum}$}\\
 \cline{2-11}
 \multirow{2}{*}{}
-    &\multicolumn{5}{|c|}{$\hsklOrd$}
-    &\multicolumn{5}{|c|}{$\hsklNum$}
+    &\multicolumn{5}{|c|}{$\mathTypeClass{Ord}$}
+    &\multicolumn{5}{|c|}{$\mathTypeClass{Num}$}
     &\multicolumn{2}{|c||}{ }\\
 \cline{2-2}\cline{7-7}
 { }
-    &$\hsklEq$
+    &$\mathTypeClass{Eq}$
     &\multicolumn{4}{|c|}{ }
-    &$\hsklEq$
+    &$\mathTypeClass{Eq}$
     &\multicolumn{4}{|c|}{ }
     &\multicolumn{2}{|c||}{ }\\
 \hline\hline
@@ -1170,8 +1176,8 @@ $\hsklFloat$
     &$-$
     &$*$
     &$/$
-    &$\hsklPred$
-    &$\hsklSucc$\\
+    &$\mathPred$
+    &$\mathSucc$\\
 \hline
 $\hsklChar$
     &$\checkmark$
@@ -1233,43 +1239,75 @@ $\hsklFloat$
 \end{center}
 \end{table*}
 
-\section{余計な話：型クラス*}
+\section{余計な話: 型クラス*}
 
-組み合わせ$\mathMonoid{\mathTypeName{Int}}{+}{0}$はモノイドである．同様に$\mathMonoid{\mathTypeName{Int}}{*}{1}$, $\mathMonoid{\hsklFloat}{+}{0}$, $\mathMonoid{\hsklFloat}{*}{1}$, $\mathMonoid{\hsklBool}{\vee}{F}$, $\mathMonoid{\hsklBool}{\wedge}{T}$ もモノイドである．そこで，任意の型$\hsklType{a}$について，組み合わせ$\mathMonoid{\hsklType{a}}{\mathAnyBinaryOperator}{O}$がモノイドである場合には
+組み合わせ$\mathMonoid{\mathTypeName{Int}}{+}{0}$はモノイドである．
+同様に$\mathMonoid{\mathTypeName{Int}}{*}{1}$,
+$\mathMonoid{\hsklFloat}{+}{0}$,
+$\mathMonoid{\hsklFloat}{*}{1}$,
+$\mathMonoid{\hsklBool}{\vee}{\mathFalse}$,
+$\mathMonoid{\hsklBool}{\wedge}{\mathTrue}$ もモノイドである．
+そこで，任意の型$\mathTypeParameter{a}$について，
+組み合わせ$\mathTupleWith{\mathTypeParameter{a},\mathAnyBinaryOperator,\mathConstant{I}}$
+がモノイドである場合には
 \begin{equation}
-\mathMonoid{\hsklType{a}}{\mathAnyBinaryOperator}{O}\mathIn\hsklMonoid
+\mathTupleWith{\mathTypeParameter{a},\mathAnyBinaryOperator,\mathConstant{I}}\mathIn\mathTypeClass{Monoid}
 \end{equation}
 と書くことにする．二項演算子，単位元が自明な場合は簡略化して
 \begin{equation}
-\hsklType{a}\mathIn\hsklMonoid
+\mathTypeParameter{a}\mathIn\mathTypeClass{Monoid}
 \end{equation}
 と書くことにする．
 
-このような型をより抽象化した型のようなものを\keyword{型クラス}と呼ぶ．モノイドは型クラスの例である．表\ref{tab:monoids}に型と対応するモノイドの単位元，演算子の一覧を示す．
+このような型をより抽象化した型のようなものを\keyword{型クラス}と呼ぶ．
+モノイドは型クラスの例である．
+表\ref{tab:monoids}に型と対応するモノイドの単位元，演算子の一覧を示す．
 
-もっと身近な型クラスもある．例えば，型$\hsklType{a}$の変数どうしの間で等値性が定義されている場合，その型は型クラス$\hsklEq$に属することになる．型クラス$\hsklEq$に属する型は等値演算子$\equiv$を提供する．
+もっと身近な型クラスもある．
+例えば，型$\mathTypeParameter{a}$の変数どうしの間で等値性が定義されている場合，
+その型は型クラス$\mathTypeClass{Eq}$に属することになる．
+型クラス$\mathTypeClass{Eq}$に属する型は等値演算子$\equiv$を提供する．
 
-型$\hsklType{a}$の変数どうしの間で大小関係が定義されている場合，かつその型が型クラス$\hsklEq$に属する場合，その型は型クラス$\hsklOrd$にも属する．型クラス$\hsklOrd$に属する型は比較演算子$<,\le,\ge,>$を提供する．
+型$\mathTypeParameter{a}$の変数どうしの間で大小関係が定義されている場合，
+かつその型が型クラス$\mathTypeClass{Eq}$に属する場合，
+その型は型クラス$\mathTypeClass{Ord}$にも属する．
+型クラス$\mathTypeClass{Ord}$に属する型は比較演算子$<,\le,\ge,>$を提供する．
 
-型$\hsklType{a}$の変数どうしの間で四則演算関係が定義されている場合，かつその型が型クラス$\hsklEq$に属する場合，その型は型クラス$\hsklNum$にも属する．型クラス$\hsklNum$に属する型は二項演算子$+,-,*,/$を提供する．ここに$-$は二項演算子のマイナスである．
+型$\mathTypeParameter{a}$の変数どうしの間で四則演算関係が定義されている場合，
+かつその型が型クラス$\mathTypeClass{Eq}$に属する場合，
+その型は型クラス$\mathTypeClass{Num}$にも属する．
+型クラス$\mathTypeClass{Num}$に属する型は二項演算子$+,-,*,/$を提供する．
+ここに$-$は二項演算子のマイナスである．
 
-型$\hsklType{a}$が型クラス$\hsklOrd$及び型クラス$\hsklNum$に属しているとき，かつそのときに限り，型$\hsklType{a}$は型クラス$\hsklReal$にも属する．
+型$\mathTypeParameter{a}$が型クラス$\mathTypeClass{Ord}$及び
+型クラス$\mathTypeClass{Num}$に属しているとき，かつそのときに限り，
+型$\mathTypeParameter{a}$は型クラス$\mathTypeClass{Real}$にも属する．
 
-型$\hsklType{a}$の変数について，一つ小さい値を返す関数$\hsklPred$と一つ大きい値を返す関数$\hsklSucc$が定義されているとき，かつそのときに限り，型$\hsklType{a}$は型クラス$\hsklEnum$に属する．
+型$\mathTypeParameter{a}$の変数について，
+一つ小さい値を返す関数$\mathPred$と
+一つ大きい値を返す関数$\mathSucc$が定義されているとき，
+かつそのときに限り，型$\mathTypeParameter{a}$は
+型クラス$\mathTypeClass{Enum}$に属する．
 
-型$\hsklType{a}$が型クラス$\hsklReal$及び型クラス$\hsklEnum$に属しているとき，かつそのときに限り，型$\hsklType{a}$は型クラス$\mathTypeName{Int}egral$にも属する．
+型$\mathTypeParameter{a}$が型クラス$\mathTypeClass{Real}$及び
+型クラス$\mathTypeClass{Enum}$に属しているとき，かつそのときに限り，
+型$\mathTypeParameter{a}$は型クラス$\mathTypeClass{Integral}$にも属する．
 
 これらの関係を表にまとめたものが表\ref{tab:type-and-typeclass}である．
 
 \chapter{リスト}
 \begin{leader}
-型から作る型をコンテナと呼ぶ．代表的なコンテナはある型のホモジニアスな配列であるリストである．この章ではリストと，リストに対する重要な演算である畳み込み，マップを取り扱う．
+型から作る型をコンテナと呼ぶ．
+代表的なコンテナはある型のホモジニアスな配列であるリストである．
+この章ではリストと，リストに対する重要な演算である畳み込み，マップを取り扱う．
 \end{leader}
 
 
 \section{リスト}
 
-同じ型の値を一列に並べたもの，つまりホモジニアスな配列のことを\keyword{リスト}と呼ぶ．\python ではリスト\pthnId{t}を
+同じ型の値を一列に並べたもの，
+つまりホモジニアスな配列のことを\keyword{リスト}と呼ぶ．
+\python ではリスト\pthnId{t}を
 \begin{pythoncode}
 % \begin{pythontab}
 % \pthnId{t} \pthnOp{=} [$0$, $1$, $2$, $3$, $4$, $5$, $6$, $7$, $8$, $9$]
@@ -1280,21 +1318,29 @@ t = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 \end{pythoncode}
 のように定義できる．
 
-我々も\python のように，例えば$0$から始まり$9$まで続く整数のリストを$[0,1,2,3,4,5,6,7,8,9]$と書くことにしよう．
+我々も\python のように，
+例えば$0$から始まり$9$まで続く整数のリストを$[0,1,2,3,4,5,6,7,8,9]$と
+書くことにしよう．
 ただし，これでは冗長なので，等差数列に限って，簡略化した書き方を許す．
-例えば$0$から$9$までのリストは$[0,1\dots9]$と書いても良い．\footnote{\haskell では\code{t = [0,1..9]}と書く．ピリオドの数に注意しよう．}
+例えば$0$から$9$までのリストは$[0,1\dots9]$と書いても良い．\footnote{\haskell では
+\code{t = [0,1..9]}と書く．ピリオドの数に注意しよう．}
 
-リストの中身の一つ一つの値のことを\keyword{要素}と呼ぶ．要素のことは元と呼んでも良いが，本書では要素と呼ぶことにする．要素も元も英語のelementの和訳である．
+リストの中身の一つ一つの値のことを\keyword{要素}と呼ぶ．
+要素のことは元と呼んでも良いが，本書では要素と呼ぶことにする．
+要素も元も英語のelementの和訳である．
 
-複数の型の要素が混在してもよい配列のことをヘテロジニアスな配列と呼び，ホモジニアスな配列とは区別する．
+複数の型の要素が混在してもよい配列のことをヘテロジニアスな配列と呼び，
+ホモジニアスな配列とは区別する．
 
-今後，リストを指す変数にはバーをつけて$\hsklList{t}$と書くことにして
+今後，リストを指す変数にはバーをつけて$\mathListVar{t}$と書くことにして
 \begin{equation}
-\hsklList{t}=[0,1\dots9]
+\mathListVar{t}=[0,1\dots9]
 \end{equation}
-のように書くことにしよう．\footnote{\haskell コンパイラは人間よりも記憶力が優れているため，変数名にバーをつける必要はない．}
+のように書くことにしよう．\footnote{\haskell コンパイラは人間よりも
+記憶力が優れているため，変数名にバーをつける必要はない．}
 
-\python ではリスト内包表記が使える．例えば$0$から$9$までの倍数のリストは次のように作った．
+\python ではリスト内包表記が使える．
+例えば$0$から$9$までの倍数のリストは次のように作った．
 \begin{pythoncode}
 % \begin{pythontab}
 % \pthnId{t} \pthnOp{=} [\pthnId{x} \pthnOp{*} $2$ \pthnKeyword{for} \pthnId{x} \pthnKeyword{in} \pthnId{range}($0$, $10$)]
@@ -1303,19 +1349,23 @@ t = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 t = [x * 2 for x in range(0, 10)]
 \end{verbatim}
 \end{pythoncode}
-ここに\pthnId{range}(\pthnId{a}, \pthnId{b})は\pthnId{a}から増加する方向に連続する\pthnId{b}個の整数からなるリストを返す\python の関数である．
+ここに\code{range(a, b)}は\code{a}から増加する方向に連続する\code{b}個の
+整数からなるリストを返す\python の関数である．
 
 我々は内包表記のかわりにガードを使って
 \begin{equation}
-\hsklList{t}=\left[x*2\mathGuard{x\mathFrom{[0,1\dots9]}}\right]
+\mathListVar{t}=\left[x*2\mathGuard{x\mathFrom{[0,1\dots9]}}\right]
 \end{equation}
-のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mathFrom$を用いた．
+のように書こう．
+ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mathFrom$を用いた．
 
 ガードの中の式は複数あっても良い．例えば
 \begin{equation}
-\hsklList{t}=\left[x+y\mathGuard{x\mathFrom[0,1\dots9],\,y\mathFrom[0,1\dots5],\,x+y>3}\right]
+\mathListVar{t}=\left[x+y\mathGuard{x\mathFrom[0,1\dots9],\,y\mathFrom[0,1\dots5],\,x+y>3}\right]
 \end{equation}
-は$0\le x\le9$かつ$0\le y\le5$の範囲で$x+y>3$となる$x$及び$y$から$x+y$を並べたリストである．これは\python でいう
+は$0\le x\le9$かつ$0\le y\le5$の範囲で$x+y>3$となる$x$及び$y$から$x+y$を
+並べたリストである．
+これは\python でいう
 \begin{pythoncode}
 % \begin{pythontab}
 % \pthnId{t} \pthnOp{=} [\pthnId{x} \pthnOp{+} \pthnId{y} \pthnNextLine\\
@@ -1328,35 +1378,45 @@ t = [x + y for x in range(0, 10) for y in range(0, 6) \
   if x + y > 3]
 \end{verbatim}
 \end{pythoncode}
-のことである．\footnote{\haskell では\code{t = [x + y | x <- [0, 1..9], y <- [0, 1..5], x + y > 3]}と書く．}
+のことである．\footnote{\haskell では
+\code{t = [x + y | x <- [0, 1..9], y <- [0, 1..5], x + y > 3]}と書く．}
 
-リストは\keyword{結合}できる．例えばリスト$\hsklList{t}$とリスト$\hsklList{u}$を結合したリストは
+リストは\keyword{結合}できる．
+例えばリスト$\mathListVar{t}$とリスト$\mathListVar{u}$を結合したリストは
 \begin{equation}
-\hsklList{t}\hsklAppend\hsklList{u}
+\mathListVar{t}\mathAppend\mathListVar{u}
 \end{equation}
 と表現する．\footnote{\haskell では\code{t ++ u}と書く．}
 
-リストは無限個の要素を持っても良い．例えば自然数全体を表すリスト$\hsklList{n}$は
+リストは無限個の要素を持っても良い．
+例えば自然数全体を表すリスト$\mathListVar{n}$は
 \begin{equation}
-\hsklList{n}=[1,2\dots]
+\mathListVar{n}=[1,2\dots]
 \end{equation}
 のように定義して良い．\footnote{\haskell では\code{n = [1,2..]}と書く．}
 
-\keyword{空リスト}は$\hsklEmptyList$で表す．\footnote{\haskell では空リストを\code{[]}で表す．}
+\keyword{空リスト}は$\hsklEmptyList$で表す．\footnote{\haskell では
+空リストを\code{[]}で表す．}
 
-任意の型を$\hsklType{a}$とするとき，$\hsklType{a}$型のリスト型を$\hsklListType{\hsklType{a}}$と書く．型$\hsklType{a}$から型$\hsklListType{\hsklType{a}}$を生成する演算子を\keyword{リスト型コンストラクタ}と呼んで$\hsklListConstructor$と書き
+任意の型を$\mathTypeParameter{a}$とするとき，
+$\mathTypeParameter{a}$型のリスト型を$\mathListType{\mathTypeParameter{a}}$と書く．型$\mathTypeParameter{a}$から型$\mathListType{\mathTypeParameter{a}}$を生成する演算子を\keyword{リスト型コンストラクタ}と呼んで$\hsklListConstructor$と書き
 \begin{equation}
-\hsklListType{\hsklType{a}}=\hsklTypeConstruct{\hsklListConstructor}{\hsklType{a}}
+\mathListType{\mathTypeParameter{a}}=\mathList\mathTypeParameter{a}
 \end{equation}
-とする．この等式の両辺は変数ではなく型名であることに注意しよう．型コンストラクタの概念は\python には無い（必要無い）が，静的型付け言語であるJavaの「総称型」や\cxx の「クラステンプレート」が相当する．\footnote{\haskell では表記上コンテナ型$\hsklListType{a}$と型コンストラクタ式$\hsklTypeConstruct{\hsklListConstructor}{\hsklType{a}}$を区別せず，両者とも\code{[a]}と書く．}
+とする．この等式の両辺は変数ではなく型名であることに注意しよう．
+型コンストラクタの概念は\python には無い（必要無い）が，
+静的型付け言語であるJavaの「総称型」や\cxx の「クラステンプレート」が相当する．\footnote{\haskell では
+表記上コンテナ型$\mathListType{a}$と
+型コンストラクタ式$\mathList\mathTypeParameter{a}$を区別せず，
+両者とも\code{[a]}と書く．}
 
-$\hsklType{a}$型の変数$x$を入れた$\hsklListType{\hsklType{a}}$型の変数（リスト変数）を作る演算子を\keyword{リスト値コンストラクタ}と呼ぶ．$\hsklType{a}$型の変数$x$からリスト値コンストラクタを使ってリスト$\hsklList{t}$を作ることは
+$\mathTypeParameter{a}$型の変数$x$を入れた$\mathListType{\mathTypeParameter{a}}$型の変数（リスト変数）を作る演算子を\keyword{リスト値コンストラクタ}と呼ぶ．$\mathTypeParameter{a}$型の変数$x$からリスト値コンストラクタを使ってリスト$\mathListVar{t}$を作ることは
 \begin{equation}
-\hsklList{t}=[x]
+\mathListVar{t}=[x]
 \end{equation}
 と書く．\footnote{\haskell では\code{t = [x]}と書く．}
 
-リスト型を表す$\hsklListType{\hsklType{a}}$と，1要素のリストである$[x]$の違いにはいつも気をつけておこう．本書では中身がボールドローマン体ならばリスト型，中身がオイラー体ならリスト値である．またリストを保持する変数にも，本書では$\hsklList{t}$のようにバーをつけておくことにする．
+リスト型を表す$\mathListType{\mathTypeParameter{a}}$と，1要素のリストである$[x]$の違いにはいつも気をつけておこう．本書では中身がボールドローマン体ならばリスト型，中身がオイラー体ならリスト値である．またリストを保持する変数にも，本書では$\mathListVar{t}$のようにバーをつけておくことにする．
 
 ある型を包み込んだ別の型を一般に\keyword{コンテナ型}または単に\keyword{コンテナ}と呼ぶ．
 
@@ -1373,7 +1433,7 @@ $\hsklType{a}$型の変数$x$を入れた$\hsklListType{\hsklType{a}}$型の変�
 \end{equation}
 であると定義する．
 
-この新しい記号$\mathFold$は\keyword{畳み込み演算子}と呼ばれる．変数$a$はアキュムレータと呼ぶ．アキュムレータは右側の引数が空であった場合のデフォルト値と考えても良い．\footnote{\haskell では$\mathFold^{*}_{a}\hsklList{t}$を\code{foldl * a t}と書く．}
+この新しい記号$\mathFold$は\keyword{畳み込み演算子}と呼ばれる．変数$a$はアキュムレータと呼ぶ．アキュムレータは右側の引数が空であった場合のデフォルト値と考えても良い．\footnote{\haskell では$\mathFold^{*}_{a}\mathListVar{t}$を\code{foldl * a t}と書く．}
 % !!!!!!!!!! CHECK !!!!!!!!!!
 
 \python\ 2.7 には畳み込み演算子に相当する\pthnId{reduce}関数があり，リスト\pthnId{t}の総和\pthnId{s}を
@@ -1408,9 +1468,9 @@ s = t.inject(0) { |x, y| x + y }
 \end{equation}
 とすれば得られる．
 
-畳み込み演算子は第1（上）引数に$\hsklType{a}$型と$\hsklType{b}$型の引数を取り$\hsklType{a}$型の戻り値を返す二項演算子，第2（下）引数に$\hsklType{a}$型，第3（右）引数に$\hsklType{b}$型のリストすなわち$\hsklListType{\hsklType{b}}$型を取り，$\hsklType{a}$型の値を返す．従って畳み込み演算子の型は
+畳み込み演算子は第1（上）引数に$\mathTypeParameter{a}$型と$\mathTypeParameter{b}$型の引数を取り$\mathTypeParameter{a}$型の戻り値を返す二項演算子，第2（下）引数に$\mathTypeParameter{a}$型，第3（右）引数に$\mathTypeParameter{b}$型のリストすなわち$\mathListType{\mathTypeParameter{b}}$型を取り，$\mathTypeParameter{a}$型の値を返す．従って畳み込み演算子の型は
 \begin{equation}
-\mathFold\mathIn\mathMorphIII{(\mathMorphII{\hsklType{a}}{\hsklType{b}}{\hsklType{a}})}{\hsklType{a}}{\hsklListType{\hsklType{b}}}{\hsklType{a}}
+\mathFold\mathIn\mathMorphIII{(\mathMorphII{\mathTypeParameter{a}}{\mathTypeParameter{b}}{\mathTypeParameter{a}})}{\mathTypeParameter{a}}{\mathListType{\mathTypeParameter{b}}}{\mathTypeParameter{a}}
 \end{equation}
 である．
 
@@ -1421,17 +1481,17 @@ s = t.inject(0) { |x, y| x + y }
 これは右畳み込みと呼ばれる演算子である．\footnote{\haskell では$\mathFoldRight^{*}_{a}l$を\code{foldr l a *}と書く．}
 % !!!!!!!!!! CHECK !!!!!!!!!!
 
-畳み込み演算子の面白い応用例を示そう．リストの結合演算子$(\hsklAppend)$を使うと
+畳み込み演算子の面白い応用例を示そう．リストの結合演算子$(\mathAppend)$を使うと
 \begin{equation}
-\mathFold_\hsklEmptyList^\hsklAppend[[0,1,2],[3,4,5],\dots]=[0,1,2,3,4,5,\dots]
+\mathFold_\hsklEmptyList^\mathAppend[[0,1,2],[3,4,5],\dots]=[0,1,2,3,4,5,\dots]
 \end{equation}
 であるから，演算子
 \begin{equation}
-\mathFold_\hsklEmptyList^\hsklAppend
+\mathFold_\hsklEmptyList^\mathAppend
 \end{equation}
 はリストを平坦化する\keyword{平坦化演算子}である．平坦化演算子はconcat演算子とも呼ばれることもあるが，基本的な演算子であるため特別な記号をつけておこう．我々は
 \begin{equation}
-\hsklConcat=\mathFold_\hsklEmptyList^\hsklAppend
+\hsklConcat=\mathFold_\hsklEmptyList^\mathAppend
 \end{equation}
 と定義することにする．\footnote{\haskell では演算子$\hsklConcat$の代わりに\code{concat}関数を使う．}
 % !!!!!!!!!! CHECK !!!!!!!!!!
@@ -1455,16 +1515,16 @@ f\hsklMap[x_0,x_1\dots x_n]=[fx_0,fx_1\dots fx_n]
 
 マップ演算子の型は
 \begin{equation}
-\hsklMap\hsklOf{}\mathMorphII{(\mathMorph{\hsklType{a}}{\hsklType{b}})}{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType{b}}}
+\hsklMap\hsklOf{}\mathMorphII{(\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}})}{\mathListType{\mathTypeParameter{a}}}{\mathListType{\mathTypeParameter{b}}}
 \end{equation}
 である．矢印$\mathMapsTo$は右結合なので，これは
 \begin{equation}
-\hsklMap\hsklOf{}\mathMorph{(\mathMorph{\hsklType{a}}{\hsklType{b}})}{(\mathMorph{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType{b}}})}
+\hsklMap\hsklOf{}\mathMorph{(\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}})}{(\mathMorph{\mathListType{\mathTypeParameter{a}}}{\mathListType{\mathTypeParameter{b}}})}
 \end{equation}
 の意味でもある．ここで$f$と$f\hsklMap$の型を並べてみると
 \begin{align*}
-f&\mathIn\mathMorph{\hsklType{a}}{\hsklType{b}}\\
-f\hsklMap&\mathIn\mathMorph{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType{b}}}
+f&\mathIn\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}}\\
+f\hsklMap&\mathIn\mathMorph{\mathListType{\mathTypeParameter{a}}}{\mathListType{\mathTypeParameter{b}}}
 \end{align*}
 となり，マップ演算子が何をしているのか一目瞭然になる．
 
@@ -1486,21 +1546,21 @@ f\hsklMap&\mathIn\mathMorph{\hsklListType{\hsklType{a}}}{\hsklListType{\hsklType
 \end{align*}
 結合演算子$:$は右結合する．すなわち$$x_0:x_1:x_2=x_0:(x_1:x_2)$$である．
 
-マップ演算子の実装は，リストの実装に踏み込めば簡単である．空でないリストは必ず$x:\hsklList{t}$へと分解できるから
+マップ演算子の実装は，リストの実装に踏み込めば簡単である．空でないリストは必ず$x:\mathListVar{t}$へと分解できるから
 \begin{equation}
 \left\{
 \begin{split}
-f\hsklMap(x:\hsklList{t})&=(fx):(f\hsklMap\hsklList{t})\\
+f\hsklMap(x:\mathListVar{t})&=(fx):(f\hsklMap\mathListVar{t})\\
 f\hsklMap\hsklEmptyList&=\hsklEmptyList
 \end{split}
 \right.
 \end{equation}
 とマップ演算子($\hsklMap$)を定義できる．つまりマップ演算子($\hsklMap$)は結合演算子(:)から作ることができる．換言すれば，マップ演算子は糖衣構文である．
 
-任意のリスト$\hsklList{t}$に対し，次の関数が用意されている．
+任意のリスト$\mathListVar{t}$に対し，次の関数が用意されている．
 \begin{align*}
-\hsklHead\hsklList{t}&\dots\text{$\hsklList{t}$の先頭要素}\\
-\hsklTail\hsklList{t}&\dots\text{$\hsklList{t}$の2番目以降の要素からなるリスト}
+\hsklHead\mathListVar{t}&\dots\text{$\mathListVar{t}$の先頭要素}\\
+\hsklTail\mathListVar{t}&\dots\text{$\mathListVar{t}$の2番目以降の要素からなるリスト}
 \end{align*}
 これらはLISPのcar関数，cdr関数と同じものである．
 
@@ -1512,7 +1572,7 @@ f\hsklMap\hsklEmptyList&=\hsklEmptyList
 \begin{split}
 f\hsklEmptyList&=0\\
 % fx:\hsklEmptyList&=x\\
-f(x:\hsklList{t})&=x+f\hsklList{t}
+f(x:\mathListVar{t})&=x+f\mathListVar{t}
 \end{split}
 \right.
 \end{equation}
@@ -1686,10 +1746,21 @@ def map_over(f, m):
 
 整数$x$と整数$y$があり$z=y/x$という式があるとする．この式は$x\equiv0$のときには$0$除算エラーである．しかし「例外」は内部状態の書き換えであり，我々の計算に入れたくない．そこで変数$z$が正しく計算されたかもしれないし，されていないかもしれないということを，$\hsklMaybe{m}$のように印をつけた別の変数に入れて，忘れないようにしておこう．ここで変数$\hsklMaybe{m}$が取り得る値は正しく計算された値$z$か，あるいはエラーを表す値$\hsklNothing$である．このように計算結果に「意味付け」をすることを\keyword{文脈}に入れると言う．
 
-この変数$\hsklMaybe{m}$はもはや整数型とは言えない．そこでこの$\hsklMaybe{m}$の型を$\hsklMaybeType{\mathTypeName{Int}}$と表して「きっと整数」型と呼ぶことにしよう．
-型$\hsklType{a}$から型$\hsklMaybeType{\hsklType{a}}$を生成する型コンストラクタを$\hsklMaybeConstructor$と呼び$$\hsklMaybeType{\hsklType{a}}=\hsklTypeConstruct{\hsklMaybeConstructor}{\hsklType{a}}$$とする．\footnote{\haskell では表記上コンテナ型$\hsklMaybeType{a}$と型コンストラクタ式$\hsklTypeConstruct{\hsklMaybeConstructor}{\hsklType{a}}$を区別せず，両者とも\code{Maybe a}と書く．}
+この変数$\hsklMaybe{m}$はもはや整数型とは言えない．
+そこでこの$\hsklMaybe{m}$の型を$\hsklMaybeType{\mathTypeName{Int}}$と表して
+「きっと整数」型と呼ぶことにしよう．
+型$\mathTypeParameter{a}$から型$\mathMaybeType{\mathTypeParameter{a}}$を
+生成する型コンストラクタを$\hsklMaybeConstructor$と呼び
+$$
+\mathMaybeType{\mathTypeParameter{a}}
+=\mathMaybe\mathTypeParameter{a}
+$$
+とする．\footnote{\haskell では
+表記上コンテナ型$\mathMaybeType{\mathTypeParameter{a}}$と
+型コンストラクタ式$\mathMaybe\mathTypeParameter{a}$を区別せず，
+両者とも\code{Maybe a}と書く．}
 
-$\hsklType{a}$型の変数を$\hsklMaybeType{\hsklType{a}}$型の変数に代入するには，次の値コンストラクタを用いて$$\hsklMaybe{m}=\hsklJust{z}$$と書く．\footnote{\haskell では\code{m = Just z}と書く．}
+$\mathTypeParameter{a}$型の変数を$\hsklMaybeType{\mathTypeParameter{a}}$型の変数に代入するには，次の値コンストラクタを用いて$$\hsklMaybe{m}=\hsklJust{z}$$と書く．\footnote{\haskell では\code{m = Just z}と書く．}
 
 変数$z$が一度$0$除算の危険性に汚染された場合，その後ずっと$\hsklMaybe{m}$というコンテナに入れ続けなければいけない．このきっと整数$\hsklMaybe{m}$に対して整数を引数にとる関数$f$を適用させるには，何らかの関数マップ演算子が必要である．そこできっと整数の中身に直接関数を適用する演算子を$\hsklMaybeMap$としよう．具体的には$$f\hsklMaybeMap\hsklMaybe{m}=\hsklMaybeW{fz}$$のように関数$f$を変数$\hsklMaybe{m}$に適用させる．その結果はまた$\hsklMaybeType{\mathTypeName{Int}}$型である．
 
@@ -1797,7 +1868,7 @@ maybe<int> n = map_over(f, m);
 
 \section{リストとMaybe}
 
-関数$f$をMayby値$\hsklMaybe{m}$に適用するために$$\hsklMaybe{n}=f\hsklMaybeMap\hsklMaybe{m}$$のようなMaybeバージョンのマップ演算子($\hsklMaybeMap$)を使った．一方で，同じ関数$f$をリスト$\hsklList{t}$に適用するには$$\hsklList{u}=f\hsklMap\hsklList{t}$$
+関数$f$をMayby値$\hsklMaybe{m}$に適用するために$$\hsklMaybe{n}=f\hsklMaybeMap\hsklMaybe{m}$$のようなMaybeバージョンのマップ演算子($\hsklMaybeMap$)を使った．一方で，同じ関数$f$をリスト$\mathListVar{t}$に適用するには$$\mathListVar{u}=f\hsklMap\mathListVar{t}$$
 
 リストバージョンのマップ演算子($\hsklMap$)をもし\cxx で書くとしたら，次のようなコードになる．ここでリスト型として\cxx の標準テンプレートライブラリ(STL)の\pthnClassname{list}クラスを流用した．
 \begin{cxxcode}
@@ -1875,9 +1946,9 @@ X map_over(fn f, X x);
 
 \section{余計な話：モノイドとしてのコンテナ}
 
-$$\mathMonoid{\hsklListType{\hsklType{a}}}{\hsklAppend}{\hsklEmptyList}$$
+$$\mathMonoid{\mathListType{\mathTypeParameter{a}}}{\mathAppend}{\hsklEmptyList}$$
 
-$$\mathMonoid{\hsklMaybeType{\hsklType{a}}}{\hsklMaybeAppend}{\hsklNothing}$$
+$$\mathMonoid{\hsklMaybeType{\mathTypeParameter{a}}}{\hsklMaybeAppend}{\hsklNothing}$$
 
 
 \chapter{関手}
@@ -1901,9 +1972,9 @@ A...
 圏$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$があるとする．
 ここに集合$\mathSet{C}$は射の\keyword{対象}となる集合の集合であり，集合$\mathSet{P}$は射の集合である．例えば$$\mathSet{C}=\{\mathTypeName{Int}\},\;\mathSet{P}=\{-\}$$というのも圏の一つである．この場合，整数と，その符号を反転させる写像（の集合）が圏の要素である．
 
-% ここにもう一つの圏$\mathCategoryShort{\mathSet{C}'}{\mathSet{P}'}$があるとする．対象$\mathSet{C}$の各元と対象$\mathSet{C}'$の各元の間に一対一対応があり，また射$\mathSet{F}$の各元と射$\mathSet{P}'$の各元の間に一対一対応があるとき，圏$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$から圏$\mathCategoryShort{\mathSet{C}'}{\mathSet{P}'}$への「射」が存在する．この射を\keyword{関手}と呼ぶ．例えば$$\mathSet{C}'=\{\hsklListType{\mathTypeName{Int}}\},\;\mathSet{P}'=\{(-\hsklMap)\}$$であるとき，整数($\mathTypeName{Int}$)に対する単項演算($-$)と，整数のリスト($\hsklListType{\mathTypeName{Int}}$)全体に対する単項演算($-\hsklMap$)は一対一に対応する．
+% ここにもう一つの圏$\mathCategoryShort{\mathSet{C}'}{\mathSet{P}'}$があるとする．対象$\mathSet{C}$の各元と対象$\mathSet{C}'$の各元の間に一対一対応があり，また射$\mathSet{F}$の各元と射$\mathSet{P}'$の各元の間に一対一対応があるとき，圏$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$から圏$\mathCategoryShort{\mathSet{C}'}{\mathSet{P}'}$への「射」が存在する．この射を\keyword{関手}と呼ぶ．例えば$$\mathSet{C}'=\{\mathListType{\mathTypeName{Int}}\},\;\mathSet{P}'=\{(-\hsklMap)\}$$であるとき，整数($\mathTypeName{Int}$)に対する単項演算($-$)と，整数のリスト($\mathListType{\mathTypeName{Int}}$)全体に対する単項演算($-\hsklMap$)は一対一に対応する．
 
-% つまり，$\mathTypeName{Int}$型から$\hsklListType{\mathTypeName{Int}}$型を作る型コンストラクタ$\hsklListConstructor$とマップ演算子$\hsklMap$があれば，圏$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$から圏$\mathCategoryShort{\mathSet{C}'}{\mathSet{P}'}$へとジャンプできるのである．
+% つまり，$\mathTypeName{Int}$型から$\mathListType{\mathTypeName{Int}}$型を作る型コンストラクタ$\hsklListConstructor$とマップ演算子$\hsklMap$があれば，圏$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$から圏$\mathCategoryShort{\mathSet{C}'}{\mathSet{P}'}$へとジャンプできるのである．
 
 ---
 
@@ -1913,14 +1984,14 @@ A...
 
 そこでリストのマップ演算子($\hsklMap$)，Maybeのマップ演算子($\hsklMaybeMap$)をひとくくりにして抽象的な\keyword{一般マップ演算子} ($\hsklFmap$)とする．一般マップ演算子は，右引数がリストであればリストのマップ演算子を，右引数がMaybeであればMaybeのマップ演算子に「化ける」．右引数がただの数であれば，ただの空白になる．
 
-この意味は，もし$f\hsklFmap\hsklList{t}$と書いてあれば$f\hsklMap\hsklList{t}$のことであるし，もし$f\hsklFmap\hsklMaybe{m}$と書いてあれば$f\hsklMaybeMap\hsklMaybe{m}$のことであると，自動的に解釈することである．そして，何の飾りもつけられていない変数$x$がふらっと現れ，目の前に$f\hsklFmap x$という式が登場しても，落ち着いて変数$x$の型を調べ，変数$x$がリストならば$\hsklFmap$の部分に$\hsklMap$を，変数$x$がMaybeならば$\hsklFmap$の部分に$\hsklMaybeMap$をはめ込むのだ．\footnote{\haskell では一般マップ演算子は\code{fmap}である．ただしその実装は与えられず，対象とする型に応じて定義されるものとする．例えばリストに対しては\code{fmap = map}と定義されている．}
+この意味は，もし$f\hsklFmap\mathListVar{t}$と書いてあれば$f\hsklMap\mathListVar{t}$のことであるし，もし$f\hsklFmap\hsklMaybe{m}$と書いてあれば$f\hsklMaybeMap\hsklMaybe{m}$のことであると，自動的に解釈することである．そして，何の飾りもつけられていない変数$x$がふらっと現れ，目の前に$f\hsklFmap x$という式が登場しても，落ち着いて変数$x$の型を調べ，変数$x$がリストならば$\hsklFmap$の部分に$\hsklMap$を，変数$x$がMaybeならば$\hsklFmap$の部分に$\hsklMaybeMap$をはめ込むのだ．\footnote{\haskell では一般マップ演算子は\code{fmap}である．ただしその実装は与えられず，対象とする型に応じて定義されるものとする．例えばリストに対しては\code{fmap = map}と定義されている．}
 
 つまり，型コンストラクタ$\hsklListConstructor$は
 \begin{equation}
 \left\{
 \begin{split}
 \hsklFmap&\xrightarrow{\;\hsklListConstructor\;}\hsklMap\\
-\hsklType{a}&\xrightarrow{\;\hsklListConstructor\;}\hsklListType{\hsklType{a}}
+\mathTypeParameter{a}&\xrightarrow{\;\hsklListConstructor\;}\mathListType{\mathTypeParameter{a}}
 \end{split}
 \right.
 \end{equation}
@@ -1929,7 +2000,7 @@ A...
 \left\{
 \begin{split}
 \hsklFmap&\xrightarrow{\;\hsklMaybeConstructor\;}\hsklMaybeMap\\
-\hsklType{a}&\xrightarrow{\;\hsklMaybeConstructor\;}\hsklMaybeType{\hsklType{a}}
+\mathTypeParameter{a}&\xrightarrow{\;\hsklMaybeConstructor\;}\hsklMaybeType{\mathTypeParameter{a}}
 \end{split}
 \right.
 \end{equation}
@@ -1956,8 +2027,8 @@ A...
 \begin{equation}
 \left\{
 \begin{split}
-(f:\hsklList{g})\hsklApplicativeListMap\hsklList{t}&=\hsklConcat((f\hsklMap\hsklList{t}):(\hsklList{g}\hsklApplicativeListMap\hsklList{t}))\\
-\hsklEmptyList\hsklApplicativeListMap\hsklList{t}&=\hsklEmptyList
+(f:\mathListVar{g})\hsklApplicativeListMap\mathListVar{t}&=\hsklConcat((f\hsklMap\mathListVar{t}):(\mathListVar{g}\hsklApplicativeListMap\mathListVar{t}))\\
+\hsklEmptyList\hsklApplicativeListMap\mathListVar{t}&=\hsklEmptyList
 \end{split}
 \right.
 \end{equation}
@@ -2019,7 +2090,7 @@ A...
 
 アプリカティブ関手は関手の一般マップ演算子をピュア演算子と一般アプリカティブマップ演算子に分解することで，式の見通しを良くすることができるアプリカティブスタイルという記法を採用できた．しかしながら，アプリカティブスタイル変数に文脈を与えるタイミングは最初すなわち式の右端の1回に限られている．そこで，任意のタイミングで変数に文脈を与えられるように関手を改造したものが\keyword{モナド}である．
 
-普通の（コンテナに入っていない）変数$x$をとり，普通の（コンテナに入っていない）戻り値を返す関数$f$があるとしよう．マップ演算子はコンテナに入れられた変数，例えば$\hsklList{t}=[x]$から中身$x$を取り出して関数$f$を適用し，その結果$fx$を再びコンテナに入れて$[fx]$を返す演算子であった．
+普通の（コンテナに入っていない）変数$x$をとり，普通の（コンテナに入っていない）戻り値を返す関数$f$があるとしよう．マップ演算子はコンテナに入れられた変数，例えば$\mathListVar{t}=[x]$から中身$x$を取り出して関数$f$を適用し，その結果$fx$を再びコンテナに入れて$[fx]$を返す演算子であった．
 
 もし，普通の変数$x$をとり，なんらかの不都合があった時には空のコンテナを返す関数$\phi$があればどうだろう．不都合があった時には空のコンテナを返すということは，不都合がなくても計算結果をコンテナにに詰めることになる．さもなければ関数の型がひとつに決まらないことになる．
 
@@ -2041,13 +2112,13 @@ $$
 
 ---
 
-リストのマップ演算子$$\hsklList{t}'=f\hsklMap\hsklList{t}$$を思い出そう．もし$\hsklList{t}\equiv\hsklEmptyList$ならば$\hsklList{t}'=\hsklEmptyList$になる．もし$\hsklList{t}\equiv[x_0,x_1\dots]$ならば$\hsklList{t}'=[fx_0,fx_1\dots]$になる．
+リストのマップ演算子$$\mathListVar{t}'=f\hsklMap\mathListVar{t}$$を思い出そう．もし$\mathListVar{t}\equiv\hsklEmptyList$ならば$\mathListVar{t}'=\hsklEmptyList$になる．もし$\mathListVar{t}\equiv[x_0,x_1\dots]$ならば$\mathListVar{t}'=[fx_0,fx_1\dots]$になる．
 
 Maybeのマップ演算子$$\hsklMaybe{m}'=g\hsklMaybeMap\hsklMaybe{m}$$を思い出そう．もし$\hsklMaybe{m}\equiv\hsklNothing$ならば$\hsklMaybe{m}'=\hsklNothing$になる．もし$\hsklMaybe{m}\equiv\hsklJust{y}$ならば$\hsklMaybe{m}'=\hsklJust{fy}$になる．
 
 これらをまとめた一般マップ演算子$$z'=h\hsklFmap z$$も思い出そう．関数$h$は「普通の」関数である．
 
-リストのアプリカティブマップ演算子$$\hsklList{t}'=\hsklList{f}\hsklApplicativeListMap\hsklList{t}$$を思い出そう．もし$\hsklList{f}\equiv\hsklEmptyList$ならば$\hsklList{t}'=\hsklEmptyList$になる．もし$\hsklList{f}\equiv[u_0,u_1\dots]$ならば$\hsklList{t}'=[u_0\hsklMap\hsklList{t},u_1\hsklMap\hsklList{t}\dots]$になる．
+リストのアプリカティブマップ演算子$$\mathListVar{t}'=\mathListVar{f}\hsklApplicativeListMap\mathListVar{t}$$を思い出そう．もし$\mathListVar{f}\equiv\hsklEmptyList$ならば$\mathListVar{t}'=\hsklEmptyList$になる．もし$\mathListVar{f}\equiv[u_0,u_1\dots]$ならば$\mathListVar{t}'=[u_0\hsklMap\mathListVar{t},u_1\hsklMap\mathListVar{t}\dots]$になる．
 
 Maybeのアプリカティブマップ演算子$$\hsklMaybe{m}'=\hsklMaybe{g}\hsklApplicativeMaybeMap\hsklMaybe{m}$$を思い出そう．もし$\hsklMaybe{g}\equiv\hsklNothing$ならば$\hsklMaybe{m}'=\hsklNothing$になる．もし$\hsklMaybe{g}\equiv\hsklJust{v}$ならば$\hsklMaybe{m}'=\hsklJust{vy}$になる．
 
@@ -2070,13 +2141,13 @@ $\hsklUnit{x}$は\keyword{ユニット演算子}と言って，変数を最も�
 %!!!!!!!!!! CHECK !!!!!!!!!!
 
 \begin{align*}
-\hsklFmap&\mathIn{}\mathMorphII{(\mathMorph{\hsklType{a}}{\hsklType{b}})}{\langle\hsklType{a}\rangle}{\langle\hsklType{b}
+\hsklFmap&\mathIn{}\mathMorphII{(\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}})}{\langle\mathTypeParameter{a}\rangle}{\langle\mathTypeParameter{b}
 \rangle}\\
-\hsklApplicativeMap&\mathIn{}\mathMorphII{\langle\mathMorph{\hsklType{a}}{\hsklType{b}}\rangle}{\langle\hsklType{a}\rangle}{\langle\hsklType{b}\rangle}\\
-\hsklMonadMap&\mathIn{}\mathMorphII{(\mathMorph{\hsklType{a}}{\langle\hsklType{b}\rangle})}{\langle\hsklType{a}\rangle}{\langle{\hsklType{b}}\rangle}
+\hsklApplicativeMap&\mathIn{}\mathMorphII{\langle\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}}\rangle}{\langle\mathTypeParameter{a}\rangle}{\langle\mathTypeParameter{b}\rangle}\\
+\hsklMonadMap&\mathIn{}\mathMorphII{(\mathMorph{\mathTypeParameter{a}}{\langle\mathTypeParameter{b}\rangle})}{\langle\mathTypeParameter{a}\rangle}{\langle{\mathTypeParameter{b}}\rangle}
 \end{align*}
 
-$$\hsklPure{\mathSomething}\mathIn\mathMorph{\hsklType{a}}{\langle\hsklType{a}\rangle}$$
+$$\hsklPure{\mathSomething}\mathIn\mathMorph{\mathTypeParameter{a}}{\langle\mathTypeParameter{a}\rangle}$$
 
 この関数$\phi$をコンテナにつめられた変数$x$に適用するための「モナドな」マップ演算子$\hsklMonadMap$を導入する．
 $$x'=\phi\hsklMonadMap x$$
@@ -2124,7 +2195,7 @@ $x\neq\hsklNothing$かつ$y\neq0$のときの戻り値が$x/y$ではなく$\hskl
     &\multicolumn{2}{|c|}{ }
     &$\hsklFunctor$
     &\multicolumn{2}{|c}{$\hsklMonad$}
-    &\multicolumn{2}{|c||}{$\hsklMonoid$}\\
+    &\multicolumn{2}{|c||}{$\mathTypeClass{Monoid}$}\\
 \hline\hline
 型$\backslash$要素と演算子
     &$\hsklPure{x}$
@@ -2142,7 +2213,7 @@ $x\neq\hsklNothing$かつ$y\neq0$のときの戻り値が$x/y$ではなく$\hskl
     &$[x]$
     &$\clubsuit$
     &$\hsklEmptyList$
-    &$\hsklAppend$\\
+    &$\mathAppend$\\
 \hline
 Maybe
     &$\hsklJust{x}$
@@ -2455,35 +2526,35 @@ R_{-t}\bullet R_t=R_t\bullet R_{-t}=I
 
 このように，組み合わせ$\mathGroup{\mathSet{R}}{\bullet}{I}{\mathSomething^{-1}}$も可換群である．（回転$R_t$全体の集合$\mathSet{R}$が群を形成することは，パラメタ$t$が所属する実数全体の集合$\mathSpecialSet{R}$が群を形成することに大いに頼っている．この部分を詳細に調べるとリー群という美しい代数的構造が見つかる．）
 
-回転されるものをベクトルと呼ぶ．ベクトルや回転変換の実装方法はいくつかあり，例えば第1座標値を$u$，第2座標値を$v$としたときにベクトル$\mathVector{p}$を
+回転されるものをベクトルと呼ぶ．ベクトルや回転変換の実装方法はいくつかあり，例えば第1座標値を$u$，第2座標値を$v$としたときにベクトル$\mathVectorVar{p}$を
 \begin{equation}
-\mathVector{p}=\begin{bmatrix}u\\v\end{bmatrix}
+\mathVectorVar{p}=\begin{bmatrix}u\\v\end{bmatrix}
 \end{equation}
 と表すことにしよう．矢印は変数$p$がベクトルであることを忘れないようにするための飾りである．このとき，回転変換は
 \begin{equation}
 R_t=\begin{bmatrix}\cos t&-\sin t\\\sin t&\cos t\end{bmatrix}
 \end{equation}
-と行列で表すことになり，回転後のベクトル$\mathVector{p'}$は
+と行列で表すことになり，回転後のベクトル$\mathVectorVar{p'}$は
 \begin{equation}
-\mathVector{p'}=R_t*\mathVector{p}
+\mathVectorVar{p'}=R_t*\mathVectorVar{p}
 \end{equation}
 となる．ここに演算子$*$は行列の積である．また，この場合変換の合成$\mathCompose$は行列積$*$となる．
 
-他にもベクトルを複素数で表現する方法もある．いま$\mathVector{p}$を
+他にもベクトルを複素数で表現する方法もある．いま$\mathVectorVar{p}$を
 \begin{equation}
-\mathVector{p}=u+\mathI v
+\mathVectorVar{p}=u+\mathI v
 \end{equation}
 と表して，回転変換$R_t$を
 \begin{equation}
 R_t=\cos t+\mathI\sin t
 \end{equation}
-とすると，回転後の$\mathVector{p'}$はやはり
+とすると，回転後の$\mathVectorVar{p'}$はやはり
 \begin{equation}
-\mathVector{p'}=R_t*\mathVector{p}
+\mathVectorVar{p'}=R_t*\mathVectorVar{p}
 \end{equation}
 と書ける．ここに演算子$*$は複素数の積である．また，この場合変換の合成$\mathCompose$も複素数積$*$となる．
 
-任意次元のベクトル全体からなる集合を$\mathSet{V}$として，零ベクトルを$\mathVector{z}$で表すことにしよう．ここでも矢印はベクトルであることを忘れないようにするための飾りである．ベクトル同士の加算を二項演算子$+$で表し，向きを反転させた逆ベクトル作る演算子を$-$とすると，組み合わせ$\mathGroup{\mathSet{V}}{+}{\mathVector{z}}{-}$もまた可換群である．
+任意次元のベクトル全体からなる集合を$\mathSet{V}$として，零ベクトルを$\mathVectorVar{z}$で表すことにしよう．ここでも矢印はベクトルであることを忘れないようにするための飾りである．ベクトル同士の加算を二項演算子$+$で表し，向きを反転させた逆ベクトル作る演算子を$-$とすると，組み合わせ$\mathGroup{\mathSet{V}}{+}{\mathVectorVar{z}}{-}$もまた可換群である．
 
 可換群の性質のうち最初の4項目だけを満たすものを群と呼ぶ．可換群は群の特別な場合である．現代の数学では$x\mathAnyBinaryOperator y\neq y\mathAnyBinaryOperator x$のように演算子の前後を入れ替えると結果が異なるような演算をよく取り扱うので，一般の群は可換群よりもよく取り上げられ，それ故より短い名前が付けられている．
 
