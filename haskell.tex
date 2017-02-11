@@ -6,6 +6,9 @@
 \def\[{\left[\!\left[}
 \def\]{\right]\!\right]}
 
+\def\({\left(\!\left(}
+\def\){\right)\!\right)}
+
 %% Programming Languages
 
 \newcommand{\programminglanguage}[1]{\textsf{#1}}
@@ -79,13 +82,13 @@
 \newcommand{\mathSet}[1]{\mathbf{#1}} % Use capital letter
 \newcommand{\mathSpecialSet}[1]{\mathbb{#1}} % Use capital letter
 \newcommand{\mathTypeParameter}[1]{\mathbf{#1}}
-\newcommand{\mathTypeName}[1]{\textbf{#1}}
-\newcommand{\mathTypeParameterConstructor}[1]{\textit{#1}}
-\newcommand{\mathTypeParameterClass}[1]{\textbf{\emph{#1}}}
+\newcommand{\mathTypeName}[1]{\mathbf{#1}}
+\newcommand{\mathTypeParameterConstructor}[1]{\mathrm{#1}}
+\newcommand{\mathTypeParameterClass}[1]{\mathbf{\emph{#1}}}
 
-\newcommand{\mathFunctor}[1]{\mathop{#1}} % Use capital letter
+\newcommand{\mathFunctor}[1]{\mathop{\textsl{#1}}} % Use capital letter
 \newcommand{\mathSpecialFunctor}[1]{\mathcal{#1}} % Use capital letter
-\newcommand{\mathTypeConstructor}[1]{\textit{#1}} % Use capital letter
+\newcommand{\mathTypeConstructor}[1]{\mathit{#1}} % Use capital letter
 \newcommand{\mathTypeClass}[1]{\textbf{\emph{#1}}} % Use capital letter
 
 \newcommand{\mathListWith}[1]{\left[#1\right]}
@@ -168,6 +171,7 @@
 \newcommand{\mathFrom}{\mathBinaryOperator{\in}}
 \newcommand{\mathIn}{\mathBinaryOperator{:\!:}}
 \newcommand{\mathMap}{\mathBinaryOperator{\odot}}
+\newcommand{\mathMaybeAppend}{\mathBinaryOperator{\boxplus}}
 \newcommand{\mathMaybeMap}{\mathBinaryOperator{\boxdot}}
 \newcommand{\mathOr}{\mathBinaryOperator{\vee}}
 \newcommand{\mathSetTimes}{\mathBinaryOperator{\circledast}}
@@ -206,7 +210,7 @@
 
 %% First and Rest
 
-\newcommand{\mathVarKeyword}[1]{\operatorname{\textrm{#1}}}
+\newcommand{\mathVarKeyword}[1]{\operatorname{\mathrm{#1}}}
 
 \newcommand{\mathFirst}{\mathVarKeyword{first}}
 \newcommand{\mathRest}{\mathVarKeyword{rest}}
@@ -326,7 +330,7 @@
 型パラメタ&ボールドローマン，小文字&$\mathTypeParameter{a}$, $\mathTypeParameter{b}$, $\mathTypeParameter{c}$\\
 型&ボールドローマン，大文字&$\mathTypeName{Int}$, $\mathTypeName{Float}$\\
 \hline
-関手&イタリック，大文字&$\mathFunctor{F}$, $\mathFunctor{G}$, $\mathFunctor{H}$\\
+関手&スラント，大文字&$\mathFunctor{F}$, $\mathFunctor{G}$, $\mathFunctor{H}$\\
 有名な関手&カリグラフィ，大文字&$\mathSpecialFunctor{I}$\\
 型コンストラクタ&イタリック，大文字&$\mathList$, $\mathMaybe$\\
 型クラス&ボールドイタリック，大文字&$\mathTypeClass{Eq}$, $\mathTypeClass{Integral}$\\
@@ -357,8 +361,8 @@ Maybe変数&名前にチルダをつける&$\mathMaybeVar{x}$\\
 $\mathLambda,\mathLambdaArrow$&ラムダ式&\\
 $\mathAnonymousParameter$&無名パラメタ&\\\hline
 $\mathIn$&集合の元&\\
-$\mathMapsTo$&写像&\\
 $\mathId$&単位元&\\
+$\mathMapsTo$&写像&\\
 $\mathAnyBinaryOperator$&任意の二項演算子&\\\hline
 $\mathCompose$&関数合成&\\
 $\mathApply$&関数適用&\\
@@ -368,7 +372,9 @@ $\mathFold$&左畳み込み&\\
 $\mathFoldRight$&右畳み込み&\\\hline
 $:$&結合 (cons)&\\
 $\mathConcat$&平坦化 (concat)&\\
-$\mathAppend$&リスト結合 (append)&\\\hline
+$\mathAppend$&リスト結合 (append)&\\
+% $\mathMaybeAppend$&Maybe結合&\\
+\hline
 $\mathGeneralMap$&一般マップ&\\
 $\mathMap$&（リストの）マップ&\\
 $\mathMaybeMap$&Maybeマップ&\\\hline
@@ -1609,7 +1615,13 @@ f\mathMap\mathEmptyList&=\mathEmptyList
 \end{align*}
 これらは\lisp  の\code{car}関数，\code{cdr}関数と同じものである．
 
-\section{余計な話：リストを引数にとる関数}
+\section{余計な話: モノイドとしてのリスト*}
+
+リスト型，結合演算子，空リストの組み合わせ$\mathMonoid{\mathListType{\mathTypeParameter{a}}}{\mathAppend}{\mathEmptyList}$は
+モノイドである．
+
+
+\section{余計な話: リストを引数にとる関数**}
 
 リストを分解する関数$\mathHead$と$\mathTail$さえあればどのようなリスト処理も可能であるが，リストを引数にとる関数を考えると最初から分解されたリストを渡された方が何かと便利である．そこで結合演算子を関数引数のパタンにも使えることにしよう．これで，例えばリストの和をとる関数$f$は
 \begin{equation}
@@ -1680,7 +1692,7 @@ x*\mathFactorial(x-1)&\mathOtherwise
 
 \section{リストと再帰*}
 
-\section{余計な話：Yコンビネータ*}
+\section{余計な話: Yコンビネータ*}
 
 
 \chapter{Maybe}
@@ -2014,12 +2026,9 @@ X map_over(fn f, X x);
 この人類の英知は第\ref{ch:functor}章から見ていくことにしよう．
 
 
-\section{余計な話：モノイドとしてのコンテナ}
+\section{余計な話: Either*}
 
-$$\mathMonoid{\mathListType{\mathTypeParameter{a}}}{\mathAppend}{\mathEmptyList}$$
-
-$$\mathMonoid{\mathMaybeType{\mathTypeParameter{a}}}{\hsklMaybeAppend}{\mathNothing}$$
-
+---Either
 
 \chapter{関手}
 \label{ch:functor}
@@ -2038,6 +2047,72 @@ A...
 
 
 \section{型コンストラクタと関手*}
+
+リストとMaybeはとてもよく似ている．
+
+もう一度まとてみたのが表xyzである．
+
+\begin{table}
+\begin{center}
+\begin{tabular}{||c|c|c|c||}\hline
+型&型コンストラクタ&マップ&値コンストラクタ\\\hline\hline
+リスト&$\mathList$&$\mathMap$&$\mathListWith{x}$\\
+Maybe&$\mathMaybe$&$\mathMaybeMap$&$\mathMaybeWith{x}$\\\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+もし，リストとMaybeに共通の原型があり，
+その「何か」を「どうにか」したら$\mathList$型コンストラクタとマップ演算子$\mathMap$になり，
+その「何か」を別の方法で「どうにか」したら$\mathMaybe$型コンストラクタとMaybeマップ演算子$\mathMaybeMap$になるとしたら，
+その「何か」と「どうにか」はなんであろうか．
+
+いま$\xrightarrow{\mathFunctor{List}}$と$\xrightarrow{\mathFunctor{Maybe}}$という矢印ががあって，
+次のように書けるとしよう．
+\begin{align}
+\mathTypeParameter{a}&\xrightarrow{\;\mathFunctor{List}\;}\mathList\mathTypeParameter{a}\\
+\mathGeneralMap&\xrightarrow{\;\mathFunctor{List}\;}\mathMap\\
+% \mathPureWith{x}&\xrightarrow{\;\mathFunctor{List}\;}\mathListWith{x}\\
+\mathTypeParameter{a}&\xrightarrow{\;\mathFunctor{Maybe}\;}\mathMaybe\mathTypeParameter{a}\\
+\mathGeneralMap&\xrightarrow{\;\mathFunctor{Maybe}\;}\mathMaybeMap
+% \mathPureWith{x}&\xrightarrow{\;\mathFunctor{Maybe}\;}\mathMaybeWith{x}
+\end{align}
+
+リスト型$\mathListType{\mathTypeParameter{a}}$とマップの組み合わせ$\mathTupleWith{\mathListType{\mathTypeParameter{a}},\mathMap}$は，
+数学者の言う\keyword{圏}の一種である．
+圏とは集合と\keyword{射}の組み合わせである．
+射は演算子を一般化したものと思っておけばよい．
+組み合わせ$\mathTupleWith{\mathMaybeType{\mathTypeParameter{a}},\mathMaybeMap}$も圏である．
+
+そこで先ほどの関係をもう一度圏の記法を使って書き直そう．
+\begin{align}
+\mathTupleWith{\mathTypeParameter{a},\mathGeneralMap}
+&\xrightarrow{\;\mathFunctor{List}\;}\mathTupleWith{\mathListType{\mathTypeParameter{a}},\mathMap}\\
+\mathTupleWith{\mathTypeParameter{a},\mathGeneralMap}
+&\xrightarrow{\;\mathFunctor{Maybe}\;}\mathTupleWith{\mathMaybeType{\mathTypeParameter{a}},\mathMaybeMap}
+\end{align}
+
+これまでの型コンストラクタが例えば$\mathTypeParameter{a}$を
+$\mathListType{\mathTypeParameter{a}}$にだけしていたのに対し，
+この矢印$\xrightarrow{\mathFunctor{List}}$は
+$\mathTupleWith{\mathTypeParameter{a},\mathGeneralMap}$という組み合わせを
+$\mathTupleWith{\mathListType{\mathTypeParameter{a}},\mathMap}$に変えるところに注目しよう．
+
+このような圏から圏への写像を\keyword{関手}と呼ぶ．
+
+\begin{table}
+\begin{center}
+\begin{tabular}{||c|c|c|c||}\hline
+型&型コンストラクタ&マップ&値コンストラクタ\\\hline\hline
+「何か」&&$\mathGeneralMap$&$\mathPureWith{x}$\\
+リスト&$\mathList$&$\mathMap$&$\mathListWith{x}$\\
+Maybe&$\mathMaybe$&$\mathMaybeMap$&$\mathMaybeWith{x}$\\\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+
+---
 
 圏の説明．
 
@@ -2158,15 +2233,45 @@ f\mathMaybeMap\mathMaybeVar{m}&\mathIf\mathMaybeVar{n}\equiv\mathMaybeWith{f}\\
 
 A...
 
-\section{余計な話：アプリカティブスタイル}
+\section{余計な話: アプリカティブスタイル}
 
-関数適用演算子$\mathApply$とよく似た演算子$\mathApplicativeApply$ただし$$f\mathApplicativeApply g=\mathPureWith{f\mathCompose g}$$なる演算子を導入する．この演算子は特別に\keyword{アプリカティブ関数適用演算子}と呼ぶ．\footnote{\haskell では\code{<\$>}と書く．}
+関数適用演算子$\mathApply$とよく似た演算子$\mathApplicativeApply$ただし
+$$
+f\mathApplicativeApply g=\mathPureWith{f\mathCompose g}
+$$
+なる演算子を導入する．
+この演算子は特別に\keyword{アプリカティブ関数適用演算子}と呼ぶ．%
+\footnote{\haskell では\code{<\$>}と書く．}
 
-アプリカティブ関数適用演算子があると，わざわざピュア演算子を用いなくとも連続的に「普通の」関数をコンテナ型の引数に適用できる．いま変数$x$をコンテナ型とし，関数$f$と関数$g$が「普通」であるとすると$$f\mathApplicativeApply g\mathApplicativeGeneralMap x$$のようにして変数$x$に関数$g$，関数$f$を順に作用させることができる．このような書き方を\keyword{アプリカティブスタイル}と呼ぶ．
+アプリカティブ関数適用演算子があると，
+わざわざピュア演算子を用いなくとも連続的に「普通の」関数をコンテナ型の引数に適用できる．
+いま変数$x$をコンテナ型とし，関数$f$と関数$g$が「普通」であるとすると
+$$
+f\mathApplicativeApply g\mathApplicativeGeneralMap x
+$$
+のようにして変数$x$に関数$g$，関数$f$を順に作用させることができる．
+このような書き方を\keyword{アプリカティブスタイル}と呼ぶ．
 
-アプリカティブスタイルのいいところは，「普通の」関数が増えてもスタイルを変えなくて良いことである．例えば$$f\mathApplicativeApply g\mathApplicativeGeneralMap h\mathApplicativeGeneralMap x$$は期待通りコンテナ型変数$x$に関数$h$，関数$g$，関数$f$を順に作用させる．これは$f\mathApplicativeApply g\mathApplicativeGeneralMap h$と$\mathPureWith{f\mathCompose g\mathCompose h}$が同値だからである．
+アプリカティブスタイルのいいところは，
+「普通の」関数が増えてもスタイルを変えなくて良いことである．
+例えば
+$$
+f\mathApplicativeApply g\mathApplicativeGeneralMap h\mathApplicativeGeneralMap x
+$$
+は期待通りコンテナ型変数$x$に関数$h$，関数$g$，関数$f$を順に作用させる．
+これは$f\mathApplicativeApply g\mathApplicativeGeneralMap h$と%
+$\mathPureWith{f\mathCompose g\mathCompose h}$が同値だからである．
 
-アプリカティブスタイルは，計算の流れを明確にしているとも言える．例えば$f\mathApplicativeApply g\mathApplicativeGeneralMap h\mathApplicativeGeneralMap x$は$$x\leadsto h\leadsto g\leadsto f$$という計算の流れを示す．もちろん関数合成演算子と関数適用演算子でも似たことはできるが，関数合成演算子と関数適用演算子だけでは$x$が例えば$\mathNothing$でる可能性を扱えないし，また計算の途中経過がなんらかのエラーで$\mathNothing$になるような系も扱えない．（後者はアプリカティブスタイルでも扱えない．そのために次章で述べる「モナド」が登場する．）
+アプリカティブスタイルは，計算の流れを明確にしているとも言える．
+例えば$f\mathApplicativeApply g\mathApplicativeGeneralMap h\mathApplicativeGeneralMap x$は
+$$
+x\leadsto h\leadsto g\leadsto f
+$$
+という計算の流れを示す．
+もちろん関数合成演算子と関数適用演算子でも似たことはできるが，
+関数合成演算子と関数適用演算子だけでは$x$が例えば$\mathNothing$である可能性を扱えないし，
+また計算の途中経過がなんらかのエラーで$\mathNothing$になるような系も扱えない．
+（後者はアプリカティブスタイルでも扱えない．そのために次章で述べる「モナド」が登場する．）
 
 \chapter{モナド}
 
@@ -2300,7 +2405,7 @@ $x\neq\mathNothing$かつ$y\neq0$のときの戻り値が$x/y$ではなく$\math
     &$[x]$
     &$\mathApplicativeMap$
     &$\mathMap$
-    &$[x]$
+    &$\mathListWith{x}$
     &$\clubsuit$
     &$\mathEmptyList$
     &$\mathAppend$\\
@@ -2315,10 +2420,10 @@ Maybe
     &$\boxplus$\\%$\hsklMaybeAppend$\\
 \hline
 関数
-    &$\langle\!\langle x\rangle\!\rangle$
+    &$\(x\)$
     &$\bowtie$
     &$\mathCompose$
-    &$\langle\!\langle x\rangle\!\rangle$
+    &$\(x\)$
     &$\circ$
     &$\mathAnonymousParameter$
     &$\mathCompose$\\
