@@ -173,6 +173,7 @@
 \newcommand{\mathMap}{\mathBinaryOperator{\odot}}
 \newcommand{\mathMaybeAppend}{\mathBinaryOperator{\boxplus}}
 \newcommand{\mathMaybeMap}{\mathBinaryOperator{\boxdot}}
+\newcommand{\mathMonadGeneralMap}{\mathBinaryOperator{\heartsuit}}
 \newcommand{\mathOr}{\mathBinaryOperator{\vee}}
 \newcommand{\mathSetTimes}{\mathBinaryOperator{\circledast}}
 
@@ -2067,7 +2068,7 @@ Maybe&$\mathMaybe$&$\mathMaybeMap$&$\mathMaybeWith{x}$\\\hline
 その「何か」を別の方法で「どうにか」したら$\mathMaybe$型コンストラクタとMaybeマップ演算子$\mathMaybeMap$になるとしたら，
 その「何か」と「どうにか」はなんであろうか．
 
-いま$\xrightarrow{\mathFunctor{List}}$と$\xrightarrow{\mathFunctor{Maybe}}$という矢印ががあって，
+いま$\xrightarrow{\mathFunctor{List}}$と$\xrightarrow{\mathFunctor{Maybe}}$という写像ががあって，
 次のように書けるとしよう．
 \begin{align}
 \mathTypeParameter{a}&\xrightarrow{\;\mathFunctor{List}\;}\mathList\mathTypeParameter{a}\\
@@ -2112,54 +2113,36 @@ Maybe&$\mathMaybe$&$\mathMaybeMap$&$\mathMaybeWith{x}$\\\hline
 \end{table}
 
 
----
 
-圏の説明．
+抽象的な\keyword{一般マップ演算子} ($\mathGeneralMap$)とする．
+一般マップ演算子は，右引数がリストであればリストのマップ演算子を，
+右引数がMaybeであればMaybeのマップ演算子に「化ける」．
+右引数がただの数であれば，ただの空白になる．
 
----
+この意味は，
+もし$f\mathGeneralMap\mathListVar{t}$と書いてあれば$f\mathMap\mathListVar{t}$のことであるし，
+もし$f\mathGeneralMap\mathMaybeVar{m}$と書いてあれば$f\mathMaybeMap\mathMaybeVar{m}$のことであると，
+自動的に解釈することである．
+そして，何の飾りもつけられていない変数$x$がふらっと現れ，
+目の前に$f\mathGeneralMap x$という式が登場しても，落ち着いて変数$x$の型を調べ，
+変数$x$がリストならば$\mathGeneralMap$の部分に$\mathMap$を，
+変数$x$がMaybeならば$\mathGeneralMap$の部分に$\mathMaybeMap$をはめ込むのだ．%
+\footnote{\haskell では一般マップ演算子は\code{fmap}である．
+ただしその実装は与えられず，対象とする型に応じて定義されるものとする．
+例えばリストに対しては\code{fmap = map}と定義されている．}
 
-圏$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$があるとする．
-ここに集合$\mathSet{C}$は射の\keyword{対象}となる集合の集合であり，集合$\mathSet{P}$は射の集合である．例えば$$\mathSet{C}=\{\mathTypeName{Int}\},\;\mathSet{P}=\{-\}$$というのも圏の一つである．この場合，整数と，その符号を反転させる写像（の集合）が圏の要素である．
-
-% ここにもう一つの圏$\mathCategoryShort{\mathSet{C}'}{\mathSet{P}'}$があるとする．対象$\mathSet{C}$の各元と対象$\mathSet{C}'$の各元の間に一対一対応があり，また射$\mathSet{F}$の各元と射$\mathSet{P}'$の各元の間に一対一対応があるとき，圏$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$から圏$\mathCategoryShort{\mathSet{C}'}{\mathSet{P}'}$への「射」が存在する．この射を\keyword{関手}と呼ぶ．例えば$$\mathSet{C}'=\{\mathListType{\mathTypeName{Int}}\},\;\mathSet{P}'=\{(-\mathMap)\}$$であるとき，整数($\mathTypeName{Int}$)に対する単項演算($-$)と，整数のリスト($\mathListType{\mathTypeName{Int}}$)全体に対する単項演算($-\mathMap$)は一対一に対応する．
-
-% つまり，$\mathTypeName{Int}$型から$\mathListType{\mathTypeName{Int}}$型を作る型コンストラクタ$\mathList$とマップ演算子$\mathMap$があれば，圏$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$から圏$\mathCategoryShort{\mathSet{C}'}{\mathSet{P}'}$へとジャンプできるのである．
-
----
-
-型コンストラクタ$\mathList$とマップ演算子$\mathMap$の組み合わせ$(\mathList,\mathMap)$は関手の一例である．
-
-同じことが型コンストラクタ$\mathMaybe$とMaybeバージョンのマップ演算子$\mathMaybeMap$の組み合わせ$(\mathMaybe,\mathMaybeMap)$にも言える．
-
-そこでリストのマップ演算子($\mathMap$)，Maybeのマップ演算子($\mathMaybeMap$)をひとくくりにして抽象的な\keyword{一般マップ演算子} ($\mathGeneralMap$)とする．一般マップ演算子は，右引数がリストであればリストのマップ演算子を，右引数がMaybeであればMaybeのマップ演算子に「化ける」．右引数がただの数であれば，ただの空白になる．
-
-この意味は，もし$f\mathGeneralMap\mathListVar{t}$と書いてあれば$f\mathMap\mathListVar{t}$のことであるし，もし$f\mathGeneralMap\mathMaybeVar{m}$と書いてあれば$f\mathMaybeMap\mathMaybeVar{m}$のことであると，自動的に解釈することである．そして，何の飾りもつけられていない変数$x$がふらっと現れ，目の前に$f\mathGeneralMap x$という式が登場しても，落ち着いて変数$x$の型を調べ，変数$x$がリストならば$\mathGeneralMap$の部分に$\mathMap$を，変数$x$がMaybeならば$\mathGeneralMap$の部分に$\mathMaybeMap$をはめ込むのだ．\footnote{\haskell では一般マップ演算子は\code{fmap}である．ただしその実装は与えられず，対象とする型に応じて定義されるものとする．例えばリストに対しては\code{fmap = map}と定義されている．}
-
-\newcommand{\mathEmptySet}{\emptyset}
-つまり，型コンストラクタ$\mathList$は
-\begin{equation}
-\left\{
-\begin{split}
-\mathGeneralMap&\xrightarrow{\;\mathList\;}\mathMap\\
-\mathTypeParameter{a}&\xrightarrow{\;\mathList\;}\mathListType{\mathTypeParameter{a}}
-\end{split}
-\right.
-\end{equation}
-という射であり，型コンストラクタ$\mathMaybe$は
-\begin{equation}
-\left\{
-\begin{split}
-\mathGeneralMap&\xrightarrow{\;\mathMaybe\;}\mathMaybeMap\\
-\mathTypeParameter{a}&\xrightarrow{\;\mathMaybe\;}\mathMaybeType{\mathTypeParameter{a}}
-\end{split}
-\right.
-\end{equation}
-という射である．
+型コンストラクタ$\mathList$や$\mathMaybe$は
+それぞれ関手$\mathFunctor{List}$や$\mathFunctor{Maybe}$の一部である．
+\haskell では型コンストラクタが関手の一部であるような型をひとくくりにして$\mathTypeClass{Functor}$型クラスに
+属するとする．
+すなわち，リスト型，Maybe型は$\mathTypeClass{Functor}$型クラスに属す．
 
 \section{アプリカティブ関手}
 
-関手の一般化マップ演算子をさらに汎用性のあるものにするために，二つの要素に分解する．
-その要素とは\keyword{ピュア演算子}と\keyword{一般アプリカティブマップ演算子}$(\mathApplicativeGeneralMap)$である．\footnote{\haskell では一般アプリカティブマップ演算子を\code{<*>}と書く．}
+一般マップ演算子をさらに汎用性のあるものにするために，二つの要素に分解する．
+その要素とは\keyword{ピュア演算子}と\keyword{一般アプリカティブマップ演算子}である．
+一般アプリカティブマップ演算子は$\mathApplicativeGeneralMap$と書く．%
+\footnote{\haskell では一般アプリカティブマップ演算子を\code{<*>}と書く．}
 
 一般マップ演算子が「普通の関数」$f$をコンテナの中の変数に適用するのに対し，
 一般アプリカティブマップ演算子はコンテナの中の関数をコンテナの中の変数へ適用する．
@@ -2188,7 +2171,9 @@ $$
 \end{align}
 である．
 
-リストバージョンのアプリカティブマップ演算子は，（リストバージョンの）マップ演算子から再帰的に実装できる．リストバージョンのアプリカティブマップ演算子の実装は
+リストバージョンのアプリカティブマップ演算子は，
+（リストバージョンの）マップ演算子から再帰的に実装できる．
+リストバージョンのアプリカティブマップ演算子の実装は
 \begin{equation}
 \left\{
 \begin{split}
@@ -2199,9 +2184,21 @@ $$
 \end{equation}
 である．
 
-Maybeバージョンのアプリカティブマップ演算子($\mathApplicativeMaybeMap$)は左引数がもし$\mathMaybeWith{f}$の形をしていれば，その$f$を右変数$\mathMaybeVar{m}$に対して$f\mathMaybeMap\mathMaybeVar{m}$と適用する．具体的には，もし$\mathMaybeWith{(*)100}\mathApplicativeMaybeMap{}\mathMaybeWith{68}$という式が現れたとすると，アプリカティブマップ演算子の左引数から中身の関数$((*)100)$を抜き出して，右引数の中身$68$に適用し，その結果を再びMaybe値にして返す．式で書けば$$\mathMaybeWith{(*)100}\mathApplicativeMaybeMap{}\mathMaybeWith{68}=\mathMaybeWith{68000}$$となる．
+Maybeバージョンのアプリカティブマップ演算子($\mathApplicativeMaybeMap$)は
+左引数がもし$\mathMaybeWith{f}$の形をしていれば，
+その$f$を右変数$\mathMaybeVar{m}$に対して$f\mathMaybeMap\mathMaybeVar{m}$と適用する．
+具体的には，
+もし$\mathMaybeWith{(*)100}\mathApplicativeMaybeMap{}\mathMaybeWith{68}$という
+式が現れたとすると，アプリカティブマップ演算子の左引数から中身の関数$((*)100)$を抜き出して，
+右引数の中身$68$に適用し，その結果を再びMaybe値にして返す．
+式で書けば
+$$
+\mathMaybeWith{(*)100}\mathApplicativeMaybeMap{}\mathMaybeWith{68}=\mathMaybeWith{68000}
+$$
+となる．
 
-Maybeバージョンのアプリカティブマップ演算子は，Maybeバージョンのマップ演算子から実装できる．その実装は
+Maybeバージョンのアプリカティブマップ演算子は，Maybeバージョンのマップ演算子から実装できる．
+その実装は
 \begin{equation}
 \mathMaybeVar{n}\mathApplicativeMaybeMap\mathMaybeVar{m}=\begin{cases}
 f\mathMaybeMap\mathMaybeVar{m}&\mathIf\mathMaybeVar{n}\equiv\mathMaybeWith{f}\\
@@ -2225,15 +2222,22 @@ f\mathMaybeMap\mathMaybeVar{m}&\mathIf\mathMaybeVar{n}\equiv\mathMaybeWith{f}\\
 \end{align*}
 である．
 
-ピュア演算子とは型コンストラクタを利用した「最もシンプルな」型変換演算子である．例えばリストのピュア演算子は単に$[x]$であるし，Maybeのピュア演算子は$\mathMaybeWith{x}$である．一般のピュア演算子は$\mathPureWith{x}$と書くものとする．ピュア演算子は，いまのところ便宜上導入されたものと考えて差し支えない．というのも，その主たる使い道が（アプリカティブではない）関手との後方互換性のためだからである．\footnote{\haskell は一般のピュア演算子の実装を与えていない．変数の型に応じて対応する関数が適用される．}
+ピュア演算子とは型コンストラクタを利用した「最もシンプルな」型変換演算子である．
+例えばリストのピュア演算子は単に$[x]$であるし，
+Maybeのピュア演算子は$\mathMaybeWith{x}$である．
+一般のピュア演算子は$\mathPureWith{x}$と書くものとする．
+ピュア演算子は，いまのところ便宜上導入されたものと考えて差し支えない．
+というのも，その主たる使い道が（アプリカティブではない）マップ演算子との後方互換性のためだからである．%
+\footnote{\haskell は一般のピュア演算子の実装を与えていない．変数の型に応じて対応する関数が適用される．}
 
-関手における一般マップ演算子$(\mathGeneralMap)$は，ピュア演算子と一般アプリカティブマップ演算子を使って$$f\mathGeneralMap x=\mathPureWith{f}\mathApplicativeGeneralMap x$$と再定義できる．
+一般マップ演算子$(\mathGeneralMap)$は，
+ピュア演算子と一般アプリカティブマップ演算子を使って
+$$
+f\mathGeneralMap x=\mathPureWith{f}\mathApplicativeGeneralMap x
+$$
+と再定義できる．
 
-\section{関数と関手の関係*}
-
-A...
-
-\section{余計な話: アプリカティブスタイル}
+\section{アプリカティブスタイル}
 
 関数適用演算子$\mathApply$とよく似た演算子$\mathApplicativeApply$ただし
 $$
@@ -2273,6 +2277,12 @@ $$
 また計算の途中経過がなんらかのエラーで$\mathNothing$になるような系も扱えない．
 （後者はアプリカティブスタイルでも扱えない．そのために次章で述べる「モナド」が登場する．）
 
+\section{余計な話: 関数と関手の関係*}
+
+A...
+
+
+
 \chapter{モナド}
 
 \begin{leader}
@@ -2283,7 +2293,54 @@ A...
 \section{もうひとつの関手*}
 
 
-アプリカティブ関手は関手の一般マップ演算子をピュア演算子と一般アプリカティブマップ演算子に分解することで，式の見通しを良くすることができるアプリカティブスタイルという記法を採用できた．しかしながら，アプリカティブスタイル変数に文脈を与えるタイミングは最初すなわち式の左端の1回に限られている．そこで，任意のタイミングで変数に文脈を与えられるように関手を改造したものが\keyword{モナド}である．
+一般マップ演算子をピュア演算子と一般アプリカティブマップ演算子に分解することで，
+式の見通しを良くすることができるアプリカティブスタイルという記法を採用できた．
+しかしながら，アプリカティブスタイル変数に文脈を与えるタイミングは
+最初すなわち式の左端の1回に限られている．
+そこで，任意のタイミングで変数に文脈を与えられるように，
+別な方法で一般マップ演算子を分解したものが\keyword{モナド}である．
+
+一般マップ演算子をピュア演算子と一般アプリカティブマップ演算子に分解すると次のようになる．
+\begin{equation}
+f\mathGeneralMap x=\mathPureWith{f}\mathApplicativeGeneralMap x
+\end{equation}
+
+モナド世界では一般マップ演算子を次のように分解する．
+\begin{equation}
+f\mathGeneralMap x=\phi\mathMonadGeneralMap x
+\end{equation}
+アプリカティブ関手のときと記号を変えただけで同じではないかと思われるかもしれないが，
+実は大きな変更が潜んでいる．
+
+まずは一般マップ演算子の型を思い出そう．一般マップ演算子の型は
+\begin{equation}
+\mathGeneralMap
+\mathIn{}\mathMorphII{(\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}})}{\langle\mathTypeParameter{a}\rangle}{\langle\mathTypeParameter{b}\rangle}
+\end{equation}
+である．
+これは$\mathTypeParameter{a}\mapsto\mathTypeParameter{b}$型の関数を第1引数に，
+コンテナに入った$\mathTypeParameter{a}$型の変数を第2引数にとり，
+コンテナに入った$\mathTypeParameter{b}$型の値を返すという意味であった．
+
+次に一般アプリカティブマップ演算子の型を思い出そう．一般アプリカティブマップ演算子の型は
+\begin{equation}
+\mathApplicativeGeneralMap
+\mathIn{}\mathMorphII{\langle\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}}\rangle}{\langle\mathTypeParameter{a}\rangle}{\langle\mathTypeParameter{b}\rangle}\\
+\end{equation}
+であった．
+一般マップ演算子との違いは，
+第1引数も$\mathPureWith{\mathTypeParameter{a}\mapsto\mathTypeParameter{b}}$のように
+またコンテナに入っていることである．
+
+さて，モナドな一般マップ演算子はどうだろうか．
+モナドな一般マップ演算子の型は
+\begin{equation}
+\mathMonadGeneralMap
+\mathIn{}\mathMorphII{(\mathMorph{\mathTypeParameter{a}}{\langle\mathTypeParameter{b}\rangle})}{\langle\mathTypeParameter{a}\rangle}{\langle{\mathTypeParameter{b}}\rangle}
+\end{equation}
+である．
+今度は第1引数の型が$\mathTypeParameter{a}\mapsto\mathPureWith{\mathTypeParameter{b}}$になった．
+関数をコンテナに入れるのではなく，関数の戻り値をコンテナに入れるのである．
 
 普通の（コンテナに入っていない）変数$x$をとり，普通の（コンテナに入っていない）戻り値を返す関数$f$があるとしよう．マップ演算子はコンテナに入れられた変数，例えば$\mathListVar{t}=[x]$から中身$x$を取り出して関数$f$を適用し，その結果$fx$を再びコンテナに入れて$[fx]$を返す演算子であった．
 
@@ -2292,40 +2349,9 @@ A...
 関数$\phi$は次のような形になるだろう．
 $$\phi x=\begin{cases}\mathUnitWith{fx}&\text{普通に計算をしたとき}\\
 \mathPureNothing&\text{不都合があったとき}\end{cases}$$
-ここでコンテナに入れる演算を$\mathUnitWith{\mathSomething}$とし，空のコンテナを$\mathPureNothing$とした．
+ここでコンテナに入れる演算を$\mathUnitWith{\mathSomething}$とし，
+空のコンテナを$\mathPureNothing$とした．
 
----
-
-では「普通ではない」関数はどうしたらいいだろうか．最も考えられる「普通ではない」関数とは「普通の」（コンテナに入っていない裸の）引数をとり，コンテナにつめた戻り値を返す関数である．
-
-ここでようやく$0$除算の課題を扱える．
-$$x\mathop{\%}y=\begin{cases}
-\mathMaybeWith{x/y}&\mathIf y\neq0\\
-\mathNothing&\mathOtherwise
-\end{cases}
-$$
-
----
-
-リストのマップ演算子$$\mathListVar{t}'=f\mathMap\mathListVar{t}$$を思い出そう．もし$\mathListVar{t}\equiv\mathEmptyList$ならば$\mathListVar{t}'=\mathEmptyList$になる．もし$\mathListVar{t}\equiv[x_0,x_1\dots]$ならば$\mathListVar{t}'=[fx_0,fx_1\dots]$になる．
-
-Maybeのマップ演算子$$\mathMaybeVar{m}'=g\mathMaybeMap\mathMaybeVar{m}$$を思い出そう．もし$\mathMaybeVar{m}\equiv\mathNothing$ならば$\mathMaybeVar{m}'=\mathNothing$になる．もし$\mathMaybeVar{m}\equiv\mathMaybeWith{y}$ならば$\mathMaybeVar{m}'=\mathMaybeWith{fy}$になる．
-
-これらをまとめた一般マップ演算子$$z'=h\mathGeneralMap z$$も思い出そう．関数$h$は「普通の」関数である．
-
-リストのアプリカティブマップ演算子$$\mathListVar{t}'=\mathListVar{f}\mathApplicativeMap\mathListVar{t}$$を思い出そう．もし$\mathListVar{f}\equiv\mathEmptyList$ならば$\mathListVar{t}'=\mathEmptyList$になる．もし$\mathListVar{f}\equiv[u_0,u_1\dots]$ならば$\mathListVar{t}'=[u_0\mathMap\mathListVar{t},u_1\mathMap\mathListVar{t}\dots]$になる．
-
-Maybeのアプリカティブマップ演算子$$\mathMaybeVar{m}'=\mathMaybeVar{g}\mathApplicativeMaybeMap\mathMaybeVar{m}$$を思い出そう．もし$\mathMaybeVar{g}\equiv\mathNothing$ならば$\mathMaybeVar{m}'=\mathNothing$になる．もし$\mathMaybeVar{g}\equiv\mathMaybeWith{v}$ならば$\mathMaybeVar{m}'=\mathMaybeWith{vy}$になる．
-
-これらをまとめた一般アプリカティブマップ演算子$$z'=h\mathApplicativeGeneralMap z$$も思い出そう．関数$h$は「普通の」関数をコンテナにつめたものである．
-% ピュア演算子を用いると，元の一般マップ演算子との互換性が$$w\mathGeneralMap z=\mathPureWith{w}\mathApplicativeGeneralMap z$$のようにとれる．ここに$w$は「普通の」関数である．
-
-
----
-
-そのような関数$\phi$があるとしよう．
-$$\phi x=\begin{cases}\mathUnitWith{x}&\text{普通に計算をしたとき}\\
-\text{空のコンテナ}&\text{何かあったとき}\end{cases}$$
 ちょっと待った．
 $\mathUnitWith{x}$とは何だろうか．
 $\mathUnitWith{x}$は\keyword{ユニット演算子}と言って，変数を最もシンプルな形でコンテナに納めるものである．
