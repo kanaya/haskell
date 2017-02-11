@@ -104,6 +104,7 @@
 \newcommand{\mathListVar}[1]{\Bar{#1}}
 \newcommand{\mathMaybeVar}[1]{\Tilde{#1}}
 \newcommand{\mathFunctionVar}[1]{\Hat{#1}}
+\newcommand{\mathContainerVar}[1]{\Check{#1}}
 \newcommand{\mathVectorVar}[1]{\vec{#1}}
 
 %% Guard
@@ -346,6 +347,7 @@
 リスト変数&名前にバーをつける&$\mathListVar{x}$\\
 Maybe変数&名前にチルダをつける&$\mathMaybeVar{x}$\\
 関数変数&名前にハットをつける&$\mathFunctionVar{x}$\\
+コンテナ変数&名前にチェックをつける&$\mathContainerVar{x}$\\
 ベクトル変数&名前に矢印をつける&$\mathVectorVar{x}$\\
 \hline
 \end{tabular}
@@ -2079,7 +2081,10 @@ Maybe&$\mathMaybe$&$\mathMaybeMap$&$\mathMaybeWith{x}$\\\hline
 % \mathPureWith{x}&\xrightarrow{\;\mathFunctor{Maybe}\;}\mathMaybeWith{x}
 \end{align}
 
-リスト型$\mathListType{\mathTypeParameter{a}}$とマップの組み合わせ$\mathTupleWith{\mathListType{\mathTypeParameter{a}},\mathMap}$は，
+任意の型$\mathTypeParameter{a}$に
+型コンストラクタ$\mathList$を適用して得られる
+リスト型$\mathListType{\mathTypeParameter{a}}$と
+マップの組み合わせ$\mathTupleWith{\mathListType{\mathTypeParameter{a}},\mathMap}$は，
 数学者の言う\keyword{圏}の一種である．
 圏とは集合と\keyword{射}の組み合わせである．
 射は演算子を一般化したものと思っておけばよい．
@@ -2092,7 +2097,6 @@ Maybe&$\mathMaybe$&$\mathMaybeMap$&$\mathMaybeWith{x}$\\\hline
 \mathTupleWith{\mathTypeParameter{a},\mathGeneralMap}
 &\xrightarrow{\;\mathFunctor{Maybe}\;}\mathTupleWith{\mathMaybeType{\mathTypeParameter{a}},\mathMaybeMap}
 \end{align}
-
 これまでの型コンストラクタが例えば$\mathTypeParameter{a}$を
 $\mathListType{\mathTypeParameter{a}}$にだけしていたのに対し，
 この矢印$\xrightarrow{\mathFunctor{List}}$は
@@ -2249,27 +2253,27 @@ $$
 
 アプリカティブ関数適用演算子があると，
 わざわざピュア演算子を用いなくとも連続的に「普通の」関数をコンテナ型の引数に適用できる．
-いま変数$x$をコンテナ型とし，関数$f$と関数$g$が「普通」であるとすると
+いま変数$\mathContainerVar{x}$をコンテナ型とし，関数$f$と関数$g$が「普通」であるとすると
 $$
-f\mathApplicativeApply g\mathApplicativeGeneralMap x
+f\mathApplicativeApply g\mathApplicativeGeneralMap\mathContainerVar{x}
 $$
-のようにして変数$x$に関数$g$，関数$f$を順に作用させることができる．
+のようにして変数$\mathContainerVar{x}$に関数$g$，関数$f$を順に作用させることができる．
 このような書き方を\keyword{アプリカティブスタイル}と呼ぶ．
 
 アプリカティブスタイルのいいところは，
 「普通の」関数が増えてもスタイルを変えなくて良いことである．
 例えば
 $$
-f\mathApplicativeApply g\mathApplicativeGeneralMap h\mathApplicativeGeneralMap x
+f\mathApplicativeApply g\mathApplicativeGeneralMap h\mathApplicativeGeneralMap\mathContainerVar{x}
 $$
-は期待通りコンテナ型変数$x$に関数$h$，関数$g$，関数$f$を順に作用させる．
+は期待通りコンテナ型変数$\mathContainerVar{x}$に関数$h$，関数$g$，関数$f$を順に作用させる．
 これは$f\mathApplicativeApply g\mathApplicativeGeneralMap h$と%
 $\mathPureWith{f\mathCompose g\mathCompose h}$が同値だからである．
 
 アプリカティブスタイルは，計算の流れを明確にしているとも言える．
-例えば$f\mathApplicativeApply g\mathApplicativeGeneralMap h\mathApplicativeGeneralMap x$は
+例えば$f\mathApplicativeApply g\mathApplicativeGeneralMap h\mathApplicativeGeneralMap\mathContainerVar{x}$は
 $$
-x\leadsto h\leadsto g\leadsto f
+\mathContainerVar{x}\leadsto h\leadsto g\leadsto f
 $$
 という計算の流れを示す．
 もちろん関数合成演算子と関数適用演算子でも似たことはできるが，
