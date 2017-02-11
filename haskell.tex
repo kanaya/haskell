@@ -1,6 +1,6 @@
 \documentclass[a5paper,draft]{jsbook}
 % \usepackage{eulervm}
-\usepackage{amsmath,amssymb,ascmac,bm,marvosym,multirow,lmodern,okuverb}
+\usepackage{amsmath,amssymb,ascmac,bm,marvosym,mathtools,multirow,lmodern,okuverb}
 \makeindex
 
 \def\[{\left[\!\left[}
@@ -367,7 +367,6 @@ Maybe変数&名前にチルダをつける&$\mathMaybeVar{x}$\\
 $\mathLambda,\mathLambdaArrow$&ラムダ式&\\
 $\mathAnonymousParameter$&無名パラメタ&\\\hline
 $\mathIn$&集合の元&\\
-$\mathId$&単位元&\\
 $\mathMapsTo$&写像&\\
 $\mathAnyBinaryOperator$&任意の二項演算子&\\\hline
 $\mathCompose$&関数合成&\\
@@ -2075,14 +2074,14 @@ Maybe&$\mathMaybe$&$\mathMaybeMap$&$\mathMaybeWith{x}$\\\hline
 その「何か」を別の方法で「どうにか」したら$\mathMaybe$型コンストラクタとMaybeマップ演算子$\mathMaybeMap$になるとしたら，
 その「何か」と「どうにか」はなんであろうか．
 
-いま$\xrightarrow{\mathFunctor{List}}$と$\xrightarrow{\mathFunctor{Maybe}}$という写像ががあって，
+いま$\xmapsto{\mathFunctor{List}}$と$\xmapsto{\mathFunctor{Maybe}}$という写像ががあって，
 次のように書けるとしよう．
 \begin{align}
-\mathTypeParameter{a}&\xrightarrow{\;\mathFunctor{List}\;}\mathList\mathTypeParameter{a}\\
-\mathGeneralMap&\xrightarrow{\;\mathFunctor{List}\;}\mathMap\\
+\mathTypeParameter{a}&\xmapsto{\;\mathFunctor{List}\;}\mathList\mathTypeParameter{a}\\
+\mathGeneralMap&\xmapsto{\;\mathFunctor{List}\;}\mathMap\\
 % \mathPureWith{x}&\xrightarrow{\;\mathFunctor{List}\;}\mathListWith{x}\\
-\mathTypeParameter{a}&\xrightarrow{\;\mathFunctor{Maybe}\;}\mathMaybe\mathTypeParameter{a}\\
-\mathGeneralMap&\xrightarrow{\;\mathFunctor{Maybe}\;}\mathMaybeMap
+\mathTypeParameter{a}&\xmapsto{\;\mathFunctor{Maybe}\;}\mathMaybe\mathTypeParameter{a}\\
+\mathGeneralMap&\xmapsto{\;\mathFunctor{Maybe}\;}\mathMaybeMap
 % \mathPureWith{x}&\xrightarrow{\;\mathFunctor{Maybe}\;}\mathMaybeWith{x}
 \end{align}
 
@@ -2098,13 +2097,13 @@ Maybe&$\mathMaybe$&$\mathMaybeMap$&$\mathMaybeWith{x}$\\\hline
 そこで先ほどの関係をもう一度圏の記法を使って書き直そう．
 \begin{align}
 \mathTupleWith{\mathTypeParameter{a},\mathGeneralMap}
-&\xrightarrow{\;\mathFunctor{List}\;}\mathTupleWith{\mathListType{\mathTypeParameter{a}},\mathMap}\\
+&\xmapsto{\;\mathFunctor{List}\;}\mathTupleWith{\mathListType{\mathTypeParameter{a}},\mathMap}\\
 \mathTupleWith{\mathTypeParameter{a},\mathGeneralMap}
-&\xrightarrow{\;\mathFunctor{Maybe}\;}\mathTupleWith{\mathMaybeType{\mathTypeParameter{a}},\mathMaybeMap}
+&\xmapsto{\;\mathFunctor{Maybe}\;}\mathTupleWith{\mathMaybeType{\mathTypeParameter{a}},\mathMaybeMap}
 \end{align}
 これまでの型コンストラクタが例えば$\mathTypeParameter{a}$を
 $\mathListType{\mathTypeParameter{a}}$にだけしていたのに対し，
-この矢印$\xrightarrow{\mathFunctor{List}}$は
+この写像$\xmapsto{\mathFunctor{List}}$は
 $\mathTupleWith{\mathTypeParameter{a},\mathGeneralMap}$という組み合わせを
 $\mathTupleWith{\mathListType{\mathTypeParameter{a}},\mathMap}$に変えるところに注目しよう．
 
