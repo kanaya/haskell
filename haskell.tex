@@ -178,6 +178,9 @@
 \newcommand{\mathOr}{\mathBinaryOperator{\vee}}
 \newcommand{\mathSetTimes}{\mathBinaryOperator{\circledast}}
 
+% \newcommand{\mathBindLeft}{\stackrel{\heartsuit}{\longleftarrow}}
+\newcommand{\mathBindLeft}{\ooalign{$\longleftarrow$\crcr\hss$\heartsuit$\hss}}
+
 %% Special Arrow Operators
 
 \newcommand{\mathLambdaArrow}{\rightarrow}
@@ -384,6 +387,8 @@ $\mathMaybeMap$&Maybeマップ&\\\hline
 $\mathApplicativeGeneralMap$&一般アプリカティブマップ&\\
 $\mathApplicativeMap$&（リストの）アプリカティブマップ&\\
 $\mathApplicativeMaybeMap$&Maybeアプリカティブマップ&\\
+\hline
+$\mathBindLeft$&モナド結合 (bind)&\\
 \hline
 \end{tabular}
 \end{center}
