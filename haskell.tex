@@ -1,6 +1,6 @@
 \documentclass[a5paper,draft]{jsbook}
 % \usepackage{eulervm}
-\usepackage{amsmath,amssymb,ascmac,bm,multirow,lmodern,okuverb}
+\usepackage{amsmath,amssymb,ascmac,bm,marvosym,multirow,lmodern,okuverb}
 \makeindex
 
 \def\[{\left[\!\left[}
@@ -93,6 +93,7 @@
 \newcommand{\mathTupleWith}[1]{\left(#1\right)}
 \newcommand{\mathMaybeWith}[1]{\[#1\]}
 \newcommand{\mathPureWith}[1]{\left\langle#1\right\rangle}
+\newcommand{\mathUnitWith}[1]{\left\langle\!\left\langle#1\right\rangle\!\right\rangle}
 
 \newcommand{\mathListType}[1]{\left[#1\right]}
 \newcommand{\mathMaybeType}[1]{\[#1\]}
@@ -118,10 +119,11 @@
 \newcommand{\mathTrue}{\mathConstant{T}}
 \newcommand{\mathFalse}{\mathConstant{F}}
 
-\newcommand{\mathId}{\mathConstant{I}}
+\newcommand{\mathId}{\O}
 
-\newcommand{\mathEmptyList}{\emptyset}%{{[\,]}}
-\newcommand{\mathNothing}{\varnothing}
+\newcommand{\mathEmptyList}{{[\,]}}%{\emptyset}
+\newcommand{\mathNothing}{\emptyset}%{\Radioactivity}
+\newcommand{\mathPureNothing}{\varnothing}
 
 %% Special Parameters
 
@@ -162,7 +164,7 @@
 \newcommand{\mathApplicativeMaybeMap}{\boxtimes}
 \newcommand{\mathApply}{\mathBinaryOperator{\$}}
 \newcommand{\mathCompose}{\mathBinaryOperator{\bullet}}
-\newcommand{\mathFMap}{\mathBinaryOperator{\cdot}}
+\newcommand{\mathGeneralMap}{\mathBinaryOperator{\cdot}}
 \newcommand{\mathFrom}{\mathBinaryOperator{\in}}
 \newcommand{\mathIn}{\mathBinaryOperator{:\!:}}
 \newcommand{\mathMap}{\mathBinaryOperator{\odot}}
@@ -312,6 +314,7 @@
 種類&字体・表記法&例\\
 \hline\hline
 定数&ローマン，大文字&$\mathConstant{A}$, $\mathConstant{B}$, $\mathConstant{C}$\\
+単位元&ローマンに斜線，大文字&$\mathId$\\
 変数&イタリック，小文字&$x$, $y$, $z$\\
 関数&イタリック，小文字&$f$, $g$, $h$\\
 有名な変数&ローマン，小文字&$\mathFirst$, $\mathRest$\\
@@ -344,24 +347,38 @@ Maybe変数&名前にチルダをつける&$\mathMaybeVar{x}$\\
 \end{center}
 \end{table*}
 
-% \begin{table*}
-% \caption{\python コード内の凡例}
-% \begin{center}
-% \begin{tabular}{||c|c|c||}
-% \hline
-% 種類&字体・表記法&例\\
-% \hline
-% 定数&イタリック，大文字&\pthnId{True}, \pthnId{False}, \pthnId{None}\\
-% 変数&イタリック，小文字&\pthnId{x}, \pthnId{y}, \pthnId{z}\\
-% 関数&イタリック，小文字&\pthnId{f}, \pthnId{g}, \pthnId{h}\\
-% クラス名&ローマン，大文字&Possibly\\
-% キーワード&ボールドローマン，小文字&\pthnKeyword{def}, \pthnKeyword{return}\\
-% 演算子&タイプライタ&\pthnOp{=}, \pthnOp{+}, \pthnOp{*}\\
-% 文字列リテラル&タイプライタ&\pthnString{"Hello, world."}\\
-% \hline
-% \end{tabular}
-% \end{center}
-% \end{table*}
+\begin{table*}[p]
+\caption{記号一覧}
+\begin{center}
+\begin{tabular}{||c|c|c||}
+\hline
+記号&意味&最初に登場するページ\\
+\hline\hline
+$\mathLambda,\mathLambdaArrow$&ラムダ式&\\
+$\mathAnonymousParameter$&無名パラメタ&\\\hline
+$\mathIn$&集合の元&\\
+$\mathMapsTo$&写像&\\
+$\mathId$&単位元&\\
+$\mathAnyBinaryOperator$&任意の二項演算子&\\\hline
+$\mathCompose$&関数合成&\\
+$\mathApply$&関数適用&\\
+$\mathApplicativeApply$&アプリカティブ関数適用&\\
+$\leadsto$&計算の順序&\\\hline
+$\mathFold$&左畳み込み&\\
+$\mathFoldRight$&右畳み込み&\\\hline
+$:$&結合 (cons)&\\
+$\mathConcat$&平坦化 (concat)&\\
+$\mathAppend$&リスト結合 (append)&\\\hline
+$\mathGeneralMap$&一般マップ&\\
+$\mathMap$&（リストの）マップ&\\
+$\mathMaybeMap$&Maybeマップ&\\\hline
+$\mathApplicativeGeneralMap$&一般アプリカティブマップ&\\
+$\mathApplicativeMap$&（リストの）アプリカティブマップ&\\
+$\mathApplicativeMaybeMap$&Maybeアプリカティブマップ&\\
+\hline
+\end{tabular}
+\end{center}
+\end{table*}
 
 \part{代数的構造とプログラミング}
 
@@ -1851,7 +1868,7 @@ f\mathMaybeMap\mathNothing&=\mathNothing
 $$
 \mathMaybeVar{n}=f\mathMaybeMap\mathMaybeVar{m}
 $$
-のようにMaybeバージョンのマップ演算子$\mathMaybeMap$を用いることにする．\footnote{\haskell ではMaybeバージョンのマップ演算子に特別な記号，関数名が与えられていない．その代わり第\ref{ch:functor}章で述べる一般化マップ演算子$\mathFMap$に相当する\code{fmap}関数を用い\code{n = fmap f m}または\code{n = f `fmap` m}のようにする．\haskell は型推論を行なうため変数\code{m}がMaybeであればMaybeバージョンのマップ演算子（関数）が適用される．（もし\code{m}がリストであれば通常のマップ関数である\code{map}が適用される．）}
+のようにMaybeバージョンのマップ演算子$\mathMaybeMap$を用いることにする．\footnote{\haskell ではMaybeバージョンのマップ演算子に特別な記号，関数名が与えられていない．その代わり第\ref{ch:functor}章で述べる一般化マップ演算子$\mathGeneralMap$に相当する\code{fmap}関数を用い\code{n = fmap f m}または\code{n = f `fmap` m}のようにする．\haskell は型推論を行なうため変数\code{m}がMaybeであればMaybeバージョンのマップ演算子（関数）が適用される．（もし\code{m}がリストであれば通常のマップ関数である\code{map}が適用される．）}
 
 \python でMaybeの概念を忠実になぞることは難しい．
 と言うのも\python は動的型付け言語であるため，型コンストラクタという概念が無いからだ．
@@ -2039,16 +2056,16 @@ A...
 
 同じことが型コンストラクタ$\mathMaybe$とMaybeバージョンのマップ演算子$\mathMaybeMap$の組み合わせ$(\mathMaybe,\mathMaybeMap)$にも言える．
 
-そこでリストのマップ演算子($\mathMap$)，Maybeのマップ演算子($\mathMaybeMap$)をひとくくりにして抽象的な\keyword{一般マップ演算子} ($\mathFMap$)とする．一般マップ演算子は，右引数がリストであればリストのマップ演算子を，右引数がMaybeであればMaybeのマップ演算子に「化ける」．右引数がただの数であれば，ただの空白になる．
+そこでリストのマップ演算子($\mathMap$)，Maybeのマップ演算子($\mathMaybeMap$)をひとくくりにして抽象的な\keyword{一般マップ演算子} ($\mathGeneralMap$)とする．一般マップ演算子は，右引数がリストであればリストのマップ演算子を，右引数がMaybeであればMaybeのマップ演算子に「化ける」．右引数がただの数であれば，ただの空白になる．
 
-この意味は，もし$f\mathFMap\mathListVar{t}$と書いてあれば$f\mathMap\mathListVar{t}$のことであるし，もし$f\mathFMap\mathMaybeVar{m}$と書いてあれば$f\mathMaybeMap\mathMaybeVar{m}$のことであると，自動的に解釈することである．そして，何の飾りもつけられていない変数$x$がふらっと現れ，目の前に$f\mathFMap x$という式が登場しても，落ち着いて変数$x$の型を調べ，変数$x$がリストならば$\mathFMap$の部分に$\mathMap$を，変数$x$がMaybeならば$\mathFMap$の部分に$\mathMaybeMap$をはめ込むのだ．\footnote{\haskell では一般マップ演算子は\code{fmap}である．ただしその実装は与えられず，対象とする型に応じて定義されるものとする．例えばリストに対しては\code{fmap = map}と定義されている．}
+この意味は，もし$f\mathGeneralMap\mathListVar{t}$と書いてあれば$f\mathMap\mathListVar{t}$のことであるし，もし$f\mathGeneralMap\mathMaybeVar{m}$と書いてあれば$f\mathMaybeMap\mathMaybeVar{m}$のことであると，自動的に解釈することである．そして，何の飾りもつけられていない変数$x$がふらっと現れ，目の前に$f\mathGeneralMap x$という式が登場しても，落ち着いて変数$x$の型を調べ，変数$x$がリストならば$\mathGeneralMap$の部分に$\mathMap$を，変数$x$がMaybeならば$\mathGeneralMap$の部分に$\mathMaybeMap$をはめ込むのだ．\footnote{\haskell では一般マップ演算子は\code{fmap}である．ただしその実装は与えられず，対象とする型に応じて定義されるものとする．例えばリストに対しては\code{fmap = map}と定義されている．}
 
 \newcommand{\mathEmptySet}{\emptyset}
 つまり，型コンストラクタ$\mathList$は
 \begin{equation}
 \left\{
 \begin{split}
-\mathFMap&\xrightarrow{\;\mathList\;}\mathMap\\
+\mathGeneralMap&\xrightarrow{\;\mathList\;}\mathMap\\
 \mathTypeParameter{a}&\xrightarrow{\;\mathList\;}\mathListType{\mathTypeParameter{a}}
 \end{split}
 \right.
@@ -2057,7 +2074,7 @@ A...
 \begin{equation}
 \left\{
 \begin{split}
-\mathFMap&\xrightarrow{\;\mathMaybe\;}\mathMaybeMap\\
+\mathGeneralMap&\xrightarrow{\;\mathMaybe\;}\mathMaybeMap\\
 \mathTypeParameter{a}&\xrightarrow{\;\mathMaybe\;}\mathMaybeType{\mathTypeParameter{a}}
 \end{split}
 \right.
@@ -2135,7 +2152,7 @@ f\mathMaybeMap\mathMaybeVar{m}&\mathIf\mathMaybeVar{n}\equiv\mathMaybeWith{f}\\
 
 ピュア演算子とは型コンストラクタを利用した「最もシンプルな」型変換演算子である．例えばリストのピュア演算子は単に$[x]$であるし，Maybeのピュア演算子は$\mathMaybeWith{x}$である．一般のピュア演算子は$\mathPureWith{x}$と書くものとする．ピュア演算子は，いまのところ便宜上導入されたものと考えて差し支えない．というのも，その主たる使い道が（アプリカティブではない）関手との後方互換性のためだからである．\footnote{\haskell は一般のピュア演算子の実装を与えていない．変数の型に応じて対応する関数が適用される．}
 
-関手における一般マップ演算子$(\mathFMap)$は，ピュア演算子と一般アプリカティブマップ演算子を使って$$f\mathFMap x=\mathPureWith{f}\mathApplicativeGeneralMap x$$と再定義できる．
+関手における一般マップ演算子$(\mathGeneralMap)$は，ピュア演算子と一般アプリカティブマップ演算子を使って$$f\mathGeneralMap x=\mathPureWith{f}\mathApplicativeGeneralMap x$$と再定義できる．
 
 \section{関数と関手の関係*}
 
@@ -2161,16 +2178,16 @@ A...
 \section{もうひとつの関手*}
 
 
-アプリカティブ関手は関手の一般マップ演算子をピュア演算子と一般アプリカティブマップ演算子に分解することで，式の見通しを良くすることができるアプリカティブスタイルという記法を採用できた．しかしながら，アプリカティブスタイル変数に文脈を与えるタイミングは最初すなわち式の右端の1回に限られている．そこで，任意のタイミングで変数に文脈を与えられるように関手を改造したものが\keyword{モナド}である．
+アプリカティブ関手は関手の一般マップ演算子をピュア演算子と一般アプリカティブマップ演算子に分解することで，式の見通しを良くすることができるアプリカティブスタイルという記法を採用できた．しかしながら，アプリカティブスタイル変数に文脈を与えるタイミングは最初すなわち式の左端の1回に限られている．そこで，任意のタイミングで変数に文脈を与えられるように関手を改造したものが\keyword{モナド}である．
 
 普通の（コンテナに入っていない）変数$x$をとり，普通の（コンテナに入っていない）戻り値を返す関数$f$があるとしよう．マップ演算子はコンテナに入れられた変数，例えば$\mathListVar{t}=[x]$から中身$x$を取り出して関数$f$を適用し，その結果$fx$を再びコンテナに入れて$[fx]$を返す演算子であった．
 
 もし，普通の変数$x$をとり，なんらかの不都合があった時には空のコンテナを返す関数$\phi$があればどうだろう．不都合があった時には空のコンテナを返すということは，不都合がなくても計算結果をコンテナにに詰めることになる．さもなければ関数の型がひとつに決まらないことになる．
 
 関数$\phi$は次のような形になるだろう．
-$$\phi x=\begin{cases}\hsklUnit{fx}&\text{普通に計算をしたとき}\\
-\mathcal{O}&\text{不都合があったとき}\end{cases}$$
-ここでコンテナに入れる演算を$\hsklUnit{\mathSomething}$とし，空のコンテナを$\mathcal{O}$とした．
+$$\phi x=\begin{cases}\mathUnitWith{fx}&\text{普通に計算をしたとき}\\
+\mathPureNothing&\text{不都合があったとき}\end{cases}$$
+ここでコンテナに入れる演算を$\mathUnitWith{\mathSomething}$とし，空のコンテナを$\mathPureNothing$とした．
 
 ---
 
@@ -2189,24 +2206,24 @@ $$
 
 Maybeのマップ演算子$$\mathMaybeVar{m}'=g\mathMaybeMap\mathMaybeVar{m}$$を思い出そう．もし$\mathMaybeVar{m}\equiv\mathNothing$ならば$\mathMaybeVar{m}'=\mathNothing$になる．もし$\mathMaybeVar{m}\equiv\mathMaybeWith{y}$ならば$\mathMaybeVar{m}'=\mathMaybeWith{fy}$になる．
 
-これらをまとめた一般マップ演算子$$z'=h\mathFMap z$$も思い出そう．関数$h$は「普通の」関数である．
+これらをまとめた一般マップ演算子$$z'=h\mathGeneralMap z$$も思い出そう．関数$h$は「普通の」関数である．
 
 リストのアプリカティブマップ演算子$$\mathListVar{t}'=\mathListVar{f}\mathApplicativeMap\mathListVar{t}$$を思い出そう．もし$\mathListVar{f}\equiv\mathEmptyList$ならば$\mathListVar{t}'=\mathEmptyList$になる．もし$\mathListVar{f}\equiv[u_0,u_1\dots]$ならば$\mathListVar{t}'=[u_0\mathMap\mathListVar{t},u_1\mathMap\mathListVar{t}\dots]$になる．
 
 Maybeのアプリカティブマップ演算子$$\mathMaybeVar{m}'=\mathMaybeVar{g}\mathApplicativeMaybeMap\mathMaybeVar{m}$$を思い出そう．もし$\mathMaybeVar{g}\equiv\mathNothing$ならば$\mathMaybeVar{m}'=\mathNothing$になる．もし$\mathMaybeVar{g}\equiv\mathMaybeWith{v}$ならば$\mathMaybeVar{m}'=\mathMaybeWith{vy}$になる．
 
 これらをまとめた一般アプリカティブマップ演算子$$z'=h\mathApplicativeGeneralMap z$$も思い出そう．関数$h$は「普通の」関数をコンテナにつめたものである．
-% ピュア演算子を用いると，元の一般マップ演算子との互換性が$$w\mathFMap z=\mathPureWith{w}\mathApplicativeGeneralMap z$$のようにとれる．ここに$w$は「普通の」関数である．
+% ピュア演算子を用いると，元の一般マップ演算子との互換性が$$w\mathGeneralMap z=\mathPureWith{w}\mathApplicativeGeneralMap z$$のようにとれる．ここに$w$は「普通の」関数である．
 
 
 ---
 
 そのような関数$\phi$があるとしよう．
-$$\phi x=\begin{cases}\hsklUnit{x}&\text{普通に計算をしたとき}\\
+$$\phi x=\begin{cases}\mathUnitWith{x}&\text{普通に計算をしたとき}\\
 \text{空のコンテナ}&\text{何かあったとき}\end{cases}$$
 ちょっと待った．
-$\hsklUnit{x}$とは何だろうか．
-$\hsklUnit{x}$は\keyword{ユニット演算子}と言って，変数を最もシンプルな形でコンテナに納めるものである．
+$\mathUnitWith{x}$とは何だろうか．
+$\mathUnitWith{x}$は\keyword{ユニット演算子}と言って，変数を最もシンプルな形でコンテナに納めるものである．
 どこかで聞いた話ではないだろうか．
 その通り，ユニット演算子は事実上ピュア演算子と同じものである．
 ではなぜユニット演算子とピュア演算子を字面上区別しておくかというと，ひとつはモナドにより強い柔軟性を持たせるため，もう一つは，簡潔さのためである．
@@ -2214,7 +2231,7 @@ $\hsklUnit{x}$は\keyword{ユニット演算子}と言って，変数を最も�
 %!!!!!!!!!! CHECK !!!!!!!!!!
 
 \begin{align*}
-\mathFMap&\mathIn{}\mathMorphII{(\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}})}{\langle\mathTypeParameter{a}\rangle}{\langle\mathTypeParameter{b}
+\mathGeneralMap&\mathIn{}\mathMorphII{(\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}})}{\langle\mathTypeParameter{a}\rangle}{\langle\mathTypeParameter{b}
 \rangle}\\
 \mathApplicativeGeneralMap&\mathIn{}\mathMorphII{\langle\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}}\rangle}{\langle\mathTypeParameter{a}\rangle}{\langle\mathTypeParameter{b}\rangle}\\
 \hsklMonadMap&\mathIn{}\mathMorphII{(\mathMorph{\mathTypeParameter{a}}{\langle\mathTypeParameter{b}\rangle})}{\langle\mathTypeParameter{a}\rangle}{\langle{\mathTypeParameter{b}}\rangle}
@@ -2226,7 +2243,7 @@ $$\mathPureWith{\mathSomething}\mathIn\mathMorph{\mathTypeParameter{a}}{\langle\
 $$x'=\phi\hsklMonadMap x$$
 
 関手とは
-$$f\mathFMap x=\hsklUnit{f}\hsklMonadMap x$$
+$$f\mathGeneralMap x=\mathUnitWith{f}\hsklMonadMap x$$
 とすれば互換性がとれる．
 
 
@@ -2261,22 +2278,22 @@ $x\neq\mathNothing$かつ$y\neq0$のときの戻り値が$x/y$ではなく$\math
 \begin{tabular}{||c||c|c|c|c|c|c|c||}
 \hline
 \multirow{2}{*}{型クラス}
-    &\multicolumn{3}{|c|}{$\hsklApplicative$}
-    &\multicolumn{4}{|c||}{$\hsklMonadplus$}\\
+    &\multicolumn{3}{|c|}{$\mathTypeClass{Applicative}$}
+    &\multicolumn{4}{|c||}{$\mathTypeClass{Monadplus}$}\\
 \cline{4-8}
 \multirow{1}{*}{}
     &\multicolumn{2}{|c|}{ }
-    &$\hsklFunctor$
-    &\multicolumn{2}{|c}{$\hsklMonad$}
+    &$\mathTypeClass{Functor}$
+    &\multicolumn{2}{|c}{$\mathTypeClass{Monad}$}
     &\multicolumn{2}{|c||}{$\mathTypeClass{Monoid}$}\\
 \hline\hline
 型$\backslash$要素と演算子
     &$\mathPureWith{x}$
     &$\mathApplicativeGeneralMap$
-    &$\mathFMap$
-    &$\hsklUnit{x}$
-    &$\hsklMonadMap$
-    &$O$
+    &$\mathGeneralMap$
+    &$\mathUnitWith{x}$
+    &$\heartsuit$%$\hsklMonadMap$
+    &$\mathId$
     &$\mathAnyBinaryOperator$\\
 \hline
 リスト
@@ -2295,7 +2312,7 @@ Maybe
     &$\mathMaybeWith{x}$
     &$\spadesuit$
     &$\mathNothing$
-    &$\hsklMaybeAppend$\\
+    &$\boxplus$\\%$\hsklMaybeAppend$\\
 \hline
 関数
     &$\langle\!\langle x\rangle\!\rangle$
@@ -2405,7 +2422,7 @@ v=\mathMain u
 \end{equation}
 という$\text{main}$関数であり，それを
 \begin{equation}
-\mathMain=f_1\mathFMap f_2\mathFMap\dots\mathFMap f_n
+\mathMain=f_1\mathGeneralMap f_2\mathGeneralMap\dots\mathGeneralMap f_n
 \end{equation}
 と部分関数に分解することがプログラマの能力となる．
 
