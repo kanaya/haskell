@@ -2253,12 +2253,12 @@ A...
 Maybeの例を思い出そう．
 Maybe型の変数$\mathMaybeVar{m}$はラップされた値$\mathMaybeWith{z}$を持つのか，
 エラーを表す$\mathNothing$を持つのかを選べる．
-そこで，引数$x$をとりなんらかの計算をする関数$\phi$を考えよう．
+そこで，引数$x$をとり何らかの計算をする関数$\phi$を考えよう．
 この関数$\phi$は引数$x$の値次第ではエラーを表す$\mathNothing$を返す．
 例えば
 \begin{equation}
 \phi x=\begin{cases}
-\mathMaybeWith{z}\mathWhere z=\tan x&\mathIf x>\frac{\pi}{2}\mathAnd x<\frac{\pi}{2}\\
+\mathMaybeWith{z}\mathWhere z=\tan x&\mathIf -\frac{\pi}{2}<x\mathAnd x<\frac{\pi}{2}\\
 \mathNothing&\mathOtherwise
 \end{cases}
 \end{equation}
@@ -2277,12 +2277,30 @@ Maybe型の変数$\mathMaybeVar{m}$はラップされた値$\mathMaybeWith{z}$�
 
 ---
 
+もし
+\begin{equation}
+\mathUnitWith{fx}=\mathPureWith{fx}
+\end{equation}
+であるならば，
+\begin{align}
+f\mathGeneralMap x&=\mathPureWith{f}\mathApplicativeGeneralMap x\\
+&=\phi\mathBind x\mathWhere \phi x=\begin{cases}
+\mathPureWith{fx}&\mathIf\dots\\
+\mathPureNothing&\mathOtherwise
+\end{cases}
+\mathAnd
+\psi\mathBind\xi=\dots
+\end{align}
+
+
+---
+
 一般マップ演算子をピュア演算子と一般アプリカティブマップ演算子に分解すると次のようになる．
 \begin{equation}
 f\mathGeneralMap x=\mathPureWith{f}\mathApplicativeGeneralMap x
 \end{equation}
 
-モナド世界では一般マップ演算子を次のように分解する．
+モナド世界では一般マップ演算子を次のように分解することになる．
 \begin{equation}
 f\mathGeneralMap x=\phi\mathBind x
 \mathWhere
