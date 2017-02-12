@@ -2267,7 +2267,7 @@ Maybe型の変数$\mathMaybeVar{m}$はラップされた値$\mathMaybeWith{z}$�
 この式を一般化して
 \begin{equation}
 \phi x=\begin{cases}
-\mathUnitWith{z}&\mathIf\dots\\
+\mathUnitWith{z}\mathWhere z=fx&\mathIf\dots\\
 \mathPureNothing&\mathOtherwise
 \end{cases}
 \end{equation}
@@ -2285,6 +2285,11 @@ f\mathGeneralMap x=\mathPureWith{f}\mathApplicativeGeneralMap x
 モナド世界では一般マップ演算子を次のように分解する．
 \begin{equation}
 f\mathGeneralMap x=\phi\mathBind x
+\mathWhere
+\phi x=\begin{cases}
+\mathUnitWith{fx}&\mathIf\dots\\
+\mathPureNothing&\mathOtherwise
+\end{cases}
 \end{equation}
 アプリカティブ関手のときと記号を変えただけで同じではないかと思われるかもしれないが，
 実は大きな変更が潜んでいる．
