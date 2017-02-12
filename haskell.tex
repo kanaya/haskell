@@ -45,35 +45,6 @@
 \newenvironment{pythoncode}{\begin{itembox}[r]{\python}}{\end{itembox}}
 \newenvironment{rubycode}{\begin{itembox}[r]{Ruby}}{\end{itembox}}
 
-%% FOR BACKWARD COMPATIBILITY ONLY
-%% Python Pretty Printers
-
-\newcommand{\pthnClassname}[1]{{DO NOT USE}--\textrm{#1}}
-\newcommand{\pthnId}[1]{{DO NOT USE}--\textit{#1}}
-\newcommand{\pthnKeyword}[1]{{DO NOT USE}--\textbf{#1}}
-\newcommand{\pthnOp}[1]{{DO NOT USE}--\texttt{#1}}
-\newcommand{\pthnString}[1]{{DO NOT USE}--\texttt{#1}}
-
-%% FOR BACKWARD COMPATIBILITY ONLY
-%% Python Keywords
-
-\DeclareMathOperator{\pthnDef}{{DO NOT USE}--\pthnKeyword{def}}
-\DeclareMathOperator{\pthnElse}{{DO NOT USE}--\pthnKeyword{else}}
-\DeclareMathOperator{\pthnFor}{{DO NOT USE}--\pthnKeyword{for}}
-\DeclareMathOperator{\pthnIf}{{DO NOT USE}--\pthnKeyword{if}}
-\DeclareMathOperator{\pthnIn}{{DO NOT USE}--\pthnKeyword{in}}
-\DeclareMathOperator{\pthnLambda}{{DO NOT USE}--\pthnKeyword{lambda}}
-\DeclareMathOperator{\pthnReturn}{{DO NOT USE}--\pthnKeyword{return}}
-
-% %% Python Metasymbols
-%
-% \newcommand{\pthnNextLine}{$\blacktriangleright\blacktriangleright$}
-
-%% Math Keywords
-
-% \newcommand{\mathKeyword}[1]{\mathsf{#1}}  %% {DO NOT USE}
-% \newcommand{\mathVarKeyword}[1]{\mathrm{#1}}
-
 %% Math Pretty Printers
 
 \newcommand{\mathConstant}[1]{\mathrm{#1}} % Use capital letter
@@ -83,13 +54,22 @@
 \newcommand{\mathSpecialSet}[1]{\mathbb{#1}} % Use capital letter
 \newcommand{\mathTypeParameter}[1]{\mathbf{#1}}
 \newcommand{\mathTypeName}[1]{\mathbf{#1}}
-\newcommand{\mathTypeParameterConstructor}[1]{\mathrm{#1}}
 \newcommand{\mathTypeParameterClass}[1]{\mathbf{\emph{#1}}}
 
-\newcommand{\mathFunctor}[1]{\mathop{\textsl{#1}}} % Use capital letter
+\newcommand{\mathFunctor}[1]{\textsl{#1}} % Use capital letter
 \newcommand{\mathSpecialFunctor}[1]{\mathcal{#1}} % Use capital letter
 \newcommand{\mathTypeConstructor}[1]{\mathit{#1}} % Use capital letter
 \newcommand{\mathTypeClass}[1]{\textbf{\emph{#1}}} % Use capital letter
+
+%% Hats for Variables
+
+\newcommand{\mathListVar}[1]{\Bar{#1}}
+\newcommand{\mathMaybeVar}[1]{\Tilde{#1}}
+\newcommand{\mathFunctionVar}[1]{\Hat{#1}}
+\newcommand{\mathContainerVar}[1]{\Check{#1}}
+\newcommand{\mathVectorVar}[1]{\vec{#1}}
+
+%% Parenthesis for Variables
 
 \newcommand{\mathListWith}[1]{\left[#1\right]}
 \newcommand{\mathSetWith}[1]{\left\{#1\right\}}
@@ -98,25 +78,21 @@
 \newcommand{\mathPureWith}[1]{\left\langle#1\right\rangle}
 \newcommand{\mathUnitWith}[1]{\left\langle\!\left\langle#1\right\rangle\!\right\rangle}
 
+%% Parenthesis for Types
+
 \newcommand{\mathListType}[1]{\left[#1\right]}
 \newcommand{\mathMaybeType}[1]{\[#1\]}
-
-\newcommand{\mathListVar}[1]{\Bar{#1}}
-\newcommand{\mathMaybeVar}[1]{\Tilde{#1}}
-\newcommand{\mathFunctionVar}[1]{\Hat{#1}}
-\newcommand{\mathContainerVar}[1]{\Check{#1}}
-\newcommand{\mathVectorVar}[1]{\vec{#1}}
 
 %% Guard
 
 \newcommand{\mathGuard}[1]{\mathop{\mid_{#1}}}
 
-%% Type Constructors
+%% Type Constructors and Functors
 
 \DeclareMathOperator{\mathList}{\mathTypeConstructor{List}}
 \DeclareMathOperator{\mathMaybe}{\mathTypeConstructor{Maybe}}
-
-% \newcommand{\mathVector}[1]{\vec{#1}} % {DO NOT USE}
+\DeclareMathOperator{\mathListFunctor}{\mathFunctor{List}}
+\DeclareMathOperator{\mathMaybeFunctor}{\mathFunctor{Maybe}}
 
 %% True and Fasle, Identity, Empty, Nothing
 
@@ -125,77 +101,65 @@
 
 \newcommand{\mathId}{\O}
 
-\newcommand{\mathEmptyList}{{[\,]}}%{\emptyset}
-\newcommand{\mathNothing}{\emptyset}%{\Radioactivity}
+\newcommand{\mathEmptyList}{{[\,]}}
+\newcommand{\mathNothing}{\emptyset}
 \newcommand{\mathPureNothing}{\varnothing}
 
 %% Special Parameters
 
 \newcommand{\mathAnonymousParameter}{\lozenge}
 \newcommand{\mathAny}{\_}
-\newcommand{\mathSomething}{\square}
+\newcommand{\mathSomething}{\square}  % DO NOT USE
 
 %% Left and Right
 
 \newcommand{\mathLeft}{\mathSub{left}}
 \newcommand{\mathRight}{\mathSub{right}}
 
-%% Special Functions
+%% Special Unary Functions and Operators
 
 \DeclareMathOperator{\mathPred}{pred}
 \DeclareMathOperator{\mathSucc}{succ}
-
-%% Special Unary Operators
-
-\newcommand{\mathUnaryOperator}[1]{\operatorname{#1}}
-\newcommand{\mathAnyUnaryOperator}{\mathUnaryOperator{\star}}
-\newcommand{\mathInverse}{\mathUnaryOperator{\sharp}}
-\newcommand{\mathLambda}{\mathUnaryOperator{\backslash}}
-
-\DeclareMathOperator{\mathConcat}{\flat}%{concat}
+\DeclareMathOperator{\mathAnyUnaryOperator}{\star}
+\DeclareMathOperator{\mathInverse}{\sharp}  % USED?
+\DeclareMathOperator{\mathLambda}{\backslash}
+\DeclareMathOperator{\mathConcat}{\flat}
 \DeclareMathOperator*{\mathFold}{\bigcup}
 \DeclareMathOperator*{\mathFoldRight}{\bigsqcup}
 
+\DeclareMathOperator{\mathHead}{head}
+\DeclareMathOperator{\mathTail}{tail}
+\DeclareMathOperator{\mathFactorial}{fact}
+\DeclareMathOperator{\mathIfFunc}{if}
+
+\DeclareMathOperator{\mathMain}{main}
+
 %% Special Binary Operators
 
-\newcommand{\mathBinaryOperator}[1]{\operatorname{#1}}
-\newcommand{\mathAnyBinaryOperator}{\mathBinaryOperator{\bigstar}}
-\newcommand{\mathAnd}{\mathBinaryOperator{\wedge}}
+\newcommand{\mathAnyBinaryOperator}{\mathbin{\bigstar}}
+\newcommand{\mathAnd}{\mathbin{\wedge}}
 \newcommand{\mathAppend}{\oplus}
-\newcommand{\mathApplicativeApply}{\mathBinaryOperator{\S}}
-\newcommand{\mathApplicativeGeneralMap}{\times}
-\newcommand{\mathApplicativeMap}{\otimes}
-\newcommand{\mathApplicativeMaybeMap}{\boxtimes}
-\newcommand{\mathApply}{\mathBinaryOperator{\$}}
-\newcommand{\mathCompose}{\mathBinaryOperator{\bullet}}
-\newcommand{\mathGeneralMap}{\mathBinaryOperator{\cdot}}
-\newcommand{\mathFrom}{\mathBinaryOperator{\in}}
-\newcommand{\mathIn}{\mathBinaryOperator{:\!:}}
-\newcommand{\mathMap}{\mathBinaryOperator{\odot}}
-\newcommand{\mathMaybeAppend}{\mathBinaryOperator{\boxplus}}
-\newcommand{\mathMaybeMap}{\mathBinaryOperator{\boxdot}}
-\newcommand{\mathMonadGeneralMap}{\mathBinaryOperator{\heartsuit}}
-\newcommand{\mathOr}{\mathBinaryOperator{\vee}}
-\newcommand{\mathSetTimes}{\mathBinaryOperator{\circledast}}
-
-% \newcommand{\mathBindLeft}{\stackrel{\heartsuit}{\longleftarrow}}
-\newcommand{\mathBindLeft}{\ooalign{$\longleftarrow$\crcr\hss$\heartsuit$\hss}}
+\newcommand{\mathApplicativeApply}{\mathbin{\S}}
+\newcommand{\mathApplicativeGeneralMap}{\mathbin{\times}}
+\newcommand{\mathApplicativeMap}{\mathbin{\otimes}}
+\newcommand{\mathApplicativeMaybeMap}{\mathbin{\boxtimes}}
+\newcommand{\mathApply}{\mathbin{\$}}
+\newcommand{\mathBind}{\mathbin{\ooalign{$\longleftarrow$\crcr\hss$\heartsuit$\hss}}}
+\newcommand{\mathBindRight}{\mathbin{\ooalign{$\longrightarrow$\crcr\hss$\heartsuit$\hss}}}
+\newcommand{\mathCompose}{\mathbin{\bullet}}
+\newcommand{\mathGeneralMap}{\mathbin{\cdot}}
+\newcommand{\mathFrom}{\mathbin{\in}}
+\newcommand{\mathIn}{\mathbin{:\!:}}
+\newcommand{\mathMap}{\mathbin{\odot}}
+\newcommand{\mathMaybeAppend}{\mathbin{\boxplus}}
+\newcommand{\mathMaybeMap}{\mathbin{\boxdot}}
+\newcommand{\mathOr}{\mathbin{\vee}}
+\newcommand{\mathSetTimes}{\mathbin{\circledast}}
 
 %% Special Arrow Operators
 
 \newcommand{\mathLambdaArrow}{\rightarrow}
 \newcommand{\mathMapsTo}{\mapsto}
-
-%% Special Functions (like \sin)
-
-\newcommand{\mathSpecialFunction}[1]{\operatorname{\mathrm{#1}}}
-
-\newcommand{\mathHead}{\mathSpecialFunction{head}}
-\newcommand{\mathTail}{\mathSpecialFunction{tail}}
-
-\newcommand{\mathFactorial}{\mathSpecialFunction{fact}}
-
-\newcommand{\mathIfFunc}{\mathSpecialFunction{if}}
 
 %% Keywords
 
@@ -237,29 +201,6 @@
 \newcommand{\mathMorphIII}[4]{#1\mathMapsTo#2\mathMapsTo#3\mathMapsTo#4}
 
 \newcommand{\mathField}[7]{(#1,#2,#3,#4,#5,#6,#7)}
-
-
-
-% ---
-
-
-\DeclareMathOperator{\mathI}{i}
-% \DeclareMathOperator{\mathInverse}{\neg}
-% \DeclareMathOperator{\mathLetLet}{\mathKeyword{let}}
-% \DeclareMathOperator{\mathLetIn}{\mathKeyword{in}}
-\DeclareMathOperator{\mathMain}{main}
-% \DeclareMathOperator{\mathThen}{\mathKeyword{then}}
-% \DeclareMathOperator{\mathWhere}{\mathKeyword{where}}
-
-
-
-
-
-
-
-
-%% Haskell Pretty Printers
-
 
 %% Haskell Operators
 
@@ -387,7 +328,8 @@ $\mathApplicativeGeneralMap$&一般アプリカティブマップ&\\
 $\mathApplicativeMap$&（リストの）アプリカティブマップ&\\
 $\mathApplicativeMaybeMap$&Maybeアプリカティブマップ&\\
 \hline
-$\mathBindLeft$&モナド結合 (bind)&\\
+$\mathBind$&左モナド結合 (bind)&\\
+$\mathBindRight$&右モナド結合 (bind)&\\
 \hline
 \end{tabular}
 \end{center}
@@ -2074,15 +2016,15 @@ Maybe&$\mathMaybe$&$\mathMaybeMap$&$\mathMaybeWith{x}$\\\hline
 その「何か」を別の方法で「どうにか」したら$\mathMaybe$型コンストラクタとMaybeマップ演算子$\mathMaybeMap$になるとしたら，
 その「何か」と「どうにか」はなんであろうか．
 
-いま$\xmapsto{\mathFunctor{List}}$と$\xmapsto{\mathFunctor{Maybe}}$という写像ががあって，
+いま$\xmapsto{\mathListFunctor}$と$\xmapsto{\mathMaybeFunctor}$という写像ががあって，
 次のように書けるとしよう．
 \begin{align}
-\mathTypeParameter{a}&\xmapsto{\;\mathFunctor{List}\;}\mathList\mathTypeParameter{a}\\
-\mathGeneralMap&\xmapsto{\;\mathFunctor{List}\;}\mathMap\\
-% \mathPureWith{x}&\xrightarrow{\;\mathFunctor{List}\;}\mathListWith{x}\\
-\mathTypeParameter{a}&\xmapsto{\;\mathFunctor{Maybe}\;}\mathMaybe\mathTypeParameter{a}\\
-\mathGeneralMap&\xmapsto{\;\mathFunctor{Maybe}\;}\mathMaybeMap
-% \mathPureWith{x}&\xrightarrow{\;\mathFunctor{Maybe}\;}\mathMaybeWith{x}
+\mathTypeParameter{a}&\xmapsto{\;\mathListFunctor\;}\mathList\mathTypeParameter{a}\\
+\mathGeneralMap&\xmapsto{\;\mathListFunctor\;}\mathMap\\
+% \mathPureWith{x}&\xrightarrow{\;\mathListFunctor\;}\mathListWith{x}\\
+\mathTypeParameter{a}&\xmapsto{\;\mathMaybeFunctor\;}\mathMaybe\mathTypeParameter{a}\\
+\mathGeneralMap&\xmapsto{\;\mathMaybeFunctor\;}\mathMaybeMap
+% \mathPureWith{x}&\xrightarrow{\;\mathMaybeFunctor\;}\mathMaybeWith{x}
 \end{align}
 
 任意の型$\mathTypeParameter{a}$に
@@ -2097,13 +2039,13 @@ Maybe&$\mathMaybe$&$\mathMaybeMap$&$\mathMaybeWith{x}$\\\hline
 そこで先ほどの関係をもう一度圏の記法を使って書き直そう．
 \begin{align}
 \mathTupleWith{\mathTypeParameter{a},\mathGeneralMap}
-&\xmapsto{\;\mathFunctor{List}\;}\mathTupleWith{\mathListType{\mathTypeParameter{a}},\mathMap}\\
+&\xmapsto{\;\mathListFunctor\;}\mathTupleWith{\mathListType{\mathTypeParameter{a}},\mathMap}\\
 \mathTupleWith{\mathTypeParameter{a},\mathGeneralMap}
-&\xmapsto{\;\mathFunctor{Maybe}\;}\mathTupleWith{\mathMaybeType{\mathTypeParameter{a}},\mathMaybeMap}
+&\xmapsto{\;\mathMaybeFunctor\;}\mathTupleWith{\mathMaybeType{\mathTypeParameter{a}},\mathMaybeMap}
 \end{align}
 これまでの型コンストラクタが例えば$\mathTypeParameter{a}$を
 $\mathListType{\mathTypeParameter{a}}$にだけしていたのに対し，
-この写像$\xmapsto{\mathFunctor{List}}$は
+この写像$\xmapsto{\mathListFunctor}$は
 $\mathTupleWith{\mathTypeParameter{a},\mathGeneralMap}$という組み合わせを
 $\mathTupleWith{\mathListType{\mathTypeParameter{a}},\mathMap}$に変えるところに注目しよう．
 
@@ -2140,7 +2082,7 @@ Maybe&$\mathMaybe$&$\mathMaybeMap$&$\mathMaybeWith{x}$\\\hline
 例えばリストに対しては\code{fmap = map}と定義されている．}
 
 型コンストラクタ$\mathList$や$\mathMaybe$は
-それぞれ関手$\mathFunctor{List}$や$\mathFunctor{Maybe}$の一部である．
+それぞれ関手$\mathListFunctor$や$\mathMaybeFunctor$の一部である．
 \haskell では型コンストラクタが関手の一部であるような型をひとくくりにして$\mathTypeClass{Functor}$型クラスに
 属するとする．
 すなわち，リスト型，Maybe型は$\mathTypeClass{Functor}$型クラスに属す．
@@ -2315,7 +2257,7 @@ f\mathGeneralMap x=\mathPureWith{f}\mathApplicativeGeneralMap x
 
 モナド世界では一般マップ演算子を次のように分解する．
 \begin{equation}
-f\mathGeneralMap x=\phi\mathMonadGeneralMap x
+f\mathGeneralMap x=\phi\mathBind x
 \end{equation}
 アプリカティブ関手のときと記号を変えただけで同じではないかと思われるかもしれないが，
 実は大きな変更が潜んでいる．
@@ -2343,7 +2285,7 @@ f\mathGeneralMap x=\phi\mathMonadGeneralMap x
 さて，モナドな一般マップ演算子はどうだろうか．
 モナドな一般マップ演算子の型は
 \begin{equation}
-\mathMonadGeneralMap
+\mathBind
 \mathIn{}\mathMorphII{(\mathMorph{\mathTypeParameter{a}}{\langle\mathTypeParameter{b}\rangle})}{\langle\mathTypeParameter{a}\rangle}{\langle{\mathTypeParameter{b}}\rangle}
 \end{equation}
 である．
@@ -2357,7 +2299,7 @@ f\mathGeneralMap x=\phi\mathMonadGeneralMap x
 関数$\phi$は次のような形になるだろう．
 $$\phi x=\begin{cases}\mathUnitWith{fx}&\text{普通に計算をしたとき}\\
 \mathPureNothing&\text{不都合があったとき}\end{cases}$$
-ここでコンテナに入れる演算を$\mathUnitWith{\mathSomething}$とし，
+ここでコンテナに入れる演算を$\mathUnitWith{\mathAny}$とし，
 空のコンテナを$\mathPureNothing$とした．
 
 ちょっと待った．
@@ -2376,7 +2318,7 @@ $\mathUnitWith{x}$は\keyword{ユニット演算子}と言って，変数を最�
 \hsklMonadMap&\mathIn{}\mathMorphII{(\mathMorph{\mathTypeParameter{a}}{\langle\mathTypeParameter{b}\rangle})}{\langle\mathTypeParameter{a}\rangle}{\langle{\mathTypeParameter{b}}\rangle}
 \end{align*}
 
-$$\mathPureWith{\mathSomething}\mathIn\mathMorph{\mathTypeParameter{a}}{\langle\mathTypeParameter{a}\rangle}$$
+$$\mathPureWith{\mathAny}\mathIn\mathMorph{\mathTypeParameter{a}}{\langle\mathTypeParameter{a}\rangle}$$
 
 この関数$\phi$をコンテナにつめられた変数$x$に適用するための「モナドな」マップ演算子$\hsklMonadMap$を導入する．
 $$x'=\phi\hsklMonadMap x$$
@@ -2771,11 +2713,11 @@ R_t=\begin{bmatrix}\cos t&-\sin t\\\sin t&\cos t\end{bmatrix}
 
 他にもベクトルを複素数で表現する方法もある．いま$\mathVectorVar{p}$を
 \begin{equation}
-\mathVectorVar{p}=u+\mathI v
+\mathVectorVar{p}=u+I v
 \end{equation}
 と表して，回転変換$R_t$を
 \begin{equation}
-R_t=\cos t+\mathI\sin t
+R_t=\cos t+I\sin t
 \end{equation}
 とすると，回転後の$\mathVectorVar{p'}$はやはり
 \begin{equation}
