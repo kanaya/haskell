@@ -2250,6 +2250,33 @@ A...
 そこで，任意のタイミングで変数に文脈を与えられるように，
 別な方法で一般マップ演算子を分解したものが\keyword{モナド}である．
 
+Maybeの例を思い出そう．
+Maybe型の変数$\mathMaybeVar{m}$はラップされた値$\mathMaybeWith{z}$を持つのか，
+エラーを表す$\mathNothing$を持つのかを選べる．
+そこで，引数$x$をとりなんらかの計算をする関数$\phi$を考えよう．
+この関数$\phi$は引数$x$の値次第ではエラーを表す$\mathNothing$を返す．
+例えば
+\begin{equation}
+\phi x=\begin{cases}
+\mathMaybeWith{z}\mathWhere z=\tan x&\mathIf x>\frac{\pi}{2}\mathAnd x<\frac{\pi}{2}\\
+\mathNothing&\mathOtherwise
+\end{cases}
+\end{equation}
+といった関数が考えられる．
+
+この式を一般化して
+\begin{equation}
+\phi x=\begin{cases}
+\mathUnitWith{z}&\mathIf\dots\\
+\mathPureNothing&\mathOtherwise
+\end{cases}
+\end{equation}
+という関数を考えてみよう．
+ここに$\mathUnitWith{z}$は一種のピュア演算子で，\keyword{ユニット演算子}と呼ぶ．
+また$\mathPureNothing$はエラーや空リストを一般化した記号である．
+
+---
+
 一般マップ演算子をピュア演算子と一般アプリカティブマップ演算子に分解すると次のようになる．
 \begin{equation}
 f\mathGeneralMap x=\mathPureWith{f}\mathApplicativeGeneralMap x
