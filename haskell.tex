@@ -2183,7 +2183,7 @@ Maybeのピュア演算子は$\mathMaybeWith{x}$である．
 一般マップ演算子$(\mathGeneralMap)$は，
 ピュア演算子と一般アプリカティブマップ演算子を使って
 $$
-f\mathGeneralMap x=\mathPureWith{f}\mathApplicativeGeneralMap x
+f\mathGeneralMap\mathContainerVar{x}=\mathPureWith{f}\mathApplicativeGeneralMap\mathContainerVar{x}
 $$
 と再定義できる．
 
@@ -2274,6 +2274,18 @@ Maybe型の変数$\mathMaybeVar{m}$はラップされた値$\mathMaybeWith{z}$�
 という関数を考えてみよう．
 ここに$\mathUnitWith{z}$は一種のピュア演算子で，\keyword{ユニット演算子}と呼ぶ．
 また$\mathPureNothing$はエラーや空リストを一般化した記号である．
+
+さて
+\begin{equation}
+  f\mathGeneralMap\mathContainerVar{x}
+\end{equation}
+のかわりに
+\begin{equation}
+  \phi\mathBind\mathContainerVar{x}
+\end{equation}
+という演算を考えてみよう．
+従来の関数$f$と違って関数$\phi$はエラーを返すかもしれないので，
+マップ演算子も異なる記号を用いている．
 
 ---
 
