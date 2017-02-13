@@ -2275,6 +2275,30 @@ Maybe型の変数$\mathMaybeVar{m}$はラップされた値$\mathMaybeWith{z}$�
 ここに$\mathUnitWith{z}$は一種のピュア演算子で，\keyword{ユニット演算子}と呼ぶ．
 また$\mathPureNothing$はエラーや空リストを一般化した記号である．
 
+さて，こうなると$\phi x$は値の入ったコンテナになるか，
+エラーを表す$\mathPureNothing$になるか事前にはわからないことになる．
+この関数$\phi$の型は
+\begin{equation}
+  \phi\mathIn\mathTypeParameter{a}\mathMapsTo\mathPureWith{\mathTypeParameter{b}}
+\end{equation}
+であるから，一般マップ演算子
+\begin{equation}
+\mathGeneralMap
+\mathIn{}\mathMorphII{(\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}})}{\langle\mathTypeParameter{a}\rangle}{\langle\mathTypeParameter{b}\rangle}
+\end{equation}
+や一般アプリカティブマップ演算子
+\begin{equation}
+\mathApplicativeGeneralMap
+\mathIn{}\mathMorphII{\langle\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}}\rangle}{\langle\mathTypeParameter{a}\rangle}{\langle\mathTypeParameter{b}\rangle}\\
+\end{equation}
+を用いるわけにはいかない．
+
+\begin{equation}
+  \mathContainerVar{y}=\phi\mathBind\mathContainerVar{x}
+\end{equation}
+
+---
+
 さて
 \begin{equation}
   f\mathGeneralMap\mathContainerVar{x}
