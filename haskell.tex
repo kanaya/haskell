@@ -1078,6 +1078,25 @@ f\mathIn\mathMorphIIWithParenthesis{\mathTypeName{Int}}{\mathTypeName{Int}}{\mat
 $\mathTypeName{Int}$型の引数を一つ取って$\mathTypeName{Int}$型の値を返す関数を返す，
 と読める．
 
+---
+
+\begin{equation*}
+f\mathIn
+\underbrace{\mathTypeName{Int}}_x
+\mathMapsTo
+\underbrace{\mathTypeName{Int}}_{fx}
+\end{equation*}
+
+\begin{equation*}
+f\mathIn
+\underbrace{\mathTypeName{Int}}_x
+\mathMapsTo
+\overbrace{\left(\underbrace{\mathTypeName{Int}}_y
+\mathMapsTo\underbrace{\mathTypeName{Int}}_{fxy}\right)}^{fx\mathAnonymousParameter}
+\end{equation*}
+
+
+
 \begin{table}
 \caption{単位的半群}
 \label{tab:monoids}
@@ -1527,6 +1546,27 @@ f&\mathIn\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}}\\
 f\mathMap&\mathIn\mathMorph{\mathListType{\mathTypeParameter{a}}}{\mathListType{\mathTypeParameter{b}}}
 \end{align}
 となり，マップ演算子が何をしているのか一目瞭然になる．
+
+---
+
+\begin{equation*}
+\mathMap\mathIn
+\underbrace{\left(\mathTypeParameter{a}\mathMapsTo\mathTypeParameter{b}\right)}_f
+\mathMapsTo
+\underbrace{\mathListType{\mathTypeParameter{a}}}_{\mathListWith{x_0,x_1\dots x_n}}
+\mathMapsTo
+\underbrace{\mathListType{\mathTypeParameter{b}}}_{\mathListWith{fx_0,fx_1\dots fx_n}}
+\end{equation*}
+
+\begin{equation*}
+\mathApplicativeMap\mathIn
+\underbrace{\mathListWith{\mathTypeParameter{a}\mathMapsTo\mathTypeParameter{b}}}_{\mathListWith{f_0,f_1\dots f_n}}
+\mathMapsTo
+\underbrace{\mathListType{\mathTypeParameter{a}}}_{\mathListWith{x_0,x_1\dots x_n}}
+\mathMapsTo
+\underbrace{\mathListType{\mathTypeParameter{b}}}_{\mathListWith{f_0x_0,f_0x_1\dots f_0x_n,f_1x_0,f_1x_1\dots f_nx_n}}
+\end{equation*}
+
 
 \section{リストの実装}
 
