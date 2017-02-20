@@ -15,6 +15,8 @@
 \newcommand{\clang}{\programminglanguage{C}}
 \newcommand{\csharp}{\programminglanguage{C}\texttt{\#}}
 \newcommand{\cxx}{\programminglanguage{C}\texttt{++}}
+\newcommand{\cxxzerothree}{\programminglanguage{C}\texttt{++}\programminglanguage{03}}
+\newcommand{\cxxeleven}{\programminglanguage{C}\texttt{++}\programminglanguage{11}}
 \newcommand{\haskell}{\programminglanguage{Haskell}}
 \newcommand{\java}{\programminglanguage{Java}}
 \newcommand{\lisp}{\programminglanguage{LISP}}
@@ -1763,7 +1765,7 @@ f = lambda x: 100 * x
 関数\code{f}に直接\code{Possibly}値\code{m}を食わせるとランタイムエラーを引き起こす．
 \begin{pythoncode}
 \begin{verbatim}
-m = f(m) # エラー!!
+n = f(m) # エラー!!
 \end{verbatim}
 \end{pythoncode}
 これは関数\code{f}が引数として数値を期待していたにもかかわらず，
@@ -1932,7 +1934,7 @@ maybe<a> map_over(fn f, maybe<a> m) {
 このようにテンプレートにしている．
 % こうすることで，Cスタイルの関数ポインタも，\cxx03スタイルの関数オブジェクトも，
 % \cxx11スタイルのラムダ式も受け取ることができる．
-（\cxx03プログラマへの注意: 関数\code{f}の代わりに
+（\cxxzerothree プログラマへの注意: 関数\code{f}の代わりに
 関数オブジェクト---かつてfunctorと呼ばれていたもの---を渡しても良い．）
 
 整数$z$からMaybe値$\mathMaybeVar{m}=\mathMaybeWith{z}$を作り，
@@ -2013,7 +2015,7 @@ X map_over(fn f, X x);
 \end{cxxcode}
 として，型\code{X}に応じてリストバージョンかMaybeバージョンを切り替えられると便利である．
 
-残念ながら\cxx11で楽に進める道はここら辺までである．
+残念ながら\cxxeleven で楽に進める道はここら辺までである．
 型\code{X}がマップ可能なコンテナであることをテンプレート機構を使って保証することができないため，この\code{map\_over}関数を誤った型に対して使った場合のコンパイル時エラーはひどく読みにくいものになる．
 ヒューマンエラーを防ぐための型システムが，まさに型無しになってしまうのだ．
 （この制約は\cxx17で改善される見込みである．）
@@ -2052,10 +2054,10 @@ A...
 
 \begin{table}
 \begin{center}
-\begin{tabular}{||c|c|c|c||}\hline
-型&型コンストラクタ&マップ&値コンストラクタ\\\hline\hline
-リスト&$\mathList$&$\mathMap$&$\mathListWith{x}$\\
-Maybe&$\mathMaybe$&$\mathMaybeMap$&$\mathMaybeWith{x}$\\\hline
+\begin{tabular}{||c|c|c|c|c||}\hline
+型の名前&型&型コンストラクタ&マップ&値コンストラクタ\\\hline\hline
+リスト&$\mathListType{\mathTypeParameter{a}}$&$\mathList$&$\mathMap$&$\mathListWith{x}$\\
+Maybe&$\mathMaybeType{\mathTypeParameter{a}}$&$\mathMaybe$&$\mathMaybeMap$&$\mathMaybeWith{x}$\\\hline
 \end{tabular}
 \end{center}
 \end{table}
@@ -2068,10 +2070,10 @@ Maybe&$\mathMaybe$&$\mathMaybeMap$&$\mathMaybeWith{x}$\\\hline
 いま$\xmapsto{\mathListFunctor}$と$\xmapsto{\mathMaybeFunctor}$という写像ががあって，
 次のように書けるとしよう．
 \begin{align}
-\mathTypeParameter{a}&\xmapsto{\;\mathListFunctor\;}\mathList\mathTypeParameter{a}\\
+\mathTypeParameter{a}&\xmapsto{\;\mathListFunctor\;}\mathListType{\mathTypeParameter{a}}\\
 \mathGeneralMap&\xmapsto{\;\mathListFunctor\;}\mathMap\\
 % \mathPureWith{x}&\xrightarrow{\;\mathListFunctor\;}\mathListWith{x}\\
-\mathTypeParameter{a}&\xmapsto{\;\mathMaybeFunctor\;}\mathMaybe\mathTypeParameter{a}\\
+\mathTypeParameter{a}&\xmapsto{\;\mathMaybeFunctor\;}\mathMaybeType{\mathTypeParameter{a}}\\
 \mathGeneralMap&\xmapsto{\;\mathMaybeFunctor\;}\mathMaybeMap
 % \mathPureWith{x}&\xrightarrow{\;\mathMaybeFunctor\;}\mathMaybeWith{x}
 \end{align}
