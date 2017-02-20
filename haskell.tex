@@ -25,7 +25,7 @@
 
 %% Leaders and Key Points
 
-\newenvironment{leader}{\begingroup\bf}{\endgroup}
+\newenvironment{leader}{\begingroup}{\endgroup}
 \newenvironment{keypoint}{\begin{screen}}{\end{screen}}
 \newenvironment{caution}{\begin{boxnote}\begin{center}注意\end{center}}{\end{boxnote}}
 
@@ -43,7 +43,7 @@
 \newenvironment{javacode}{\begin{itembox}[r]{\java}}{\end{itembox}}
 \newenvironment{haskellcode}{\begin{itembox}[r]{\haskell}}{\end{itembox}}
 \newenvironment{pythoncode}{\begin{itembox}[r]{\python}}{\end{itembox}}
-\newenvironment{rubycode}{\begin{itembox}[r]{Ruby}}{\end{itembox}}
+\newenvironment{rubycode}{\begin{itembox}[r]{\ruby}}{\end{itembox}}
 
 %% Math Pretty Printers
 
@@ -984,8 +984,8 @@ $\mathTupleWith{\mathSpecialSet{B},\wedge,\mathTrue}$とも書く．
 
 \section{型}
 
-型とは変数が取りうる値に与えた制約のことである．
-\haskell を含む多くのコンパイラ言語は，\keyword{静的型付け}と言って，
+型とは変数が取りうる値に言語処理系が与えた制約のことである．
+\haskell を含む多くのコンパイラ言語は\keyword{静的型付け}と言って，
 コンパイル時までに変数の型が決まっていることをプログラマに要求する．
 一方，\python のようなインタプリタ言語はたいてい\keyword{動的型付け}と言って，
 プログラムの実行時まで変数の型を決めない．
@@ -1031,6 +1031,14 @@ $m+\mathVectorVar{v}$という表記を見たときに，
 f\mathIn\mathMorph{\mathTypeName{Int}}{\mathTypeName{Int}}
 \end{equation}
 という型を持つ．
+上式は
+\begin{equation}
+f\mathIn
+\underbrace{\mathTypeName{Int}}_x
+\mathMapsTo
+\underbrace{\mathTypeName{Int}}_{fx}
+\end{equation}
+のようにイメージすると良い．
 これは関数$f$が集合$\mathTypeName{Int}$から集合$\mathTypeName{Int}$への写像であると読む．
 
 \section{カリー化}
@@ -1065,35 +1073,30 @@ f\mathIn\mathMorph{\mathTypeName{Int}}{\mathTypeName{Int}}
 
 % \section{関数の型}
 
-整数引数を二つ取り，整数を返す関数$f$は
+整数引数を二つ取り，整数を返す関数$g$は
 \begin{equation}
-f\mathIn\mathMorphII{\mathTypeName{Int}}{\mathTypeName{Int}}{\mathTypeName{Int}}
+g\mathIn\mathMorphII{\mathTypeName{Int}}{\mathTypeName{Int}}{\mathTypeName{Int}}
 \end{equation}
-という型を持つ．写像の矢印記号は右結合するので，これは
+という型を持つ．
+写像の矢印記号は右結合するので，これは
 \begin{equation}
-f\mathIn\mathMorphIIWithParenthesis{\mathTypeName{Int}}{\mathTypeName{Int}}{\mathTypeName{Int}}
+g\mathIn\mathMorphIIWithParenthesis{\mathTypeName{Int}}{\mathTypeName{Int}}{\mathTypeName{Int}}
 \end{equation}
 と同じ意味である．
+上式は
+\begin{equation*}
+g\mathIn
+\underbrace{\mathTypeName{Int}}_x
+\mathMapsTo
+\underbrace{\overbrace{\mathTypeName{Int}}^y
+\mathMapsTo\overbrace{\mathTypeName{Int}}^{(gx)y}}_{gx}
+\end{equation*}
+のようにイメージすると良い．
 自然言語で考えると，$\mathTypeName{Int}$型の引数を一つ取り，
 $\mathTypeName{Int}$型の引数を一つ取って$\mathTypeName{Int}$型の値を返す関数を返す，
 と読める．
 
----
 
-\begin{equation*}
-f\mathIn
-\underbrace{\mathTypeName{Int}}_x
-\mathMapsTo
-\underbrace{\mathTypeName{Int}}_{fx}
-\end{equation*}
-
-\begin{equation*}
-f\mathIn
-\underbrace{\mathTypeName{Int}}_x
-\mathMapsTo
-\overbrace{\left(\underbrace{\mathTypeName{Int}}_y
-\mathMapsTo\underbrace{\mathTypeName{Int}}_{fxy}\right)}^{fx}
-\end{equation*}
 
 
 
@@ -1323,7 +1326,7 @@ t = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 我々も\python のように，
 例えば$0$から始まり$9$まで続く整数のリストを$[0,1,2,3,4,5,6,7,8,9]$と
 書くことにしよう．
-ただし，これでは冗長なので，等差数列に限って，簡略化した書き方を許す．
+ただし，これでは冗長なので\keyword{等差数列}に限って簡略化した書き方を許す．
 例えば$0$から$9$までのリストは$[0,1\dots9]$と書いても良い．\footnote{\haskell では
 \code{t = [0,1..9]}と書く．ピリオドの数に注意しよう．}
 
@@ -1428,7 +1431,10 @@ $\mathTypeParameter{a}$型の変数$x$を入れた$\mathListType{\mathTypeParame
 ある型を包み込んだ別の型を一般に\keyword{コンテナ型}または
 単に\keyword{コンテナ}と呼ぶ．
 
-\section{畳み込みとマップ}
+なお，リスト型，結合演算子，空リストの組み合わせ$\mathMonoid{\mathListType{\mathTypeParameter{a}}}{\mathAppend}{\mathEmptyList}$は
+モノイドである．
+
+\section{畳み込み}
 
 我々はよくリストの総和を表現するためにシグマ記号($\sum$)を使う．
 リスト$[x_0,x_1\dots x_n]$の総和を
@@ -1464,7 +1470,7 @@ s = reduce(lambda x, y: x + y, t, 0)
 \end{pythoncode}
 のように求めることができる．
 この\code{reduce}関数は\python バージョン3では非推奨になっているが，
-Rubyには受け継がれていて，Rubyでは
+\ruby には受け継がれていて，\ruby では
 \begin{rubycode}
 \begin{verbatim}
 t = [0, 1, 2, 3, 4, 5]
@@ -1514,6 +1520,8 @@ s = t.inject(0) { |x, y| x + y }
 と定義することにする．\footnote{\haskell では演算子$\mathConcat$の代わりに\code{concat}関数を使う．}
 % !!!!!!!!!! CHECK !!!!!!!!!!
 
+\section{マップ}
+
 リストの各要素に決まった関数を適用したい場合がある．
 \python ではリスト\code{t}に関数\code{f}を適用するときには
 \begin{pythoncode}
@@ -1540,6 +1548,17 @@ f\mathMap[x_0,x_1\dots x_n]=[fx_0,fx_1\dots fx_n]
 \mathMap\mathIn\mathMorph{(\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}})}{\left(\mathMorph{\mathListType{\mathTypeParameter{a}}}{\mathListType{\mathTypeParameter{b}}}\right)}
 \end{equation}
 の意味でもある．
+念のため上式に注釈を加えると
+\begin{equation}
+\mathMap\mathIn
+\underbrace{\left(\mathTypeParameter{a}\mathMapsTo\mathTypeParameter{b}\right)}_f
+\mathMapsTo
+\underbrace{\mathListType{\mathTypeParameter{a}}}_{\mathListWith{x_0,x_1\dots x_n}}
+\mathMapsTo
+\underbrace{\mathListType{\mathTypeParameter{b}}}_{\mathListWith{fx_0,fx_1\dots fx_n}}
+\end{equation}
+である．
+
 ここで$f$と$f\mathMap$の型を並べてみると
 \begin{align}
 f&\mathIn\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}}\\
@@ -1549,14 +1568,6 @@ f\mathMap&\mathIn\mathMorph{\mathListType{\mathTypeParameter{a}}}{\mathListType{
 
 ---
 
-\begin{equation*}
-\mathMap\mathIn
-\underbrace{\left(\mathTypeParameter{a}\mathMapsTo\mathTypeParameter{b}\right)}_f
-\mathMapsTo
-\underbrace{\mathListType{\mathTypeParameter{a}}}_{\mathListWith{x_0,x_1\dots x_n}}
-\mathMapsTo
-\underbrace{\mathListType{\mathTypeParameter{b}}}_{\mathListWith{fx_0,fx_1\dots fx_n}}
-\end{equation*}
 
 \begin{equation*}
 \mathApplicativeMap\mathIn
@@ -1568,7 +1579,7 @@ f\mathMap&\mathIn\mathMorph{\mathListType{\mathTypeParameter{a}}}{\mathListType{
 \end{equation*}
 
 
-\section{リストの実装}
+\section{余計な話: リストの実装}
 
 ここでリストの実装について述べておかねばならない．紙上ではリストは自由に考えられるが，計算機上ではそれほど自由ではないからである．我々はリストを\lisp におけるリストと同じ構造を持つものとする．\lisp におけるリストとは変数$\mathFirst$と変数$\mathRest$からなるペアの集合である．変数$\mathFirst$がリストの要素を参照し，変数$\mathRest$が次のペアを参照する．リストの最後のペアの$\mathRest$は空リストを参照する特別な値を持つ．
 
@@ -1604,15 +1615,10 @@ f\mathMap\mathEmptyList&=\mathEmptyList
 \end{align*}
 これらは\lisp  の\code{car}関数，\code{cdr}関数と同じものである．
 
-\section{余計な話: モノイドとしてのリスト*}
-
-リスト型，結合演算子，空リストの組み合わせ$\mathMonoid{\mathListType{\mathTypeParameter{a}}}{\mathAppend}{\mathEmptyList}$は
-モノイドである．
-
-
-\section{余計な話: リストを引数にとる関数**}
-
-リストを分解する関数$\mathHead$と$\mathTail$さえあればどのようなリスト処理も可能であるが，リストを引数にとる関数を考えると最初から分解されたリストを渡された方が何かと便利である．そこで結合演算子を関数引数のパタンにも使えることにしよう．これで，例えばリストの和をとる関数$f$は
+リストを分解する関数$\mathHead$と$\mathTail$さえあればどのようなリスト処理も可能であるが，
+リストを引数にとる関数を考えると最初から分解されたリストを渡された方が何かと便利である．
+そこで結合演算子を関数引数のパタンにも使えることにしよう．
+これで，例えばリストの和をとる関数$f$は
 \begin{equation}
 \left\{
 \begin{split}
@@ -1623,6 +1629,9 @@ f(x:\mathListVar{t})&=x+f\mathListVar{t}
 \right.
 \end{equation}
 のようにも定義できる．
+
+
+
 
 \chapter{再帰}
 
