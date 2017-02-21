@@ -55,7 +55,7 @@
 \newcommand{\mathSet}[1]{\mathbf{#1}} % Use capital letter
 \newcommand{\mathSpecialSet}[1]{\mathbb{#1}} % Use capital letter
 \newcommand{\mathTypeParameter}[1]{\mathbf{#1}}
-\newcommand{\mathTypeName}[1]{\mathbf{#1}}
+\newcommand{\mathTypeName}[1]{\mathTypeParameter{#1}}
 \newcommand{\mathTypeParameterClass}[1]{\mathbf{\emph{#1}}}
 
 \newcommand{\mathFunctor}[1]{\textsl{#1}} % Use capital letter
@@ -82,8 +82,10 @@
 
 %% Parenthesis for Types
 
-\newcommand{\mathListType}[1]{\left[#1\right]}
-\newcommand{\mathMaybeType}[1]{\[#1\]}
+\newcommand{\mathListType}[1]{\mathListWith{\mathTypeParameter{#1}}}
+\newcommand{\mathMaybeType}[1]{\mathMaybeWith{\mathTypeParameter{#1}}}
+\newcommand{\mathPureType}[1]{\mathPureWith{\mathTypeParameter{#1}}}
+\newcommand{\mathUnitType}[1]{\mathUnitWith{\mathTypeParameter{#1}}}
 
 %% Guard
 
@@ -1406,24 +1408,24 @@ t = [x + y for x in range(0, 10) for y in range(0, 6) \
 空リストを\code{[]}で表す．}
 
 任意の型を$\mathTypeParameter{a}$とするとき，
-$\mathTypeParameter{a}$型のリスト型を$\mathListType{\mathTypeParameter{a}}$と書く．型$\mathTypeParameter{a}$から型$\mathListType{\mathTypeParameter{a}}$を生成する演算子を\keyword{リスト型コンストラクタ}と呼んで$\mathList$と書き
+$\mathTypeParameter{a}$型のリスト型を$\mathListType{a}$と書く．型$\mathTypeParameter{a}$から型$\mathListType{a}$を生成する演算子を\keyword{リスト型コンストラクタ}と呼んで$\mathList$と書き
 \begin{equation}
-\mathListType{\mathTypeParameter{a}}=\mathList\mathTypeParameter{a}
+\mathListType{a}=\mathList\mathTypeParameter{a}
 \end{equation}
 とする．この等式の両辺は変数ではなく型名であることに注意しよう．
 型コンストラクタの概念は\python には無い（必要無い）が，
 静的型付け言語である\cxx の「クラステンプレート」が相当する．\footnote{\haskell では
-表記上コンテナ型$\mathListType{\mathTypeParameter{a}}$と
+表記上コンテナ型$\mathListType{a}$と
 型コンストラクタ式$\mathList\mathTypeParameter{a}$を区別せず，
 両者とも\code{[a]}と書く．}
 
-$\mathTypeParameter{a}$型の変数$x$を入れた$\mathListType{\mathTypeParameter{a}}$型の変数（リスト変数）を作る演算子を\keyword{リスト値コンストラクタ}と呼ぶ．$\mathTypeParameter{a}$型の変数$x$からリスト値コンストラクタを使ってリスト$\mathListVar{t}$を作ることは
+$\mathTypeParameter{a}$型の変数$x$を入れた$\mathListType{a}$型の変数（リスト変数）を作る演算子を\keyword{リスト値コンストラクタ}と呼ぶ．$\mathTypeParameter{a}$型の変数$x$からリスト値コンストラクタを使ってリスト$\mathListVar{t}$を作ることは
 \begin{equation}
 \mathListVar{t}=[x]
 \end{equation}
 と書く．\footnote{\haskell では\code{t = [x]}と書く．}
 
-リスト型を表す$\mathListType{\mathTypeParameter{a}}$と，
+リスト型を表す$\mathListType{a}$と，
 1要素のリストである$[x]$の違いにはいつも気をつけておこう．
 本書では中身がボールドローマン体ならばリスト型，
 中身がイタリック体ならリスト値である．
@@ -1433,7 +1435,7 @@ $\mathTypeParameter{a}$型の変数$x$を入れた$\mathListType{\mathTypeParame
 ある型を包み込んだ別の型を一般に\keyword{コンテナ型}または
 単に\keyword{コンテナ}と呼ぶ．
 
-なお，リスト型，結合演算子，空リストの組み合わせ$\mathMonoid{\mathListType{\mathTypeParameter{a}}}{\mathAppend}{\mathEmptyList}$は
+なお，リスト型，結合演算子，空リストの組み合わせ$\mathMonoid{\mathListType{a}}{\mathAppend}{\mathEmptyList}$は
 モノイドである．
 
 \section{畳み込み}
@@ -1543,11 +1545,11 @@ f\mathMap[x_0,x_1\dots x_n]=[fx_0,fx_1\dots fx_n]
 
 マップ演算子の型は
 \begin{equation}
-\mathMap\mathIn{}\mathMorphII{(\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}})}{\mathListType{\mathTypeParameter{a}}}{\mathListType{\mathTypeParameter{b}}}
+\mathMap\mathIn{}\mathMorphII{(\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}})}{\mathListType{a}}{\mathListType{\mathTypeParameter{b}}}
 \end{equation}
 である．矢印$\mathMapsTo$は右結合なので，これは
 \begin{equation}
-\mathMap\mathIn\mathMorph{(\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}})}{\left(\mathMorph{\mathListType{\mathTypeParameter{a}}}{\mathListType{\mathTypeParameter{b}}}\right)}
+\mathMap\mathIn\mathMorph{(\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}})}{\left(\mathMorph{\mathListType{a}}{\mathListType{\mathTypeParameter{b}}}\right)}
 \end{equation}
 の意味でもある．
 念のため上式に注釈を加えると
@@ -1555,7 +1557,7 @@ f\mathMap[x_0,x_1\dots x_n]=[fx_0,fx_1\dots fx_n]
 \mathMap\mathIn
 \underbrace{\left(\mathTypeParameter{a}\mathMapsTo\mathTypeParameter{b}\right)}_f
 \mathMapsTo
-\underbrace{\mathListType{\mathTypeParameter{a}}}_{\mathListWith{x_0,x_1\dots x_n}}
+\underbrace{\mathListType{a}}_{\mathListWith{x_0,x_1\dots x_n}}
 \mathMapsTo
 \underbrace{\mathListType{\mathTypeParameter{b}}}_{\mathListWith{fx_0,fx_1\dots fx_n}}
 \end{equation}
@@ -1564,7 +1566,7 @@ f\mathMap[x_0,x_1\dots x_n]=[fx_0,fx_1\dots fx_n]
 ここで$f$と$f\mathMap$の型を並べてみると
 \begin{align}
 f&\mathIn\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}}\\
-f\mathMap&\mathIn\mathMorph{\mathListType{\mathTypeParameter{a}}}{\mathListType{\mathTypeParameter{b}}}
+f\mathMap&\mathIn\mathMorph{\mathListType{a}}{\mathListType{\mathTypeParameter{b}}}
 \end{align}
 となり，マップ演算子が何をしているのか一目瞭然になる．
 
@@ -1575,7 +1577,7 @@ f\mathMap&\mathIn\mathMorph{\mathListType{\mathTypeParameter{a}}}{\mathListType{
 \mathApplicativeMap\mathIn
 \underbrace{\mathListWith{\mathTypeParameter{a}\mathMapsTo\mathTypeParameter{b}}}_{\mathListWith{f_0,f_1\dots f_n}}
 \mathMapsTo
-\underbrace{\mathListType{\mathTypeParameter{a}}}_{\mathListWith{x_0,x_1\dots x_n}}
+\underbrace{\mathListType{a}}_{\mathListWith{x_0,x_1\dots x_n}}
 \mathMapsTo
 \underbrace{\mathListType{\mathTypeParameter{b}}}_{\mathListWith{f_0x_0,f_0x_1\dots f_0x_n,f_1x_0,f_1x_1\dots f_nx_n}}
 \end{equation*}
@@ -1813,21 +1815,21 @@ $\mathMaybeVar{m}$のように印をつけた別の変数に入れて，
 このように計算結果に「意味付け」をすることを\keyword{文脈}に入れると言う．
 
 この変数$\mathMaybeVar{m}$はもはや整数型とは言えない．
-そこでこの$\mathMaybeVar{m}$の型を$\mathMaybeType{\mathTypeName{Int}}$と表して
+そこでこの$\mathMaybeVar{m}$の型を$\mathMaybeType{Int}$と表して
 「きっと整数」型と呼ぶことにしよう．
-型$\mathTypeParameter{a}$から型$\mathMaybeType{\mathTypeParameter{a}}$を
+型$\mathTypeParameter{a}$から型$\mathMaybeType{a}$を
 生成する型コンストラクタを$\mathMaybe$と呼び
 $$
-\mathMaybeType{\mathTypeParameter{a}}
+\mathMaybeType{a}
 =\mathMaybe\mathTypeParameter{a}
 $$
 とする．\footnote{\haskell では
-表記上コンテナ型$\mathMaybeType{\mathTypeParameter{a}}$と
+表記上コンテナ型$\mathMaybeType{a}$と
 型コンストラクタ式$\mathMaybe\mathTypeParameter{a}$を区別せず，
 両者とも\code{Maybe a}と書く．}
 
 $\mathTypeParameter{a}$型の変数を
-$\mathMaybeType{\mathTypeParameter{a}}$型の変数に代入するには，
+$\mathMaybeType{a}$型の変数に代入するには，
 次の値コンストラクタを用いて
 $$
 \mathMaybeVar{m}=\mathMaybeWith{z}
@@ -1845,7 +1847,7 @@ $$
 f\mathMaybeMap\mathMaybeVar{m}=\mathMaybeWith{fz}
 $$
 のように関数$f$を変数$\mathMaybeVar{m}$に適用させる．
-その結果はまた$\mathMaybeType{\mathTypeName{Int}}$型である．
+その結果はまた$\mathMaybeType{Int}$型である．
 
 いま引数の$100$倍の値を返す関数$fz=z*100$があるとしよう．
 これを「きっと整数」な$\mathMaybeVar{m}$に適用するには，
@@ -2056,8 +2058,8 @@ A...
 \begin{center}
 \begin{tabular}{||c|c|c|c|c||}\hline
 型の名前&型&型コンストラクタ&マップ&値コンストラクタ\\\hline\hline
-リスト&$\mathListType{\mathTypeParameter{a}}$&$\mathList$&$\mathMap$&$\mathListWith{x}$\\
-Maybe&$\mathMaybeType{\mathTypeParameter{a}}$&$\mathMaybe$&$\mathMaybeMap$&$\mathMaybeWith{x}$\\\hline
+リスト&$\mathListType{a}$&$\mathList$&$\mathMap$&$\mathListWith{x}$\\
+Maybe&$\mathMaybeType{a}$&$\mathMaybe$&$\mathMaybeMap$&$\mathMaybeWith{x}$\\\hline
 \end{tabular}
 \end{center}
 \end{table}
@@ -2070,35 +2072,35 @@ Maybe&$\mathMaybeType{\mathTypeParameter{a}}$&$\mathMaybe$&$\mathMaybeMap$&$\mat
 いま$\xmapsto{\mathListFunctor}$と$\xmapsto{\mathMaybeFunctor}$という写像ががあって，
 次のように書けるとしよう．
 \begin{align}
-\mathTypeParameter{a}&\xmapsto{\;\mathListFunctor\;}\mathListType{\mathTypeParameter{a}}\\
+\mathTypeParameter{a}&\xmapsto{\;\mathListFunctor\;}\mathListType{a}\\
 \mathGeneralMap&\xmapsto{\;\mathListFunctor\;}\mathMap\\
 % \mathPureWith{x}&\xrightarrow{\;\mathListFunctor\;}\mathListWith{x}\\
-\mathTypeParameter{a}&\xmapsto{\;\mathMaybeFunctor\;}\mathMaybeType{\mathTypeParameter{a}}\\
+\mathTypeParameter{a}&\xmapsto{\;\mathMaybeFunctor\;}\mathMaybeType{a}\\
 \mathGeneralMap&\xmapsto{\;\mathMaybeFunctor\;}\mathMaybeMap
 % \mathPureWith{x}&\xrightarrow{\;\mathMaybeFunctor\;}\mathMaybeWith{x}
 \end{align}
 
 任意の型$\mathTypeParameter{a}$に
 型コンストラクタ$\mathList$を適用して得られる
-リスト型$\mathListType{\mathTypeParameter{a}}$と
-マップの組み合わせ$\mathTupleWith{\mathListType{\mathTypeParameter{a}},\mathMap}$は，
+リスト型$\mathListType{a}$と
+マップの組み合わせ$\mathTupleWith{\mathListType{a},\mathMap}$は，
 数学者の言う\keyword{圏}の一種である．
 圏とは集合と\keyword{射}の組み合わせである．
 射は演算子を一般化したものと思っておけばよい．
-組み合わせ$\mathTupleWith{\mathMaybeType{\mathTypeParameter{a}},\mathMaybeMap}$も圏である．
+組み合わせ$\mathTupleWith{\mathMaybeType{a},\mathMaybeMap}$も圏である．
 
 そこで先ほどの関係をもう一度圏の記法を使って書き直そう．
 \begin{align}
 \mathTupleWith{\mathTypeParameter{a},\mathGeneralMap}
-&\xmapsto{\;\mathListFunctor\;}\mathTupleWith{\mathListType{\mathTypeParameter{a}},\mathMap}\\
+&\xmapsto{\;\mathListFunctor\;}\mathTupleWith{\mathListType{a},\mathMap}\\
 \mathTupleWith{\mathTypeParameter{a},\mathGeneralMap}
-&\xmapsto{\;\mathMaybeFunctor\;}\mathTupleWith{\mathMaybeType{\mathTypeParameter{a}},\mathMaybeMap}
+&\xmapsto{\;\mathMaybeFunctor\;}\mathTupleWith{\mathMaybeType{a},\mathMaybeMap}
 \end{align}
 これまでの型コンストラクタが例えば$\mathTypeParameter{a}$を
-$\mathListType{\mathTypeParameter{a}}$にだけしていたのに対し，
+$\mathListType{a}$にだけしていたのに対し，
 この写像$\xmapsto{\mathListFunctor}$は
 $\mathTupleWith{\mathTypeParameter{a},\mathGeneralMap}$という組み合わせを
-$\mathTupleWith{\mathListType{\mathTypeParameter{a}},\mathMap}$に変えるところに注目しよう．
+$\mathTupleWith{\mathListType{a},\mathMap}$に変えるところに注目しよう．
 
 このような圏から圏への写像を\keyword{関手}と呼ぶ．
 
@@ -2343,10 +2345,21 @@ Maybe型の変数$\mathMaybeVar{m}$はラップされた値$\mathMaybeWith{z}$�
 \mathIn{}\mathMorphII{\langle\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}}\rangle}{\langle\mathTypeParameter{a}\rangle}{\langle\mathTypeParameter{b}\rangle}\\
 \end{equation}
 を用いるわけにはいかない．
-
+そこで次のような$\mathBind$演算子ただし
+\begin{equation}
+\mathBind
+\mathIn
+\left(\mathTypeParameter{a}\mathMapsTo\mathPureType{b}\right)
+\mathMapsTo
+\mathPureType{a}
+\mathMapsTo
+\mathPureType{b}
+\end{equation}
+を使って
 \begin{equation}
   \mathContainerVar{y}=\phi\mathBind\mathContainerVar{x}
 \end{equation}
+とする．
 
 ---
 
@@ -2561,99 +2574,6 @@ Int（参考）
 \section{余計な話：モナドプラス}
 
 \chapter{IO}
-
-
-
-\part{\haskell の文法}
-
-\chapter{プログラム}
-
-\begin{leader}
-A...
-\end{leader}
-
-
-\section{文字セットとコメント}
-
-\haskell コンパイラを含む多くのコンパイラがUnicode文字セットに対応しているものの，従来からの習慣や英語圏での使いやすさを考慮してか，ASCII文字セットだけでプログラムを書けるようにしているし，またそれを推奨さえしている．
-
-\haskell プログラムもまた，文字定数を除いてはASCII文字セットの範囲で書くことが普通である．そこで我々もその習慣に従うことにしよう．例えば円周率を代入する変数を$\pi$と書きたいところだが，我々は\code{pi}と書く．
-
-数学記号のほとんども，ASCII文字セットの中から記号を組み合わせるか，さもなくば言葉で表現する．例えば\haskell では$\in$の代わりに\code{<-}を使うし，$\wedge$の代わりに\code{and}を使う．
-
-また計算機科学者たちの絶えざる努力にもかかわらず，プログラム中の文字の装飾はこれまでほとんど受け入れられていない．我々は本書で \textrm{f}, \textbf{f}, \textit{f}, $f$ を使い分けてきたが，\haskell プログラム中では全て\code{f}と書く．
-
-以上のような制約にもかかわらず，\haskell プログラムと我々が見えきた「カリー風の」数学記法は本質的に差がない．本書を読み進めてきた読者なら，\haskell プログラムを読むのに苦労はいらないだろう．
-
-なお\haskell では\code{--}から行の終わりまでがコメントとして扱われる．
-
-\section{main関数と一般の関数定義}
-
-\python インタプリタはプログラムを頭から実行していくので，わざわざmain関数を書くことはないが，アプリケーションプログラマにとっての一番の関心事はmain関数の書き方だろう．iOSアプリケーション開発のように，基本的にはmain関数をプログラマが触れないというスタイルもあるが，それでもデバッグの時にはmain関数から辿ることになるので，main関数のありかを知っておくことはいつでも重要だ．
-
-\haskell コンパイラもmain関数をアプリケーションプログラムのエントリポイントとして認識する．というよりも，\haskell プログラムとはmainという一つの関数である．main関数を含む一般の関数はこれまで通り
-\begin{equation}
-\mathMain=\dots
-\end{equation}
-のように関数名のあとに等号$(=)$を置いて定義する．
-
-\cxx でmain関数の型がOSの都合で決められているように，\haskell でもmain関数の型はあらかじめ決められている．その型は\code{main :: IO ()}である．
-
-
-\section{プログラムの本質}
-
-プログラムに与えられた引数やファイルを$x$とし，プログラムの出力を$y$とすると，副作用のないプログラムの本質は
-\begin{equation}
-y=\mathMain x
-\end{equation}
-という$\text{main}$関数であり，それを
-\begin{equation}
-\mathMain=f_1\mathCompose f_2\mathCompose\dots\mathCompose f_n
-\end{equation}
-と部分関数に分解することがプログラマの能力である．
-
-副作用のない関数を合成するのはわけのないことだ．もし\python ならば
-\begin{pythoncode}
-% \begin{pythontab}
-% \code{y} \pthnOp{=} \code{f}${}_1$(\code{f}${}_2$(\code{x}))
-% \end{pythontab}
-\begin{verbatim}
-y = f1(f2(x))
-\end{verbatim}
-\end{pythoncode}
-のように関数を入れ子にしても良いし，読みづらければ途中経過を一時変数にして
-\begin{pythoncode}
-% \begin{pythontab}
-% \code{y}${}_2$ \pthnOp{=} \code{f}${}_2$(\code{x})\\
-% \code{y} \pthnOp{=} \code{f}${}_1$(\pthnId{y}${}_2$)
-% \end{pythontab}
-\begin{verbatim}
-y_2 = f_2(x)
-y = f1(y_2)
-\end{verbatim}
-\end{pythoncode}
-としてもよい．副作用のない関数の場合，これが関数合成の規則である．
-
-プログラムが副作用を持つ場合は，文脈を持った変数に入れると見通しが良くなるのであった．文脈を持った変数を$u,v$とするとき，副作用を持つプログラムは
-\begin{equation}
-v=\mathMain u
-\end{equation}
-という$\text{main}$関数であり，それを
-\begin{equation}
-\mathMain=f_1\mathGeneralMap f_2\mathGeneralMap\dots\mathGeneralMap f_n
-\end{equation}
-と部分関数に分解することがプログラマの能力となる．
-
-\chapter{新しい型の導入}
-
-\section{タプル}
-
-\section{代数型}
-
-
-% 新しいデータ型を作る http://qiita.com/7shi/items/1ce76bde464b4a55c143
-
-\part{モナドから見る世界}
 
 \chapter{代数的構造}
 
@@ -2996,44 +2916,6 @@ I_\mathSet{Z}\mathCompose g=g\mathCompose I_\mathSet{Y}
 A...
 
 
-\chapter{IO}
-
-\section{参照透過性とIO}
-
-\section{アクション}
-
-\section{IOモナド}
-
-\begin{haskellcode}
-\begin{verbatim}
-class
-\end{verbatim}
-\end{haskellcode}
-
-
-\chapter{例外}
-
-\section{例外}
-
-\section{do記法}
-
-\chapter{乱数}
-
-\chapter{状態}
-
-\chapter{非決定性}
-
-\chapter{新しい型を作る}
-
-\chapter{木構造}
-
-\chapter{スペースの使い方}
-
-\chapter{継続}
-
-\section{継続とは}
-
-
 \chapter{圏とモナドとプログラミング言語}
 
 
@@ -3088,8 +2970,140 @@ Abelian Group&$\checkmark$&$\checkmark$&$\checkmark$&$\checkmark$&$\checkmark$\\
 
 \section{ラムダ*}
 
-\part{\cxx17}
-\chapter{\cxx}
+\part{\haskell プログラミング}
+
+\chapter{プログラム}
+
+\begin{leader}
+A...
+\end{leader}
+
+
+\section{文字セットとコメント}
+
+\haskell コンパイラを含む多くのコンパイラがUnicode文字セットに対応しているものの，従来からの習慣や英語圏での使いやすさを考慮してか，ASCII文字セットだけでプログラムを書けるようにしているし，またそれを推奨さえしている．
+
+\haskell プログラムもまた，文字定数を除いてはASCII文字セットの範囲で書くことが普通である．そこで我々もその習慣に従うことにしよう．例えば円周率を代入する変数を$\pi$と書きたいところだが，我々は\code{pi}と書く．
+
+数学記号のほとんども，ASCII文字セットの中から記号を組み合わせるか，さもなくば言葉で表現する．例えば\haskell では$\in$の代わりに\code{<-}を使うし，$\wedge$の代わりに\code{and}を使う．
+
+また計算機科学者たちの絶えざる努力にもかかわらず，プログラム中の文字の装飾はこれまでほとんど受け入れられていない．我々は本書で \textrm{f}, \textbf{f}, \textit{f}, $f$ を使い分けてきたが，\haskell プログラム中では全て\code{f}と書く．
+
+以上のような制約にもかかわらず，\haskell プログラムと我々が見えきた「カリー風の」数学記法は本質的に差がない．本書を読み進めてきた読者なら，\haskell プログラムを読むのに苦労はいらないだろう．
+
+なお\haskell では\code{--}から行の終わりまでがコメントとして扱われる．
+
+\section{main関数と一般の関数定義}
+
+\python インタプリタはプログラムを頭から実行していくので，わざわざmain関数を書くことはないが，アプリケーションプログラマにとっての一番の関心事はmain関数の書き方だろう．iOSアプリケーション開発のように，基本的にはmain関数をプログラマが触れないというスタイルもあるが，それでもデバッグの時にはmain関数から辿ることになるので，main関数のありかを知っておくことはいつでも重要だ．
+
+\haskell コンパイラもmain関数をアプリケーションプログラムのエントリポイントとして認識する．というよりも，\haskell プログラムとはmainという一つの関数である．main関数を含む一般の関数はこれまで通り
+\begin{equation}
+\mathMain=\dots
+\end{equation}
+のように関数名のあとに等号$(=)$を置いて定義する．
+
+\cxx でmain関数の型がOSの都合で決められているように，\haskell でもmain関数の型はあらかじめ決められている．その型は\code{main :: IO ()}である．
+
+
+\section{プログラムの本質}
+
+プログラムに与えられた引数やファイルを$x$とし，プログラムの出力を$y$とすると，副作用のないプログラムの本質は
+\begin{equation}
+y=\mathMain x
+\end{equation}
+という$\text{main}$関数であり，それを
+\begin{equation}
+\mathMain=f_1\mathCompose f_2\mathCompose\dots\mathCompose f_n
+\end{equation}
+と部分関数に分解することがプログラマの能力である．
+
+副作用のない関数を合成するのはわけのないことだ．もし\python ならば
+\begin{pythoncode}
+% \begin{pythontab}
+% \code{y} \pthnOp{=} \code{f}${}_1$(\code{f}${}_2$(\code{x}))
+% \end{pythontab}
+\begin{verbatim}
+y = f1(f2(x))
+\end{verbatim}
+\end{pythoncode}
+のように関数を入れ子にしても良いし，読みづらければ途中経過を一時変数にして
+\begin{pythoncode}
+% \begin{pythontab}
+% \code{y}${}_2$ \pthnOp{=} \code{f}${}_2$(\code{x})\\
+% \code{y} \pthnOp{=} \code{f}${}_1$(\pthnId{y}${}_2$)
+% \end{pythontab}
+\begin{verbatim}
+y_2 = f_2(x)
+y = f1(y_2)
+\end{verbatim}
+\end{pythoncode}
+としてもよい．副作用のない関数の場合，これが関数合成の規則である．
+
+プログラムが副作用を持つ場合は，文脈を持った変数に入れると見通しが良くなるのであった．文脈を持った変数を$u,v$とするとき，副作用を持つプログラムは
+\begin{equation}
+v=\mathMain u
+\end{equation}
+という$\text{main}$関数であり，それを
+\begin{equation}
+\mathMain=f_1\mathGeneralMap f_2\mathGeneralMap\dots\mathGeneralMap f_n
+\end{equation}
+と部分関数に分解することがプログラマの能力となる．
+
+\chapter{新しい型の導入}
+
+\section{タプル}
+
+\section{代数型}
+
+
+% 新しいデータ型を作る http://qiita.com/7shi/items/1ce76bde464b4a55c143
+
+
+\chapter{IO}
+
+\section{参照透過性とIO}
+
+\section{アクション}
+
+\section{IOモナド}
+
+\begin{haskellcode}
+\begin{verbatim}
+class
+\end{verbatim}
+\end{haskellcode}
+
+
+\chapter{例外}
+
+\section{例外}
+
+\section{do記法}
+
+\chapter{乱数}
+
+\chapter{状態}
+
+\chapter{非決定性}
+
+\chapter{新しい型を作る}
+
+\chapter{木構造}
+
+\chapter{スペースの使い方}
+
+\chapter{継続}
+
+\section{継続とは}
+
+
+
+
+\part{Haskellで作る純LISP}
+
+% \part{\cxx17}
+% \chapter{\cxx}
 
 \begin{thebibliography}{99}
 \bibitem{haskellplatform} Haskell.org; \texttt{https://www.haskell.org/}, as of 2016.
