@@ -17,6 +17,7 @@
 \newcommand{\cxx}{\programminglanguage{C}\texttt{++}}
 \newcommand{\cxxzerothree}{\programminglanguage{C}\texttt{++}\programminglanguage{03}}
 \newcommand{\cxxeleven}{\programminglanguage{C}\texttt{++}\programminglanguage{11}}
+\newcommand{\cxxfourteen}{\programminglanguage{C}\texttt{++}\programminglanguage{14}}
 \newcommand{\haskell}{\programminglanguage{Haskell}}
 \newcommand{\java}{\programminglanguage{Java}}
 \newcommand{\lisp}{\programminglanguage{LISP}}
@@ -354,25 +355,32 @@ $\mathBindRight$&右モナド結合 (bind)&\\
 無視することだけはできない．
 それは\haskell がプログラミングの本質に深く関わっているからである．
 
-\haskell というプログラミング言語を知ろうとすると，従来のプログラミング言語の知識が邪魔をする．
-モダンで，人気があって，\haskell から影響を受けた言語，例えば\ruby や\swift の知識さえ，
-\haskell を学ぶ障害になり得る．ではどのようにして\haskell の深みに到達すればいいのだろうか．
+\haskell というプログラミング言語を知ろうとすると，
+従来のプログラミング言語の知識が邪魔をする．
+モダンで，人気があって，\haskell から影響を受けた言語，
+例えば\ruby や\swift の知識さえ，
+\haskell を学ぶ障害になり得る．
+ではどのようにして\haskell の深みに到達すればいいのだろうか．
 
 その答えは，一見遠回りに見えるが，一度抽象数学の高みに登ることである．
 
 と言っても，あわてる必要はない．
 
-近代的なプログラミング言語を知っていれば，すでにある程度抽象数学に足を踏み入れているからである．
-そこで，本書では近代的なプログラマを対象に，プログラミング言語を登山口に抽象数学の山を登り，
+近代的なプログラミング言語を知っていれば，
+すでにある程度抽象数学に足を踏み入れているからである．
+そこで，本書では近代的なプログラマを対象に，
+プログラミング言語を登山口に抽象数学の山を登り，
 その高みから\haskell という森を見下ろすことにする．
 
-さて，登山口にどのプログラミング言語を選ぶのが適当であろうか．IEEE Spectrum の ``The 2015
-Top Ten Programming Languages'' という記事によると「ビッグ5」として\java, \clang,
-\cxx, \python, \csharp\ が挙げられている．そこで本書では，多くのプログラマが読めて，\java,
-\cxx, \csharp\ よりもシンプルで，なおかつ\haskell と対極にある言語である
-\python（バージョン3）を登山口に選ぶことにした．
-念のため書いておくと，\clang は「多くのプログラマが読める」以外にメリットが無く，
-その唯一のメリットさえ最近は怪しくなっているため，登山口候補から外した．
+さて，登山口にどのプログラミング言語を選ぶのが適当であろうか．
+IEEE Spectrum の ``The 2015 Top Ten Programming Languages'' という
+記事によると「ビッグ5」として \java, \clang, \cxx, \python, \csharp\ が
+挙げられている．
+このうち\clang は「多くのプログラマが読める」以外にメリットが無く，
+その唯一のメリットさえ最近は怪しくなっているため，登山口候補から外す．
+残るは \java, \cxx, \csharp\ グループと\python ということになるが，
+シンプルであり，かつ\haskell と対極にある言語である\python（バージョン3）を
+登山口に選ぶことにした．
 
 本書では\python コードはこのように登場する．
 \begin{pythoncode}
@@ -380,10 +388,11 @@ Top Ten Programming Languages'' という記事によると「ビッグ5」と�
 print "Hello, world."
 \end{verbatim}
 \end{pythoncode}
+本書に示すコードは擬似コードではなく，すべて実行可能な本物のコードである．
 
 ところで，一部の章でどうしても型に触れないといけない部分がある．
 \python は動的型付け言語であり，型の説明には不適切であるため，
-この部分だけ理解の助けとして\cxx によるコードを例示した．
+この部分だけ理解の助けとして\cxxfourteen によるコードを例示した．
 この部分はコードを読まなくても先に進める．
 \java ではなく\cxx を採用したのはmacOSでも簡単に試せるようにである．
 型システムに関する限り\cxx よりも\java のほうが簡潔に記述できるが，致し方無い．
@@ -1048,10 +1057,11 @@ f\mathIn
 \section{カリー化}
 
 どのような関数であれ，引数は1個しかとらない．
-引数が2個あるように見える関数として，例えば$fxy$があったとしよう．
-関数適用が左結合であるから，これは$\left(fx\right)y$である．
-ここに$\left(fx\right)$は引数$y$をとる関数であると見ることができる．
-つまり，関数$f$とは引数$x$をとり「引数$y$をとって値を返す関数$\left(fx\right)$を返す」関数であると言える．
+引数が2個あるように見える関数として，例えば$gxy$があったとしよう．
+関数適用が左結合であるから，これは$\left(gx\right)y$である．
+ここに$\left(gx\right)$は引数$y$をとる関数であると見ることができる．
+つまり，関数$f$とは引数$x$をとり
+「引数$y$をとって値を返す関数$\left(gx\right)$を返す」関数であると言える．
 
 二項演算$x+y$は$(+)xy$とも書けたことを思い出そう．これも左結合を思い出すと
 \begin{equation}
