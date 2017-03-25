@@ -350,37 +350,17 @@ $\mathBindRight$&右モナド結合 (bind)&\\
 
 \section{\haskell という森}
 
-これからのプログラマにとって\haskell を無視することはできない．
-スティーブ・ジョブズが言ったように，欠点をあげつらうことも，攻撃することもできるが，
-無視することだけはできない．
-それは\haskell がプログラミングの本質に深く関わっているからである．
+これからのプログラマにとって\haskell を無視することはできない．\haskell の「欠点をあげつらうことも，攻撃することもできるが，無視することだけはできない」のだ．それは\haskell がプログラミングの本質に深く関わっているからである．
 
-\haskell というプログラミング言語を知ろうとすると，
-従来のプログラミング言語の知識が邪魔をする．
-モダンで，人気があって，\haskell から影響を受けた言語，
-例えば\ruby や\swift の知識さえ，
-\haskell を学ぶ障害になり得る．
-ではどのようにして\haskell の深みに到達すればいいのだろうか．
+\haskell というプログラミング言語を知ろうとすると，従来のプログラミング言語の知識が邪魔をする．モダンで，人気があって，\haskell から影響を受けた言語，例えば\ruby や\swift の知識さえ，\haskell を学ぶ障害になり得る．ではどのようにして\haskell の深みに到達すればいいのだろうか．
 
 その答えは，一見遠回りに見えるが，一度抽象数学の高みに登ることである．
 
 と言っても，あわてる必要はない．
 
-近代的なプログラミング言語を知っていれば，
-すでにある程度抽象数学に足を踏み入れているからである．
-そこで，本書では近代的なプログラマを対象に，
-プログラミング言語を登山口に抽象数学の山を登り，
-その高みから\haskell という森を見下ろすことにする．
+近代的なプログラミング言語を知っていれば，すでにある程度抽象数学に足を踏み入れているからである．そこで，本書では近代的なプログラマを対象に，プログラミング言語を登山口に抽象数学の山を登り，その高みから\haskell という森を見下ろすことにする．
 
-さて，登山口にどのプログラミング言語を選ぶのが適当であろうか．
-IEEE Spectrum の ``The 2015 Top Ten Programming Languages'' という
-記事によると「ビッグ5」として \java, \clang, \cxx, \python, \csharp\ が
-挙げられている．
-このうち\clang は「多くのプログラマが読める」以外にメリットが無く，
-その唯一のメリットさえ最近は怪しくなっているため，登山口候補から外す．
-残るは \java, \cxx, \csharp\ グループと\python ということになるが，
-シンプルであり，かつ\haskell と対極にある言語である\python（バージョン3）を
-登山口に選ぶことにした．
+さて，登山口にどのプログラミング言語を選ぶのが適当であろうか．IEEE Spectrum の ``The 2015 Top Ten Programming Languages'' という記事によると「ビッグ5」として \java, \clang, \cxx, \python, \csharp\ が挙げられている．このうち\clang は「多くのプログラマが読める」以外にメリットが無く，その唯一のメリットさえ最近は怪しくなっているため，登山口候補から外す．残るは \java, \cxx, \csharp\ グループと\python ということになるが，シンプルであり，かつ\haskell と対極にある言語である\python（バージョン3）を登山口に選ぶことにした．
 
 本書では\python コードはこのように登場する．
 \begin{pythoncode}
@@ -390,33 +370,17 @@ print "Hello, world."
 \end{pythoncode}
 本書に示すコードは擬似コードではなく，すべて実行可能な本物のコードである．
 
-ところで，一部の章でどうしても型に触れないといけない部分がある．
-\python は動的型付け言語であり，型の説明には不適切であるため，
-この部分だけ理解の助けとして\cxxfourteen によるコードを例示した．
-この部分はコードを読まなくても先に進める．
-\java ではなく\cxx を採用したのはmacOSでも簡単に試せるようにである．
-型システムに関する限り\cxx よりも\java のほうが簡潔に記述できるが，致し方無い．
+ところで，一部の章でどうしても型に触れないといけない部分がある．\python は動的型付け言語であり，型の説明には不適切であるため，この部分だけ理解の助けとして\cxxfourteen によるコードを例示した．この部分はコードを読まなくても先に進める．\java ではなく\cxx を採用したのはmacOSでも簡単に試せるようにである．型システムに関する限り\cxx よりも\java のほうが簡潔に記述できるが，致し方無い．
 
 \section{関数型プログラミング}
 
-ところで，プログラマはなぜ\haskell を習得しなければならないのだろう．
-それは\haskell と\keyword{関数型プログラミング}の間に密接な関係があるからである．
+ところで，プログラマはなぜ\haskell を習得しなければならないのだろう．それは\haskell と\keyword{関数型プログラミング}の間に密接な関係があるからである．
 
-関数型プログラミングとはプログラミングにおける一種のスローガンのようなもので，
-どの言語を用いたから関数型でどの言語を用いたから関数型ではない，というものではない．
-しかし，関数型プログラミングを強くサポートする言語と，そうでない言語とがある．
-ここら辺の事情はオブジェクト指向プログラミングとプログラミング言語の関係と似ている．
-\haskell は関数型プログラミングを強くサポートし，\python はほとんどサポートしない．
+関数型プログラミングとはプログラミングにおける一種のスローガンのようなもので，どの言語を用いたから関数型でどの言語を用いたから関数型ではない，というものではない．しかし，関数型プログラミングを強くサポートする言語と，そうでない言語とがある．ここら辺の事情はオブジェクト指向プログラミングとプログラミング言語の関係と似ている．\haskell は関数型プログラミングを強くサポートし，\python はほとんどサポートしない．
 
-関数型プログラミングの特徴を一言で言えば，プログラム中の\keyword{破壊的代入}を禁止することである．
-変数$x$に$1$という数値が一度代入されたら，変数$x$の値をプログラム中に書き換える，
-すなわち破壊的代入をすることはできない．この結果，変数の値はプログラムのどこでも，
-どの時点で読み出しても同じであることが保証される．これを変数の\keyword{参照透過性}と呼ぶ．
+関数型プログラミングの特徴を一言で言えば，プログラム中の\keyword{破壊的代入}を禁止することである．変数$x$に$1$という数値が一度代入されたら，変数$x$の値をプログラム中に書き換える，すなわち破壊的代入をすることはできない．この結果，変数の値はプログラムのどこでも，どの時点で読み出しても同じであることが保証される．これを変数の\keyword{参照透過性}と呼ぶ．
 
-プログラム全体に参照透過性があると，そのプログラムはブロックに分割しやすく，
-各々のブロックは再利用しやすい．またプログラムのどの断片から読み始めても，
-全体の構造を見失いにくい．
-これが関数型プログラミングとそれを強くサポートする\haskell を習得する理由である．
+プログラム全体に参照透過性があると，そのプログラムはブロックに分割しやすく，各々のブロックは再利用しやすい．またプログラムのどの断片から読み始めても，全体の構造を見失いにくい．これが関数型プログラミングとそれを強くサポートする\haskell を習得する理由である．
 
 % \section{数学とプログラミングの関係*}
 
@@ -432,25 +396,17 @@ print "Hello, world."
 
 \section{\haskell コンパイラの準備*}
 
-\haskell コンパイラの中で最もよく使われているものは Glasgow's Haskell Compiler (GHC) である．
-本書に登場する\haskell コードもすべてGHCでテストをしている．
+\haskell コンパイラの中で最もよく使われているものは Glasgow's Haskell Compiler (GHC) である．本書に登場する\haskell コードもすべてGHCでテストをしている．
 
-GHCは公式サイト\cite{haskellplatform}からダウンロード可能であるが，
-GNU/Linuxシステム（以下Linux），macOSはそれぞれのパッケージマネージャから
-インストールすることを勧める．
-インストール方法は以下の参考文献にアクセスしてもらいたい．
+GHCは公式サイト\cite{haskellplatform}からダウンロード可能であるが，GNU/Linuxシステム（以下Linux），macOSはそれぞれのパッケージマネージャからインストールすることを勧める．インストール方法は以下の参考文献にアクセスしてもらいたい．
 \begin{description}
-\item[Linux] パッケージマネージャからghciをインストールする．
-Debian系ならAPT，Red Hat系ならYumを使うのが一般的であろう．
-文献\cite{linux}を参考にしてもらいたい．
-\item[macOS] 文献\cite{osx}にHomebrewのインストール方法が書かれているので，
-Homebrewのインストールまでしておき，ターミナルで
+\item[Linux] パッケージマネージャからghciをインストールする．Debian系ならAPT，Red Hat系ならYumを使うのが一般的であろう．文献\cite{linux}を参考にしてもらいたい．
+\item[macOS] 文献\cite{osx}にHomebrewのインストール方法が書かれているので，Homebrewのインストールまでしておき，ターミナルで
 \begin{verbatim}
 $ brew install ghci
 \end{verbatim}
 とする．（本書執筆時点でHaskell Stackという新しいパッケージングシステムが登場してきている．
-将来的にはGHC本体もHaskell Stackからインストールすることが望ましくなるだろう．
-Haskell Stackを用いたGHCのインストールはmacOSではHomebrewを用いて
+将来的にはGHC本体もHaskell Stackからインストールすることが望ましくなるだろう．Haskell Stackを用いたGHCのインストールはmacOSではHomebrewを用いて
 \begin{verbatim}
 $ brew install haskell-stack
 $ stack install ghc
@@ -461,51 +417,31 @@ $ stack install ghc
 
 \section{余計な話: 本書の構成*}
 
-ところで，各章の終りにはこのような「余計な話」の節を設けている．
-余計な話には，本書を読み進めるに当たって本質的ではない話を詰め込んでいる．
-ではなぜ書くかというと，これは筆者が頭を整理するために書くのである．
-なので，筆者が何を思って本書を執筆していたかを知りたいときが万が一来れば，目を通してもらいたい．
+ところで，各章の終りにはこのような「余計な話」の節を設けている．余計な話には，本書を読み進めるに当たって本質的ではない話を詰め込んでいる．ではなぜ書くかというと，これは筆者が頭を整理するために書くのである．なので，筆者が何を思って本書を執筆していたかを知りたいときが万が一来れば，目を通してもらいたい．
 
 最初の余計な話は本書の構成である．
 
-そもそも本の構成など，目次を見ればわかることであるが，執筆時点では目次がまだない．
-そこで，筆者がときどきこの節を読み返し，全体の構成を確認しているのである．
+そもそも本の構成など，目次を見ればわかることであるが，執筆時点では目次がまだない．そこで，筆者がときどきこの節を読み返し，全体の構成を確認しているのである．
 
-本書は3部構成になっている．第I部はプログラミング言語から抽象数学への登山である．
-第II部は抽象数学の山頂から\haskell の森へ下っていく道である．
-第III部はこれまで歩いた道全体を俯瞰する．
+本書は3部構成になっている．第I部はプログラミング言語から抽象数学への登山である．第II部は抽象数学の山頂から\haskell の森へ下っていく道である．第III部はこれまで歩いた道全体を俯瞰する．
 
-第I部は対応する\haskell のコードを脚注に記載している．
-脚注部分は\haskell を一通り覚えた後で読み返してもらいたい．\footnote{\haskell の
-コードは\code{x = 1}のようにタイプライタ体で書く．}
+第I部は対応する\haskell のコードを脚注に記載している．脚注部分は\haskell を一通り覚えた後で読み返してもらいたい．\footnote{\haskell のコードは\code{x = 1}のようにタイプライタ体で書く．}
 
 
 \chapter{カリー風な書き方}
 
 \begin{leader}
-本書では一般の数学書やプログラミングの教科書からは少し異なった記法を用いる．
-ある概念が発明されてからずっと後になって正しい記法が見つかり，
-それがきっかけとなって正しく理解されるという現象は歴史上よくあることである．
-本書でも様々な新しい記号，記法を導入するが，この章では既に比較的広く知られている記法を紹介する．
+本書では一般の数学書やプログラミングの教科書からは少し異なった記法を用いる．ある概念が発明されてからずっと後になって正しい記法が見つかり，それがきっかけとなって正しく理解されるという現象は歴史上よくあることである．本書でも様々な新しい記号，記法を導入するが，この章では既に比較的広く知られている記法を紹介する．
 \end{leader}
 
 \section{関数}
 
-数学やプログラミミング言語には書き方に一定の決まりがある．
-この章ではまず「カリー風の」数式記述方式を見てみることにする．
-「カリー風」というのは，数学者ハスケル・カリーから名前を借りた言い方で，
-筆者が勝手に命名したものだ．
+数学やプログラミミング言語には書き方に一定の決まりがある．この章ではまず「カリー風の」数式記述方式を見てみることにする．「カリー風」というのは，数学者ハスケル・カリーから名前を借りた言い方で，筆者が勝手に命名したものだ．
 
-カリー風の書き方は数学の教科書やプログラミングの教科書で見かけるものとは若干違うが，
-圧倒的にシンプルで\haskell との親和性も高く，慣れてくると非常に読みやすいものなので，
-本書でも全面的に採用する．
+カリー風の書き方は数学の教科書やプログラミングの教科書で見かけるものとは若干違うが，圧倒的にシンプルで\haskell との親和性も高く，慣れてくると非常に読みやすいものなので，本書でも全面的に採用する．
 
-まずは\keyword{関数}から見ていくことにしよう．
-\python や一般的な数学書では引数$x$をとる関数$f$を
+まずは\keyword{関数}から見ていくことにしよう．\python や一般的な数学書では引数$x$をとる関数$f$を
 \begin{pythoncode}
-% \begin{pythontab}
-% \pthnId{f}(\pthnId{x})
-% \end{pythontab}
 \begin{verbatim}
 f(x)
 \end{verbatim}
@@ -514,33 +450,23 @@ f(x)
 \begin{equation}
 fx
 \end{equation}
-と書くことにする．\footnote{\haskell では
-関数\code{f}に引数\code{x}を適用させることを \code{f x} と書く．}
+と書くことにする．\footnote{\haskell では関数\code{f}に引数\code{x}を適用させることを \code{f x} と書く．}
 
 % 本書では\python のコード片は上述のように囲みにいれることにする．
 
-関数$f$に引数$x$を「食わせる」ことを\keyword{関数適用}と呼ぶ．
-もし$fx$と書いてあったら，それは$f$と$x$の積，つまり$f*x$ではなく，
-従来の$f\left(x\right)$すなわち関数$f$に引数$x$を与えているものと解釈する．
-高校生向けの数学書でも$\sin x$のように三角関数に限ってはカリー風に書くことになっているので，
-まるで馴染みがないということもないだろう．
+関数$f$に引数$x$を「食わせる」ことを\keyword{関数適用}と呼ぶ．もし$fx$と書いてあったら，それは$f$と$x$の積，つまり$f*x$ではなく，従来の$f\left(x\right)$すなわち関数$f$に引数$x$を与えているものと解釈する．高校生向けの数学書でも$\sin x$のように三角関数に限ってはカリー風に書くことになっているので，まるで馴染みがないということもないだろう．
 
 複数引数をとる関数を\python では
 \begin{pythoncode}
-% \begin{pythontab}
-% \pthnId{g}(\pthnId{x}, \pthnId{y})
-% \end{pythontab}
 \begin{verbatim}
 g(x, y)
 \end{verbatim}
 \end{pythoncode}
-と書くが，これも括弧が冗長なので今後は$gxy$と書く．
-この場合式$gxy$は左を優先して結合する．つまり
+と書くが，これも括弧が冗長なので今後は$gxy$と書く．この場合式$gxy$は左を優先して結合する．つまり
 \begin{equation}
 gxy=\left(gx\right)y
 \end{equation}
-である．
-引数に「飢えた」関数$\left(gx\right)$を\keyword{部分適用}された関数と呼ぶ．
+である．引数に「飢えた」関数$\left(gx\right)$を\keyword{部分適用}された関数と呼ぶ．
 
 このように式の左側を優先的に演算していくことを\keyword{左結合}と呼ぶ．関数適用は左結合である．
 
@@ -548,9 +474,6 @@ gxy=\left(gx\right)y
 
 引数$x$をとり値$1+x$を返す\keyword{ラムダ式}を\python では
 \begin{pythoncode}
-% \begin{pythontab}
-% \pthnKeyword{lambda} \pthnId{x}: $1$ \pthnOp{+} \pthnId{x}
-% \end{pythontab}
 \begin{verbatim}
 lambda x: 1 + x
 \end{verbatim}
@@ -559,13 +482,7 @@ lambda x: 1 + x
 \begin{equation}
 \mathLambdaExpression{x}{1+x}
 \end{equation}
-と書くことにする．
-この式はラムダ式を発明したチャーチのオリジナルの論文の記法であれば$\Hat x\,.\,1+x$と書かれたところであり，
-現在でも多くの書物で$\lambda x\,.\,1+x$と記述されるところである．
-しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，
-ピリオド記号$\left(.\right)$が今後登場する二項演算子$\cdot$と紛らわしいため，
-上述の記法を用いる．\footnote{\haskell では
-ラムダ式$\mathLambdaExpression{x}{1+x}$を \code{\textbackslash x -> 1 + x} と書く．}
+と書くことにする．この式はラムダ式を発明したチャーチのオリジナルの論文の記法であれば$\Hat x\,.\,1+x$と書かれたところであり，現在でも多くの書物で$\lambda x\,.\,1+x$と記述されるところである．しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号$\left(.\right)$が今後登場する二項演算子$\cdot$と紛らわしいため，上述の記法を用いる．\footnote{\haskell ではラムダ式$\mathLambdaExpression{x}{1+x}$を\code{\textbackslash x -> 1 + x} と書く．}
 
 ラムダ式は関数である．ラムダ式を適用するには，ラムダ式を括弧で包む必要がある．例を挙げる．
 \begin{equation}
@@ -579,42 +496,23 @@ lambda x: 1 + x
 \end{equation}
 のように引数を並べて書く．
 
-本書では新たに，次のラムダ式記法も導入する．
-式中に記号$\mathAnonymousParameter$が現れた場合，
-その式全体がラムダ式であるとみなす．
-記号$\mathAnonymousParameter$の部分には引数が入る．
-第$n$番目の$\mathAnonymousParameter$には第$n$番目の引数が入る．
-例えばラムダ式$\mathLambdaExpression{xy}{x+y}$は
+本書では新たに，次のラムダ式記法も導入する．式中に記号$\mathAnonymousParameter$が現れた場合，その式全体がラムダ式であるとみなす．記号$\mathAnonymousParameter$の部分には引数が入る．第$n$番目の$\mathAnonymousParameter$には第$n$番目の引数が入る．例えばラムダ式$\mathLambdaExpression{xy}{x+y}$は
 \begin{equation}
 \mathAnonymousParameter+\mathAnonymousParameter
 \end{equation}
-と書いても良い．
-式を左から読んで1番目の$\mathAnonymousParameter$が元々の$x$すなわち第1引数を，
-2番目の$\mathAnonymousParameter$が元々の$y$すなわち第2引数を意味する．
-この省略記法はプログラミング言語\scheme における\code{cut}プロシジャに由来する．\footnote{この記法は\haskell にはない．}
-
-% let, where.
+と書いても良い．式を左から読んで1番目の$\mathAnonymousParameter$が元々の$x$すなわち第1引数を，2番目の$\mathAnonymousParameter$が元々の$y$すなわち第2引数を意味する．この省略記法はプログラミング言語\scheme における\code{cut}プロシジャに由来する．\footnote{この記法は\haskell にはない．}
 
 \section{関数定義}
 
 関数$f$を$fx=1+x$としたいときに，\python では
 \begin{pythoncode}
-% \begin{pythontab}
-% \pthnKeyword{def} \pthnId{f}(\pthnId{x}):\\
-% \>\pthnKeyword{return} $1$ \pthnOp{+} \pthnId{x}
-% \end{pythontab}
 \begin{verbatim}
 def f(x):
   return 1 + x
 \end{verbatim}
 \end{pythoncode}
-と書くことが普通である．
-これは，ある値をとってある値を返す関数の記述方法としてはいささかオーバーキルである．
-事実，ラムダ式を用いた
+と書くことが普通である．これは，ある値をとってある値を返す関数の記述方法としてはいささかオーバーキルである．事実，ラムダ式を用いた
 \begin{pythoncode}
-% \begin{pythontab}
-% \pthnId{f} \pthnOp{=} \pthnKeyword{lambda} \pthnId{x}: $1$ \pthnOp{+} \pthnId{x}
-% \end{pythontab}
 \begin{verbatim}
 f = lambda x: 1 + x
 \end{verbatim}
@@ -630,13 +528,9 @@ f=\mathLambdaExpression{x}{1+x}
 fx=1+x
 \end{equation}
 と書いても良い．\footnote{\haskell では
-$f=\mathLambdaExpression{x}{1+x}$を\code{f = \textbackslash x -> 1 + x}と書き，
-$fx=1+x$を\code{f x = 1 + x}と書く．}
+$f=\mathLambdaExpression{x}{1+x}$を\code{f = \textbackslash x -> 1 + x}と書き，$fx=1+x$を\code{f x = 1 + x}と書く．}
 
-関数に\keyword{スペシャルバージョン}がある場合はそれらを列挙する．
-例えば引数が$0$の場合は特別に戻り値も$0$であり，
-その他の場合は関数$f$と同じ振る舞いをする関数$f'$を考える．
-このとき$f'$は
+関数に\keyword{スペシャルバージョン}がある場合はそれらを列挙する．例えば引数が$0$の場合は特別に戻り値も$0$であり，その他の場合は関数$f$と同じ振る舞いをする関数$f'$を考える．このとき$f'$は
 \begin{equation}
 \left\{
 \begin{split}
@@ -645,16 +539,14 @@ f'x&=1+x
 \end{split}
 \right.
 \end{equation}
-ように定義する．
-これを関数の\keyword{パタンマッチ}と呼ぶ．\footnote{\haskell では
+ように定義する．これを関数の\keyword{パタンマッチ}と呼ぶ．\footnote{\haskell では
 \begin{verbatim}
   f' 0 = 0
   f' x = 1 + x
 \end{verbatim}
 と書く．}
 
-関数のパタンマッチは，関数の内部に書いても良い．
-関数内部にパタンマッチを描きたい場合は
+関数のパタンマッチは，関数の内部に書いても良い．関数内部にパタンマッチを描きたい場合は
 \begin{equation}
 f'x=\mathCase{x}{\left\{
 \begin{split}
@@ -663,9 +555,7 @@ f'x=\mathCase{x}{\left\{
 \end{split}
 \right.}
 \end{equation}
-のように書く．
-ここに$\_$は任意の値の意味である．
-パタンマッチは上から順番にマッチングしていくため，この場合は$0$以外を意味する．\footnote{\haskell では
+のように書く．ここに$\_$は任意の値の意味である．パタンマッチは上から順番にマッチングしていくため，この場合は$0$以外を意味する．\footnote{\haskell では
 \begin{verbatim}
   f' x = case x of
     0 -> 0
@@ -673,9 +563,7 @@ f'x=\mathCase{x}{\left\{
 \end{verbatim}
 と書く．}
 
-関数定義に\keyword{場合分け}が必要な場合は\keyword{ガード}を用いる．
-例えば引数の値が負の場合は$-1$を，$0$の場合は$0$を，
-それ以外の場合は関数$f$と同じ振る舞いをする関数$f''$は
+関数定義に\keyword{場合分け}が必要な場合は\keyword{ガード}を用いる．例えば引数の値が負の場合は$-1$を，$0$の場合は$0$を，それ以外の場合は関数$f$と同じ振る舞いをする関数$f''$は
 \begin{equation}
 \begin{split}
 f''x&\mathGuard{x<0}=-1\\
@@ -697,25 +585,22 @@ f''x&\mathGuard{x<0}=-1\\
 
 \section{余計な話: 局所変数}
 
-数式が長く続くとき，読みやすさのために局所変数を導入すると便利である．
-例えば
+数式が長く続くとき，読みやすさのために局所変数を導入すると便利である．例えば
 \begin{equation}
-y=f\left(100*x+50\right)
+y=f\left(1+x\right)
 \end{equation}
-という式のうち，先に$100*x+50$の部分に名前をつけておきたいこともあるであろう．
-そんなときは
+という式のうち，先に$1+x$の部分に名前をつけておきたいこともあるであろう．そんなときは
 \begin{equation}
 \label{eq:letin}
-y=\mathLet{\left(x'=100*x+50\right)}{fx'}
+y=\mathLet{\left(x'=1+x\right)}{fx'}
 \end{equation}
-と書くことにする．
-このようにして導入された$x'$を\keyword{局所変数}と呼ぶ．
+と書くことにする．このようにして導入された$x'$を\keyword{局所変数}と呼ぶ．
 
 式\eqref{eq:letin}は局所変数を後ろに回して
 \begin{equation}
-y=fx'\mathWhere x'=100*x+50
+y=fx'\mathWhere x'=1+x
 \end{equation}
-のように書いても良い．\footnote{\haskell では\code{y = let x' = 100 * x + 50 in f x'}および\code{y = f x' where x' = 100 * x + 50}のように書く．}
+のように書いても良い．\footnote{\haskell では\code{y = let x' = 1 + x in f x'}および\code{y = f x' where x' = 1 + x}のように書く．}
 
 式\eqref{eq:letin}はラムダ式を使った糖衣構文であり，一般に
 \begin{equation}
@@ -726,47 +611,24 @@ y=fx'\mathWhere x'=100*x+50
 \chapter{さらにカリー風な書き方}
 
 \begin{leader}
-我々は関数とラムダ式の「カリー風」な書き方を見てきた．
-この章ではさらに演算子，関数合成，条件分岐，再帰についても「カリー風」な書き方を見ていく．
-実際，関数合成，条件分岐，再帰はプログラムの全てと言っても良いので，こ
-の章を終えればあらゆるプログラムを「カリー風」に書くことができるようになる．
+我々は関数とラムダ式の「カリー風」な書き方を見てきた．この章ではさらに演算子，関数合成，条件分岐，再帰についても「カリー風」な書き方を見ていく．実際，関数合成，条件分岐，再帰はプログラムの全てと言っても良いので，この章を終えればあらゆるプログラムを「カリー風」に書くことができるようになる．
 \end{leader}
 
 \section{演算子}
 
-\keyword{演算子}は関数の特別な姿である．演算子は作用素と呼んでも良い．
-どちらも英語のoperatorの和訳である．
-演算子は普通アルファベット以外のシンボル1個で表現し，
-変数や関数の前に置いて直後の変数や関数に作用させるか，
-2個の変数や関数の中間に置いてその両者に作用させる．
-例えば$-x$のマイナス記号$(-)$は変数の前に置いて直後の変数$(x)$に作用する演算子であり，
+\keyword{演算子}は関数の特別な姿である．演算子は作用素と呼んでも良い．どちらも英語のoperatorの和訳である．演算子は普通アルファベット以外のシンボル1個で表現し，変数や関数の前に置いて直後の変数や関数に作用させるか，2個の変数や関数の中間に置いてその両者に作用させる．例えば$-x$のマイナス記号$(-)$は変数の前に置いて直後の変数$(x)$に作用する演算子であり，
 $x+y$のプラス記号$(+)$は2個の変数の間に置いてその両者$\left(x,y\right)$に作用する．
 
-1個の変数または関数に作用する演算子を\keyword{単項演算子}と呼び，
-2個の変数または関数に作用する演算子を\keyword{二項演算子}と呼ぶ．
-本書では単項演算子を二つの例外を除いて変数の前に置く，すなわち\keyword{前置}する．
-二つの例外とは，数学者が自然数$n$の階乗をしばしば$n!$と書き，
-実数$x$の逆数（乗法逆元）を$x^{-1}$と書くことに倣い，
-このふたつだけは本書でも例外的に前置しない単項演算子とする．
+1個の変数または関数に作用する演算子を\keyword{単項演算子}と呼び，2個の変数または関数に作用する演算子を\keyword{二項演算子}と呼ぶ．本書では単項演算子を二つの例外を除いて変数の前に置く，すなわち\keyword{前置}する．二つの例外とは，数学者が自然数$n$の階乗をしばしば$n!$と書き，実数$x$の逆数（乗法逆元）を$x^{-1}$と書くことに倣い，このふたつだけは本書でも例外的に前置しない単項演算子とする．
 
-二項演算子のうちよく使われるものは和$(+)$，積$(*)$，論理和$(\vee)$，論理積$(\wedge)$，
-同値$(\equiv)$，大なり$(>)$，小なり$(<)$等である．
-二項演算子はたとえ積記号であっても省略できない．
-二項演算子は多数あるので，その都度説明する．
+二項演算子のうちよく使われるものは和$(+)$，積$(*)$，論理和$(\vee)$，論理積$(\wedge)$，同値$(\equiv)$，大なり$(>)$，小なり$(<)$等である．二項演算子はたとえ積記号であっても省略できない．二項演算子は多数あるので，その都度説明する．
 
-二項演算子は中置することが基本であるが，括弧で包むことで前置することも可能である．
-任意の二項演算子$\mathAnyBinaryOperator$について
-$x\mathAnyBinaryOperator y$及び$\left(\mathAnyBinaryOperator\right)xy$は
-全く同じ意味である．すなわち
+二項演算子は中置することが基本であるが，括弧で包むことで前置することも可能である．任意の二項演算子$\mathAnyBinaryOperator$について$x\mathAnyBinaryOperator y$及び$\left(\mathAnyBinaryOperator\right)xy$は全く同じ意味である．すなわち
 \begin{equation}
 \left(\mathAnyBinaryOperator\right)xy=x\mathAnyBinaryOperator y
 \end{equation}
-である．
-従って，二項演算子と2引数関数に本質的な差はない．
-本書では演算子と関数という用語は全く同じ意味で用いる．\footnote{\haskell では
-任意の二項演算子を括弧で包むことで前置演算子として使うことができる．
-例えば\code{x + y}と \code{(+)x y} は同じ結果を返す．
-逆に任意の二引数関数\code{f}は \code{x `f` y} と書くことで中置することができる．}
+である．従って，二項演算子と2引数関数に本質的な差はない．本書では演算子と関数という用語は全く同じ意味で用いる．
+\footnote{\haskell では任意の二項演算子を括弧で包むことで前置演算子として使うことができる．例えば\code{x + y}と \code{(+)x y} は同じ結果を返す．逆に任意の2引数関数\code{f}は \code{x `f` y} と書くことで中置することができる．}
 
 二項演算子の結合性，すなわち左結合か右結合かは，演算子によって異なる．
 
@@ -778,10 +640,6 @@ $x\mathAnyBinaryOperator y$及び$\left(\mathAnyBinaryOperator\right)xy$は
 
 ある変数に複数の関数を順に適用することはよくあることである．例えば
 \begin{pythoncode}
-% \begin{pythontab}
-% $y=g\left(x\right)$\\
-% $z=f\left(y\right)$
-% \end{pythontab}
 \begin{verbatim}
 y = g(x)
 z = f(y)
@@ -789,25 +647,17 @@ z = f(y)
 \end{pythoncode}
 あるいは，同じことであるが
 \begin{pythoncode}
-% \begin{pythontab}
-% $z=f(g(x))$
-% \end{pythontab}
 \begin{verbatim}
 z = f(g(x))
 \end{verbatim}
 \end{pythoncode}
 とすることがある．
 
-ここで，引数のことは忘れて，関数$f$と関数$g$を先に\keyword{合成}しておきたいとしよう．
-その合成を$f\mathCompose g$と書く．合成はラムダ式を使って
+ここで，引数のことは忘れて，関数$f$と関数$g$を先に\keyword{合成}しておきたいとしよう．その合成を$f\mathCompose g$と書く．合成はラムダ式を使って
 \begin{equation}
 f\mathCompose g=f\left(g\mathAnonymousParameter\right)
 \end{equation}
-と定義できる．
-関数合成の演算子$\mathCompose$は関数適用よりも優先順位が高く，
-$\left(f\mathCompose g\right)x$は単に$f\mathCompose g\,x$と書いても良い．
-この記法は括弧の数を減らすためにしばしば用いられる．\footnote{\haskell では
-関数\code{f}と関数\code{g}の合成は\code{f.g}である．}
+と定義できる．関数合成の演算子$\mathCompose$は関数適用よりも優先順位が高く，$\left(f\mathCompose g\right)x$は単に$f\mathCompose g\,x$と書いても良い．この記法は括弧の数を減らすためにしばしば用いられる．\footnote{\haskell では関数\code{f}と関数\code{g}の合成は\code{f.g}である．}
 
 関数合成演算子とは逆に，
 優先順位の低い\keyword{関数適用演算子}も考えておくと括弧の数を減らすのに便利である．
@@ -851,9 +701,8 @@ fx=\mathIf x\equiv0\mathThen0\mathElse1+x
 $\mathThen$節も$\mathElse$節も省略できないものとする．
 $\mathIf$節の式の値が真$(\mathTrue)$であれば$\mathThen$節の式が評価され，
 偽$(\mathFalse)$であれば$\mathElse$節の式が評価される．
-我々の条件式は\clang/\cxx における三項演算子と等しい．\footnote{\haskell では
-$fx=\mathIf x\equiv0\mathThen0\mathElse1+x$を
-\code{f x = if x == 0 then 0 else 1+x}と書く．}
+我々の条件式は\clang/\cxx における三項演算子と等しい．
+\footnote{\haskell では$fx=\mathIf x\equiv0\mathThen0\mathElse1+x$を\code{f x = if x == 0 then 0 else 1 + x}と書く．}
 
 $\mathIf$節の中身は真理値を返す関数であれば良いので，関数$p$を
 \begin{equation}
@@ -1521,9 +1370,9 @@ s = t.inject(0) { |x, y| x + y }
 \mathFold_\mathEmptyList^\mathAppend[[0,1,2],[3,4,5],\dots]=[0,1,2,3,4,5,\dots]
 \end{equation}
 であるから，演算子
-\begin{equation}
-\mathFold_\mathEmptyList^\mathAppend
-\end{equation}
+%\begin{equation}
+$\mathFold_\mathEmptyList^\mathAppend$
+%\end{equation}
 はリストを平坦化する\keyword{平坦化演算子}である．
 平坦化演算子はconcat演算子とも呼ばれることもあるが，
 基本的な演算子であるため特別な記号をつけておこう．
