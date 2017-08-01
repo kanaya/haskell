@@ -1,6 +1,6 @@
 \documentclass[a4paper,draft]{jsbook}
 % \usepackage{eulervm}
-\usepackage{amsmath,amssymb,ascmac,bm,marvosym,mathtools,multirow,lmodern,okuverb}
+\usepackage{amsmath,amssymb,ascmac,bm,latexsym,mathtools,multirow,okuverb}
 \makeindex
 
 \def\[{\left[\!\left[}
@@ -49,19 +49,19 @@
 \newenvironment{pythoncode}{\begin{itembox}[r]{\python}}{\end{itembox}}
 \newenvironment{rubycode}{\begin{itembox}[r]{\ruby}}{\end{itembox}}
 
-%% Math (New)
+%% Math
 
-\newcommand{\mConst}[1]{\mathrm{#1}}
+\newcommand{\mConst}[1]{\text{DO-NOT-USE}}
 \newcommand{\mSpecialConst}[1]{\mathrm{#1}} % Internal use
 \newcommand{\mTrue}{\mSpecialConst{True}}
 \newcommand{\mFalse}{\mSpecialConst{False}}
 \newcommand{\mZero}{\O}
 \newcommand{\mOne}{\mSpecialConst{I}}
-\newcommand{\mVar}[1]{#1}
+\newcommand{\mVar}[1]{\text{DO-NOT-USE}}
 \newcommand{\mSpecialVar}[1]{\mathrm{#1}} % Internal use
 \newcommand{\mFirstVar}{\mSpecialVar{first}}
 \newcommand{\mRestVar}{\mSpecialVar{rest}}
-\newcommand{\mFunc}[1]{#1}
+\newcommand{\mFunc}[1]{\text{DO-NOT-USE}}
 \newcommand{\mSpecialSub}[1]{\text{#1}}
 \newcommand{\mLeft}{\mSpecialSub{left}}
 \newcommand{\mRight}{\mSpecialSub{right}}
@@ -128,7 +128,8 @@
 \DeclareMathOperator{\mComp}{\bullet}
 \DeclareMathOperator{\mApply}{\$}
 \DeclareMathOperator{\mApplicativeApply}{\S}
-\DeclareMathOperator{\mFlow}{\leadsto}
+\DeclareMathOperator{\mApplyRight}{\leadsto}
+\DeclareMathOperator{\mFlow}{\Rightarrow}
 \DeclareMathOperator*{\mFoldLeft}{\bigcup}
 \DeclareMathOperator*{\mFoldRight}{\bigsqcup}
 \DeclareMathOperator{\mCons}{:}
@@ -159,10 +160,10 @@
 \DeclareMathOperator{\mCase}{\mCaseKeyword} % Internal use
 \DeclareMathOperator{\mOf}{\mOfKeyword} % Internal use
 \DeclareMathOperator{\mLet}{\mLetKeyword} % Internal use
-\DeclareMathOperator{\mIn}{\mInKeyword} % Internal use
+\DeclareMathOperator{\mInKW}{\mInKeyword} % Internal use
 
 \newcommand{\mCaseOf}[1]{\mCase{#1}\mOf}
-\newcommand{\mLetIn}[2]{\mLet{#1}\mIn{#2}}
+\newcommand{\mLetIn}[2]{\mLet{#1}\mInKW{#2}}
 \newcommand{\mIfThenElse}[3]{\mIf{#1}\mThen{#2}\mElse{#3}}
 \newcommand{\mLambdaExp}[2]{\mLambda{#1}\mLambdaArrow{#2}}
 \newcommand{\mProjection}[2]{#1\mMapsTo#2}
@@ -388,36 +389,43 @@
 \hline
 種類&字体・表記法&例\\
 \hline\hline
-定数&ローマン，大文字&$\mConst{A}, \mConst{B}, \mConnst{C}$\\
-変数&イタリック，小文字&$\mVar{x}, \mVar{y}, \mVar{z}$\\
-関数&イタリック，小文字&$\mFunc{f}, \mFunc{g}, \mFunc{h}$\\
-有名な定数&ローマン，大文字&$\mTrue, \mFalse$\\
+定数&イタリック，大文字&$A,B,C$\\
+変数&イタリック，小文字&$x,y,z$\\
+関数&イタリック，小文字&$f,g,h$\\
+有名な定数&ローマン，大文字&$\mTrue,\mFalse$\\
+有名な変数&ローマン，小文字&$\mFirstVar,\mRestVar$\\
+有名な関数&ローマン，小文字&$\sin,\cos,\tan$\\
 単位元&ローマンに斜線，大文字&$\mZero$\\
-有名な変数&ローマン，小文字&$\mFirstVar, \mRestVar$\\
-有名な関数&ローマン，小文字&$\sin, \cos, \tan$\\
-特別な添字&ローマン，小文字&$x_\mLeft, x_\mRight$\\
+特別な添字&ローマン，小文字&$x_\mLeft,x_\mRight$\\
 \hline
-集合&ボールドローマン，大文字&$\mSet{A}, \mSet{B}, \mSet{C}$\\
-有名な集合&ブラックボード，大文字&$\mRSet, \mQSet, \mZSet$\\
-型パラメタ&ボールドローマン，小文字&$\mTypeParameter{a}, \mTypeParameter{b}, \mTypeParameter{c}$\\
-型&ボールドローマン，大文字&$\mIntType, \mFloatType$\\
+集合&ボールドローマン，大文字&$\mSet{A},\mSet{B},\mSet{C}$\\
+有名な集合&ブラックボード，大文字&$\mBSet,\mZSet,\mRSet$\\
+型パラメタ&ボールドローマン，小文字&$\mTypeParameter{a},\mTypeParameter{b},\mTypeParameter{c}$\\
+型&ボールドローマン，大文字&$\mBoolType,\mIntType,\mFloatType$\\
 \hline
-関手&スラント，大文字&$\mFunctor{F}, \mFunctor{G}, \mFunctor{H}$\\
+関手&スラント，大文字&$\mFunctor{F},\mFunctor{G},\mFunctor{H}$\\
 有名な関手&カリグラフィ，大文字&$\mIFunctor$\\
-型コンストラクタ&イタリック，大文字&$\mathList$, $\mathMaybe$\\
-型クラス&ボールドイタリック，大文字&$\mEqTypeClass, \mIntegralTypeClass$\\
+型コンストラクタ&イタリック，大文字&$\mListTypeConstructor$, $\mMaybeTypeConstructor$\\
+型クラス&ボールドイタリック，大文字&$\mEqTypeClass,\mIntegralTypeClass$\\
 \hline
-キーワード&サンセリフ，小文字&$\mIf, \mOtherwise$\\
+キーワード&サンセリフ，小文字&$\mIf,\mOtherwise$\\
 % リストの構造&サンセリフ，大文字&$\mathFirst$, $\mathRest$\\
 \hline
 リスト&ブラケットで包む&$\mListOf{x,y,z}$\\
 集合&ブレースで包む&$\mSetOf{x,y,z}$\\
 タプル&丸括弧で包む&$\mTupleOf{x,y,z}$\\
+% \hline
+% リスト変数&名前にバーをつける&$\mListVar{x}$\\
+% Maybe変数&名前にチルダをつける&$\mMaybeVar{x}$\\
+%% 関数変数&名前にハットをつける&$\mFuncVar{x}$\\
+% コンテナ変数&名前にチェックをつける&$\mContainerVar{x}$\\
 \hline
-リスト変数&名前にバーをつける&$\mListVar{x}$\\
-Maybe変数&名前にチルダをつける&$\mMaybeVar{x}$\\
-% 関数変数&名前にハットをつける&$\mFuncVar{x}$\\
-コンテナ変数&名前にチェックをつける&$\mContainerVar{x}$\\
+一般の変数・関数&ラテン文字&$x,f$\\
+リスト変数・関数&ギリシア文字&$\xi,\phi$\\
+Maybe変数・関数&ギリシア文字&$\zeta,\varphi$\\
+一般コンテナ変数・関数&ギリシア文字&$\chi,\psi$\\
+モナドを返す関数&ギリシア文字&$\mu,\nu$\\
+モナド変数&ギリシア文字&$\omega$\\
 \hline
 \end{tabular}
 \end{center}
@@ -434,12 +442,13 @@ $\mLambda, \mLambdaArrow$&ラムダ式&\\
 $\mAnonParameter$&無名パラメタ&\\
 \hline
 $\mIn$&集合の元&\\
+$\in$&集合の元&\\
 $\mMapsTo$&写像&\\\hline
 $\mBinOp$&任意の二項演算子&\\
 $\mComp$&関数合成&\\
 $\mApply$&関数適用&\\
 $\mApplicativeApply$&アプリカティブ関数適用&\\
-$\mFlow$&計算の順序&\\\hline
+$\mApplyRight$&関数の右適用&\\\hline
 $\mFoldLeft$&左畳み込み&\\
 $\mFoldRight$&右畳み込み&\\
 \hline
@@ -511,7 +520,7 @@ print "Hello, world."
 
 関数型プログラミングとはプログラミングにおける一種のスローガンのようなもので，どの言語を用いたから関数型でどの言語を用いたから関数型ではない，というものではない．しかし，関数型プログラミングを強くサポートする言語と，そうでない言語とがある．ここら辺の事情はオブジェクト指向プログラミングとプログラミング言語の関係と似ている．\haskell は関数型プログラミングを強くサポートし，\python はほとんどサポートしない．
 
-関数型プログラミングの特徴を一言で言えば，プログラム中の\keyword{破壊的代入}を禁止することである．変数 $\mVar{x}$ に $1$ という数値が一度代入されたら，変数 $\mVar{x}$ の値をプログラム中に書き換える，すなわち破壊的代入をすることはできない．この結果，変数の値はプログラムのどこでも，どの時点で読み出しても同じであることが保証される．これを変数の\keyword{参照透過性}と呼ぶ．
+関数型プログラミングの特徴を一言で言えば，プログラム中の\keyword{破壊的代入}を禁止することである．変数 $x$ に $1$ という数値が一度代入されたら，変数 $x$ の値をプログラム中に書き換える，すなわち破壊的代入をすることはできない．この結果，変数の値はプログラムのどこでも，どの時点で読み出しても同じであることが保証される．これを変数の\keyword{参照透過性}と呼ぶ．
 
 プログラム全体に参照透過性があると，そのプログラムはブロックに分割しやすく，各々のブロックは再利用しやすい．またプログラムのどの断片から読み始めても，全体の構造を見失いにくい．これが関数型プログラミングとそれを強くサポートする\haskell を習得する理由である．
 
@@ -575,7 +584,7 @@ $$\chi'=\psi\mAMap\chi$$
 
 ---
 
-$$\omega=\mu\mBindLeft x$$
+$$\omega=\mu_2\mBindLeft\mu_1x$$
 
 \chapter{カリー風な書き方}
 
@@ -589,7 +598,7 @@ $$\omega=\mu\mBindLeft x$$
 
 カリー風の書き方は数学の教科書やプログラミングの教科書で見かけるものとは若干違うが，圧倒的にシンプルで\haskell との親和性も高く，慣れてくると非常に読みやすいものなので，本書でも全面的に採用する．
 
-まずは\keyword{関数}から見ていくことにしよう．\python や一般的な数学書では引数 $\mVar{x}$ をとる関数 $\mFunc{f}$ を
+まずは\keyword{関数}から見ていくことにしよう．\python や一般的な数学書では引数 $x$ をとる関数 $f$ を
 \begin{pythoncode}
 \begin{verbatim}
 f(x)
@@ -597,13 +606,13 @@ f(x)
 \end{pythoncode}
 と書くが，括弧は冗長なので今後は
 \begin{equation}
-\mFunc{f}\mVar{x}
+fx
 \end{equation}
-と書くことにする．\footnote{\haskell では関数\code{f}に引数\code{x}を適用させることを \code{f x} と書く．}
+と書くことにする．\footnote{\haskell では関数 \code{f} に引数 \code{x} を適用させることを  \code{f x} と書く．}
 
 % 本書では\python のコード片は上述のように囲みにいれることにする．
 
-関数 $\mFunc{f}$ に引数 $\mVar{x} $を「食わせる」ことを\keyword{関数適用}と呼ぶ．もし $\mFunc{f}\mVar{x}$ と書いてあったら，それは $\mFunc{f}$ と $\mVar{x}$ の積，つまり $\mFunc{f}*\mVar{x}$ ではなく，従来の $\mFunc{f}\left(\mVar{x}\right)$ すなわち関数 $\mFunc{f}$ に引数 $\mVar{x}$ を与えているものと解釈する．高校生向けの数学書でも $\sin x$ のように三角関数に限ってはカリー風に書くことになっているので，まるで馴染みがないということもないだろう．
+関数 $f$ に引数 $x$を「食わせる」ことを\keyword{関数適用}と呼ぶ．もし $fx$ と書いてあったら，それは $f$ と $x$ の積，つまり $f*x$ ではなく，従来の $f(x)$ すなわち関数 $f$ に引数 $x$ を与えているものと解釈する．高校生向けの数学書でも $\sin x$ のように三角関数に限ってはカリー風に書くことになっているので，まるで馴染みがないということもないだろう．
 
 複数引数をとる関数を\python では
 \begin{pythoncode}
@@ -611,17 +620,17 @@ f(x)
 g(x, y)
 \end{verbatim}
 \end{pythoncode}
-と書くが，これも括弧が冗長なので今後は $\mFunc{g}\mVar{x}\mVar{y}$ と書く．この場合式 $\mFunc{g}\mVar{x}\mVar{y}$ は左を優先して結合する．つまり
+と書くが，これも括弧が冗長なので今後は $gxy$ と書く．この場合式 $gxy$ は左を優先して結合する．つまり
 \begin{equation}
-\mFunc{g}\mVar{x}\mVar{y}=\left(\mFunc{g}\mVar{x}\right)\mVar{y}
+gxy=(gx)y
 \end{equation}
-である．引数に「飢えた」関数 $\left(\mFunc{g}\mVar{x}\right)$ を\keyword{部分適用}された関数と呼ぶ．
+である．引数に「飢えた」関数 $(gx)$ を\keyword{部分適用}された関数と呼ぶ．
 
 このように式の左側を優先的に演算していくことを\keyword{左結合}と呼ぶ．関数適用は左結合である．
 
 \section{ラムダ式}
 
-引数 $\mVar{x}$ をとり値 $1+\mVar{x}$ を返す\keyword{ラムダ式}を\python では
+引数 $x$ をとり値 $1+x$ を返す\keyword{ラムダ式}を\python では
 \begin{pythoncode}
 \begin{verbatim}
 lambda x: 1 + x
@@ -629,31 +638,31 @@ lambda x: 1 + x
 \end{pythoncode}
 と書くが，我々はより簡潔に
 \begin{equation}
-\mLambdaExp{\mVar{x}}{1+\mVar{x}}
+\mLambdaExp{x}{1+x}
 \end{equation}
-と書くことにする．この式はラムダ式を発明したチャーチのオリジナルの論文の記法であれば $\Hat{\mVar{x}}\,.\,1+\mVar{x}$ と書かれたところであり，現在でも多くの書物で $\lambda\mVar{x}\,.\,1+\mVar{x}$ と記述されるところである．しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号 $\left(.\right)$ が今後登場する二項演算子 $\mMap$ と紛らわしいため，上述の記法を用いる．\footnote{\haskell ではラムダ式 $\mLambdaExp{x}{1+x}$ を \code{\textbackslash x -> 1 + x} と書く．}
+と書くことにする．この式はラムダ式を発明したチャーチのオリジナルの論文の記法であれば $\Hat{x}\,.\,1+x$ と書かれたところであり，現在でも多くの書物で $\lambda x\,.\,1+x$ と記述されるところである．しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号 $(.)$ が今後登場する二項演算子 $\cdot$ と紛らわしいため，上述の記法を用いる．\footnote{\haskell ではラムダ式 $\mLambdaExp{x}{1+x}$ を \code{\textbackslash x -> 1 + x} と書く．}
 
 ラムダ式は関数である．ラムダ式を適用するには，ラムダ式を括弧で包む必要がある．例を挙げる．
 \begin{equation}
-\left(\mLambdaExp{\mVar{x}}{1+\mVar{x}}\right)2
+(\mLambdaExp{x}{1+x})2
 \end{equation}
 この式は結果として $3$ を返す．
 
 複数引数をとるラムダ式は例えば
 \begin{equation}
-\mLambdaExp{\mVar{x}\mVar{y}}{\mVar{x}+\mVar{y}}
+\mLambdaExp{xy}{x+y}
 \end{equation}
 のように引数を並べて書く．
 
-本書では新たに，次のラムダ式記法も導入する．式中に記号 $\mAnonParameter$ が現れた場合，その式全体がラムダ式であるとみなす．記号 $\mAnonParameter$ の部分には引数が入る．第 $n$ 番目の $\mAnonParameter$ には第 $n$ 番目の引数が入る．例えばラムダ式 $\mLambdaExp{\mVar{x}\mVar{y}}{\mVar{x}+\mVar{y}}$ は
+本書では新たに，次のラムダ式記法も導入する．式中に記号 $\mAnonParameter$ が現れた場合，その式全体がラムダ式であるとみなす．記号 $\mAnonParameter$ の部分には引数が入る．第 $n$ 番目の $\mAnonParameter$ には第 $n$ 番目の引数が入る．例えばラムダ式 $\mLambdaExp{xy}{x+y}$ は
 \begin{equation}
 \mAnonParameter+\mAnonParameter
 \end{equation}
-と書いても良い．式を左から読んで1番目の $\mAnonParameter$ が元々の $\mVar{x}$ すなわち第1引数を，2番目の $\mAnonParameter$ が元々の $\mVar{y}$ すなわち第2引数を意味する．この省略記法はプログラミング言語\scheme における\code{cut}プロシジャに由来する．\footnote{この記法は\haskell にはない．}
+と書いても良い．式を左から読んで1番目の $\mAnonParameter$ が元々の $x$ すなわち第1引数を，2番目の $\mAnonParameter$ が元々の $y$ すなわち第2引数を意味する．この省略記法はプログラミング言語\scheme における\code{cut}プロシジャに由来する．\footnote{この記法は\haskell にはない．}
 
 \section{関数定義}
 
-関数 $\mFunc{f}$ を $\mFunc{f}\mVar{x}=1+\mVar{x}$ としたいときに，\python では
+関数 $f$ を $fx=1+x$ としたいときに，\python では
 \begin{pythoncode}
 \begin{verbatim}
 def f(x):
@@ -668,22 +677,22 @@ f = lambda x: 1 + x
 \end{pythoncode}
 も全く同じ意味になるので，ラムダ式を使う方法を基本に据えよう．
 
-関数の定義は，基本的にはラムダ式の変数への代入である．引数 $\mVar{x}$ をとり値 $1+\mVar{x}$ を返す関数 $\mFunc{f}$ は
+関数の定義は，基本的にはラムダ式の変数への代入である．引数 $x$ をとり値 $1+x$ を返す関数 $f$ は
 \begin{equation}
-\mFunc{f}=\mLambdaExp{\mVar{x}}{1+\mVar{x}}
+f=\mLambdaExp{x}{1+x}
 \end{equation}
 と定義できる．ただし，この省略形として
 \begin{equation}
-\mFunc{f}\mVar{x}=1+\mVar{x}
+fx=1+x
 \end{equation}
-と書いても良い．\footnote{\haskell では $\mFunc{f}=\mLambdaExp{\mVar{x}}{1+\mVar{x}}$ を \code{f = \textbackslash x -> 1 + x} と書き，一方 $\mFunc{f}\mVar{x}=1+\mVar{x}$ を \code{f x = 1 + x} と書く．}
+と書いても良い．\footnote{\haskell では $f=\mLambdaExp{x}{1+x}$ を \code{f = \textbackslash x -> 1 + x} と書き，一方 $fx=1+x$ を \code{f x = 1 + x} と書く．}
 
-関数に\keyword{スペシャルバージョン}がある場合はそれらを列挙する．例えば引数が $0$ の場合は特別に戻り値も $0$ であり，その他の場合は関数 $\mFunc{f}$ と同じ振る舞いをする関数 $\mFunc{f'}$ を考える．このとき $\mFunc{f'}$ は
+関数に\keyword{スペシャルバージョン}がある場合はそれらを列挙する．例えば引数が $0$ の場合は特別に戻り値も $0$ であり，その他の場合は関数 $f$ と同じ振る舞いをする関数 $f'$ を考える．このとき $f'$ は
 \begin{equation}
 \left\{
 \begin{split}
-\mFunc{f'}0&=0\\
-\mFunc{f'}\mVar{x}&=1+\mVar{x}
+f'0&=0\\
+f'x&=1+x
 \end{split}
 \right.
 \end{equation}
@@ -696,10 +705,10 @@ f = lambda x: 1 + x
 
 関数のパタンマッチは，関数の内部に書いても良い．関数内部にパタンマッチを描きたい場合は
 \begin{equation}
-\mFunc{f'}\mVar{x}=\mCaseOf{x}\left\{
+f'x=\mCaseOf{x}\left\{
 \begin{split}
 0&\rightarrow0\\
-\mVarAnonParameter&\rightarrow1+\mVar{x}
+\mVarAnonParameter&\rightarrow1+x
 \end{split}
 \right.
 \end{equation}
@@ -711,12 +720,12 @@ f = lambda x: 1 + x
 \end{verbatim}
 と書く．}
 
-関数定義に\keyword{場合分け}が必要な場合は\keyword{ガード}を用いる．例えば引数の値が負の場合は $-1$ を，$0$ の場合は $0$ を，それ以外の場合は関数 $\mFunc{f}$ と同じ振る舞いをする関数 $\mFunc{f''}$ は
+関数定義に\keyword{場合分け}が必要な場合は\keyword{ガード}を用いる．例えば引数の値が負の場合は $-1$ を，$0$ の場合は $0$ を，それ以外の場合は関数 $f$ と同じ振る舞いをする関数 $f''$ は
 \begin{equation}
 \begin{split}
-\mFunc{f''}x&\mGuard{x<0}=-1\\
+f''x&\mGuard{x<0}=-1\\
 &\mGuard{x\equiv 0}=0\\
-&\mGuard{\mathOtherwise}=1+\mVar{x}
+&\mGuard{\mathOtherwise}=1+x
 \end{split}
 \end{equation}
 という風に定義する．\footnote{\haskell では
@@ -735,24 +744,24 @@ f = lambda x: 1 + x
 
 数式が長く続くとき，読みやすさのために局所変数を導入すると便利である．例えば
 \begin{equation}
-\mVar{y}=\mFunc{f}\left(1+\mVar{x}\right)
+y=f(1+x)
 \end{equation}
-という式のうち，先に $1+\mVar{x}$ の部分に名前をつけておきたいこともあるであろう．そんなときは
+という式のうち，先に $1+x$ の部分に名前をつけておきたいこともあるであろう．そんなときは
 \begin{equation}
 \label{eq:letin}
-\mVar{y}\mLetIn{\left(\mVar{x'}=1+\mVar{x}\right)}{\mFunc{f}\mVar{x'}}
+y\mLetIn{(x'=1+x)}{fx'}
 \end{equation}
 と書くことにする．このようにして導入された $\mVar{x'}$ を\keyword{局所変数}と呼ぶ．
 
 式\eqref{eq:letin}は局所変数を後ろに回して
 \begin{equation}
-\mVar{y}=\mFunc{f}\mVar{x'}\mWhere\mVar{x'}=1+\mVar{x}
+y=fx'\mWhere x'=1+x
 \end{equation}
 のように書いても良い．\footnote{\haskell では \code{y = let x' = 1 + x in f x'} および \code{y = f x' where x' = 1 + x} のように書く．}
 
 式\eqref{eq:letin}はラムダ式を使った糖衣構文であり，一般に
 \begin{equation}
-\left\{\mLetIn{\left(\mVar{x'}=\mFunc{g}\mVar{x}\right)}{\mFunc{f}\mVar{x'}}\right\}=(\mLambdaExp{\mVar{x'}}{\mFunc{f}\mVar{x'})(\mFunc{g}\mVar{x}})
+\{\mLetIn{(x'=gx)}{fx'}\}=(\mLambdaExp{x'}{fx'})(gx)
 \end{equation}
 である．
 
@@ -764,16 +773,16 @@ f = lambda x: 1 + x
 
 \section{演算子}
 
-\keyword{演算子}は関数の特別な姿である．演算子は作用素と呼んでも良い．どちらも英語のoperatorの和訳である．演算子は普通アルファベット以外のシンボル1個で表現し，変数や関数の前に置いて直後の変数や関数に作用させるか，2個の変数や関数の中間に置いてその両者に作用させる．例えば $-\mVar{x}$ のマイナス記号 $(-)$ は変数の前に置いて直後の変数 $(\mVar{x})$ に作用する演算子であり，
-$\mVar{x}+\mVar{y}$ のプラス記号 $(+)$ は2個の変数の間に置いてその両者 $\left(\mVar{x},\mVar{y}\right)$ に作用する．
+\keyword{演算子}は関数の特別な姿である．演算子は作用素と呼んでも良い．どちらも英語のoperatorの和訳である．演算子は普通アルファベット以外のシンボル1個で表現し，変数や関数の前に置いて直後の変数や関数に作用させるか，2個の変数や関数の中間に置いてその両者に作用させる．例えば $-x$ のマイナス記号 $(-)$ は変数の前に置いて直後の変数 $(x)$ に作用する演算子であり，
+$x+y$ のプラス記号 $(+)$ は2個の変数の間に置いてその両者 $(x,y)$ に作用する．
 
-1個の変数または関数に作用する演算子を\keyword{単項演算子}と呼び，2個の変数または関数に作用する演算子を\keyword{二項演算子}と呼ぶ．本書では単項演算子を二つの例外を除いて変数の前に置く，すなわち\keyword{前置}する．二つの例外とは，数学者が自然数 $\mVar{n}$ の\keyword{階乗}をしばしば $\mVar{n}!$ と書き，実数$\mVar{x}$の\keyword{逆数}（\keyword{乗法逆元}）を $\mVar{x}^{-1}$ と書くことに倣い，このふたつだけは本書でも例外的に\keyword{後置}する単項演算子とする．
+1個の変数または関数に作用する演算子を\keyword{単項演算子}と呼び，2個の変数または関数に作用する演算子を\keyword{二項演算子}と呼ぶ．本書では単項演算子を二つの例外を除いて変数の前に置く，すなわち\keyword{前置}する．二つの例外とは，数学者が自然数 $n$ の\keyword{階乗}をしばしば $n!$ と書き，実数 $x$ の\keyword{逆数}（\keyword{乗法逆元}）を $x^{-1}$ と書くことに倣い，このふたつだけは本書でも例外的に\keyword{後置}する単項演算子とする．
 
 二項演算子のうちよく使われるものは和 $(+)$，積 $(*)$，論理和 $(\mLogicalOr)$，論理積 $(\mLogicalAnd)$，同値 $(\equiv)$，大なり $(>)$，小なり $(<)$ 等である．二項演算子はたとえ積記号であっても省略できない．二項演算子は多数あるので，その都度説明する．
 
-二項演算子は\keyword{中置}することが基本であるが，括弧で包むことで前置することも可能である．任意の二項演算子 $\mBinOp$ について $\mVar{x}\mBinOp\mVar{y}$ 及び $\left(\mBinOp\right)\mVar{x}\mVar{y}$ は全く同じ意味である．すなわち
+二項演算子は\keyword{中置}することが基本であるが，括弧で包むことで前置することも可能である．任意の二項演算子 $\mBinOp$ について $x\mBinOp y$ 及び $(\mBinOp)xy$ は全く同じ意味である．すなわち
 \begin{equation}
-\left(\mBinOp\right)\mVar{x}\mVar{y}=\mVar{x}\mBinOp\mVar{y}
+\left(\mBinOp\right)xy=x\mBinOp y
 \end{equation}
 である．従って，二項演算子と2引数関数に本質的な差はない．本書では演算子と関数という用語は全く同じ意味で用いる．\footnote{\haskell では任意の二項演算子を括弧で包むことで前置演算子として使うことができる．例えば \code{x + y}と \code{(+)x y} は同じ結果を返す．逆に任意の2引数関数 \code{f}は \code{x `f` y} と書くことで中置することができる．}
 
@@ -800,17 +809,17 @@ z = f(g(x))
 \end{pythoncode}
 とすることがある．
 
-ここで，引数のことは忘れて，関数 $\mFunc{f}$ と関数 $\mFunc{g}$ を先に\keyword{合成}しておきたいとしよう．その合成を $\mFunc{f}\mComp\mFunc{g}$ と書く．合成はラムダ式を使って
+ここで，引数のことは忘れて，関数 $f$ と関数 $g$ を先に\keyword{合成}しておきたいとしよう．その合成を $f\mComp g$ と書く．合成はラムダ式を使って
 \begin{equation}
-f\mathCompose g=f\left(g\mathAnonymousParameter\right)
+f\mComp g=f(g\mAnonParameter)
 \end{equation}
-と定義できる．関数合成の演算子 $\mathCompose$ は関数適用よりも優先順位が高く，$\left(\mFunc{f}\mComp\mFunc{g}\right)\mVar{x}$ は単に $\mFunc{f}\mComp\mFunc{g}\mVar{x}$ と書いても良い．この記法は括弧の数を減らすためにしばしば用いられる．\footnote{\haskell では関数 \code{f} と関数 \code{g} の合成は \code{f.g} である．}
+と定義できる．関数合成の演算子 $\mComp$ は関数適用よりも優先順位が高く，$\left(f\mComp g\right)x$ は単に $f\mComp gx$ と書いても良い．この記法は括弧の数を減らすためにしばしば用いられる．\footnote{\haskell では関数 \code{f} と関数 \code{g} の合成は \code{f.g} である．}
 
 関数合成演算子とは逆に，優先順位の低い\keyword{関数適用演算子}も考えておくと括弧の数を減らすのに便利である．関数適用演算子 $\mApply$ を次のように定義しておく．
 \begin{equation}
-\mFunc{f}\mApply\mFunc{g}\mVar{x}=\mFunc{f}\left(\mFunc{g}\mVar{x}\right)
+f\mApply gx=f\left(gx\right)
 \end{equation}
-演算子 $\mApply$ の優先順位は足し算演算子よりも低いものとする．よって $\mFunc{f}(\mVar{x}+1)$ は $\mFunc{f}\mApply\mVar{x}+1$ と書くこともできる．演算子 $\mApply$ を閉じ括弧のいらない開き括弧と考えてもよい．\footnote{\haskell では $\mFunc{f}\mApply\mFunc{g}\mVar{x}$ を \code{f \$ g x} と書く．}
+演算子 $\mApply$ の優先順位は足し算演算子よりも低いものとする．よって $f(x+1)$ は $f\mApply  x+1$ と書くこともできる．演算子 $\mApply$ を閉じ括弧のいらない開き括弧と考えてもよい．\footnote{\haskell では $f\mApply gx$ を \code{f \$ g x} と書く．}
 
 \section{条件分岐}
 \label{sec:if}
@@ -829,10 +838,10 @@ def f(x):
 
 我々の条件式とは
 \begin{equation}
-\mFunc{f}\mVar{x}
-=\mIfThenElse{\mVar{x}\equiv0}{0}{1+\mVar{x}}
+fx
+=\mIfThenElse{x\equiv0}{0}{1+x}
 \end{equation}
-のように $\mIf$ 節，$\mThen$ 節，及び $\mElse$ 節からなるものであって，$\mThen$ 節も $\mElse$ 節も省略できないものとする．$\mIf$ 節の式の値が真 $(\mTrue)$ であれば $\mThen$ 節の式が評価され，偽 $(\mFalse)$ であれば $\mElse$ 節の式が評価される．我々の条件式は\clang/\cxx における三項演算子と等しい．\footnote{\haskell では $\mFunc{f}\mVar{x}=\mIfThenElse{\mVar{x}\equiv0}{0}{1+\mVar{x}}$ を \code{f x = if x == 0 then 0 else 1 + x} と書く．}
+のように $\mIf$ 節，$\mThen$ 節，及び $\mElse$ 節からなるものであって，$\mThen$ 節も $\mElse$ 節も省略できないものとする．$\mIf$ 節の式の値が真 $(\mTrue)$ であれば $\mThen$ 節の式が評価され，偽 $(\mFalse)$ であれば $\mElse$ 節の式が評価される．我々の条件式は\clang/\cxx における三項演算子と等しい．\footnote{\haskell では $fx=\mIfThenElse{x\equiv0}{0}{1+x}$ を \code{f x = if x == 0 then 0 else 1 + x} と書く．}
 
 $\mIf$ 節の中身は真理値を返す関数であれば良いので，関数 $\mFunc{p}$ を
 \begin{equation}
@@ -840,39 +849,37 @@ $\mIf$ 節の中身は真理値を返す関数であれば良いので，関数 
 \end{equation}
 としておき，
 \begin{equation}
-\mFunc{f}\mVar{x}=\mIfThenElse{\mFunc{p}\mVar{x}}{0}{1+\mVar{x}}
+fx=\mIfThenElse{\mFunc{p}x}{0}{1+x}
 \end{equation}
 と書く方法もしばしば用いられる．
 
 条件式は紙面が許せば次のように書いても良い．
 \begin{equation}
-\mFunc{f}\mVar{x}=\begin{cases}
+fx=\begin{cases}
 0&\mIf x\equiv0\\
-1+\mVar{x}&\mOtherwise
+1+x&\mOtherwise
 \end{cases}
 \end{equation}
 左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっていることに注目しよう．
 
 \section{余計な話: ラムダ式と条件式*}
 
-条件式は一種の\keyword{シンタックスシュガー}である．次のように関数 $\mFunc{t}, \mFunc{f}, \mIfFunc$ を定義すると，
-それぞれ真，偽，条件分岐のように振る舞う．
+条件式は一種の\keyword{シンタックスシュガー}である．次のように関数 $t, f, \mIfFunc$ を定義すると，それぞれ真，偽，条件分岐のように振る舞う．
 \begin{align}
-\mFunc{t}&=\mLambdaExp{\mVar{x}\mVar{y}}{\mVar{x}}\\
-\mFunc{f}&=\mLambdaExp{\mVar{x}\mVar{y}}{\mVar{y}}\\
-\mathIfFunc \mFunc{p}\mVar{x}\mVar{y}&=\mFunc{p}\mVar{x}\mVar{y}
+t&=\mLambdaExp{xy}{x}\\
+f&=\mLambdaExp{xy}{y}\\
+\mathIfFunc pxy&=pxy
 \end{align}
 本当かどうか試してみよう．
 \begin{align}
-\mathIfFunc\mVar{t}\mVar{x}\mVar{y}&=\mVar{t}\mVar{x}\mVar{y}\\
-&=\left(\mLambdaExp{\mVar{x}\mVar{y}}{\mVar{x}}\right)\mVar{x}\mVar{y}\\
-&=\mVar{x}\\
-\mathIfFunc\mFunc{f}\mVar{x}\mVar{y}&=\mFunc{f}\mVar{x}\mVar{y}\\
-&=\left(\mLambdaExp{\mVar{x}\mVar{y}}{\mVar{y}}\right)\mVar{x}\mVar{y}\\
-&=\mVar{y}
+\mathIfFunc txy&=txy\\
+&=(\mLambdaExp{xy}{x})xy\\
+&=x\\
+\mathIfFuncfxy&=fxy\\
+&=(\mLambdaExp{xy}{y})xy\\
+&=y
 \end{align}
-確かに $\mIfFunc\mVar{t}$ は1番目の引数だけを，$\mIfFunc\mVar{f}$ は2番目の引数だけを残す．
-これは条件分岐そのものである．
+確かに $\mIfFunc t$ は1番目の引数だけを，$\mIfFunc f$ は2番目の引数だけを残す．これは条件分岐そのものである．
 
 
 \chapter{型}
@@ -885,7 +892,7 @@ $\mIf$ 節の中身は真理値を返す関数であれば良いので，関数 
 
 整数全てからなる\keyword{集合}を $\mZSet$ で表すことにする．計算機科学で整数と言うと，本当の整数と，例えば $-2^{63}$ から $2^{63}-1$ までの間の整数の意味と両方あるが，今は前者の意味である．
 
-集合 $\mZSet$ の任意の\keyword{元}（\keyword{要素}）$\mVar{z}$ のことを，数学者は $\mVar{z}\in\mZSet$ と書くことを好むが，我々は $\in$ 記号を別な用途に用いたいため
+集合 $\mZSet$ の任意の\keyword{元}（\keyword{要素}）$z$ のことを，数学者は $z\in\mZSet$ と書くことを好むが，我々は $\in$ 記号を別な用途に用いたいため
 \begin{equation}
 \label{eq:totality}
 z\mIn\mZSet
@@ -894,14 +901,14 @@ z\mIn\mZSet
 
 二つの整数 $\mVar{z_1},\mVar{z_2}$ があるとしよう．両者の間には\keyword{足し算} $(+)$ が定義されており，その結果すなわち\keyword{和}もまた整数である，すなわち
 \begin{equation}
-\mVar{z_1}+\mVar{z_2}\mIn\mZSet
+z_1+z_2\mIn\mZSet
 \end{equation}
 である場合，演算子 $+$ が集合 $\mZSet$ に対して\keyword{全域性}を持つと言う．
 % ***CHECK***
-一般に集合 $\mSet{A}$ の元に対して二項演算子 $\mBinOp$ が定義されていて，$\mVar{a_1},\mVar{a_2}\mIn\mSet{A}$ のときに
+一般に集合 $\mSet{A}$ の元に対して二項演算子 $\mBinOp$ が定義されていて，$a_1,a_2\mIn\mSet{A}$ のときに
 \begin{equation}
 \label{eq:totality}
-\mVar{a_1}\mBinOp\mVar{a_2}\mIn\mSet{A}
+a_1\mBinOp a_2\mIn\mSet{A}
 \end{equation}
 である場合，つまり演算子 $\mBinOp$ が集合 $\mSet{A}$ に対して全域性を持つ場合，組み合わせ $\mTupleOf{\mSet{A},\mBinOp}$ を\keyword{マグマ}と呼ぶ．組み合わせ $\mTupleOf{\mZSet,+}$ はマグマの例であり，もちろん $\mTupleOf{\mZSet,*}$ もマグマの例である．マグマはかつて亜群と呼ばれていたが，現在は亜群は別の意味(groupoid)の訳語に使われている．
 
@@ -910,24 +917,24 @@ z\mIn\mZSet
 マグマのうち，演算を2回続ける場合，その順序によって結果が異ならない，つまり
 \begin{equation}
 \label{eq:associativity}
-\left(\mVar{a_1}\mBinOp\mVar{a_2}\right)\mBinOp\mVar{a_3}
-=\mVar{a_1}\mBinOp\left(\mVar{a_2}\mBinOp{a_3}\right)
+\left(a_1\mBinOp a_2\right)\mBinOp a_3
+=a_1\mBinOp\left(a_2\mBinOp{a_3}\right)
 \end{equation}
-ただし $\mVar{a_1},\mVar{a_2},\mVar{a_3}\mIn\mSet{A}$ のとき，組み合わせ $\mTupleOf{\mathSet{A},\mBinOp}$ のことを\keyword{半群}と呼ぶ．
+ただし $a_1,a_2,a_3\mIn\mSet{A}$ のとき，組み合わせ $\mTupleOf{\mathSet{A},\mBinOp}$ のことを\keyword{半群}と呼ぶ．
 この式\eqref{eq:associativity}で表される性質を\keyword{結合性}と呼ぶ．
 組み合わせ $\mTupleOf{\mZSet,+}$, $\mTupleOf{\mZSet,*}$, $\mTupleOf{\mBSet,\mLogicalOr}$, $\mTupleOf{\mBSet,\mLogicalOr}$ はすべて半群である．
 
-ところで，整数全体の集合 $\mZSet$ には特別な元 $0$ がある．この元 $0$ は $\mVar{z}\mIn\mZSet$ のとき
+ところで，整数全体の集合 $\mZSet$ には特別な元 $0$ がある．この元 $0$ は $z\mIn\mZSet$ のとき
 \begin{equation}
-0+\mVar{z}=\mVar{z}+0=\mVar{z}
+0+z=z+0=z
 \end{equation}
 という性質を持つ．
 この $0$ を演算 $+$ における\keyword{単位元}と呼ぶ．足し算のことを\keyword{加法}とも言うので $0$ のことは\keyword{加法単位元}と呼ぶこともあるし，文字通り\keyword{零元}と呼ぶこともある．
 
-一般に，$\mZero_\mLeft,\mZero_\mRight,\mVar{a}\mIn\mSet{A}$ として
+一般に，$\mZero_\mLeft,\mZero_\mRight,a\mIn\mSet{A}$ として
 \begin{equation}
 \label{eq:identity}
-\mZero_\mLeft\mBinOp\mVar{a}=\mVar{a}\mBinOp\mZero_\mRight=\mVar{a}
+\mZero_\mLeft\mBinOp a=a\mBinOp\mZero_\mRight=a
 \end{equation}
 であるとき，元 $\mZero_\mLeft,\mZero_\mRight$ を単位元と呼ぶ．我々は多くの場合 $\mZero_\mLeft=\mZero_\mRight$ であるケースを扱うので，二つの単位元を区別する必要はほとんどないが，必要な場合は $\mZero_\mRight$ を\keyword{左単位元}，$\mZero_\mRight$ を\keyword{右単位元}と呼ぶ．
 
@@ -954,38 +961,38 @@ z\mIn\mZSet
 もう一つ，計算機ならではの型を導入しておこう．それは $\mIntType$ とよく似ているが，特別に文字を扱うために考えられた型 $\mCharType$ である．文字といってもその中身は整数である．整数ではあるが，わざわざ別な型とするのには理由がある．歴史的には文字は小さな整数として表現されることが多かったため，
 計算機のメモリが高価であった時代背景もあり，メモリの節約のために文字を表す型が存在した．現在では，文字が数値にエンコードされる方式がより複雑になってきたために，文字を通常の数値と区別するために特別な型が用意さてれいる．
 
-関数にも型がある．例えば整数引数を一つ取り，整数を返す関数 $\mFunc{f}$ は
+関数にも型がある．例えば整数引数を一つ取り，整数を返す関数 $f$ は
 \begin{equation}
-\mFunc{f}\mIn\mProjection{\mIntType}{\mIntType}
+f\mIn\mProjection{\mIntType}{\mIntType}
 \end{equation}
 という型を持つ．上式は
 \begin{equation}
-\mFunc{f}
-\mIn\underbrace{\mIntType}_{\mVar{x}}
+f
+\mIn\underbrace{\mIntType}_{x}
 \mMapsTo
-\underbrace{\mIntType}_{\mFunc{f}\mVar{x}}
+\underbrace{\mIntType}_{fx}
 \end{equation}
-のようにイメージすると良い．これは関数 $\mFunc{f}$ が集合 $\mIntType$ から集合 $\mIntType$ への写像であると読む．
+のようにイメージすると良い．これは関数 $f$ が集合 $\mIntType$ から集合 $\mIntType$ への写像であると読む．
 
 \section{カリー化}
 
-どのような関数であれ，引数は1個しかとらない．引数が2個あるように見える関数として，例えば $\mFunc{g}\mVar{x}\mVar{y}$ があったとしよう．関数適用が左結合であるから，これは $\left(\mFunc{g}\mVar{x}\right)\mVar{y}$ である．ここに $\left(\mFunc{g}\mVar{x}\right)$ は引数 $\mVar{y}$ をとる関数であると見ることができる．つまり，関数 $\mFunc{f}$ とは引数 $\mVar{x}$ をとり「引数 $\mVar{y}$ をとって値を返す関数 $\left(\mFunc{g}\mVar{x}\right)$ を返す」関数であると言える．
+どのような関数であれ，引数は1個しかとらない．引数が2個あるように見える関数として，例えば $gxy$ があったとしよう．関数適用が左結合であるから，これは $\left(gx\right)y$ である．ここに $\left(gx\right)$ は引数 $y$ をとる関数であると見ることができる．つまり，関数 $f$ とは引数 $x$ をとり「引数 $y$ をとって値を返す関数 $\left(gx\right)$ を返す」関数であると言える．
 
-二項演算 $\mVar{x}+\mVar{y}$ は $(+)\mVar{x}\mVar{y}$ とも書けたことを思い出そう．これも左結合を思い出すと
+二項演算 $x+y$ は $(+)xy$ とも書けたことを思い出そう．これも左結合を思い出すと
 \begin{equation}
-(+)\mVar{x}\mVar{y}=\left((+)\mVar{x}\right)\mVar{y}
+(+)xy=\left((+)x\right)y
 \end{equation}
-であるから，$\mVar{y}$ という引数を $\left((+)\mVar{x}\right)$ という関数に食わせていると解釈できる．
+であるから，$y$ という引数を $\left((+)x\right)$ という関数に食わせていると解釈できる．
 
 ラムダ式の場合は話はもっと単純で，機械的に
 \begin{equation}
-\mLambdaExp{\mVar{x}\mVar{y}}{\mVar{x}+\mVar{y}}
-=\mLambdaExp{\mVar{x}}{\left(\mLambdaExp{\mVar{y}}{\mVar{x}+\mVar{y}}\right)}
+\mLambdaExp{xy}{x+y}
+=\mLambdaExp{x}{\left(\mLambdaExp{y}{x+y}\right)}
 \end{equation}
 のように展開するだけである．矢印$\mLambdaArrow$は\keyword{右結合}である．そこでこのラムダ式は括弧を省略して
 \begin{equation}
-\mLambdaExp{\mVar{x}\mVar{y}}{\mVar{x}+\mVar{y}}
-=\mLambdaExp{\mVar{x}}{\mLambdaExp{\mVar{y}}{\mVar{x}+\mVar{y}}}
+\mLambdaExp{xy}{x+y}
+=\mLambdaExp{x}{\mLambdaExp{y}{x+y}}
 \end{equation}
 とも書かれる．
 
@@ -993,21 +1000,21 @@ z\mIn\mZSet
 
 % \section{関数の型}
 
-整数引数を二つ取り，整数を返す関数 $\mFunc{g}$ は
+整数引数を二つ取り，整数を返す関数 $g$ は
 \begin{equation}
-\mFunc{g}\mIn\mProjection{\mIntType}{\mProjection{\mIntType}{\mIntType}}
+g\mIn\mProjection{\mIntType}{\mProjection{\mIntType}{\mIntType}}
 \end{equation}
 という型を持つ．写像の矢印記号は右結合するので，これは
 \begin{equation}
-\mFunc{g}\mIn\mProjection{\mIntType}{\left(\mProjection{\mIntType}{\mIntType}\right)}
+g\mIn\mProjection{\mIntType}{\left(\mProjection{\mIntType}{\mIntType}\right)}
 \end{equation}
 と同じ意味である．上式は
 \begin{equation*}
 \mVar{g}\mIn
-\underbrace{\mIntType}_\mVar{x}
+\underbrace{\mIntType}_x
 \mMapsTo
-\underbrace{\overbrace{\mIntType}^\mVar{y}
-\mMapsTo\overbrace{\mIntType}^{(\mFunc{g}\mVar{x})\mVar{y}}}_{\mFunc{g}\mVar{x}}
+\underbrace{\overbrace{\mIntType}^y
+\mMapsTo\overbrace{\mIntType}^{(gx)y}}_{gx}
 \end{equation*}
 のようにイメージすると良い．自然言語で考えると $\mIntType$ 型の引数を一つ取り，$\mIntType$ 型の引数を一つ取って $\mIntType$ 型の値を返す関数を返す，と読める．
 
@@ -1219,16 +1226,16 @@ lst = [x * 2 for x in range(0, 10)]
 
 我々は内包表記のかわりにガードを使って
 \begin{equation}
-\mListVar{\xi}=\mListOf{\mVar{x}*2\mGuard{\mVar{x}\mFrom{\mListOf{0,1\dots9}}}}
+\mListVar{\xi}=\mListOf{x*2\mGuard{x\mFrom{\mListOf{0,1\dots9}}}}
 \end{equation}
 のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mFrom$を用いた．
 
 ガードの中の式は複数あっても良い．例えば
 \begin{equation}
 \mListVar{\xi}
-=\mListOf{\mVar{x}+\mVar{y}\mGuard{\mVar{x}\mFrom\mListOf{0,1\dots9},\,\mVar{y}\mFrom\mListOf{0,1\dots5},\,\mVar{x}+\mVar{y}>3}}
+=\mListOf{x+y\mGuard{x\mFrom\mListOf{0,1\dots9},\,y\mFrom\mListOf{0,1\dots5},\,x+y>3}}
 \end{equation}
-は $0\le\mVar{x}\le9$ かつ $0\le\mVar{y}\le5$ の範囲で $\mVar{x}+\mVar{y}>3$となる $\mVar{x}$ 及び $\mVar{y}$ から $\mVar{x}+\mVar{y}$ を並べたリストである．これは\python でいう
+は $0\le x\le9$ かつ $0\le y\le5$ の範囲で $x+y>3$となる $x$ 及び $y$ から $x+y$ を並べたリストである．これは\python でいう
 \begin{pythoncode}
 \begin{verbatim}
 lst = [x + y for x in range(0, 10) for y in range(0, 6) \
@@ -1257,9 +1264,9 @@ lst = [x + y for x in range(0, 10) for y in range(0, 6) \
 \end{equation}
 とする．この等式の両辺は変数ではなく型名であることに注意しよう．型コンストラクタの概念は\python には無い（必要無い）が，静的型付け言語である\cxx の「クラステンプレート」が相当する．\footnote{\haskell では表記上コンテナ型 $\mListType{a}$ と型コンストラクタ式 $\mListTypeConstructor\mType{a}$ を区別せず，両者とも \code{[a]} と書く．}
 
-$\mType{a}$ 型の変数 $\mVar{x}$ を入れた $\mListType{a}$ 型の変数を作る演算子を\keyword{リスト値コンストラクタ}と呼ぶ．$\mListType{a}$ 型の変数のことをリスト変数とも呼ぶ．$\mType{a}$ 型の変数 $\mVar{x}$ からリスト値コンストラクタを使ってリスト $\mListVar{\xi}$ を作ることは
+$\mType{a}$ 型の変数 $x$ を入れた $\mListType{a}$ 型の変数を作る演算子を\keyword{リスト値コンストラクタ}と呼ぶ．$\mListType{a}$ 型の変数のことをリスト変数とも呼ぶ．$\mType{a}$ 型の変数 $x$ からリスト値コンストラクタを使ってリスト $\mListVar{\xi}$ を作ることは
 \begin{equation}
-\mListVar{\xi}=\mListOf{\mVar{x}}
+\mListVar{\xi}=\mListOf{x}
 \end{equation}
 と書く．\footnote{\haskell では \code{xi = [x]} と書く．}
 
@@ -1352,12 +1359,12 @@ map(f, lst)
 \end{pythoncode}
 のように \code{map} 関数を用いる．
 
-このように引数として関数 $\mFunc{f}$ とリスト $\mListOf{x_0,x_1\dots x_n}$ を取り，戻り値として $\mListOf{\mFunc{f}\mVar{x_0},\mFunc{f}\mVar{x_1}\dots\mFunc{f}\mVar{x_n}}$ を返す演算子 $\mMapList$ を考えよう．このとき
+このように引数として関数 $f$ とリスト $\mListOf{x_0,x_1\dots x_n}$ を取り，戻り値として $\mListOf{fx_0,fx_1\dots fx_n}$ を返す演算子 $\mMapList$ を考えよう．このとき
 \begin{equation}
-\mFunc{f}\mMapList\mListOf{\mVar{x_0},\mVar{x_1}\dots\mVar{x_n}}
-=\mListOf{\mFunc{f}\mVar{x_0},\mFunc{f}\mVar{x_1}\dots\mFunc{f}\mVar{x_n}}
+f\mMapList\mListOf{x_0,x_1\dots x_n}
+=\mListOf{fx_0,fx_1\dots fx_n}
 \end{equation}
-であると定義する．この演算子 $\mMapList$ を\keyword{マップ演算子}と呼ぶ．\footnote{\haskell では $\mFunc{f}\mMapList\mListVar{\xi}$ を \code{map f xi} または \code{f `map` xi} と書く．}
+であると定義する．この演算子 $\mMapList$ を\keyword{マップ演算子}と呼ぶ．\footnote{\haskell では $f\mMapList\mListVar{\xi}$ を \code{map f xi} または \code{f `map` xi} と書く．}
 
 マップ演算子の型は
 \begin{equation}
@@ -1377,18 +1384,18 @@ map(f, lst)
 念のため上式に注釈を加えると
 \begin{equation}
 \mMapList\mIn
-\underbrace{\left(\mType{a}\mMapsTo\mType{b}\right)}_\mFunc{f}
+\underbrace{\left(\mType{a}\mMapsTo\mType{b}\right)}_f
 \mMapsTo
-\underbrace{\mListType{a}}_{\mListOf{\mVar{x_0},\mVar{x_1}\dots\mVar{x_n}}}
+\underbrace{\mListType{a}}_{\mListOf{x_0,x_1\dots x_n}}
 \mMapsTo
-\underbrace{\mListType{b}}_{\mListOf{\mFunc{f}\mVar{x_0},\mFunc{f}\mVar{x_1}\dots\mFunc{f}\mVar{x_n}}}
+\underbrace{\mListType{b}}_{\mListOf{fx_0,fx_1\dots fx_n}}
 \end{equation}
 である．
 
-ここで $\mFunc{f}$ と $\mFunc{f}\mMapList$ の型を並べてみると
+ここで $f$ と $f\mMapList$ の型を並べてみると
 \begin{align}
-\mFunc{f}&\mIn\mProjection{\mType{a}}{\mType{b}}\\
-\mFunc{f}\mMapList&\mIn\mProjection{\mListType{a}}{\mListType{b}}
+f&\mIn\mProjection{\mType{a}}{\mType{b}}\\
+f\mMapList&\mIn\mProjection{\mListType{a}}{\mListType{b}}
 \end{align}
 となり，マップ演算子が何をしているのか一目瞭然になる．
 
@@ -1424,13 +1431,13 @@ map(f, lst)
 \end{align*}
 結合演算子 $:$ は右結合する．すなわち $\mVar{x_0}:\mVar{x_1}:\mVar{x_2}=\mVar{x_0}:(\mVar{x_1}:\mVar{x_2})$ である．
 
-マップ演算子の実装は，リストの実装に踏み込めば簡単である．空でないリストは必ず $\mVar{x}:\mListVar{\xi}$ へと分解できるから
+マップ演算子の実装は，リストの実装に踏み込めば簡単である．空でないリストは必ず $x:\mListVar{\xi}$ へと分解できるから
 \begin{equation}
 \left\{
 \begin{split}
-\mFunc{f}\mMapList(\mVar{x}:\mListVar{\xi})
-  &=(\mFunc{f}\mVar{x}):(\mFunc{f}\mMapList\mListVar{\xi})\\
-\mFunc{f}\mMapList\mEmptyList
+f\mMapList(x:\mListVar{\xi})
+  &=(fx):(f\mMapList\mListVar{\xi})\\
+f\mMapList\mEmptyList
   &=\mEmptyList
 \end{split}
 \right.
@@ -1444,12 +1451,12 @@ map(f, lst)
 \end{align*}
 これらは\lisp  の \code{car} 関数，\code{cdr} 関数と同じものである．
 
-リストを分解する関数 $\mHead$ と $\mTail$ さえあればどのようなリスト処理も可能であるが，リストを引数にとる関数を考えると最初から分解されたリストを渡された方が何かと便利である．そこで結合演算子を関数引数のパタンにも使えることにしよう．これで，例えばリストの和をとる関数 $\mFunc{f}$は
+リストを分解する関数 $\mHead$ と $\mTail$ さえあればどのようなリスト処理も可能であるが，リストを引数にとる関数を考えると最初から分解されたリストを渡された方が何かと便利である．そこで結合演算子を関数引数のパタンにも使えることにしよう．これで，例えばリストの和をとる関数 $f$は
 \begin{equation}
 \left\{
 \begin{split}
-\mFunc{f}\mEmptyList&=0\\
-\mFunc{f}(\mVar{x}:\mListVar{\xi})&=\mVar{x}+\mFunc{f}\mListVar{\xi}
+f\mEmptyList&=0\\
+f(x:\mListVar{\xi})&=x+f\mListVar{\xi}
 \end{split}
 \right.
 \end{equation}
@@ -2026,7 +2033,7 @@ $\mathPureWith{f\mathCompose g\mathCompose h}$が同値だからである．
 アプリカティブスタイルは，計算の流れを明確にしているとも言える．
 例えば$f\mathApplicativeApply g\mathApplicativeGeneralMap h\mathApplicativeGeneralMap\mathContainerVar{x}$は
 $$
-\mathContainerVar{x}\leadsto h\leadsto g\leadsto f
+\mathContainerVar{x}\mFlow h\mFlow g\mFlow f
 $$
 という計算の流れを示す．
 もちろん関数合成演算子と関数適用演算子でも似たことはできるが，
