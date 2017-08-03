@@ -109,10 +109,9 @@
 \newcommand{\mMaybeOf}[1]{\[#1\]}
 \newcommand{\mUnitOf}[1]{\langle\!\langle#1\rangle\!\rangle}
 \newcommand{\mPureOf}[1]{\langle#1\rangle}
-\newcommand{\mListVar}[1]{\Bar{#1}}
-\newcommand{\mMaybeVar}[1]{\Tilde{#1}}
-\newcommand{\mFuncVar}[1]{\Hat{#1}}
-\newcommand{\mContainerVar}[1]{\Check{#1}}
+\newcommand{\mListVar}[1]{{#1}^\mathrm{s}}
+\newcommand{\mMaybeVar}[1]{{#1}^\text{?}}
+% \newcommand{\mContainerVar}[1]{\Check{#1}}
 \newcommand{\mAnonParameter}{\lozenge}
 \newcommand{\mAnyParameter}{\_}
 \newcommand{\mMonadFunc}[1]{{\boldsymbol#1}}
@@ -142,6 +141,8 @@
 \DeclareMathOperator{\mAMapMaybe}{\boxtimes}
 \DeclareMathOperator{\mApplicativeApply}{\S}
 \DeclareMathOperator{\mApplicativeMap}{\times}
+\DeclareMathOperator{\mApplicativeMapList}{\otimes}
+\DeclareMathOperator{\mApplicativeMapMaybe}{\boxtimes}
 \DeclareMathOperator{\mBindLeft}{\ooalign{$\longleftarrow$\crcr\hss$\heartsuit$\hss}}
 \DeclareMathOperator{\mBindRight}{\ooalign{$\longrightarrow$\crcr\hss$\heartsuit$\hss}}
 \DeclareMathOperator{\mLogicalAnd}{\wedge}
@@ -400,7 +401,9 @@
 \hline
 変数&イタリック，小文字&$x,y,z$\\
 有名な変数&ローマン，小文字&$\mFirstVar,\mRestVar$\\
-コンテナ変数&イタリック，ギリシア文字&$\xi,\zeta,\alpha,\omega$\\
+リスト変数&肩に s をつける&$\mListVar{x}$\\
+Maybe変数&肩に ? をつける&$\mMaybeVar{x}$\\
+一般コンテナ変数&イタリック，ギリシア文字&$\alpha,\beta,\omega$\\
 % List: \xi = [x]
 % Maybe: \zeta = [[z]]
 % General: \chi = <x>
@@ -408,7 +411,9 @@
 \hline
 関数&イタリック，小文字&$f,g,h$\\
 有名な関数&ローマン，小文字&$\sin,\cos$\\
-コンテナ関数&イタリック，ギリシア文字&$\phi,\psi,\eta$\\
+リスト関数&肩に s をつける&$\mListVar{f}$\\
+Maybe関数&肩に ? をつける&$\mMaybeVar{f}$\\
+一般コンテナ関数&イタリック，ギリシア文字&$\phi,\psi$\\
 % List of functions: \phi = [f]
 % Maybe of function: \varphi = [[f]]
 % General: \psi = <f>
@@ -597,27 +602,22 @@ $ stack install ghc
 % $$\mType{a}\xRightarrow{\mMaybeTypeConstructor}\mMaybeType{a}$$
 
 
----
-
-$$x'=fx$$
-$$\xi'=f\mMapList\xi;\;\xi=\mListOf{x};\;\xi=(x:\xi_1)$$
-$$\zeta'=f\mMapMaybe\zeta;\;\zeta=\mMaybeOf{z}$$
-$$\alpha'=f\mMap\alpha$$
-
----
-
-$$\xi'=\phi\mAMapList\xi$$
-$$\zeta'=\psi\mAMapMaybe\zeta$$
-$$\alpha'=\eta\mAMap\alpha$$
-
----
-
+$$y=fx$$
+$$\mListVar{y}=f\mMapList\mListVar{x};\;
+\mListVar{x}=\mListOf{x};\;
+\mListVar{x}=(x|\mListVar{x_0})$$
+$$\mMaybeVar{w}=f\mMapMaybe\mMaybeVar{z};\;
+\mMaybeVar{z}=\mMaybeOf{z}$$
+$$\beta=f\mMap\alpha$$
+$$\mListVar{y}=\mListVar{f}\mApplicativeMapList\mListVar{x}$$
+$$\mMaybeVar{w}=\mMaybeVar{g}\mApplicativeMapMaybe\mMaybeVar{z}$$
+$$\beta=\phi\mApplicativeMap\alpha$$
 $$\omega={\boldsymbol\mu}x$$
 
-\chapter{カリー風な書き方}
 
+\chapter{カリー風な書き方}
 \begin{leader}
-本書では一般の数学書やプログラミングの教科書からは少し異なった記法を用いる．ある概念が発明されてからずっと後になって正しい記法が見つかり，それがきっかけとなって正しく理解されるという現象は歴史上よくあることである．本書でも様々な新しい記号，記法を導入するが，この章では既に比較的広く知られている記法を紹介する．
+本書では一般の数学書やプログラミングの教科書からは少し異なった記法を用いる．ある概念が発明されてからずっと後になって正しい記法が見つかり，それがきっかけとなって正しく理解されるという現象は歴史上よくあることである．本書でも様々な新しい記号，記法を導入するが，この章では\haskell に近い記法から始めることにする．
 \end{leader}
 
 \section{関数}
@@ -696,28 +696,28 @@ lambda x: 1 + x
 
 \section{関数定義}
 
-関数 $f$ を $fx=1+x$ と定義したいときに，\python では
+関数 $f$ を $fx=\sin x/x$ と定義したいときに，\python では
 \begin{pythoncode}
 \begin{verbatim}
 def f(x):
-  return 1 + x
+  return sin(x) / x
 \end{verbatim}
 \end{pythoncode}
 と書くことが普通である．これは，ある値をとってある値を返す関数の記述方法としてはオーバーキルである．事実，ラムダ式を用いた
 \begin{pythoncode}
 \begin{verbatim}
-f = lambda x: 1 + x
+f = lambda x: sin(x) / x
 \end{verbatim}
 \end{pythoncode}
 も全く同じ意味になるので，ラムダ式を使う方法を基本に据えよう．
 
 関数の定義は，基本的にはラムダ式の変数への代入である．引数 $x$ をとり値 $1+x$ を返す関数 $f$ は
 \begin{equation}
-f=\mLambdaExp{x}{1+x}
+f=\mLambdaExp{x}{\sin x/x}
 \end{equation}
 と定義できる．ただし，この省略形として
 \begin{equation}
-fx=1+x
+fx=\sin x/x
 \end{equation}
 と書いても良い．\footnote{\haskell では $f=\mLambdaExp{x}{1+x}$ を \code{f = \textbackslash x -> 1 + x} と書き，一方 $fx=1+x$ を \code{f x = 1 + x} と書く．}
 
@@ -725,15 +725,15 @@ fx=1+x
 \begin{equation}
 \left\{
 \begin{split}
-f'0&=0\\
-f'x&=1+x
+f'0&=1\\
+f'x&=\sin x/x
 \end{split}
 \right.
 \end{equation}
 ように定義する．これを関数の\keyword{パタンマッチ}と呼ぶ．\footnote{\haskell では
 \begin{verbatim}
-  f' 0 = 0
-  f' x = 1 + x
+  f' 0 = 1
+  f' x = sin x / x
 \end{verbatim}
 と書く．}
 
@@ -741,32 +741,32 @@ f'x&=1+x
 \begin{equation}
 f'x=\mCaseOf{x}\left\{
 \begin{split}
-0&\rightarrow0\\
-\mAnyParameter&\rightarrow1+x
+0&\rightarrow1\\
+\mAnyParameter&\rightarrow\sin x/x
 \end{split}
 \right.
 \end{equation}
 のように書く．ここに $\mAnyParameter$ は任意の値の意味である．パタンマッチは上から順番にマッチングしていくため，この場合は $0$ 以外を意味する．\footnote{\haskell では
 \begin{verbatim}
   f' x = case x of
-    0 -> 0
-    _ -> 1 + x
+    0 -> 1
+    _ -> sin x / x
 \end{verbatim}
 と書く．}
 
 関数定義にパタンマッチではなく\keyword{場合分け}が必要な場合は\keyword{ガード}を用いる．例えば引数の値が負の場合は $-1$ を，$0$ の場合は $0$ を，それ以外の場合は関数 $f$ と同じ振る舞いをする関数 $f''$ は
 \begin{equation}
 \begin{split}
-f''x&\mGuard{x<0}=-1\\
-&\mGuard{x\equiv 0}=0\\
-&\mGuard{\mathOtherwise}=1+x
+f''x&\mGuard{x<0}=0\\
+&\mGuard{x\equiv 0}=1\\
+&\mGuard{\mathOtherwise}=\sin x/x
 \end{split}
 \end{equation}
 という風に定義する．\footnote{\haskell では
 \begin{verbatim}
-  f'' x | x < 0     = -1
-        | x == 0    = 0
-        | otherwise = 1 + x
+  f'' x | x < 0     = 0
+        | x == 0    = 1
+        | otherwise = sin x / x
 \end{verbatim}
 と書く．}
 
@@ -780,7 +780,7 @@ f''x&\mGuard{x<0}=-1\\
 \begin{equation}
 y=f(1+x)
 \end{equation}
-という式のうち，先に $1+x$ の部分に名前をつけておきたいこともあるであろう．そんなときは
+という式のうち，先に $1+x$ の部分を計算して $x'$ のように名前をつけておきたいこともあるであろう．そんなときは
 \begin{equation}
 \label{eq:letin}
 y=\mLetIn{(x'=1+x)}{fx'}
@@ -789,28 +789,32 @@ y=\mLetIn{(x'=1+x)}{fx'}
 
 式\eqref{eq:letin}は局所変数を後ろに回して
 \begin{equation}
+\label{eq:where}
 y=fx'\mWhere x'=1+x
 \end{equation}
 のように書いても良い．\footnote{\haskell では \code{y = let x' = 1 + x in f x'} および \code{y = f x' where x' = 1 + x} のように書く．}
 
-式\eqref{eq:letin}はラムダ式を使った\keyword{シンタックスシュガー}（糖衣構文，構文糖）であり，一般に
+式\eqref{eq:letin}や式\eqref{eq:where}はラムダ式を使った\keyword{シンタックスシュガー}（糖衣構文，構文糖）であり，一般に
 \begin{equation}
-\{\mLetIn{(x'=gx)}{fx'}\}=(\mLambdaExp{x'}{fx'})(gx)
+\{\mLetIn{(x'=gx)}{fx'}\}
+=\{fx'\mWhere x'=gx\}
+=(\mLambdaExp{x'}{fx'})(gx)
 \end{equation}
 である．
 
 \chapter{さらにカリー風な書き方}
 
 \begin{leader}
-我々は関数とラムダ式の「カリー風」な書き方を見てきた．この章ではさらに演算子，関数合成，条件分岐，再帰についても「カリー風」な書き方を見ていく．実際，関数合成，条件分岐，再帰はプログラムの全てと言っても良いので，この章を終えればあらゆるプログラムを「カリー風」に書くことができるようになる．
+我々は関数とラムダ式の「カリー風」な書き方を見てきた．この章ではさらに演算子，関数合成，条件分岐についても「カリー風」な書き方を見ていく．
 \end{leader}
 
 \section{演算子}
 
-\keyword{演算子}は関数の特別な姿である．演算子は\keyword{作用素}と呼んでも良い．どちらも英語のoperatorの和訳である．演算子は普通アルファベット以外のシンボル1個で表現し，変数や関数の前に置いて直後の変数や関数に作用させるか，2個の変数や関数の中間に置いてその両者に作用させる．例えば $-x$ のマイナス記号 $(-)$ は変数の前に置いて直後の変数 $(x)$ に作用する演算子であり，
-$x+y$ のプラス記号 $(+)$ は2個の変数の間に置いてその両者 $(x,y)$ に作用する．
+\keyword{演算子}は関数の特別な姿である．演算子は\keyword{作用素}と呼んでも良い．どちらも英語のoperatorの和訳である．演算子は普通アルファベット以外のシンボル1個で表現し，変数や関数の前に置いて直後の変数や関数に作用させるか，2個の変数や関数の中間に置いてその両者に作用させる．例えば $-x$ のマイナス記号 $(-)$ は変数の前に置いて直後の変数 $(x)$ に作用する演算子であり，$x+y$ のプラス記号 $(+)$ は2個の変数の間に置いてその両者 $(x,y)$ に作用する．
 
-1個の変数または関数に作用する演算子を\keyword{単項演算子}と呼び，2個の変数または関数に作用する演算子を\keyword{二項演算子}と呼ぶ．本書では単項演算子を二つの例外を除いて変数の前に置く，すなわち\keyword{前置}する．二つの例外とは，数学者が自然数 $n$ の\keyword{階乗}をしばしば $n!$ と書き，実数 $x$ の\keyword{逆数}（\keyword{乗法逆元}）を $x^{-1}$ と書くことに倣い，このふたつだけは本書でも例外的に\keyword{後置}する単項演算子とする．なお，\keyword{前置演算子}，\keyword{後置演算子}のことを数学者はそれぞれ\keyword{左作用素}と\keyword{右作用素}と呼ぶ．
+1個の変数または関数に作用する演算子を\keyword{単項演算子}と呼び，2個の変数または関数に作用する演算子を\keyword{二項演算子}と呼ぶ．本書では単項演算子はすべて変数の前に置く，すなわち\keyword{前置}する．
+% 二つの例外とは，数学者が自然数 $n$ の\keyword{階乗}をしばしば $n!$ と書き，実数 $x$ の\keyword{逆数}（\keyword{乗法逆元}）を $x^{-1}$ と書くことに倣い，このふたつだけは本書でも例外的に\keyword{後置}する単項演算子とする．
+前置する演算子のことを\keyword{前置演算子}と呼ぶが，数学者は同じものを\keyword{左作用素}と呼ぶ．
 
 二項演算子のうちよく使われるものは和 $(+)$，積 $(*)$，論理和 $(\mLogicalOr)$，論理積 $(\mLogicalAnd)$，同値 $(\equiv)$，大なり $(>)$，小なり $(<)$ 等である．二項演算子はたとえ積記号であっても省略できない．二項演算子は多数あるので，その都度説明する．
 
@@ -820,9 +824,7 @@ $x+y$ のプラス記号 $(+)$ は2個の変数の間に置いてその両者 $(
 \end{equation}
 である．従って，二項演算子と2引数関数に本質的な差はない．本書では演算子と関数という用語は全く同じ意味で用いる．\footnote{\haskell では任意の二項演算子を括弧で包むことで前置演算子として使うことができる．例えば \code{x + y}と \code{(+)x y} は同じ結果を返す．逆に任意の2引数関数 \code{f}は \code{x `f` y} と書くことで中置することができる．}
 
-二項演算子の結合性，すなわち左結合か右結合かは，演算子によって異なる．
-
-演算の優先順位を明示的に与えるために括弧が用いられる．
+二項演算子の結合性，すなわち左結合か右結合かは，演算子によって異なる．また演算の優先順位を明示的に与えるために括弧が用いられる．
 
 本書では3個以上の変数に同時に作用する演算子は扱わない．
 
@@ -841,19 +843,32 @@ z = f(y)
 z = f(g(x))
 \end{verbatim}
 \end{pythoncode}
-とすることがある．
+とすることがある．本書の記法で書けば
+\begin{equation}
+\label{eq:fgx}
+z=f(gx)
+\end{equation}
+である．式\eqref{eq:fgx}から括弧を省略して $z=fgx$ としてしまうと，関数適用は左結合するから $z=(fg)x$ の意味になってしまう．関数 $f$ が引数に関数を取るのでない限り $(fg)$ は無意味なので，式\eqref{eq:fgx}には括弧が必要である．
 
-ここで，引数のことは忘れて，関数 $f$ と関数 $g$ を先に\keyword{合成}しておきたいとしよう．その合成を $f\mComp g$ と書く．合成はラムダ式を使って
+ここで，引数のことは忘れて，関数 $f$ と関数 $g$ を先に\keyword{合成}しておきたいとしよう．その合成を $f\mComp g$ と書く．演算子 $\mComp$ は\keyword{関数合成演算子}と呼ぶ．合成はラムダ式を使って
 \begin{equation}
 f\mComp g=f(g\mAnonParameter)
 \end{equation}
-と定義できる．関数合成の演算子 $\mComp$ は関数適用よりも優先順位が高く，$\left(f\mComp g\right)x$ は単に $f\mComp gx$ と書いても良い．この記法は括弧の数を減らすためにしばしば用いられる．\footnote{\haskell では関数 \code{f} と関数 \code{g} の合成は \code{f.g} である．}
-
-関数合成演算子とは逆に，優先順位の低い\keyword{関数適用演算子}も考えておくと括弧の数を減らすのに便利である．関数適用演算子 $\mApply$ を次のように定義しておく．
+と定義できる．関数合成演算子 $\mComp$ は関数適用よりも優先順位が高く，$\left(f\mComp g\right)x$ は単に $f\mComp gx$ と書いても良い．この記法は括弧の数を減らすためにしばしば用いられる．式\eqref{eq:fgx}は関数合成演算子を用いると
 \begin{equation}
-f\mApply gx=f\left(gx\right)
+z=f\mComp gx
 \end{equation}
-演算子 $\mApply$ の優先順位は足し算演算子よりも低いものとする．よって $f(x+1)$ は $f\mApply  x+1$ と書くこともできる．演算子 $\mApply$ を閉じ括弧のいらない開き括弧と考えてもよい．\footnote{\haskell では $f\mApply gx$ を \code{f \$ g x} と書く．}
+と書ける．\footnote{\haskell では関数 \code{f} と関数 \code{g} の合成は \code{f.g} である．}
+
+関数合成演算子とは逆に，優先順位の低い\keyword{関数適用演算子}も考えておくと便利なこともある．関数適用演算子 $\mApply$ を関数合成演算子と同じように次のように定義しておく．
+\begin{equation}
+f\mApply g=f\left(g\mAnonParameter\right)
+\end{equation}
+演算子 $\mApply$ の優先順位は関数適用も含めあらゆる演算よりも低いものとする．関数適用演算子を用いて式\eqref{eq:fgx}を書き直すと
+\begin{equation}
+z=f\mApply gx
+\end{equation}
+となる．演算子 $\mApply$ の優先順位は足し算よりも低いので $f(x+1)$ は $f\mApply  x+1$ と書くこともできる．演算子 $\mApply$ を閉じ括弧のいらない開き括弧と考えてもよい．\footnote{\haskell では $f\mApply gx$ を \code{f \$ g x} と書く．}
 
 \section{条件分岐}
 \label{sec:if}
@@ -863,9 +878,9 @@ f\mApply gx=f\left(gx\right)
 \begin{verbatim}
 def f(x):
   if x == 0:
-    return 0
+    return 1
   else:
-    return 1 + x
+    return sin(x) / x
 \end{verbatim}
 \end{pythoncode}
 のような\keyword{制御構造}としての条件文があるが，我々は値を持つ条件式を考える．
@@ -873,9 +888,9 @@ def f(x):
 我々の条件式とは
 \begin{equation}
 fx
-=\mIfThenElse{x\equiv0}{0}{1+x}
+=\mIfThenElse{x\equiv0}{1}{\sin x/x}
 \end{equation}
-のように $\mIf$ 節，$\mThen$ 節，及び $\mElse$ 節からなるものであって，$\mThen$ 節も $\mElse$ 節も省略できないものとする．$\mIf$ 節の式の値が真 $(\mTrue)$ であれば $\mThen$ 節の式が評価され，偽 $(\mFalse)$ であれば $\mElse$ 節の式が評価される．我々の条件式は\clang/\cxx における三項演算子と等しい．\footnote{\haskell では $fx=\mIfThenElse{x\equiv0}{0}{1+x}$ を \code{f x = if x == 0 then 0 else 1 + x} と書く．}
+のように $\mIf$ 節，$\mThen$ 節，及び $\mElse$ 節からなるものであって，$\mThen$ 節も $\mElse$ 節も省略できないものとする．$\mIf$ 節の式の値が真 $(\mTrue)$ であれば $\mThen$ 節の式が評価され，偽 $(\mFalse)$ であれば $\mElse$ 節の式が評価される．我々の条件式は\clang/\cxx における三項演算子と等しい．\footnote{\haskell では $fx=\mIfThenElse{x\equiv0}{0}{1+x}$ を \code{f x = if x == 0 then 1 else sin x / x} と書く．}
 
 $\mIf$ 節の中身は真理値を返す関数であれば良いので，関数 $p$ を
 \begin{equation}
@@ -883,15 +898,15 @@ p=(\equiv)0
 \end{equation}
 としておき，
 \begin{equation}
-fx=\mIfThenElse{px}{0}{1+x}
+fx=\mIfThenElse{px}{1}{\sin x/x}
 \end{equation}
 と書く方法もしばしば用いられる．
 
 条件式は紙面が許せば次のように書いても良い．
 \begin{equation}
 fx=\begin{cases}
-0&\mIf x\equiv0\\
-1+x&\mOtherwise
+1&\mIf x\equiv0\\
+\sin x/x&\mOtherwise
 \end{cases}
 \end{equation}
 左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっていることに注目しよう．
@@ -1230,10 +1245,10 @@ $\mFloatType$
 \section{リスト}
 
 同じ型の値を一列に並べたもの，つまりホモジニアスな配列のことを\keyword{リスト}と呼ぶ．
-\python ではリスト \code{lst} を
+\python ではリスト \code{ls} を
 \begin{pythoncode}
 \begin{verbatim}
-lst = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+ls = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 \end{verbatim}
 \end{pythoncode}
 のように定義できる．
@@ -1244,51 +1259,52 @@ lst = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 複数の型の要素が混在してもよい配列のことをヘテロジニアスな配列と呼び，ホモジニアスな配列とは区別する．
 
-今後，リストを指す変数はギリシア文字を用いて
+今後，リストを指す変数は，リストであることを忘れないように変数名の肩に s をつけて
 \begin{equation}
-\xi=\mListOf{0,1\dots9}
+\mListVar{l}=\mListOf{0,1\dots9}
 \end{equation}
-のように書くことにしよう．この $\xi$ はラテン文字 $x$ の元になったギリシア文字で「クシー」「グザイ」などと読む．英語では ``xi'' と表現する．\footnote{\haskell コンパイラは人間よりも記憶力が優れているため，変数名はラテン文字で良い．}
+のように書くことにしよう．
+% この $\xi$ はラテン文字 $x$ の元になったギリシア文字で「クシー」「グザイ」などと読む．英語では ``xi'' と表現する．\footnote{\haskell コンパイラは人間よりも記憶力が優れているため，変数名はラテン文字で良い．}
 
 \python ではリスト内包表記が使える．例えば $0$ から $9$ までの倍数のリストは次のように作った．
 \begin{pythoncode}
 \begin{verbatim}
-lst = [x * 2 for x in range(0, 10)]
+ls = [i * 2 for i in range(0, 10)]
 \end{verbatim}
 \end{pythoncode}
 ここに \code{range(a, b)} は \code{a} から増加する方向に連続する \code{b} 個の整数からなるリストを返す\python の関数である．
 
 我々は内包表記のかわりにガードを使って
 \begin{equation}
-\xi=\mListOf{x*2\mGuard{x\mFrom{\mListOf{0,1\dots9}}}}
+\mListVar{l}=\mListOf{i*2\mGuard{i\mFrom{\mListOf{0,1\dots9}}}}
 \end{equation}
 のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mFrom$を用いた．
 
 ガードの中の式は複数あっても良い．例えば
 \begin{equation}
-\xi
-=\mListOf{x+y\mGuard{x\mFrom\mListOf{0,1\dots9},\,y\mFrom\mListOf{0,1\dots5},\,x+y>3}}
+\mListVar{l}
+=\mListOf{i+j\mGuard{i\mFrom\mListOf{0,1\dots9},\,j\mFrom\mListOf{0,1\dots5},\,i+j>3}}
 \end{equation}
-は $0\le x\le9$ かつ $0\le y\le5$ の範囲で $x+y>3$となる $x$ 及び $y$ から $x+y$ を並べたリストである．これは\python でいう
+は $0\le i\le9$ かつ $0\le j\le5$ の範囲で $i+j>3$となる $i$ 及び $j$ から $i+j$ を並べたリストである．これは\python でいう
 \begin{pythoncode}
 \begin{verbatim}
-lst = [x + y for x in range(0, 10) for y in range(0, 6) \
-  if x + y > 3]
+ls = [i + j for i in range(0, 10) for j in range(0, 6) \
+  if i + j > 3]
 \end{verbatim}
 \end{pythoncode}
-のことである．\footnote{\haskell では \code{xi = [x + y | x <- [0, 1..9], y <- [0, 1..5], x + y > 3]} と書く．}
+のことである．\footnote{\haskell では \code{xs = [i + j | i <- [0, 1..9], j <- [0, 1..5], i + j > 3]} と書く．}
 
-リストは\keyword{結合}できる．例えばリスト$\xi_1$ とリスト $\xi_2$ を結合したリストは
+リストは\keyword{結合}できる．例えばリスト$\mListVar{l}$ とリスト $\mListVar{m}$ を結合したリストは
 \begin{equation}
-\xi_1\mAppend\xi_2
+\mListVar{l}\mAppend\mListVar{m}
 \end{equation}
-と表現する．\footnote{\haskell では \code{xi1 ++ xi2} と書く．}
+と表現する．\footnote{\haskell では \code{xs ++ ys} と書く．}
 
-リストは\keyword{無限個}の要素を持っても良い．例えば自然数全体を表すリスト $\nu$ は
+リストは\keyword{無限個}の要素を持っても良い．例えば自然数全体を表すリスト $\mListVar{n}$ は
 \begin{equation}
-\nu=\mListOf{1,2\dots}
+\mListVar{n}=\mListOf{1,2\dots}
 \end{equation}
-のように定義して良い．ここに $\nu$ はラテン文字 $n$ の元になったギリシア文字で「ニュー」と読む．英語では ``nu'' と表記する．\footnote{\haskell では \code{nu = [1,2..]} と書く．}
+のように定義して良い．\footnote{\haskell では \code{ns = [1,2..]} と書く．}
 
 \keyword{空リスト}は$\mEmptyList$で表す．\footnote{\haskell では空リストを \code{[]} で表す．}
 
@@ -1298,13 +1314,13 @@ lst = [x + y for x in range(0, 10) for y in range(0, 6) \
 \end{equation}
 とする．この等式の両辺は変数ではなく型名であることに注意しよう．型コンストラクタの概念は\python には無い（必要無い）が，静的型付け言語である\cxx の「クラステンプレート」が相当する．\footnote{\haskell では表記上コンテナ型 $\mListType{a}$ と型コンストラクタ式 $\mListTypeConstructor\mType{a}$ を区別せず，両者とも \code{[a]} と書く．}
 
-$\mType{a}$ 型の変数 $x$ を入れた $\mListType{a}$ 型の変数を作る演算子を\keyword{リスト値コンストラクタ}と呼ぶ．$\mListType{a}$ 型の変数のことをリスト変数とも呼ぶ．$\mType{a}$ 型の変数 $x$ からリスト値コンストラクタを使ってリスト $\xi$ を作ることは
+$\mType{a}$ 型の変数 $x$ を入れた $\mListType{a}$ 型の変数を作る演算子を\keyword{リスト値コンストラクタ}と呼ぶ．$\mListType{a}$ 型の変数のことをリスト変数とも呼ぶ．$\mType{a}$ 型の変数 $x$ からリスト値コンストラクタを使ってリスト $\mListVar{y}$ を作ることは
 \begin{equation}
-\xi=\mListOf{x}
+\mListVar{l}=\mListOf{x}
 \end{equation}
-と書く．\footnote{\haskell では \code{xi = [x]} と書く．}
+と書く．\footnote{\haskell では \code{ls = [x]} と書く．}
 
-リスト型を表す $\mListType{a}$ と，1要素のリストである $\mListOf{x}$ の違いにはいつも気をつけておこう．本書では中身がボールドローマン体ならばリスト型，中身がイタリック体ならリスト値である．またリストを保持する変数にも，本書では $\xi$ のようにバーをつけておくことにする．
+リスト型を表す $\mListType{a}$ と，1要素のリストである $\mListOf{x}$ の違いにはいつも気をつけておこう．本書では中身がボールドローマン体ならばリスト型，中身がイタリック体ならリスト値である．またリストを保持する変数にも，本書では $\mListVar{x}$ のようにバーをつけておくことにする．
 
 ある型を包み込んだ別の型を一般に\keyword{コンテナ型}または単に\keyword{コンテナ}と呼ぶ．
 
@@ -1323,24 +1339,22 @@ $\mType{a}$ 型の変数 $x$ を入れた $\mListType{a}$ 型の変数を作る�
 \end{equation}
 であると定義する．
 
-この新しい記号 $\mFoldLeft$ は\keyword{畳み込み演算子}と呼ばれる．変数 $a$ は\keyword{アキュムレータ}と呼ぶ．アキュムレータは右側の引数が空であった場合のデフォルト値と考えても良い．\footnote{\haskell では $\mFoldLeft^{*}_{\mVar{a}}\xi$ を \code{foldl * a xi} と書く．}
+この新しい記号 $\mFoldLeft$ は\keyword{畳み込み演算子}と呼ばれる．変数 $a$ は\keyword{アキュムレータ}と呼ぶ．アキュムレータは右側の引数が空であった場合のデフォルト値と考えても良い．\footnote{\haskell では $\mFoldLeft^{*}_a\mListVar{l}$ を \code{foldl * a ls} と書く．}
 % ***CHECK***
 
-\python\ 2.7 には畳み込み演算子に相当する \code{reduce} 関数があり，リスト \code{lst} の総和 \code{sum} を
+\python\ 2.7 には畳み込み演算子に相当する \code{reduce} 関数があり，リスト \code{ls} の総和 \code{s} を
 \begin{pythoncode}
 \begin{verbatim}
 # Python 2.7
-lst = [0, 1, 2, 3, 4, 5]
-sum = reduce(lambda x, y: x + y, lst, 0)
+ls = [0, 1, 2, 3, 4, 5]
+s = reduce(lambda x, y: x + y, lst, 0)
 \end{verbatim}
 \end{pythoncode}
-のように求めることができる．
-この\code{reduce}関数は\python バージョン3では非推奨になっているが，
-\ruby には受け継がれていて，\ruby では
+のように求めることができる．この \code{reduce} 関数は\python バージョン3では非推奨になっているが，\ruby には受け継がれていて，\ruby では
 \begin{rubycode}
 \begin{verbatim}
-lst = [0, 1, 2, 3, 4, 5]
-sum = lst.inject(0) { |x, y| x + y }
+ls = [0, 1, 2, 3, 4, 5]
+s = lst.inject(0) { |x, y| x + y }
 \end{verbatim}
 \end{rubycode}
 と書ける．
@@ -1369,7 +1383,7 @@ sum = lst.inject(0) { |x, y| x + y }
 \mFoldRight^{\mBinOp}_{a}\mListOf{x_0,x_1\dotsb x_n}
 =(x_0\mBinOp(x_1\mBinOp\dotsb\mBinOp(x_n\mBinOp a)))
 \end{equation}
-これは右畳み込みと呼ばれる演算子である．\footnote{\haskell では $\mFoldRight^{*}_{\mVar{a}}\xi$ を \code{foldr xi a *} と書く．}
+これは右畳み込みと呼ばれる演算子である．\footnote{\haskell では $\mFoldRight^{*}_a\mListVar{l}$ を \code{foldr ls a *} と書く．}
 % ***CHECK***
 
 畳み込み演算子の面白い応用例を示そう．リストの結合演算子 $(\mAppend)$ を使うと
@@ -1385,10 +1399,10 @@ sum = lst.inject(0) { |x, y| x + y }
 
 \section{マップ}
 
-リストの各要素に決まった関数を適用したい場合がある．\python ではリスト \code{lst} に関数 \code{f} を適用するときには
+リストの各要素に決まった関数を適用したい場合がある．\python ではリスト \code{ls} に関数 \code{f} を適用するときには
 \begin{pythoncode}
 \begin{verbatim}
-map(f, lst)
+map(f, ls)
 \end{verbatim}
 \end{pythoncode}
 のように \code{map} 関数を用いる．
@@ -1398,7 +1412,7 @@ map(f, lst)
 f\mMapList\mListOf{x_0,x_1\dots x_n}
 =\mListOf{fx_0,fx_1\dots fx_n}
 \end{equation}
-であると定義する．この演算子 $\mMapList$ を\keyword{マップ演算子}と呼ぶ．\footnote{\haskell では $f\mMapList\xi$ を \code{map f xi} または \code{f `map` xi} と書く．}
+であると定義する．この演算子 $\mMapList$ を\keyword{マップ演算子}と呼ぶ．\footnote{\haskell では $f\mMapList\mListVar{x}$ を \code{map f xi} または \code{f `map` xi} と書く．}
 
 マップ演算子の型は
 \begin{equation}
@@ -1465,12 +1479,12 @@ f\mMapList&\mIn\mProjection{\mListType{a}}{\mListType{b}}
 \end{align*}
 結合演算子 $:$ は右結合する．すなわち $x_0:x_1:x_2=x_0:(x_1:x_2)$ である．
 
-マップ演算子の実装は，リストの実装に踏み込めば簡単である．空でないリストは必ず $x:\xi$ へと分解できるから
+マップ演算子の実装は，リストの実装に踏み込めば簡単である．空でないリスト $\mListVar{l}$ は必ず $x:\mListVar{x}$ へと分解できるから
 \begin{equation}
 \left\{
 \begin{split}
-f\mMapList(x:\xi)
-  &=(fx):(f\mMapList\xi)\\
+f\mMapList(x:\mListVar{x})
+  &=(fx):(f\mMapList\mListVar{x})\\
 f\mMapList\mEmptyList
   &=\mEmptyList
 \end{split}
@@ -1478,19 +1492,19 @@ f\mMapList\mEmptyList
 \end{equation}
 とマップ演算子 $(\mMapList)$ を定義できる．つまりマップ演算子 $(\mMapList)$ は結合演算子 $(:)$ から作ることができる．換言すれば，マップ演算子はシンタックスシュガーである．
 
-任意のリスト $\xi$ に対し，次の関数が用意されている．
+任意のリスト $\mListVar{l}$ に対し，次の関数が用意されている．
 \begin{align*}
-\mHead\xi&\dots\text{$\xi$の先頭要素}\\
-\mTail\xi&\dots\text{$\xi$の2番目以降の要素からなるリスト}
+\mHead\mListVar{l}&\dots\text{$\mListVar{l}$の先頭要素}\\
+\mTail\mListVar{l}&\dots\text{$\mListVar{l}$の2番目以降の要素からなるリスト}
 \end{align*}
 これらは\lisp  の \code{car} 関数，\code{cdr} 関数と同じものである．
 
-リストを分解する関数 $\mHead$ と $\mTail$ さえあればどのようなリスト処理も可能であるが，リストを引数にとる関数を考えると最初から分解されたリストを渡された方が何かと便利である．そこで結合演算子を関数引数のパタンにも使えることにしよう．これで，例えばリストの和をとる関数 $f$は
+リストを分解する関数 $\mHead$ と $\mTail$ さえあればどのようなリスト処理も可能であるが，リストを引数にとる関数を考えると最初から分解されたリストを渡された方が何かと便利である．そこで結合演算子を関数引数のパタンにも使えることにしよう．これで，例えばリストの和をとる関数 $\Sigma$ は
 \begin{equation}
 \left\{
 \begin{split}
-f\mEmptyList&=0\\
-f(x:\xi)&=x+f\xi
+\Sigma\mEmptyList&=0\\
+\Sigma(x:\mListVar{x})&=x+\Sigma\mListVar{x}
 \end{split}
 \right.
 \end{equation}
@@ -1508,7 +1522,7 @@ A...
 
 \section{関数の再帰適用}
 
-関数は内部で自分自身を適用しても良い．例えば$x$の階乗$(x!)$を返す関数$\mathFactorial x=x!$は
+関数は内部で自分自身を適用しても良い．例えば $x$ の階乗 $(x!)$ を返す関数 $\mathFactorial$ は
 \begin{equation}
 \mathFactorial x=\begin{cases}
 1&\mathIf x\equiv0\\
@@ -1599,10 +1613,10 @@ p = Possibly(False)
 \end{pythoncode}
 と初期化できる．
 
-ここで，引数を $100$ 倍にして返す関数 \code{f} があるとしよう．関数 \code{f} の定義は次の通りである．
+ここで，引数に $1$ を加えて返す関数 \code{f} があるとしよう．関数 \code{f} の定義は次の通りである．
 \begin{pythoncode}
 \begin{verbatim}
-f = lambda x: 100 * x
+f = lambda x: 1 + x
 \end{verbatim}
 \end{pythoncode}
 
@@ -1637,11 +1651,11 @@ def map_over(f, p):
 
 もう一度振り出しに戻る．
 
-整数 $x$ と整数 $y$ があり $z=y/x$ という式があるとする．この式は $x\equiv0$ のときにはゼロ除算エラーである．しかし「例外」は内部状態の書き換えであり，我々の計算に入れたくない．そこで変数 $z$ が正しく計算されたかもしれないし，されていないかもしれないということを $\zeta$ のようにギリシア文字で書いた別の変数に入れて，忘れないようにしておこう．文字 $\zeta$ はラテン文字の $z$ の元になったギリシア文字で「ゼータ」と読む．英語では ``zeta'' と書く．
+整数 $x$ と整数 $y$ があり $z=y/x$ という式があるとする．この式は $x\equiv0$ のときにはゼロ除算エラーである．しかし「例外」は内部状態の書き換えであり，我々の計算に入れたくない．そこで変数 $z$ が正しく計算されたかもしれないし，されていないかもしれないということを $\mMaybeVar{m}$ のように肩に ? をつけた変数に入れて，忘れないようにしておこう．
 
-ここで変数 $\zeta$ が取り得る値は正しく計算された値 $z$ か，あるいはエラーを表す値 $\mNothing$ である．このように計算結果に「意味付け」をすることを\keyword{文脈}に入れると言う．定数 $\mNothing$ は「ナッシング」と呼ぶ．
+ここで変数 $\mMaybeVar{m}$ が取り得る値は正しく計算された値 $z$ か，あるいはエラーを表す値 $\mNothing$ である．このように計算結果に「意味付け」をすることを\keyword{文脈}に入れると言う．定数 $\mNothing$ は「ナッシング」と呼ぶ．
 
-この変数 $\zeta$ はもはや整数型とは言えない．そこでこの $\zeta$ の型を $\mMaybeType{\mIntType}$ と表して「きっと整数」型と呼ぶことにしよう．型 $\mType{a}$ から型 $\mMaybeType{a}$ を生成する型コンストラクタを $\mMaybeTypeConstructor$ と呼び
+この変数 $\mMaybeVar{m}$ はもはや整数型とは言えない．そこでこの $\mMaybeVar{m}$ の型を $\mMaybeType{\mIntType}$ と表して「きっと整数」型と呼ぶことにしよう．型 $\mType{a}$ から型 $\mMaybeType{a}$ を生成する型コンストラクタを $\mMaybeTypeConstructor$ と呼び
 \begin{equation}
 \mMaybeType{a}=\mMaybeTypeConstructor\mType{a}
 \end{equation}
@@ -1649,22 +1663,22 @@ def map_over(f, p):
 
 $\mType{a}$ 型の変数を $\mMaybeType{a}$ 型の変数に代入するには，次の値コンストラクタを用いて
 \begin{equation}
-\zeta=\mMaybeOf{z}
+\mMaybeVar{m}=\mMaybeOf{z}
 \end{equation}
 と書く．\footnote{\haskell では \code{m = Just z} と書く．}
 
-変数 $z$ が一度ゼロ除算の危険性に汚染された場合，その後ずっと $\zeta$ というコンテナに入れ続けなければいけない．このきっと整数 $\zeta$ に対して整数を引数にとる関数 $f$ を適用させるには，何らかの関数マップ演算子が必要である．そこできっと整数の中身に直接関数を適用する演算子を $\mMapMaybe$ としよう．具体的には
+変数 $z$ が一度ゼロ除算の危険性に汚染された場合，その後ずっと $\mMaybeVar{m}$ というコンテナに入れ続けなければいけない．このきっと整数 $\mMaybeVar{m}$ に対して整数を引数にとる関数 $f$ を適用させるには，何らかの関数マップ演算子が必要である．そこできっと整数の中身に直接関数を適用する演算子を $\mMapMaybe$ としよう．具体的には
 \begin{equation}
-f\mMapMaybe\zeta=\mMaybeOf{fz}
+f\mMapMaybe\mMaybeVar{m}=\mMaybeOf{fz}
 \end{equation}
-のように関数 $f$ を変数 $\zeta$ に適用させる．その結果はまた $\mMaybeType{Int}$ 型である．
+のように関数 $f$ を変数 $\mMaybeVar{m}$ に適用させる．その結果はまた $\mMaybeType{Int}$ 型である．
 
-いま引数の $100$ 倍の値を返す関数 $fz=z*100$ があるとしよう．これを「きっと整数」な $\zeta$ に適用するには，$\zeta$ がもし $\zeta=\mMaybeOf{z}$ ならば中身 $z$ を取り出して $fz$ を計算し，もし $\zeta=\mNothing$ であれば $\mNothing$ を返すような適用演算子である．引数 $\zeta$ がいつ $\mMaybeOf{z}$ でいつ $\mNothing$ になるのかは，いまは問わないことにする．
+いま引数に $1$ を加えた値を返す関数 $fx=1+x$ があるとしよう．これを「きっと整数」な $\mMaybeVar{m}$ に適用するには，$\mMaybeVar{m}$ がもし $\mMaybeVar{m}=\mMaybeOf{z}$ ならば中身 $z$ を取り出して $fz$ を計算し，もし $\mMaybeVar{m}=\mNothing$ であれば $\mNothing$ を返すような適用演算子である．引数 $\mMaybeVar{m}$ がいつ $\mMaybeOf{z}$ でいつ $\mNothing$ になるのかは，いまは問わないことにする．
 
 そこで我々が欲しいのは
 \begin{equation}
-f\mMapMaybe\zeta=\begin{cases}
-\mMaybeOf{fz}&\mIf\zeta\equiv\mMaybeOf{z}\\
+f\mMapMaybe\mMaybeVar{m}=\begin{cases}
+\mMaybeOf{fz}&\mIf\mMaybeVar{m}\equiv\mMaybeOf{z}\\
 \mNothing&\mOtherwise
 \end{cases}
 \end{equation}
@@ -1679,10 +1693,9 @@ f\mMapMaybe\mNothing&=\mNothing
 \end{equation}
 のように定義する．
 
-今後，普通の（引数にMaybeが来ることを想定していない）関数 $f$ をMaybe型である変数 $\zeta$ に適用させるときには，
-必ず
+今後，普通の（引数にMaybeが来ることを想定していない）関数 $f$ をMaybe型である変数 $\mMaybeVar{m}$ に適用させるときには，必ず
 \begin{equation}
-\zeta'=f\mMapMaybe\zeta
+\mMaybeVar{n}=f\mMapMaybe\mMaybeVar{m}
 \end{equation}
 のようにMaybeバージョンのマップ演算子 $\mMapMaybe$ を用いることにする．\footnote{\haskell ではMaybeバージョンのマップ演算子に特別な記号，関数名が与えられていない．その代わり第\ref{ch:functor}章で述べる一般マップ演算子 $\mMap$ に相当する \code{fmap} 関数を用い \code{eta = fmap f xi} または \code{eta = f `fmap` xi} のようにする．\haskell は型推論を行なうため変数 \code{xi} がMaybeであればMaybeバージョンのマップ演算子（関数）が適用され，もし \code{xi} がリストであれば通常のマップ関数である \code{map} が適用される．}
 
@@ -1726,32 +1739,32 @@ maybe<a> map_over(fn f, maybe<a> m) {
 % \cxx11スタイルのラムダ式も受け取ることができる．
 （\cxxzerothree プログラマへの注意：関数 \code{f} の代わりに関数オブジェクト---かつてfunctorと呼ばれていたもの---を渡しても良い．）
 
-整数 $z$ からMaybe値 $\zeta=\mMaybeOf{z}$ を作り，関数 $fx=x*100$ をMaybe値 $\zeta$ に食わせてMaybe値 $\zeta'$ ただし
+整数 $z$ からMaybe値 $\mMaybeVar{m}=\mMaybeOf{z}$ を作り，関数 $fx=1+x$ をMaybe値 $\mMaybeVar{m}$ に食わせてMaybe値 $\mMaybeVar{n}$ ただし
 \begin{equation}
-\zeta'=f\mMapMaybe\zeta
+\mMaybeVar{n}=f\mMapMaybe\mMaybeVar{m}
 \end{equation}
 を得ることを\cxx では次のように書くことになる．
 \begin{cxxcode}
 \begin{verbatim}
 int z = 123;
-maybe<int> zeta(z);
-auto f = [](int x) -> int { return x * 100; };
-maybe<int> zeta_prime = map_over(f, zeta);
+maybe<int> m(z);
+auto f = [](int x) -> int { return 1 + x; };
+maybe<int> n = map_over(f, m);
 \end{verbatim}
 \end{cxxcode}
-注意してほしいのは \code{f(z)} も \code{map\_over(f, zeta)} も正当なコードだが \code{f(zeta)} は型エラーであることだ．また \code{f(zeta.get\_value())} は正当なコードだが，わざわざ \code{zeta} が持つ文脈を捨てることになる．（\cxx プログラマへの注意：\code{int}型の使用は現在では非推奨である．本書ではコードの読みやすさのためにあえて\code{int}を使用している．）
+注意してほしいのは \code{f(z)} も \code{map\_over(f, m)} も正当なコードだが \code{f(m)} は型エラーであることだ．また \code{f(m.get\_value())} は正当なコードだが，わざわざ \code{m} が持つ文脈を捨てることになる．（\cxx プログラマへの注意：\code{int} 型の使用は現在では非推奨である．本書ではコードの読みやすさのためにあえて \code{int} を使用している．）
 
 % ところで，関数\code{f}の実装は，ラムダ式の使えない\cxx03ではファンクター (functor) という機構を使うことになる．このファンクターは第\ref{ch:functor}章の関手 (functor) とは全く別な概念である．
 
 \section{リストとMaybe}
 
-関数 $f$ をMayby値 $\zeta$ に適用するために
+関数 $f$ をMayby値 $\mMaybeVar{m}$ に適用するために
 \begin{equation}
-\zeta'=f\mMapMaybe\zeta
+\mMaybeVar{n}=f\mMapMaybe\mMaybeVar{m}
 \end{equation}
-のようなMaybeバージョンのマップ演算子 $(\mMapMaybe)$ を使った．一方で，同じ関数 $f$ をリスト $\xi$ に適用するには
+のようなMaybeバージョンのマップ演算子 $(\mMapMaybe)$ を使った．一方で，同じ関数 $f$ をリスト $\mListVar{x}$ に適用するには
 \begin{equation}
-\xi'=f\mMapList\xi
+\mListVar{y}=f\mMapList\mListVar{x}
 \end{equation}
 のようなリストバージョンのマップ演算子 $(\mMapList)$ を使った．
 
@@ -1762,14 +1775,15 @@ maybe<int> zeta_prime = map_over(f, zeta);
 \begin{cxxcode}
 \begin{verbatim}
 template <typename a, typename fn>
-std::list<a> map_over(fn f, std::list<a> xi) {
-  std::list<a> xi_prime(xi.size());
-  auto i = xi.cbegin();
-  auto j = xi_prime.begin();
+std::list<a> map_over(fn f, std::list<a> xs) {
+  std::list<a> ys(xs.size());
+  auto i = xs.cbegin();
+  auto j = ys.begin();
   while (i != l.cend()) {
-    *j++ = f(*i++);
+    *j = f(*i);
+    ++i, ++j;
   }
-  return xi_prime;
+  return ys;
 }
 \end{verbatim}
 \end{cxxcode}
@@ -1778,10 +1792,10 @@ std::list<a> map_over(fn f, std::list<a> xi) {
 \begin{verbatim}
 // List
 template <typename a, typename fn>
-std::list<a> map_over(fn f, std::list<a> xi);
+std::list<a> map_over(fn f, std::list<a> xs);
 // Maybe
 template <typename a, typename fn>
-maybe<a> map_over(fn f, maybe<a> zeta);
+maybe<a> map_over(fn f, maybe<a> m);
 \end{verbatim}
 \end{cxxcode}
 やはりそっくりである．であるならば
@@ -1794,15 +1808,9 @@ X map_over(fn f, X x);
 \end{cxxcode}
 として，型\code{X}に応じてリストバージョンかMaybeバージョンを切り替えられると便利である．
 
-残念ながら\cxxeleven で楽に進める道はここら辺までである．
-型\code{X}がマップ可能なコンテナであることをテンプレート機構を使って保証することができないため，この\code{map\_over}関数を誤った型に対して使った場合のコンパイル時エラーはひどく読みにくいものになる．
-ヒューマンエラーを防ぐための型システムが，まさに型無しになってしまうのだ．
-（この制約は\cxx17で改善される見込みである．）
+残念ながら\cxxeleven で楽に進める道はここら辺までである．型 \code{X} がマップ可能なコンテナであることをテンプレート機構を使って保証することができないため，この \code{map\_over} 関数を誤った型に対して使った場合のコンパイル時エラーはひどく読みにくいものになる．ヒューマンエラーを防ぐための型システムが，まさに型無しになってしまうのだ．（この制約は\cxxseventeen で改善される見込みである．）
 
-一方で，数学者たちが見つけた圏という代数的構造が，
-リストもMaybeも統一的に扱うことを可能にしている．
-これを発見したのは Eugenio Moggi を始めとする計算機科学者たちである．
-この人類の英知は第\ref{ch:functor}章から見ていくことにしよう．
+一方で，数学者たちが見つけた圏という代数的構造が，リストもMaybeも統一的に扱うことを可能にしている．これを発見したのは Eugenio Moggi を始めとする計算機科学者たちである．この人類の英知は第\ref{ch:functor}章から見ていくことにしよう．
 
 
 \section{余計な話: Either*}
@@ -1819,34 +1827,35 @@ A...
 \end{leader}
 
 \begin{caution}
-関手は英語でファンクター(functor)と言うが，
-\cxx の関数オブジェクト(functional)もかつてはファンクター(functor)と呼ばれていた．
-\cxx のファンクターとはラムダ式の粗末な代用品のことで，
-本書で述べる関手とは異なる概念である．
-混同しないように注意しよう．
+関手は英語でファンクター(functor)と言うが，\cxx の関数オブジェクト (function object) もかつてはファンクター(functor)と呼ばれていた．\cxx のファンクターとはラムダ式の粗末な代用品のことで，本書で述べる関手とは異なる概念である．混同しないように注意しよう．
 \end{caution}
 
 
 \section{型コンストラクタと関手*}
 
-リストとMaybeはとてもよく似ている．
-
-もう一度まとてみたのが表xyzである．
+リストとMaybeはとてもよく似ている．両者の関係をまとてみたのが表\ref{tab:list-and-maybe}である．
 
 \begin{table}
+\label{tab:list-and-maybe}
+\caption{リストとMaybeの関係}
 \begin{center}
 \begin{tabular}{||c|c|c|c|c||}\hline
 型の名前&型&型コンストラクタ&マップ&値コンストラクタ\\\hline\hline
-リスト&$\mListType{a}$&$\mathList$&$\mMapList$&$\mathListWith{x}$\\
-Maybe&$\mathMaybeType{a}$&$\mathMaybe$&$\mathMaybeMap$&$\mathMaybeWith{x}$\\\hline
+リスト&$\mListType{a}$&$\mListTypeConstructor$&$\mMapList$&$\mListOf{x}$\\
+Maybe&$\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mMaybeOf{x}$\\\hline
 \end{tabular}
 \end{center}
 \end{table}
 
-もし，リストとMaybeに共通の原型があり，
-その「何か」を「どうにか」したら$\mathList$型コンストラクタとマップ演算子$\mMapList$になり，
-その「何か」を別の方法で「どうにか」したら$\mathMaybe$型コンストラクタとMaybeマップ演算子$\mathMaybeMap$になるとしたら，
-その「何か」と「どうにか」はなんであろうか．
+もし，リストとMaybeに共通の原型があり，その「何か」を「どうにか」したら $\mListTypeConstructor$ 型コンストラクタとマップ演算子 $\mMapList$ になり，その「何か」を別の方法で「どうにか」したら $\mMaybeTypeConstructor$ 型コンストラクタとMaybeマップ演算子 $\mathMaybeMap$ になるとしたら，その「何か」と「どうにか」はなんであろうか．
+
+我々は既に，
+\begin{align}
+\mListType{a}&=\mListTypeConstructor\mType{a}\\
+\mMaybeType{a}&=\mMaybeTypeConstructor\mType{a}
+\end{align}
+であることを知っている．同じようにマップ演算子の原型となるような\keyword{一般マップ演算子}の存在を仮定し，その一般マップ演算子から型コンストラクタのようなものでマップ演算子 $\mMapList$ やMaybeマップ演算子 $\mMapMaybe$ を生成できれば，色々便利である．
+
 
 いま$\mListProjection$と$\mMaybeProjection$という写像ががあって，次のように書けるとしよう．
 \begin{align}
@@ -2172,7 +2181,7 @@ f\mathGeneralMap x&=\mathPureWith{f}\mathApplicativeGeneralMap x\\
 \mathPureNothing&\mathOtherwise
 \end{cases}
 \mathAnd
-\psi\mathBind\xi=\dots
+\psi\mathBind\mListVar{x}=\dots
 \end{align}
 
 
