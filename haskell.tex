@@ -127,7 +127,7 @@
 \DeclareMathOperator{\mBinOp}{\bigstar}
 \DeclareMathOperator{\mComp}{\bullet}
 \DeclareMathOperator{\mApply}{\$}
-\DeclareMathOperator{\mApplyRight}{\twoheadrightarrow}
+\DeclareMathOperator{\mApplyRight}{\rightsquigarrow}
 \DeclareMathOperator{\mFlow}{\leadsto}
 \DeclareMathOperator*{\mFoldLeft}{\bigcup}
 \DeclareMathOperator*{\mFoldRight}{\bigsqcup}
@@ -144,8 +144,14 @@
 \DeclareMathOperator{\mApplicativeMap}{\times}
 \DeclareMathOperator{\mApplicativeMapList}{\otimes}
 \DeclareMathOperator{\mApplicativeMapMaybe}{\boxtimes}
-\DeclareMathOperator{\mBindLeft}{\ooalign{$\longleftarrow$\crcr\hss$\heartsuit$\hss}}
-\DeclareMathOperator{\mBindRight}{\ooalign{$\longrightarrow$\crcr\hss$\heartsuit$\hss}}
+\DeclareMathOperator{\mBindLeftList}{\leftleftarrows}%{\oplus}
+\DeclareMathOperator{\mBindRightList}{\rightrightarrows}
+\DeclareMathOperator{\mBindLeftMaybe}{\dashleftarrow}%{\boxplus}
+\DeclareMathOperator{\mBindRightMaybe}{\dashrightarrow}%{\boxplus}
+\DeclareMathOperator{\mBindLeft}{\twoheadleftarrow}
+\DeclareMathOperator{\mBindRight}{\twoheadrightarrow}
+% \DeclareMathOperator{\mBindLeft}{\ooalign{$\longleftarrow$\crcr\hss$\heartsuit$\hss}}
+% \DeclareMathOperator{\mBindRight}{\ooalign{$\longrightarrow$\crcr\hss$\heartsuit$\hss}}
 \DeclareMathOperator{\mLogicalAnd}{\wedge}
 \DeclareMathOperator{\mLogicalOr}{\vee}
 \DeclareMathOperator{\mFrom}{\in}
@@ -476,19 +482,23 @@ $\mNothing$&空Maybe（ナッシング）&\\
 $\mPureNothing$&空&\\\hline
 $\mListWith{x}$&リスト値コンストラクタ&\\
 $\mMaybeWith{x}$&Maybe値コンストラクタ&\\
-$\mPureWith{x}$&ピュア値コンストラクタ&\\
-$\mUnitWith{x}$&ユニット値コンストラクタ&\\
+$\mPureWith{x}$&ピュア演算子&\\
+$\mUnitWith{x}$&ユニット演算子&\\
 \hline
 $\mMap$&一般マップ&\\
-$\mMapList$&（リストの）マップ&\\
-$\mMapMaybe$&Maybeマップ&\\
+$\mMapList$&リストのマップ&\\
+$\mMapMaybe$&Maybeのマップ&\\
 \hline
 $\mAMap$&一般アプリカティブマップ&\\
-$\mAMapList$&（リストの）アプリカティブマップ&\\
-$\mAMapMaybe$&Maybeアプリカティブマップ&\\
+$\mAMapList$&リストのアプリカティブマップ&\\
+$\mAMapMaybe$&Maybeのアプリカティブマップ&\\
 \hline
-$\mBindLeft$&左モナド結合 (bind)&\\
-$\mBindRight$&右モナド結合 (bind)&\\
+$\mBindLeftList$&リストの左バインド演算子&\\
+$\mBindRightList$&リストの右バインド演算子&\\
+$\mBindLeftMaybe$&Maybeの左バインド演算子&\\
+$\mBindRightMaybe$&Maybeの右バインド演算子&\\
+$\mBindLeft$&モナドの左バインド演算子&\\
+$\mBindRight$&モナドの右バインド演算子&\\
 \hline
 \end{tabular}
 \end{center}
@@ -1842,8 +1852,8 @@ A...
 \begin{center}
 \begin{tabular}{||c|c|c|c|c||}\hline
 型の名前&型&型コンストラクタ&マップ&値コンストラクタ\\\hline\hline
-リスト&$\mListType{a}$&$\mListTypeConstructor$&$\mMapList$&$\mListWith{x}$\\
-Maybe&$\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mMaybeWith{x}$\\\hline
+リスト&$\mListType{a}$&$\mListTypeConstructor$&$\mMapList$&$\mListWith{\dots}$\\
+Maybe&$\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mMaybeWith{\dots}$\\\hline
 \end{tabular}
 \end{center}
 \end{table}
@@ -1865,46 +1875,20 @@ Maybe&$\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mMaybeWith{x}$\\\
 \end{align}
 という風に書いてみよう．ここに $\mMap$ は一般マップ演算子である．
 
-組み合わせ $\mTupleWith{\mListType{a},\mMapList}$ や $\mTupleWith{\mMaybeType{a},\mMapMaybe}$ のことを\keyword{圏}と呼ぶ．そして，圏から圏への写像，すなわち $\mListFunctor$ や $\mMaybeFunctor$ のことを\keyword{関手}と呼ぶ．
+組み合わせ $\mTupleWith{\mListType{a},\mMapList}$ や $\mTupleWith{\mMaybeType{a},\mMapMaybe}$ のことを\keyword{圏}と呼ぶ．圏とは，集合すなわち型と，その集合を対象とした\keyword{射}のことで，射とは関数を一般化したものだと思えば良い．そして，圏から圏への写像，すなわち $\mListFunctor$ や $\mMaybeFunctor$ のことを\keyword{関手}と呼ぶ．
+
+これまでの型コンストラクタ $\mListTypeConstructor$ が例えば $\mType{a}$ を $\mListType{a}$ にだけしていたのに対し，関手 $\mListFunctor$ は $\mTupleWith{\mType{a},\mMap}$ という組み合わせを $\mTupleWith{\mListType{a},\mMapList}$ に変えるところに注目しよう．
+
 
 型コンストラクタ $\mListTypeConstructor$ や $\mMaybeTypeConstructor$ はそれぞれ関手 $\mListFunctor$ や $\mMaybeFunctor$ の一部である．\haskell では型コンストラクタが関手の一部であるような型をひとくくりにして $\mFunctorTypeClass$ 型クラスに
 属するとする．すなわち，リスト型，Maybe型は $\mFunctorTypeClass$ 型クラスに属す．
 
 ---
 
-ピュア演算子
+ピュア演算子を圏に含めるか？
 
 ---
 
-% いま$\mListProjection$と$\mMaybeProjection$という写像ががあって，次のように書けるとしよう．
-% \begin{align}
-% \mType{a}&\mListProjection\mListType{a}\\
-% \mMap&\mListProjection\mMapList\\
-%% \mathPureWith{x}&\xrightarrow{\;\mathListFunctor\;}\mathListWith{x}\\
-% \mType{a}&\mMaybeProjection\mMaybeType{a}\\
-% \mMap&\mMaybeProjection\mMapMaybe
-%% \mathPureWith{x}&\xrightarrow{\;\mathMaybeFunctor\;} \mathMaybeWith{x}
-% \end{align}
-
-任意の型$\mathTypeParameter{a}$に
-型コンストラクタ$\mathList$を適用して得られる
-リスト型$\mListType{a}$と
-マップの組み合わせ$\mTupleWith{\mListType{a},\mMapList}$は，
-数学者の言う\keyword{圏}の一種である．
-圏とは集合と\keyword{射}の組み合わせである．
-射は演算子を一般化したものと思っておけばよい．
-組み合わせ$\mTupleWith{\mathMaybeType{a},\mathMaybeMap}$も圏である．
-
-そこで先ほどの関係をもう一度圏の記法を使って書き直そう．
-\begin{align}
-\mTupleWith{\mType{a},\mMap}
-&\mListProjection\mTupleWith{\mListType{a},\mMapList}\\
-\mTupleWith{\mType{a},\mMap}
-&\mMaybeProjection\mTupleWith{\mMaybeType{a},\mMapMaybe}
-\end{align}
-これまでの型コンストラクタ $\mListTypeConstructor$ が例えば $\mType{a}$ を $\mListType{a}$ にだけしていたのに対し，この写像 $\mListProjection$ は $\mTupleWith{\mType{a},\mMap}$ という組み合わせを $\mTupleWith{\mListType{a},\mMapList}$ に変えるところに注目しよう．
-
-このような圏から圏への写像を\keyword{関手}と呼ぶ．
 
 
 
@@ -1912,7 +1896,7 @@ Maybe&$\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mMaybeWith{x}$\\\
 \begin{center}
 \begin{tabular}{||c|c|c|c||}\hline
 型&型コンストラクタ&マップ&値コンストラクタ\\\hline\hline
-「何か」&&$\mathGeneralMap$&$\mathPureWith{x}$\\
+「何か」&---&$\mathGeneralMap$&$\mathPureWith{x}$\\
 リスト&$\mathList$&$\mMapList$&$\mathListWith{x}$\\
 Maybe&$\mathMaybe$&$\mathMaybeMap$&$\mathMaybeWith{x}$\\\hline
 \end{tabular}
@@ -1921,22 +1905,9 @@ Maybe&$\mathMaybe$&$\mathMaybeMap$&$\mathMaybeWith{x}$\\\hline
 
 
 
-抽象的な\keyword{一般マップ演算子} ($\mathGeneralMap$)とする．
-一般マップ演算子は，右引数がリストであればリストのマップ演算子を，
-右引数がMaybeであればMaybeのマップ演算子に「化ける」．
-右引数がただの数であれば，ただの空白になる．
+抽象的な一般マップ演算子 $(\mathGeneralMap)$ は，右引数がリストであればリストのマップ演算子を，右引数がMaybeであればMaybeのマップ演算子に「化ける」．右引数がただの数であれば，ただの空白になる．
 
-この意味は，
-もし$f\mathGeneralMap\mList{t}$と書いてあれば$f\mMapList\mList{t}$のことであるし，
-もし$f\mathGeneralMap\mathMaybeVar{m}$と書いてあれば$f\mathMaybeMap\mathMaybeVar{m}$のことであると，
-自動的に解釈することである．
-そして，何の飾りもつけられていない変数$x$がふらっと現れ，
-目の前に$f\mathGeneralMap x$という式が登場しても，落ち着いて変数$x$の型を調べ，
-変数$x$がリストならば$\mathGeneralMap$の部分に$\mMapList$を，
-変数$x$がMaybeならば$\mathGeneralMap$の部分に$\mathMaybeMap$をはめ込むのだ．%
-\footnote{\haskell では一般マップ演算子は\code{fmap}である．
-ただしその実装は与えられず，対象とする型に応じて定義されるものとする．
-例えばリストに対しては\code{fmap = map}と定義されている．}
+この意味は，もし $f\mMap\mList{x}$ と書いてあれば $f\mMapList\mList{x}$ のことであるし，もし $f\mMap\mMaybe{x}$ と書いてあれば $f\mMapMaybe\mMaybe{x}$ のことであると自動的に解釈することである．そして，何の飾りもつけられていない変数 $x$ がふらっと現れ，目の前に $f\mMap x$という式が登場しても，落ち着いて変数 $x$ の型を調べ，変数 $x$ がリストならば $\mMap$ の部分に $\mMapList$ を，変数 $x$ がMaybeならば $\mMap$ の部分に $\mMapMaybe$ をはめ込むのだ．\footnote{\haskell では一般マップ演算子 $(\mMap)$ は \code{fmap} である．ただしその実装は与えられず，対象とする型に応じて定義されるものとする．例えばリストに対しては \code{fmap = map} と定義されている．}
 
 
 \section{アプリカティブ関手}
@@ -1991,7 +1962,7 @@ f\mMapMaybe\mMaybe{x}
 \begin{equation}
 f\mMap\omega=\mPureWith{f}\mApplicativeMap\omega
 \end{equation}
-となるような\keyword{一般アプリカティブマップ演算子} $(\mApplicativeMap)$ を考える．\footnote{\haskell では一般アプリカティブマップ演算子を \code{<*>} と書く．}
+となるような\keyword{一般アプリカティブマップ演算子} $(\mApplicativeMap)$ を考える．ここに $f$ は関数，$\omega$ はリストやMaybeといったコンテナ型の変数すなわち\keyword{コンテナ変数}である．\footnote{\haskell では一般アプリカティブマップ演算子を \code{<*>} と書く．}
 
 一般アプリカティブマップ演算子は $\mListFunctor$ 関手や $\mMaybeFunctor$ 関手でそれぞれリストバージョンのアプリカティブマップ演算子やMaybeバージョンのアプリカティブマップ演算子を生成することが出来，それぞれリスト値コンストラクタ，Maybe値コンストラクタを用いることでリストバージョンのマップ演算子，Maybeバージョンのマップ演算子を生成することが出来る．リスト値コンストラクタ，Maybe値コンストラクタはそれぞれピュア演算子を $\mListFunctor$ 関手，$\mMaybeFunctor$ 関手で変換したものであるから，結局，一般アプリカティブマップ演算子とピュア演算子のふたつがあれば，任意のクラスのマップ演算子を生成することが出来る．
 \begin{align}
@@ -2004,26 +1975,9 @@ f\mMap\omega=\mPureWith{f}\mApplicativeMap\omega
 
 ---
 
-$$f\mMap\alpha=\mPureWith{f}\mApplicativeMap\alpha$$
+ピュア演算子とは値コンストラクタを利用した型変換演算子である．「ピュア値コンストラクタ」と呼ばずにピュア演算子と呼ぶのは，単純に「ピュア値」というものがないからである．例えばリストのピュア演算子は $\mListWith{x}$ であるし，Maybeのピュア演算子は $\mMaybeWith{x}$ であり，それぞれ具体的な変数を生成するが，変数 $x$ にピュア演算子を適用した $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在しない．
 
-
----
-
-ピュア演算子とは型コンストラクタを利用した「最もシンプルな」型変換演算子である．
-例えばリストのピュア演算子は単に$[x]$であるし，
-Maybeのピュア演算子は$\mathMaybeWith{x}$である．
-一般のピュア演算子は$\mathPureWith{x}$と書くものとする．
-ピュア演算子は，いまのところ便宜上導入されたものと考えて差し支えない．
-というのも，その主たる使い道が（アプリカティブではない）マップ演算子との後方互換性のためだからである．%
-\footnote{\haskell は一般のピュア演算子の実装を与えていない．変数の型に応じて対応する関数が適用される．}
-
-一般マップ演算子$(\mathGeneralMap)$は，
-ピュア演算子と一般アプリカティブマップ演算子を使って
-$$
-f\mathGeneralMap\mathContainerVar{x}=\mathPureWith{f}\mathApplicativeGeneralMap\mathContainerVar{x}
-$$
-と再定義できる．
-
+ピュア演算子は，いまのところ便宜上導入されたものと考えて差し支えない．というのも，その主たる使い道が（アプリカティブではない）マップ演算子との後方互換性のためだからである．\footnote{\haskell は一般のピュア演算子の実装を与えていない．変数の型に応じて対応する関数が適用される．}
 
 \section{アプリカティブスタイル}
 
@@ -2051,8 +2005,9 @@ f\mApplicativeApply g\mApplicativeMap h\mApplicativeMap\omega
 \end{equation}
 という計算の流れを示す．もちろん関数合成演算子と関数適用演算子でも似たことはできるが，関数合成演算子と関数適用演算子だけでは $\omega$ が例えば $\mNothing$ である可能性を扱えないし，また計算の途中経過がなんらかのエラーで $\mNothing$ になるような系も扱えない．（後者はアプリカティブスタイルでも扱えない．そのために次章で述べる「モナド」が登場する．）
 
-\section{余計な話：アプリ化ティブマップ演算子の実装*}
+\section{余計な話：アプリカティブマップ演算子の実装*}
 
+リストとMaybeのアプリカティブマップ演算子は，それぞれのマップ演算子から定義することが出来る．リストのアプリカティブマップ演算子の定義は次の通り．
 \begin{equation}
 \left\{
 \begin{split}
@@ -2061,8 +2016,9 @@ f\mApplicativeApply g\mApplicativeMap h\mApplicativeMap\omega
 \end{split}
 \right.
 \end{equation}
+ここに $(f:\mList{f})$ は関数のリストであり， $\mList{x}$ はリスト変数である．
 
-
+Maybeのアプリカティブマップ演算子の定義は次の通り．
 \begin{equation}
 \label{eq:maybe-applicative-map-by-maybe-map}
 \mMaybe{n}\mApplicativeMapMaybe\mMaybe{m}
@@ -2071,8 +2027,7 @@ f\mMapMaybe\mMaybe{m}&\mIf\mMaybe{n}\equiv\mMaybeWith{f}\\
 \mNothing&\mOtherwise
 \end{cases}
 \end{equation}
-
-式\eqref{eq:maybe-applicative-map-by-maybe-map}を展開すると
+ここに $\mMaybe{n}$ はMaybeコンテナに入れられた関数，$\mMaybe{m}$ はMaybe変数である．式\eqref{eq:maybe-applicative-map-by-maybe-map}を展開すると
 \begin{align}
 \mMaybe{n}\mApplicativeMapMaybe\mMaybe{m}
 &=\begin{cases}
@@ -2103,40 +2058,75 @@ A...
 \section{もうひとつの関手*}
 
 
-一般マップ演算子をピュア演算子と一般アプリカティブマップ演算子に分解することで，
-式の見通しを良くすることができるアプリカティブスタイルという記法を採用できた．
-しかしながら，アプリカティブスタイル変数に文脈を与えるタイミングは
-最初すなわち式の左端の1回に限られている．
-そこで，任意のタイミングで変数に文脈を与えられるように，
-別な方法で一般マップ演算子を分解したものが\keyword{モナド}である．
+一般マップ演算子をピュア演算子と一般アプリカティブマップ演算子に分解することで，式の見通しを良くすることができるアプリカティブスタイルという記法を採用できた．アプリカティブスタイルでは
+\begin{equation}
+f\mApplicativeApply g\mApplicativeMap h\mApplicativeMap\omega
+\end{equation}
+という風にコンテナ変数 $\omega$ に関数 $h,g,f$ を次々に適用させることが出来る．
 
-Maybeの例を思い出そう．
-Maybe型の変数$\mathMaybeVar{m}$はラップされた値$\mathMaybeWith{z}$を持つのか，
-エラーを表す$\mathNothing$を持つのかを選べる．
-そこで，引数$x$をとり何らかの計算をする関数$\phi$を考えよう．
-この関数$\phi$は引数$x$の値次第ではエラーを表す$\mathNothing$を返す．
-例えば
+しかしながら，アプリカティブスタイルでは変数に文脈を与えるタイミングが最初すなわち式の左端の1回に限られている．そこで，任意のタイミングで変数に文脈を与えられるように，別な方法で一般マップ演算子を分解したものが\keyword{モナド}である．
+
+Maybeの例を思い出そう．Maybe型の変数 $\mMaybe{m}$ はラップされた値 $\mMaybeWith{x}$ を持つのか，エラーを表す $\mNothing$ を持つのかを選べる．そこで，引数 $x$ をとり何らかの計算をする関数 $\phi$ を考えよう．この関数 $\phi$ は引数 $x$ の値次第ではエラーを表す $\mNothing$ を返す．例えば
 \begin{equation}
 \phi x=\begin{cases}
-\mathMaybeWith{z}\mathWhere z=\tan x&\mathIf -\frac{\pi}{2}<x\mathAnd x<\frac{\pi}{2}\\
-\mathNothing&\mathOtherwise
+\mMaybeWith{1/x}&\mathIf x\neq0\\
+\mNothing&\mOtherwise
 \end{cases}
 \end{equation}
-といった関数が考えられる．
-
-この式を一般化して
+といった関数が考えられる．変数 $x$ は文脈を持っていないが，関数 $\phi$ を適用した結果である $\phi x$ は文脈を持っていることに注意しよう．いま $\phi x$ はMaybeという文脈を持っているから，我々は
 \begin{equation}
-\phi x=\begin{cases}
-\mathUnitWith{z}\mathWhere z=fx&\mathIf\dots\\
-\mathPureNothing&\mathOtherwise
+\mMaybe{y}=\phi x
+\end{equation}
+という風に結果をMaybe変数に保存しなければならない．今まで見てきた $\mMaybe{y}=f\mMapMaybe\mMaybe{x}$ の関係とは異なることを思い出そう．
+
+関数 $\phi$ の型は
+\begin{equation}
+\phi\mIn\mProjection{\mType{a}}{\mMaybeType{a}}
+\end{equation}
+である．ということは，関数 $\phi$ をMaybe変数に適用させるようと思っても，我々が既に知っているマップ演算子 $\mMapMaybe$ やアプリカティブマップ演算子 $\mApplicativeMapMaybe$ が使えないということである．前者は第1引数に $\mProjection{\mType{a}}{\mType{a}}$ 型の関数を取るし，後者は第1引数に $\mMaybeWith{(\mProjection{\mType{a}}{\mType{a}})}$ 型の関数（Maybe関数）を取るからである． % ***CHECK***
+
+そこで，新しいマップ演算子を発明する．いま，任意のMaybe変数を $\mMaybe{x}$ としよう．新しいマップ演算子 $\mBindLeftMaybe$ を使って
+\begin{equation}
+\mMaybe{y}=\phi\mBindLeftMaybe\mMaybe{x}
+\end{equation}
+とする．新しいマップ演算子が矢印の形をしているのは，今後右向きにも使えるようにするためである．
+
+この新しいマップ演算子 $\mBindLeftMaybe$ のことをMaybeの\keyword{バインド演算子}と呼ぶ．演算 $(\phi\mBindLeftMaybe\mMaybe{x})$ の結果はMaybe値であるから，バインド演算子は連続して用いることが出来る．通常の引数を取ってMaybe値を返すもう一つの関数 $\psi$ があるとして
+\begin{align}
+\mMaybe{y}&=\phi\mBindLeftMaybe\mMaybe{x}\\
+\mMaybe{z}&=\psi\mBindLeftMaybe\mMaybe{y}
+\end{align}
+であるとき，上式は
+\begin{equation}
+\label{eq:maybe-z-bind-style}
+\mMaybe{z}=\psi\mBindLeftMaybe\phi\mBindLeftMaybe\mMaybe{x}
+\end{equation}
+のように一つの式にまとめられる．
+
+バインド演算子は向きを反転させても良い．式\eqref{eq:maybe-z-bind-style}は
+\begin{equation}
+\mMaybe{z}=\mMaybe{x}\mBindRightMaybe\phi\mBindRightMaybe\psi
+\end{equation}
+と書いてもよく，矢印の向きを考慮する場合は $\mBindLeftMaybe$ を\keyword{左バインド演算子}，$\mBindRightMaybe$ を\keyword{右バインド演算子}と呼ぶ．
+
+---
+
+さて，こうなると $\phi x$ は値の入ったコンテナになるか，エラーを表す $\mNothing$ になるか事前にはわからないことになる．
+
+---
+
+Maybe値を返す関数 $\phi$ を一般化して
+\begin{equation}
+\mu x=\begin{cases}
+\mUnitWith{z}\mWhere z=fx&\mIf\dots\\
+\mPureNothing&\mOtherwise
 \end{cases}
 \end{equation}
-という関数を考えてみよう．
-ここに$\mathUnitWith{z}$は一種のピュア演算子で，\keyword{ユニット演算子}と呼ぶ．
-また$\mathPureNothing$はエラーや空リストを一般化した記号である．
+という関数 $\mu$ を考えてみよう．ここに $\mUnitWith{z}$ は一種のピュア演算子で，\keyword{ユニット演算子}と呼ぶ．また $\mPureNothing$ はエラーや空リストを一般化した記号である．
 
-さて，こうなると$\phi x$は値の入ったコンテナになるか，
-エラーを表す$\mathPureNothing$になるか事前にはわからないことになる．
+---
+
+
 この関数$\phi$の型は
 \begin{equation}
   \phi\mathIn\mathTypeParameter{a}\mMapsTo\mathPureWith{\mathTypeParameter{b}}
