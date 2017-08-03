@@ -90,6 +90,7 @@
 \newcommand{\mEnumTypeClass}{\mSpecialTypeClass{Enum}}
 \newcommand{\mIntegralTypeClass}{\mSpecialTypeClass{Integral}}
 \newcommand{\mMonoidTypeClass}{\mSpecialTypeClass{Monoid}}
+\newcommand{\mFunctorTypeClass}{\mSpecialTypeClass{Functor}}
 \newcommand{\mEmptyList}{{[\,]}}
 \newcommand{\mNothing}{\emptyset}
 \newcommand{\mPureNothing}{\varnothing}
@@ -1856,16 +1857,31 @@ Maybe&$\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mMaybeOf{x}$\\\hl
 \end{align}
 であることを知っている．同じようにマップ演算子の原型となるような\keyword{一般マップ演算子}の存在を仮定し，その一般マップ演算子から型コンストラクタのようなものでマップ演算子 $\mMapList$ やMaybeマップ演算子 $\mMapMaybe$ を生成できれば，色々便利である．
 
-
-いま$\mListProjection$と$\mMaybeProjection$という写像ががあって，次のように書けるとしよう．
+いや，この際だから型とマップ演算子を別々に考えるのではなく，$\mTupleOf{\mListType{a},\mMapList}$ や $\mTupleOf{\mMaybeType{a},\mMapMaybe}$ のように組み合わせで考えよう．そして，
 \begin{align}
-\mType{a}&\mListProjection\mListType{a}\\
-\mMap&\mListProjection\mMapList\\
-% \mathPureWith{x}&\xrightarrow{\;\mathListFunctor\;}\mathListWith{x}\\
-\mType{a}&\mMaybeProjection\mMaybeType{a}\\
-\mMap&\mMaybeProjection\mMapMaybe
-% \mathPureWith{x}&\xrightarrow{\;\mathMaybeFunctor\;}\mathMaybeWith{x}
+\mTupleOf{\mListType{a},\mMapList}&=\mListFunctor\mTupleOf{\mType{a},\mMap}\\
+\mTupleOf{\mMaybeType{a},\mMapMaybe}
+&=\mMaybeFunctor\mTupleOf{\mType{a},\mMap}
 \end{align}
+という風に書いてみよう．ここに $\mMap$ は一般マップ演算子である．
+
+組み合わせ $\mTupleOf{\mListType{a},\mMapList}$ や $\mTupleOf{\mMaybeType{a},\mMapMaybe}$ のことを\keyword{圏}と呼ぶ．そして，圏から圏への写像，すなわち $\mListFunctor$ や $\mMaybeFunctor$ のことを\keyword{関手}と呼ぶ．
+
+型コンストラクタ $\mListTypeConstructor$ や $\mMaybeTypeConstructor$ はそれぞれ関手 $\mListFunctor$ や $\mMaybeFunctor$ の一部である．\haskell では型コンストラクタが関手の一部であるような型をひとくくりにして $\mFunctorTypeClass$ 型クラスに
+属するとする．すなわち，リスト型，Maybe型は $\mFunctorTypeClass$ 型クラスに属す．
+
+
+---
+
+% いま$\mListProjection$と$\mMaybeProjection$という写像ががあって，次のように書けるとしよう．
+% \begin{align}
+% \mType{a}&\mListProjection\mListType{a}\\
+% \mMap&\mListProjection\mMapList\\
+%% \mathPureWith{x}&\xrightarrow{\;\mathListFunctor\;}\mathListWith{x}\\
+% \mType{a}&\mMaybeProjection\mMaybeType{a}\\
+% \mMap&\mMaybeProjection\mMapMaybe
+%% \mathPureWith{x}&\xrightarrow{\;\mathMaybeFunctor\;} \mathMaybeWith{x}
+% \end{align}
 
 任意の型$\mathTypeParameter{a}$に
 型コンストラクタ$\mathList$を適用して得られる
@@ -1887,11 +1903,6 @@ Maybe&$\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mMaybeOf{x}$\\\hl
 
 このような圏から圏への写像を\keyword{関手}と呼ぶ．
 
-\begin{align}
-\mTupleOf{\mListType{a},\mMapList}&=\mListFunctor\mTupleOf{\mType{a},\mMap}\\
-\mTupleOf{\mMaybeType{a},\mMapMaybe}
-&=\mMaybeFunctor\mTupleOf{\mType{a},\mMap}
-\end{align}
 
 
 \begin{table}
@@ -1924,43 +1935,29 @@ Maybe&$\mathMaybe$&$\mathMaybeMap$&$\mathMaybeWith{x}$\\\hline
 ただしその実装は与えられず，対象とする型に応じて定義されるものとする．
 例えばリストに対しては\code{fmap = map}と定義されている．}
 
-型コンストラクタ$\mathList$や$\mathMaybe$は
-それぞれ関手$\mathListFunctor$や$\mathMaybeFunctor$の一部である．
-\haskell では型コンストラクタが関手の一部であるような型をひとくくりにして$\mathTypeClass{Functor}$型クラスに
-属するとする．
-すなわち，リスト型，Maybe型は$\mathTypeClass{Functor}$型クラスに属す．
 
 \section{アプリカティブ関手}
 
-一般マップ演算子をさらに汎用性のあるものにするために，二つの要素に分解する．
-その要素とは\keyword{ピュア演算子}と\keyword{一般アプリカティブマップ演算子}である．
-一般アプリカティブマップ演算子は$\mathApplicativeGeneralMap$と書く．%
-\footnote{\haskell では一般アプリカティブマップ演算子を\code{<*>}と書く．}
+一般マップ演算子をさらに汎用性のあるものにするために，二つの要素に分解する．その要素とは\keyword{ピュア演算子}と\keyword{一般アプリカティブマップ演算子}である．一般アプリカティブマップ演算子は $\mApplicativeMap$ と書く．\footnote{\haskell では一般アプリカティブマップ演算子を \code{<*>} と書く．}
 
-一般マップ演算子が「普通の関数」$f$をコンテナの中の変数に適用するのに対し，
-一般アプリカティブマップ演算子はコンテナの中の関数をコンテナの中の変数へ適用する．
+一般マップ演算子が「普通の関数」$f$ をコンテナの中の変数に適用するのに対し，一般アプリカティブマップ演算子はコンテナの中の関数をコンテナの中の変数へ適用する．
 
-一般マップ演算子の実装に（リストバージョンの）マップ演算子，
-Maybeバージョンのマップ演算子があったように，
-一般アプリカティブマップ演算子にもリストバージョンのアプリカティブマップ演算子，
-Maybeバージョンのアプリカティブマップ演算子がある．
+一般マップ演算子の実装に（リストバージョンの）マップ演算子，Maybeバージョンのマップ演算子があったように，一般アプリカティブマップ演算子にもリストバージョンのアプリカティブマップ演算子，Maybeバージョンのアプリカティブマップ演算子がある．
 
-リストバージョンのアプリカティブマップ演算子$(\mathApplicativeMap)$は左引数のリスト内の
-すべての関数を順番に右引数のリスト内の変数に適用し，その結果をリストとして返す．
-例えば
-$$
-\mathListWith{f,g,h}\mathApplicativeGeneralMap\mathListWith{x,y,z}
-$$
+リストバージョンのアプリカティブマップ演算子 $(\mApplicativeMapList)$ は左引数のリスト内のすべての関数を順番に右引数のリスト内の変数に適用し，その結果をリストとして返す．例えば
+\begin{equation}
+\mListOf{f,g,h}\mApplicativeMap\mListOf{x,y,z}
+\end{equation}
 とした場合，左引数，右引数ともリストであるため
-$$
-\mathListWith{f,g,h}\mathApplicativeGeneralMap\mathListWith{x,y,z}
-=\mathListWith{f,g,h}\mathApplicativeMap\mathListWith{x,y,z}
-$$
+\begin{equation}
+\mListOf{f,g,h}\mApplicativeMap\mListOf{x,y,z}
+=\mListOf{f,g,h}\mApplicativeMapList\mListOf{x,y,z}
+\end{equation}
 となり，その結果は
 \begin{align}
-\mathListWith{f,g,h}\mathApplicativeGeneralMap\mathListWith{x,y,z}
-&=\mathListWith{f,g,h}\mathApplicativeMap\mathListWith{x,y,z}\\
-&=\mathListWith{fx,fy,fz,gx,gy,gz,hx,hy,hz}
+\mListOf{f,g,h}\mApplicativeMap\mListOf{x,y,z}
+&=\mListOf{f,g,h}\mApplicativeMapList\mListOf{x,y,z}\\
+&=\mListOf{fx,fy,fz,gx,gy,gz,hx,hy,hz}
 \end{align}
 である．
 
