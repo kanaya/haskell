@@ -1991,89 +1991,16 @@ f\mMapMaybe\mMaybe{x}
 \begin{equation}
 f\mMap\omega=\mPureWith{f}\mApplicativeMap\omega
 \end{equation}
-となるような\keyword{一般アプリカティブマップ演算子} $(\mApplicativeMap)$ を考える．
+となるような\keyword{一般アプリカティブマップ演算子} $(\mApplicativeMap)$ を考える．\footnote{\haskell では一般アプリカティブマップ演算子を \code{<*>} と書く．}
 
----
-
-
-二つの要素に分解する．その要素とは\keyword{ピュア演算子}と\keyword{一般アプリカティブマップ演算子}である．一般アプリカティブマップ演算子は $\mApplicativeMap$ と書く．\footnote{\haskell では一般アプリカティブマップ演算子を \code{<*>} と書く．}
-
-一般マップ演算子が「普通の関数」$f$ をコンテナの中の変数に適用するのに対し，一般アプリカティブマップ演算子はコンテナの中の関数をコンテナの中の変数へ適用する．
-
-一般マップ演算子の実装に（リストバージョンの）マップ演算子，Maybeバージョンのマップ演算子があったように，一般アプリカティブマップ演算子にもリストバージョンのアプリカティブマップ演算子，Maybeバージョンのアプリカティブマップ演算子がある．
-
-リストバージョンのアプリカティブマップ演算子 $(\mApplicativeMapList)$ は左引数のリスト内のすべての関数を順番に右引数のリスト内の変数に適用し，その結果をリストとして返す．例えば
-\begin{equation}
-\mListWith{f,g,h}\mApplicativeMap\mListWith{x,y,z}
-\end{equation}
-とした場合，左引数，右引数ともリストであるため
-\begin{equation}
-\mListWith{f,g,h}\mApplicativeMap\mListWith{x,y,z}
-=\mListWith{f,g,h}\mApplicativeMapList\mListWith{x,y,z}
-\end{equation}
-となり，その結果は
+一般アプリカティブマップ演算子は $\mListFunctor$ 関手や $\mMaybeFunctor$ 関手でそれぞれリストバージョンのアプリカティブマップ演算子やMaybeバージョンのアプリカティブマップ演算子を生成することが出来，それぞれリスト値コンストラクタ，Maybe値コンストラクタを用いることでリストバージョンのマップ演算子，Maybeバージョンのマップ演算子を生成することが出来る．リスト値コンストラクタ，Maybe値コンストラクタはそれぞれピュア演算子を $\mListFunctor$ 関手，$\mMaybeFunctor$ 関手で変換したものであるから，結局，一般アプリカティブマップ演算子とピュア演算子のふたつがあれば，任意のクラスのマップ演算子を生成することが出来る．
 \begin{align}
-\mListWith{f,g,h}\mApplicativeMap\mListWith{x,y,z}
-&=\mListWith{f,g,h}\mApplicativeMapList\mListWith{x,y,z}\\
-&=\mListWith{fx,fy,fz,gx,gy,gz,hx,hy,hz}
+\mTupleWith{\mListType{a},\mApplicativeMapList,\mListWith{\dots}}
+&=\mListFunctor\mTupleWith{\mType{a},\mApplicativeMap,\mPureWith{\dots}}\\
+\mTupleWith{\mMaybeType{a},\mApplicativeMapMaybe,\mMaybeWith{\dots}}
+&=\mMaybeFunctor\mTupleWith{\mType{a},\mApplicativeMap,\mPureWith{\dots}}
 \end{align}
-である．
 
-リストバージョンのマップ演算子は，リストバージョンのアプリカティブマップ演算子から
-\begin{equation}
-f\mMapList\mList{x}=\mListWith{f}\mApplicativeMapList\mList{x}
-\end{equation}
-のように作ることが出来る．また逆に，リストバージョンのマップ演算子から再帰的にアプリカティブマップ演算子を実装することも出来る．リストバージョンのアプリカティブマップ演算子の実装は
-\begin{equation}
-\left\{
-\begin{split}
-(f:\mList{f})\mApplicativeMapList\mList{x}&=\mFlat((f\mMapList\mList{x}):(\mList{f}\mApplicativeMapList\mList{x}))\\
-\mEmptyList\mApplicativeMapList\mList{x}&=\mEmptyList
-\end{split}
-\right.
-\end{equation}
-とすることも可能である．
-
-Maybeバージョンのアプリカティブマップ演算子 $(\mApplicativeMapMaybe)$ は左引数がもし $\mMaybeWith{f}$ の形をしていれば，その $f$ を右変数 $\mMaybe{m}$ に対して $f\mMapMaybe\mMaybe{m}$ と適用する．
-% 具体的には，もし$\mathMaybeWith{(*)100}\mathApplicativeMaybeMap{}\mathMaybeWith{68}$という式が現れたとすると，アプリカティブマップ演算子の左引数から中身の関数$((*)100)$を抜き出して，右引数の中身$68$に適用し，その結果を再びMaybe値にして返す．式で書けば
-% $$
-% \mathMaybeWith{(*)100}\mathApplicativeMaybeMap{}
-% \mathMaybeWith{68}=\mathMaybeWith{68000}
-% $$
-% となる．
-
-Maybeバージョンのマップ演算子はMaybeバージョンのアプリカティブマップ演算子から
-\begin{equation}
-f\mMapMaybe\mMaybe{m}
-=\mMaybeWith{f}\mApplicativeMapMaybe\mMaybe{m}
-\end{equation}
-と構築できる．また逆に，Maybeバージョンのマップ演算子からMaybeバージョンのアプリカティブマップ演算子を実装を
-\begin{equation}
-\label{eq:maybe-applicative-map-by-maybe-map}
-\mMaybe{n}\mApplicativeMapMaybe\mMaybe{m}
-=\begin{cases}
-f\mMapMaybe\mMaybe{m}&\mIf\mMaybe{n}\equiv\mMaybeWith{f}\\
-\mNothing&\mOtherwise
-\end{cases}
-\end{equation}
-とすることもできる．式\eqref{eq:maybe-applicative-map-by-maybe-map}を展開すると
-\begin{align}
-\mMaybe{n}\mApplicativeMapMaybe\mMaybe{m}
-&=\begin{cases}
-\left\{
-\begin{array}{ll}
-\mMaybeWith{fx}&\mIf\mMaybe{m}\equiv\mMaybeWith{x}\\
-\mNothing&\mOtherwise
-\end{array}\right\}
-&\mIf\mMaybe{n}\equiv\mMaybeWith{f}\\
-\mNothing&\mOtherwise
-\end{cases}\\
-&=\begin{cases}
-\mMaybeWith{fx}&\mIf\mMaybe{m}\equiv\mMaybeWith{x}\mLogicalAnd\mMaybe{n}\equiv\mMaybeWith{f}\\
-\mNothing&\mOtherwise
-\end{cases}
-\end{align}
-である．
 
 ---
 
@@ -2100,43 +2027,29 @@ $$
 
 \section{アプリカティブスタイル}
 
-関数適用演算子$\mathApply$とよく似た演算子$\mathApplicativeApply$ただし
-$$
-f\mathApplicativeApply g=\mathPureWith{f\mathCompose g}
-$$
-なる演算子を導入する．
-この演算子は特別に\keyword{アプリカティブ関数適用演算子}と呼ぶ．%
-\footnote{\haskell では\code{<\$>}と書く．}
+関数適用演算子 $\mApply$ とよく似た演算子 $\mApplicativeApply$ ただし
+\begin{equation}
+f\mApplicativeApply g=\mPureWith{f\mComp g}
+\end{equation}
+なる演算子 $\mApplicativeApply$ を導入する．この演算子は特別に\keyword{アプリカティブ関数適用演算子}と呼ぶ．\footnote{\haskell では\code{<\$>}と書く．}
 
-アプリカティブ関数適用演算子があると，
-わざわざピュア演算子を用いなくとも連続的に「普通の」関数をコンテナ型の引数に適用できる．
-いま変数$\mathContainerVar{x}$をコンテナ型とし，関数$f$と関数$g$が「普通」であるとすると
-$$
-f\mathApplicativeApply g\mathApplicativeGeneralMap\mathContainerVar{x}
-$$
-のようにして変数$\mathContainerVar{x}$に関数$g$，関数$f$を順に作用させることができる．
-このような書き方を\keyword{アプリカティブスタイル}と呼ぶ．
+アプリカティブ関数適用演算子があると，わざわざピュア演算子を用いなくとも連続的に「普通の」関数をコンテナ型の引数に適用できる．いま変数 $\omega$ をコンテナ変数とし，関数 $f$ と関数 $g$ が「普通」であるとすると
+\begin{equation}
+f\mApplicativeApply g\mApplicativeMap\omega
+\end{equation}
+のようにして変数 $\omega$ に関数 $g,f$ を順に作用させることができる．このような書き方を\keyword{アプリカティブスタイル}と呼ぶ．
 
-アプリカティブスタイルのいいところは，
-「普通の」関数が増えてもスタイルを変えなくて良いことである．
-例えば
-$$
-f\mathApplicativeApply g\mathApplicativeGeneralMap h\mathApplicativeGeneralMap\mathContainerVar{x}
-$$
-は期待通りコンテナ型変数$\mathContainerVar{x}$に関数$h$，関数$g$，関数$f$を順に作用させる．
-これは$f\mathApplicativeApply g\mathApplicativeGeneralMap h$と%
-$\mathPureWith{f\mathCompose g\mathCompose h}$が同値だからである．
+アプリカティブスタイルのいいところは，「普通の」関数が増えてもスタイルを変えなくて良いことである．例えば
+\begin{equation}
+f\mApplicativeApply g\mApplicativeMap h\mApplicativeMap\omega
+\end{equation}
+は期待通りコンテナ型変数 $\omega$ に関数 $h,g,f$ を順に作用させる．これは $f\mathApplicativeApply g\mApplicativeMap h$と $\mPureWith{f\mComp g\mComp h}$ が同値だからである．
 
-アプリカティブスタイルは，計算の流れを明確にしているとも言える．
-例えば$f\mathApplicativeApply g\mathApplicativeGeneralMap h\mathApplicativeGeneralMap\mathContainerVar{x}$は
-$$
-\mathContainerVar{x}\mFlow h\mFlow g\mFlow f
-$$
-という計算の流れを示す．
-もちろん関数合成演算子と関数適用演算子でも似たことはできるが，
-関数合成演算子と関数適用演算子だけでは$x$が例えば$\mathNothing$である可能性を扱えないし，
-また計算の途中経過がなんらかのエラーで$\mathNothing$になるような系も扱えない．
-（後者はアプリカティブスタイルでも扱えない．そのために次章で述べる「モナド」が登場する．）
+アプリカティブスタイルは，計算の流れを明確にしているとも言える．例えば $f\mApplicativeApply g\mApplicativeMap h\mApplicativeMap\omega$は
+\begin{equation}
+\omega\mFlow h\mFlow g\mFlow f
+\end{equation}
+という計算の流れを示す．もちろん関数合成演算子と関数適用演算子でも似たことはできるが，関数合成演算子と関数適用演算子だけでは $\omega$ が例えば $\mNothing$ である可能性を扱えないし，また計算の途中経過がなんらかのエラーで $\mNothing$ になるような系も扱えない．（後者はアプリカティブスタイルでも扱えない．そのために次章で述べる「モナド」が登場する．）
 
 \section{余計な話：アプリ化ティブマップ演算子の実装*}
 
