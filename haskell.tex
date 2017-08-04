@@ -92,7 +92,7 @@
 \newcommand{\mMonoidTypeClass}{\mSpecialTypeClass{Monoid}}
 \newcommand{\mFunctorTypeClass}{\mSpecialTypeClass{Functor}}
 \newcommand{\mApplicativeTypeClass}{\mSpecialTypeClass{Applicative}}
-\newcommand{\mEmptyList}{{[\,]}}
+\newcommand{\mMonadTypeClass}{\mSpecialTypeClass{Monad}}\newcommand{\mEmptyList}{{[\,]}}
 \newcommand{\mNothing}{\emptyset}
 \newcommand{\mPureNothing}{\varnothing}
 \newcommand{\mKeyword}[1]{\mathsf{#1}}
@@ -109,8 +109,8 @@
 \newcommand{\mSetWith}[1]{\left\{#1\right\}}
 \newcommand{\mTupleWith}[1]{\left(#1\right)}
 \newcommand{\mMaybeWith}[1]{\[#1\]}
-\newcommand{\mPureWith}[1]{\langle\!\langle#1\rangle\!\rangle}
-\newcommand{\mUnitWith}[1]{\langle#1\rangle}
+\newcommand{\mUnitWith}[1]{\langle\!\langle#1\rangle\!\rangle}
+\newcommand{\mPureWith}[1]{\langle#1\rangle}
 \newcommand{\mList}[1]{{#1}^\mathrm{\star}}
 \newcommand{\mMaybe}[1]{{#1}^\text{?}}
 % \newcommand{\mContainerVar}[1]{\Check{#1}}
@@ -419,7 +419,7 @@ Maybe変数&肩に?をつける&$\mMaybe{m}$\\
 リスト関数&肩に星印をつける&$\mList{f}$\\
 Maybe関数&肩に?をつける&$\mMaybe{a}$\\
 % 一般コンテナ関数&イタリック，ギリシア文字&$\phi,\psi$\\
-モナドを返す関数&ギリシア文字&$\mMonadFunc{\mu}$\\
+コンテナを返す関数&ギリシア文字&$\mMonadFunc{\mu}$\\
 \hline
 添字&ローマン，小文字&$x_\mLeft,x_\mRight$\\
 \hline
@@ -477,8 +477,8 @@ $\mNothing$&空Maybe（ナッシング）&\\
 $\mPureNothing$&空&\\\hline
 $\mListWith{x}$&リスト値コンストラクタ&\\
 $\mMaybeWith{x}$&Maybe値コンストラクタ&\\
-$\mPureWith{x}$&ピュア演算子&\\
-$\mUnitWith{x}$&ユニット演算子&\\
+$\mPureWith{x}$&ピュア演算子（ユニット演算子）&\\
+% $\mUnitWith{x}$&ユニット演算子&\\
 \hline
 $\mMap$&一般マップ&\\
 $\mMapList$&リストのマップ&\\
@@ -2111,12 +2111,12 @@ Maybeの例を思い出そう．Maybe型の変数 $\mMaybe{m}$ はラップさ�
 \begin{equation}
 \mMaybe{n}=\psi\mBindMaybe{}(\phi\mBindMaybe\mMaybe{x})
 \end{equation}
-のように関数を適用できる．バインド演算子は右結合するので，上式は
+のように連続して関数を適用できる．バインド演算子は右結合するので，上式は
 \begin{equation}
 \label{eq:maybe-z-bind-style}
 \mMaybe{z}=\psi\mBindMaybe\phi\mBindMaybe\mMaybe{x}
 \end{equation}
-のように簡潔に書ける．
+のように簡潔に書ける．このスタイルなら演算子もすべて統一出来ていて，かつどの関数でも戻り値を $\mNothing$ に切り替えられるので，アプリカティブスタイルよりも実用性が高いといえる．
 
 % バインド演算子は向きを反転させても良い．式\eqref{eq:maybe-z-bind-style}は
 % \begin{equation}
@@ -2124,13 +2124,11 @@ Maybeの例を思い出そう．Maybe型の変数 $\mMaybe{m}$ はラップさ�
 % \end{equation}
 % と書いてもよく，矢印の向きを考慮する場合は $\mBindLeftMaybe$ を\keyword{左バインド演算子}，$\mBindRightMaybe$ を\keyword{右バインド演算子}と呼ぶ．
 
+というわけで，$\mApplicativeTypeClass$ 型クラスをさらに拡張してバインド演算子を持たせることを考えらてみよう．\footnote{\haskell では歴史的経緯によって $\mApplicativeTypeClass$ 型クラスではなく $\mFunctorTypeClass$ 型クラスを拡張することで $\mMonadTypeClass$ 型クラスを作っていた．そのため $\mMonadTypeClass$ 型クラスでは $\mApplicativeTypeClass$ 型クラスから（意味的には）継承したピュア演算子のことを「ユニット演算子」と呼ぶ．}
+
+$\mFunctorTypeClass$ 型クラスは一般マップ演算子 $(\mMap)$ を持っていた．$\mApplicativeTypeClass$ 型クラスはピュア演算子 $(\mPureWith{x})$ とアプリカティブマップ演算子 $(\mApplicativeMap)$ を持っており，このふたつの演算子から一般マップ演算子を合成できた．新しい $\mMonadTypeClass$ 型クラスは，一般バインド演算子 $(\mBind)$ を持つものとしよう．
+
 ---
-
-さて，こうなると $\phi x$ は値の入ったコンテナになるか，エラーを表す $\mNothing$ になるか事前にはわからないことになる．
-
----
-
-アプリカティブスタイルのことは一旦脇へ置いておいて，もう一度 $\mFunctorTypeClass$ 型クラスに立ち戻る．
 
 Maybe値を返す関数 $\phi$ を一般化して
 \begin{equation}
