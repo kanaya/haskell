@@ -18,6 +18,7 @@
 \newcommand{\cxxeleven}{\cxx\programminglanguage{11}}
 \newcommand{\cxxfourteen}{\cxx\programminglanguage{14}}
 \newcommand{\cxxseventeen}{\cxx\programminglanguage{17}}
+\newcommand{\objectivec}{\programminglanguage{Objective-C}}
 \newcommand{\haskell}{\programminglanguage{Haskell}}
 \newcommand{\java}{\programminglanguage{Java}}
 \newcommand{\lisp}{\programminglanguage{LISP}}
@@ -90,6 +91,7 @@
 \newcommand{\mIntegralTypeClass}{\mSpecialTypeClass{Integral}}
 \newcommand{\mMonoidTypeClass}{\mSpecialTypeClass{Monoid}}
 \newcommand{\mFunctorTypeClass}{\mSpecialTypeClass{Functor}}
+\newcommand{\mApplicativeTypeClass}{\mSpecialTypeClass{Applicative}}
 \newcommand{\mEmptyList}{{[\,]}}
 \newcommand{\mNothing}{\emptyset}
 \newcommand{\mPureNothing}{\varnothing}
@@ -1850,62 +1852,58 @@ Maybe&$\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mMaybeWith{x}$\\\
 
 我々はオブジェクト指向プログラミングよりもエレガントな方法で，リストとMaybeの共通項をくくりだすことにする．いよいよ型クラスの出番である．
 
----
+リスト型 $\mListType{a}$ もMaybe型 $\mMaybeType{a}$ も $\mFunctorTypeClass$ 型クラスに属すのであった．そこで $\mFunctorTypeClass$ は\keyword{一般マップ演算子} $(\mMap)$ とピュア演算子 $(\mPureWith{x})$ を持つものとする．一般マップ演算子は，リスト型であれば $\mMapList$ 演算子に，Maybe型であれば $\mMapMaybe$ 演算子にオーバーライドされる．一方で，ピュア演算子はリスト型であれば $\mListWith{x}$ に，Maybe型であれば $\mMaybeWith{x}$ にオーバーライドされる．
+
+ピュア演算子をピュア値コンストラクタと呼ばないのは，単純に「ピュア値」というものがないからである．$\mFunctorTypeClass$ 型クラスはリスト型やMaybe型を抽象化したものであって，直接変数を生成できない．型クラスは，\cxx の用語で言えば純粋仮想クラスのようなものであるし，\objectivec の用語で言えばメタクラスであるからである．もちろんリストのピュア演算子は $\mListWith{x}$ であるし，Maybeのピュア演算子は $\mMaybeWith{x}$ であり，それぞれ具体的な変数を生成する．しかし変数 $x$ にピュア演算子を適用した $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在しない．\footnote{\haskell は一般のピュア演算子の実装を与えていない．変数の型に応じて対応する関数が適用される．}
 
 
-もし，リストとMaybeに共通の原型があり，その「何か」を「どうにか」したら $\mListTypeConstructor$ 型コンストラクタとマップ演算子 $\mMapList$ になり，その「何か」を別の方法で「どうにか」したら $\mMaybeTypeConstructor$ 型コンストラクタとMaybeマップ演算子 $\mathMaybeMap$ になるとしたら，その「何か」と「どうにか」はなんであろうか．
+% もし，リストとMaybeに共通の原型があり，その「何か」を「どうにか」したら $\mListTypeConstructor$ 型コンストラクタとマップ演算子 $\mMapList$ になり，その「何か」を別の方法で「どうにか」したら $\mMaybeTypeConstructor$ 型コンストラクタとMaybeマップ演算子 $\mathMaybeMap$ になるとしたら，その「何か」と「どうにか」はなんであろうか．
 
-我々は既に，
-\begin{align}
-\mListType{a}&=\mListTypeConstructor\mType{a}\\
-\mMaybeType{a}&=\mMaybeTypeConstructor\mType{a}
-\end{align}
-であることを知っている．同じようにマップ演算子の原型となるような\keyword{一般マップ演算子}の存在を仮定し，その一般マップ演算子から型コンストラクタのようなものでマップ演算子 $\mMapList$ やMaybeマップ演算子 $\mMapMaybe$ を生成できれば，色々便利である．
+% 我々は既に，
+% \begin{align}
+% \mListType{a}&=\mListTypeConstructor\mType{a}\\
+% \mMaybeType{a}&=\mMaybeTypeConstructor\mType{a}
+% \end{align}
+% であることを知っている．同じようにマップ演算子の原型となるような\keyword{一般マップ演算子}の存在を仮定し，その一般マップ演算子から型コンストラクタのようなものでマップ演算子 $\mMapList$ やMaybeマップ演算子 $\mMapMaybe$ を生成できれば，色々便利である．
 
-いや，この際だから型とマップ演算子を別々に考えるのではなく，$\mTupleWith{\mListType{a},\mMapList}$ や $\mTupleWith{\mMaybeType{a},\mMapMaybe}$ のように組み合わせで考えよう．そして，
-\begin{align}
-\mTupleWith{\mListType{a},\mMapList}&=\mListFunctor\mTupleWith{\mType{a},\mMap}\\
-\mTupleWith{\mMaybeType{a},\mMapMaybe}
-&=\mMaybeFunctor\mTupleWith{\mType{a},\mMap}
-\end{align}
-という風に書いてみよう．ここに $\mMap$ は一般マップ演算子である．
+% いや，この際だから型とマップ演算子を別々に考えるのではなく，$\mTupleWith{\mListType{a},\mMapList}$ や $\mTupleWith{\mMaybeType{a},\mMapMaybe}$ のように組み合わせで考えよう．そして，
+% \begin{align}
+% \mTupleWith{\mListType{a},\mMapList}&=\mListFunctor\mTupleWith{\mType{a},\mMap}\\
+% \mTupleWith{\mMaybeType{a},\mMapMaybe}
+% &=\mMaybeFunctor\mTupleWith{\mType{a},\mMap}
+% \end{align}
+% という風に書いてみよう．ここに $\mMap$ は一般マップ演算子である．
 
-組み合わせ $\mTupleWith{\mListType{a},\mMapList}$ や $\mTupleWith{\mMaybeType{a},\mMapMaybe}$ のことを\keyword{圏}と呼ぶ．圏とは，集合すなわち型と，その集合を対象とした\keyword{射}のことで，射とは関数を一般化したものだと思えば良い．そして，圏から圏への写像，すなわち $\mListFunctor$ や $\mMaybeFunctor$ のことを\keyword{関手}と呼ぶ．
+% 組み合わせ $\mTupleWith{\mListType{a},\mMapList}$ や $\mTupleWith{\mMaybeType{a},\mMapMaybe}$ のことを\keyword{圏}と呼ぶ．圏とは，集合すなわち型と，その集合を対象とした\keyword{射}のことで，射とは関数を一般化したものだと思えば良い．そして，圏から圏への写像，すなわち $\mListFunctor$ や $\mMaybeFunctor$ のことを\keyword{関手}と呼ぶ．
 
-これまでの型コンストラクタ $\mListTypeConstructor$ が例えば $\mType{a}$ を $\mListType{a}$ にだけしていたのに対し，関手 $\mListFunctor$ は $\mTupleWith{\mType{a},\mMap}$ という組み合わせを $\mTupleWith{\mListType{a},\mMapList}$ に変えるところに注目しよう．
+% これまでの型コンストラクタ $\mListTypeConstructor$ が例えば $\mType{a}$ を $\mListType{a}$ にだけしていたのに対し，関手 $\mListFunctor$ は $\mTupleWith{\mType{a},\mMap}$ という組み合わせを $\mTupleWith{\mListType{a},\mMapList}$ に変えるところに注目しよう．
 
 
-型コンストラクタ $\mListTypeConstructor$ や $\mMaybeTypeConstructor$ はそれぞれ関手 $\mListFunctor$ や $\mMaybeFunctor$ の一部である．\haskell では型コンストラクタが関手の一部であるような型をひとくくりにして $\mFunctorTypeClass$ 型クラスに
-属するとする．すなわち，リスト型，Maybe型は $\mFunctorTypeClass$ 型クラスに属す．
+% 型コンストラクタ $\mListTypeConstructor$ や $\mMaybeTypeConstructor$ はそれぞれ関手 $\mListFunctor$ や $\mMaybeFunctor$ の一部である．\haskell では型コンストラクタが関手の一部であるような型をひとくくりにして $\mFunctorTypeClass$ 型クラスに属するとする．すなわち，リスト型，Maybe型は $\mFunctorTypeClass$ 型クラスに属す．
 
----
+% ---
 
-ピュア演算子を圏に含めるか？空を圏に含めるか？
+% ピュア演算子を圏に含めるか？空を圏に含めるか？
 
-$$\mTupleWith{\mListWith{x},\mMapList}=\mListFunctor\mTupleWith{\mPureWith{x},\mMap}$$
+% $$\mTupleWith{\mListWith{x},\mMapList}=\mListFunctor\mTupleWith{\mPureWith{x},\mMap}$$
 % $$\mListType{a}=\mTupleWith{\mListWith{x},\mMapList}$$
 
----
+% ---
 
+% \begin{table}
+% \begin{center}
+% \begin{tabular}{||c|c|c|c||}\hline
+% 型&型コンストラクタ&マップ&値コンストラクタ\\\hline\hline
+% 「何か」&---&$\mathGeneralMap$&$\mathPureWith{x}$\\
+% リスト&$\mathList$&$\mMapList$&$\mathListWith{x}$\\
+% Maybe&$\mathMaybe$&$\mathMaybeMap$&$\mathMaybeWith{x}$\\\hline
+% \end{tabular}
+% \end{center}
+% \end{table}
 
+% 抽象的な一般マップ演算子 $(\mathGeneralMap)$ は，右引数がリストであればリストのマップ演算子を，右引数がMaybeであればMaybeのマップ演算子に「化ける」．右引数がただの数であれば，ただの空白になる．
 
-
-\begin{table}
-\begin{center}
-\begin{tabular}{||c|c|c|c||}\hline
-型&型コンストラクタ&マップ&値コンストラクタ\\\hline\hline
-「何か」&---&$\mathGeneralMap$&$\mathPureWith{x}$\\
-リスト&$\mathList$&$\mMapList$&$\mathListWith{x}$\\
-Maybe&$\mathMaybe$&$\mathMaybeMap$&$\mathMaybeWith{x}$\\\hline
-\end{tabular}
-\end{center}
-\end{table}
-
-
-
-抽象的な一般マップ演算子 $(\mathGeneralMap)$ は，右引数がリストであればリストのマップ演算子を，右引数がMaybeであればMaybeのマップ演算子に「化ける」．右引数がただの数であれば，ただの空白になる．
-
-この意味は，もし $f\mMap\mList{x}$ と書いてあれば $f\mMapList\mList{x}$ のことであるし，もし $f\mMap\mMaybe{x}$ と書いてあれば $f\mMapMaybe\mMaybe{x}$ のことであると自動的に解釈することである．そして，何の飾りもつけられていない変数 $x$ がふらっと現れ，目の前に $f\mMap x$という式が登場しても，落ち着いて変数 $x$ の型を調べ，変数 $x$ がリストならば $\mMap$ の部分に $\mMapList$ を，変数 $x$ がMaybeならば $\mMap$ の部分に $\mMapMaybe$ をはめ込むのだ．\footnote{\haskell では一般マップ演算子 $(\mMap)$ は \code{fmap} である．ただしその実装は与えられず，対象とする型に応じて定義されるものとする．例えばリストに対しては \code{fmap = map} と定義されている．}
+一般マップ演算子 $(\mMap)$ は\keyword{多様的}である．この意味は，もし $f\mMap\mList{x}$ と書いてあれば $f\mMapList\mList{x}$ のことであるし，もし $f\mMap\mMaybe{m}$ と書いてあれば $f\mMapMaybe\mMaybe{m}$ のことであると自動的に解釈することである．そして，何の飾りもつけられていない変数 $x$ がふらっと現れ，目の前に $f\mMap x$という式が登場しても，落ち着いて変数 $x$ の型を調べ，変数 $x$ がリストならば $\mMap$ の部分に $\mMapList$ を，変数 $x$ がMaybeならば $\mMap$ の部分に $\mMapMaybe$ をはめ込むのだ．\footnote{\haskell では一般マップ演算子 $(\mMap)$ は \code{fmap} である．ただしその実装は与えられず，対象とする型に応じて定義されるものとする．例えばリストに対しては \code{fmap = map} と定義されている．}
 
 
 \section{アプリカティブ関手}
@@ -1936,23 +1934,23 @@ f\mMapList\mList{x}
 \end{equation}
 と定義できる．
 
-Maybeバージョンについても考えてみよう．Maybeな関数 $\mMaybe{f}$ をMaybeな変数 $\mMaybe{x}$ にマップするアプリカティブマップ演算子 $\mApplicativeMapMaybe$ を
+Maybeバージョンについても考えてみよう．Maybeな関数 $\mMaybe{a}$ をMaybeな変数 $\mMaybe{m}$ にマップするアプリカティブマップ演算子 $\mApplicativeMapMaybe$ を
 \begin{equation}
-\mMaybe{f}\mApplicativeMapMaybe\mMaybe{x}
+\mMaybe{a}\mApplicativeMapMaybe\mMaybe{m}
 =\left\{
 \begin{array}{ll}
 \mMaybeWith{fx}
-&\mIf\left(\mMaybe{f}\equiv\mMaybeWith{f}\right)
+&\mIf\left(\mMaybe{a}\equiv\mMaybeWith{f}\right)
 \mLogicalAnd
-\left(\mMaybe{x}\equiv\mMaybeWith{x}\right)\\
+\left(\mMaybe{m}\equiv\mMaybeWith{x}\right)\\
 \mNothing&\mOtherwise
 \end{array}
 \right.
 \end{equation}
 で定義する．このMaybeバージョンのアプリカティブマップ演算子 $(\mApplicativeMapMaybe)$ からMaybeバージョンのマップ演算子 $(\mMapMaybe)$ は
 \begin{equation}
-f\mMapMaybe\mMaybe{x}
-=\mMaybeWith{f}\mApplicativeMapMaybe\mMaybe{x}
+f\mMapMaybe\mMaybe{m}
+=\mMaybeWith{f}\mApplicativeMapMaybe\mMaybe{m}
 \end{equation}
 のように導出できる．
 
@@ -1960,39 +1958,16 @@ f\mMapMaybe\mMaybe{x}
 \begin{equation}
 f\mMap\omega=\mPureWith{f}\mApplicativeMap\omega
 \end{equation}
-となるような\keyword{一般アプリカティブマップ演算子} $(\mApplicativeMap)$ を考える．ここに $f$ は関数，$\omega$ はリストやMaybeといったコンテナ型の変数すなわち\keyword{コンテナ変数}である．\footnote{\haskell では一般アプリカティブマップ演算子を \code{<*>} と書く．}
-
-一般アプリカティブマップ演算子は $\mListFunctor$ 関手や $\mMaybeFunctor$ 関手でそれぞれリストバージョンのアプリカティブマップ演算子やMaybeバージョンのアプリカティブマップ演算子を生成することが出来，それぞれリスト値コンストラクタ，Maybe値コンストラクタを用いることでリストバージョンのマップ演算子，Maybeバージョンのマップ演算子を生成することが出来る．リスト値コンストラクタ，Maybe値コンストラクタはそれぞれピュア演算子を $\mListFunctor$ 関手，$\mMaybeFunctor$ 関手で変換したものであるから，結局，一般アプリカティブマップ演算子とピュア演算子のふたつがあれば，任意のクラスのマップ演算子を生成することが出来る．
-\begin{align}
-\mTupleWith{\mListType{a},\mApplicativeMapList,\mListWith{\dots}}
-&=\mListFunctor\mTupleWith{\mType{a},\mApplicativeMap,\mPureWith{\dots}}\\
-\mTupleWith{\mMaybeType{a},\mApplicativeMapMaybe,\mMaybeWith{\dots}}
-&=\mMaybeFunctor\mTupleWith{\mType{a},\mApplicativeMap,\mPureWith{\dots}}
-\end{align}
+となるような\keyword{一般アプリカティブマップ演算子} $(\mApplicativeMap)$ を考える．ここに $f$ は関数，$\omega$ はリストやMaybeといったコンテナ型の変数すなわち\keyword{コンテナ変数}である．アプリカティブマップ演算子を持つ型クラスを $\mApplicativeTypeClass$ 型クラスと呼ぶ．\footnote{\haskell では一般アプリカティブマップ演算子を \code{<*>} と書く．}
 
 
----
-
-ピュア演算子とは値コンストラクタを利用した型変換演算子である．「ピュア値コンストラクタ」と呼ばずにピュア演算子と呼ぶのは，単純に「ピュア値」というものがないからである．例えばリストのピュア演算子は $\mListWith{x}$ であるし，Maybeのピュア演算子は $\mMaybeWith{x}$ であり，それぞれ具体的な変数を生成するが，変数 $x$ にピュア演算子を適用した $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在しない．
-
-ピュア演算子は，いまのところ便宜上導入されたものと考えて差し支えない．というのも，その主たる使い道が（アプリカティブではない）マップ演算子との後方互換性のためだからである．\footnote{\haskell は一般のピュア演算子の実装を与えていない．変数の型に応じて対応する関数が適用される．}
-
----
-
-
-\begin{equation*}
-\mathApplicativeMap\mathIn
-\underbrace{\mathListWith{\mathTypeParameter{a}\mMapsTo\mathTypeParameter{b}}}_{\mathListWith{f_0,f_1\dots f_n}}
-\mMapsTo
-\underbrace{\mListType{a}}_{\mathListWith{x_0,x_1\dots x_n}}
-\mMapsTo
-\underbrace{\mListType{\mathTypeParameter{b}}}_{\mathListWith{f_0x_0,f_0x_1\dots f_0x_n,f_1x_0,f_1x_1\dots f_nx_n}}
-\end{equation*}
+一般アプリカティブマップ演算子 $(\mApplicativeMap)$ は多様性によってそれぞれリストバージョンのアプリカティブマップ演算子 $(\mApplicativeMapList)$ やMaybeバージョンのアプリカティブマップ演算子 $(\mApplicativeMapMaybe)$ にオーバーライドされ，それぞれリスト値コンストラクタ $(\mListWith{x})$, Maybe値コンストラクタ $(\mMaybeWith{x})$ を用いることでリストバージョンのマップ演算子 $(\mMapList)$, Maybeバージョンのマップ演算子 $(\mMapMaybe)$ を生成することが出来る．リスト値コンストラクタ，Maybe値コンストラクタはそれぞれピュア演算子 $(\mPureWith{x})$ をオーバーライドしたものであるから，結局，一般アプリカティブマップ演算子とピュア演算子のふたつがあれば，任意のクラスのマップ演算子を生成することが出来る．
 
 
 
+% \section{アプリカティブスタイル}
 
-\section{アプリカティブスタイル}
+この節の最後に，アプリカティブスタイルという記法を紹介しておこう．
 
 関数適用演算子 $\mApply$ とよく似た演算子 $\mApplicativeApply$ ただし
 \begin{equation}
@@ -2018,7 +1993,23 @@ f\mApplicativeApply g\mApplicativeMap h\mApplicativeMap\omega
 \end{equation}
 という計算の流れを示す．もちろん関数合成演算子と関数適用演算子でも似たことはできるが，関数合成演算子と関数適用演算子だけでは $\omega$ が例えば $\mNothing$ である可能性を扱えないし，また計算の途中経過がなんらかのエラーで $\mNothing$ になるような系も扱えない．（後者はアプリカティブスタイルでも扱えない．そのために次章で述べる「モナド」が登場する．）
 
-\section{余計な話：アプリカティブマップ演算子の実装*}
+---
+
+
+\begin{equation*}
+\mathApplicativeMap\mathIn
+\underbrace{\mathListWith{\mathTypeParameter{a}\mMapsTo\mathTypeParameter{b}}}_{\mathListWith{f_0,f_1\dots f_n}}
+\mMapsTo
+\underbrace{\mListType{a}}_{\mathListWith{x_0,x_1\dots x_n}}
+\mMapsTo
+\underbrace{\mListType{\mathTypeParameter{b}}}_{\mathListWith{f_0x_0,f_0x_1\dots f_0x_n,f_1x_0,f_1x_1\dots f_nx_n}}
+\end{equation*}
+
+---
+
+
+
+\section{余計な話：アプリカティブマップ演算子の実装}
 
 リストとMaybeのアプリカティブマップ演算子は，それぞれのマップ演算子から定義することが出来る．リストのアプリカティブマップ演算子の定義は次の通り．
 \begin{equation}
@@ -2034,26 +2025,26 @@ f\mApplicativeApply g\mApplicativeMap h\mApplicativeMap\omega
 Maybeのアプリカティブマップ演算子の定義は次の通り．
 \begin{equation}
 \label{eq:maybe-applicative-map-by-maybe-map}
-\mMaybe{n}\mApplicativeMapMaybe\mMaybe{m}
+\mMaybe{\alpha}\mApplicativeMapMaybe\mMaybe{m}
 =\begin{cases}
-f\mMapMaybe\mMaybe{m}&\mIf\mMaybe{n}\equiv\mMaybeWith{f}\\
+f\mMapMaybe\mMaybe{m}&\mIf\mMaybe{\alpha}\equiv\mMaybeWith{f}\\
 \mNothing&\mOtherwise
 \end{cases}
 \end{equation}
-ここに $\mMaybe{n}$ はMaybeコンテナに入れられた関数，$\mMaybe{m}$ はMaybe変数である．式\eqref{eq:maybe-applicative-map-by-maybe-map}を展開すると
+ここに $\mMaybe{\alpha}$ はMaybeコンテナに入れられた関数，$\mMaybe{m}$ はMaybe変数である．式\eqref{eq:maybe-applicative-map-by-maybe-map}を展開すると
 \begin{align}
-\mMaybe{n}\mApplicativeMapMaybe\mMaybe{m}
+\mMaybe{\alpha}\mApplicativeMapMaybe\mMaybe{m}
 &=\begin{cases}
 \left\{
 \begin{array}{ll}
 \mMaybeWith{fx}&\mIf\mMaybe{m}\equiv\mMaybeWith{x}\\
 \mNothing&\mOtherwise
 \end{array}\right\}
-&\mIf\mMaybe{n}\equiv\mMaybeWith{f}\\
+&\mIf\mMaybe{\alpha}\equiv\mMaybeWith{f}\\
 \mNothing&\mOtherwise
 \end{cases}\\
 &=\begin{cases}
-\mMaybeWith{fx}&\mIf\mMaybe{m}\equiv\mMaybeWith{x}\mLogicalAnd\mMaybe{n}\equiv\mMaybeWith{f}\\
+\mMaybeWith{fx}&\mIf\mMaybe{m}\equiv\mMaybeWith{x}\mLogicalAnd\mMaybe{\alpha}\equiv\mMaybeWith{f}\\
 \mNothing&\mOtherwise
 \end{cases}
 \end{align}
