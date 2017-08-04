@@ -109,7 +109,7 @@
 \newcommand{\mMaybeWith}[1]{\[#1\]}
 \newcommand{\mUnitWith}[1]{\langle\!\langle#1\rangle\!\rangle}
 \newcommand{\mPureWith}[1]{\langle#1\rangle}
-\newcommand{\mList}[1]{{#1}^\mathrm{s}}
+\newcommand{\mList}[1]{{#1}^\mathrm{\star}}
 \newcommand{\mMaybe}[1]{{#1}^\text{?}}
 % \newcommand{\mContainerVar}[1]{\Check{#1}}
 \newcommand{\mAnonParameter}{\lozenge}
@@ -124,7 +124,7 @@
 \DeclareMathOperator{\mIn}{{:\!:}}
 \DeclareMathOperator{\mSum}{sum}
 \DeclareMathOperator{\mMapsTo}{\mapsto}
-\DeclareMathOperator{\mBinOp}{\bigstar}
+\DeclareMathOperator{\mBinOp}{\circ}
 \DeclareMathOperator{\mComp}{\bullet}
 \DeclareMathOperator{\mApply}{\$}
 \DeclareMathOperator{\mApplyRight}{\rightsquigarrow}
@@ -593,39 +593,6 @@ $ stack install ghc
 
 第I部は対応する\haskell のコードを脚注に記載している．脚注部分は\haskell を一通り覚えた後で読み返してもらいたい．\footnote{\haskell のコードは \code{x = 1} のようにタイプライタ体で書く．}
 
-% ---
-% 
-% $$x'=fx\Leftrightarrow x\xrightarrow{f}y$$
-% $$x'=fgx
-% \Leftrightarrow x\xrightarrow{g}\xrightarrow{f}x'
-% \Leftrightarrow x\xrightarrow{f\bullet g}x'$$
-% $$\xi\overset{f}{\rightrightarrows}\xi';\;
-% \zeta\overset{f}{\dashrightarrow}\zeta';\;
-% \chi\xmapsto{f}\chi'$$
-% $$x\overset{\boldsymbol\mu}{\twoheadrightarrow}\omega$$
-% $$\xi\underset{\phi}{\rightrightarrows}\xi';\;
-% \zeta\underset{\varphi}{\dashrightarrow}\zeta';\;
-% \chi\xmapsto[\psi]{}\chi'$$
-% $$\chi\xmapsto{h}\underset{f\bullet g}{\looparrowright}\chi'$$
-
-
-% $$\mType{a}\xRightarrow{\mListTypeConstructor}\mListType{a}$$
-% $$\mType{a}\xRightarrow{\mMaybeTypeConstructor}\mMaybeType{a}$$
-
-
-$$y=fx$$
-$$\mList{y}=f\mMapList\mList{x};\;
-\mList{x}=\mListWith{x};\;
-\mList{x}=(x|\mList{x_0})$$
-$$\mMaybe{w}=f\mMapMaybe\mMaybe{z};\;
-\mMaybe{z}=\mMaybeWith{z}$$
-$$\beta=f\mMap\alpha$$
-$$\mList{y}=\mList{f}\mApplicativeMapList\mList{x}$$
-$$\mMaybe{w}=\mMaybe{g}\mApplicativeMapMaybe\mMaybe{z}$$
-$$\beta=\phi\mApplicativeMap\alpha$$
-$$\omega={\boldsymbol\mu}x$$
-
-
 \chapter{カリー風な書き方}
 \begin{leader}
 本書では一般の数学書やプログラミングの教科書からは少し異なった記法を用いる．ある概念が発明されてからずっと後になって正しい記法が見つかり，それがきっかけとなって正しく理解されるという現象は歴史上よくあることである．本書でも様々な新しい記号，記法を導入するが，この章では\haskell に近い記法から始めることにする．
@@ -685,7 +652,7 @@ lambda x: 1 + x
 \begin{equation}
 \mLambdaExp{x}{1+x}
 \end{equation}
-と書くことにする．この式はラムダ式を発明したチャーチのオリジナルの論文の記法であれば $\Hat{x}\,.\,1+x$ と書かれたところであり，現在でも多くの書物で $\lambda x\,.\,1+x$ と記述されるところである．しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号 $(.)$ が今後登場する二項演算子 $\cdot$ と紛らわしいため，上述の記法を用いる．\footnote{\haskell ではラムダ式 $\mLambdaExp{x}{1+x}$ を \code{\textbackslash x -> 1 + x} と書く．}
+と書くことにする．この式はラムダ式を発明したチャーチのオリジナルの論文の記法であれば $\Hat{x}\,.\,1+x$ と書かれたところであり，現在でも多くの書物で $\lambda x\,.\,1+x$ と記述されるところである．しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号 $(.)$ が今後登場する二項演算子 $\cdot$ と紛らわしいため，上述の記法を用いる．\footnote{\haskell ではラムダ式 $\mLambdaExp{x}{1+x}$ を \code{\textbackslash x -> 1+x} と書く．}
 
 ラムダ式は関数である．ラムダ式を適用するには，ラムダ式を括弧で包む必要がある．例を挙げる．
 \begin{equation}
@@ -707,7 +674,7 @@ lambda x: 1 + x
 
 \section{関数定義}
 
-関数 $f$ を $fx=\sin x/x$ と定義したいときに，\python では
+関数 $f$ を $fx=(\sin x)/x$ と定義したいときに，\python では
 \begin{pythoncode}
 \begin{verbatim}
 def f(x):
@@ -722,29 +689,29 @@ f = lambda x: sin(x) / x
 \end{pythoncode}
 も全く同じ意味になるので，ラムダ式を使う方法を基本に据えよう．
 
-関数の定義は，基本的にはラムダ式の変数への代入である．引数 $x$ をとり値 $1+x$ を返す関数 $f$ は
+関数の定義は，基本的にはラムダ式の変数への代入である．引数 $x$ をとり値 $(\sin x)/x$ を返す関数 $f$ は
 \begin{equation}
-f=\mLambdaExp{x}{\sin x/x}
+f=\mLambdaExp{x}{(\sin x)/x}
 \end{equation}
 と定義できる．ただし，この省略形として
 \begin{equation}
-fx=\sin x/x
+fx=(\sin x)/x
 \end{equation}
-と書いても良い．\footnote{\haskell では $f=\mLambdaExp{x}{1+x}$ を \code{f = \textbackslash x -> 1 + x} と書き，一方 $fx=1+x$ を \code{f x = 1 + x} と書く．}
+と書いても良い．\footnote{\haskell では $f=\mLambdaExp{x}{(\sin x)/x}$ を \code{f = \textbackslash x -> (sin x)/x} と書き，一方 $fx=(\sin x)/x$ を \code{f x = (sin x)/x} と書く．}
 
 関数に\keyword{スペシャルバージョン}がある場合はそれらを列挙する．例えば引数が $0$ の場合は特別に戻り値も $0$ であり，その他の場合は関数 $f$ と同じ振る舞いをする関数 $f'$ を考える．このとき $f'$ は
 \begin{equation}
 \left\{
 \begin{split}
 f'0&=1\\
-f'x&=\sin x/x
+f'x&=(\sin x)/x
 \end{split}
 \right.
 \end{equation}
 ように定義する．これを関数の\keyword{パタンマッチ}と呼ぶ．\footnote{\haskell では
 \begin{verbatim}
   f' 0 = 1
-  f' x = sin x / x
+  f' x = (sin x)/x
 \end{verbatim}
 と書く．}
 
@@ -753,7 +720,7 @@ f'x&=\sin x/x
 f'x=\mCaseOf{x}\left\{
 \begin{split}
 0&\rightarrow1\\
-\mAnyParameter&\rightarrow\sin x/x
+\mAnyParameter&\rightarrow(\sin x)/x
 \end{split}
 \right.
 \end{equation}
@@ -761,7 +728,7 @@ f'x=\mCaseOf{x}\left\{
 \begin{verbatim}
   f' x = case x of
     0 -> 1
-    _ -> sin x / x
+    _ -> (sin x)/x
 \end{verbatim}
 と書く．}
 
@@ -770,14 +737,14 @@ f'x=\mCaseOf{x}\left\{
 \begin{split}
 f''x&\mGuard{x<0}=0\\
 &\mGuard{x\equiv 0}=1\\
-&\mGuard{\mathOtherwise}=\sin x/x
+&\mGuard{\mathOtherwise}=(\sin x)/x
 \end{split}
 \end{equation}
 という風に定義する．\footnote{\haskell では
 \begin{verbatim}
   f'' x | x < 0     = 0
         | x == 0    = 1
-        | otherwise = sin x / x
+        | otherwise = (sin x)/x
 \end{verbatim}
 と書く．}
 
@@ -803,7 +770,7 @@ y=\mLetIn{(x'=1+x)}{fx'}
 \label{eq:where}
 y=fx'\mWhere x'=1+x
 \end{equation}
-のように書いても良い．\footnote{\haskell では \code{y = let x' = 1 + x in f x'} および \code{y = f x' where x' = 1 + x} のように書く．}
+のように書いても良い．\footnote{\haskell では \code{y = let x' = 1+x in f x'} および \code{y = f x' where x' = 1+x} のように書く．}
 
 式\eqref{eq:letin}や式\eqref{eq:where}はラムダ式を使った\keyword{シンタックスシュガー}（糖衣構文，構文糖）であり，一般に
 \begin{equation}
@@ -899,9 +866,9 @@ def f(x):
 我々の条件式とは
 \begin{equation}
 fx
-=\mIfThenElse{x\equiv0}{1}{\sin x/x}
+=\mIfThenElse{x\equiv0}{1}{{}(\sin x)/x}
 \end{equation}
-のように $\mIf$ 節，$\mThen$ 節，及び $\mElse$ 節からなるものであって，$\mThen$ 節も $\mElse$ 節も省略できないものとする．$\mIf$ 節の式の値が真 $(\mTrue)$ であれば $\mThen$ 節の式が評価され，偽 $(\mFalse)$ であれば $\mElse$ 節の式が評価される．我々の条件式は\clang/\cxx における三項演算子と等しい．\footnote{\haskell では $fx=\mIfThenElse{x\equiv0}{0}{1+x}$ を \code{f x = if x == 0 then 1 else sin x / x} と書く．}
+のように $\mIf$ 節，$\mThen$ 節，及び $\mElse$ 節からなるものであって，$\mThen$ 節も $\mElse$ 節も省略できないものとする．$\mIf$ 節の式の値が真 $(\mTrue)$ であれば $\mThen$ 節の式が評価され，偽 $(\mFalse)$ であれば $\mElse$ 節の式が評価される．我々の条件式は\clang/\cxx における三項演算子と等しい．\footnote{\haskell では $fx=\mIfThenElse{x\equiv0}{1}{{}(\sin x)/x}$ を \code{f x = if x == 0 then 1 else (sin x)/x} と書く．}
 
 $\mIf$ 節の中身は真理値を返す関数であれば良いので，関数 $p$ を
 \begin{equation}
@@ -909,7 +876,7 @@ p=(\equiv)0
 \end{equation}
 としておき，
 \begin{equation}
-fx=\mIfThenElse{px}{1}{\sin x/x}
+fx=\mIfThenElse{px}{1}{{}(\sin x)/x}
 \end{equation}
 と書く方法もしばしば用いられる．
 
@@ -917,7 +884,7 @@ fx=\mIfThenElse{px}{1}{\sin x/x}
 \begin{equation}
 fx=\begin{cases}
 1&\mIf x\equiv0\\
-\sin x/x&\mOtherwise
+(\sin x)/x&\mOtherwise
 \end{cases}
 \end{equation}
 左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっていることに注目しよう．
@@ -1018,8 +985,7 @@ a_1\mBinOp a_2\mIn\mSet{A}
 
 計算機は残念ながら無限精度の実数を扱えない．そこで標準精度の浮動小数点数を表す型を $\mFloatType$ で表す．
 
-もう一つ，計算機ならではの型を導入しておこう．それは $\mIntType$ とよく似ているが，特別に文字を扱うために考えられた型 $\mCharType$ である．文字といってもその中身は整数である．整数ではあるが，わざわざ別な型とするのには理由がある．歴史的には文字は小さな整数として表現されることが多かったため，
-計算機のメモリが高価であった時代背景もあり，メモリの節約のために文字を表す型が存在した．現在では，文字が数値にエンコードされる方式がより複雑になってきたために，文字を通常の数値と区別するために特別な型が用意さてれいる．
+もう一つ，計算機ならではの型を導入しておこう．それは $\mIntType$ とよく似ているが，特別に文字を扱うために考えられた型 $\mCharType$ である．文字といってもその中身は整数である．整数ではあるが，わざわざ別な型とするのには理由がある．歴史的には文字は小さな整数として表現されることが多かったため，計算機のメモリが高価であった時代背景もあり，メモリの節約のために文字を表す型が存在した．現在では，文字が数値にエンコードされる方式がより複雑になってきたために，文字を通常の数値と区別するために特別な型が用意さてれいる．
 
 関数にも型がある．例えば整数引数を一つ取り，整数を返す関数 $f$ は
 \begin{equation}
@@ -1070,7 +1036,7 @@ g\mIn\mProjection{\mIntType}{\left(\mProjection{\mIntType}{\mIntType}\right)}
 \end{equation}
 と同じ意味である．上式は
 \begin{equation*}
-\mVar{g}\mIn
+g\mIn
 \underbrace{\mIntType}_x
 \mMapsTo
 \underbrace{\overbrace{\mIntType}^y
@@ -1264,18 +1230,17 @@ ls = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 \end{pythoncode}
 のように定義できる．
 
-我々も\python のように，例えば $0$ から始まり $9$ まで続く整数のリストを $[0,1,2,3,4,5,6,7,8,9]$ と書くことにしよう．ただし，これでは冗長なので\keyword{等差数列}に限って簡略化した書き方を許す．例えば $0$ から $9$ までのリストは $\mListWith{0,1\dots9}$ と書いても良い．\footnote{\haskell では \code{[0,1..9]} と書く．ピリオドの数に注意しよう．}
+我々も $0$ から始まり $9$ まで続く整数のリストを $[0,1,2,3,4,5,6,7,8,9]$ と書くことにしよう．ただし，これでは冗長なので\keyword{等差数列}に限って簡略化した書き方を許す．例えば $0$ から $9$ までのリストは $\mListWith{0,1\dots9}$ と書いても良い．\footnote{\haskell では \code{[0,1..9]} と書く．ピリオドの数に注意しよう．}
 
 リストの中身の一つ一つの値のことを\keyword{要素}と呼ぶ．要素のことは元と呼んでも良いが，本書では要素と呼ぶことにする．要素も元も英語のelementの和訳である．
 
 複数の型の要素が混在してもよい配列のことをヘテロジニアスな配列と呼び，ホモジニアスな配列とは区別する．
 
-今後，リストを指す変数は，リストであることを忘れないように変数名の肩に s をつけて
+今後，リストを指す変数は，リストであることを忘れないように変数名の肩に星印をつけて
 \begin{equation}
-\mList{l}=\mListWith{0,1\dots9}
+\mList{x}=\mListWith{0,1\dots9}
 \end{equation}
-のように書くことにしよう．
-% この $\xi$ はラテン文字 $x$ の元になったギリシア文字で「クシー」「グザイ」などと読む．英語では ``xi'' と表現する．\footnote{\haskell コンパイラは人間よりも記憶力が優れているため，変数名はラテン文字で良い．}
+のように書くことにしよう．\footnote{\haskell では星印のかわりに \code{s} を変数名にくっつけて \code{xs = [0,1..9]} のように書く習慣がある．．}
 
 \python ではリスト内包表記が使える．例えば $0$ から $9$ までの倍数のリストは次のように作った．
 \begin{pythoncode}
@@ -1287,13 +1252,13 @@ ls = [i * 2 for i in range(0, 10)]
 
 我々は内包表記のかわりにガードを使って
 \begin{equation}
-\mList{l}=\mListWith{i*2\mGuard{i\mFrom{\mListWith{0,1\dots9}}}}
+\mList{x}=\mListWith{i*2\mGuard{i\mFrom{\mListWith{0,1\dots9}}}}
 \end{equation}
-のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mFrom$を用いた．
+のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mFrom$を用いた．\footnote{\haskell では \code{xs = [i*2 | i <- [0,1..9]]} と書く．}
 
 ガードの中の式は複数あっても良い．例えば
 \begin{equation}
-\mList{l}
+\mList{x}
 =\mListWith{i+j\mGuard{i\mFrom\mListWith{0,1\dots9},\,j\mFrom\mListWith{0,1\dots5},\,i+j>3}}
 \end{equation}
 は $0\le i\le9$ かつ $0\le j\le5$ の範囲で $i+j>3$となる $i$ 及び $j$ から $i+j$ を並べたリストである．これは\python でいう
@@ -1303,11 +1268,11 @@ ls = [i + j for i in range(0, 10) for j in range(0, 6) \
   if i + j > 3]
 \end{verbatim}
 \end{pythoncode}
-のことである．\footnote{\haskell では \code{xs = [i + j | i <- [0, 1..9], j <- [0, 1..5], i + j > 3]} と書く．}
+のことである．\footnote{\haskell では \code{xs = [i+j | i <- [0,1..9], j <- [0,1..5], i+j > 3]} と書く．}
 
-リストは\keyword{結合}できる．例えばリスト$\mList{l}$ とリスト $\mList{m}$ を結合したリストは
+リストは\keyword{結合}できる．例えばリスト$\mList{x}$ とリスト $\mList{y}$ を結合したリストは
 \begin{equation}
-\mList{l}\mAppend\mList{m}
+\mList{x}\mAppend\mList{y}
 \end{equation}
 と表現する．\footnote{\haskell では \code{xs ++ ys} と書く．}
 
