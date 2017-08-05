@@ -51,17 +51,13 @@
 
 %% Math
 
-\newcommand{\mConst}[1]{\text{DO-NOT-USE}}
 \newcommand{\mSpecialConst}[1]{\mathrm{#1}} % Internal use
 \newcommand{\mTrue}{\mSpecialConst{True}}
 \newcommand{\mFalse}{\mSpecialConst{False}}
 \newcommand{\mZero}{\O}
-\newcommand{\mOne}{\mSpecialConst{I}}
-\newcommand{\mVar}[1]{\text{DO-NOT-USE}}
 \newcommand{\mSpecialVar}[1]{\mathrm{#1}} % Internal use
 \newcommand{\mFirstVar}{\mSpecialVar{first}}
 \newcommand{\mRestVar}{\mSpecialVar{rest}}
-\newcommand{\mFunc}[1]{\text{DO-NOT-USE}}
 \newcommand{\mSpecialSub}[1]{\text{#1}}
 \newcommand{\mLeft}{\mSpecialSub{left}}
 \newcommand{\mRight}{\mSpecialSub{right}}
@@ -86,6 +82,7 @@
 \newcommand{\mListType}[1]{\mListWith{\mType{#1}}}
 \newcommand{\mMaybeType}[1]{\mMaybeWith{\mType{#1}}}
 \newcommand{\mPureType}[1]{\mPureWith{\mType{#1}}}
+\newcommand{\mFuncType}[1]{\{\mType{#1}\}_\mType{r}}
 \newcommand{\mFunctor}[1]{\textit{\textbf{#1}}}
 \newcommand{\mSpecialFunctor}[1]{\mathcal{#1}} % Internal use
 \newcommand{\mTypeConstructor}[1]{\mathit{#1}} % Internal use
@@ -123,6 +120,7 @@
 
 \newcommand{\mGuard}[1]{\mathop{\mid_{#1}}}
 
+\DeclareMathOperator{\mId}{\mathrm{id}}
 \DeclareMathOperator{\mIfFunc}{if}
 \DeclareMathOperator{\mLambda}{\backslash}
 \DeclareMathOperator{\mLambdaArrow}{\rightarrow}
@@ -130,10 +128,10 @@
 \DeclareMathOperator{\mSum}{sum}
 \DeclareMathOperator{\mMapsTo}{\mapsto}
 \DeclareMathOperator{\mBinOp}{\bigstar}
+\DeclareMathOperator{\mPlus}{\maltese}
 \DeclareMathOperator{\mComp}{\cdot}
 \DeclareMathOperator{\mApply}{\$}
 \DeclareMathOperator{\mApplyRight}{\rightsquigarrow}
-\DeclareMathOperator{\mFlow}{\leadsto}
 \DeclareMathOperator*{\mFold}{\bigcup}
 \DeclareMathOperator*{\mFoldRight}{\bigsqcup}
 \DeclareMathOperator{\mCons}{:}
@@ -142,6 +140,7 @@
 \DeclareMathOperator{\mMap}{\bullet}
 \DeclareMathOperator{\mMapList}{\odot}
 \DeclareMathOperator{\mMapMaybe}{\boxdot}
+\DeclareMathOperator{\mMapFunc}{\circ}
 \DeclareMathOperator{\mAMap}{\times}
 \DeclareMathOperator{\mAMapList}{\otimes}
 \DeclareMathOperator{\mAMapMaybe}{\boxtimes}
@@ -166,9 +165,11 @@
 \DeclareMathOperator{\mTail}{tail}
 \DeclareMathOperator{\mListTypeConstructor}{\mTypeConstructor{List}}
 \DeclareMathOperator{\mMaybeTypeConstructor}{\mTypeConstructor{Maybe}}
+\DeclareMathOperator{\mFuncTypeConstructor}{\mTypeConstructor{Func}_\mType{r}}
 \DeclareMathOperator{\mIFunctor}{\mSpecialFunctor{I}}
 \DeclareMathOperator{\mListFunctor}{\mFunctor{List}}
 \DeclareMathOperator{\mMaybeFunctor}{\mFunctor{Maybe}}
+\DeclareMathOperator{\mFunctionFunctor}{{(\mapsto)\mType{r}}}
 \DeclareMathOperator{\mListProjection}{\xmapsto{\;\mListFunctor\;}}
 \DeclareMathOperator{\mMaybeProjection}{\xmapsto{\;\mMaybeFunctor\;}}
 \DeclareMathOperator{\mIf}{\mIfKeyword}
@@ -185,7 +186,7 @@
 \newcommand{\mLetIn}[2]{\mLet{#1}\mInKW{#2}}
 \newcommand{\mIfThenElse}[3]{\mIf{#1}\mThen{#2}\mElse{#3}}
 \newcommand{\mLambdaExp}[2]{\mLambda{#1}\mLambdaArrow{#2}}
-\newcommand{\mProjection}[2]{#1\mMapsTo#2}
+\newcommand{\mProj}[2]{#1\mMapsTo#2}
 
 
 %% Math Pretty Printers
@@ -463,6 +464,7 @@ $\mIn$&集合の元&\\
 $\in$&集合の元&\\
 $\mMapsTo$&写像&\\\hline
 $\mBinOp$&任意の二項演算子&\\
+$\mPlus$&一般和記号&\\
 $\mComp$&関数合成&\\
 $\mApply$&関数適用&\\
 $\mApplicativeApply$&アプリカティブ関数適用&\\
@@ -936,7 +938,7 @@ z\mIn\mZSet
 \end{equation}
 と書くことにする．
 
-二つの整数 $\mVar{z_1},\mVar{z_2}$ があるとしよう．両者の間には\keyword{足し算} $(+)$ が定義されており，その結果すなわち\keyword{和}もまた整数である，すなわち
+二つの整数 $z_1,z_2$ があるとしよう．両者の間には\keyword{足し算} $(+)$ が定義されており，その結果すなわち\keyword{和}もまた整数である，すなわち
 \begin{equation}
 z_1+z_2\mIn\mZSet
 \end{equation}
@@ -957,9 +959,7 @@ a_1\mBinOp a_2\mIn\mSet{A}
 \left(a_1\mBinOp a_2\right)\mBinOp a_3
 =a_1\mBinOp\left(a_2\mBinOp{a_3}\right)
 \end{equation}
-ただし $a_1,a_2,a_3\mIn\mSet{A}$ のとき，組み合わせ $\mTupleWith{\mathSet{A},\mBinOp}$ のことを\keyword{半群}と呼ぶ．
-この式\eqref{eq:associativity}で表される性質を\keyword{結合性}と呼ぶ．
-組み合わせ $\mTupleWith{\mZSet,+}$, $\mTupleWith{\mZSet,*}$, $\mTupleWith{\mBSet,\mLogicalOr}$, $\mTupleWith{\mBSet,\mLogicalOr}$ はすべて半群である．
+ただし $a_1,a_2,a_3\mIn\mSet{A}$ のとき，組み合わせ $\mTupleWith{\mathSet{A},\mBinOp}$ のことを\keyword{半群}と呼ぶ．この式\eqref{eq:associativity}で表される性質を\keyword{結合性}と呼ぶ．組み合わせ $\mTupleWith{\mZSet,+}$, $\mTupleWith{\mZSet,*}$, $\mTupleWith{\mBSet,\mLogicalOr}$, $\mTupleWith{\mBSet,\mLogicalOr}$ はすべて半群である．
 
 ところで，整数全体の集合 $\mZSet$ には特別な元 $0$ がある．この元 $0$ は $z\mIn\mZSet$ のとき
 \begin{equation}
@@ -975,7 +975,7 @@ a_1\mBinOp a_2\mIn\mSet{A}
 \end{equation}
 であるとき，元 $\mZero_\mLeft,\mZero_\mRight$ を単位元と呼ぶ．我々は多くの場合 $\mZero_\mLeft=\mZero_\mRight$ であるケースを扱うので，二つの単位元を区別する必要はほとんどないが，必要な場合は $\mZero_\mRight$ を\keyword{左単位元}，$\mZero_\mRight$ を\keyword{右単位元}と呼ぶ．
 
-組み合わせ $\mTupleWith{\mSet{A},\mBinOp,\mZero_\mLeft,\mZero_\mRight}$ のことを
+組み合わせ $\mTupleWith{\mSet{A},\mPlus,\mZero_\mLeft,\mZero_\mRight}$ のことを
 \keyword{モノイド}（\keyword{単位的半群}）と呼ぶ．例えば $\mTupleWith{\mZSet,+,0,0}$ はモノイドであるし，$\mTupleWith{\mZSet,*,1,1}$, $\mTupleWith{\mBSet,\mLogicalOr,\mFalse,\mFalse}$, $\mTupleWith{\mBSet,\mLogicalAnd,\mTrue,\mTrue}$ もモノイドである．これらのモノイドは全て左単位元と右単位元が同じなので，それぞれ $\mTupleWith{\mZSet,+,0}$, $\mTupleWith{\mZSet,*,1}$, $\mTupleWith{\mBSet,\mLogicalOr,\mFalse}$, $\mTupleWith{\mBSet,\mLogicalAnd,\mTrue}$ とも書く．
 
 このように，数学者は数の性質を抽象化し，集合とその集合に対する演算というものの見方をよく行う．
@@ -999,7 +999,7 @@ a_1\mBinOp a_2\mIn\mSet{A}
 
 関数にも型がある．例えば整数引数を一つ取り，整数を返す関数 $f$ は
 \begin{equation}
-f\mIn\mProjection{\mIntType}{\mIntType}
+f\mIn\mProj{\mIntType}{\mIntType}
 \end{equation}
 という型を持つ．上式は
 \begin{equation}
@@ -1038,11 +1038,11 @@ f
 
 整数引数を二つ取り，整数を返す関数 $g$ は
 \begin{equation}
-g\mIn\mProjection{\mIntType}{\mProjection{\mIntType}{\mIntType}}
+g\mIn\mProj{\mIntType}{\mProj{\mIntType}{\mIntType}}
 \end{equation}
 という型を持つ．写像の矢印記号は右結合するので，これは
 \begin{equation}
-g\mIn\mProjection{\mIntType}{\left(\mProjection{\mIntType}{\mIntType}\right)}
+g\mIn\mProj{\mIntType}{\left(\mProj{\mIntType}{\mIntType}\right)}
 \end{equation}
 と同じ意味である．上式は
 \begin{equation*}
@@ -1057,15 +1057,15 @@ g\mIn
 
 \section{余計な話：型クラス}
 
-組み合わせ $\mTupleWith{\mIntType,+,0}$ はモノイドである．同様に $\mTupleWith{\mIntType,*,1}$, $\mTupleWith{\mFloatType,+,0}$, $\mTupleWith{\mFloatType,*,1}$, $\mTupleWith{\mBoolType,\mLogicalOr,\mFalse}$, $\mTupleWith{\mBoolType,\mLogicalAnd,\mTrue}$ もモノイドである．そこで，任意の型 $\mType{a}$ について，組み合わせ $\mTupleWith{\mType{a},\mBinOp,\mOne}$ がモノイドである場合には
+組み合わせ $\mTupleWith{\mIntType,+,0}$ はモノイドである．同様に $\mTupleWith{\mIntType,*,1}$, $\mTupleWith{\mFloatType,+,0}$, $\mTupleWith{\mFloatType,*,1}$, $\mTupleWith{\mBoolType,\mLogicalOr,\mFalse}$, $\mTupleWith{\mBoolType,\mLogicalAnd,\mTrue}$ もモノイドである．そこで，任意の型 $\mType{a}$ について，組み合わせ $\mTupleWith{\mType{a},\mPlus,\mZero}$ がモノイドである場合には
 \begin{equation}
-\mTupleWith{\mType{a},\mBinOp,\mOne}\mIn\mMonoidTypeClass
+\mTupleWith{\mType{a},\mPlus,\mZero}\mIn\mMonoidTypeClass
 \end{equation}
 と書くことにする．二項演算子，単位元が自明な場合は簡略化して
 \begin{equation}
 \mType{a}\mIn\mMonoidTypeClass
 \end{equation}
-と書くことにする．
+と書くことにする．\footnote{\haskell では $\mPlus$ を \code{<|>} と書き，$\mZero$ を \code{mzero} と書く．}
 
 このような型をより抽象化した型のようなものを\keyword{型クラス}と呼ぶ．モノイドは型クラスの例である．表\ref{tab:monoids}に型と対応するモノイドの単位元，演算子の一覧を示す．
 
@@ -1360,10 +1360,10 @@ s = ls.inject(0) { |x,y| x+y }
 \begin{equation}
 \mFold
 \mIn{}
-\mProjection{
-  \mProjection{
-    \mProjection{
-      (\mProjection{\mType{a}}{\mProjection{\mType{b}}{\mType{a}}})
+\mProj{
+  \mProj{
+    \mProj{
+      (\mProj{\mType{a}}{\mProj{\mType{b}}{\mType{a}}})
     }
     {\mType{a}}
   }
@@ -1417,22 +1417,22 @@ f\mMapList\mListWith{x_0,x_1\dotsb x_n}
 \begin{equation}
 \mMapList
 \mIn{}
-\mProjection{
-  (\mProjection{\mType{a}}{\mType{b}})
+\mProj{
+  (\mProj{\mType{a}}{\mType{b}})
 }
 {
-  \mProjection{\mListType{a}}{\mListType{b}}
+  \mProj{\mListType{a}}{\mListType{b}}
 }
 \end{equation}
 である．矢印 $\mMapsTo$ は右結合なので，これは
 \begin{equation}
 \mMapList
 \mIn{}
-\mProjection{
-  (\mProjection{\mType{a}}{\mType{b}})
+\mProj{
+  (\mProj{\mType{a}}{\mType{b}})
 }
 {
-  (\mProjection{\mListType{a}}{\mListType{b}})
+  (\mProj{\mListType{a}}{\mListType{b}})
 }
 \end{equation}
 の意味でもある．念のため上式に注釈を加えると
@@ -1448,8 +1448,8 @@ f\mMapList\mListWith{x_0,x_1\dotsb x_n}
 
 ここで $f$ と $f\mMapList$ の型を並べてみると
 \begin{align}
-f&\mIn\mProjection{\mType{a}}{\mType{b}}\\
-f\mMapList&\mIn\mProjection{\mListType{a}}{\mListType{b}}
+f&\mIn\mProj{\mType{a}}{\mType{b}}\\
+f\mMapList&\mIn\mProj{\mListType{a}}{\mListType{b}}
 \end{align}
 となり，マップ演算子が何をしているのか一目瞭然になる．
 
@@ -1508,8 +1508,8 @@ f\mMapList\mEmptyList
 \item 右畳み込み演算子 $\mFoldRight^{\mBinOp}_{a}\mListWith{x_0,x_1\dotsb x_n}$ は
  $(x_0\mBinOp(x_1\mBinOp\dotsb\mBinOp(x_n\mBinOp a)))$ を返す．
 \item 平坦化演算子 $\mConcat=\mFold_\mEmptyList^{\mAppend}$ はリストを平坦化する．
-\item 関数 $f\mIn\mProjection{\mType{a}}{\mType{a}}$ はマップ演算子 $\mMapList$ を用いて $f\mMapList\mListWith{x_0,x_1\dotsb x_n}=\mListWith{fx_0,fx_1\dotsb fx_n}$ のようにリスト $\mListWith{x_0,x_1\dotsb x_n}$ に適用出来る．
-\item マップ演算子 $\mMapList$ の型は $\mProjection{(\mProjection{\mType{a}}{\mType{b}})}{\mProjection{\mType{a}}{\mType{b}}}$ である．
+\item 関数 $f\mIn\mProj{\mType{a}}{\mType{a}}$ はマップ演算子 $\mMapList$ を用いて $f\mMapList\mListWith{x_0,x_1\dotsb x_n}=\mListWith{fx_0,fx_1\dotsb fx_n}$ のようにリスト $\mListWith{x_0,x_1\dotsb x_n}$ に適用出来る．
+\item マップ演算子 $\mMapList$ の型は $\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mType{a}}{\mType{b}}}$ である．
 \item $\mHead(x:\mList{x})=x,\mTail(x:\mList{x})=\mList{x}$ である．
 \end{enumerate}
 
@@ -1849,13 +1849,13 @@ A...
 
 \section{圏と関手}
 
-型 $\mType{a}$ の変数 $x,y\mIn\mType{a}$ について，関数 $f\mIn\mProjection{\mType{a}}{\mType{a}}$ があり
+型 $\mType{a}$ の変数 $x,y\mIn\mType{a}$ について，関数 $f\mIn\mProj{\mType{a}}{\mType{a}}$ があり
 \begin{equation}
 y=fx
 \end{equation}
 であるとしよう．このように型 $\mType{a}$ で閉じた世界を仮に $\mType{a}$ 世界と呼ぶことにする．
 
-型 $\mMaybeType{a}$ の変数 $\mMaybe{u},\mMaybe{v}\mIn\mMaybeType{a}$ について，関数 $g\mIn\mProjection{\mMaybeType{a}}{\mMaybeType{a}}$ があり
+型 $\mMaybeType{a}$ の変数 $\mMaybe{u},\mMaybe{v}\mIn\mMaybeType{a}$ について，関数 $g\mIn\mProj{\mMaybeType{a}}{\mMaybeType{a}}$ があり
 \begin{equation}
 \mMaybe{v}=g\mMaybe{u}
 \end{equation}
@@ -1878,11 +1878,11 @@ g=f\mMapMaybe
 \end{equation}
 である．つまりマップ演算子 $\mMapMaybe$ が関数 $f$ を $\mType{a}$ 世界から $\mMaybeType{a}$ 世界へとジャンプさせているのである．
 
-いま「世界」と呼んだものを，数学者は厳密に\keyword{圏}と呼ぶ．圏とは集合（我々の言葉では型）と\keyword{射}の組み合わせである．射とは関数 $f$ や関数 $g$ を一般化したものだと思えば良い．そして，圏から圏へとジャンプさせるものを\keyword{関手}と呼ぶ．この例で言えば値コンストラクタ $\mMaybeWith{x}$ とマップ演算子 $\mMapMaybe$ が関手である．値コンストラクタ $\mMaybeWith{x}$ は $\mProjection{\mType{a}}{\mMaybeType{a}}$ という型を持ち，マップ演算子 $\mMapMaybe$ は $\mProjection{(\mProjection{\mType{a}}{\mType{b}})}{(\mProjection{\mMaybeType{a}}{\mMaybeType{b}})}$ という型を持つ．
+いま「世界」と呼んだものを，数学者は厳密に\keyword{圏}と呼ぶ．圏とは集合（我々の言葉では型）と\keyword{射}の組み合わせである．射とは関数 $f$ や関数 $g$ を一般化したものだと思えば良い．そして，圏から圏へとジャンプさせるものを\keyword{関手}と呼ぶ．この例で言えば値コンストラクタ $\mMaybeWith{x}$ とマップ演算子 $\mMapMaybe$ が関手である．値コンストラクタ $\mMaybeWith{x}$ は $\mProj{\mType{a}}{\mMaybeType{a}}$ という型を持ち，マップ演算子 $\mMapMaybe$ は $\mProj{(\mProj{\mType{a}}{\mType{b}})}{(\mProj{\mMaybeType{a}}{\mMaybeType{b}})}$ という型を持つ．
 
-同じことはリストにも言える．値コンストラクタ $\mListWith{x}$ とマップ演算子 $\mMapList$ もまた関手である．この場合値コンストラクタは $\mProjection{\mType{a}}{\mListType{a}}$ という型を持ち，マップ演算子も同じく $\mProjection{(\mProjection{\mType{a}}{\mType{b}})}{(\mProjection{\mListType{a}}{\mListType{b}})}$ という型を持つ．
+同じことはリストにも言える．値コンストラクタ $\mListWith{x}$ とマップ演算子 $\mMapList$ もまた関手である．この場合値コンストラクタは $\mProj{\mType{a}}{\mListType{a}}$ という型を持ち，マップ演算子も同じく $\mProj{(\mProj{\mType{a}}{\mType{b}})}{(\mProj{\mListType{a}}{\mListType{b}})}$ という型を持つ．
 
-議論の抽象性を保つために，そして歴史的な経緯に従って，ある型 $\mType{a}$ において $\mProjection{\mType{a}}{\mPureType{a}}$ というマップ演算子さえ定義されていれば，$\mPureType{a}$ 型は $\mFunctorTypeClass$ 型クラスに属すものとする．ここに $\mPureType{a}$ 型とは\keyword{一般コンテナ型}であり，リスト型 $\mListType{a}$ やMaybe型 $\mMaybeType{a}$ を抽象化したものである． 
+議論の抽象性を保つために，そして歴史的な経緯に従って，ある型 $\mType{a}$ において $\mProj{\mType{a}}{\mPureType{a}}$ というマップ演算子さえ定義されていれば，$\mPureType{a}$ 型は $\mFunctorTypeClass$ 型クラスに属すものとする．ここに $\mPureType{a}$ 型とは\keyword{一般コンテナ型}であり，リスト型 $\mListType{a}$ やMaybe型 $\mMaybeType{a}$ を抽象化したものである． 
 
 
 \begin{table}
@@ -1897,7 +1897,7 @@ Maybe&$\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mMaybeWith{x}$\\\
 \end{center}
 \end{table}
 
-\section{$\mFunctorTypeClass$ 型クラス}
+% \section{$\mFunctorTypeClass$ 型クラス}
 
 リストとMaybeは両者とも値コンストラクタとマップ演算子という関手を持つ．両者の関係をまとてみたのが表\ref{tab:list-and-maybe}である．オブジェクト指向プログラマなら，リストとMaybeに共通のスーパークラスを設計したくなるであろう．
 
@@ -1919,7 +1919,7 @@ Maybe&$\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mMaybeWith{x}$\\\
 \end{equation}
 リストバージョンのアプリカティブマップ演算子はこのように，左引数のリスト内のすべての関数を順番に右引数のリスト内の変数に適用し，その結果をリストとして返す．
 
-リストバージョンのアプリ化ティブマップ演算子 $\mAppMapList$ の型は $\mProjection{\mListType{\mProjection{\mType{a}}{\mType{b}}}}{\mProjection{\mListType{\mType{a}}}{\mListType{\mType{b}}}}$ である．これは
+リストバージョンのアプリ化ティブマップ演算子 $\mAppMapList$ の型は $\mProj{\mListType{\mProj{\mType{a}}{\mType{b}}}}{\mProj{\mListType{\mType{a}}}{\mListType{\mType{b}}}}$ である．これは
 \begin{equation}
 \mAppMapList\mIn
 \underbrace{\mListWith{\mType{a}\mapsto\mType{b}}}_{\mListWith{f_0,f_1\dotsb f_n}}
@@ -1988,6 +1988,73 @@ w=\mPureWith{f}\mAppMap u\mAppMap v
 w=f\mMap u\mAppMap v
 \end{equation}
 とすれば良い．このようにアプリカティブマップ演算子を並べる書き方をアプリカティブスタイルと呼ぶ．
+
+\section{$\mMapFunc$}
+
+新しい関手を定義する．関手の本質はマップ演算子であった．この新しい関手のマップ演算子は $\mMapFunc$ と書き， 
+\begin{equation}
+f\mMapFunc g=f(g\mAnonParameter)
+\end{equation}
+と定義する．
+
+こんな定義で大丈夫だろうか．念のため一般マップ演算子の型を思い出すことにしよう．一般マップ演算子の型は
+\begin{equation}
+\mMap
+\mIn{}
+\mProj{
+  (\mProj{\mType{a}}{\mType{b}})
+}
+{
+  \mProj{\mPureType{a}}{\mPureType{b}}
+}
+\end{equation}
+であった．ここでちょっとしたトリックを使う．$\mFuncType{a}$ というコンテナ型があるとし，それを作る型コンストラクタを
+\begin{equation}
+\mFuncType{a}=\mFuncTypeConstructor\mType{a}
+\end{equation}
+と書くことにしよう．ここで $\mFuncTypeConstructor\mType{a}$ は
+\begin{equation}
+\mFuncTypeConstructor\mType{a}=(\mProj{\mType{r}}{\mType{a}})
+\end{equation}
+であると定義する．ここに $\mProj{\mType{r}}{\mType{a}}$ は確かに正当な型であるから，型コンストラクタ $\mFuncTypeConstructor$ は正しい仕事をしている．
+
+この新しい型 $\mFuncType{a}$ でマップ演算子 $\mMapFunc$ の型を読むと
+\begin{equation}
+\label{eq:type-of-mapfunc}
+\mMapFunc
+\mIn{}
+\mProj{
+  (\mProj{\mType{a}}{\mType{b}})
+}
+{
+  \mProj{\mFuncType{a}}{\mFuncType{b}}
+}
+\end{equation}
+である．ここで $\mFuncType{a}=(\mProj{\mType{r}}{\mType{a}})$ の関係を使うと，式\eqref{eq:type-of-mapfunc}は
+\begin{equation}
+\label{eq:type-of-mapfunc-ii}
+\mMapFunc
+\mIn{}
+\mProj{
+  (\mProj{\mType{a}}{\mType{b}})
+}
+{
+  \mProj{(\mProj{\mType{r}}{\mType{a}})}{(\mProj{\mType{r}}{\mType{b}})}
+}
+\end{equation}
+となる．
+
+関数 $f\mIn\mProj{\mType{a}}{\mType{b}}$ に対してリストのマップ演算子 $\mMapList$ を使うと $f\mMapList\mIn\mProj{\mListType{a}}{\mListType{b}}$ が得られた．Maybeのマップ演算子 $\mMapMaybe$ を使うと $f\mMapMaybe\mIn\mProj{\mMaybeType{a}}{\mMaybeType{b}}$ が得られた．では $f\mMapFunc$ はどうだろう．式\eqref{eq:type-of-mapfunc-ii}から $f\mMapFunc$ の型は $\mProj{(\mProj{\mType{r}}{\mType{a}})}{(\mProj{\mType{r}}{\mType{b}})}$ である．もしいま関数 $g\mIn\mProj{\mType{r}}{\mType{a}}$ があったとすると，マップした結果である $f\mMapFunc g$ は $\mProj{\mType{r}}{\mType{b}}$ という型を持つ．
+
+これは関数合成そのものである．従って，新しいマップ演算子 $\mMapFunc$ は
+\begin{equation}
+\mMapFunc=\mComp
+\end{equation}
+と定義しても良い．
+
+---
+
+name
 
 \section{余計な話：アプリカティブマップ演算子の実装}
 
@@ -2065,9 +2132,9 @@ Maybeの例を思い出そう．Maybe型の変数 $\mMaybe{u}$ はラップさ�
 
 関数 $\phi$ の型は
 \begin{equation}
-\phi\mIn\mProjection{\mType{a}}{\mMaybeType{a}}
+\phi\mIn\mProj{\mType{a}}{\mMaybeType{a}}
 \end{equation}
-である．ということは，関数 $\phi$ をMaybe変数に適用させるようと思っても，我々が既に知っているマップ演算子 $\mMapMaybe$ やアプリカティブマップ演算子 $\mAppMapMaybe$ が使えないということである．前者は第1引数に $\mProjection{\mType{a}}{\mType{b}}$ 型の関数を取るし，後者は第1引数に $\mMaybeWith{(\mProjection{\mType{a}}{\mType{b}})}$ 型の関数（Maybe関数）を取るからである． % ***CHECK***
+である．ということは，関数 $\phi$ をMaybe変数に適用させるようと思っても，我々が既に知っているマップ演算子 $\mMapMaybe$ やアプリカティブマップ演算子 $\mAppMapMaybe$ が使えないということである．前者は第1引数に $\mProj{\mType{a}}{\mType{b}}$ 型の関数を取るし，後者は第1引数に $\mMaybeWith{(\mProj{\mType{a}}{\mType{b}})}$ 型の関数（Maybe関数）を取るからである． % ***CHECK***
 
 そこで，新しいマップ演算子を発明する．いま，任意のMaybe変数を $\mMaybe{u}$ としよう．新しいマップ演算子 $\mBindMaybe$ を使って
 \begin{equation}
@@ -2126,7 +2193,7 @@ $\mFunctorTypeClass$ 型クラスは一般マップ演算子 $(\mMap)$ を持っ
 \mPureNothing&\mOtherwise
 \end{cases}
 \end{equation}
-ここに $x$ は非コンテナ変数で，関数 $f$ も「普通の」（コンテナではない）関数である．より厳密に言えば $x\mIn\mType{a}$ かつ $f\mIn\mProjection{\mType{a}}{\mType{b}}$ である．従って，関数 $\mu$ の型は $\mProjection{\mType{a}}{\mPureType{b}}$ である．
+ここに $x$ は非コンテナ変数で，関数 $f$ も「普通の」（コンテナではない）関数である．より厳密に言えば $x\mIn\mType{a}$ かつ $f\mIn\mProj{\mType{a}}{\mType{b}}$ である．従って，関数 $\mu$ の型は $\mProj{\mType{a}}{\mPureType{b}}$ である．
 
 関数 $\mu$ をコンテナに入った変数 $\omega=\mPureWith{x}$ に適用させるのが一般バインド演算子 $(\mBind)$ の役割である．計算結果をコンテナ変数 $\alpha$ に格納するとすると，関数 $\mu$ のコンテナ変数 $\omega$ への適用は
 \begin{equation}
@@ -2152,7 +2219,24 @@ $\mFunctorTypeClass$ 型クラスは一般マップ演算子 $(\mMap)$ を持っ
 f\mMap\xi=\mPureWith{f}\mAppMap\xi=\mPureWith{f\mAnonParameter}\mBind\xi
 \end{equation}
 を得る．これが一般バインド演算子と一般アプリカティブマップ演算子，一般マップ演算子の関係である．
-\section{関手とモナド}
+
+
+\section{関手則とモナド則}
+
+関手則．
+\begin{enumerate}
+\item $\mId\mMap=\mId$
+\item $(f\mComp g)\mMap=(f\mMap)\mComp{}(g\mMap)$%=f\mMap{}(g\mMap\mAnonParameter)$
+\end{enumerate}
+
+モナド則．
+\begin{enumerate}
+\item $\mu\mBind{}\mPureWith{x}=\mu 
+x$
+\item $\mPureWith{\mAnonParameter}\mBind\omega=\omega$
+\item $f\mBind{}(g\mBind\omega)=(f\mBind{}(g\mAnonParameter))\mBind\omega$
+\end{enumerate}
+
 
 \begin{figure}
 \begin{center}
@@ -2171,7 +2255,7 @@ f\mMap\xi=\mPureWith{f}\mAppMap\xi=\mPureWith{f\mAnonParameter}\mBind\xi
 \begin{center}
 \begin{tabular}{||c||c|c|c|c|c|c||}
 \hline
-\multirow{4}{*}{型クラス}
+\multirow{4}{*}{型$\backslash$型クラス}
   &\multicolumn{6}{|c||}{$\mMonadPlusTypeClass$}\\
 \cline{2-7}
 \multirow{3}{*}{}
@@ -2203,7 +2287,7 @@ f\mMap\xi=\mPureWith{f}\mAppMap\xi=\mPureWith{f\mAnonParameter}\mBind\xi
   &
   &
   &$\mZero$
-  &$\mBinOp$\\
+  &$\mPlus$\\
 \hline
 リスト
   &$\mBindList$
@@ -2225,7 +2309,7 @@ Maybe
   & % $\circ$ %???
   & % $(\!(x)\!)$ %???
   & % $\bowtie$ %???
-  &$\mComp$ %???
+  &$\mMapFunc$
   &$\mAnonParameter$
   &$\mComp$\\
 \hline
