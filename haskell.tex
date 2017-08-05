@@ -143,7 +143,7 @@
 \DeclareMathOperator{\mAMap}{\times}
 \DeclareMathOperator{\mAMapList}{\otimes}
 \DeclareMathOperator{\mAMapMaybe}{\boxtimes}
-\DeclareMathOperator{\mApplicativeApply}{\S}
+\DeclareMathOperator{\mApplicativeApply}{\text{DO-NOT-USE}}
 \DeclareMathOperator{\mApplicativeMap}{\times}
 \DeclareMathOperator{\mApplicativeMapList}{\otimes}
 \DeclareMathOperator{\mApplicativeMapMaybe}{\boxtimes}
@@ -409,16 +409,16 @@
 定数&イタリック，大文字&$A,B,C$\\
 有名な定数&ローマン，大文字&$\mTrue,\mFalse$\\
 \hline
-変数&イタリック，小文字&$m,n,x,y,z$\\
+変数&イタリック，小文字&$u,v,w,x,y,z$\\
 有名な変数&ローマン，小文字&$\mFirstVar,\mRestVar$\\
 リスト変数&肩に星印をつける&$\mList{x}$\\
-Maybe変数&肩に?をつける&$\mMaybe{m}$\\
+Maybe変数&肩に?をつける&$\mMaybe{u}$\\
 % 一般コンテナ変数&イタリック，ギリシア文字&$\alpha,\beta,\omega$\\
 \hline
-関数&イタリック，小文字&$a,b,f,g,h$\\
+関数&イタリック，小文字&$m,n,f,g,h$\\
 有名な関数&ローマン，小文字&$\sin,\cos$\\
 リスト関数&肩に星印をつける&$\mList{f}$\\
-Maybe関数&肩に?をつける&$\mMaybe{a}$\\
+Maybe関数&肩に?をつける&$m$\\
 % 一般コンテナ関数&イタリック，ギリシア文字&$\phi,\psi$\\
 コンテナを返す関数&ギリシア文字&$\mMonadFunc{\mu}$\\
 \hline
@@ -1629,11 +1629,11 @@ def map_over(f,p):
 
 もう一度振り出しに戻る．
 
-整数 $x$ と整数 $y$ があり $z=y/x$ という式があるとする．この式は $x\equiv0$ のときにはゼロ除算エラーである．しかし「例外」は内部状態の書き換えであり，我々の計算に入れたくない．そこで変数 $z$ が正しく計算されたかもしれないし，されていないかもしれないということを $\mMaybe{m}$ のように肩に ? をつけた変数に入れて，忘れないようにしておこう．
+整数 $x$ と整数 $y$ があり $z=y/x$ という式があるとする．この式は $x\equiv0$ のときにはゼロ除算エラーである．しかし「例外」は内部状態の書き換えであり，我々の計算に入れたくない．そこで変数 $z$ が正しく計算されたかもしれないし，されていないかもしれないということを $\mMaybe{u}$ のように肩に ? をつけた変数に入れて，忘れないようにしておこう．
 
-ここで変数 $\mMaybe{m}$ が取り得る値は正しく計算された値 $z$ を包み込んだものか，あるいはエラーを表す値 $\mNothing$ である．このように計算結果に「意味付け」をすることを\keyword{文脈}に入れると言う．定数 $\mNothing$ は「ナッシング」と呼ぶ．
+ここで変数 $\mMaybe{u}$ が取り得る値は正しく計算された値 $z$ を包み込んだものか，あるいはエラーを表す値 $\mNothing$ である．このように計算結果に「意味付け」をすることを\keyword{文脈}に入れると言う．定数 $\mNothing$ は「ナッシング」と呼ぶ．
 
-この変数 $\mMaybe{m}$ はもはや整数 $(\mIntType)$ 型とは言えない．そこでこの $\mMaybe{m}$ の型を $\mMaybeType{\mIntType}$ と表して「Maybe整数（おそらく整数）」型と呼ぶことにしよう．型 $\mType{a}$ から型 $\mMaybeType{a}$ を生成する型コンストラクタを $\mMaybeTypeConstructor$ と呼び
+この変数 $\mMaybe{u}$ はもはや整数 $(\mIntType)$ 型とは言えない．そこでこの $\mMaybe{u}$ の型を $\mMaybeType{\mIntType}$ と表して「Maybe整数（おそらく整数）」型と呼ぶことにしよう．型 $\mType{a}$ から型 $\mMaybeType{a}$ を生成する型コンストラクタを $\mMaybeTypeConstructor$ と呼び
 \begin{equation}
 \mMaybeType{a}=\mMaybeTypeConstructor\mType{a}
 \end{equation}
@@ -1641,20 +1641,20 @@ def map_over(f,p):
 
 $\mType{a}$ 型の変数を $\mMaybeType{a}$ 型の変数に代入するには，次の値コンストラクタを用いて
 \begin{equation}
-\mMaybe{m}=\mMaybeWith{z}
+\mMaybe{u}=\mMaybeWith{z}
 \end{equation}
-と書く．\footnote{\haskell では \code{m = Just z} と書く．Maybeを表す疑問符は省略する．}
+と書く．\footnote{\haskell では \code{u = Just z} と書く．Maybeを表す疑問符は省略する．}
 
-変数 $z$ が一度ゼロ除算の危険性に汚染された場合，その後ずっとMaybe変数に入れ続けなければいけない．そこで，普通の変数を引数にとる関数 $f$ にMaybe変数 $\mMaybe{m}$ を食わせるには，リストの時と同じようなマップ演算子が必要になる．具体的には，変数 $z$ が $\mType{Int}$ 型として，Maybe変数 $\mMaybe{m}=\mMaybeWith{z}$ が与えられたとき
+変数 $z$ が一度ゼロ除算の危険性に汚染された場合，その後ずっとMaybe変数に入れ続けなければいけない．そこで，普通の変数を引数にとる関数 $f$ にMaybe変数 $\mMaybe{u}$ を食わせるには，リストの時と同じようなマップ演算子が必要になる．具体的には，変数 $z$ が $\mType{Int}$ 型として，Maybe変数 $\mMaybe{u}=\mMaybeWith{z}$ が与えられたとき
 \begin{equation}
-f\mMapMaybe\mMaybe{m}=\mMaybeWith{fz}
+f\mMapMaybe\mMaybe{u}=\mMaybeWith{fz}
 \end{equation}
-となるようなMaybeバージョンのマップ演算子 $\mMapMaybe$ を用いる．ここに $f\mMapMaybe\mMaybe{m}$ の型は $\mMaybeType{\mIntType}$ である．
+となるようなMaybeバージョンのマップ演算子 $\mMapMaybe$ を用いる．ここに $f\mMapMaybe\mMaybe{u}$ の型は $\mMaybeType{\mIntType}$ である．
 
-実際には $\mMaybe{m}\equiv\mNothing$ の可能性も考えなければならないから，Maybeバージョンのマップ演算子は
+実際には $\mMaybe{u}\equiv\mNothing$ の可能性も考えなければならないから，Maybeバージョンのマップ演算子は
 \begin{equation}
-f\mMapMaybe\mMaybe{m}=\begin{cases}
-\mMaybeWith{fz}&\mIf\mMaybe{m}\equiv\mMaybeWith{z}\\
+f\mMapMaybe\mMaybe{u}=\begin{cases}
+\mMaybeWith{fz}&\mIf\mMaybe{u}\equiv\mMaybeWith{z}\\
 \mNothing&\mOtherwise
 \end{cases}
 \end{equation}
@@ -1669,9 +1669,9 @@ f\mMapMaybe\mNothing&=\mNothing
 \end{equation}
 と定義すれば得られる．
 
-今後，普通の（引数にMaybeが来ることを想定していない）関数 $f$ をMaybe型である変数 $\mMaybe{m}$ に適用させるときには，必ず
+今後，普通の（引数にMaybeが来ることを想定していない）関数 $f$ をMaybe型である変数 $\mMaybe{u}$ に適用させるときには，必ず
 \begin{equation}
-\mMaybe{n}=f\mMapMaybe\mMaybe{m}
+\mMaybe{v}=f\mMapMaybe\mMaybe{u}
 \end{equation}
 のようにMaybeバージョンのマップ演算子 $\mMapMaybe$ を用いることにする．\footnote{\haskell ではMaybeバージョンのマップ演算子に特別な記号，関数名が与えられていない．その代わり第\ref{ch:functor}章で述べる一般マップ演算子 $\mMap$ に相当する \code{fmap} 関数を用い \code{n = fmap f m} または \code{n = f <\$> m} のようにする．\haskell は型推論を行なうため変数 \code{m} がMaybeであればMaybeバージョンのマップ演算子（関数）が適用され，もし \code{m} がリストであれば通常のマップ関数である \code{map} が適用される．}
 
@@ -1700,9 +1700,9 @@ template <typename a> class maybe {
 \begin{cxxcode}
 \begin{verbatim}
 template <typename a, typename fn>
-maybe<a> map_over(fn f, maybe<a> m) {
-  if (m.is_valid()) {
-    return maybe<a>(f(m.get_value()));
+maybe<a> map_over(fn f, maybe<a> u) {
+  if (u.is_valid()) {
+    return maybe<a>(f(u.get_value()));
   }
   else {
     return maybe<a>();
@@ -1715,28 +1715,28 @@ maybe<a> map_over(fn f, maybe<a> m) {
 % \cxx11スタイルのラムダ式も受け取ることができる．
 （\cxxzerothree プログラマへの注意：関数 \code{f} の代わりに関数オブジェクトを渡しても良い．）
 
-整数 $z$ からMaybe値 $\mMaybe{m}=\mMaybeWith{z}$ を作り，関数 $fx=1+x$ をMaybe値 $\mMaybe{m}$ に食わせてMaybe値 $\mMaybe{n}$ ただし
+整数 $z$ からMaybe値 $\mMaybe{u}=\mMaybeWith{z}$ を作り，関数 $fx=1+x$ をMaybe値 $\mMaybe{u}$ に食わせてMaybe値 $\mMaybe{v}$ ただし
 \begin{equation}
-\mMaybe{n}=f\mMapMaybe\mMaybe{m}
+\mMaybe{v}=f\mMapMaybe\mMaybe{u}
 \end{equation}
 を得ることを\cxx では次のように書くことになる．
 \begin{cxxcode}
 \begin{verbatim}
 int z = 123;
-maybe<int> m(z);
+maybe<int> u(z);
 auto f = [](int x) -> int { return 1+x; };
-maybe<int> n = map_over(f,m);
+maybe<int> v = map_over(f,u);
 \end{verbatim}
 \end{cxxcode}
-注意してほしいのは \code{f(z)} も \code{map\_over(f, m)} も正当なコードだが \code{f(m)} は型エラーであることだ．また \code{f(m.get\_value())} は正当なコードだが，わざわざ \code{m} が持つ文脈を捨てることになる．（\cxx プログラマへの注意：\code{int} 型の使用は現在では非推奨である．本書ではコードの読みやすさのためにあえて \code{int} を使用している．）
+注意してほしいのは \code{f(z)} も \code{map\_over(f,u)} も正当なコードだが \code{f(u)} は型エラーであることだ．また \code{f(u.get\_value())} は正当なコードだが，わざわざ \code{u} が持つ文脈を捨てることになる．（\cxx プログラマへの注意：\code{int} 型の使用は現在では非推奨である．本書ではコードの読みやすさのためにあえて \code{int} を使用している．）
 
 % ところで，関数\code{f}の実装は，ラムダ式の使えない\cxx03ではファンクター (functor) という機構を使うことになる．このファンクターは第\ref{ch:functor}章の関手 (functor) とは全く別な概念である．
 
 \section{リストとMaybe}
 
-関数 $f$ をMayby値 $\mMaybe{m}$ に適用するために
+関数 $f$ をMayby値 $\mMaybe{u}$ に適用するために
 \begin{equation}
-\mMaybe{n}=f\mMapMaybe\mMaybe{m}
+\mMaybe{v}=f\mMapMaybe\mMaybe{u}
 \end{equation}
 のようなMaybeバージョンのマップ演算子 $(\mMapMaybe)$ を使った．一方で，同じ関数 $f$ をリスト $\mList{x}$ に適用するには
 \begin{equation}
@@ -1771,7 +1771,7 @@ template <typename a, typename fn>
 std::list<a> map_over(fn f, std::list<a> xs);
 // Maybe
 template <typename a, typename fn>
-maybe<a> map_over(fn f, maybe<a> m);
+maybe<a> map_over(fn f, maybe<a> u);
 \end{verbatim}
 \end{cxxcode}
 やはりそっくりである．であるならば
@@ -1817,16 +1817,16 @@ y=fx
 \end{equation}
 であるとしよう．このように型 $\mType{a}$ で閉じた世界を仮に $\mType{a}$ 世界と呼ぶことにする．
 
-型 $\mMaybeType{a}$ の変数 $m,n\mIn\mMaybeType{a}$ について，関数 $a\mIn\mProjection{\mMaybeType{a}}{\mMaybeType{a}}$ があり
+型 $\mMaybeType{a}$ の変数 $\mMaybe{u},\mMaybe{v}\mIn\mMaybeType{a}$ について，関数 $m\mIn\mProjection{\mMaybeType{a}}{\mMaybeType{a}}$ があり
 \begin{equation}
-n=am
+\mMaybe{v}=m\mMaybe{u}
 \end{equation}
-であるとしよう．（肩の?は省略する．）このように $\mMaybeType{a}$ で閉じた世界を仮に $\mMaybeType{a}$ 世界と呼ぶことにする．
+であるとしよう．このように $\mMaybeType{a}$ で閉じた世界を仮に $\mMaybeType{a}$ 世界と呼ぶことにする．
 
-ここで，変数 $x,y$ とMaybe変数 $m,n$ はMaybe値コンストラクタによって
+ここで，変数 $x,y$ とMaybe変数 $\mMaybe{m},\mMaybe{n}$ はMaybe値コンストラクタによって
 \begin{align}
-m&=\mMaybeWith{x}\\
-n&=\mMaybeWith{y}
+\mMaybe{u}&=\mMaybeWith{x}\\
+\mMaybe{v}&=\mMaybeWith{y}
 \end{align}
 の関係にあるとしよう．値コンストラクタは値を $\mType{a}$ 世界から $\mMaybeType{a}$ 世界へとジャンプさせる機能を持っている．
 
@@ -1867,7 +1867,7 @@ Maybe&$\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mMaybeWith{x}$\\\
 
 リスト型 $\mListType{a}$ もMaybe型 $\mMaybeType{a}$ も $\mFunctorTypeClass$ 型クラスに属すのであった．そこで $\mFunctorTypeClass$ は\keyword{一般マップ演算子} $(\mMap)$ を持つものとする．一般マップ演算子は，リスト型であれば $\mMapList$ 演算子に，Maybe型であれば $\mMapMaybe$ 演算子にオーバーライドされる．
 
-一般マップ演算子 $(\mMap)$ は\keyword{多様的}である．この意味は，もし $f\mMap\mList{x}$ と書いてあれば $f\mMapList\mList{x}$ のことであるし，もし $f\mMap\mMaybe{m}$ と書いてあれば $f\mMapMaybe\mMaybe{m}$ のことであると自動的に解釈することである．そして，何の飾りもつけられていない変数 $x$ がふらっと現れ，目の前に $f\mMap x$という式が登場しても，落ち着いて変数 $x$ の型を調べ，変数 $x$ がリストならば $\mMap$ の部分に $\mMapList$ を，変数 $x$ がMaybeならば $\mMap$ の部分に $\mMapMaybe$ をはめ込むのだ．\footnote{\haskell では一般マップ演算子 $(\mMap)$ は \code{fmap} である．ただしその実装は与えられず，対象とする型に応じて定義されるものとする．例えばリストに対しては \code{fmap = map} と定義されている．}
+一般マップ演算子 $(\mMap)$ は\keyword{多様的}である．この意味は，もし $f\mMap\mList{x}$ と書いてあれば $f\mMapList\mList{x}$ のことであるし，もし $f\mMap\mMaybe{u}$ と書いてあれば $f\mMapMaybe\mMaybe{u}$ のことであると自動的に解釈することである．そして，何の飾りもつけられていない変数 $x$ がふらっと現れ，目の前に $f\mMap x$という式が登場しても，落ち着いて変数 $x$ の型を調べ，変数 $x$ がリストならば $\mMap$ の部分に $\mMapList$ を，変数 $x$ がMaybeならば $\mMap$ の部分に $\mMapMaybe$ をはめ込むのだ．\footnote{\haskell では一般マップ演算子 $(\mMap)$ は \code{fmap} である．ただしその実装は与えられず，対象とする型に応じて定義されるものとする．例えばリストに対しては \code{fmap = map} と定義されている．}
 
 
 \section{アプリカティブ関手}
@@ -1898,32 +1898,32 @@ f\mMapList\mList{x}
 \end{equation}
 と定義できる．
 
-Maybeバージョンについても考えてみよう．Maybeな関数 $\mMaybe{a}$ をMaybeな変数 $\mMaybe{m}$ にマップするアプリカティブマップ演算子 $\mApplicativeMapMaybe$ を
+Maybeバージョンについても考えてみよう．Maybeな関数 $\mMaybe{h}$ をMaybeな変数 $\mMaybe{u}$ にマップするアプリカティブマップ演算子 $\mApplicativeMapMaybe$ を
 \begin{equation}
-\mMaybe{a}\mApplicativeMapMaybe\mMaybe{m}
+\mMaybe{h}\mApplicativeMapMaybe\mMaybe{u}
 =\left\{
 \begin{array}{ll}
 \mMaybeWith{fx}
-&\mIf\left(\mMaybe{a}\equiv\mMaybeWith{f}\right)
+&\mIf\left(\mMaybe{h}\equiv\mMaybeWith{f}\right)
 \mLogicalAnd
-\left(\mMaybe{m}\equiv\mMaybeWith{x}\right)\\
+\left(\mMaybe{u}\equiv\mMaybeWith{x}\right)\\
 \mNothing&\mOtherwise
 \end{array}
 \right.
 \end{equation}
 で定義する．このMaybeバージョンのアプリカティブマップ演算子 $(\mApplicativeMapMaybe)$ からMaybeバージョンのマップ演算子 $(\mMapMaybe)$ は
 \begin{equation}
-f\mMapMaybe\mMaybe{m}
-=\mMaybeWith{f}\mApplicativeMapMaybe\mMaybe{m}
+f\mMapMaybe\mMaybe{u}
+=\mMaybeWith{f}\mApplicativeMapMaybe\mMaybe{u}
 \end{equation}
 のように導出できる．
 
 これらの関係を一般化して
 \begin{equation}
 \label{eq:general-applicative-map}
-f\mMap\omega=\mPureWith{f}\mApplicativeMap\omega
+f\mMap w=\mPureWith{f}\mApplicativeMap w
 \end{equation}
-となるような\keyword{一般アプリカティブマップ演算子} $(\mApplicativeMap)$ を考える．ここに $f$ は関数，$\omega$ はリストやMaybeといったコンテナ型の変数すなわち\keyword{コンテナ変数}である．一般アプリカティブマップ演算子 $(\mApplicativeMap)$ から一般マップ演算子 $(\mMap)$ を導き出すには，式 \eqref{eq:general-applicative-map} のように値コンストラクタが必要である．この一般化された値コンストラクタを\keyword{ピュア演算子}と呼ぶ．
+となるような\keyword{一般アプリカティブマップ演算子} $(\mApplicativeMap)$ を考える．ここに $f$ は関数，$w$ はリストやMaybeといったコンテナ型の変数すなわち\keyword{コンテナ変数}である．一般アプリカティブマップ演算子 $(\mApplicativeMap)$ から一般マップ演算子 $(\mMap)$ を導き出すには，式 \eqref{eq:general-applicative-map} のように値コンストラクタが必要である．この一般化された値コンストラクタを\keyword{ピュア演算子}と呼ぶ．
 
 アプリカティブマップ演算子とピュア演算子を持つ型クラスを $\mApplicativeTypeClass$ 型クラスと呼ぶ．\footnote{\haskell では一般アプリカティブマップ演算子を \code{<*>} と書く．}
 
@@ -1993,26 +1993,26 @@ f\mMap\omega=\mPureWith{f}\mApplicativeMap\omega
 Maybeのアプリカティブマップ演算子の定義は次の通り．
 \begin{equation}
 \label{eq:maybe-applicative-map-by-maybe-map}
-\mMaybe{\alpha}\mApplicativeMapMaybe\mMaybe{m}
+\mMaybe{h}\mApplicativeMapMaybe\mMaybe{u}
 =\begin{cases}
-f\mMapMaybe\mMaybe{m}&\mIf\mMaybe{\alpha}\equiv\mMaybeWith{f}\\
+g\mMapMaybe\mMaybe{u}&\mIf\mMaybe{h}\equiv\mMaybeWith{f}\\
 \mNothing&\mOtherwise
 \end{cases}
 \end{equation}
-ここに $\mMaybe{\alpha}$ はMaybeコンテナに入れられた関数，$\mMaybe{m}$ はMaybe変数である．式\eqref{eq:maybe-applicative-map-by-maybe-map}を展開すると
+ここに $\mMaybe{g}$ はMaybeコンテナに入れられた関数，$\mMaybe{u}$ はMaybe変数である．式\eqref{eq:maybe-applicative-map-by-maybe-map}を展開すると
 \begin{align}
-\mMaybe{\alpha}\mApplicativeMapMaybe\mMaybe{m}
+\mMaybe{h}\mApplicativeMapMaybe\mMaybe{u}
 &=\begin{cases}
 \left\{
 \begin{array}{ll}
-\mMaybeWith{fx}&\mIf\mMaybe{m}\equiv\mMaybeWith{x}\\
+\mMaybeWith{fx}&\mIf\mMaybe{u}\equiv\mMaybeWith{x}\\
 \mNothing&\mOtherwise
 \end{array}\right\}
-&\mIf\mMaybe{\alpha}\equiv\mMaybeWith{f}\\
+&\mIf\mMaybe{h}\equiv\mMaybeWith{f}\\
 \mNothing&\mOtherwise
 \end{cases}\\
 &=\begin{cases}
-\mMaybeWith{fx}&\mIf\mMaybe{m}\equiv\mMaybeWith{x}\mLogicalAnd\mMaybe{\alpha}\equiv\mMaybeWith{f}\\
+\mMaybeWith{fx}&\mIf\left(\mMaybe{u}\equiv\mMaybeWith{x}\right)\mLogicalAnd\left(\mMaybe{h}\equiv\mMaybeWith{f}\right)\\
 \mNothing&\mOtherwise
 \end{cases}
 \end{align}
@@ -2032,13 +2032,13 @@ A...
 
 一般マップ演算子をピュア演算子と一般アプリカティブマップ演算子に分解することで，式の見通しを良くすることができるアプリカティブスタイルという記法を採用できた．アプリカティブスタイルでは
 \begin{equation}
-f\mApplicativeApply g\mApplicativeMap h\mApplicativeMap\omega
+f\mMap g\mApplicativeMap h\mApplicativeMap w
 \end{equation}
-という風にコンテナ変数 $\omega$ に関数 $h,g,f$ を次々に適用させることが出来る．
+という風にコンテナ変数 $w$ に関数 $h,g,f$ を次々に適用させることが出来る．
 
 しかしながら，アプリカティブスタイルでは変数に文脈を与えるタイミングが最初すなわち式の左端の1回に限られている．そこで，任意のタイミングで変数に文脈を与えられるように，別な方法で一般マップ演算子を分解したものが\keyword{モナド}である．
 
-Maybeの例を思い出そう．Maybe型の変数 $\mMaybe{m}$ はラップされた値 $\mMaybeWith{x}$ を持つのか，エラーを表す $\mNothing$ を持つのかを選べる．そこで，引数 $x$ をとり何らかの計算をする関数 $\phi$ を考えよう．この関数 $\phi$ は引数 $x$ の値次第ではエラーを表す $\mNothing$ を返す．例えば
+Maybeの例を思い出そう．Maybe型の変数 $\mMaybe{u}$ はラップされた値 $\mMaybeWith{x}$ を持つのか，エラーを表す $\mNothing$ を持つのかを選べる．そこで，引数 $x$ をとり何らかの計算をする関数 $\phi$ を考えよう．この関数 $\phi$ は引数 $x$ の値次第ではエラーを表す $\mNothing$ を返す．例えば
 \begin{equation}
 \phi x=\begin{cases}
 \mMaybeWith{1/x}&\mathIf x\neq0\\
@@ -2047,9 +2047,9 @@ Maybeの例を思い出そう．Maybe型の変数 $\mMaybe{m}$ はラップさ�
 \end{equation}
 といった関数が考えられる．変数 $x$ は文脈を持っていないが，関数 $\phi$ を適用した結果である $\phi x$ は文脈を持っていることに注意しよう．いま $\phi x$ はMaybeという文脈を持っているから，我々は
 \begin{equation}
-\mMaybe{n}=\phi x
+\mMaybe{v}=\phi x
 \end{equation}
-という風に結果をMaybe変数に保存しなければならない．今まで見てきた $y=fx$ や $\mMaybe{n}=f\mMapMaybe\mMaybe{m}$ の関係とは異なることに注意しよう．
+という風に結果をMaybe変数に保存しなければならない．今まで見てきた $y=fx$ や $\mMaybe{v}=f\mMapMaybe\mMaybe{u}$ の関係とは異なることに注意しよう．
 
 関数 $\phi$ の型は
 \begin{equation}
@@ -2057,16 +2057,16 @@ Maybeの例を思い出そう．Maybe型の変数 $\mMaybe{m}$ はラップさ�
 \end{equation}
 である．ということは，関数 $\phi$ をMaybe変数に適用させるようと思っても，我々が既に知っているマップ演算子 $\mMapMaybe$ やアプリカティブマップ演算子 $\mApplicativeMapMaybe$ が使えないということである．前者は第1引数に $\mProjection{\mType{a}}{\mType{a}}$ 型の関数を取るし，後者は第1引数に $\mMaybeWith{(\mProjection{\mType{a}}{\mType{a}})}$ 型の関数（Maybe関数）を取るからである． % ***CHECK***
 
-そこで，新しいマップ演算子を発明する．いま，任意のMaybe変数を $\mMaybe{m}$ としよう．新しいマップ演算子 $\mBindMaybe$ を使って
+そこで，新しいマップ演算子を発明する．いま，任意のMaybe変数を $\mMaybe{u}$ としよう．新しいマップ演算子 $\mBindMaybe$ を使って
 \begin{equation}
-\mMaybe{n}=\phi\mBindMaybe\mMaybe{m}
+\mMaybe{v}=\phi\mBindMaybe\mMaybe{u}
 \end{equation}
 とする．
 % 新しいマップ演算子が矢印の形をしているのは，今後右向きにも使えるようにするためである．
 
-この新しいマップ演算子 $\mBindMaybe$ のことをMaybeの\keyword{バインド演算子}と呼ぶ．演算 $(\phi\mBindMaybe\mMaybe{m})$ の結果はMaybe値であるから，バインド演算子は連続して用いることが出来る．通常の引数を取ってMaybe値を返すもう一つの関数 $\psi$ があるとすると
+この新しいマップ演算子 $\mBindMaybe$ のことをMaybeの\keyword{バインド演算子}と呼ぶ．演算 $(\phi\mBindMaybe\mMaybe{u})$ の結果はMaybe値であるから，バインド演算子は連続して用いることが出来る．通常の引数を取ってMaybe値を返すもう一つの関数 $\psi$ があるとすると
 \begin{equation}
-\mMaybe{n}=\psi\mBindMaybe{}(\phi\mBindMaybe\mMaybe{x})
+\mMaybe{v}=\psi\mBindMaybe{}(\phi\mBindMaybe\mMaybe{x})
 \end{equation}
 のように連続して関数を適用できる．バインド演算子は右結合するので，上式は
 \begin{equation}
