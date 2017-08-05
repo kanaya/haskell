@@ -67,14 +67,15 @@
 \newcommand{\mQSet}{\mSpecialSet{Q}}
 \newcommand{\mZSet}{\mSpecialSet{Z}}
 \newcommand{\mBSet}{\mSpecialSet{B}}
+\newcommand{\mTypeParameter}[1]{\mathbf{#1}}
+\newcommand{\mType}[1]{\mathbf{#1}}
 \newcommand{\mListWith}[1]{\left[#1\right]}
 \newcommand{\mSetWith}[1]{\left\{#1\right\}}
 \newcommand{\mTupleWith}[1]{\left(#1\right)}
 \newcommand{\mMaybeWith}[1]{\[#1\]}
 \newcommand{\mUnitWith}[1]{\langle\!\langle#1\rangle\!\rangle}
 \newcommand{\mPureWith}[1]{\langle#1\rangle}
-\newcommand{\mTypeParameter}[1]{\mathbf{#1}}
-\newcommand{\mType}[1]{\mathbf{#1}}
+\newcommand{\mFuncWith}[1]{\{#1\}_\mType{r}}
 \newcommand{\mBoolType}{\mType{Bool}}
 \newcommand{\mCharType}{\mType{Char}}
 \newcommand{\mIntType}{\mType{Int}}
@@ -136,18 +137,16 @@
 \DeclareMathOperator*{\mFoldRight}{\bigsqcup}
 \DeclareMathOperator{\mCons}{:}
 \DeclareMathOperator{\mConcat}{\flat}
+\DeclareMathOperator{\mJoin}{\sharp}
 \DeclareMathOperator{\mAppend}{\oplus}
 \DeclareMathOperator{\mMap}{\bullet}
 \DeclareMathOperator{\mMapList}{\odot}
 \DeclareMathOperator{\mMapMaybe}{\boxdot}
 \DeclareMathOperator{\mMapFunc}{\circ}
-\DeclareMathOperator{\mAMap}{\times}
-\DeclareMathOperator{\mAMapList}{\otimes}
-\DeclareMathOperator{\mAMapMaybe}{\boxtimes}
-\DeclareMathOperator{\mApplicativeApply}{\text{DO-NOT-USE}}
 \DeclareMathOperator{\mAppMap}{\times}
 \DeclareMathOperator{\mAppMapList}{\otimes}
 \DeclareMathOperator{\mAppMapMaybe}{\boxtimes}
+\DeclareMathOperator{\mAppMapFunc}{\circledast}
 \DeclareMathOperator{\mBindList}{\clubsuit}%{\leftleftarrows}
 \DeclareMathOperator{\mBindListRight}{\rightrightarrows}
 \DeclareMathOperator{\mBindMaybe}{\spadesuit}%{\dashleftarrow}
@@ -465,16 +464,17 @@ $\in$&集合の元&\\
 $\mMapsTo$&写像&\\\hline
 $\mBinOp$&任意の二項演算子&\\
 $\mPlus$&一般和記号&\\
+\hline
 $\mComp$&関数合成&\\
 $\mApply$&関数適用&\\
-$\mApplicativeApply$&アプリカティブ関数適用&\\
 $\mApplyRight$&関数の右適用&\\\hline
 $\mFold$&左畳み込み&\\
 $\mFoldRight$&右畳み込み&\\
 \hline
 $\mCons$&結合 (cons)&\\
-$\mConcat$&平坦化 (concat)&\\
 $\mAppend$&リスト結合 (append)&\\
+$\mConcat$&平坦化 (concat)&\\
+$\mJoin$&ジョイン&\\
 % $\mathMaybeAppend$&Maybe結合&\\
 \hline
 $\mEmptyList$&空リスト&\\
@@ -488,10 +488,11 @@ $\mPureWith{x}$&ピュア演算子（ユニット演算子）&\\
 $\mMap$&一般マップ&\\
 $\mMapList$&リストのマップ&\\
 $\mMapMaybe$&Maybeのマップ&\\
+$\mMapFunc$&関数のマップ&\\
 \hline
-$\mAMap$&一般アプリカティブマップ&\\
-$\mAMapList$&リストのアプリカティブマップ&\\
-$\mAMapMaybe$&Maybeのアプリカティブマップ&\\
+$\mAppMap$&一般アプリカティブマップ&\\
+$\mAppMapList$&リストのアプリカティブマップ&\\
+$\mAppMapMaybe$&Maybeのアプリカティブマップ&\\
 \hline
 $\mBindList$&リストのバインド演算子&\\
 $\mBindMaybe$&Maybeの左バインド演算子&\\
@@ -2016,7 +2017,7 @@ f\mMapFunc g=f(g\mAnonParameter)
 \begin{equation}
 \mFuncTypeConstructor\mType{a}=(\mProj{\mType{r}}{\mType{a}})
 \end{equation}
-であると定義する．ここに $\mProj{\mType{r}}{\mType{a}}$ は確かに正当な型であるから，型コンストラクタ $\mFuncTypeConstructor$ は正しい仕事をしている．
+であると定義する．ここに $\mProj{\mType{r}}{\mType{a}}$ は確かに正当な型であるから，型コンストラクタ $\mFuncTypeConstructor$ は正しい仕事をしている．そもそも $\mProj{\mType{a}}{\mType{b}}$ は二つの型パラメタ $\mType{a}$ と $\mType{b}$ を取る型コンストラクタだと解釈できるから，整合性は保たれている．
 
 この新しい型 $\mFuncType{a}$ でマップ演算子 $\mMapFunc$ の型を読むと
 \begin{equation}
@@ -2044,17 +2045,27 @@ f\mMapFunc g=f(g\mAnonParameter)
 \end{equation}
 となる．
 
-関数 $f\mIn\mProj{\mType{a}}{\mType{b}}$ に対してリストのマップ演算子 $\mMapList$ を使うと $f\mMapList\mIn\mProj{\mListType{a}}{\mListType{b}}$ が得られた．Maybeのマップ演算子 $\mMapMaybe$ を使うと $f\mMapMaybe\mIn\mProj{\mMaybeType{a}}{\mMaybeType{b}}$ が得られた．では $f\mMapFunc$ はどうだろう．式\eqref{eq:type-of-mapfunc-ii}から $f\mMapFunc$ の型は $\mProj{(\mProj{\mType{r}}{\mType{a}})}{(\mProj{\mType{r}}{\mType{b}})}$ である．もしいま関数 $g\mIn\mProj{\mType{r}}{\mType{a}}$ があったとすると，マップした結果である $f\mMapFunc g$ は $\mProj{\mType{r}}{\mType{b}}$ という型を持つ．
-
-これは関数合成そのものである．従って，新しいマップ演算子 $\mMapFunc$ は
+関数 $f\mIn\mProj{\mType{a}}{\mType{b}}$ に対してリストのマップ演算子 $\mMapList$ を使うと $f\mMapList\mIn\mProj{\mListType{a}}{\mListType{b}}$ が得られた．Maybeのマップ演算子 $\mMapMaybe$ を使うと $f\mMapMaybe\mIn\mProj{\mMaybeType{a}}{\mMaybeType{b}}$ が得られた．では $f\mMapFunc$ はどうだろう．式\eqref{eq:type-of-mapfunc-ii}から $f\mMapFunc$ の型は $\mProj{(\mProj{\mType{r}}{\mType{a}})}{(\mProj{\mType{r}}{\mType{b}})}$ である．もしいま関数 $g\mIn\mProj{\mType{r}}{\mType{a}}$ があったとすると，マップした結果である $f\mMapFunc g$ は $\mProj{\mType{r}}{\mType{b}}$ という型を持つ．これは関数合成そのものである．従って，新しいマップ演算子 $\mMapFunc$ は
 \begin{equation}
 \mMapFunc=\mComp
 \end{equation}
 と定義しても良い．
 
----
+マップ演算子が定義できたので，この新しい関手は $\mFunctorTypeClass$ 型クラスに属す．この新しい関手は関数そのものなので，特に名前はない．\footnote{\haskell では \code{(->)r} 関手と呼ぶ．}
 
-name
+関数はアプリカティブ関手でもある．
+\begin{equation}
+f\mMap\omega=\mPureWith{f}\mAppMap\omega
+\end{equation}
+であることを思い出すと，
+\begin{equation}
+f\mMapFunc g=\mFuncWith{f}\mAppMapFunc g
+\end{equation}
+であるような値コンストラクタ $\mFuncWith{f}$ およびアプリカティブマップ演算子 $\mAppMapFunc$ を考えることが出来る．関数 $f$ の型が $\mProj{\mType{a}}{\mType{b}}$ であるとき，コンテナ値 $\mFuncWith{f}$ の型は $\mFuncType{\mProj{\mType{a}}{\mType{b}}}$ であるから，すなわち
+\begin{equation}
+\mFuncWith{f}\mIn\mProj{\mType{r}}{\mProj{\mType{a}}{\mType{b}}}
+\end{equation}
+である．このとき関数 $g$ は $\mProj{\mType{r}}{\mType{a}}$ という型を持つ．
 
 \section{余計な話：アプリカティブマップ演算子の実装}
 
@@ -2062,7 +2073,7 @@ name
 \begin{equation}
 \left\{
 \begin{split}
-(f:\mList{f})\mAppMapList\mList{x}&=\mFlat((f\mMapList\mList{x}):(\mList{f}\mAppMapList\mList{x}))\\
+(f:\mList{f})\mAppMapList\mList{x}&=\mConcat{}((f\mMapList\mList{x}):(\mList{f}\mAppMapList\mList{x}))\\
 \mEmptyList\mAppMapList\mList{x}&=\mEmptyList
 \end{split}
 \right.
@@ -2228,13 +2239,14 @@ f\mMap\xi=\mPureWith{f}\mAppMap\xi=\mPureWith{f\mAnonParameter}\mBind\xi
 \item $\mId\mMap=\mId$
 \item $(f\mComp g)\mMap=(f\mMap)\mComp{}(g\mMap)$%=f\mMap{}(g\mMap\mAnonParameter)$
 \end{enumerate}
+ただし関数 $\mId$ は $\mId x=x$ で定義される．もちろん $\mId=\mAnonParameter$ と定義しても同じである．
 
 モナド則．
 \begin{enumerate}
 \item $\mu\mBind{}\mPureWith{x}=\mu 
 x$
 \item $\mPureWith{\mAnonParameter}\mBind\omega=\omega$
-\item $f\mBind{}(g\mBind\omega)=(f\mBind{}(g\mAnonParameter))\mBind\omega$
+\item $\mu\mBind{}(\nu\mBind\omega)=(\mu\mBind{}(\nu\mAnonParameter))\mBind\omega$
 \end{enumerate}
 
 
@@ -2307,8 +2319,8 @@ Maybe
 \hline
 関数
   & % $\circ$ %???
-  & % $(\!(x)\!)$ %???
-  & % $\bowtie$ %???
+  &$\mFuncWith{x}$
+  &$\mAppMapFunc$
   &$\mMapFunc$
   &$\mAnonParameter$
   &$\mComp$\\
