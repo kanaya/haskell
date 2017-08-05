@@ -115,9 +115,8 @@
 \newcommand{\mList}[1]{{#1}^\mathrm{\star}}
 \newcommand{\mMaybe}[1]{{#1}^\text{?}}
 % \newcommand{\mContainerVar}[1]{\Check{#1}}
-\newcommand{\mAnonParameter}{\lozenge}
+\newcommand{\mAnonParameter}{\diamond}%{\lozenge}
 \newcommand{\mAnyParameter}{\_}
-\newcommand{\mMonadFunc}[1]{#1}%{{\boldsymbol#1}}
 
 \newcommand{\mGuard}[1]{\mathop{\mid_{#1}}}
 
@@ -146,13 +145,11 @@
 \DeclareMathOperator{\mAppMap}{\times}
 \DeclareMathOperator{\mAppMapList}{\otimes}
 \DeclareMathOperator{\mAppMapMaybe}{\boxtimes}
-\DeclareMathOperator{\mAppMapFunc}{\circledast}
+\DeclareMathOperator{\mAppMapFunc}{\circledast_\mType{r}}
 \DeclareMathOperator{\mBindList}{\clubsuit}%{\leftleftarrows}
-\DeclareMathOperator{\mBindListRight}{\rightrightarrows}
 \DeclareMathOperator{\mBindMaybe}{\spadesuit}%{\dashleftarrow}
-\DeclareMathOperator{\mBindMaybeRight}{\dashrightarrow}
+\DeclareMathOperator{\mBindFunc}{\diamondsuit_\mType{r}}
 \DeclareMathOperator{\mBind}{\heartsuit}%{\twoheadleftarrow}
-\DeclareMathOperator{\mBindRight}{\twoheadrightarrow}
 % \DeclareMathOperator{\mBindLeft}{\ooalign{$\longleftarrow$\crcr\hss$\heartsuit$\hss}}
 % \DeclareMathOperator{\mBindRight}{\ooalign{$\longrightarrow$\crcr\hss$\heartsuit$\hss}}
 \DeclareMathOperator{\mLogicalAnd}{\wedge}
@@ -417,12 +414,12 @@
 Maybe変数&肩に?をつける&$\mMaybe{u}$\\
 % 一般コンテナ変数&イタリック，ギリシア文字&$\alpha,\beta,\omega$\\
 \hline
-関数&イタリック，小文字&$m,n,f,g,h$\\
+関数&イタリック，小文字&$f,g,h$\\
 有名な関数&ローマン，小文字&$\sin,\cos$\\
 リスト関数&肩に星印をつける&$\mList{f}$\\
-Maybe関数&肩に?をつける&$m$\\
+Maybe関数&肩に?をつける&$\mMaybe{g}$\\
 % 一般コンテナ関数&イタリック，ギリシア文字&$\phi,\psi$\\
-コンテナを返す関数&ギリシア文字&$\mMonadFunc{\mu}$\\
+コンテナを返す関数&ギリシア文字&$\mu,\phi,\psi$\\
 \hline
 添字&ローマン，小文字&$x_\mLeft,x_\mRight$\\
 \hline
@@ -591,6 +588,8 @@ $ stack install ghc
 
 第I部は対応する\haskell のコードを脚注に記載している．脚注部分は\haskell を一通り覚えた後で読み返してもらいたい．\footnote{\haskell のコードは \code{x = 1} のようにタイプライタ体で書く．}
 
+\section{この章のまとめ*}
+
 \chapter{カリー風な書き方}
 \begin{leader}
 本書では一般の数学書やプログラミングの教科書からは少し異なった記法を用いる．ある概念が発明されてからずっと後になって正しい記法が見つかり，それがきっかけとなって正しく理解されるという現象は歴史上よくあることである．本書でも様々な新しい記号，記法を導入するが，この章では\haskell に近い記法から始めることにする．
@@ -666,7 +665,7 @@ lambda x: 1+x
 \end{equation}
 と書いても良い．式を左から読んで1番目の $\mAnonParameter$ が元々の $x$ すなわち第1引数を，2番目の $\mAnonParameter$ が元々の $y$ すなわち第2引数を意味する．この省略記法はプログラミング言語\scheme における\code{cut}プロシジャに由来する．\footnote{この記法は\haskell にはない．}
 
-\section{関数定義}
+\section{パタンマッチとガード}
 
 関数 $f$ を $fx=(\sin x)/x$ と定義したいときに，\python では
 \begin{pythoncode}
@@ -774,7 +773,7 @@ y=fx'\mWhere x'=1+x
 \end{equation}
 である．
 
-\section{この章のまとめ*}
+\section{この章のまとめ}
 
 \begin{enumerate}
 \item 変数 $x$ に関数 $f$ を適用することを $fx$ と書く．
@@ -816,7 +815,7 @@ y=fx'\mWhere x'=1+x
 
 本書では3個以上の変数に同時に作用する演算子は扱わない．
 
-\section{関数合成演算子と関数適用演算子}
+\section{関数合成と関数適用}
 
 ある変数に複数の関数を順に適用することはよくあることである．例えば
 \begin{pythoncode}
@@ -900,6 +899,8 @@ fx=\begin{cases}
 左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっていることに注目しよう．
 
 \section{余計な話：ラムダ式と条件式}
+
+% 第3部へ？
 
 条件式は一種のシンタックスシュガーである．次のように関数 $t,f,\mIfFunc$ を定義すると，それぞれ真，偽，条件分岐のように振る舞う．
 \begin{align}
@@ -1990,10 +1991,11 @@ w=f\mMap u\mAppMap v
 \end{equation}
 とすれば良い．このようにアプリカティブマップ演算子を並べる書き方をアプリカティブスタイルと呼ぶ．
 
-\section{$\mMapFunc$}
+\section{関手としての関数}
 
 新しい関手を定義する．関手の本質はマップ演算子であった．この新しい関手のマップ演算子は $\mMapFunc$ と書き， 
 \begin{equation}
+\label{eq:def-of-map-func}
 f\mMapFunc g=f(g\mAnonParameter)
 \end{equation}
 と定義する．
@@ -2017,7 +2019,7 @@ f\mMapFunc g=f(g\mAnonParameter)
 \begin{equation}
 \mFuncTypeConstructor\mType{a}=(\mProj{\mType{r}}{\mType{a}})
 \end{equation}
-であると定義する．ここに $\mProj{\mType{r}}{\mType{a}}$ は確かに正当な型であるから，型コンストラクタ $\mFuncTypeConstructor$ は正しい仕事をしている．そもそも $\mProj{\mType{a}}{\mType{b}}$ は二つの型パラメタ $\mType{a}$ と $\mType{b}$ を取る型コンストラクタだと解釈できるから，整合性は保たれている．
+であると定義する．ここに $\mProj{\mType{r}}{\mType{a}}$ は確かに正当な型であるから，型コンストラクタ $\mFuncTypeConstructor$ は正しい仕事をしている．そもそも $\mProj{\mType{a}}{\mType{b}}$ は二つの型パラメタ $\mType{a}$ と $\mType{b}$ を引数に取る型コンストラクタだと解釈できるから，両辺の整合性は保たれている．
 
 この新しい型 $\mFuncType{a}$ でマップ演算子 $\mMapFunc$ の型を読むと
 \begin{equation}
@@ -2045,7 +2047,7 @@ f\mMapFunc g=f(g\mAnonParameter)
 \end{equation}
 となる．
 
-関数 $f\mIn\mProj{\mType{a}}{\mType{b}}$ に対してリストのマップ演算子 $\mMapList$ を使うと $f\mMapList\mIn\mProj{\mListType{a}}{\mListType{b}}$ が得られた．Maybeのマップ演算子 $\mMapMaybe$ を使うと $f\mMapMaybe\mIn\mProj{\mMaybeType{a}}{\mMaybeType{b}}$ が得られた．では $f\mMapFunc$ はどうだろう．式\eqref{eq:type-of-mapfunc-ii}から $f\mMapFunc$ の型は $\mProj{(\mProj{\mType{r}}{\mType{a}})}{(\mProj{\mType{r}}{\mType{b}})}$ である．もしいま関数 $g\mIn\mProj{\mType{r}}{\mType{a}}$ があったとすると，マップした結果である $f\mMapFunc g$ は $\mProj{\mType{r}}{\mType{b}}$ という型を持つ．これは関数合成そのものである．従って，新しいマップ演算子 $\mMapFunc$ は
+関数 $f\mIn\mProj{\mType{a}}{\mType{b}}$ に対してリストのマップ演算子 $\mMapList$ を使うと $f\mMapList\mIn\mProj{\mListType{a}}{\mListType{b}}$ が得られた．Maybeのマップ演算子 $\mMapMaybe$ を使うと $f\mMapMaybe\mIn\mProj{\mMaybeType{a}}{\mMaybeType{b}}$ が得られた．では $f\mMapFunc$ はどうだろう．式\eqref{eq:type-of-mapfunc-ii}から $f\mMapFunc$ の型は $\mProj{(\mProj{\mType{r}}{\mType{a}})}{(\mProj{\mType{r}}{\mType{b}})}$ である．もしいま関数 $g\mIn\mProj{\mType{r}}{\mType{a}}$ があったとすると，マップした結果である $f\mMapFunc g$ は $\mProj{\mType{r}}{\mType{b}}$ という型を持つ．これは関数合成そのものである．実際に式\eqref{eq:def-of-map-func}は関数合成の定義式そのものである．従って，新しいマップ演算子 $\mMapFunc$ は
 \begin{equation}
 \mMapFunc=\mComp
 \end{equation}
@@ -2065,7 +2067,12 @@ f\mMapFunc g=\mFuncWith{f}\mAppMapFunc g
 \begin{equation}
 \mFuncWith{f}\mIn\mProj{\mType{r}}{\mProj{\mType{a}}{\mType{b}}}
 \end{equation}
-である．このとき関数 $g$ は $\mProj{\mType{r}}{\mType{a}}$ という型を持つ．
+である．（このとき関数 $g$ は $\mProj{\mType{r}}{\mType{a}}$ という型を持つ．）値コンストラクタの定義は
+\begin{equation}
+\mFuncWith{f}=\mLambdaExp{\mAnyParameter}{f}
+\end{equation}
+である．関数 $\mFuncWith{f}$ は $\mType{r}$ 型の引数を取るがそれを無視し，関数 $f\mIn\mProj{\mType{a}}{\mType{b}}$ を返す．
+
 
 \section{余計な話：アプリカティブマップ演算子の実装}
 
@@ -2232,7 +2239,7 @@ f\mMap\xi=\mPureWith{f}\mAppMap\xi=\mPureWith{f\mAnonParameter}\mBind\xi
 を得る．これが一般バインド演算子と一般アプリカティブマップ演算子，一般マップ演算子の関係である．
 
 
-\section{関手則・アプリカティブ関手則・モナド則}
+\section{関手則・アプリカティブ関手則・モナド則*}
 
 関手則．
 \begin{enumerate}
@@ -2330,7 +2337,7 @@ Maybe
   &\\
 \hline
 関数
-  & % $\circ$ %???
+  &$\mBindFunc$
   &$\mFuncWith{x}$
   &$\mAppMapFunc$
   &$\mMapFunc$
@@ -2357,8 +2364,24 @@ Maybe
 \end{center}
 \end{table*}
 
-\section{余計な話：モナドプラス}
-\section*{この章のまとめ*}
+\section{余計な話：関数モナドそしてモナドプラス*}
+関数にはピュア演算子が定義されていて
+\begin{equation}
+\mFuncWith{f}=\mLambdaExp{\mAnyParameter}{f}
+\end{equation}
+であった．そこで，もし関数のバインド演算子があれば関数はモナドとして振舞うことも出来るはずである．実際，
+\begin{equation}
+\mu\mBindFunc h=\mLambdaExp{r}{\mu(hr)r}
+\end{equation}
+のように関数のバインド演算子を定義すると，関数はモナドとしての性質を持つ．
+
+% http://south37.hatenablog.com/entry/2014/04/27/Haskell%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E3%83%A2%E3%83%8A%E3%83%89
+
+% \section{余計な話：モナドプラス*}
+
+% https://ja.wikipedia.org/wiki/%E3%83%A2%E3%83%8A%E3%83%89_(%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0)
+
+\section{この章のまとめ*}
 
 \chapter{IO}
 \part{\haskell プログラミング}
@@ -2838,6 +2861,9 @@ A...
 
 
 \chapter{圏とモナドとプログラミング言語}
+
+\section{ジョイン*}
+
 
 
 \section{クライスリ・トリプル*}
