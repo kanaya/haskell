@@ -2232,23 +2232,35 @@ f\mMap\xi=\mPureWith{f}\mAppMap\xi=\mPureWith{f\mAnonParameter}\mBind\xi
 を得る．これが一般バインド演算子と一般アプリカティブマップ演算子，一般マップ演算子の関係である．
 
 
-\section{関手則とモナド則}
+\section{関手則・アプリカティブ関手則・モナド則}
 
 関手則．
 \begin{enumerate}
-\item $\mId\mMap=\mId$
-\item $(f\mComp g)\mMap=(f\mMap)\mComp{}(g\mMap)$%=f\mMap{}(g\mMap\mAnonParameter)$
+\item 単位元の存在: $\mId\mMap=\mId$
+\item 合成則: $(f\mComp g)\mMap=(f\mMap)\mComp{}(g\mMap)$%=f\mMap{}(g\mMap\mAnonParameter)$
 \end{enumerate}
 ただし関数 $\mId$ は $\mId x=x$ で定義される．もちろん $\mId=\mAnonParameter$ と定義しても同じである．
+% https://en.wikibooks.org/wiki/Haskell/The_Functor_class#The_functor_laws
+
+アプリカティブ関手則．
+\begin{enumerate}
+\item 単位元の存在: $\mId\mAppMap=\mId$
+\item 準同型則: $\mPureWith{f}\mAppMap\mPureWith{x}=\mPureWith{fx}$
+\item 交換則: $h\mAppMap\mPureWith{x}=\mPureWith{\mApply x}\mAppMap h$
+\item 合成則: $\mPureWith{\mComp}\mAppMap i\mAppMap j\mAppMap k=i\mAppMap{}(j\mAppMap k)$
+\item $f\mMap=\mPureWith{f}\mAppMap$ --- （上述の三つの法則から導かれる）
+\end{enumerate}
+% https://en.wikibooks.org/wiki/Haskell/Applicative_functors#Applicative_functor_laws
 
 モナド則．
 \begin{enumerate}
-\item $\mu\mBind{}\mPureWith{x}=\mu 
+\item 右単位元の存在: $\mu\mBind{}\mPureWith{x}=\mu 
 x$
-\item $\mPureWith{\mAnonParameter}\mBind\omega=\omega$
-\item $\mu\mBind{}(\nu\mBind\omega)=(\mu\mBind{}(\nu\mAnonParameter))\mBind\omega$
+\item 左単位元の存在: $\mPureWith{\mId}\mBind\omega=\omega$
+\item 結合則: $\mu\mBind{}(\nu\mBind\omega)=(\mu\mBind{}(\nu\mAnonParameter))\mBind\omega$
 \end{enumerate}
-
+% https://wiki.haskell.org/Monad_laws
+% https://en.wikibooks.org/wiki/Haskell/Category_theory#The_monad_laws_and_their_importance
 
 \begin{figure}
 \begin{center}
