@@ -144,9 +144,9 @@
 \DeclareMathOperator{\mAMapList}{\otimes}
 \DeclareMathOperator{\mAMapMaybe}{\boxtimes}
 \DeclareMathOperator{\mApplicativeApply}{\text{DO-NOT-USE}}
-\DeclareMathOperator{\mApplicativeMap}{\times}
-\DeclareMathOperator{\mApplicativeMapList}{\otimes}
-\DeclareMathOperator{\mApplicativeMapMaybe}{\boxtimes}
+\DeclareMathOperator{\mAppMap}{\times}
+\DeclareMathOperator{\mAppMapList}{\otimes}
+\DeclareMathOperator{\mAppMapMaybe}{\boxtimes}
 \DeclareMathOperator{\mBindList}{\clubsuit}%{\leftleftarrows}
 \DeclareMathOperator{\mBindListRight}{\rightrightarrows}
 \DeclareMathOperator{\mBindMaybe}{\spadesuit}%{\dashleftarrow}
@@ -1874,16 +1874,16 @@ Maybe&$\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mMaybeWith{x}$\\\
 
 マップ演算子をさらに汎用性のあるものにするために，\keyword{アプリカティブマップ演算子}という演算子を考えてみる．
 
-いま関数のリスト $\mListWith{f,g,h}$ と変数のリスト $\mListWith{x,y,z}$ があるとする．リストバージョンのアプリカティブマップ演算子 $\mApplicativeMapList$ を次のように定義する．
+いま関数のリスト $\mListWith{f,g,h}$ と変数のリスト $\mListWith{x,y,z}$ があるとする．リストバージョンのアプリカティブマップ演算子 $\mAppMapList$ を次のように定義する．
 \begin{equation}
-\mListWith{f,g,h}\mApplicativeMapList\mListWith{x,y,z}
+\mListWith{f,g,h}\mAppMapList\mListWith{x,y,z}
 =\mListWith{fx,fy,fz,gx,gy,gz,hx,hy,hz}
 \end{equation}
 リストバージョンのアプリカティブマップ演算子はこのように，左引数のリスト内のすべての関数を順番に右引数のリスト内の変数に適用し，その結果をリストとして返す．
 
-リストバージョンのアプリカティブマップ演算子 $(\mApplicativeMapList)$ の特別な場合として，左引数のリストの要素数が $1$ の場合を考えると
+リストバージョンのアプリカティブマップ演算子 $(\mAppMapList)$ の特別な場合として，左引数のリストの要素数が $1$ の場合を考えると
 \begin{equation}
-\mListWith{f}\mApplicativeMapList\mListWith{x,y,z}
+\mListWith{f}\mAppMapList\mListWith{x,y,z}
 =\mListWith{fx,fy,fz}
 \end{equation}
 であり，通常のマップ演算子 $(\mMapList)$ を使ったマップすなわち
@@ -1894,13 +1894,13 @@ f\mMapList\mListWith{x,y,z}
 と右辺が一致する．つまり，マップ演算子はアプリカティブマップ演算子の特別な場合と考えることが出来る．実際，リストバージョンのアプリカティブマップ演算子は
 \begin{equation}
 f\mMapList\mList{x}
-=\mListWith{f}\mApplicativeMapList\mList{x}
+=\mListWith{f}\mAppMapList\mList{x}
 \end{equation}
 と定義できる．
 
-Maybeバージョンについても考えてみよう．Maybeな関数 $\mMaybe{h}$ をMaybeな変数 $\mMaybe{u}$ にマップするアプリカティブマップ演算子 $\mApplicativeMapMaybe$ を
+Maybeバージョンについても考えてみよう．Maybeな関数 $\mMaybe{h}$ をMaybeな変数 $\mMaybe{u}$ にマップするアプリカティブマップ演算子 $\mAppMapMaybe$ を
 \begin{equation}
-\mMaybe{h}\mApplicativeMapMaybe\mMaybe{u}
+\mMaybe{h}\mAppMapMaybe\mMaybe{u}
 =\left\{
 \begin{array}{ll}
 \mMaybeWith{fx}
@@ -1911,55 +1911,37 @@ Maybeバージョンについても考えてみよう．Maybeな関数 $\mMaybe{
 \end{array}
 \right.
 \end{equation}
-で定義する．このMaybeバージョンのアプリカティブマップ演算子 $(\mApplicativeMapMaybe)$ からMaybeバージョンのマップ演算子 $(\mMapMaybe)$ は
+で定義する．このMaybeバージョンのアプリカティブマップ演算子 $(\mAppMapMaybe)$ からMaybeバージョンのマップ演算子 $(\mMapMaybe)$ は
 \begin{equation}
 f\mMapMaybe\mMaybe{u}
-=\mMaybeWith{f}\mApplicativeMapMaybe\mMaybe{u}
+=\mMaybeWith{f}\mAppMapMaybe\mMaybe{u}
 \end{equation}
 のように導出できる．
 
 これらの関係を一般化して
 \begin{equation}
 \label{eq:general-applicative-map}
-f\mMap w=\mPureWith{f}\mApplicativeMap w
+f\mMap w=\mPureWith{f}\mAppMap w
 \end{equation}
-となるような\keyword{一般アプリカティブマップ演算子} $(\mApplicativeMap)$ を考える．ここに $f$ は関数，$w$ はリストやMaybeといったコンテナ型の変数すなわち\keyword{コンテナ変数}である．一般アプリカティブマップ演算子 $(\mApplicativeMap)$ から一般マップ演算子 $(\mMap)$ を導き出すには，式 \eqref{eq:general-applicative-map} のように値コンストラクタが必要である．この一般化された値コンストラクタを\keyword{ピュア演算子}と呼ぶ．
+となるような\keyword{一般アプリカティブマップ演算子} $(\mAppMap)$ を考える．ここに $f$ は関数，$w$ はリストやMaybeといったコンテナ型の変数すなわち\keyword{コンテナ変数}である．一般アプリカティブマップ演算子 $(\mAppMap)$ から一般マップ演算子 $(\mMap)$ を導き出すには，式 \eqref{eq:general-applicative-map} のように値コンストラクタが必要である．この一般化された値コンストラクタを\keyword{ピュア演算子}と呼ぶ．
 
 アプリカティブマップ演算子とピュア演算子を持つ型クラスを $\mApplicativeTypeClass$ 型クラスと呼ぶ．\footnote{\haskell では一般アプリカティブマップ演算子を \code{<*>} と書く．}
 
 ピュア演算子をピュア値コンストラクタと呼ばないのは，単純に「ピュア値」というものがないからである．$\mFunctorTypeClass$ 型クラスはリスト型やMaybe型を抽象化したものであって，直接変数を生成できない．型クラスは，\cxx の用語で言えば純粋仮想クラスのようなものであるし，\objectivec の用語で言えばメタクラスであるからである．もちろんリストのピュア演算子は $\mListWith{x}$ であるし，Maybeのピュア演算子は $\mMaybeWith{x}$ であり，それぞれ具体的な変数を生成する．しかし変数 $x$ にピュア演算子を適用した $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在しない．\footnote{\haskell は一般のピュア演算子の実装を与えていない．変数の型に応じて対応する関数が適用される．}
 
-一般アプリカティブマップ演算子 $(\mApplicativeMap)$ は多様性によってそれぞれリストバージョンのアプリカティブマップ演算子 $(\mApplicativeMapList)$ やMaybeバージョンのアプリカティブマップ演算子 $(\mApplicativeMapMaybe)$ にオーバーライドされ，それぞれリスト値コンストラクタ $(\mListWith{x})$, Maybe値コンストラクタ $(\mMaybeWith{x})$ を用いることでリストバージョンのマップ演算子 $(\mMapList)$, Maybeバージョンのマップ演算子 $(\mMapMaybe)$ を生成することが出来る．リスト値コンストラクタ，Maybe値コンストラクタはそれぞれピュア演算子 $(\mPureWith{x})$ をオーバーライドしたものであるから，結局，一般アプリカティブマップ演算子とピュア演算子のふたつがあれば，任意のクラスのマップ演算子を生成することが出来る．
+一般アプリカティブマップ演算子 $(\mAppMap)$ は多様性によってそれぞれリストバージョンのアプリカティブマップ演算子 $(\mAppMapList)$ やMaybeバージョンのアプリカティブマップ演算子 $(\mAppMapMaybe)$ にオーバーライドされ，それぞれリスト値コンストラクタ $(\mListWith{x})$, Maybe値コンストラクタ $(\mMaybeWith{x})$ を用いることでリストバージョンのマップ演算子 $(\mMapList)$, Maybeバージョンのマップ演算子 $(\mMapMaybe)$ を生成することが出来る．リスト値コンストラクタ，Maybe値コンストラクタはそれぞれピュア演算子 $(\mPureWith{x})$ をオーバーライドしたものであるから，結局，一般アプリカティブマップ演算子とピュア演算子のふたつがあれば，任意のクラスのマップ演算子を生成することが出来る．
 
-この節の最後に\keyword{アプリカティブスタイル}という記法を紹介しておこう．関数 $f,g,h$ があるとすると，アプリカティブマップ演算子を用いて
+この節の最後に\keyword{アプリカティブスタイル}という記法を紹介しておこう．アプリカティブマップ演算子は連続して
 \begin{equation}
-\alpha=f\mMap g\mApplicativeMap h\mApplicativeMap\omega
+\label{eq:applicative-style}
+w=\mPureWith{f}\mAppMap u\mAppMap v
 \end{equation}
-という風にコンテナ変数 $\omega$ に連続的に関数適用が出来る．
+のように使える．もし $u\equiv\mPureNothing$ もしくは $v\equiv\mPureNothing$ であれば $w\equiv\mPureNothing$ になる．式\eqref{eq:applicative-style}からピュア演算子を消すには，最初のアプリカティブマップ演算子をマップ演算子に置き換えて
+\begin{equation}
+w=f\mMap u\mAppMap v
+\end{equation}
+とすれば良い．このようにアプリカティブマップ演算子を並べる書き方をアプリカティブスタイルと呼ぶ．
 
-% 関数適用演算子 $\mApply$ とよく似た演算子 $\mApplicativeApply$ ただし
-% \begin{equation}
-% f\mApplicativeApply g=\mPureWith{f\mComp g}
-% \end{equation}
-% なる演算子 $\mApplicativeApply$ を導入する．この演算子は特別に\keyword{アプリカティブ関数適用演算子}と呼ぶ．\footnote{\haskell では \code{<\$>} と書く．}
-
-% アプリカティブ関数適用演算子があると，わざわざピュア演算子を用いなくとも連続的に「普通の」関数をコンテナ型の引数に適用できる．いま変数 $\omega$ をコンテナ変数とし，関数 $f$ と関数 $g$ が「普通」であるとすると
-% \begin{equation}
-% f\mApplicativeApply g\mApplicativeMap\omega
-% \end{equation}
-% のようにして変数 $\omega$ に関数 $g,f$ を順に作用させることができる．このような書き方を\keyword{アプリカティブスタイル}と呼ぶ．
-
-% アプリカティブスタイルのいいところは，「普通の」関数が増えてもスタイルを変えなくて良いことである．例えば
-% \begin{equation}
-% f\mApplicativeApply g\mApplicativeMap h\mApplicativeMap\omega
-% \end{equation}
-% は期待通りコンテナ型変数 $\omega$ に関数 $h,g,f$ を順に作用させる．これは $f\mathApplicativeApply g\mApplicativeMap h$と $\mPureWith{f\mComp g\mComp h}$ が同値だからである．
-
-% アプリカティブスタイルは，計算の流れを明確にしているとも言える．例えば $f\mApplicativeApply g\mApplicativeMap h\mApplicativeMap\omega$は
-% \begin{equation}
-% \omega\mFlow h\mFlow g\mFlow f
-% \end{equation}
-% という計算の流れを示す．もちろん関数合成演算子と関数適用演算子でも似たことはできるが，関数合成演算子と関数適用演算子だけでは $\omega$ が例えば $\mNothing$ である可能性を扱えないし，また計算の途中経過がなんらかのエラーで $\mNothing$ になるような系も扱えない．（後者はアプリカティブスタイルでも扱えない．そのために次章で述べる「モナド」が登場する．）
 
 ---
 
@@ -1983,8 +1965,8 @@ f\mMap w=\mPureWith{f}\mApplicativeMap w
 \begin{equation}
 \left\{
 \begin{split}
-(f:\mList{f})\mApplicativeMapList\mList{x}&=\mFlat((f\mMapList\mList{x}):(\mList{f}\mApplicativeMapList\mList{x}))\\
-\mEmptyList\mApplicativeMapList\mList{x}&=\mEmptyList
+(f:\mList{f})\mAppMapList\mList{x}&=\mFlat((f\mMapList\mList{x}):(\mList{f}\mAppMapList\mList{x}))\\
+\mEmptyList\mAppMapList\mList{x}&=\mEmptyList
 \end{split}
 \right.
 \end{equation}
@@ -1993,7 +1975,7 @@ f\mMap w=\mPureWith{f}\mApplicativeMap w
 Maybeのアプリカティブマップ演算子の定義は次の通り．
 \begin{equation}
 \label{eq:maybe-applicative-map-by-maybe-map}
-\mMaybe{h}\mApplicativeMapMaybe\mMaybe{u}
+\mMaybe{h}\mAppMapMaybe\mMaybe{u}
 =\begin{cases}
 g\mMapMaybe\mMaybe{u}&\mIf\mMaybe{h}\equiv\mMaybeWith{f}\\
 \mNothing&\mOtherwise
@@ -2001,7 +1983,7 @@ g\mMapMaybe\mMaybe{u}&\mIf\mMaybe{h}\equiv\mMaybeWith{f}\\
 \end{equation}
 ここに $\mMaybe{g}$ はMaybeコンテナに入れられた関数，$\mMaybe{u}$ はMaybe変数である．式\eqref{eq:maybe-applicative-map-by-maybe-map}を展開すると
 \begin{align}
-\mMaybe{h}\mApplicativeMapMaybe\mMaybe{u}
+\mMaybe{h}\mAppMapMaybe\mMaybe{u}
 &=\begin{cases}
 \left\{
 \begin{array}{ll}
@@ -2032,11 +2014,11 @@ A...
 
 一般マップ演算子をピュア演算子と一般アプリカティブマップ演算子に分解することで，式の見通しを良くすることができるアプリカティブスタイルという記法を採用できた．アプリカティブスタイルでは
 \begin{equation}
-f\mMap g\mApplicativeMap h\mApplicativeMap w
+f\mMap g\mAppMap h\mAppMap w
 \end{equation}
 という風にコンテナ変数 $w$ に関数 $h,g,f$ を次々に適用させることが出来る．
 
-しかしながら，アプリカティブスタイルでは変数に文脈を与えるタイミングが最初すなわち式の左端の1回に限られている．そこで，任意のタイミングで変数に文脈を与えられるように，別な方法で一般マップ演算子を分解したものが\keyword{モナド}である．
+しかしながら，アプリカティブスタイルでは変数に文脈を与えるタイミングが最初すなわち式の右端の1回に限られている．そこで，任意のタイミングで変数に文脈を与えられるように，別な方法で一般マップ演算子を分解したものが\keyword{モナド}である．
 
 Maybeの例を思い出そう．Maybe型の変数 $\mMaybe{u}$ はラップされた値 $\mMaybeWith{x}$ を持つのか，エラーを表す $\mNothing$ を持つのかを選べる．そこで，引数 $x$ をとり何らかの計算をする関数 $\phi$ を考えよう．この関数 $\phi$ は引数 $x$ の値次第ではエラーを表す $\mNothing$ を返す．例えば
 \begin{equation}
@@ -2055,7 +2037,7 @@ Maybeの例を思い出そう．Maybe型の変数 $\mMaybe{u}$ はラップさ�
 \begin{equation}
 \phi\mIn\mProjection{\mType{a}}{\mMaybeType{a}}
 \end{equation}
-である．ということは，関数 $\phi$ をMaybe変数に適用させるようと思っても，我々が既に知っているマップ演算子 $\mMapMaybe$ やアプリカティブマップ演算子 $\mApplicativeMapMaybe$ が使えないということである．前者は第1引数に $\mProjection{\mType{a}}{\mType{a}}$ 型の関数を取るし，後者は第1引数に $\mMaybeWith{(\mProjection{\mType{a}}{\mType{a}})}$ 型の関数（Maybe関数）を取るからである． % ***CHECK***
+である．ということは，関数 $\phi$ をMaybe変数に適用させるようと思っても，我々が既に知っているマップ演算子 $\mMapMaybe$ やアプリカティブマップ演算子 $\mAppMapMaybe$ が使えないということである．前者は第1引数に $\mProjection{\mType{a}}{\mType{a}}$ 型の関数を取るし，後者は第1引数に $\mMaybeWith{(\mProjection{\mType{a}}{\mType{a}})}$ 型の関数（Maybe関数）を取るからである． % ***CHECK***
 
 そこで，新しいマップ演算子を発明する．いま，任意のMaybe変数を $\mMaybe{u}$ としよう．新しいマップ演算子 $\mBindMaybe$ を使って
 \begin{equation}
@@ -2066,12 +2048,12 @@ Maybeの例を思い出そう．Maybe型の変数 $\mMaybe{u}$ はラップさ�
 
 この新しいマップ演算子 $\mBindMaybe$ のことをMaybeの\keyword{バインド演算子}と呼ぶ．演算 $(\phi\mBindMaybe\mMaybe{u})$ の結果はMaybe値であるから，バインド演算子は連続して用いることが出来る．通常の引数を取ってMaybe値を返すもう一つの関数 $\psi$ があるとすると
 \begin{equation}
-\mMaybe{v}=\psi\mBindMaybe{}(\phi\mBindMaybe\mMaybe{x})
+\mMaybe{v}=\psi\mBindMaybe{}(\phi\mBindMaybe\mMaybe{u})
 \end{equation}
 のように連続して関数を適用できる．バインド演算子は右結合するので，上式は
 \begin{equation}
 \label{eq:maybe-z-bind-style}
-\mMaybe{z}=\psi\mBindMaybe\phi\mBindMaybe\mMaybe{x}
+\mMaybe{v}=\psi\mBindMaybe\phi\mBindMaybe\mMaybe{u}
 \end{equation}
 のように簡潔に書ける．このスタイルなら演算子もすべて統一出来ていて，かつどの関数でも戻り値を $\mNothing$ に切り替えられるので，アプリカティブスタイルよりも実用性が高いといえる．
 
@@ -2083,7 +2065,19 @@ Maybeの例を思い出そう．Maybe型の変数 $\mMaybe{u}$ はラップさ�
 
 というわけで，$\mApplicativeTypeClass$ 型クラスをさらに拡張してバインド演算子を持たせることを考えらてみよう．\footnote{\haskell では歴史的経緯によって $\mApplicativeTypeClass$ 型クラスではなく $\mFunctorTypeClass$ 型クラスを拡張することで $\mMonadTypeClass$ 型クラスを作っていた．そのため $\mMonadTypeClass$ 型クラスでは $\mApplicativeTypeClass$ 型クラスから（意味的には）継承したピュア演算子のことを「ユニット演算子」と呼ぶ．}
 
-$\mFunctorTypeClass$ 型クラスは一般マップ演算子 $(\mMap)$ を持っていた．$\mApplicativeTypeClass$ 型クラスはピュア演算子 $(\mPureWith{x})$ とアプリカティブマップ演算子 $(\mApplicativeMap)$ を持っており，このふたつの演算子から一般マップ演算子を合成できた．新しい $\mMonadTypeClass$ 型クラスは，一般バインド演算子 $(\mBind)$ を持つものとしよう．
+$\mFunctorTypeClass$ 型クラスは一般マップ演算子 $(\mMap)$ を持っていた．$\mApplicativeTypeClass$ 型クラスはピュア演算子 $(\mPureWith{x})$ とアプリカティブマップ演算子 $(\mAppMap)$ を持っており，このふたつの演算子から一般マップ演算子を合成できた．新しい $\mMonadTypeClass$ 型クラスは，一般バインド演算子 $(\mBind)$ を持つものとしよう．
+
+$$
+\omega=\mu x
+$$
+
+$$
+w=\mPureWith{x}
+$$
+
+$$
+\omega=\mu\mBind w
+$$
 
 ---
 
