@@ -99,7 +99,9 @@
 \newcommand{\mMonoidTypeClass}{\mSpecialTypeClass{Monoid}}
 \newcommand{\mFunctorTypeClass}{\mSpecialTypeClass{Functor}}
 \newcommand{\mApplicativeTypeClass}{\mSpecialTypeClass{Applicative}}
-\newcommand{\mMonadTypeClass}{\mSpecialTypeClass{Monad}}\newcommand{\mEmptyList}{{[\,]}}
+\newcommand{\mMonadTypeClass}{\mSpecialTypeClass{Monad}}
+\newcommand{\mMonadPlusTypeClass}{\mSpecialTypeClass{MonadPlus}}
+\newcommand{\mEmptyList}{{[\,]}}
 \newcommand{\mNothing}{\emptyset}
 \newcommand{\mPureNothing}{\varnothing}
 \newcommand{\mKeyword}[1]{\mathsf{#1}}
@@ -2037,7 +2039,7 @@ A...
 \end{leader}
 
 
-\section{バインド演算子*}
+\section{バインド演算子}
 
 
 一般マップ演算子をピュア演算子と一般アプリカティブマップ演算子に分解することで，式の見通しを良くすることができるアプリカティブスタイルという記法を採用できた．アプリカティブスタイルでは
@@ -2047,8 +2049,6 @@ f\mMap u\mAppMap v\mAppMap w
 という風にコンテナ変数 $u,v,w$ に関数 $f$ を適用させることが出来る．コンテナ変数 $u,v,w$ のいずれかが $\mPureNothing$ であれば式全体の値が $\mPureNothing$ になる．これは3個の計算を並列に行って，その結果をそれぞれ $u,v,w$ に入れておき，最後に関数 $f$ に投げるという\keyword{計算構造}を具現化したものである．
 
 しかしながら，アプリカティブスタイルでは変数に文脈を与えるタイミングがコンテナ変数を作るときのそれぞれ1回に限られている．そこで，任意のタイミングで変数に文脈を与えられるように，別な方法で一般マップ演算子を分解してみよう．
-
-% \keyword{モナド}である．
 
 Maybeの例を思い出そう．Maybe型の変数 $\mMaybe{u}$ はラップされた値 $\mMaybeWith{x}$ を持つのか，エラーを表す $\mNothing$ を持つのかを選べる．そこで，引数 $x$ をとり何らかの計算をする関数 $\phi$ を考えよう．この関数 $\phi$ は引数 $x$ の値次第ではエラーを表す $\mNothing$ を返す．例えば
 \begin{equation}
@@ -2115,296 +2115,43 @@ Maybeの例を思い出そう．Maybe型の変数 $\mMaybe{u}$ はラップさ�
 
 というわけで，$\mApplicativeTypeClass$ 型クラスをさらに拡張して，一般のバインド演算子を持たせることを考えらてみよう．我々はこの新しい型クラスを\keyword{モナド}型クラスと呼び $\mMonadTypeClass$ で表す．
 
-$\mFunctorTypeClass$ 型クラスは一般マップ演算子 $(\mMap)$ を持っていた．$\mApplicativeTypeClass$ 型クラスはピュア演算子 $(\mPureWith{x})$ と一般アプリカティブマップ演算子 $(\mAppMap)$ を持っており，このふたつの演算子から一般マップ演算子を合成できた．新しい $\mMonadTypeClass$ 型クラスは，一般バインド演算子 $(\mBind)$ を持つものとしよう．後で見るように，一般マップ演算子はピュア演算子と一般バインド演算子から合成できるし，一般アプリカティブマップ演算子もまたピュア演算子と一般バインド演算子から合成できる．\footnote{\haskell では歴史的経緯によって $\mApplicativeTypeClass$ 型クラスではなく $\mFunctorTypeClass$ 型クラスを拡張することで $\mMonadTypeClass$ 型クラスを作っていた．そのため $\mMonadTypeClass$ 型クラスでは $\mApplicativeTypeClass$ 型クラスから継承したピュア演算子のことを「ユニット演算子」と呼ぶ．}
+\section{モナド}
 
-$$
-\omega=\mu x
-$$
+$\mFunctorTypeClass$ 型クラスは一般マップ演算子 $(\mMap)$ を持っていた．$\mApplicativeTypeClass$ 型クラスはピュア演算子 $(\mPureWith{x})$ と一般アプリカティブマップ演算子 $(\mAppMap)$ を持っており，このふたつの演算子から一般マップ演算子を合成できた．新しい $\mMonadTypeClass$ 型クラスは，\keyword{一般バインド演算子} $(\mBind)$ を持つものとしよう．後で見るように，一般マップ演算子はピュア演算子と一般バインド演算子から合成できるし，一般アプリカティブマップ演算子もまたピュア演算子と一般バインド演算子から合成できる．\footnote{\haskell では歴史的経緯によって $\mApplicativeTypeClass$ 型クラスではなく $\mFunctorTypeClass$ 型クラスを拡張することで $\mMonadTypeClass$ 型クラスを作っていた．そのため $\mMonadTypeClass$ 型クラスでは $\mApplicativeTypeClass$ 型クラスから継承したピュア演算子のことを「ユニット演算子」と呼ぶ．}
 
-$$
-w=\mPureWith{x}
-$$
-
-$$
-\omega=\mu\mBind w
-$$
-
-$$
-v=f\mMap u=\mPureWith{f}\mAppMap u=\mu\mBind u\mWhere\mu x=\mPureWith{fx}
-$$
-
----
-
-Maybe値を返す関数 $\phi$ を一般化して
+関数 $\mu$ が次の形をしているとする．
 \begin{equation}
 \mu x=\begin{cases}
-\mUnitWith{fx}\mWhere f=\dotsb&\mIf\dotsb\\
+\mPureWith{fx}&\text{嬉しいとき}\\
 \mPureNothing&\mOtherwise
 \end{cases}
 \end{equation}
-という関数 $\mu$ を考えてみよう．ここに $\mUnitWith{z}$ は一種のピュア演算子で，\keyword{ユニット演算子}と呼ぶ．また $\mPureNothing$ はエラーや空リストを一般化した記号である．
+ここに $x$ は非コンテナ変数で，関数 $f$ も「普通の」（コンテナではない）関数である．より厳密に言えば $x\mIn\mType{a}$ かつ $f\mIn\mProjection{\mType{a}}{\mType{b}}$ である．従って，関数 $\mu$ の型は $\mProjection{\mType{a}}{\mPureType{b}}$ である．
 
----
-
-
-この関数$\phi$の型は
+関数 $\mu$ をコンテナに入った変数 $\omega=\mPureWith{x}$ に適用させるのが一般バインド演算子 $(\mBind)$ の役割である．計算結果をコンテナ変数 $\alpha$ に格納するとすると，関数 $\mu$ のコンテナ変数 $\omega$ への適用は
 \begin{equation}
-  \phi\mathIn\mathTypeParameter{a}\mMapsTo\mathPureWith{\mathTypeParameter{b}}
+\alpha=\mu\mBind\omega
 \end{equation}
-であるから，一般マップ演算子
+と書ける．
+
+さて $\xi=\mPureWith{x},\upsilon=\mPureWith{y}$ として，かつ $y=fx$ であるとき
 \begin{equation}
-\mathGeneralMap
-\mathIn{}\mathMorphII{(\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}})}{\langle\mathTypeParameter{a}\rangle}{\langle\mathTypeParameter{b}\rangle}
+\upsilon=f\mMap\xi=\mPureWith{f}\mAppMap\xi
 \end{equation}
-や一般アプリカティブマップ演算子
+であった．ここで
 \begin{equation}
-\mathApplicativeGeneralMap
-\mathIn{}\mathMorphII{\langle\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}}\rangle}{\langle\mathTypeParameter{a}\rangle}{\langle\mathTypeParameter{b}\rangle}\\
+\nu x=\mPureWith{\nu x}
+% \nu=\mPureWith{f\mAnonParameter}
 \end{equation}
-を用いるわけにはいかない．
-そこで次のような$\mathBind$演算子ただし
+なる関数 $\nu$ を導入する．両辺の $x$ は $\nu=\mLambdaExp{z}{\mPureWith{fz}}$ または $\nu=\mPureWith{f\mAnonParameter}$ とすれば消去できる．ここで，一般バインド演算子を使うと
 \begin{equation}
-\mathBind
-\mathIn
-\left(\mathTypeParameter{a}\mMapsTo\mathPureType{b}\right)
-\mMapsTo
-\mathPureType{a}
-\mMapsTo
-\mathPureType{b}
+\upsilon=\nu\mBind\xi
 \end{equation}
-を使って
+であるから，最終的に
 \begin{equation}
-  \mathContainerVar{y}=\phi\mathBind\mathContainerVar{x}
+f\mMap\xi=\mPureWith{f}\mAppMap\xi=\mPureWith{f\mAnonParameter}\mBind\xi
 \end{equation}
-とする．
-
----
-
-さて
-\begin{equation}
-  f\mathGeneralMap\mathContainerVar{x}
-\end{equation}
-のかわりに
-\begin{equation}
-  \phi\mathBind\mathContainerVar{x}
-\end{equation}
-という演算を考えてみよう．
-従来の関数$f$と違って関数$\phi$はエラーを返すかもしれないので，
-マップ演算子も異なる記号を用いている．
-
----
-
-もし
-\begin{equation}
-\mathUnitWith{fx}=\mathPureWith{fx}
-\end{equation}
-であるならば，
-\begin{align}
-f\mathGeneralMap x&=\mathPureWith{f}\mathApplicativeGeneralMap x\\
-&=\phi\mathBind x\mathWhere \phi x=\begin{cases}
-\mathPureWith{fx}&\mathIf\dotsb\\
-\mathPureNothing&\mathOtherwise
-\end{cases}
-\mathAnd
-\psi\mathBind\mList{x}=\dotsb
-\end{align}
-
-
----
-
-一般マップ演算子をピュア演算子と一般アプリカティブマップ演算子に分解すると次のようになる．
-\begin{equation}
-f\mathGeneralMap x=\mathPureWith{f}\mathApplicativeGeneralMap x
-\end{equation}
-
-モナド世界では一般マップ演算子を次のように分解することになる．
-\begin{equation}
-f\mathGeneralMap x=\phi\mathBind x
-\mathWhere
-\phi x=\begin{cases}
-\mathUnitWith{fx}&\mathIf\dotsb\\
-\mathPureNothing&\mathOtherwise
-\end{cases}
-\end{equation}
-アプリカティブ関手のときと記号を変えただけで同じではないかと思われるかもしれないが，
-実は大きな変更が潜んでいる．
-
-まずは一般マップ演算子の型を思い出そう．一般マップ演算子の型は
-\begin{equation}
-\mathGeneralMap
-\mathIn{}\mathMorphII{(\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}})}{\langle\mathTypeParameter{a}\rangle}{\langle\mathTypeParameter{b}\rangle}
-\end{equation}
-である．
-これは$\mathTypeParameter{a}\mapsto\mathTypeParameter{b}$型の関数を第1引数に，
-コンテナに入った$\mathTypeParameter{a}$型の変数を第2引数にとり，
-コンテナに入った$\mathTypeParameter{b}$型の値を返すという意味であった．
-
-次に一般アプリカティブマップ演算子の型を思い出そう．一般アプリカティブマップ演算子の型は
-\begin{equation}
-\mathApplicativeGeneralMap
-\mathIn{}\mathMorphII{\langle\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}}\rangle}{\langle\mathTypeParameter{a}\rangle}{\langle\mathTypeParameter{b}\rangle}\\
-\end{equation}
-であった．
-一般マップ演算子との違いは，
-第1引数も$\mathPureWith{\mathTypeParameter{a}\mapsto\mathTypeParameter{b}}$のように
-またコンテナに入っていることである．
-
-さて，モナドな一般マップ演算子はどうだろうか．
-モナドな一般マップ演算子の型は
-\begin{equation}
-\mathBind
-\mathIn{}\mathMorphII{(\mathMorph{\mathTypeParameter{a}}{\langle\mathTypeParameter{b}\rangle})}{\langle\mathTypeParameter{a}\rangle}{\langle{\mathTypeParameter{b}}\rangle}
-\end{equation}
-である．
-今度は第1引数の型が$\mathTypeParameter{a}\mapsto\mathPureWith{\mathTypeParameter{b}}$になった．
-関数をコンテナに入れるのではなく，関数の戻り値をコンテナに入れるのである．
-
-普通の（コンテナに入っていない）変数$x$をとり，普通の（コンテナに入っていない）戻り値を返す関数$f$があるとしよう．マップ演算子はコンテナに入れられた変数，例えば$\mList{t}=[x]$から中身$x$を取り出して関数$f$を適用し，その結果$fx$を再びコンテナに入れて$[fx]$を返す演算子であった．
-
-もし，普通の変数$x$をとり，なんらかの不都合があった時には空のコンテナを返す関数$\phi$があればどうだろう．不都合があった時には空のコンテナを返すということは，不都合がなくても計算結果をコンテナにに詰めることになる．さもなければ関数の型がひとつに決まらないことになる．
-
-関数$\phi$は次のような形になるだろう．
-$$\phi x=\begin{cases}\mathUnitWith{fx}&\text{普通に計算をしたとき}\\
-\mathPureNothing&\text{不都合があったとき}\end{cases}$$
-ここでコンテナに入れる演算を$\mathUnitWith{\mathAny}$とし，
-空のコンテナを$\mathPureNothing$とした．
-
-ちょっと待った．
-$\mathUnitWith{x}$とは何だろうか．
-$\mathUnitWith{x}$は\keyword{ユニット演算子}と言って，変数を最もシンプルな形でコンテナに納めるものである．
-どこかで聞いた話ではないだろうか．
-その通り，ユニット演算子は事実上ピュア演算子と同じものである．
-ではなぜユニット演算子とピュア演算子を字面上区別しておくかというと，ひとつはモナドにより強い柔軟性を持たせるため，もう一つは，簡潔さのためである．
-というのも，もしモナドがアプリカティブ関手とピュア演算子を共有するとなると，同時に一般アプリカティブマップ演算子も共有することになるが，モナドなマップ演算子から一般アプリカティブマップ演算子は合成できないため，モナドが「焼け太り」してしまうからである．
-%!!!!!!!!!! CHECK !!!!!!!!!!
-
-\begin{align*}
-\mathGeneralMap&\mathIn{}\mathMorphII{(\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}})}{\langle\mathTypeParameter{a}\rangle}{\langle\mathTypeParameter{b}
-\rangle}\\
-\mathApplicativeGeneralMap&\mathIn{}\mathMorphII{\langle\mathMorph{\mathTypeParameter{a}}{\mathTypeParameter{b}}\rangle}{\langle\mathTypeParameter{a}\rangle}{\langle\mathTypeParameter{b}\rangle}\\
-\hsklMonadMap&\mathIn{}\mathMorphII{(\mathMorph{\mathTypeParameter{a}}{\langle\mathTypeParameter{b}\rangle})}{\langle\mathTypeParameter{a}\rangle}{\langle{\mathTypeParameter{b}}\rangle}
-\end{align*}
-
-$$\mathPureWith{\mathAny}\mathIn\mathMorph{\mathTypeParameter{a}}{\langle\mathTypeParameter{a}\rangle}$$
-
-この関数$\phi$をコンテナにつめられた変数$x$に適用するための「モナドな」マップ演算子$\hsklMonadMap$を導入する．
-$$x'=\phi\hsklMonadMap x$$
-
-関手とは
-$$f\mathGeneralMap x=\mathUnitWith{f}\hsklMonadMap x$$
-とすれば互換性がとれる．
-
-
-ピュア演算子，ユニット演算子．
-
-
-\section{モナドな関数*}
-
-Maybeのバインド演算子を一般化してみよう．まず
-\begin{equation}
-\mMaybe{y}=\phi\mBindMaybe\mMaybe{x}
-\end{equation}
-からの類推で，
-\begin{equation}
-\omega=\mu\mBind\alpha
-\end{equation}
-という新しいバインド演算子 $\mBind$ と新しい関数 $\mu$ を考えてみる．
-
-関数 $\mu$ は，普通の関数 $f$ をラップしたもので
-\begin{equation}
-\mu x=\begin{cases}
-\mUnitWith{fx}&\mIf\dotsb\\
-\mPureNothing&\mOtherwise
-\end{cases}
-\end{equation}
-であるとする．ここに $\mPureNothing$ は空リスト $(\mEmptyList)$ や空Maybe $(\mNothing)$ の上位概念にあたる\keyword{空}である．また演算子 $\mUnitWith{\dotsb}$ はリスト値コンストラクタ $(\mListWith{\dotsb})$ やMaybe値コンストラクタ $(\mMaybeWith{\dotsb})$ の上位概念にあたる\keyword{ユニット演算子}である．リスト値コンストラクタやMaybe値コンストラクタの上位概念として，既に我々はピュア演算子 $(\mPureWith{\dotsb})$ を見てきたが，このユニット演算子はもう一つの上位概念である．
-
-
----
-
-具体例として引数が$2^{32}$未満なら引数の値をそのまま，それ以上なら$\mathNothing$を返す関数$a$を考えてみよう．
-\begin{equation}
-ax=\begin{cases}
-\mathMaybeWith{x}&\mathIf x<2^{32}\\
-\mathNothing&\mathOtherwise
-\end{cases}
-\end{equation}
-
-
-もうひとつの具体例として「安全な」割り算演算子$\div$を定義してみよう．
-ここで
-\begin{equation}
-\mathMaybeVar{m}\div y=\begin{cases}\mathMaybeWith{x/y}&\mathIf m\neq\mathNothing\mathAnd y\neq0\\
-\mathNothing&\mathOtherwise\end{cases}
-\end{equation}
-とする．
-ただし$\mathMaybeVar{m}$は$\mathMaybeWith{x}$か，あるいは$\mathNothing$かのどちらかの値が入っている．
-$x\neq\mathNothing$かつ$y\neq0$のときの戻り値が$x/y$ではなく$\mathMaybeWith{x/y}$なのは，計算結果が汚染の可能性を持つからである．
-
-
-\begin{table*}
-\begin{center}
-\begin{tabular}{||c||c|c|c|c|c|c|c||}
-\hline
-\multirow{2}{*}{型クラス}
-    &\multicolumn{3}{|c|}{$\mathTypeClass{Applicative}$}
-    &\multicolumn{4}{|c||}{$\mathTypeClass{Monadplus}$}\\
-\cline{4-8}
-\multirow{1}{*}{}
-    &\multicolumn{2}{|c|}{ }
-    &$\mathTypeClass{Functor}$
-    &\multicolumn{2}{|c}{$\mathTypeClass{Monad}$}
-    &\multicolumn{2}{|c||}{$\mathTypeClass{Monoid}$}\\
-\hline\hline
-型$\backslash$要素と演算子
-    &$\mathPureWith{x}$
-    &$\mathApplicativeGeneralMap$
-    &$\mathGeneralMap$
-    &$\mathUnitWith{x}$
-    &$\heartsuit$%$\hsklMonadMap$
-    &$\mathId$
-    &$\mathAnyBinaryOperator$\\
-\hline
-リスト
-    &$[x]$
-    &$\mathApplicativeMap$
-    &$\mMapList$
-    &$\mathListWith{x}$
-    &$\clubsuit$
-    &$\mathEmptyList$
-    &$\mathAppend$\\
-\hline
-Maybe
-    &$\mathMaybeWith{x}$
-    &$\mathApplicativeMaybeMap$
-    &$\mathMaybeMap$
-    &$\mathMaybeWith{x}$
-    &$\spadesuit$
-    &$\mathNothing$
-    &$\boxplus$\\%$\hsklMaybeAppend$\\
-\hline
-関数
-    &$\(x\)$
-    &$\bowtie$
-    &$\mathCompose$
-    &$\(x\)$
-    &$\circ$
-    &$\mathAnonymousParameter$
-    &$\mathCompose$\\
-\hline
-Int（参考）
-    &
-    &
-    &
-    &
-    &
-    &$0$
-    &$+$\\
-\hline
-\end{tabular}
-\end{center}
-\end{table*}
-
+を得る．これが一般バインド演算子と一般アプリカティブマップ演算子，一般マップ演算子の関係である．
 \section{関手とモナド}
 
 \begin{figure}
@@ -2417,6 +2164,90 @@ Int（参考）
 
 
 % \section{IOモナド*}
+
+
+
+\begin{table*}
+\begin{center}
+\begin{tabular}{||c||c|c|c|c|c|c||}
+\hline
+\multirow{4}{*}{型クラス}
+  &\multicolumn{6}{|c||}{$\mMonadPlusTypeClass$}\\
+\cline{2-7}
+\multirow{3}{*}{}
+  &\multicolumn{4}{|c|}{$\mMonadTypeClass$}
+  &\multicolumn{2}{|c||}{$\mMonoidTypeClass$}\\
+\cline{3-5}
+\multirow{2}{*}{}
+  &
+  &\multicolumn{3}{|c|}{$\mApplicativeTypeClass$}
+  &\multicolumn{2}{|c||}{}\\
+\cline{5-5}
+\multirow{1}{*}{}
+  &
+  &\multicolumn{2}{|c|}{}
+  &$\mFunctorTypeClass$
+  &\multicolumn{2}{|c||}{}\\
+\hline\hline
+一般コンテナ
+  &$\mBind$
+  &$\mPureWith{x}$
+  &$\mAppMap$
+  &$\mMap$
+  &
+  &\\
+\hline
+一般モノイド
+  &
+  &
+  &
+  &
+  &$\mZero$
+  &$\mBinOp$\\
+\hline
+リスト
+  &$\mBindList$
+  &$\mListWith{x}$
+  &$\mAppMapList$
+  &$\mMapList$
+  &$\mEmptyList$
+  &$\mAppend$\\
+\hline
+Maybe
+  &$\mBindMaybe$
+  &$\mMaybeWith{x}$
+  &$\mAppMapMaybe$
+  &$\mMapMaybe$
+  &
+  &\\
+\hline
+関数
+  & % $\circ$ %???
+  & % $(\!(x)\!)$ %???
+  & % $\bowtie$ %???
+  &$\mComp$ %???
+  &$\mAnonParameter$
+  &$\mComp$\\
+\hline
+整数
+  &
+  &
+  &
+  &
+  &$0$
+  &$+$\\
+\hline  
+整数
+  &
+  &
+  &
+  &
+  &$1$
+  &$*$\\
+\hline  
+\end{tabular}
+\end{center}
+\end{table*}
 
 \section{余計な話：モナドプラス}
 \section*{この章のまとめ*}
