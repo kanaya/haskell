@@ -74,6 +74,8 @@
 \DeclareMathOperator{\mFact}{fact}
 \DeclareMathOperator{\mMain}{main}
 \DeclareMathOperator{\mPred}{pred}
+\DeclareMathOperator{\mPut}{put}
+\DeclareMathOperator{\mRand}{rand}
 \DeclareMathOperator{\mSucc}{succ}
 \DeclareMathOperator{\mSum}{sum}
 \DeclareMathOperator{\mTail}{tail}
@@ -251,6 +253,8 @@ Ether変数&肩に!をつける&$\mEither{u}$\\
 % Maybe関数&肩に?をつける&$\mMaybe{g}$\\
 コンテナ関数&ギリシア文字&$\phi,\psi$\\
 有名な関数&ローマン，小文字&$\sin,\cos$\\
+\hline
+アクション&ギリシア文字&$\alpha,\omega$\\
 \hline
 添字&ローマン，小文字&$x_\mLeft,x_\mRight$\\
 \hline
@@ -2292,7 +2296,58 @@ f\mBindFunc\phi=\mLambdaExp{r}{f(\phi r)r}
 
 \chapter{IO}
 
+\section{アクション}
+
+計算機の状態を変えることを\keyword{副作用}と呼ぶ．副作用とは変数への破壊的代入に他ならない．例えば，計算機は画面やプリンタに何かを出力するが，それは画面やプリンタという「変数」を書き換えていることになる．また例えば擬似乱数の生成も副作用である．呼び出されるたびに異なる値を返す擬似乱数生成関数は，毎回同じ値を返すべき参照透過性とは真逆の性質を持つ．
+
+副作用を持つ関数を\keyword{アクション}と呼ぶ．アクションは値を持つが，その値は計算の実行時までわからない．例えば擬似乱数を生成するアクション $\mRand$ があるとしよう．これを変数 $\alpha$ に
+\begin{equation}
+\alpha=\mRand
+\end{equation}
+と代入しても，変数 $\alpha$ に擬似乱数が代入されるわけではない．「擬似乱数を生成する」というアクションが $\alpha$ に代入されたのだ．
+
+では，いつ「擬似乱数を生成する」アクションが実行されるのだろうか．それは，プログラムがまさに計算機の状態を変えるタイミング，つまりプログラムが実行されるタイミングなのである．
+
+そのためには，プログラムそのものをアクションで表しておかないといけない．我々はプログラム全体を $\omega$ で表すことにしよう．ただし
+\begin{equation}
+\omega=\alpha
+\end{equation}
+としても，単にアクションの名前を付け替えたにすぎない．擬似乱数を生成しても，使わないのであれば，生成しなかったのと同じことだからだ．
+
+プログラムが計算機状態を変える一例として，画面に値を出力することを考える．画面に値を出力するアクションを $\mPut$ と名付けよう．例えば次のプログラム例は，画面に ``Hello, world.'' と書き出すものとする．
+\begin{equation}
+\omega=\mPut s\mWhere s=\textsl{``Hello, world.''}
+\end{equation}
+アクション $\mPut$ は変数を一つとり，その値を画面へ出力すなち破壊的代入を行う．では $\omega=\mPut\alpha$ とすればアクション $\alpha$ が実行されて，晴れて擬似乱数が生成され，その値が画面へ出力されるだろうか．もちろんそうはならないのである．
+
+ここに $\alpha$ はアクションであり，変数ではない．一方で，アクション $\mPut$ は変数を受け取る．つまり，アクションから何らかの方法で値を「安全に」抜き取らないといけない．ここで安全性にこだわるのは，アクション $\alpha$ が副作用を持つからである．副作用を参照透過な変数へ伝播させてはいけない．副作用を持つアクションは，副作用を持つアクションへのみ受け継がれなければならない．
+
+この話は何かと似ていないだろうか．そう，Maybeである．一度ゼロ除算の可能性に汚染されたコンテナ変数は，コンテナから出すことが許されないのである．
+
+
+% Maybeに安全性を追加．
+
+
+$$
+\omega=\mPut\mBind\alpha
+$$
+
+$$
+\omega=(\mLambdaExp{x}{\mPut x})\mBind\alpha
+$$
+
+% main = 
+% do
+%   r <- rand
+%   print r
+
+% http://qiita.com/saltheads/items/6025f69ba10267bbe3ee
+
 \section{IOモナド}
+
+$$
+\mPut s
+$$
 
 \section{a}
 
@@ -2834,6 +2889,7 @@ f&=\mLambdaExp{xy}{y}\\
 \section{整数*}
 \section{Yコンビネータ*}
 
+% http://qiita.com/7shi/items/1345bf32003faff435cb#%E4%B8%8D%E5%8B%95%E7%82%B9%E3%82%B3%E3%83%B3%E3%83%93%E3%83%8D%E3%83%BC%E3%82%BF
 
 \section{余計な話：継続*}
 
