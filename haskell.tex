@@ -54,10 +54,10 @@
 % Constants
 \newcommand{\mSpecialConst}[1]{\mathrm{#1}} % Internal use
 \newcommand{\mEmptyList}{{[\,]}}
-\newcommand{\mTrue}{\mSpecialConst{True}}
 \newcommand{\mFalse}{\mSpecialConst{False}}
 \newcommand{\mNothing}{\emptyset}
 \newcommand{\mPureNothing}{\varnothing}
+\newcommand{\mTrue}{\mSpecialConst{True}}
 \newcommand{\mZero}{\O}
 
 % Variables
@@ -82,9 +82,14 @@
 \DeclareMathOperator{\mLambdaArrow}{\rightarrow}
 \DeclareMathOperator{\mIn}{{:\!:}}
 \DeclareMathOperator{\mMapsTo}{\mapsto}
+\DeclareMathOperator{\mMorphTo}{\rightarrowtail}
 \DeclareMathOperator{\mBinOp}{\bigstar}
+\DeclareMathOperator{\mUnOp}{\star}
 \DeclareMathOperator{\mPlus}{\boxplus}
-\DeclareMathOperator{\mComp}{\cdot}
+\DeclareMathOperator{\mMinus}{\ominus}
+\DeclareMathOperator{\mComp}{\centerdot}
+\DeclareMathOperator{\mCompRot}{\cdot}
+\DeclareMathOperator{\mCompProj}{\circledcirc}
 \DeclareMathOperator{\mApply}{\$}
 \DeclareMathOperator{\mApplyRight}{\rightsquigarrow}
 \DeclareMathOperator*{\mFold}{\bigcup}
@@ -109,6 +114,8 @@
 \DeclareMathOperator{\mLogicalAnd}{\wedge}
 \DeclareMathOperator{\mLogicalOr}{\vee}
 \DeclareMathOperator{\mFrom}{\in}
+\DeclareMathOperator{\mSetTimes}{\circledast}
+
 
 % Subscripts
 \newcommand{\mSpecialSub}[1]{\text{#1}}
@@ -120,6 +127,7 @@
 \newcommand{\mSpecialSet}[1]{\mathbb{#1}} % Internal use
 \newcommand{\mBSet}{\mSpecialSet{B}}
 \newcommand{\mFSet}{\mSpecialSet{F}}
+\newcommand{\mKSet}{\mSpecialSet{K}}
 \newcommand{\mRSet}{\mSpecialSet{R}}
 \newcommand{\mZSet}{\mSpecialSet{Z}}
 
@@ -179,6 +187,7 @@
 \newcommand{\mEither}[1]{{#1}^\text{!}}
 \newcommand{\mList}[1]{{#1}^\mathrm{\star}}
 \newcommand{\mMaybe}[1]{{#1}^\text{?}}
+\newcommand{\mVec}[1]{\Vec{#1}}
 
 % Guard
 \newcommand{\mGuard}[1]{\mathop{\mid_{#1}}}
@@ -210,6 +219,7 @@
 \newcommand{\mLambdaExp}[2]{\mLambda{#1}\mLambdaArrow{#2}}
 \newcommand{\mLetIn}[2]{\mLet{#1}\mInKW{#2}}
 \newcommand{\mProj}[2]{#1\mMapsTo#2}
+\newcommand{\mMorph}[2]{#1\mMorphTo#2}
 
 
 %%% DO NOT USE
@@ -294,7 +304,7 @@
 \DeclareMathOperator{\mathPred}{\donotuse pred}
 \DeclareMathOperator{\mathSucc}{\donotuse succ}
 \DeclareMathOperator{\mathAnyUnaryOperator}{\donotuse\star}
-\DeclareMathOperator{\mathInverse}{\donotuse\sharp}  % USED?
+\DeclareMathOperator{\mInverse}{\donotuse\sharp}  % USED?
 \DeclareMathOperator{\mathLambda}{\donotuse\backslash}
 \DeclareMathOperator{\mathConcat}{\donotuse\flat}
 \DeclareMathOperator*{\mathFold}{\donotuse\bigcup}
@@ -1002,7 +1012,7 @@ a_1\mBinOp a_2\mIn\mSet{A}
 \left(a_1\mBinOp a_2\right)\mBinOp a_3
 =a_1\mBinOp\left(a_2\mBinOp{a_3}\right)
 \end{equation}
-ただし $a_1,a_2,a_3\mIn\mSet{A}$ のとき，組み合わせ $\mTupleWith{\mathSet{A},\mBinOp}$ のことを\keyword{半群}と呼ぶ．この式\eqref{eq:associativity}で表される性質を\keyword{結合性}と呼ぶ．組み合わせ $\mTupleWith{\mZSet,+}$, $\mTupleWith{\mZSet,*}$, $\mTupleWith{\mBSet,\mLogicalOr}$, $\mTupleWith{\mBSet,\mLogicalOr}$ はすべて半群である．
+ただし $a_1,a_2,a_3\mIn\mSet{A}$ のとき，組み合わせ $\mTupleWith{\mSet{A},\mBinOp}$ のことを\keyword{半群}と呼ぶ．この式\eqref{eq:associativity}で表される性質を\keyword{結合性}と呼ぶ．組み合わせ $\mTupleWith{\mZSet,+}$, $\mTupleWith{\mZSet,*}$, $\mTupleWith{\mBSet,\mLogicalOr}$, $\mTupleWith{\mBSet,\mLogicalOr}$ はすべて半群である．
 
 ところで，整数全体の集合 $\mZSet$ には特別な元 $0$ がある．この元 $0$ は $z\mIn\mZSet$ のとき
 \begin{equation}
@@ -1028,7 +1038,7 @@ a_1\mBinOp a_2\mIn\mSet{A}
 
 型とは変数が取りうる値に言語処理系が与えた制約のことである．\haskell を含む多くのコンパイラ言語は\keyword{静的型付け}と言って，コンパイル時までに変数の型が決まっていることをプログラマに要求する．一方，\python のようなインタプリタ言語はたいてい\keyword{動的型付け}と言って，プログラムの実行時まで変数の型を決めない．
 
-変数に型の制約を設ける理由は，プログラム上のエラーが減ることを期待するためである．例えば真理値が必要とされるところに整数値の変数が来ることは悪い予兆である．一方で\clang 言語のように全ての変数にいちいち型を明記していくのも骨が折れる．数学者や物理学者は変数に型の制約を求める一方，新しい変数の型は明記せず読者に推論させる方法をしばしばとる．例えば，質量 $m$ は「スカラー」という型を持つし，速度$\vec{v}$は「3次元ベクトル」という型を持つ．スカラーと3次元ベクトルの間に足し算は定義されていないため，例えば $m+\vec{v}$という表記を見たときに，両者の型を知っていれば直ちにエラーであることがわかる．
+変数に型の制約を設ける理由は，プログラム上のエラーが減ることを期待するためである．例えば真理値が必要とされるところに整数値の変数が来ることは悪い予兆である．一方で\clang 言語のように全ての変数にいちいち型を明記していくのも骨が折れる．数学者や物理学者は変数に型の制約を求める一方，新しい変数の型は明記せず読者に推論させる方法をしばしばとる．例えば，質量 $m$ は「スカラー」という型を持つし，速度$\mVec{v}$は「3次元ベクトル」という型を持つ．スカラーと3次元ベクトルの間に足し算は定義されていないため，例えば $m+\mVec{v}$という表記を見たときに，両者の型を知っていれば直ちにエラーであることがわかる．
 
 我々がよく使う型はは論理型 $(\mBSet)$，整数型 $(\mZSet)$，実数型 $(\mRSet)$といったところだ．ただし数学者たちは型ではなく集合と呼ぶ．括弧内に示した記号は数学者たちが慣用的に用いているものである．我々は計算機での実装を考慮して，数学者たちとは若干異なる型と表記方法を扱うことにする．
 
@@ -2488,6 +2498,17 @@ f\mBindFunc\phi=\mLambdaExp{r}{f(\phi r)r}
 \section{この章のまとめ*}
 
 \chapter{IO}
+
+\section{IOモナド}
+
+\section{a}
+
+\section{b}
+
+\section{余計な話}
+
+\section{この章のまとめ}
+
 \part{\haskell プログラミング}
 
 \chapter{プログラム}
@@ -2611,16 +2632,12 @@ class
 
 \chapter{スペースの使い方}
 
-\chapter{継続}
-
-\section{継続とは}
 
 
 
+% \chapter{Haskellで作る純LISP}
 
-\chapter{Haskellで作る純LISP}
-
-\part{数学の補講}
+\part{補講}
 
 
 \chapter{代数的構造}
@@ -2633,78 +2650,78 @@ class
 
 これから各種の\keyword{代数的構造}を見ていくことにする．代数的構造と言っても，身構える必要はない．それは，我々プログラマが日々接している概念に，共通した名前を与えたにすぎない．
 
-まず最初に，我々にとって一番身近な代数的構造である\keyword{数}を見てみよう．数の代表例は\keyword{実数}であるから，実数を例にとって考えてみよう．実数全体の集合を$\mathSpecialSet{R}$で表すことにする．また任意の実数を$x,y,z$で表すこととする．このことを数学者は$x,y,z\in\mathSpecialSet{R}$と書くが，我々は記号$\in$を別の用途に使いたいので，本書では
+まず最初に，我々にとって一番身近な代数的構造である\keyword{数}を見てみよう．数の代表例は\keyword{実数}であるから，実数を例にとって考えてみよう．実数全体の集合を $\mRSet$ で表すことにする．また任意の実数を $x,y,z$ で表すこととする．このことを数学者は $x,y,z\in\mRSet$ と書くが，本書ではこれまで通り
 \begin{equation}
-x,y,z\mathIn\mathSpecialSet{R}
+x,y,z\mIn\mRSet
 \end{equation}
 と表すことにする．
 
-以下に実数の備える代数的性質を列挙する．どれも当たり前のことに見えるが，ひとつひとつ見ていこう．ここで$x,y,z\mathIn\mathSpecialSet{R}$とする．
+以下に実数の備える代数的性質を列挙する．どれも当たり前のことに見えるが，ひとつひとつ見ていこう．ここで $x,y,z\mIn\mRSet$ とする．
 \begin{description}
-\item[実数の性質1. 足し算の全域性] 任意の$x$と任意の$y$の足し算（\keyword{加法}）の結果（\keyword{和}）$x+y$は$\mathSpecialSet{R}$の元すなわち実数である．演算の結果が同じ集合の元になることを\keyword{全域性}と呼ぶ．
-\item[実数の性質2. 足し算の結合性] 任意の$x,y,z$について
+\item[実数の性質1. 加法の全域性] 任意の $x$ と任意の $y$ の\keyword{加法}（足し算）の結果すなわち\keyword{和} $x+y$ は $\mRSet$ の元すなわち実数である．演算の結果が同じ集合の元になることを\keyword{全域性}と呼ぶ．
+\item[実数の性質2. 加法の結合性] 任意の $x,y,z$ について
 \begin{equation}
 (x+y)+z=x+(y+z)
 \end{equation}
-である．これを足し算の\keyword{結合性}（結合律）と呼ぶ．
-\item[実数の性質3. 零元（加法単位元）の存在] 特別な実数$0\mathIn\mathSpecialSet{R}$があり
+である．これを加法の\keyword{結合性}（結合律）と呼ぶ．
+\item[実数の性質3. 零元（加法単位元）の存在] 特別な実数 $0\mIn\mRSet$ があり
 \begin{equation}
 0+x=x+0=x
 \end{equation}
-である．この$0$は足し算の\keyword{単位元}である．\keyword{零元}または\keyword{加法単位元}と呼ぶこともある．単位元が存在することを単位律と呼ぶこともある．
-\item[実数の性質4. 負元（加法逆元）の存在] 任意の$x$に対して$-x\mathIn\mathSpecialSet{R}$があり
+である．この $0$ は足し算の\keyword{単位元}である．\keyword{零元}または\keyword{加法単位元}と呼ぶこともある．単位元が存在することを単位律と呼ぶこともある．
+\item[実数の性質4. 負元（加法逆元）の存在] 任意の $x$ に対して $-x\mIn\mRSet$ があり
 \begin{equation}
 -x+x=0
 \end{equation}
-である．この$-x$は$x$の足し算の\keyword{逆元}である．\keyword{負元}または\keyword{加法逆元}と呼ぶこともある．逆元が存在することを消約律と呼ぶこともある．
-\item[実数の性質5. 足し算の可換性] 任意の$x,y$について
+である．この $-x$ は $x$ の加法の\keyword{逆元}である．\keyword{負元}または\keyword{加法逆元}と呼ぶこともある．逆元が存在することを消約律と呼ぶこともある．
+\item[実数の性質5. 加法の可換性] 任意の $x,y$ について
 \begin{equation}
 x+y=y+x
 \end{equation}
-である．このことを足し算の\keyword{可換性}（可換律）と呼ぶ．
-\item[実数の性質6. 掛け算] 任意の$x$と任意の$y$の掛け算（\keyword{乗法}）の結果（\keyword{積}）$x*y$は$\mathSpecialSet{R}$の元すなわち実数である．
-\item[実数の性質7. 掛け算の結合性] 任意の$x,y,z$について
+である．このことを加法の\keyword{可換性}（可換律）と呼ぶ．
+\item[実数の性質6. 乗法] 任意の $x$ と任意の $y$ の\keyword{乗法}（掛け算）の結果すなわち\keyword{積} $x*y$ は $\mRSet$ の元すなわち実数である．
+\item[実数の性質7. 乗法の結合性] 任意の $x,y,z$ について
 \begin{equation}
 (x*y)*z=x*(y*z)
 \end{equation}
 である．
-\item[実数の性質8. 単位元の存在] 特別な実数$1\mathIn\mathSpecialSet{R}$があり
+\item[実数の性質8. 単位元の存在] 特別な実数 $1\mIn\mRSet$ があり
 \begin{equation}
 1*x=x*1=x
 \end{equation}
-である．この$1$を掛け算の単位元または\keyword{乗法単位元}と呼ぶ．
-\item[実数の性質9. 逆元の存在] 任意の$x$に対して$x^{-1}\mathIn\mathSpecialSet{R}$があり
+である．この $1$ を乗法の単位元または\keyword{乗法単位元}と呼ぶ．
+\item[実数の性質9. 逆元の存在] 任意の $x$ に対して $x^{-1}\mIn\mRSet$ があり
 \begin{equation}
 x^{-1}*x=1
 \end{equation}
-である．この$x^{-1}$は$x$の掛け算の逆元である．\keyword{乗法逆元}と呼ぶこともある．ただし性質11で述べる通り，加法単位元については逆元がなくても良い．
-\item[実数の性質10. 掛け算の可換性] 任意の$x,y$について
+である．この $x^{-1}$ は $x$ の乗法の逆元である．\keyword{乗法逆元}と呼ぶこともある．ただし性質11で述べる通り，加法単位元については逆元がなくても良い．
+\item[実数の性質10. 乗法の可換性] 任意の $x,y$ について
 \begin{equation}
 x*y=y*x
 \end{equation}
-である．このことを掛け算の可換性と呼ぶ．
-\item[実数の性質11. 加法単位元の乗法逆元] 加法単位元に対する掛け算の逆元は存在しなくても良い．（つまり$0^{-1}$のことは考えなくて良い．）
-\item[実数の性質12. 分配律] 足し算と掛け算が混在する場合
+である．このことを乗法の可換性と呼ぶ．
+\item[実数の性質11. 加法単位元の乗法逆元] 加法単位元に対する乗法の逆元は存在しなくても良い．（つまり $0^{-1}$ のことは考えなくて良い．）
+\item[実数の性質12. 分配律] 加法と乗法が混在する場合
 \begin{equation}
 (x+y)*z=(x*z)+(y*z)
 \end{equation}
-と掛け算を\keyword{分配}する．
+と乗法を\keyword{分配}する．
 \end{description}
-以上が実数の代数的性質の全てである．我々がよく使う引き算，割り算は数学上は糖衣構文 (syntax sugar) である．
+以上が実数の代数的性質の全てである．我々がよく使う引き算，割り算は数学上はシンタックスシュガーである．
 
-上述の12個の条件が当てはまる数には，\keyword{有理数}や\keyword{複素数}がある．この12個の性質をまとめて，数学では\keyword{体}と呼ぶ．
+上述の12個の条件が当てはまる数には\keyword{有理数}や\keyword{複素数}がある．この12個の性質をまとめて，数学では\keyword{体}と呼ぶ．
 
-体の要素は，集合$\mathSet{K}$，二項演算子$+$，二項演算子$+$の単位元$0$，二項演算子$+$の逆元生成演算子$-$，もう一つの二項演算子$*$，二項演算子$*$の単位元$1$，二項演算子$*$の逆元生成演算子$\mathSomething^{-1}$であるから，体はそれらを列挙して$\mathField{\mathSet{K}}{+}{0}{-}{*}{1}{\mathSomething^{-1}}$と表現する．
+体の要素は，集合 $\mKSet$，二項演算子 $+$，二項演算子 $+$ の単位元 $0$，二項演算子 $+$ の逆元生成演算子 $-$，もう一つの二項演算子 $*$，二項演算子 $*$ の単位元 $1$，二項演算子 $*$ の逆元生成演算子 ${}^{-1}$ であるから，体はそれらを列挙して $\mTupleWith{\mKSet,+,0,-,*,1,{}^{-1}}$ と表現する．
 
 体の性質から言えることを一つ紹介しよう．これから
 \begin{equation}
 z\uparrow n=\underbrace{z*\dotsb*z}_n
 \end{equation}
-なる二項演算子$\uparrow$（\keyword{クヌースの矢印}）を使う．ここに$z$を体$\mathField{\mathSet{K}}{+}{0}{-}{*}{1}{\mathSomething^{-1}}$の$\mathSet{K}$の元，$n$を自然数とした．さて$z\uparrow2$は
+なる二項演算子 $\uparrow$（\keyword{クヌースの矢印}）を使う．ここに $z$ を体の元，$n$ を自然数とした．さて $z\uparrow2$ は
 \begin{equation}
 z\uparrow2=z*z
 \end{equation}
-であるから，いま$z=x+y$とすると
+であるから，いま $z=x+y$ とすると
 \begin{align}
 z\uparrow2&=z*z\\
 &=z*(x+y)\\
@@ -2718,7 +2735,7 @@ z\uparrow2&=z*z\\
 \label{eq:xysq}
 (x+y)\uparrow2=x\uparrow2+x*y+y*x+y\uparrow2
 \end{equation}
-を得る．式\eqref{eq:xysq}は体の性質だけを使って導いた関係なので，実数だけでなく有理数や複素数にもそのまま使える．実際には式\eqref{eq:xysq}は体の性質のうち分配律だけを使っいるので，体以外にも応用が利く式でもある．\footnote{Knuthの矢印は\haskell では演算子\code{\^}として提供されている．}
+を得る．式\eqref{eq:xysq}は体の性質だけを使って導いた関係なので，実数だけでなく有理数や複素数にもそのまま使える．実際には式\eqref{eq:xysq}は体の性質のうち分配律だけを使っているので，体以外にも応用が利く式でもある．\footnote{Knuthの矢印 $(\uparrow)$ は\haskell では演算子 \code{\^} として提供されている．}
 
 \begin{table*}
 \caption{代表的な代数的構造の性質(1)}
@@ -2726,7 +2743,7 @@ z\uparrow2&=z*z\\
 \begin{center}
 \begin{tabular}{||c||c|c|c|c|c|c||}
 \hline
-代数的構造&$\mathAnyBinaryOperator_1$&$\mathAnyBinaryOperator_1$の単位元&$\mathAnyBinaryOperator_1$の逆元&$\mathAnyBinaryOperator_2$&$\mathAnyBinaryOperator_2$の単位元&$\mathAnyBinaryOperator_2$の逆元\\
+代数的構造&$+$&$+$ の単位元&$+$ の逆元&$*$&$*$ の単位元&$*$ の逆元\\
 \hline\hline
 体&可換&あり&あり&可換&あり&あり\\
 環&可換&あり&あり&非可換&あり&なし\\
@@ -2739,121 +2756,102 @@ z\uparrow2&=z*z\\
 
 体の性質を若干緩めたい場合がある．さもなければ，\keyword{整数}，\keyword{正方行列}，\keyword{クォータニオン}（四元数），\keyword{論理値}，\keyword{ベクトル}，ベクトルの\keyword{変換}，集合から集合への\keyword{写像}と言った重要な概念が数の概念からこぼれてしまうからである．例えば整数の掛け算の逆元は（単位元の逆元を除いて）整数の中には存在しないし，正則行列やクォータニオンの場合は掛け算が可換ではない．
 
-だいたいどの辺まで制約を緩めたものを数の仲間に入れるかというのは見解の分かれるところでもあるが，体から性質9（掛け算の逆元），性質10（掛け算の可換性），性質11（加法単位元の乗法逆元）を取り除いたものを\keyword{環}と呼び，環の性質を持つものを数の仲間に入れることが一般的である．環の性質を持つものは，体である実数，有理数，複素数に加えて，整数，正方行列，クォータニオン，論理値などがある．
+だいたいどの辺まで制約を緩めたものを数の仲間に入れるかというのは見解の分かれるところでもあるが，体から性質9（乗法の逆元），性質10（乗法の可換性），性質11（加法単位元の乗法逆元）を取り除いたものを\keyword{環}と呼び，環の性質を持つものを数の仲間に入れることが一般的である．環の性質を持つものは，体である実数，有理数，複素数に加えて，整数，正方行列，クォータニオン，論理値などがある．
 
-制約を少しずつ緩める代わりに，制約をその構成要素に分解するほうがさらなる応用が利きそうである．体には二つの二項演算子$+$と$*$が登場した．その片方にのみ注目してみたらどうなるだろう．それがこの節で取り上げる\keyword{群}である．
+制約を少しずつ緩める代わりに，制約をその構成要素に分解するほうがさらなる応用が利きそうである．体には二つの二項演算子 $+$ と $*$ が登場した．その片方にのみ注目してみたらどうなるだろう．それがこの節で取り上げる\keyword{群}である．
 
-形式的に二項演算子$+$を$\mathAnyBinaryOperator_1$とし，二項演算子$*$を$\mathAnyBinaryOperator_2$として，体と環の性質を並べたものが表\ref{tab:field-and-ring}である．これを見ると，演算子$\mathAnyBinaryOperator$について「可換・単位元あり・逆元あり」の組み合わせが二つペアになったもの（体）か，「可換・単位元あり・逆元あり」の組み合わせと「非可換・単位元あり・逆元なし」の組み合わせがペアになったもの（環）があり，その構成要素は二項演算子$\mathAnyBinaryOperator$について「可換・単位元あり・逆元あり」と「非可換・単位元あり・逆元なし」の2種類であることがわかる．
+形式的に体と環の性質を並べたものが表\ref{tab:field-and-ring}である．これを見ると，各演算子について「可換・単位元あり・逆元あり」の組み合わせが二つペアになったもの（体）か，「可換・単位元あり・逆元あり」の組み合わせと「非可換・単位元あり・逆元なし」の組み合わせがペアになったもの（環）があることがわかる．
 
-いま集合$\mathSet{G}$があり，$x,y,z\mathIn\mathSet{G}$であるとし，二項演算子を$\mathAnyBinaryOperator$と書くことにして，体の性質の前半分を書き下してみよう．
+いま集合 $\mSet{G}$ があり，$x,y,z\mIn\mSet{G}$ であるとし，二項演算子を $\mBinOp$ と書くことにして，体の性質の前半分を書き下してみよう．
 \begin{description}
-\item[性質1.] 任意の$x$と任意の$y$の演算の結果$x\mathAnyBinaryOperator y$は$\mathSet{G}$の元である．
-\item[性質2.] 任意の$x,y,z$について
+\item[性質1.] 任意の $x$ と任意の $y$ の演算の結果 $x\mBinOp y$ は $\mSet{G}$ の元である．
+\item[性質2.] 任意の $x,y,z$ について
 \begin{equation}
-(x\mathAnyBinaryOperator y)\mathAnyBinaryOperator z=x\mathAnyBinaryOperator(y\mathAnyBinaryOperator z)
+(x\mBinOp y)\mBinOp z=x\mBinOp(y\mBinOp z)
 \end{equation}
 である．
-\item[性質3.] 特別な元$O\mathIn\mathSet{G}$があり
+\item[性質3.] 特別な元 $\mZero\mIn\mSet{G}$ があり
 \begin{equation}
-O\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O=x
+\mZero\mBinOp x=x\mBinOp\mZero=x
 \end{equation}
 である．
-\item[性質4.] 任意の$x$に対して$\mathInverse x\mathIn\mathSet{G}$があり
+\item[性質4.] 任意の $x$ に対して $\mMinus x\mIn\mSet{G}$ があり
 \begin{equation}
-\mathInverse x\mathAnyBinaryOperator x=O
+\mMinus x\mBinOp x=\mZero
 \end{equation}
 である．
-\item[性質5.] 任意の$x,y$について
+\item[性質5.] 任意の $x,y$ について
 \begin{equation}
-x\mathAnyBinaryOperator y=y\mathAnyBinaryOperator x
+x\mBinOp y=y\mBinOp x
 \end{equation}
 である．
 \end{description}
-このような性質が満たされる時，組み合わせ$\mathGroup{\mathSet{G}}{\mathAnyBinaryOperator}{O}{\mathInverse}$を\keyword{可換群}または\keyword{加群}と呼ぶ．この可換群が最初の構成要素「可換・単位元あり・逆元あり」の正体である．
+このような性質が満たされる時，組み合わせ $\mTupleWith{\mSet{G},\mBinOp,\mZero,\mMinus}$ を\keyword{可換群}または\keyword{加群}と呼ぶ．この可換群が最初の構成要素「可換・単位元あり・逆元あり」の正体である．
 
-例えば$\mathGroup{\mathSpecialSet{R}}{+}{0}{-}$は可換群である．整数全体の集合を$\mathSpecialSet{Z}$とすると$\mathGroup{\mathSpecialSet{Z}}{+}{0}{-}$も可換群である．また，集合$\mathSpecialSet{R}$から$0$だけを取り除いた集合を$\mathSpecialSet{R}\setminus0$とするとき$\mathGroup{\mathSpecialSet{R}\setminus0}{*}{1}{\mathSomething^{-1}}$も可換群である．
+例えば $\mTupleWith{\mRSet,+,0,-}$ は可換群である．整数全体の集合を $\mZSet$ とすると $\mTupleWith{\mZSet,+,0,-}$ も可換群である．また，集合 $\mRSet$ から $0$ だけを取り除いた集合を $\mRSet\setminus0$ とするとき $\mTupleWith{\mRSet\setminus0,*,1,{}^{-1}}$ も可換群である．
 
-可換群は代表的な代数的構造のひとつであり，他にも数学のあちこちに顔を出している．例えば回転角を$t$とする二次元の回転変換を$R_t$として，回転変換$R_t$すべてからなる集合$\mathSet{R}$を考えてみよう．回転の合成を$\bullet$で表すとすると
+可換群は代表的な代数的構造のひとつであり，他にも数学のあちこちに顔を出している．例えば回転角を $t$ とする二次元の回転変換を $R_t$ として，回転変換 $R_t$ すべてからなる集合 $\mSet{R}$ を考えてみよう．回転の合成を $\mCompRot$ で表すとすると
 \begin{equation}
 \label{eq:rotation}
-R_{t_1}\bullet R_{t_2}=R_{(t_1+t_2)}
+R_{t_1}\mCompRot R_{t_2}=R_{(t_1+t_2)}
 \end{equation}
 であるから，回転を合成した結果も回転である．また式\eqref{eq:rotation}から
 \begin{equation}
-R_{t_1}\bullet\left(R_{t_2}\bullet R_{t_3}\right)=\left(R_{t_1}\bullet R_{t_2}\right)\bullet R_{t_3}
+R_{t_1}\mCompRot\left(R_{t_2}\mCompRot R_{t_3}\right)=\left(R_{t_1}\mCompRot R_{t_2}\right)\mCompRot R_{t_3}
 \end{equation}
 であるから，回転変換は結合性も満たしている．
 
-次にに回転変換に単位元があるかどうか調べてみよう．回転しない変換は\keyword{恒等変換}とも言い，しばしば$I$で表す．何もしない回転変換は$0$度の回転であるから$I=R_0$である．このとき式\eqref{eq:rotation}から
+次にに回転変換に単位元があるかどうか調べてみよう．回転しない変換は\keyword{恒等変換}とも言い，しばしば $I$ で表す．何もしない回転変換は $0$ 度の回転であるから $I=R_0$ である．このとき式\eqref{eq:rotation}から
 \begin{equation}
-I\bullet R_t=R_t\bullet I=R_t
+I\mCompRot R_t=R_t\mCompRot I=R_t
 \end{equation}
-であるから，$I$は回転変換の単位元であると言える．
+であるから，$I$ は回転変換の単位元であると言える．
 
-最後に回転変換に逆元があるかも調べてみよう．$t$回転の逆は明らかに$-t$であるから
+最後に回転変換に逆元があるかも調べてみよう．$t$ 回転の逆は明らかに $-t$ であるから
 \begin{equation}
-R_{-t}\bullet R_t=R_t\bullet R_{-t}=I
+R_{-t}\mCompRot R_t=R_t\mCompRot R_{-t}=I
 \end{equation}
 が成り立つ．そこで
 \begin{equation}
 {R_t}^{-1}=R_{-t}
 \end{equation}
-として$R_t$の逆元${R_t}^{-1}$を定義することができる．
+として $R_t$ の逆元 ${R_t}^{-1}$ を定義することができる．
 
-このように，組み合わせ$\mathGroup{\mathSet{R}}{\bullet}{I}{\mathSomething^{-1}}$も可換群である．（回転$R_t$全体の集合$\mathSet{R}$が群を形成することは，パラメタ$t$が所属する実数全体の集合$\mathSpecialSet{R}$が群を形成することに大いに頼っている．この部分を詳細に調べるとリー群という美しい代数的構造が見つかる．）
+このように，組み合わせ $\mTupleWith{\mRSet,\mCompRot,I,{}^{-1}}$ も可換群である．（回転 $R_t$ 全体の集合 $\mSet{R}$ が群を形成することは，パラメタ $t$ が所属する実数全体の集合 $\mRSet$ が群を形成することに大いに頼っている．この部分を詳細に調べるとリー群という美しい代数的構造が見つかる．）
 
-回転されるものをベクトルと呼ぶ．ベクトルや回転変換の実装方法はいくつかあり，例えば第1座標値を$u$，第2座標値を$v$としたときにベクトル$\mathVectorVar{p}$を
+回転されるものをベクトルと呼ぶ．ベクトルや回転変換の実装方法はいくつかあり，例えば第1座標値を $u$，第2座標値を $v$ としたときにベクトル $\mVec{p}$ を
 \begin{equation}
-\mathVectorVar{p}=\begin{bmatrix}u\\v\end{bmatrix}
+\mVec{p}=\begin{bmatrix}u\\v\end{bmatrix}
 \end{equation}
-と表すことにしよう．矢印は変数$p$がベクトルであることを忘れないようにするための飾りである．このとき，回転変換は
+と表すことにしよう．矢印は変数 $p$ がベクトルであることを忘れないようにするための飾りである．このとき，回転変換は
 \begin{equation}
 R_t=\begin{bmatrix}\cos t&-\sin t\\\sin t&\cos t\end{bmatrix}
 \end{equation}
-と行列で表すことになり，回転後のベクトル$\mathVectorVar{p'}$は
+と行列で表すことになり，回転後のベクトル $\mVec{p'}$ は
 \begin{equation}
-\mathVectorVar{p'}=R_t*\mathVectorVar{p}
+\mVec{p'}=R_t*\mVec{p}
 \end{equation}
-となる．ここに演算子$*$は行列の積である．また，この場合変換の合成$\mathCompose$は行列積$*$となる．
+となる．ここに演算子 $*$ は行列の積である．また，この場合変換の合成 $\mCompRot$ は行列積 $*$ となる．
 
-他にもベクトルを複素数で表現する方法もある．いま$\mathVectorVar{p}$を
+他にもベクトルを複素数で表現する方法もある．いま $\mVec{p}$ を
 \begin{equation}
-\mathVectorVar{p}=u+I v
+\mVec{p}=u+I v
 \end{equation}
-と表して，回転変換$R_t$を
+と表して，回転変換 $R_t$ を
 \begin{equation}
 R_t=\cos t+I\sin t
 \end{equation}
-とすると，回転後の$\mathVectorVar{p'}$はやはり
+とすると，回転後の $\mVec{p'}$ はやはり
 \begin{equation}
-\mathVectorVar{p'}=R_t*\mathVectorVar{p}
+\mVec{p'}=R_t*\mVec{p}
 \end{equation}
-と書ける．ここに演算子$*$は複素数の積である．また，この場合変換の合成$\mathCompose$も複素数積$*$となる．
+と書ける．ここに演算子 $*$ は複素数の積である．また，この場合変換の合成 $\mCompRot$ も複素数積 $*$ となる．
 
-任意次元のベクトル全体からなる集合を$\mathSet{V}$として，零ベクトルを$\mathVectorVar{z}$で表すことにしよう．ここでも矢印はベクトルであることを忘れないようにするための飾りである．ベクトル同士の加算を二項演算子$+$で表し，向きを反転させた逆ベクトル作る演算子を$-$とすると，組み合わせ$\mathGroup{\mathSet{V}}{+}{\mathVectorVar{z}}{-}$もまた可換群である．
+任意次元のベクトル全体からなる集合を $\mSet{V}$ として，零ベクトルを $\mVec{0}$ で表すことにしよう．ここでも矢印はベクトルであることを忘れないようにするための飾りである．ベクトル同士の加算を二項演算子 $+$ で表し，向きを反転させた逆ベクトル作る演算子を $-$ とすると，組み合わせ $\mTupleWith{\mSet{V},+,\mVec{0},-}$ もまた可換群である．
 
-可換群の性質のうち最初の4項目だけを満たすものを群と呼ぶ．可換群は群の特別な場合である．現代の数学では$x\mathAnyBinaryOperator y\neq y\mathAnyBinaryOperator x$のように演算子の前後を入れ替えると結果が異なるような演算をよく取り扱うので，一般の群は可換群よりもよく取り上げられ，それ故より短い名前が付けられている．
+可換群の性質のうち最初の4項目だけを満たすものを群と呼ぶ．可換群は群の特別な場合である．現代の数学では $x\mBinOp y\neq y\mBinOp x$ のように演算子の前後を入れ替えると結果が異なるような演算をよく取り扱うので，一般の群は可換群よりもよく取り上げられ，それ故より短い名前が付けられている．
 
-もう一度組み合わせ$\mathGroup{\mathSet{G}}{\mathAnyBinaryOperator}{O}{\mathInverse}$が群である条件を見ておこう．それは
-\begin{description}
-\item[群の性質1.] 任意の$x$と任意の$y$の演算の結果$x\mathAnyBinaryOperator y$は$\mathSet{G}$の元である．
-\item[群の性質2. 結合性] 任意の$x,y,z$について
-\begin{equation}
-(x\mathAnyBinaryOperator y)\mathAnyBinaryOperator z=x\mathAnyBinaryOperator(y\mathAnyBinaryOperator z)
-\end{equation}
-である．
-\item[群の性質3. 単位元の存在] 特別な元$O\mathIn\mathSet{G}$があり
-\begin{equation}
-O\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O=x
-\end{equation}
-である．
-\item[群の性質4. 逆元の存在] 任意の$x$に対して$\mathInverse x\mathIn\mathSet{G}$があり
-\begin{equation}
-\mathInverse x\mathAnyBinaryOperator x=O
-\end{equation}
-である．
-\end{description}
-であった．これらの条件を少し緩め，逆元が存在しなくても良い「緩やかな群」を考えてみる．この「緩やかな群」のことを\keyword{単位的半群}または\keyword{モノイド}と呼ぶ．これが構成要素「非可換・単位元あり・逆元なし」の正体である．
+もう一度組み合わせ $\mTupleWith{\mSet{G},\mBinOp,O,\mMinus}$ が群である条件を少し緩め，逆元が存在しなくても良い「緩やかな群」を考えてみる．この「緩やかな群」のことを\keyword{単位的半群}または\keyword{モノイド}と呼ぶ．これが構成要素「非可換・単位元あり・逆元なし」の正体である．
 
 \begin{table}
 \caption{代表的な代数的構造の性質 (2)}
@@ -2861,7 +2859,7 @@ O\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O=x
 \begin{center}
 \begin{tabular}{||c||c|c|c||}
 \hline
-代数的構造&$\mathAnyBinaryOperator$&$\mathAnyBinaryOperator$の単位元&$\mathAnyBinaryOperator$の逆元\\
+代数的構造&$\mBinOp$&$\mBinOp$の単位元&$\mBinOp$の逆元\\
 \hline\hline
 可換群&可換&あり&あり\\
 群&非可換&あり&あり\\
@@ -2872,29 +2870,29 @@ O\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O=x
 \end{center}
 \end{table}
 
-単位的半群の性質は次の三つである．ただし$x,y,z$が集合$\mathSet{M}$の元であるとする．
+単位的半群の性質は次の三つである．ただし $x,y,z$ が集合 $\mSet{M}$ の元であるとする．
 \begin{description}
-\item[単位的半群の性質1.] 任意の$x$と任意の$y$の演算の結果$x\mathAnyBinaryOperator y$は$\mathSet{M}$の元である．
-\item[単位的半群の性質2. 結合性] 任意の$x,y,z$について
+\item[単位的半群の性質1.] 任意の $x$ と任意の $y$ の演算の結果 $x\mBinOp y$ は $\mSet{M}$ の元である．
+\item[単位的半群の性質2. 結合性] 任意の $x,y,z$ について
 \begin{equation}
-(x\mathAnyBinaryOperator y)\mathAnyBinaryOperator z=x\mathAnyBinaryOperator(y\mathAnyBinaryOperator z)
+(x\mBinOp y)\mBinOp z=x\mBinOp(y\mBinOp z)
 \end{equation}
 である．
-\item[単位的半群の性質3. 単位元の存在] 特別な元$O\mathIn\mathSet{M}$があり
+\item[単位的半群の性質3. 単位元の存在] 特別な元 $\mZero\mIn\mSet{M}$ があり
 \begin{equation}
-O\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O=x
+\mZero\mBinOp x=x\mBinOp\mZero=x
 \end{equation}
 である．
 \end{description}
-このとき，組み合わせ$\mathMonoid{\mathSet{M}}{\mathAnyBinaryOperator}{O}$が単位的半群である．可換群とこの単位的半群を組み合わせたのが環，可換群二つを組み合わせたのが体であった．
+このとき，組み合わせ $\mTupleWith{\mSet{M},\mBinOp,\mZero}$ が単位的半群である．可換群とこの単位的半群を組み合わせたのが環，可換群二つを組み合わせたのが体であった．
 
 なお，これまで単位元の定義として
 \begin{equation}
-O\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O=x
+\mZero\mBinOp x=x\mBinOp\mZero=x
 \end{equation}
 を掲げているが，厳密には単位元は
 \begin{equation}
-O_\mathLeft\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O_\mathRight=x
+\mZero_\mLeft\mBinOp x=x\mBinOp\mZero_\mRight=x
 \end{equation}
 のように，\keyword{左単位元}と\keyword{右単位元}を区別しても良い．
 
@@ -2902,75 +2900,69 @@ O_\mathLeft\mathAnyBinaryOperator x=x\mathAnyBinaryOperator O_\mathRight=x
 
 \section{圏}
 
-これまでは集合の元同士に対する二項演算を考えてきた．集合$\mathSet{M}$が単位的半群であるとき，集合$\mathSet{M}$の元$x,y\mathIn\mathSet{M}$に対して$x\mathAnyBinaryOperator y\mathIn\mathSet{M}$であった．見方を変えると，演算子$\mathAnyBinaryOperator$とは集合$\mathSet{M}$の元2個から出発して，集合$\mathSet{M}$の元1個へとジャンプさせる\keyword{写像}であると言える．これを
+これまでは集合の元同士に対する二項演算を考えてきた．集合$\mSet{M}$が単位的半群であるとき，集合$\mSet{M}$の元$x,y\mIn\mSet{M}$に対して$x\mBinOp y\mIn\mSet{M}$であった．見方を変えると，演算子$\mBinOp$とは集合$\mSet{M}$の元2個から出発して，集合$\mSet{M}$の元1個へとジャンプさせる\keyword{写像}であると言える．これを
 \begin{equation}
-\mathAnyBinaryOperator\mathIn{}\mathMorph{(\mathSet{M}\mathSetTimes\mathSet{M})}{\mathSet{M}}
+\mBinOp\mIn{}\mMorph{(\mSet{M}\mSetTimes\mSet{M})}{\mSet{M}}
 \end{equation}
-と書く．ここに$\mathSet{X}\mathSetTimes\mathSet{Y}$は集合$\mathSet{X}$と集合$\mathSet{Y}$の\keyword{直積集合}である．直積集合と元の集合はもはや別な集合であることに注意しよう．
+と書く．ここに $\mSet{X}\circledast\mSet{Y}$ は集合 $\mSet{X}$ と集合 $\mSet{Y}$ の\keyword{直積集合}である．直積集合と元の集合はもはや別な集合であることに注意しよう．
 
-写像は$\mathMorph{\mathSet{M}\mathSetTimes\mathSet{M}}{\mathSet{M}}$に限ったもの出はなく，集合$\mathSet{M}$から集合$\mathSet{M}$への写像$\mathAnyUnaryOperator$ただし
+写像は $\mMorph{\mSet{M}\mSetTimes\mSet{M}}{\mSet{M}}$ に限ったもの出はなく，集合 $\mSet{M}$ から集合 $\mSet{M}$ への写像 $\mUnOp$ ただし
 \begin{equation}
-\mathAnyUnaryOperator\mathIn\mathMorph{\mathSet{M}}{\mathSet{M}}
+\mUnOp\mIn\mMorph{\mSet{M}}{\mSet{M}}
 \end{equation}
-があっても良い．実はこれまでにも登場した逆元を作る演算子はまさに$\mathMorph{\mathSet{M}}{\mathSet{M}}$という写像である．
+があっても良い．実はこれまでにも登場した逆元を作る演算子はまさに $\mMorph{\mSet{M}}{\mSet{M}}$ という写像である．
 
-またベクトルには，実数倍や回転といった写像がある．これらは実数のパラメタを一つとるので，ベクトル全体の集合を$\mathSet{V}$，実数全体の集合を$\mathSpecialSet{R}$として，実数のパラメタを$r$としたときに
+またベクトルには，実数倍や回転といった写像がある．これらは実数のパラメタを一つとるので，ベクトル全体の集合を $\mSet{V}$，実数全体の集合を $\mRSet$ として，実数のパラメタを $r$ としたときに
 \begin{equation}
-\mathAnyUnaryOperator_r\mathIn{}\mathMorph{(\mathSpecialSet{R}\mathSetTimes\mathSet{V})}{\mathSet{V}}
+\mUnOp_r\mIn{}\mMorph{(\mRSet\mSetTimes\mSet{V})}{\mSet{V}}
 \end{equation}
-と書ける．例えば回転の場合は$\mathAnyUnaryOperator_r=R_r$である．
+と書ける．例えば回転の場合は $\mUnOp_r=R_r$ である．
 
-このようにとある集合（例えば$\mathSet{M}\mathSetTimes\mathSet{M}$や$\mathSpecialSet{R}\mathSetTimes\mathSet{V}$）から異なる別な集合（例えば$\mathSet{M}$や$\mathSet{V}$）へという写像を一般化するとどうなるだろうか．いま，集合$\mathSet{X}$から集合$\mathSet{Y}$への写像$f$があり，集合$\mathSet{Y}$から集合$\mathSet{Z}$への写像$g$があるとする．すなわち
+このようにとある集合（例えば $\mSet{M}\mSetTimes\mSet{M}$ や $\mRSet\mSetTimes\mSet{V}$）から異なる別な集合（例えば $\mSet{M}$ や $\mSet{V}$）へという写像を一般化するとどうなるだろうか．いま，集合 $\mSet{X}$ から集合 $\mSet{Y}$ への写像 $f$ があり，集合 $\mSet{Y}$ から集合 $\mSet{Z}$ への写像 $g$ があるとする．すなわち
 \begin{align}
-f&\mathIn\mathMorph{\mathSet{X}}{\mathSet{Y}}\\
-g&\mathIn\mathMorph{\mathSet{Y}}{\mathSet{Z}}
+f&\mIn\mMorph{\mSet{X}}{\mSet{Y}}\\
+g&\mIn\mMorph{\mSet{Y}}{\mSet{Z}}
 \end{align}
-があるとする．また写像同士を二項演算子$\mathCompose$で\keyword{合成}できるものとする．例えば$f$と$g$の合成写像は$\mathSet{X}$を出発点に$\mathSet{Y}$を経由して$\mathSet{Z}$へと行くので
+があるとする．また写像同士を二項演算子 $\mCompProj$ で\keyword{合成}できるものとする．例えば $f$ と $g$ の合成写像は $\mSet{X}$ を出発点に $\mSet{Y}$ を経由して $\mSet{Z}$ へと行くので
 \begin{equation}
-f\mathCompose g\mathIn\mathMorph{\mathSet{X}}{\mathSet{Z}}
+f\mCompProj g\mIn\mMorph{\mSet{X}}{\mSet{Z}}
 \end{equation}
 と書ける．ここで合成演算子は結合性を満たすものとしておこう．
 
 さらに
 \begin{equation}
-I_\mathSet{X}\mathIn\mathMorph{\mathSet{X}}{\mathSet{X}},\;I_\mathSet{Y}\mathIn\mathMorph{\mathSet{Y}}{\mathSet{Y}},\;I_\mathSet{Z}\mathIn\mathMorph{\mathSet{Z}}{\mathSet{Z}}
+I_\mSet{X}\mIn\mMorph{\mSet{X}}{\mSet{X}},\;
+I_\mSet{Y}\mIn\mMorph{\mSet{Y}}{\mSet{Y}},\;
+I_\mSet{Z}\mIn\mMorph{\mSet{Z}}{\mSet{Z}}
 \end{equation}
 という写像もあるとしよう．ここで
 \begin{equation}
-I_\mathSet{Y}\mathCompose f=f\mathCompose I_\mathSet{X}
+I_\mSet{Y}\mCompProj f=f\mCompProj I_\mSet{X}
 \end{equation}
-とすると，写像$I_\mathSet{X}$と写像$I_\mathSet{Y}$はそれぞれ写像の合成演算子$\mathCompose$に対して単位元のように振る舞う．写像$g$については
+とすると，写像 $I_\mSet{X}$ と写像 $I_\mSet{Y}$ はそれぞれ写像の合成演算子 $\mCompProj$ に対して単位元のように振る舞う．写像 $g$ については
 \begin{equation}
-I_\mathSet{Z}\mathCompose g=g\mathCompose I_\mathSet{Y}
+I_\mSet{Z}\mCompProj g=g\mCompProj I_\mSet{Y}
 \end{equation}
-であるとする．このような写像$I_\mathSet{X},I_\mathSet{Y},I_\mathSet{Z}$を\keyword{恒等写像}と呼ぶ．
+であるとする．このような写像 $I_\mSet{X},I_\mSet{Y},I_\mSet{Z}$ を\keyword{恒等写像}と呼ぶ．
 
-集合$\mathSet{X}$，集合$\mathSet{Y}$，集合$\mathSet{Z}$の集合$\mathSet{C}=\{\mathSet{X},\mathSet{Y},\mathSet{Z}\}$と，写像$f$と写像$g$の集合$\mathSet{P}=\{f,g\}$と，写像合成演算子$\mathCompose$と，恒等写像の集合$\mathSet{I}$の組み合わせ$\mathCategory{\mathSet{C}}{\mathSet{P}}{\mathCompose}{\mathSet{I}}$を\keyword{圏}と呼ぶ．写像合成演算子$(\mathCompose)$と恒等写像の集合$(\mathSet{I})$は自明であるためしばしば省略され，組み合わせ$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$を圏とする書き方もよくされる．
+集合 $\mSet{X}$，集合 $\mSet{Y}$，集合 $\mSet{Z}$ の集合 $\mSet{C}=\mSetWith{\mSet{X},\mSet{Y},\mSet{Z}}$ と，写像 $f$ と写像 $g$ の集合 $\mSet{P}=\mSetWith{f,g}$ と，写像合成演算子 $\mCompProj$ と，恒等写像の集合 $\mSet{I}$ の組み合わせ $\mTupleWith{\mSet{C},\mSet{P},\mCompProj,\mSet{I}}$ を\keyword{圏}と呼ぶ．写像合成演算子 $(\mCompProj)$ と恒等写像の集合 $(\mSet{I})$ は自明であるためしばしば省略され，組み合わせ $\mTupleWith{\mSet{C},\mSet{P}}$ を圏とする書き方もよくされる．
 
 圏を考えるとき，変換や写像は全て\keyword{射}と呼ぶ決まりである．
 
-いまある単位的半群$\mathMonoid{\mathSet{M}}{\mathAnyBinaryOperator}{O}$があるとする．集合$\mathSet{C}$を$\mathSet{M}$及び$\mathSet{M}\mathSetTimes\mathSet{M}$を元とする集合すなわち
+いまある単位的半群 $\mTupleWith{\mSet{M},\mBinOp,O}$ があるとする．集合 $\mSet{C}$ を $\mSet{M}$ 及び $\mSet{M}\mSetTimes\mSet{M}$ を元とする集合すなわち
 \begin{equation}
-\mathSet{C}=\{\mathSet{M},\mathSet{M}\mathSetTimes\mathSet{M}\}
+\mSet{C}=\mSetWith{\mSet{M},\mSet{M}\mSetTimes\mSet{M}}
 \end{equation}
-とし，集合$\mathSet{P}$を$\mathAnyBinaryOperator$のみを元とする集合すなわち
+とし，集合 $\mSet{P}$ を $\mBinOp$ のみを元とする集合すなわち
 \begin{equation}
-\mathSet{P}=\{\mathAnyBinaryOperator\}
+\mSet{P}=\mSetWith{\mBinOp}
 \end{equation}
-とすると，組み合わせ$\mathCategoryShort{\mathSet{C}}{\mathSet{P}}$は圏になっている．
+とすると，組み合わせ $\mTupleWith{\mSet{C},\mSet{P}}$ は圏になっている．
 
 \section{余計な話：束*}
 
-A...
+\section{この章のまとめ}
 
-
-\chapter{圏とモナドとプログラミング言語}
-
-\section{ジョイン*}
-
-
-
-\section{クライスリ・トリプル*}
 
 \begin{table*}
 \begin{center}
@@ -3019,32 +3011,63 @@ Abelian Group&$\checkmark$&$\checkmark$&$\checkmark$&$\checkmark$&$\checkmark$\\
 % 亜群(groupoid)を中国語では「廣（広）群」と書く．亜群はかつてはマグマの訳語として我が国で用いられていた．
 % 擬群のことを準群と呼ぶこともある．この場合ループを擬群と呼ぶこともある．
 
-\section{ラムダ*}
 
-\section{ラムダ式と条件式}
+\chapter{モナドとプログラミング言語*}
 
+\section{ジョイン*}
+
+\section{数学におけるモナド*}
+
+\section{クライスリ・トリプル*}
+
+\section{余計な話*}
+
+\section{この章のまとめ*}
+
+\chapter{ラムダ*}
+
+\section{条件式}
 
 条件式は一種のシンタックスシュガーである．次のように関数 $t,f,\mIfFunc$ を定義すると，それぞれ真，偽，条件分岐のように振る舞う．
 \begin{align}
 t&=\mLambdaExp{xy}{x}\\
 f&=\mLambdaExp{xy}{y}\\
-\mathIfFunc pxy&=pxy
+\mIfFunc pxy&=pxy
 \end{align}
 本当かどうか試してみよう．
 \begin{align}
-\mathIfFunc txy&=txy\\
+\mIfFunc txy&=txy\\
 &=(\mLambdaExp{xy}{x})xy\\
 &=x\\
-\mathIfFuncfxy&=fxy\\
+\mIfFuncfxy&=fxy\\
 &=(\mLambdaExp{xy}{y})xy\\
 &=y
 \end{align}
 確かに $\mIfFunc t$ は1番目の引数だけを，$\mIfFunc f$ は2番目の引数だけを残す．これは条件分岐そのものである．
 
-\section{余計な話：Yコンビネータ}
+\section{整数*}
+\section{Yコンビネータ*}
 
 
+\section{余計な話：継続*}
 
+\section{この章のまとめ*}
+
+\chapter{\cxx}
+
+\section{クラスとテンプレート*}
+\section{関数とラムダ式*}
+\section{制御構造*}
+\section{余計な話：多様性*}
+\section{この章のまとめ*}
+
+\chapter{\scheme}
+
+\section{基本関数*}
+\section{分岐と再帰*}
+\section{継続*}
+\section{余計な話：ハイジェニックマクロ*}
+\section{この章のまとめ*}
 
 % \part{\cxx17}
 % \chapter{\cxx}
