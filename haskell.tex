@@ -119,6 +119,7 @@
 \newcommand{\mSet}[1]{\mathbf{#1}}
 \newcommand{\mSpecialSet}[1]{\mathbb{#1}} % Internal use
 \newcommand{\mBSet}{\mSpecialSet{B}}
+\newcommand{\mFSet}{\mSpecialSet{F}}
 \newcommand{\mRSet}{\mSpecialSet{R}}
 \newcommand{\mZSet}{\mSpecialSet{Z}}
 
@@ -506,6 +507,7 @@ $\mNothing$&空Maybe（ナッシング）&\\
 $\mPureNothing$&空&\\\hline
 $\mListWith{x}$&リスト値コンストラクタ&\\
 $\mMaybeWith{x}$&Maybe値コンストラクタ&\\
+$\mEitherLeftWith{x},\mEitherRightWith{x}$&Either値コンストラクタ&\\
 $\mPureWith{x}$&ピュア演算子（ユニット演算子）&\\
 $\mFuncWith{f}$&関数値コンストラクタ&\\
 \hline
@@ -1876,8 +1878,6 @@ u,v\mIn{}\mEitherType{a}{b}
 
 Eitherはより複雑な計算エラーが発生する場合に用いる．Maybeが単に失敗を表す $\mNothing$ しか表現できなかったのに対し，Eitherは任意の型の変数で表現できる．習慣的に，正しい計算結果は $\mEitherRightWith{x}$ 値コンストラクタで格納し，エラーの情報は $\mEitherLeftWith{x}$ 値コンストラクタで格納する．
 
-
-
 \section{この章のまとめ*}
 
 \chapter{関手*}
@@ -2199,9 +2199,9 @@ g\mIn\mProj{\mType{a}}{\mMaybeType{a}}
 \begin{equation}
 \mMaybe{v}=g\mBindMaybe\mMaybe{u}
 \end{equation}
-とする．
+とする．この新しいマップ演算子 $\mBindMaybe$ のことをMaybeの\keyword{バインド演算子}と呼ぶ．ここで $\mMaybe{u}=\mMaybeWith{x}$ とすると，$\mMaybe{v}=\mMaybeWith{gx}$ である．
 
-この新しいマップ演算子 $\mBindMaybe$ のことをMaybeの\keyword{バインド演算子}と呼ぶ．演算 $(g\mBindMaybe\mMaybe{u})$ の結果はMaybe値であるから，バインド演算子は連続して用いることが出来る．通常の引数を取ってMaybe値を返すもう一つの関数 $h$ があるとすると
+演算 $(g\mBindMaybe\mMaybe{u})$ の結果はMaybe値であるから，バインド演算子は連続して用いることが出来る．通常の引数を取ってMaybe値を返すもう一つの関数 $h$ があるとすると
 \begin{equation}
 \mMaybe{v}=h\mBindMaybe{}(g\mBindMaybe\mMaybe{u})
 \end{equation}
@@ -2276,7 +2276,7 @@ v=f\mMap u=\mPureWith{f}\mAppMap u=\mPureWith{f\mAnonParameter}\mBind u
 を得る．これが一般バインド演算子と一般アプリカティブマップ演算子，一般マップ演算子の関係である．
 
 
-\section{関手則・アプリカティブ関手則・モナド則*}
+\section{関手則・アプリカティブ関手則・モナド則}
 
 関手，アプリカティブ関手，モナドにはそれぞれ従う規則がある．これらは自然法則ではなく，定義である．
 
@@ -2306,20 +2306,63 @@ v=f\mMap u=\mPureWith{f}\mAppMap u=\mPureWith{f\mAnonParameter}\mBind u
 \begin{enumerate}
 \item 単位元の存在: $\mPureWith{\mId}\mAppMap u=u$
 \item 準同型則: $\mPureWith{f}\mAppMap\mPureWith{x}=\mPureWith{fx}$
-\item 交換則: $\phi\mAppMap\mPureWith{x}=\mPureWith{(\mApply x)}\mAppMap\phi$
-\item 合成則: $\mPureWith{(\mComp)}\mAppMap\phi\mAppMap\psi\mAppMap u=\phi\mAppMap{}(\psi\mAppMap u)$
+\item 合成則: $\mPureWith{(\mComp)}\mAppMap\phi\mAppMap\psi\mAppMap v=\phi\mAppMap{}(\psi\mAppMap v)$
+\item 交換則: $\varphi\mAppMap\mPureWith{y}=\mPureWith{(\mApply y)}\mAppMap\varphi$
 % \item $f\mMap=\mPureWith{f}\mAppMap$ --- （上述の四つの法則から導かれる）
 \end{enumerate}
 % https://en.wikibooks.org/wiki/Haskell/Applicative_functors#Applicative_functor_laws
+ここでも $\mId=\mAnonParameter$ である．
+
+アプリカティブマップ演算子の準同型則は $w=\mPureWith{fx}$ とした時に，
+\begin{align}
+x\xrightarrow{\mPureWith{\dots}}\mPureWith{x}\xrightarrow{\mPureWith{f}}&w\\
+x\xrightarrow{f}fx\xrightarrow{\mPureWith{\dots}}&w
+\end{align}
+のように $x$ からスタートして，どちらのルートを辿っても $w$ に行き着くという意味である．
+
+アプリカティブマップ演算子の合成則も注釈が必要であろう．仮に $\phi=\mPureWith{g},\psi=\mPureWith{h},v=\mPureWith{z}$ とすると，合成則の左辺は
+\begin{align}
+\mPureWith{(\mComp)}\mAppMap\phi\mAppMap\psi\mAppMap v
+&=\mPureWith{(\mComp)g}\mAppMap\psi\mAppMap v\\
+&=\mPureWith{(\mComp)gh}\mAppMap v\\
+&=\mPureWith{g\mComp h}\mAppMap v\\
+&=\mPureWith{g\mComp hz}
+\end{align}
+となる一方，合成則の右辺は
+\begin{align}
+\phi\mAppMap{}(\psi\mAppMap v)
+&=\phi\mAppMap\mPureWith{hz}\\
+&=\mPureWith{g\mComp hz}
+\end{align}
+となり一致する．合成則とは，このような関係が満たされるように一般アプリカティブマップ演算子を定義しておきなさいという意味だ．
 
 モナドの一般バインド演算子 $(\mBind)$ は次の規則に従う．
 \begin{enumerate}
-\item 右単位元の存在: $g\mBind{}\mPureWith{x}=gx$
-\item 左単位元の存在: $\mPureWith{\mId}\mBind w=w$
-\item 結合則: $g\mBind{}(h\mBind w)=(g\mBind{}(h\mAnonParameter))\mBind w$
+\item 右単位元の存在: $i\mBind{}\mPureWith{x}=ix$
+\item 左単位元の存在: $\mPureWith{\mId}\mBind u=u$
+\item 結合則: $i\mBind{}(j\mBind v)=(i\mBind{}(j\mAnonParameter))\mBind v$
 \end{enumerate}
 % https://wiki.haskell.org/Monad_laws
 % https://en.wikibooks.org/wiki/Haskell/Category_theory#The_monad_laws_and_their_importance
+結合則についてのみ解説しておこう．$iz=\mPureWith{fz},jz=\mPureWith{gz},v=\mPureWith{y}$ とすると
+\begin{align}
+i\mBind(j\mBind v)&=i\mBind\mPureWith{gy}\\
+&=\mPureWith{f(gy)}\\
+&=\mPureWith{f\mComp gy}
+\end{align}
+である一方，$k=(i\mBind{}(j\mAnonParameter))$ とすると
+\begin{align}
+kz&=(i\mBind(j\mAnonParameter))z\\
+&=i\mBind(jz)\\
+&=\mPureWith{f(gz)}\\
+&=\mPureWith{f\mComp gz}
+\end{align}
+であるから $k=f\mComp g$ であり，結局
+\begin{align}
+k\mBind v&=\mPureWith{(f\mComp g)y}\\
+&=\mPureWith{f\mComp gy}
+\end{align}
+となるため結合則の左辺と右辺が一致する．
 
 \begin{figure}
 \begin{center}
@@ -2416,7 +2459,7 @@ Maybe
 \end{center}
 \end{table*}
 
-\section{余計な話：関数モナドそしてモナドプラス*}
+\section{余計な話：関数モナド}
 関数にはピュア演算子が定義されていて
 \begin{equation}
 \mFuncWith{f}=\mLambdaExp{\mAnyParameter}{f}
@@ -2427,11 +2470,20 @@ f\mBindFunc\phi=\mLambdaExp{r}{f(\phi r)r}
 \end{equation}
 のように関数のバインド演算子を定義すると，関数はモナドとしての性質を持つ．
 
+...
+
+
 % http://south37.hatenablog.com/entry/2014/04/27/Haskell%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E3%83%A2%E3%83%8A%E3%83%89
-
-% \section{余計な話：モナドプラス*}
-
 % https://ja.wikipedia.org/wiki/%E3%83%A2%E3%83%8A%E3%83%89_(%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0)
+
+なお関数はモノイドとしての性質も持つ．関数 $\mId=\mAnonParameter$ とすると，任意の関数 $f$ に対して
+\begin{equation}
+\mId\mComp f=f\mComp\mId=f
+\end{equation}
+であるから，関数全体の集合を $\mFSet$ で表すと，組み合わせ $\mTupleWith{\mFSet,\mComp,\mId}$ はモノイドである．
+
+モナドでありモノイドである型クラスを\keyword{モナドプラス}と呼ぶ．関数はモナドプラスである．
+
 
 \section{この章のまとめ*}
 
