@@ -2317,34 +2317,34 @@ A...
 
 \haskell プログラムもまた，文字定数を除いてはASCII文字セットの範囲で書くことが普通である．そこで我々もその習慣に従うことにしよう．例えば円周率を代入する変数を$\pi$と書きたいところだが，我々は\code{pi}と書く．
 
-数学記号のほとんども，ASCII文字セットの中から記号を組み合わせるか，さもなくば言葉で表現する．例えば\haskell では$\in$の代わりに\code{<-}を使うし，$\wedge$の代わりに\code{and}を使う．
+数学記号のほとんども，ASCII文字セットの中から記号を組み合わせるか，さもなくば言葉で表現する．例えば\haskell では $\mFrom$ の代わりに \code{<-} を使うし，$\mLogicalAnd$ の代わりに \code{and} を使う．
 
-また計算機科学者たちの絶えざる努力にもかかわらず，プログラム中の文字の装飾はこれまでほとんど受け入れられていない．我々は本書で \textrm{f}, \textbf{f}, \textit{f}, $f$ を使い分けてきたが，\haskell プログラム中では全て\code{f}と書く．
+また計算機科学者たちの絶えざる努力にもかかわらず，プログラム中の文字の装飾はこれまでほとんど受け入れられていない．我々は本書で $\textrm{f},\textbf{f},f$ を使い分けてきたが，\haskell プログラム中では全て \code{f} と書く．
 
 以上のような制約にもかかわらず，\haskell プログラムと我々が見えきた「カリー風の」数学記法は本質的に差がない．本書を読み進めてきた読者なら，\haskell プログラムを読むのに苦労はいらないだろう．
 
-なお\haskell では\code{--}から行の終わりまでがコメントとして扱われる．
+なお\haskell では \code{--} から行の終わりまでがコメントとして扱われる．
 
 \section{main関数と一般の関数定義}
 
-\python インタプリタはプログラムを頭から実行していくので，わざわざmain関数を書くことはないが，アプリケーションプログラマにとっての一番の関心事はmain関数の書き方だろう．iOSアプリケーション開発のように，基本的にはmain関数をプログラマが触れないというスタイルもあるが，それでもデバッグの時にはmain関数から辿ることになるので，main関数のありかを知っておくことはいつでも重要だ．
+\python インタプリタはプログラムを頭から実行していくので，わざわざ $\mMain$ 関数を書くことはないが，アプリケーションプログラマにとっての一番の関心事は $\mMain$ 関数の書き方だろう．iOSアプリケーション開発のように，基本的には $\mMain$ 関数をプログラマが触れないというスタイルもあるが，それでもデバッグの時には $\mMain$ 関数から辿ることになるので，$\mMain$ 関数のありかを知っておくことはいつでも重要だ．
 
-\haskell コンパイラもmain関数をアプリケーションプログラムのエントリポイントとして認識する．というよりも，\haskell プログラムとはmainという一つの関数である．main関数を含む一般の関数はこれまで通り
+\haskell コンパイラも $\mMain$ 関数をアプリケーションプログラムのエントリポイントとして認識する．というよりも，\haskell プログラムとは $\mMain$ という一つの関数である．$\mMain$ 関数を含む一般の関数はこれまで通り
 \begin{equation}
 \mMain=\dotsb
 \end{equation}
-のように関数名のあとに等号$(=)$を置いて定義する．
+のように関数名のあとに等号 $(=)$ を置いて定義する．
 
-\cxx でmain関数の型がOSの都合で決められているように，\haskell でもmain関数の型はあらかじめ決められている．その型は\code{main :: IO ()}である．
+\cxx で $\mMain$ 関数の型がOSの都合で決められているように，\haskell でも $\mMain$ 関数の型はあらかじめ決められている．その型は \code{main :: IO ()} である．
 
 
 \section{プログラムの本質}
 
-プログラムに与えられた引数やファイルを$x$とし，プログラムの出力を$y$とすると，副作用のないプログラムの本質は
+プログラムに与えられた引数やファイルを $x$ とし，プログラムの出力を $y$ とすると，副作用のないプログラムの本質は
 \begin{equation}
 y=\mMain x
 \end{equation}
-という$\text{main}$関数であり，それを
+という $\mMain$ 関数であり，それを
 \begin{equation}
 \mMain=f_1\mComp f_2\mComp\dotsb\mComp f_n
 \end{equation}
@@ -2352,33 +2352,26 @@ y=\mMain x
 
 副作用のない関数を合成するのはわけのないことだ．もし\python ならば
 \begin{pythoncode}
-% \begin{pythontab}
-% \code{y} \pthnOp{=} \code{f}${}_1$(\code{f}${}_2$(\code{x}))
-% \end{pythontab}
 \begin{verbatim}
 y = f1(f2(x))
 \end{verbatim}
 \end{pythoncode}
 のように関数を入れ子にしても良いし，読みづらければ途中経過を一時変数にして
 \begin{pythoncode}
-% \begin{pythontab}
-% \code{y}${}_2$ \pthnOp{=} \code{f}${}_2$(\code{x})\\
-% \code{y} \pthnOp{=} \code{f}${}_1$(\pthnId{y}${}_2$)
-% \end{pythontab}
 \begin{verbatim}
-y_2 = f_2(x)
-y = f1(y_2)
+y2 = f2(x)
+y1 = f1(y2)
 \end{verbatim}
 \end{pythoncode}
 としてもよい．副作用のない関数の場合，これが関数合成の規則である．
 
-プログラムが副作用を持つ場合は，文脈を持った変数に入れると見通しが良くなるのであった．文脈を持った変数を$u,v$とするとき，副作用を持つプログラムは
+プログラムが副作用を持つ場合は，文脈を持った変数に入れると見通しが良くなるのであった．文脈を持った変数を $u,v$ とするとき，副作用を持つプログラムは
 \begin{equation}
-v=\mMain u
+v=\mMain\mBind u
 \end{equation}
-という$\text{main}$関数であり，それを
+という $\mMain$ 関数であり，それを
 \begin{equation}
-\mMain=f_1\mMap f_2\mMap\dotsb\mMap f_n
+\mMain=f_1\mBind f_2\mBind\dotsb\mBind f_n  % *** mBind?? ***
 \end{equation}
 と部分関数に分解することがプログラマの能力となる．
 
