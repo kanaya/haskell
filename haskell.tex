@@ -112,8 +112,8 @@
 
 % Subscripts
 \newcommand{\mSpecialSub}[1]{\text{#1}}
-\newcommand{\mLeft}{\mSpecialSub{left}}
-\newcommand{\mRight}{\mSpecialSub{right}}
+\newcommand{\mLeft}{\mSpecialSub{Left}}
+\newcommand{\mRight}{\mSpecialSub{Right}}
 
 % Sets
 \newcommand{\mSet}[1]{\mathbf{#1}}
@@ -126,7 +126,9 @@
 \newcommand{\mType}[1]{\mathbf{#1}}
 
 % Value constructors
-\newcommand{\mFuncWith}[1]{\{#1\}_\mType{r}}
+\newcommand{\mEitherLeftWith}[1]{\{#1\}_\mLeft}
+\newcommand{\mEitherRightWith}[1]{\{#1\}_\mRight}
+\newcommand{\mFuncWith}[1]{(#1)_\mType{r}}
 \newcommand{\mListWith}[1]{\left[#1\right]}
 \newcommand{\mMaybeWith}[1]{\[#1\]}
 \newcommand{\mPureWith}[1]{\langle#1\rangle}
@@ -136,6 +138,7 @@
 % Types
 \newcommand{\mBoolType}{\mType{Bool}}
 \newcommand{\mCharType}{\mType{Char}}
+\newcommand{\mEitherType}[2]{\{\mType{#1}\mid\mType{#2}\}}
 \newcommand{\mFloatType}{\mType{Float}}
 \newcommand{\mFuncType}[1]{\{\mType{#1}\}_\mType{r}}
 \newcommand{\mIntType}{\mType{Int}}
@@ -172,6 +175,7 @@
 \newcommand{\mRealTypeClass}{\mSpecialTypeClass{Real}}
 
 % Decolations
+\newcommand{\mEither}[1]{{#1}^\text{!}}
 \newcommand{\mList}[1]{{#1}^\mathrm{\star}}
 \newcommand{\mMaybe}[1]{{#1}^\text{?}}
 
@@ -435,10 +439,11 @@
 変数&イタリック，小文字&$u,v,w,x,y,z$\\
 リスト変数&肩に星印をつける&$\mList{x}$\\
 Maybe変数&肩に?をつける&$\mMaybe{u}$\\
+Ether変数&肩に!をつける&$\mEither{u}$\\
 有名な変数&ローマン，小文字&$\mFirstVar,\mRestVar$\\
 \hline
-関数&イタリック，小文字&$f,g,h,i$\\
-リスト関数&肩に星印をつける&$\mList{f}$\\
+関数&イタリック，小文字&$f,g,h,i,j,k$\\
+% リスト関数&肩に星印をつける&$\mList{f}$\\
 % Maybe関数&肩に?をつける&$\mMaybe{g}$\\
 コンテナ関数&ギリシア文字&$\phi,\psi$\\
 有名な関数&ローマン，小文字&$\sin,\cos$\\
@@ -590,15 +595,15 @@ $ stack install ghc
 
 \section{余計な話：数学とプログラミングの関係*}
 
-% 数学とプログラミングの関係について述べておこう．ある方程式を解くためにコンピュータによって数値シミュレーションを行うとか，非常に複雑な微分を機械的に行うとか，プログラミングによって数学をサポートすることは計算機科学の主たる分野の一つであるが，ここではもっと根源的な話をする．
+数学とプログラミングの関係について述べておこう．ある方程式を解くためにコンピュータによって数値シミュレーションを行うとか，非常に複雑な微分を機械的に行うとか，プログラミングによって数学をサポートすることは計算機科学の主たる分野の一つであるが，ここではもっと根源的な話をする．
 
-% 数学者もプログラマも\keyword{関数}をよく使う．数学者が使う関数とは，引数がいくつかあって，その結果決まる戻り値があるようなものだ．一方でプログラマが使う関数というのは，引数と戻り値はだいたい同じとして，中身に条件分岐があったり，ループがあったり，外部変数を書き換えたり，入出力をしたりする．
+数学者もプログラマも\keyword{関数}をよく使う．数学者が使う関数とは，引数がいくつかあって，その結果決まる戻り値があるようなものだ．一方でプログラマが使う関数というのは，引数と戻り値はだいたい同じとして，中身に条件分岐があったり，ループがあったり，外部変数を書き換えたり，入出力をしたりする．
 
-% どちらも同じ関数，なぜこうもイメージが違うのだろうか．
+どちらも同じ関数，なぜこうもイメージが違うのだろうか．
 
-% もし，我々が関数型プログラミングの原則を忠実に守り，プログラム中のいかなる破壊的代入をも禁止するとすると，両者の関数は全く同じ性格になる．条件分岐もループも，それどころか定数さえ，\keyword{ラムダ式}という式だけで書けるようになる．あらゆるプログラムが，最終的には単一のラムダ式で書ける．
+もし，我々が関数型プログラミングの原則を忠実に守り，プログラム中のいかなる破壊的代入をも禁止するとすると，両者の関数は全く同じ性格になる．条件分岐もループも，それどころか定数さえ，\keyword{ラムダ式}という式だけで書けるようになる．あらゆるプログラムが，最終的には単一のラムダ式で書ける．
 
-% ラムダ式は単純で，十分に数学的に定式化できるものだ．
+ラムダ式は単純で，十分に数学的に定式化できるものだ．
 
 \section{本書の構成*}
 
@@ -845,7 +850,7 @@ y=fx'\mWhere x'=1+x
 (\mBinOp x)&=\mAnonParameter\mBinOp x\\
 (x\mBinOp)&=x\mBinOp\mAnonParameter
 \end{align}
-である．例えば $((+)1)$ は $(1+)$ と等価である． \footnote{\haskell では $(1+)$ を \code{(1+)} と書く．}
+である．例えば $(1+)$ は $((+)1)$ と等価である． \footnote{\haskell では $(1+)$ を \code{(1+)} と書く．}
 
 なお，二項演算子の結合性，すなわち左結合か右結合かは，演算子によって異なる．また演算の優先順位を明示的に与えるために括弧が用いられる．
 
@@ -871,7 +876,7 @@ z = f2(f1(x))
 \label{eq:ffx}
 z=f_2(f_1x)
 \end{equation}
-である．式\eqref{eq:ffx}から括弧を省略して $z=f_2f_1x$ としてしまうと，関数適用は左結合するから $z=(f_2f_1)x$ の意味になってしまう．関数 $f_2$ が引数に関数を取るのでない限り $(f_2f_1)$ は無意味なので，式\eqref{eq:ffx}には括弧が必要である．
+である．式\eqref{eq:ffx}から括弧を省略して $z=f_2f_1x$ としてしまうと，関数適用は左結合するから $z=(f_2f_1)x$ の意味になってしまう．関数 $f_2$ が引数に関数を取るのでない限り $(f_2f_1)$ は無意味なので，式\eqref{eq:ffx}の括弧は省略できない．
 
 ここで，引数のことは忘れて，関数 $f_1$ と関数 $f_2$ を先に\keyword{合成}しておきたいとしよう．その合成を $f_2\mComp f_1$ と書く．演算子 $\mComp$ は\keyword{関数合成演算子}と呼ぶ．合成はラムダ式を使って
 \begin{equation}
@@ -881,7 +886,7 @@ f_2\mComp f_1=f_2(f_1\mAnonParameter)
 \begin{equation}
 z=f_2\mComp f_1x
 \end{equation}
-と書ける．\footnote{\haskell では関数 \code{f2} と関数 \code{f1} の合成は \code{f2.f1} である．}
+と書ける．\footnote{\haskell では関数 \code{f2} と関数 \code{f1} の合成は \code{f2.f1} である．式 $z=f_2\mComp f_1x$ は \code{z = f2.f1 x} と書く．}
 
 関数合成演算子とは逆に，優先順位の低い\keyword{関数適用演算子}も考えておくと便利なこともある．関数適用演算子 $\mApply$ を関数合成演算子と同じように次のように定義しておく．
 \begin{equation}
@@ -940,8 +945,18 @@ fx=\begin{cases}
 \end{equation}
 左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっていることに注目しよう．
 
-\section{余計な話：クロージャ*}
+\section{余計な話：クロージャ}
 
+ラムダ式をサポートするほとんどのプログラミング言語は，\keyword{レキシカルクロージャ}をサポートする．レキシカルクロージャとは，ラムダ式が定義された時点での，周囲の環境をラムダ式に埋め込む機構である．例えば
+\begin{align}
+a&=100\\
+f&=\mLambdaExp{x}{x+a}
+\end{align}
+というラムダ式があるとする．当然我々は関数 $f$ がいつも $f=\mLambdaExp{x}{x+100}$ であることを期待するし，\haskell においてはいつも保証される．
+
+ところが，参照透過性のない言語，言い換えると変数への破壊的代入が許されている言語では，変数 $a$ の値がいつ変わっても不思議ではない．そこで，関数 $f$ が定義された時点での $a$ の値を，関数 $f$ の定義に含めておく．これが他の言語におけるレキシカルクロージャの考え方である．
+
+\haskell ではそもそも変数への破壊的代入がないので，関数 $f$ がレキシカルクロージャであるかどうか悩む必要はない．あえて言えば，\haskell ではラムダ式はいつもレキシカルクロージャである．もしあなたのそばの\cxx プログラマが「え？\haskell にはレキシカルクロージャが無いの？」などと聞いてきたら，「ええ，\haskell には破壊的代入すらありませんから」と答えておこう．
 
 \section{この章のまとめ*}
 
@@ -1554,6 +1569,18 @@ x*\mFact(x-1)&\mOtherwise
 
 我々は関数の適用，変数の代入，ラムダ式，条件式，再帰の方法を学んだわけである．これだけあれば，原理的にはどのようなアルゴリズムも書くことができる．今日からはカリー風な数学であらゆるアルゴリズムを表現できるのである！
 
+結合演算子 $(:)$ を関数引数のパタンにも使える．これで，例えばリストの和をとる関数 $\mSum$ は
+\begin{equation}
+\left\{
+\begin{split}
+\mSum(x:\mList{x})&=x+\mSum\mList{x}\\
+\mSum\mEmptyList&=0
+\end{split}
+\right.
+\end{equation}
+のようにも定義できる．
+
+
 \section{末尾再帰}
 
 計算機科学者は，同じ再帰でも\keyword{末尾再帰}という再帰のスタイルを好む．末尾再帰とは，関数の再帰適用を関数定義の末尾にすることである．この章に出てきた階乗関数 $\mFact$ を例にとろう．階乗関数 $\mFact$ は
@@ -1589,18 +1616,7 @@ x*\mFact(x-1)&\mOtherwise
 
 計算機科学者が末尾再帰を好む理由は，\haskell を含む幾つかのプログラミング言語処理系が\keyword{末尾再帰最適化}を行うからである．末尾再帰最適化とは，一言で言うと再帰をコンピュータが扱いやすいループに置き換えることである．では最初から我々もループで関数を表現しておけば，と思われるかもしれないが，再帰以外の方法でループを表現する場合には必ず変数への破壊的代入が必要になるため，我々は末尾再帰に慎ましくループを隠すのである．
 
-\section{リストと再帰*}
-
-結合演算子を関数引数のパタンにも使える．これで，例えばリストの和をとる関数 $\mSum$ は
-\begin{equation}
-\left\{
-\begin{split}
-\mSum(x:\mList{x})&=x+\mSum\mList{x}\\
-\mSum\mEmptyList&=0
-\end{split}
-\right.
-\end{equation}
-のようにも定義できる．
+\section{遅延評価*}
 
 \section{余計な話：ジャンプ*}
 
@@ -1845,7 +1861,21 @@ X map_over(fn f, X x);
 一方で，数学者たちが見つけた圏という代数的構造が，リストもMaybeも統一的に扱うことを可能にしている．これを発見したのは Eugenio Moggi を始めとする計算機科学者たちである．この人類の英知は第\ref{ch:functor}章から見ていくことにしよう．
 
 
-\section{余計な話：Either*}
+\section{余計な話：Either}
+
+Maybeとよく似た型にEitherがある．Maybeが $\mType{a}$ 型または $\mNothing$ のいずれかの値をとったように，Eitherは $\mType{a}$ 型または $\mType{b}$ 型のいずれかの値を取る．$\mType{a}$ 型または $\mType{b}$ 型を取るEither型の変数 $\mEither{u},\mEither{v}$ があるとすると，
+\begin{equation}
+u,v\mIn{}\mEitherType{a}{b}
+\end{equation}
+と書く．Etherには値コンストラクタが2種類あり，それぞれ $\mEitherLeftWith{x}$ と $\mEitherRightWith{x}$ である．値コンストラクタは
+\begin{align}
+\mEither{u}&=\mEitherLeftWith{x}\\
+\mEither{v}&=\mEitherRightWith{y}
+\end{align}
+のように使う．\footnote{\haskell ではそれぞれ \code{u = Left x} および \code{v = Right x} と書く．}
+
+Eitherはより複雑な計算エラーが発生する場合に用いる．Maybeが単に失敗を表す $\mNothing$ しか表現できなかったのに対し，Eitherは任意の型の変数で表現できる．習慣的に，正しい計算結果は $\mEitherRightWith{x}$ 値コンストラクタで格納し，エラーの情報は $\mEitherLeftWith{x}$ 値コンストラクタで格納する．
+
 
 
 \section{この章のまとめ*}
