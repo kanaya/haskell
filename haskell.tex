@@ -18,10 +18,10 @@
 \newcommand{\cxxeleven}{\cxx\programminglanguage{11}}
 \newcommand{\cxxfourteen}{\cxx\programminglanguage{14}}
 \newcommand{\cxxseventeen}{\cxx\programminglanguage{17}}
-\newcommand{\objectivec}{\programminglanguage{Objective-C}}
 \newcommand{\haskell}{\programminglanguage{Haskell}}
 \newcommand{\java}{\programminglanguage{Java}}
 \newcommand{\lisp}{\programminglanguage{LISP}}
+\newcommand{\objectivec}{\programminglanguage{Objective-C}}
 \newcommand{\python}{\programminglanguage{Python}}
 \newcommand{\ruby}{\programminglanguage{Ruby}}
 \newcommand{\scheme}{\programminglanguage{Scheme}}
@@ -51,81 +51,36 @@
 
 %% Math
 
+% Constants
 \newcommand{\mSpecialConst}[1]{\mathrm{#1}} % Internal use
+\newcommand{\mEmptyList}{{[\,]}}
 \newcommand{\mTrue}{\mSpecialConst{True}}
 \newcommand{\mFalse}{\mSpecialConst{False}}
+\newcommand{\mNothing}{\emptyset}
+\newcommand{\mPureNothing}{\varnothing}
 \newcommand{\mZero}{\O}
+
+% Variables
 \newcommand{\mSpecialVar}[1]{\mathrm{#1}} % Internal use
 \newcommand{\mFirstVar}{\mSpecialVar{first}}
 \newcommand{\mRestVar}{\mSpecialVar{rest}}
-\newcommand{\mSpecialSub}[1]{\text{#1}}
-\newcommand{\mLeft}{\mSpecialSub{left}}
-\newcommand{\mRight}{\mSpecialSub{right}}
-\newcommand{\mSet}[1]{\mathbf{#1}}
-\newcommand{\mSpecialSet}[1]{\mathbb{#1}} % Internal use
-\newcommand{\mRSet}{\mSpecialSet{R}}
-\newcommand{\mQSet}{\mSpecialSet{Q}}
-\newcommand{\mZSet}{\mSpecialSet{Z}}
-\newcommand{\mBSet}{\mSpecialSet{B}}
-\newcommand{\mTypeParameter}[1]{\mathbf{#1}}
-\newcommand{\mType}[1]{\mathbf{#1}}
-\newcommand{\mListWith}[1]{\left[#1\right]}
-\newcommand{\mSetWith}[1]{\left\{#1\right\}}
-\newcommand{\mTupleWith}[1]{\left(#1\right)}
-\newcommand{\mMaybeWith}[1]{\[#1\]}
-\newcommand{\mUnitWith}[1]{\langle\!\langle#1\rangle\!\rangle}
-\newcommand{\mPureWith}[1]{\langle#1\rangle}
-\newcommand{\mFuncWith}[1]{\{#1\}_\mType{r}}
-\newcommand{\mBoolType}{\mType{Bool}}
-\newcommand{\mCharType}{\mType{Char}}
-\newcommand{\mIntType}{\mType{Int}}
-\newcommand{\mFloatType}{\mType{Float}}
-\newcommand{\mListType}[1]{\mListWith{\mType{#1}}}
-\newcommand{\mMaybeType}[1]{\mMaybeWith{\mType{#1}}}
-\newcommand{\mPureType}[1]{\mPureWith{\mType{#1}}}
-\newcommand{\mFuncType}[1]{\{\mType{#1}\}_\mType{r}}
-\newcommand{\mFunctor}[1]{\textit{\textbf{#1}}}
-\newcommand{\mSpecialFunctor}[1]{\mathcal{#1}} % Internal use
-\newcommand{\mTypeConstructor}[1]{\mathit{#1}} % Internal use
-\newcommand{\mSpecialTypeClass}[1]{\mathfrak{#1}} % Inetrnal use
-\newcommand{\mEqTypeClass}{\mSpecialTypeClass{Eq}}
-\newcommand{\mOrdTypeClass}{\mSpecialTypeClass{Ord}}
-\newcommand{\mNumTypeClass}{\mSpecialTypeClass{Num}}
-\newcommand{\mRealTypeClass}{\mSpecialTypeClass{Real}}
-\newcommand{\mEnumTypeClass}{\mSpecialTypeClass{Enum}}
-\newcommand{\mIntegralTypeClass}{\mSpecialTypeClass{Integral}}
-\newcommand{\mMonoidTypeClass}{\mSpecialTypeClass{Monoid}}
-\newcommand{\mFunctorTypeClass}{\mSpecialTypeClass{Functor}}
-\newcommand{\mApplicativeTypeClass}{\mSpecialTypeClass{Applicative}}
-\newcommand{\mMonadTypeClass}{\mSpecialTypeClass{Monad}}
-\newcommand{\mMonadPlusTypeClass}{\mSpecialTypeClass{MonadPlus}}
-\newcommand{\mEmptyList}{{[\,]}}
-\newcommand{\mNothing}{\emptyset}
-\newcommand{\mPureNothing}{\varnothing}
-\newcommand{\mKeyword}[1]{\mathsf{#1}}
-\newcommand{\mIfKeyword}{\mKeyword{if}}
-\newcommand{\mOtherwiseKeyword}{\mKeyword{otherwise}}
-\newcommand{\mThenKeyword}{\mKeyword{then}}
-\newcommand{\mElseKeyword}{\mKeyword{else}}
-\newcommand{\mCaseKeyword}{\mKeyword{case}}
-\newcommand{\mOfKeyword}{\mKeyword{of}}
-\newcommand{\mLetKeyword}{\mKeyword{let}}
-\newcommand{\mInKeyword}{\mKeyword{in}}
-\newcommand{\mWhereKeyword}{\mKeyword{where}}
-\newcommand{\mList}[1]{{#1}^\mathrm{\star}}
-\newcommand{\mMaybe}[1]{{#1}^\text{?}}
-% \newcommand{\mContainerVar}[1]{\Check{#1}}
-\newcommand{\mAnonParameter}{\diamond}%{\lozenge}
+\newcommand{\mAnonParameter}{\diamond}
 \newcommand{\mAnyParameter}{\_}
 
-\newcommand{\mGuard}[1]{\mathop{\mid_{#1}}}
-
-\DeclareMathOperator{\mId}{\mathrm{id}}
+% Functions
+\DeclareMathOperator{\mHead}{head}
+\DeclareMathOperator{\mId}{id}
 \DeclareMathOperator{\mIfFunc}{if}
+\DeclareMathOperator{\mFact}{fact}
+\DeclareMathOperator{\mPred}{pred}
+\DeclareMathOperator{\mSucc}{succ}
+\DeclareMathOperator{\mSum}{sum}
+\DeclareMathOperator{\mTail}{tail}
+
+% Operators
 \DeclareMathOperator{\mLambda}{\backslash}
 \DeclareMathOperator{\mLambdaArrow}{\rightarrow}
 \DeclareMathOperator{\mIn}{{:\!:}}
-\DeclareMathOperator{\mSum}{sum}
 \DeclareMathOperator{\mMapsTo}{\mapsto}
 \DeclareMathOperator{\mBinOp}{\bigstar}
 \DeclareMathOperator{\mPlus}{\boxplus}
@@ -145,204 +100,275 @@
 \DeclareMathOperator{\mAppMap}{\times}
 \DeclareMathOperator{\mAppMapList}{\otimes}
 \DeclareMathOperator{\mAppMapMaybe}{\boxtimes}
-\DeclareMathOperator{\mAppMapFunc}{\bowtie}%{\bowtie_\mType{r}}
-\DeclareMathOperator{\mBindList}{\clubsuit}%{\leftleftarrows}
-\DeclareMathOperator{\mBindMaybe}{\spadesuit}%{\dashleftarrow}
+\DeclareMathOperator{\mAppMapFunc}{\bowtie}
+\DeclareMathOperator{\mBindList}{\clubsuit}
+\DeclareMathOperator{\mBindMaybe}{\spadesuit}
 \DeclareMathOperator{\mBindFunc}{\diamondsuit_\mType{r}}
-\DeclareMathOperator{\mBind}{\heartsuit}%{\twoheadleftarrow}
-% \DeclareMathOperator{\mBindLeft}{\ooalign{$\longleftarrow$\crcr\hss$\heartsuit$\hss}}
-% \DeclareMathOperator{\mBindRight}{\ooalign{$\longrightarrow$\crcr\hss$\heartsuit$\hss}}
+\DeclareMathOperator{\mBind}{\heartsuit}
+\DeclareMathOperator{\mBindRight}{\ooalign{$\longrightarrow$\crcr\hss$\mBind$\hss}}
 \DeclareMathOperator{\mLogicalAnd}{\wedge}
 \DeclareMathOperator{\mLogicalOr}{\vee}
 \DeclareMathOperator{\mFrom}{\in}
-\DeclareMathOperator{\mPred}{pred}
-\DeclareMathOperator{\mSucc}{succ}
-\DeclareMathOperator{\mHead}{head}
-\DeclareMathOperator{\mTail}{tail}
+
+% Subscripts
+\newcommand{\mSpecialSub}[1]{\text{#1}}
+\newcommand{\mLeft}{\mSpecialSub{left}}
+\newcommand{\mRight}{\mSpecialSub{right}}
+
+% Sets
+\newcommand{\mSet}[1]{\mathbf{#1}}
+\newcommand{\mSpecialSet}[1]{\mathbb{#1}} % Internal use
+\newcommand{\mBSet}{\mSpecialSet{B}}
+\newcommand{\mRSet}{\mSpecialSet{R}}
+\newcommand{\mZSet}{\mSpecialSet{Z}}
+
+% Type parameter
+\newcommand{\mType}[1]{\mathbf{#1}}
+
+% Value constructors
+\newcommand{\mFuncWith}[1]{\{#1\}_\mType{r}}
+\newcommand{\mListWith}[1]{\left[#1\right]}
+\newcommand{\mMaybeWith}[1]{\[#1\]}
+\newcommand{\mPureWith}[1]{\langle#1\rangle}
+\newcommand{\mSetWith}[1]{\left\{#1\right\}}
+\newcommand{\mTupleWith}[1]{\left(#1\right)}
+
+% Types
+\newcommand{\mBoolType}{\mType{Bool}}
+\newcommand{\mCharType}{\mType{Char}}
+\newcommand{\mFloatType}{\mType{Float}}
+\newcommand{\mFuncType}[1]{\{\mType{#1}\}_\mType{r}}
+\newcommand{\mIntType}{\mType{Int}}
+\newcommand{\mListType}[1]{\mListWith{\mType{#1}}}
+\newcommand{\mMaybeType}[1]{\mMaybeWith{\mType{#1}}}
+\newcommand{\mPureType}[1]{\mPureWith{\mType{#1}}}
+
+% Type constructors
+\newcommand{\mTypeConstructor}[1]{\mathit{#1}} % Internal use
+\DeclareMathOperator{\mFuncTypeConstructor}{\mTypeConstructor{Func}_\mType{r}}
 \DeclareMathOperator{\mListTypeConstructor}{\mTypeConstructor{List}}
 \DeclareMathOperator{\mMaybeTypeConstructor}{\mTypeConstructor{Maybe}}
-\DeclareMathOperator{\mFuncTypeConstructor}{\mTypeConstructor{Func}_\mType{r}}
+
+% Functors
+\newcommand{\mFunctor}[1]{\textit{\textbf{#1}}}
+\newcommand{\mSpecialFunctor}[1]{\mathcal{#1}} % Internal use
 \DeclareMathOperator{\mIFunctor}{\mSpecialFunctor{I}}
+\DeclareMathOperator{\mFunctionFunctor}{{(\mapsto)\mType{r}}}
 \DeclareMathOperator{\mListFunctor}{\mFunctor{List}}
 \DeclareMathOperator{\mMaybeFunctor}{\mFunctor{Maybe}}
-\DeclareMathOperator{\mFunctionFunctor}{{(\mapsto)\mType{r}}}
-\DeclareMathOperator{\mListProjection}{\xmapsto{\;\mListFunctor\;}}
-\DeclareMathOperator{\mMaybeProjection}{\xmapsto{\;\mMaybeFunctor\;}}
+
+% Type classes
+\newcommand{\mSpecialTypeClass}[1]{\mathfrak{#1}} % Inetrnal use
+\newcommand{\mApplicativeTypeClass}{\mSpecialTypeClass{Applicative}}
+\newcommand{\mEnumTypeClass}{\mSpecialTypeClass{Enum}}
+\newcommand{\mEqTypeClass}{\mSpecialTypeClass{Eq}}
+\newcommand{\mFunctorTypeClass}{\mSpecialTypeClass{Functor}}
+\newcommand{\mIntegralTypeClass}{\mSpecialTypeClass{Integral}}
+\newcommand{\mMonadTypeClass}{\mSpecialTypeClass{Monad}}
+\newcommand{\mMonadPlusTypeClass}{\mSpecialTypeClass{MonadPlus}}
+\newcommand{\mMonoidTypeClass}{\mSpecialTypeClass{Monoid}}
+\newcommand{\mNumTypeClass}{\mSpecialTypeClass{Num}}
+\newcommand{\mOrdTypeClass}{\mSpecialTypeClass{Ord}}
+\newcommand{\mRealTypeClass}{\mSpecialTypeClass{Real}}
+
+% Decolations
+\newcommand{\mList}[1]{{#1}^\mathrm{\star}}
+\newcommand{\mMaybe}[1]{{#1}^\text{?}}
+
+% Guard
+\newcommand{\mGuard}[1]{\mathop{\mid_{#1}}}
+
+% Keywords
+\newcommand{\mKeyword}[1]{\mathsf{#1}} % Internal use
+\newcommand{\mIfKeyword}{\mKeyword{if}}
+\newcommand{\mCaseKeyword}{\mKeyword{case}}
+\newcommand{\mElseKeyword}{\mKeyword{else}}
+\newcommand{\mInKeyword}{\mKeyword{in}}
+\newcommand{\mLetKeyword}{\mKeyword{let}}
+\newcommand{\mOfKeyword}{\mKeyword{of}}
+\newcommand{\mOtherwiseKeyword}{\mKeyword{otherwise}}
+\newcommand{\mThenKeyword}{\mKeyword{then}}
+\newcommand{\mWhereKeyword}{\mKeyword{where}}
+\DeclareMathOperator{\mCase}{\mCaseKeyword} % Internal use
+\DeclareMathOperator{\mElse}{\mElseKeyword}
 \DeclareMathOperator{\mIf}{\mIfKeyword}
+\DeclareMathOperator{\mInKW}{\mInKeyword} % Internal use
+\DeclareMathOperator{\mLet}{\mLetKeyword} % Internal use
+\DeclareMathOperator{\mOf}{\mOfKeyword} % Internal use
 \DeclareMathOperator{\mOtherwise}{\mOtherwiseKeyword}
 \DeclareMathOperator{\mThen}{\mThenKeyword}
-\DeclareMathOperator{\mElse}{\mElseKeyword}
 \DeclareMathOperator{\mWhere}{\mWhereKeyword}
-\DeclareMathOperator{\mCase}{\mCaseKeyword} % Internal use
-\DeclareMathOperator{\mOf}{\mOfKeyword} % Internal use
-\DeclareMathOperator{\mLet}{\mLetKeyword} % Internal use
-\DeclareMathOperator{\mInKW}{\mInKeyword} % Internal use
 
+% Syntax
 \newcommand{\mCaseOf}[1]{\mCase{#1}\mOf}
-\newcommand{\mLetIn}[2]{\mLet{#1}\mInKW{#2}}
 \newcommand{\mIfThenElse}[3]{\mIf{#1}\mThen{#2}\mElse{#3}}
 \newcommand{\mLambdaExp}[2]{\mLambda{#1}\mLambdaArrow{#2}}
+\newcommand{\mLetIn}[2]{\mLet{#1}\mInKW{#2}}
 \newcommand{\mProj}[2]{#1\mMapsTo#2}
 
 
+%%% DO NOT USE
+
+\newcommand\donotuse{\{\text{DO-NOT-USE}\}}
+
 %% Math Pretty Printers
 
-\newcommand{\mConnst}[1]{\mathrm{#1}} % Use capital letter
-\newcommand{\mathSub}[1]{\textrm{#1}}
+\newcommand{\mConnst}[1]{\donotuse\mathrm{#1}} % Use capital letter
+\newcommand{\mathSub}[1]{\donotuse\textrm{#1}}
 
-\newcommand{\mathSet}[1]{\mathbf{#1}} % Use capital letter
-\newcommand{\mathSpecialSet}[1]{\mathbb{#1}} % Use capital letter
-\newcommand{\mathTypeParameter}[1]{\mathbf{#1}}
-\newcommand{\mathTypeName}[1]{\mathTypeParameter{#1}}
-\newcommand{\mathTypeParameterClass}[1]{\mathbf{\emph{#1}}}
+\newcommand{\mathSet}[1]{\donotuse\mathbf{#1}} % Use capital letter
+\newcommand{\mathSpecialSet}[1]{\donotuse\mathbb{#1}} % Use capital letter
+\newcommand{\mathTypeParameter}[1]{\donotuse\mathbf{#1}}
+\newcommand{\mathTypeName}[1]{\donotuse\mathTypeParameter{#1}}
+\newcommand{\mathTypeParameterClass}[1]{\donotuse\mathbf{\emph{#1}}}
 
-\newcommand{\mathFunctor}[1]{\textsl{#1}} % Use capital letter
-\newcommand{\mathSpecialFunctor}[1]{\mathcal{#1}} % Use capital letter
-\newcommand{\mathTypeConstructor}[1]{\mathit{#1}} % Use capital letter
-\newcommand{\mathTypeClass}[1]{\textbf{\emph{#1}}} % Use capital letter
+\newcommand{\mathFunctor}[1]{\donotuse\textsl{#1}} % Use capital letter
+\newcommand{\mathSpecialFunctor}[1]{\donotuse\mathcal{#1}} % Use capital letter
+\newcommand{\mathTypeConstructor}[1]{\donotuse\mathit{#1}} % Use capital letter
+\newcommand{\mathTypeClass}[1]{\donotuse\textbf{\emph{#1}}} % Use capital letter
 
 %% Hats for Variables
 
-\newcommand{\mathListVar}[1]{\Bar{#1}}
-\newcommand{\mathMaybeVar}[1]{\Tilde{#1}}
-\newcommand{\mathFunctionVar}[1]{\Hat{#1}}
-\newcommand{\mathContainerVar}[1]{\Check{#1}}
-\newcommand{\mathVectorVar}[1]{\vec{#1}}
+\newcommand{\mathListVar}[1]{\donotuse\Bar{#1}}
+\newcommand{\mathMaybeVar}[1]{\donotuse\Tilde{#1}}
+\newcommand{\mathFunctionVar}[1]{\donotuse\Hat{#1}}
+\newcommand{\mathContainerVar}[1]{\donotuse\Check{#1}}
+\newcommand{\mathVectorVar}[1]{\donotuse\vec{#1}}
 
 %% Parenthesis for Variables
 
-\newcommand{\mathListWith}[1]{\left[#1\right]}
-\newcommand{\mathSetWith}[1]{\left\{#1\right\}}
-\newcommand{\mathTupleWith}[1]{\left(#1\right)}
-\newcommand{\mathMaybeWith}[1]{\[#1\]}
-\newcommand{\mathPureWith}[1]{\left\langle#1\right\rangle}
-\newcommand{\mathUnitWith}[1]{\left\langle\!\left\langle#1\right\rangle\!\right\rangle}
+\newcommand{\mathListWith}[1]{\donotuse\left[#1\right]}
+\newcommand{\mathSetWith}[1]{\donotuse\left\{#1\right\}}
+\newcommand{\mathTupleWith}[1]{\donotuse\left(#1\right)}
+\newcommand{\mathMaybeWith}[1]{\donotuse\[#1\]}
+\newcommand{\mathPureWith}[1]{\donotuse\left\langle#1\right\rangle}
+\newcommand{\mathUnitWith}[1]{\donotuse\left\langle\!\left\langle#1\right\rangle\!\right\rangle}
 
 %% Parenthesis for Types
 
-\newcommand{\mathListType}[1]{\mathListWith{\mathTypeParameter{#1}}}
-\newcommand{\mathMaybeType}[1]{\mathMaybeWith{\mathTypeParameter{#1}}}
-\newcommand{\mathPureType}[1]{\mathPureWith{\mathTypeParameter{#1}}}
-\newcommand{\mathUnitType}[1]{\mathUnitWith{\mathTypeParameter{#1}}}
+\newcommand{\mathListType}[1]{\donotuse\mathListWith{\mathTypeParameter{#1}}}
+\newcommand{\mathMaybeType}[1]{\donotuse\mathMaybeWith{\mathTypeParameter{#1}}}
+\newcommand{\mathPureType}[1]{\donotuse\mathPureWith{\mathTypeParameter{#1}}}
+\newcommand{\mathUnitType}[1]{\donotuse\mathUnitWith{\mathTypeParameter{#1}}}
 
 %% Guard
 
-\newcommand{\mathGuard}[1]{\mathop{\mid_{#1}}}
+\newcommand{\mathGuard}[1]{\donotuse\mathop{\mid_{#1}}}
 
 %% Type Constructors and Functors
 
-\DeclareMathOperator{\mathList}{\mathTypeConstructor{List}}
-\DeclareMathOperator{\mathMaybe}{\mathTypeConstructor{Maybe}}
-\DeclareMathOperator{\mathListFunctor}{\mathFunctor{List}}
-\DeclareMathOperator{\mathMaybeFunctor}{\mathFunctor{Maybe}}
+\DeclareMathOperator{\mathList}{\donotuse\mathTypeConstructor{List}}
+\DeclareMathOperator{\mathMaybe}{\donotuse\mathTypeConstructor{Maybe}}
+\DeclareMathOperator{\mathListFunctor}{\donotuse\mathFunctor{List}}
+\DeclareMathOperator{\mathMaybeFunctor}{\donotuse\mathFunctor{Maybe}}
 
 %% True and Fasle, Identity, Empty, Nothing
 
-\newcommand{\mathTrue}{\mConst{T}}
-\newcommand{\mathFalse}{\mConst{F}}
+\newcommand{\mathTrue}{\donotuse\mConst{T}}
+\newcommand{\mathFalse}{\donotuse\mConst{F}}
 
 \newcommand{\mathId}{\O}
 
-\newcommand{\mathEmptyList}{{[\,]}}
-\newcommand{\mathNothing}{\emptyset}
-\newcommand{\mathPureNothing}{\varnothing}
+\newcommand{\mathEmptyList}{{\donotuse[\,]}}
+\newcommand{\mathNothing}{\donotuse\emptyset}
+\newcommand{\mathPureNothing}{\donotuse\varnothing}
 
 %% Special Parameters
 
-\newcommand{\mathAnonymousParameter}{\lozenge}
-\newcommand{\mathAny}{\_}
-\newcommand{\mathSomething}{\square}  % DO NOT USE
+\newcommand{\mathAnonymousParameter}{\donotuse\lozenge}
+\newcommand{\mathAny}{\donotuse\_}
+\newcommand{\mathSomething}{\donotuse\square}  % DO NOT USE
 
 %% Left and Right
 
-\newcommand{\mathLeft}{\mathSub{left}}
-\newcommand{\mathRight}{\mathSub{right}}
+\newcommand{\mathLeft}{\mathSub{\donotuse left}}
+\newcommand{\mathRight}{\mathSub{\donotuse right}}
 
 %% Special Unary Functions and Operators
 
-\DeclareMathOperator{\mathPred}{pred}
-\DeclareMathOperator{\mathSucc}{succ}
-\DeclareMathOperator{\mathAnyUnaryOperator}{\star}
-\DeclareMathOperator{\mathInverse}{\sharp}  % USED?
-\DeclareMathOperator{\mathLambda}{\backslash}
-\DeclareMathOperator{\mathConcat}{\flat}
-\DeclareMathOperator*{\mathFold}{\bigcup}
-\DeclareMathOperator*{\mathFoldRight}{\bigsqcup}
+\DeclareMathOperator{\mathPred}{\donotuse pred}
+\DeclareMathOperator{\mathSucc}{\donotuse succ}
+\DeclareMathOperator{\mathAnyUnaryOperator}{\donotuse\star}
+\DeclareMathOperator{\mathInverse}{\donotuse\sharp}  % USED?
+\DeclareMathOperator{\mathLambda}{\donotuse\backslash}
+\DeclareMathOperator{\mathConcat}{\donotuse\flat}
+\DeclareMathOperator*{\mathFold}{\donotuse\bigcup}
+\DeclareMathOperator*{\mathFoldRight}{\donotuse\bigsqcup}
 
-\DeclareMathOperator{\mathHead}{head}
-\DeclareMathOperator{\mathTail}{tail}
-\DeclareMathOperator{\mathFactorial}{fact}
-\DeclareMathOperator{\mathIfFunc}{if}
+\DeclareMathOperator{\mathHead}{\donotuse head}
+\DeclareMathOperator{\mathTail}{\donotuse tail}
+\DeclareMathOperator{\mathFactorial}{\donotuse fact}
+\DeclareMathOperator{\mathIfFunc}{\donotuse if}
 
-\DeclareMathOperator{\mathMain}{main}
+\DeclareMathOperator{\mathMain}{\donotuse main}
 
 %% Special Binary Operators
 
-\newcommand{\mathAnyBinaryOperator}{\mathbin{\bigstar}}
-\newcommand{\mathAnd}{\mathbin{\wedge}}
-\newcommand{\mathAppend}{\oplus}
-\newcommand{\mathApplicativeApply}{\mathbin{\S}}
-\newcommand{\mathApplicativeGeneralMap}{\mathbin{\times}}
-\newcommand{\mathApplicativeMap}{\mathbin{\otimes}}
-\newcommand{\mathApplicativeMaybeMap}{\mathbin{\boxtimes}}
-\newcommand{\mathApply}{\mathbin{\$}}
-\newcommand{\mathBind}{\mathbin{\ooalign{$\longleftarrow$\crcr\hss$\heartsuit$\hss}}}
-\newcommand{\mathBindRight}{\mathbin{\ooalign{$\longrightarrow$\crcr\hss$\heartsuit$\hss}}}
-\newcommand{\mathCompose}{\mathbin{\bullet}}
-\newcommand{\mathGeneralMap}{\mathbin{\cdot}}
-\newcommand{\mathFrom}{\mathbin{\in}}
-\newcommand{\mathIn}{\mathrel{::}}
-\newcommand{\mathMap}{\mathbin{\odot}}
-\newcommand{\mathMaybeAppend}{\mathbin{\boxplus}}
-\newcommand{\mathMaybeMap}{\mathbin{\boxdot}}
-\newcommand{\mathOr}{\mathbin{\vee}}
-\newcommand{\mathSetTimes}{\mathbin{\circledast}}
+\newcommand{\mathAnyBinaryOperator}{\donotuse\mathbin{\bigstar}}
+\newcommand{\mathAnd}{\donotuse\mathbin{\wedge}}
+\newcommand{\mathAppend}{\donotuse\oplus}
+\newcommand{\mathApplicativeApply}{\donotuse\mathbin{\S}}
+\newcommand{\mathApplicativeGeneralMap}{\donotuse\mathbin{\times}}
+\newcommand{\mathApplicativeMap}{\donotuse\mathbin{\otimes}}
+\newcommand{\mathApplicativeMaybeMap}{\donotuse\mathbin{\boxtimes}}
+\newcommand{\mathApply}{\donotuse\mathbin{\$}}
+\newcommand{\mathBind}{\donotuse\mathbin{\ooalign{$\longleftarrow$\crcr\hss$\heartsuit$\hss}}}
+\newcommand{\mathBindRight}{\donotuse\mathbin{\ooalign{$\longrightarrow$\crcr\hss$\heartsuit$\hss}}}
+\newcommand{\mathCompose}{\donotuse\mathbin{\bullet}}
+\newcommand{\mathGeneralMap}{\donotuse\mathbin{\cdot}}
+\newcommand{\mathFrom}{\donotuse\mathbin{\in}}
+\newcommand{\mathIn}{\donotuse\mathrel{::}}
+\newcommand{\mathMap}{\donotuse\mathbin{\odot}}
+\newcommand{\mathMaybeAppend}{\donotuse\mathbin{\boxplus}}
+\newcommand{\mathMaybeMap}{\donotuse\mathbin{\boxdot}}
+\newcommand{\mathOr}{\donotuse\mathbin{\vee}}
+\newcommand{\mathSetTimes}{\donotuse\mathbin{\circledast}}
 
 %% Special Arrow Operators
 
-\newcommand{\mathLambdaArrow}{\rightarrow}
-\newcommand{\mathMapsTo}{\mapsto}
+\newcommand{\mathLambdaArrow}{\donotuse\rightarrow}
+\newcommand{\mathMapsTo}{\donotuse\mapsto}
 
 %% Keywords
 
-\newcommand{\mathKeyword}[1]{\operatorname{\textsf{#1}}}
+\newcommand{\mathKeyword}[1]{\donotuse\operatorname{\textsf{#1}}}
 
-\newcommand{\mathIf}{\mathKeyword{if}}
-\newcommand{\mathThen}{\mathKeyword{then}}
-\newcommand{\mathElse}{\mathKeyword{else}}
-\newcommand{\mathOtherwise}{\mathKeyword{otherwise}}
+\newcommand{\mathIf}{\donotuse\mathKeyword{if}}
+\newcommand{\mathThen}{\donotuse\mathKeyword{then}}
+\newcommand{\mathElse}{\donotuse\mathKeyword{else}}
+\newcommand{\mathOtherwise}{\donotuse\mathKeyword{otherwise}}
 
-\newcommand{\mathCaseCase}{\mathKeyword{case}}
-\newcommand{\mathCaseOf}{\mathKeyword{of}}
+\newcommand{\mathCaseCase}{\donotuse\mathKeyword{case}}
+\newcommand{\mathCaseOf}{\donotuse\mathKeyword{of}}
 
-\newcommand{\mathLetLet}{\mathKeyword{let}}
-\newcommand{\mathLetIn}{\mathKeyword{in}}
-\newcommand{\mathWhere}{\mathKeyword{where}}
+\newcommand{\mathLetLet}{\donotuse\mathKeyword{let}}
+\newcommand{\mathLetIn}{\donotuse\mathKeyword{in}}
+\newcommand{\mathWhere}{\donotuse\mathKeyword{where}}
 
 %% First and Rest
 
-\newcommand{\mathVarKeyword}[1]{\operatorname{\mathrm{#1}}}
+\newcommand{\mathVarKeyword}[1]{\donotuse\operatorname{\mathrm{#1}}}
 
-\newcommand{\mFirstVar}{\mathVarKeyword{first}}
-\newcommand{\mathRest}{\mathVarKeyword{rest}}
+\newcommand{\mFirstVar}{\donotuse\mathVarKeyword{first}}
+\newcommand{\mathRest}{\donotuse\mathVarKeyword{rest}}
 
 %% Utilities
 
-\newcommand{\mathCase}[2]{\mathCaseCase#1\mathCaseOf#2}
-\newcommand{\mathCategoryShort}[2]{(#1,#2)}
-\newcommand{\mathLambdaExpression}[2]{\mathLambda#1\mathLambdaArrow#2}
-\newcommand{\mathLet}[2]{\mathLetLet#1\mathLetIn#2}
-\newcommand{\mathMorph}[2]{#1\mathMapsTo#2}
+\newcommand{\mathCase}[2]{\donotuse\mathCaseCase#1\mathCaseOf#2}
+\newcommand{\mathCategoryShort}[2]{\donotuse(#1,#2)}
+\newcommand{\mathLambdaExpression}[2]{\donotuse\mathLambda#1\mathLambdaArrow#2}
+\newcommand{\mathLet}[2]{\donotuse\mathLetLet#1\mathLetIn#2}
+\newcommand{\mathMorph}[2]{\donotuse#1\mathMapsTo#2}
 
-\newcommand{\mathMonoid}[3]{(#1,#2,#3)}
-\newcommand{\mathMorphII}[3]{#1\mathMapsTo#2\mathMapsTo#3}
-\newcommand{\mathMorphIIWithParenthesis}[3]{#1\mathMapsTo(#2\mathMapsTo#3)}
+\newcommand{\mathMonoid}[3]{\donotuse(#1,#2,#3)}
+\newcommand{\mathMorphII}[3]{\donotuse#1\mathMapsTo#2\mathMapsTo#3}
+\newcommand{\mathMorphIIWithParenthesis}[3]{\donotuse#1\mathMapsTo(#2\mathMapsTo#3)}
 
-\newcommand{\mathCategory}[4]{(#1,#2,#3,#4)}
-\newcommand{\mathGroup}[4]{(#1,#2,#3,#4)}
-\newcommand{\mathMorphIII}[4]{#1\mathMapsTo#2\mathMapsTo#3\mathMapsTo#4}
+\newcommand{\mathCategory}[4]{\donotuse(#1,#2,#3,#4)}
+\newcommand{\mathGroup}[4]{\donotuse(#1,#2,#3,#4)}
+\newcommand{\mathMorphIII}[4]{\donotuse#1\mathMapsTo#2\mathMapsTo#3\mathMapsTo#4}
 
-\newcommand{\mathField}[7]{(#1,#2,#3,#4,#5,#6,#7)}
+\newcommand{\mathField}[7]{(\donotuse#1,#2,#3,#4,#5,#6,#7)}
 
 %% Haskell Operators
 
@@ -357,7 +383,6 @@
 \DeclareMathOperator{\hsklTail}{{DO NOT USE}--tail}
 
 %% Haskell Symbols
-
 
 %% Haskell Types and Type Classes
 
@@ -389,7 +414,6 @@
 \newcommand{\hsklMaybe}[1]{{DO NOT USE}--\Tilde{#1}}
 \newcommand{\hsklMaybeW}[1]{{DO NOT USE}--\widetilde{#1}}
 
-
 \title{\haskell （仮）}
 \author{金谷一朗}
 
@@ -398,7 +422,7 @@
 \maketitle
 \tableofcontents
 
-\begin{table*}
+\begin{table*}[p]
 \caption{凡例}
 \begin{center}
 \begin{tabular}{||c|c|c||}
@@ -408,15 +432,15 @@
 定数&イタリック，大文字&$A,B,C$\\
 有名な定数&ローマン，大文字&$\mTrue,\mFalse$\\
 \hline
-変数・コンテナ変数&イタリック，小文字&$u,v,w,x,y,z$\\
+変数&イタリック，小文字&$u,v,w,x,y,z$\\
 リスト変数&肩に星印をつける&$\mList{x}$\\
 Maybe変数&肩に?をつける&$\mMaybe{u}$\\
 有名な変数&ローマン，小文字&$\mFirstVar,\mRestVar$\\
 \hline
-関数&イタリック，小文字&$f,g,h$\\
-コンテナ関数&イタリック，ギリシア文字&$\phi,\psi$\\
-リスト関数&肩に星印をつける&$\mList{\phi}$\\
-Maybe関数&肩に?をつける&$\mMaybe{\psi}$\\
+関数&イタリック，小文字&$f,g,h,i$\\
+リスト関数&肩に星印をつける&$\mList{f}$\\
+% Maybe関数&肩に?をつける&$\mMaybe{g}$\\
+コンテナ関数&ギリシア文字&$\phi,\psi$\\
 有名な関数&ローマン，小文字&$\sin,\cos$\\
 \hline
 添字&ローマン，小文字&$x_\mLeft,x_\mRight$\\
@@ -425,7 +449,7 @@ Maybe関数&肩に?をつける&$\mMaybe{\psi}$\\
 有名な集合&ブラックボード，大文字&$\mBSet,\mZSet,\mRSet$\\
 単位元&ローマンに斜線，大文字&$\mZero$\\
 \hline
-型パラメタ&ボールドローマン，小文字&$\mTypeParameter{a},\mTypeParameter{b},\mTypeParameter{c}$\\
+型パラメタ&ボールドローマン，小文字&$\mType{a},\mType{b},\mType{c}$\\
 型&ボールドローマン，大文字&$\mBoolType,\mIntType,\mFloatType$\\
 型クラス&フラクチュール，大文字&$\mEqTypeClass,\mOrdTypeClass,\mNumTypeClass$\\
 \hline
@@ -526,7 +550,7 @@ $\mBindFunc$&関数のバインド演算子&\\
 本書では\python コードはこのように登場する．
 \begin{pythoncode}
 \begin{verbatim}
-print "Hello, world."
+print("Hello, world.")
 \end{verbatim}
 \end{pythoncode}
 本書に示すコードは擬似コードではなく，すべて実行可能な本物のコードである．
@@ -728,7 +752,7 @@ f'x=\mCaseOf{x}\left\{
 \begin{split}
 f''x&\mGuard{x<0}=0\\
 &\mGuard{x\equiv 0}=1\\
-&\mGuard{\mathOtherwise}=(\sin x)/x
+&\mGuard{\mOtherwise}=(\sin x)/x
 \end{split}
 \end{equation}
 という風に定義する．\footnote{\haskell では
@@ -807,9 +831,23 @@ y=fx'\mWhere x'=1+x
 \begin{equation}
 \left(\mBinOp\right)xy=x\mBinOp y
 \end{equation}
-である．従って，二項演算子と2引数関数に本質的な差はない．本書では演算子と関数という用語は全く同じ意味で用いる．\footnote{\haskell では任意の二項演算子を括弧で包むことで前置演算子として使うことができる．例えば \code{x + y}と \code{(+)x y} は同じ結果を返す．逆に任意の2引数関数 \code{f}は \code{x `f` y} と書くことで中置することができる．}
+である．従って，二項演算子と2引数関数に本質的な差はない．本書では演算子と関数という用語は全く同じ意味で用いる．\footnote{\haskell では任意の二項演算子を括弧で包むことで前置演算子として使うことができる．例えば \code{x+y}と \code{(+)x y} は同じ結果を返す．逆に任意の2引数関数 \code{f}は \code{x `f` y} と書くことで中置することができる．}
 
-二項演算子の結合性，すなわち左結合か右結合かは，演算子によって異なる．また演算の優先順位を明示的に与えるために括弧が用いられる．
+一般の関数が左結合であることを思い出すと，二項演算子を関数に見立てた $(\mBinOp)$ も
+\begin{equation}
+\label{eq:star-x-y}
+(\mBinOp)xy=((\mBinOp)x)y
+\end{equation}
+であるから，部分適用が可能である．式\eqref{eq:star-x-y}から第2引数 $y$ を取り除いて $(\mBinOp)x$ という「餓えた」1引数関数を取り出せる．例えば関数 $((+)1)$ は引数に $1$ を加える関数である．\footnote{\haskell では $((+)1)$ を \code{((+)1)} と書く．}
+
+二項演算子の部分適用に限って，\keyword{セクション}と言う記法も用いられる．二項演算子 $\mBinOp$ に対して $(\mBinOp x)$ および $(x\mBinOp)$ はそれぞれ
+\begin{align}
+(\mBinOp x)&=\mAnonParameter\mBinOp x\\
+(x\mBinOp)&=x\mBinOp\mAnonParameter
+\end{align}
+である．例えば $((+)1)$ は $(1+)$ と等価である． \footnote{\haskell では $(1+)$ を \code{(1+)} と書く．}
+
+なお，二項演算子の結合性，すなわち左結合か右結合かは，演算子によって異なる．また演算の優先順位を明示的に与えるために括弧が用いられる．
 
 本書では3個以上の変数に同時に作用する演算子は扱わない．
 
@@ -818,42 +856,48 @@ y=fx'\mWhere x'=1+x
 ある変数に複数の関数を順に適用することはよくあることである．例えば
 \begin{pythoncode}
 \begin{verbatim}
-y = g(x)
-z = f(y)
+y = f1(x)
+z = f2(y)
 \end{verbatim}
 \end{pythoncode}
 あるいは，同じことであるが
 \begin{pythoncode}
 \begin{verbatim}
-z = f(g(x))
+z = f2(f1(x))
 \end{verbatim}
 \end{pythoncode}
 とすることがある．本書の記法で書けば
 \begin{equation}
-\label{eq:fgx}
-z=f(gx)
+\label{eq:ffx}
+z=f_2(f_1x)
 \end{equation}
-である．式\eqref{eq:fgx}から括弧を省略して $z=fgx$ としてしまうと，関数適用は左結合するから $z=(fg)x$ の意味になってしまう．関数 $f$ が引数に関数を取るのでない限り $(fg)$ は無意味なので，式\eqref{eq:fgx}には括弧が必要である．
+である．式\eqref{eq:ffx}から括弧を省略して $z=f_2f_1x$ としてしまうと，関数適用は左結合するから $z=(f_2f_1)x$ の意味になってしまう．関数 $f_2$ が引数に関数を取るのでない限り $(f_2f_1)$ は無意味なので，式\eqref{eq:ffx}には括弧が必要である．
 
-ここで，引数のことは忘れて，関数 $f$ と関数 $g$ を先に\keyword{合成}しておきたいとしよう．その合成を $f\mComp g$ と書く．演算子 $\mComp$ は\keyword{関数合成演算子}と呼ぶ．合成はラムダ式を使って
+ここで，引数のことは忘れて，関数 $f_1$ と関数 $f_2$ を先に\keyword{合成}しておきたいとしよう．その合成を $f_2\mComp f_1$ と書く．演算子 $\mComp$ は\keyword{関数合成演算子}と呼ぶ．合成はラムダ式を使って
 \begin{equation}
-f\mComp g=f(g\mAnonParameter)
+f_2\mComp f_1=f_2(f_1\mAnonParameter)
 \end{equation}
-と定義できる．関数合成演算子 $\mComp$ は関数適用よりも優先順位が高く，$\left(f\mComp g\right)x$ は単に $f\mComp gx$ と書いても良い．この記法は括弧の数を減らすためにしばしば用いられる．式\eqref{eq:fgx}は関数合成演算子を用いると
+と定義できる．関数合成演算子 $\mComp$ は関数適用よりも優先順位が高く，$\left(f_2\mComp f_1\right)x$ は単に $f_2\mComp f_1x$ と書いても良い．この記法は括弧の数を減らすためにしばしば用いられる．式\eqref{eq:ffx}は関数合成演算子を用いると
 \begin{equation}
-z=f\mComp gx
+z=f_2\mComp f_1x
 \end{equation}
-と書ける．\footnote{\haskell では関数 \code{f} と関数 \code{g} の合成は \code{f.g} である．}
+と書ける．\footnote{\haskell では関数 \code{f2} と関数 \code{f1} の合成は \code{f2.f1} である．}
 
 関数合成演算子とは逆に，優先順位の低い\keyword{関数適用演算子}も考えておくと便利なこともある．関数適用演算子 $\mApply$ を関数合成演算子と同じように次のように定義しておく．
 \begin{equation}
-f\mApply g=f\left(g\mAnonParameter\right)
+f_2\mApply f_1=f_2\left(f_1\mAnonParameter\right)
 \end{equation}
-演算子 $\mApply$ の優先順位は関数適用も含めあらゆる演算よりも低いものとする．関数適用演算子を用いて式\eqref{eq:fgx}を書き直すと
+演算子 $\mApply$ の優先順位は関数適用も含めあらゆる演算よりも低いものとする．関数適用演算子を用いて式\eqref{eq:ffx}を書き直すと
 \begin{equation}
-z=f\mApply gx
+z=f_2\mApply f_1x
 \end{equation}
-となる．演算子 $\mApply$ の優先順位は足し算よりも低いので $f(x+1)$ は $f\mApply  x+1$ と書くこともできる．演算子 $\mApply$ を閉じ括弧のいらない開き括弧と考えてもよい．\footnote{\haskell では $f\mApply gx$ を \code{f \$ g x} と書く．}
+となる．演算子 $\mApply$ の優先順位は足し算よりも低いので $f(x+1)$ は $f\mApply x+1$ と書くこともできる．演算子 $\mApply$ を閉じ括弧のいらない開き括弧と考えてもよい．\footnote{\haskell では $f2\mApply f_1x$ を \code{f2 \$ f1 x} と書く．}
+
+関数適用演算子のもう一つの興味深い使い方は，関数適用演算子の部分適用である．セクション $(\mApply x)$ を用いると
+\begin{equation}
+(\mApply x)f=f\mApply x
+\end{equation}
+であるから，関数適用演算子を用いて引数を関数に渡すことが出来る．\footnote{\haskell では $(\mApply x)f$ を \code{(\$x)f} と書く．}
 
 \section{条件分岐}
 \label{sec:if}
@@ -1141,8 +1185,8 @@ $\mFloatType$
     &$-$
     &$*$
     &$/$
-    &$\mathPred$
-    &$\mathSucc$\\
+    &$\mPred$
+    &$\mSucc$\\
 \hline
 $\mCharType$
     &$\checkmark$
@@ -1234,7 +1278,7 @@ ls = [0,1,2,3,4,5,6,7,8,9]
 \begin{equation}
 \mList{x}=\mListWith{0,1\dotsb9}
 \end{equation}
-のように書くことにしよう．なお，変数 $x$ とリスト変数 $\mList{x}$ は異なる変数であるとする．\footnote{\haskell では星印のかわりに \code{s} を変数名にくっつけて \code{xs = [0,1..9]} のように書く習慣がある．．}
+のように書くことにしよう．なお，変数 $x$ とリスト変数 $\mList{x}$ は異なる変数であるとする．\footnote{\haskell では星印のかわりに \code{s} を変数名にくっつけて \code{xs = [0,1..9]} のように書く習慣がある．}
 
 \python ではリスト内包表記が使える．例えば $0$ から $9$ までの倍数のリストは次のように作った．
 \begin{pythoncode}
@@ -1261,7 +1305,7 @@ ls = [x*2 for x in range(0, 10)]
 ls = [x+y for x in range(0,10) for y in range(0,6) if x+y > 3]
 \end{verbatim}
 \end{pythoncode}
-のことである．\footnote{\haskell では \code{xs = [i+j | i <- [0,1..9], j <- [0,1..5], i+j > 3]} と書く．}
+のことである．\footnote{\haskell では \code{xs = [x+y | x <- [0,1..9], y <- [0,1..5], x+y > 3]} と書く．}
 
 リストは\keyword{結合}できる．例えばリスト$\mList{x}$ とリスト $\mList{y}$ を結合したリストは
 \begin{equation}
@@ -1289,7 +1333,7 @@ $\mType{a}$ 型の変数 $x$ を入れた $\mListType{a}$ 型の変数を作る�
 \end{equation}
 と書く．\footnote{\haskell では \code{xs = [x]} と書く．}
 
-リスト型を表す $\mListType{a}$ と，1要素のリストである $\mListWith{x}$ の違いにはいつも気をつけておこう．本書では中身がボールドローマン体ならばリスト型，中身がイタリック体ならリスト値である．またリストを保持する変数にも，本書では $\mList{x}$ のようにバーをつけておくことにする．
+リスト型を表す $\mListType{a}$ と，1要素のリストである $\mListWith{x}$ の違いにはいつも気をつけておこう．本書では中身がボールドローマン体ならばリスト型，中身がイタリック体ならリスト値である．またリストを保持する変数にも，本書では $\mList{x}$ のように星印をつけておくことにする．
 
 ある型を包み込んだ別の型を一般に\keyword{コンテナ型}または単に\keyword{コンテナ}と呼ぶ．コンテナ型の変数を\keyword{コンテナ変数}と呼ぶ．
 
@@ -1297,18 +1341,18 @@ $\mType{a}$ 型の変数 $x$ を入れた $\mListType{a}$ 型の変数を作る�
 
 \section{畳み込み}
 
-我々はよくリストの総和を表現するためにシグマ記号 $(\sum)$ を使う．リスト $\mListWith{x_0,x_1\dotsb x_n}$ の総和を
+我々はよくリストの総和を表現するために総和演算子 $(\sum)$ を使う．総和演算子とはリスト $\mListWith{x_0,x_1\dotsb x_n}$ に対して
 \begin{equation}
 \sum\mListWith{x_0,x_1\dotsb x_n}=x_0+x_1+\dotsb+x_n
 \end{equation}
-とするようなシグマ記号である．この表現を一般化してみよう．リスト $\mListWith{x_0,x_1\dotsb x_n}$ が与えられたとき
+で定義される演算子である．この表現を一般化してみよう．リスト $\mListWith{x_0,x_1\dotsb x_n}$ が与えられたとき
 \begin{equation}
 \mFold^{\mBinOp}_a\mListWith{x_0,x_1\dotsb x_n}
 =a\mBinOp x_0\mBinOp x_1\mBinOp\dotsb\mBinOp x_n
 \end{equation}
 であると定義する．
 
-この新しい記号 $\mFold$ は\keyword{畳み込み演算子}と呼ばれる．変数 $a$ は\keyword{アキュムレータ}と呼ぶ．アキュムレータは右側の引数が空であった場合のデフォルト値と考えても良い．\footnote{\haskell では $\mFold^*_a\mList{x}$ を \code{foldl * a xs} と書く．}
+この新しい演算子 $\mFold$ は\keyword{畳み込み演算子}と呼ばれる．変数 $a$ は\keyword{アキュムレータ}と呼ぶ．アキュムレータは右側の引数が空であった場合のデフォルト値と考えても良い．\footnote{\haskell では $\mFold^*_a\mList{x}$ を \code{foldl * a xs} と書く．}
 % ***CHECK***
 
 \python\ 2.7 には畳み込み演算子に相当する \code{reduce} 関数があり，リスト \code{ls} の総和 \code{s} を
@@ -1444,7 +1488,7 @@ f\mMapList&\mIn\mProj{\mListType{a}}{\mListType{b}}
   &=x_0:x_1:\mListWith{x_2\dotsb x_n}\\
   &=x_0:x_1:x_2:\dotsb:x_n:\mEmptyList
 \end{align*}
-結合演算子 $:$ は右結合する．すなわち $x_0:x_1:x_2=x_0:(x_1:x_2)$ である．
+結合演算子 $(:)$ は右結合する．すなわち $x_0:x_1:x_2=x_0:(x_1:x_2)$ である．
 
 マップ演算子の実装は，リストの実装に踏み込めば簡単である．空でないリストは必ず $x:\mList{x}$ へと分解できるから
 \begin{equation}
@@ -1499,11 +1543,11 @@ A...
 
 \section{関数の再帰適用}
 
-関数は内部で自分自身を適用しても良い．例えば $x$ の階乗 $(x!)$ を返す関数 $\mathFactorial$ は
+関数は内部で自分自身を適用しても良い．例えば $x$ の階乗 $(x!)$ を返す関数 $\mFact$ は
 \begin{equation}
-\mathFactorial x=\begin{cases}
-1&\mathIf x\equiv0\\
-x*\mathFactorial(x-1)&\mathOtherwise
+\mFact x=\begin{cases}
+1&\mIf x\equiv0\\
+x*\mFact(x-1)&\mOtherwise
 \end{cases}
 \end{equation}
 と定義できる．関数が自分自身を適用することを関数の\keyword{再帰適用}と呼ぶ．
@@ -1512,36 +1556,36 @@ x*\mathFactorial(x-1)&\mathOtherwise
 
 \section{末尾再帰}
 
-計算機科学者は，同じ再帰でも\keyword{末尾再帰}という再帰のスタイルを好む．末尾再帰とは，関数の再帰適用を関数定義の末尾にすることである．この章に出てきた階乗関数$\mathFactorial$を例にとろう．階乗関数$\mathFactorial$は
+計算機科学者は，同じ再帰でも\keyword{末尾再帰}という再帰のスタイルを好む．末尾再帰とは，関数の再帰適用を関数定義の末尾にすることである．この章に出てきた階乗関数 $\mFact$ を例にとろう．階乗関数 $\mFact$ は
 \begin{equation}
-\mathFactorial x=\begin{cases}
-1&\mathIf x\equiv0\\
-x*\mathFactorial(x-1)&\mathOtherwise
+\mFact x=\begin{cases}
+1&\mIf x\equiv0\\
+x*\mFact(x-1)&\mOtherwise
 \end{cases}
 \end{equation}
-のような形をしていた．末尾の関数をよりはっきりさせるために演算子$*$を前置にして
+のような形をしていた．末尾の関数をよりはっきりさせるために演算子 $(*)$ を前置にして
 \begin{equation}
-\mathFactorial x=\begin{cases}
-1&\mathIf x\equiv0\\
-(*)x(\mathFactorial(x-1))&\mathOtherwise
+\mFact x=\begin{cases}
+1&\mIf x\equiv0\\
+(*)x(\mFact(x-1))&\mOtherwise
 \end{cases}
 \end{equation}
 と書いてみよう．この定義の末尾の式は
 \begin{equation}
-(*)x(\mathFactorial(x-1))
+(*)x(\mFact(x-1))
 \end{equation}
-である．これだと末尾の関数は$\mathFactorial$ではなく演算子$(*)$なので，末尾に再帰適用を行ったことにはならない．
+である．これだと末尾の関数は $\mFact$ ではなく演算子 $(*)$ なので，末尾に再帰適用を行ったことにはならない．
 
-そこで，次のように形を変えた階乗関数$\mathFactorial'$を考えてみる．
+そこで，次のように形を変えた階乗関数 $\mFact'$ を考えてみる．
 \begin{equation}
-\mathFactorial'ax=\begin{cases}
-1&\mathIf x\equiv0\\
-\mathFactorial'(a*x)(x-1)&\mathOtherwise
+\mFact' a=\begin{cases}
+1&\mIf x\equiv0\\
+\mFact'(a*x)(x-1)&\mOtherwise
 \end{cases}
 \end{equation}
-こうすれば末尾の関数がもとの$\mathFactorial'$と一致する．
+こうすれば末尾の関数がもとの $\mFact'$ と一致する．
 
-関数$\mathFactorial$と違い関数$\mathFactorial'$は引数を2個とる．関数$\mathFactorial'$を使って$x$の階乗を求める場合は$\mathFactorial'1x$と第1引数に$1$を与えることにする．この第1引数$a$はアキュムレータという．アキュムレータが演算の途中経過を引き渡していくイメージを描けば，末尾再帰の意味が理解できる．
+関数 $\mFact$ と違い関数 $\mFact'$ は引数を2個とる．関数 $\mFact'$ を使って $x$ の階乗を求める場合は $\mFact'1x$ と第1引数に $1$ を与えることにする．この第1引数 $a$ はアキュムレータという．アキュムレータが演算の途中経過を引き渡していくイメージを描けば，末尾再帰の意味が理解できる．
 
 計算機科学者が末尾再帰を好む理由は，\haskell を含む幾つかのプログラミング言語処理系が\keyword{末尾再帰最適化}を行うからである．末尾再帰最適化とは，一言で言うと再帰をコンピュータが扱いやすいループに置き換えることである．では最初から我々もループで関数を表現しておけば，と思われるかもしれないが，再帰以外の方法でループを表現する場合には必ず変数への破壊的代入が必要になるため，我々は末尾再帰に慎ましくループを隠すのである．
 
@@ -1941,7 +1985,7 @@ f\mMapMaybe\mMaybe{u}
 \label{eq:general-applicative-map}
 f\mMap w=\mPureWith{f}\mAppMap w
 \end{equation}
-となるような\keyword{一般アプリカティブマップ演算子} $(\mAppMap)$ を考える．ここに $f$ は関数，$w$ はリストやMaybeといったコンテナ型の変数すなわち\keyword{コンテナ変数}である．一般アプリカティブマップ演算子 $(\mAppMap)$ から一般マップ演算子 $(\mMap)$ を導き出すには，式 \eqref{eq:general-applicative-map} のように値コンストラクタが必要である．この一般化された値コンストラクタを\keyword{ピュア演算子}と呼ぶ．アプリカティブマップ演算子とピュア演算子を持つ型クラスを $\mApplicativeTypeClass$ 型クラスと呼ぶ．\footnote{\haskell では一般アプリカティブマップ演算子を \code{<*>} と書く．}
+となるような\keyword{一般アプリカティブマップ演算子} $(\mAppMap)$ を考える．ここに $f$ は関数，$w$ はリストやMaybeといったコンテナ型の変数すなわち\keyword{コンテナ変数}である．一般アプリカティブマップ演算子 $(\mAppMap)$ から一般マップ演算子 $(\mMap)$ を導き出すには，式 \eqref{eq:general-applicative-map} のように値コンストラクタが必要である．この一般化された値コンストラクタを\keyword{ピュア演算子}と呼ぶ．アプリカティブマップ演算子とピュア演算子を持つ型クラスを\keyword{アプリカティブ関手}と呼び，$\mApplicativeTypeClass$ 型クラスと定義する．\footnote{\haskell では一般アプリカティブマップ演算子を \code{<*>} と書く．}
 
 ピュア演算子をピュア値コンストラクタと呼ばないのは，単純に「ピュア値」というものがないからである．$\mFunctorTypeClass$ 型クラスはリスト型やMaybe型を抽象化したものであって，直接変数を生成できない．型クラスは，\cxx の用語で言えば純粋仮想クラスのようなものであるし，\objectivec の用語で言えばメタクラスであるからである．もちろんリストのピュア演算子は $\mListWith{x}$ であるし，Maybeのピュア演算子は $\mMaybeWith{x}$ であり，それぞれ具体的な変数を生成する．しかし変数 $x$ にピュア演算子を適用した $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在しない．\footnote{\haskell は一般のピュア演算子の実装を与えていない．変数の型に応じて対応する関数が適用される．}
 
@@ -2105,7 +2149,7 @@ f\mMap u\mAppMap v\mAppMap w
 Maybeの例を思い出そう．Maybe型の変数 $\mMaybe{u}$ はラップされた値 $\mMaybeWith{x}$ を持つのか，エラーを表す $\mNothing$ を持つのかを選べる．そこで，引数 $x$ をとり何らかの計算をする関数 $g$ を考えよう．この関数 $g$ は引数 $x$ の値次第ではエラーを表す $\mNothing$ を返す．例えば
 \begin{equation}
 gx=\begin{cases}
-\mMaybeWith{1/x}&\mathIf x\neq0\\
+\mMaybeWith{1/x}&\mIf x\neq0\\
 \mNothing&\mOtherwise
 \end{cases}
 \end{equation}
@@ -2180,12 +2224,12 @@ ix=\begin{cases}
 \end{equation}
 ここに $x$ は非コンテナ変数で，関数 $f$ も「普通の」（コンテナではない）関数である．より厳密に言えば $x\mIn\mType{a}$ かつ $f\mIn\mProj{\mType{a}}{\mType{b}}$ である．従って，関数 $i$ の型は $\mProj{\mType{a}}{\mPureType{b}}$ である．
 
-関数 $h$ をコンテナに入った変数 $u=\mPureWith{x}$ に適用させるのが一般バインド演算子 $(\mBind)$ の役割である．計算結果をコンテナ変数 $a$ に格納するとすると，関数 $i$ のコンテナ変数 $u$ への適用は
+関数 $i$ をコンテナに入った変数 $u=\mPureWith{x}$ に適用させるのが一般バインド演算子 $(\mBind)$ の役割である．計算結果をコンテナ変数 $a$ に格納するとすると，関数 $i$ のコンテナ変数 $u$ への適用は
 \begin{equation}
 \label{eq:i-love-u}
 a=i\mBind u
 \end{equation}
-と書ける．
+と書ける．うまく行けば $a=\mPureWith{fx}$ となるし，そうでなければ $a=\mPureNothing$ となる．
 
 さて $u=\mPureWith{x},v=\mPureWith{y}$ として，かつ $y=fx$ であるとき
 \begin{equation}
@@ -2195,7 +2239,7 @@ v=f\mMap u=\mPureWith{f}\mAppMap u
 \begin{equation}
 a=\mPureWith{f\mAnonParameter}\mBind u
 \end{equation}
-となる．いま $y=fx$ であったから $a=v$ であり，最終的に次の式
+となる．いま $y=fx$ であったから $a=v$ であり，最終的に
 \begin{equation}
 v=f\mMap u=\mPureWith{f}\mAppMap u=\mPureWith{f\mAnonParameter}\mBind u
 \end{equation}
@@ -2204,25 +2248,41 @@ v=f\mMap u=\mPureWith{f}\mAppMap u=\mPureWith{f\mAnonParameter}\mBind u
 
 \section{関手則・アプリカティブ関手則・モナド則*}
 
-関手則．
+関手，アプリカティブ関手，モナドにはそれぞれ従う規則がある．これらは自然法則ではなく，定義である．
+
+関手の一般マップ演算子 $(\mMap)$ は次の規則に従う．
 \begin{enumerate}
-\item 単位元の存在: $\mId\mMap=\mId$
+\item 単位元の存在: $\mId\mMap u=u$
 \item 合成則: $(f\mComp g)\mMap=(f\mMap)\mComp{}(g\mMap)$%=f\mMap{}(g\mMap\mAnonParameter)$
 \end{enumerate}
 ただし関数 $\mId$ は $\mId x=x$ で定義される．もちろん $\mId=\mAnonParameter$ と定義しても同じである．
 % https://en.wikibooks.org/wiki/Haskell/The_Functor_class#The_functor_laws
 
-アプリカティブ関手則．
+例えば $\mId\mMap\mList{x}$ は $\mId\mList{x}$ であり，結局は $\mList{x}$ である．単位元の存在とは，そのような関数 $\mId$ があるという規則である．
+
+合成則のほうは $\mList{x}=\mListWith{x}$ を例に考えるとわかりやすく，
+\begin{align}
+(f\mMap)\mComp(g\mMap)\mList{x}
+&=(f\mMap{}(g\mMap\mAnonParameter))\mList{x}\\
+&=f\mMap{}(g\mMap\mList{x})\\
+&=f\mMap{}\mListWith{gx}\\
+&=\mListWith{(f\mComp g)x}\\
+&=(f\mComp g)\mMap{}\mListWith{x}\\
+&=(f\mComp g)\mMap\mList{x}
+\end{align}
+のような関係を一般化したものだと考えれば良い．
+
+アプリカティブ関手の一般アプリカティブマップ演算子 $(\mAppMap)$ およびピュア演算子は次の規則に従う．
 \begin{enumerate}
-\item 単位元の存在: $\mId\mAppMap=\mId$
+\item 単位元の存在: $\mPureWith{\mId}\mAppMap u=u$
 \item 準同型則: $\mPureWith{f}\mAppMap\mPureWith{x}=\mPureWith{fx}$
-\item 交換則: $\phi\mAppMap\mPureWith{x}=\mPureWith{\mApply x}\mAppMap\phi$ %$???
-\item 合成則: $\mPureWith{\mComp}\mAppMap i\mAppMap j\mAppMap k=i\mAppMap{}(j\mAppMap k)$
-\item $f\mMap=\mPureWith{f}\mAppMap$ --- （上述の三つの法則から導かれる）
+\item 交換則: $\phi\mAppMap\mPureWith{x}=\mPureWith{(\mApply x)}\mAppMap\phi$
+\item 合成則: $\mPureWith{(\mComp)}\mAppMap\phi\mAppMap\psi\mAppMap u=\phi\mAppMap{}(\psi\mAppMap u)$
+% \item $f\mMap=\mPureWith{f}\mAppMap$ --- （上述の四つの法則から導かれる）
 \end{enumerate}
 % https://en.wikibooks.org/wiki/Haskell/Applicative_functors#Applicative_functor_laws
 
-モナド則．
+モナドの一般バインド演算子 $(\mBind)$ は次の規則に従う．
 \begin{enumerate}
 \item 右単位元の存在: $g\mBind{}\mPureWith{x}=gx$
 \item 左単位元の存在: $\mPureWith{\mId}\mBind w=w$
