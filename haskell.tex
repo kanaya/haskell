@@ -72,6 +72,7 @@
 \DeclareMathOperator{\mId}{id}
 \DeclareMathOperator{\mIfFunc}{if}
 \DeclareMathOperator{\mFact}{fact}
+\DeclareMathOperator{\mMain}{main}
 \DeclareMathOperator{\mPred}{pred}
 \DeclareMathOperator{\mSucc}{succ}
 \DeclareMathOperator{\mSum}{sum}
@@ -220,213 +221,6 @@
 \newcommand{\mProj}[2]{#1\mMapsTo#2}
 \newcommand{\mMorph}[2]{#1\mMorphTo#2}
 
-
-%%% DO NOT USE
-
-\newcommand\donotuse{\{\text{DO-NOT-USE}\}}
-
-%% Math Pretty Printers
-
-\newcommand{\mConnst}[1]{\donotuse\mathrm{#1}} % Use capital letter
-\newcommand{\mathSub}[1]{\donotuse\textrm{#1}}
-
-\newcommand{\mathSet}[1]{\donotuse\mathbf{#1}} % Use capital letter
-\newcommand{\mathSpecialSet}[1]{\donotuse\mathbb{#1}} % Use capital letter
-\newcommand{\mathTypeParameter}[1]{\donotuse\mathbf{#1}}
-\newcommand{\mathTypeName}[1]{\donotuse\mathTypeParameter{#1}}
-\newcommand{\mathTypeParameterClass}[1]{\donotuse\mathbf{\emph{#1}}}
-
-\newcommand{\mathFunctor}[1]{\donotuse\textsl{#1}} % Use capital letter
-\newcommand{\mathSpecialFunctor}[1]{\donotuse\mathcal{#1}} % Use capital letter
-\newcommand{\mathTypeConstructor}[1]{\donotuse\mathit{#1}} % Use capital letter
-\newcommand{\mathTypeClass}[1]{\donotuse\textbf{\emph{#1}}} % Use capital letter
-
-%% Hats for Variables
-
-\newcommand{\mathListVar}[1]{\donotuse\Bar{#1}}
-\newcommand{\mathMaybeVar}[1]{\donotuse\Tilde{#1}}
-\newcommand{\mathFunctionVar}[1]{\donotuse\Hat{#1}}
-\newcommand{\mathContainerVar}[1]{\donotuse\Check{#1}}
-\newcommand{\mathVectorVar}[1]{\donotuse\vec{#1}}
-
-%% Parenthesis for Variables
-
-\newcommand{\mathListWith}[1]{\donotuse\left[#1\right]}
-\newcommand{\mathSetWith}[1]{\donotuse\left\{#1\right\}}
-\newcommand{\mathTupleWith}[1]{\donotuse\left(#1\right)}
-\newcommand{\mathMaybeWith}[1]{\donotuse\[#1\]}
-\newcommand{\mathPureWith}[1]{\donotuse\left\langle#1\right\rangle}
-\newcommand{\mathUnitWith}[1]{\donotuse\left\langle\!\left\langle#1\right\rangle\!\right\rangle}
-
-%% Parenthesis for Types
-
-\newcommand{\mathListType}[1]{\donotuse\mathListWith{\mathTypeParameter{#1}}}
-\newcommand{\mathMaybeType}[1]{\donotuse\mathMaybeWith{\mathTypeParameter{#1}}}
-\newcommand{\mathPureType}[1]{\donotuse\mathPureWith{\mathTypeParameter{#1}}}
-\newcommand{\mathUnitType}[1]{\donotuse\mathUnitWith{\mathTypeParameter{#1}}}
-
-%% Guard
-
-\newcommand{\mathGuard}[1]{\donotuse\mathop{\mid_{#1}}}
-
-%% Type Constructors and Functors
-
-\DeclareMathOperator{\mathList}{\donotuse\mathTypeConstructor{List}}
-\DeclareMathOperator{\mathMaybe}{\donotuse\mathTypeConstructor{Maybe}}
-\DeclareMathOperator{\mathListFunctor}{\donotuse\mathFunctor{List}}
-\DeclareMathOperator{\mathMaybeFunctor}{\donotuse\mathFunctor{Maybe}}
-
-%% True and Fasle, Identity, Empty, Nothing
-
-\newcommand{\mathTrue}{\donotuse\mConst{T}}
-\newcommand{\mathFalse}{\donotuse\mConst{F}}
-
-\newcommand{\mathId}{\O}
-
-\newcommand{\mathEmptyList}{{\donotuse[\,]}}
-\newcommand{\mathNothing}{\donotuse\emptyset}
-\newcommand{\mathPureNothing}{\donotuse\varnothing}
-
-%% Special Parameters
-
-\newcommand{\mathAnonymousParameter}{\donotuse\lozenge}
-\newcommand{\mathAny}{\donotuse\_}
-\newcommand{\mathSomething}{\donotuse\square}  % DO NOT USE
-
-%% Left and Right
-
-\newcommand{\mathLeft}{\mathSub{\donotuse left}}
-\newcommand{\mathRight}{\mathSub{\donotuse right}}
-
-%% Special Unary Functions and Operators
-
-\DeclareMathOperator{\mathPred}{\donotuse pred}
-\DeclareMathOperator{\mathSucc}{\donotuse succ}
-\DeclareMathOperator{\mathAnyUnaryOperator}{\donotuse\star}
-\DeclareMathOperator{\mInverse}{\donotuse\sharp}  % USED?
-\DeclareMathOperator{\mathLambda}{\donotuse\backslash}
-\DeclareMathOperator{\mathConcat}{\donotuse\flat}
-\DeclareMathOperator*{\mathFold}{\donotuse\bigcup}
-\DeclareMathOperator*{\mathFoldRight}{\donotuse\bigsqcup}
-
-\DeclareMathOperator{\mathHead}{\donotuse head}
-\DeclareMathOperator{\mathTail}{\donotuse tail}
-\DeclareMathOperator{\mathFactorial}{\donotuse fact}
-\DeclareMathOperator{\mathIfFunc}{\donotuse if}
-
-\DeclareMathOperator{\mathMain}{\donotuse main}
-
-%% Special Binary Operators
-
-\newcommand{\mathAnyBinaryOperator}{\donotuse\mathbin{\bigstar}}
-\newcommand{\mathAnd}{\donotuse\mathbin{\wedge}}
-\newcommand{\mathAppend}{\donotuse\oplus}
-\newcommand{\mathApplicativeApply}{\donotuse\mathbin{\S}}
-\newcommand{\mathApplicativeGeneralMap}{\donotuse\mathbin{\times}}
-\newcommand{\mathApplicativeMap}{\donotuse\mathbin{\otimes}}
-\newcommand{\mathApplicativeMaybeMap}{\donotuse\mathbin{\boxtimes}}
-\newcommand{\mathApply}{\donotuse\mathbin{\$}}
-\newcommand{\mathBind}{\donotuse\mathbin{\ooalign{$\longleftarrow$\crcr\hss$\heartsuit$\hss}}}
-\newcommand{\mathBindRight}{\donotuse\mathbin{\ooalign{$\longrightarrow$\crcr\hss$\heartsuit$\hss}}}
-\newcommand{\mathCompose}{\donotuse\mathbin{\bullet}}
-\newcommand{\mathGeneralMap}{\donotuse\mathbin{\cdot}}
-\newcommand{\mathFrom}{\donotuse\mathbin{\in}}
-\newcommand{\mathIn}{\donotuse\mathrel{::}}
-\newcommand{\mathMap}{\donotuse\mathbin{\odot}}
-\newcommand{\mathMaybeAppend}{\donotuse\mathbin{\boxplus}}
-\newcommand{\mathMaybeMap}{\donotuse\mathbin{\boxdot}}
-\newcommand{\mathOr}{\donotuse\mathbin{\vee}}
-\newcommand{\mathSetTimes}{\donotuse\mathbin{\circledast}}
-
-%% Special Arrow Operators
-
-\newcommand{\mathLambdaArrow}{\donotuse\rightarrow}
-\newcommand{\mathMapsTo}{\donotuse\mapsto}
-
-%% Keywords
-
-\newcommand{\mathKeyword}[1]{\donotuse\operatorname{\textsf{#1}}}
-
-\newcommand{\mathIf}{\donotuse\mathKeyword{if}}
-\newcommand{\mathThen}{\donotuse\mathKeyword{then}}
-\newcommand{\mathElse}{\donotuse\mathKeyword{else}}
-\newcommand{\mathOtherwise}{\donotuse\mathKeyword{otherwise}}
-
-\newcommand{\mathCaseCase}{\donotuse\mathKeyword{case}}
-\newcommand{\mathCaseOf}{\donotuse\mathKeyword{of}}
-
-\newcommand{\mathLetLet}{\donotuse\mathKeyword{let}}
-\newcommand{\mathLetIn}{\donotuse\mathKeyword{in}}
-\newcommand{\mathWhere}{\donotuse\mathKeyword{where}}
-
-%% First and Rest
-
-\newcommand{\mathVarKeyword}[1]{\donotuse\operatorname{\mathrm{#1}}}
-
-\newcommand{\mFirstVar}{\donotuse\mathVarKeyword{first}}
-\newcommand{\mathRest}{\donotuse\mathVarKeyword{rest}}
-
-%% Utilities
-
-\newcommand{\mathCase}[2]{\donotuse\mathCaseCase#1\mathCaseOf#2}
-\newcommand{\mathCategoryShort}[2]{\donotuse(#1,#2)}
-\newcommand{\mathLambdaExpression}[2]{\donotuse\mathLambda#1\mathLambdaArrow#2}
-\newcommand{\mathLet}[2]{\donotuse\mathLetLet#1\mathLetIn#2}
-\newcommand{\mathMorph}[2]{\donotuse#1\mathMapsTo#2}
-
-\newcommand{\mathMonoid}[3]{\donotuse(#1,#2,#3)}
-\newcommand{\mathMorphII}[3]{\donotuse#1\mathMapsTo#2\mathMapsTo#3}
-\newcommand{\mathMorphIIWithParenthesis}[3]{\donotuse#1\mathMapsTo(#2\mathMapsTo#3)}
-
-\newcommand{\mathCategory}[4]{\donotuse(#1,#2,#3,#4)}
-\newcommand{\mathGroup}[4]{\donotuse(#1,#2,#3,#4)}
-\newcommand{\mathMorphIII}[4]{\donotuse#1\mathMapsTo#2\mathMapsTo#3\mathMapsTo#4}
-
-\newcommand{\mathField}[7]{(\donotuse#1,#2,#3,#4,#5,#6,#7)}
-
-%% Haskell Operators
-
-\DeclareMathOperator{\hsklConcat}{{DO NOT USE}--\flat}
-\DeclareMathOperator{\hsklFmap}{{DO NOT USE}--\cdot}
-\DeclareMathOperator{\hsklHead}{{DO NOT USE}--head}
-\DeclareMathOperator{\hsklMap}{{DO NOT USE}--\odot}
-\DeclareMathOperator{\hsklMaybeAppend}{{DO NOT USE}--\boxplus}
-\DeclareMathOperator{\hsklMaybeMap}{{DO NOT USE}--\boxdot}
-\DeclareMathOperator{\hsklMonadMap}{{DO NOT USE}--\heartsuit}
-\DeclareMathOperator{\hsklOf}{{DO NOT USE}--::}
-\DeclareMathOperator{\hsklTail}{{DO NOT USE}--tail}
-
-%% Haskell Symbols
-
-%% Haskell Types and Type Classes
-
-\newcommand{\hsklApplicative}{{DO NOT USE}--\mathTypeParameterClass{Applicative}}
-\newcommand{\hsklBool}{{DO NOT USE}--\mathTypeParameter{Bool}}
-\newcommand{\hsklChar}{{DO NOT USE}--\mathTypeParameter{Char}}
-
-\newcommand{\hsklIntegral}{{DO NOT USE}--\mathTypeParameterClass{Integral}}
-\newcommand{\hsklFloat}{{DO NOT USE}--\mathTypeParameter{Float}}
-\newcommand{\hsklFunctor}{{DO NOT USE}--\mathTypeParameterClass{Functor}}
-\newcommand{\hsklMonad}{{DO NOT USE}--\mathTypeParameterClass{Monad}}
-\newcommand{\hsklMonadplus}{{DO NOT USE}--\mathTypeParameterClass{Monadplus}}
-
-%% Haskell Value Constructors
-
-\newcommand{\hsklJust}[1]{{DO NOT USE}--\[#1\]}
-\newcommand{\hsklListType}[1]{{DO NOT USE}--[#1]}
-\newcommand{\hsklMaybeType}[1]{{DO NOT USE}--\[#1\]}
-\newcommand{\hsklPure}[1]{{DO NOT USE}--\langle#1\rangle_\textsf{pure}}
-\newcommand{\hsklUnit}[1]{{DO NOT USE}--\langle#1\rangle_\textsf{unit}}
-
-%% Haskell Type Constructor
-
-\newcommand{\hsklTypeParameterConstruct}[2]{{DO NOT USE}--#1\,#2}
-
-%% Haskell Decorations
-
-\newcommand{\hsklFunction}[1]{{DO NOT USE}--\Hat{#1}}
-\newcommand{\hsklMaybe}[1]{{DO NOT USE}--\Tilde{#1}}
-\newcommand{\hsklMaybeW}[1]{{DO NOT USE}--\widetilde{#1}}
 
 \title{\haskell （仮）}
 \author{金谷一朗}
@@ -2537,7 +2331,7 @@ A...
 
 \haskell コンパイラもmain関数をアプリケーションプログラムのエントリポイントとして認識する．というよりも，\haskell プログラムとはmainという一つの関数である．main関数を含む一般の関数はこれまで通り
 \begin{equation}
-\mathMain=\dotsb
+\mMain=\dotsb
 \end{equation}
 のように関数名のあとに等号$(=)$を置いて定義する．
 
@@ -2548,11 +2342,11 @@ A...
 
 プログラムに与えられた引数やファイルを$x$とし，プログラムの出力を$y$とすると，副作用のないプログラムの本質は
 \begin{equation}
-y=\mathMain x
+y=\mMain x
 \end{equation}
 という$\text{main}$関数であり，それを
 \begin{equation}
-\mathMain=f_1\mathCompose f_2\mathCompose\dotsb\mathCompose f_n
+\mMain=f_1\mComp f_2\mComp\dotsb\mComp f_n
 \end{equation}
 と部分関数に分解することがプログラマの能力である．
 
@@ -2580,11 +2374,11 @@ y = f1(y_2)
 
 プログラムが副作用を持つ場合は，文脈を持った変数に入れると見通しが良くなるのであった．文脈を持った変数を$u,v$とするとき，副作用を持つプログラムは
 \begin{equation}
-v=\mathMain u
+v=\mMain u
 \end{equation}
 という$\text{main}$関数であり，それを
 \begin{equation}
-\mathMain=f_1\mathGeneralMap f_2\mathGeneralMap\dotsb\mathGeneralMap f_n
+\mMain=f_1\mMap f_2\mMap\dotsb\mMap f_n
 \end{equation}
 と部分関数に分解することがプログラマの能力となる．
 
