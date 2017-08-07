@@ -2384,13 +2384,23 @@ hx=g\mBind fx
 
 ある関数 $c$ が引数を取らず，いつも決まった $\mDoubleType$ 型の数を返すとしよう．そうすると，関数 $c$ の型は単純に $\mDoubleType$ である．
 
-呼び出すたびに異なる擬似乱数を返すアクション $\mRand$ もまた毎回 $\mDoubleType$ 型の数を返す．そこで $\mRand$ も $\mDoubleType$ 型としたいところだが，こちらは関数ではなくアクションである．そこを区別するために，$\mRand$ の型は $\mIODoubleType$ 型と $\mIOType$ をつけて区別する．\footnote{\haskell では $\mIODoubleType$ のことを \code{IO Double} と表す．}
+呼び出すたびに異なる擬似乱数を返すアクション $\mRand$ もまた毎回 $\mDoubleType$ 型の数を返す．そこで $\mRand$ も $\mDoubleType$ 型としたいところだが，こちらは関数ではなくアクションである．そこを区別するために，$\mRand$ の型は $\mIODoubleType$ 型と $\mIOType$ をつけて区別する．\footnote{\haskell では $\mIODoubleType$ のことを \code{IO Double} と書く．}
 
----
+呼び出しても何も返さないアクションはどのような型を持つべきだろう．何も返さない関数というものは存在しないが，アクションは副作用を持つので，何も返さないものがあっても良いのである．何も返さないことを，「空っぽ」を返すと読み替えて，何も返さないアクションの型を $\mIOUnitType$ 型としよう．ここに $\mUnitType$ は「空っぽ」の意味で，ユニット型と読む．\footnote{\haskell では $\mIOUnitType$ のことを \code{IO ()} と書く．}
 
-まず「空っぽ」の型を定義する．空っぽの型は $\mUnitType$ で表す．空っぽの型はそれ単体ではさほど意味はないが，引数を取らない関数の型を考えるときに必要である．ある関数 $c$ が引数を取らず，いつも決まった $\mDoubleType$ 型の数を返すとしよう．そうすると，関数 $c$ の型は $\mProj{\mUnitType}{\mDoubleType}$ である．
+$\mIOUnitType$ 型のアクションの例は，画面に値を出力する $\mPut$ アクションである．
 
-関数 $c$ は役に立たないが，乱数を生成するアクション $\mRand$ は役に立つ．ただし，呼び出すたびに値が変わるので，
+$\mIOType$ のつく型はモナドである．モナドには，バインド演算子と，アプリカティブ関手から引き継いだピュア演算子の二つが必要であった．アプリカティブ関手から引き継いだアプリカティブマップ演算子はバインド演算子とピュア演算子の二つから合成できるし，関手から引き継いだマップ演算子もまたアプリカティブマップ演算子とピュア演算子から合成できるから，アプリカティブマップ演算子とマップ演算子は改めて実装しておく必要はない．
+
+$\mIOUnitType$ 型の場合，ピュア演算子は何も返す必要がないから
+\begin{equation}
+\mPureWith{\mAnyParameter}=\mTupleWith{}
+\end{equation}
+であるとする．ここに $\mTupleWith{}$ は空のタプルで，「ユニット」と呼ぶ．
+
+\begin{equation}
+f\mBind m=
+\end{equation}
 
 
 \section{a*}
