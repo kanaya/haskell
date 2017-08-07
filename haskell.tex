@@ -2398,18 +2398,11 @@ hx=g\mBind fx
 
 $\mIOType$ のつく型はモナドである．モナドには，バインド演算子と，アプリカティブ関手から引き継いだピュア演算子の二つが必要であった．アプリカティブ関手から引き継いだアプリカティブマップ演算子はバインド演算子とピュア演算子の二つから合成できるし，関手から引き継いだマップ演算子もまたアプリカティブマップ演算子とピュア演算子から合成できるから，アプリカティブマップ演算子とマップ演算子は改めて実装しておく必要はない．
 
----
-
 $\mIOUnitType$ 型の場合，ピュア演算子は何も返す必要がないから
 \begin{equation}
 \mPureWith{\mAnyParameter}=\mTupleWith{}
 \end{equation}
-であるとする．ここに $\mTupleWith{}$ は空のタプルで，「ユニット」と呼ぶ．
-
-$\mIOUnitType$ 型のバインド演算子はどうなっているだろうか．
-\begin{equation}
-f\mBind m=...
-\end{equation}
+であるとする．ここに $\mTupleWith{}$ は空のタプルで，「ユニット」と呼ぶ．一方で $\mIOUnitType$ 型のバインド演算子は，処理系の奥深くに隠されている．
 
 % 実装依存である．
 
@@ -2489,7 +2482,7 @@ do記法には $\mDoEq$ の他に，我々の $\mLet$ とよく似た $\mDoLetKe
 % http://qiita.com/saltheads/items/6025f69ba10267bbe3ee
 
 
-\section{この章のまとめ}
+\section{この章のまとめ*}
 
 \part{\haskell プログラミング}
 
