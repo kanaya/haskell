@@ -190,10 +190,19 @@
 \newcommand{\mEitherType}[2]{\{\mType{#1}\mid\mType{#2}\}}
 \newcommand{\mFloatType}{\mType{Float}}
 \newcommand{\mFuncType}[1]{\(\mType{#1}\)_\mType{r}}
+\newcommand{\mDoubleType}{\mType{Double}}
 \newcommand{\mIntType}{\mType{Int}}
+\newcommand{\mIOType}{\mType{IO}}
 \newcommand{\mListType}[1]{\mListWith{\mType{#1}}}
 \newcommand{\mMaybeType}[1]{\mMaybeWith{\mType{#1}}}
 \newcommand{\mPureType}[1]{\mPureWith{\mType{#1}}}
+\newcommand{\mStringType}{\mType{String}}
+\newcommand{\mUnitType}{\mType{()}}
+
+% IO Types
+\newcommand{\mIODoubleType}{{}^\mIOType\mDoubleType}
+\newcommand{\mIOStringType}{{}^\mIOType\mStringType}
+\newcommand{\mIOUnitType}{{}^\mIOType\mUnitType}
 
 % Type constructors
 \newcommand{\mTypeConstructor}[1]{\mathit{#1}} % Internal use
@@ -1448,19 +1457,14 @@ x*\mFact(x-1)&\mOtherwise
 
 \section{遅延評価*}
 
-\section{余計な話：クイックソート*}
+\section{余計な話：クイックソート}
 
+クイックソートは次のように定義できる．
 \begin{align}
 \mSort\mEmptyList&=\mEmptyList\\
-\mSort(x:\mList{x})&=\mList{a}\mAppend\mListWith{x}\mAppend\mList{b}\mWhereII{\mList{a}}{\mListWith{a\mListGuard a\mFrom\mList{x},a\le x}}{\mList{b}}{\mListWith{b\mListGuard b\mFrom\mList{x},b>x}}
+\mSort(x:\mList{x})&=\mList{a}\mAppend\mListWith{x}\mAppend\mList{b}\mWhereII{\mList{a}}{\mListWith{a\mListGuard a\mFrom\mList{x},a<x}}{\mList{b}}{\mListWith{b\mListGuard b\mFrom\mList{x},b>x}}
 \end{align}
 
-
-$$\mList{x}$$
-
-
-
-$$\mList{y}=\mList{u}\mAppend\mListWith{x}\mAppend\mList{v}\mWhere{\mList{u}}{\mListWith{u\mListGuard u<x}}$$
 
 \section{この章のまとめ*}
 
@@ -2269,8 +2273,8 @@ Maybe
   &$\mMaybeWith{x}$
   &$\mAppMapMaybe$
   &$\mMapMaybe$
-  &
-  &\\
+  &$\mNothing$
+  &$\dotsb$\\
 \hline
 関数
   &$\mBindFunc$
@@ -2331,7 +2335,7 @@ A...
 
 \section{アクション}
 
-計算機の状態を変えることを\keyword{副作用}と呼ぶ．副作用とは変数への破壊的代入に他ならない．例えば，計算機は画面やプリンタに何かを出力するが，それは画面やプリンタという「変数」を書き換えていることになる．また例えば擬似乱数の生成も副作用である．呼び出されるたびに異なる値を返す擬似乱数生成関数は，毎回同じ値を返すべき参照透過性とは真逆の性質を持つ．
+計算機の状態を変えることを\keyword{副作用}と呼ぶ．副作用とは変数への破壊的代入に他ならない．例えば，計算機は画面やプリンタに何かを出力するが，それは画面やプリンタという「変数」を書き換えていることになる．また例えば擬似乱数の生成も副作用である．呼び出されるたびに異なる値を返す擬似乱数生成関数は，呼び出されるたびに計算機の内部状態を書き換えているのである．
 
 副作用を持つ関数を\keyword{アクション}と呼ぶ．アクションは値を持つが，その値は計算の実行時までわからない．例えば擬似乱数を生成するアクション $\mRand$ があるとしよう．これを変数 $\alpha$ に
 \begin{equation}
@@ -2339,9 +2343,7 @@ A...
 \end{equation}
 と代入しても，変数 $\alpha$ に擬似乱数が代入されるわけではない．「擬似乱数を生成する」というアクションが $\alpha$ に代入されたのだ．
 
-では，いつ「擬似乱数を生成する」アクションが実行されるのだろうか．それは，プログラムがまさに計算機の状態を変えるタイミング，つまりプログラムが実行されるタイミングなのである．
-
-そのためには，プログラムそのものをアクションで表しておかないといけない．我々はプログラム全体を $\omega$ で表すことにしよう．ただし
+では，いつ「擬似乱数を生成する」アクションが実行されるのだろうか．それは，プログラムがまさに計算機の状態を変えるタイミング，つまりプログラムが実行されるタイミングなのである．そのためには，プログラムそのものをアクションで表しておかないといけない．我々はプログラム全体を $\omega$ で表すことにしよう．ただし
 \begin{equation}
 \omega=\alpha
 \end{equation}
@@ -2380,9 +2382,16 @@ hx=g\mBind fx
 
 \section{IOモナド*}
 
-$$
-\mPut s
-$$
+ある関数 $c$ が引数を取らず，いつも決まった $\mDoubleType$ 型の数を返すとしよう．そうすると，関数 $c$ の型は単純に $\mDoubleType$ である．
+
+呼び出すたびに異なる擬似乱数を返すアクション $\mRand$ もまた毎回 $\mDoubleType$ 型の数を返す．そこで $\mRand$ も $\mDoubleType$ 型としたいところだが，こちらは関数ではなくアクションである．そこを区別するために，$\mRand$ の型は $\mIODoubleType$ 型と $\mIOType$ をつけて区別する．\footnote{\haskell では $\mIODoubleType$ のことを \code{IO Double} と表す．}
+
+---
+
+まず「空っぽ」の型を定義する．空っぽの型は $\mUnitType$ で表す．空っぽの型はそれ単体ではさほど意味はないが，引数を取らない関数の型を考えるときに必要である．ある関数 $c$ が引数を取らず，いつも決まった $\mDoubleType$ 型の数を返すとしよう．そうすると，関数 $c$ の型は $\mProj{\mUnitType}{\mDoubleType}$ である．
+
+関数 $c$ は役に立たないが，乱数を生成するアクション $\mRand$ は役に立つ．ただし，呼び出すたびに値が変わるので，
+
 
 \section{a*}
 
