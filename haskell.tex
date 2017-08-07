@@ -101,6 +101,7 @@
 \DeclareMathOperator{\mIfFunc}{if}
 \DeclareMathOperator{\mFact}{fact}
 \DeclareMathOperator{\mPred}{pred}
+\DeclareMathOperator{\mSort}{sort}
 \DeclareMathOperator{\mSucc}{succ}
 \DeclareMathOperator{\mSum}{sum}
 \DeclareMathOperator{\mTail}{tail}
@@ -142,6 +143,7 @@
 \DeclareMathOperator{\mLambda}{\backslash}
 \DeclareMathOperator{\mLambdaArrow}{\rightarrow}
 \DeclareMathOperator{\mLetEq}{\triangleq}
+\DeclareMathOperator{\mListGuard}{\mid}
 \DeclareMathOperator{\mLogicalAnd}{\wedge}
 \DeclareMathOperator{\mLogicalOr}{\vee}
 \DeclareMathOperator{\mMap}{\bullet}
@@ -240,7 +242,7 @@
 \newcommand{\mMorph}[2]{#1\mMorphTo#2}
 \newcommand{\mProj}[2]{#1\mMapsTo#2}
 \newcommand{\mWhere}[2]{\mathbin{\mWhereKeyword}#1\mLetEq#2}
-
+\newcommand{\mWhereII}[4]{\mathbin{\mWhereKeyword}#1\mLetEq#2,#3\mLetEq#4}
 \title{関数型プログラミングと代数構造}
 \author{金谷一朗}
 
@@ -1111,7 +1113,7 @@ ls = [0,1,2,3,4,5,6,7,8,9]
 \end{pythoncode}
 のように定義できる．
 
-我々も $0$ から始まり $9$ まで続く整数のリストを $[0,1,2,3,4,5,6,7,8,9]$ と書くことにしよう．ただし，これでは冗長なので\keyword{等差数列}に限って簡略化した書き方を許す．例えば $0$ から $9$ までのリストは $\mListWith{0,1\dotsb9}$ と書いても良い．\footnote{\haskell では \code{[0,1..9]} と書く．ピリオドの数に注意しよう．}
+我々も $0$ から始まり $9$ まで続く整数のリストを $\mListWith{0,1,2,3,4,5,6,7,8,9}$ と書くことにしよう．ただし，これでは冗長なので\keyword{等差数列}に限って簡略化した書き方を許す．例えば $0$ から $9$ までのリストは $\mListWith{0,1\dotsb9}$ と書いても良い．\footnote{\haskell では \code{[0,1..9]} と書く．ピリオドの数に注意しよう．}
 
 リストの中身の一つ一つの値のことを\keyword{要素}と呼ぶ．要素のことは元と呼んでも良いが，本書では要素と呼ぶことにする．要素も元も英語のelementの和訳である．
 
@@ -1133,14 +1135,14 @@ ls = [x*2 for x in range(0, 10)]
 
 我々は内包表記のかわりにガードを使って
 \begin{equation}
-\mList{x}=\mListWith{x*2\mGuard{x\mFrom{\mListWith{0,1\dotsb9}}}}
+\mList{x}=\mListWith{x*2\mListGuard{x\mFrom{\mListWith{0,1\dotsb9}}}}
 \end{equation}
 のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mFrom$を用いた．\footnote{\haskell では \code{xs = [x*2 | x <- [0,1..9]]} と書く．}
 
 ガードの中の式は複数あっても良い．例えば
 \begin{equation}
 \mList{x}
-=\mListWith{x+y\mGuard{x\mFrom\mListWith{0,1\dotsb9},\,y\mFrom\mListWith{0,1\dotsb5},\,x+y>3}}
+=\mListWith{x+y\mListGuard{x\mFrom\mListWith{0,1\dotsb9},\,y\mFrom\mListWith{0,1\dotsb5},\,x+y>3}}
 \end{equation}
 は $0\le x\le9$ かつ $0\le y\le5$ の範囲で $x+y>3$となる $x$ 及び $y$ から $x+y$ を並べたリストである．これは\python でいう
 \begin{pythoncode}
@@ -1446,7 +1448,19 @@ x*\mFact(x-1)&\mOtherwise
 
 \section{遅延評価*}
 
-\section{余計な話：ジャンプ*}
+\section{余計な話：クイックソート*}
+
+\begin{align}
+\mSort\mEmptyList&=\mEmptyList\\
+\mSort(x:\mList{x})&=\mList{a}\mAppend\mListWith{x}\mAppend\mList{b}\mWhereII{\mList{a}}{\mListWith{a\mListGuard a\mFrom\mList{x},a\le x}}{\mList{b}}{\mListWith{b\mListGuard b\mFrom\mList{x},b>x}}
+\end{align}
+
+
+$$\mList{x}$$
+
+
+
+$$\mList{y}=\mList{u}\mAppend\mListWith{x}\mAppend\mList{v}\mWhere{\mList{u}}{\mListWith{u\mListGuard u<x}}$$
 
 \section{この章のまとめ*}
 
