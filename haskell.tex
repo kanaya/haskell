@@ -132,6 +132,7 @@
 \DeclareMathOperator{\mCons}{:}
 \DeclareMathOperator{\mDoEq}{\leftarrow}
 \DeclareMathOperator{\mDoLetEq}{\mVarKeyword{=}}
+\DeclareMathOperator{\mDoNext}{\Rightarrow}%{\mathrel{;}}
 \DeclareMathOperator*{\mFold}{\bigcup}
 \DeclareMathOperator*{\mFoldRight}{\bigsqcup}
 \DeclareMathOperator{\mFrom}{\in}
@@ -2379,7 +2380,7 @@ $$
 例えば $\omega=\mPut\mBind\alpha\mWhere{\alpha}{\mRand}$ をdo記法を用いて書き直すと
 \begin{equation}
 \label{eq:do-print-random}
-\omega=\mDo{a\mDoEq\mRand;\;\mPut a}
+\omega=\mDo{a\mDoEq\mRand\mDoNext\mPut a}
 \end{equation}
 となる．\footnote{\haskell では
 \begin{verbatim}
@@ -2402,28 +2403,28 @@ define main:
 
 do記法には $\mDoEq$ の他に，我々の $\mLet$ とよく似た $\mDoLetKeyword$ という構文が用意されている．この $\mDoLetKeyword$ は局所変数の導入に用いられて，例えば
 \begin{equation}
-\omega=\mDo{\mDoLet{y}{fx};\;\alpha y}
+\omega=\mDo{\mDoLet{y}{fx}\mDoNext\alpha y}
 \end{equation}
 のように使う．
 
 以下に，do記法を使った例を示す．
 \begin{align}
 \mDo{\alpha x}&=\alpha x\\
-\mDo{y\mDoEq\alpha x;\;\beta y}&=\beta\mBind\alpha x\\
-\mDo{\alpha x;\;\beta y}&=(\mLambdaExp{\mAnyParameter}{\beta y})\mBind \alpha x\label{eq:do-alpha-beta}\\
-\mDo{\mDoLet{y}{fx};\;\alpha y}&=\alpha y\mWhere{y}{fx}\\
-\mDo{y\mDoEq\alpha x;\;\mDoLet{z}{fy};\;\beta z}&=\beta\mBind{}(f\mMap\alpha x)\\
-\mDo{y\mDoEq\alpha x;\;y'\mDoEq\alpha'x';\;\mDoLet{z}{fyy'};\;\beta z}&=\beta\mBind{}(f\mMap\alpha x\mAppMap\alpha'x')
+\mDo{y\mDoEq\alpha x\mDoNext\beta y}&=\beta\mBind\alpha x\\
+\mDo{\alpha x\mDoNext\beta y}&=(\mLambdaExp{\mAnyParameter}{\beta y})\mBind \alpha x\label{eq:do-alpha-beta}\\
+\mDo{\mDoLet{y}{fx}\mDoNext\alpha y}&=\alpha y\mWhere{y}{fx}\\
+\mDo{y\mDoEq\alpha x\mDoNext\mDoLet{z}{fy}\mDoNext\beta z}&=\beta\mBind{}(f\mMap\alpha x)\\
+\mDo{y\mDoEq\alpha x\mDoNext y'\mDoEq\alpha'x'\mDoNext\mDoLet{z}{fyy'}\mDoNext\beta z}&=\beta\mBind{}(f\mMap\alpha x\mAppMap\alpha'x')
 \end{align}
 なお $\mFuncWith{f}=\mLambdaExp{\mAnyParameter}{f}$ の関係を用いると式\eqref{eq:do-alpha-beta}はより簡潔に
 \begin{equation}
-\mDo{\alpha x;\;\beta y}=\mFuncWith{\beta y}\mBind\alpha x
+\mDo{\alpha x\mDoNext\beta y}=\mFuncWith{\beta y}\mBind\alpha x
 \end{equation}
 と書ける．
 
 最後に，do記法中に変数を2回以上使いまわす例を示す．
 \begin{multline}
-\mDo{y\mDoEq\alpha x;\;y'\mDoEq\alpha'x';\;\mDoLet{z}{fyy'};\;\beta z;\;\mDoLet{z'}{f'yy'};\;\beta'z'}\\
+\mDo{y\mDoEq\alpha x\mDoNext y'\mDoEq\alpha'x'\mDoNext\mDoLet{z}{fyy'}\mDoNext\beta z\mDoNext\mDoLet{z'}{f'yy'}\mDoNext\beta'z'}\\
 =
 (\mLambdaExp{yy'}{(
 (\mLambdaExp{\mAnyParameter}{\mLetIn{z}{fyy'}{\beta z}})
