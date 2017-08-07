@@ -85,6 +85,9 @@
 \newcommand{\mTrue}{\mSpecialConst{True}}
 \newcommand{\mZero}{\O}
 
+% Strings
+\newcommand{\mString}[1]{\text{#1}}
+
 % Variables
 \newcommand{\mSpecialVar}[1]{\mathrm{#1}} % Internal use
 \newcommand{\mFirstVar}{\mSpecialVar{first}}
@@ -97,13 +100,16 @@
 \DeclareMathOperator{\mId}{id}
 \DeclareMathOperator{\mIfFunc}{if}
 \DeclareMathOperator{\mFact}{fact}
-\DeclareMathOperator{\mMain}{main}
 \DeclareMathOperator{\mPred}{pred}
-\DeclareMathOperator{\mPut}{put}
-\DeclareMathOperator{\mRand}{rand}
 \DeclareMathOperator{\mSucc}{succ}
 \DeclareMathOperator{\mSum}{sum}
 \DeclareMathOperator{\mTail}{tail}
+
+% Actions
+\newcommand{\mAction}[1]{\textsl{#1}}
+\DeclareMathOperator{\mMain}{\mAction{main}}
+\DeclareMathOperator{\mPut}{\mAction{put}}
+\DeclareMathOperator{\mRand}{\mAction{rand}}
 
 % Operators
 \DeclareMathOperator{\mAppend}{\oplus}
@@ -265,6 +271,7 @@ Ether変数&肩に!をつける&$\mEither{u}$\\
 有名な関数&ローマン，小文字&$\sin,\cos$\\
 \hline
 アクション&ギリシア文字&$\alpha,\omega$\\
+有名なアクション&スラント・小文字&$\mPut,\mRand$\\
 \hline
 添字&ローマン，小文字&$x_\mLeft,x_\mRight$\\
 \hline
@@ -1537,7 +1544,7 @@ $\mType{a}$ 型の変数を $\mMaybeType{a}$ 型の変数に代入するには�
 \end{equation}
 と書く．\footnote{\haskell では \code{u = Just x} と書く．Maybeを表す疑問符は省略する．}
 
-変数 $x$ が一度ゼロ除算の危険性に汚染された場合，その後ずっとMaybe変数に入れ続けなければいけない．そこで，普通の変数を引数にとる関数 $f$ にMaybe変数 $\mMaybe{u}$ を食わせるには，リストの時と同じようなマップ演算子が必要になる．具体的には，変数 $x$ が $\mType{Int}$ 型として，Maybe変数 $\mMaybe{u}=\mMaybeWith{x}$ が与えられたとき
+変数 $x$ が一度ゼロ除算の危険性に「汚染」された場合，その後ずっとMaybe変数に入れ続けなければいけない．そこで，普通の変数を引数にとる関数 $f$ にMaybe変数 $\mMaybe{u}$ を食わせるには，リストの時と同じようなマップ演算子が必要になる．具体的には，変数 $x$ が $\mType{Int}$ 型として，Maybe変数 $\mMaybe{u}=\mMaybeWith{x}$ が与えられたとき
 \begin{equation}
 f\mMapMaybe\mMaybe{u}=\mMaybeWith{fx}
 \end{equation}
@@ -1565,7 +1572,7 @@ f\mMapMaybe\mNothing&=\mNothing
 \begin{equation}
 \mMaybe{v}=f\mMapMaybe\mMaybe{u}
 \end{equation}
-のようにMaybeバージョンのマップ演算子 $\mMapMaybe$ を用いることにする．\footnote{\haskell ではMaybeバージョンのマップ演算子に特別な記号，関数名が与えられていない．その代わり第\ref{ch:functor}章で述べる一般マップ演算子 $\mMap$ に相当する \code{fmap} 関数を用い \code{v = fmap f u} または \code{v = f <\$> u} のようにする．\haskell は型推論を行なうため変数 \code{u} がMaybeであればMaybeバージョンのマップ演算子（関数）が適用され，もし \code{u} がリストであれば通常のマップ関数である \code{map} が適用される．}
+のようにMaybeバージョンのマップ演算子 $\mMapMaybe$ を用いることにする．これはプログラムの安全性のためである．変数が一旦ゼロ除算の可能性に汚染されたら，最後までMaybeに包んでおかねばならない．\footnote{\haskell ではMaybeバージョンのマップ演算子に特別な記号，関数名が与えられていない．その代わり第\ref{ch:functor}章で述べる一般マップ演算子 $\mMap$ に相当する \code{fmap} 関数を用い \code{v = fmap f u} または \code{v = f <\$> u} のようにする．\haskell は型推論を行なうため変数 \code{u} がMaybeであればMaybeバージョンのマップ演算子（関数）が適用され，もし \code{u} がリストであれば通常のマップ関数である \code{map} が適用される．}
 
 \python でMaybeの概念を忠実になぞることは難しい．と言うのも\python は動的型付け言語であるため，型コンストラクタという概念が無いからだ．一方でMaybeの概念を静的型付け言語である\cxx や\java で実現することは出来る．そこで\cxx の本物のコードで示しておこう．ただしポインタを使わないでおいたので\cxx プログラマも\java プログラマも参考にできるだろう．
 
@@ -1857,7 +1864,7 @@ w=f\mMap u\mAppMap v
 \label{eq:def-of-map-func}
 f\mMapFunc g=f(g\mAnonParameter)
 \end{equation}
-と定義する．
+と定義する．ただし $f,g$ は関数である．
 
 こんな定義で大丈夫だろうか．念のため一般マップ演算子の型を思い出すことにしよう．一般マップ演算子の型は
 \begin{equation}
@@ -2305,6 +2312,8 @@ f\mBindFunc\phi=\mLambdaExp{r}{f(\phi r)r}
 \chapter{IO}
 \label{ch:io}
 
+A...
+
 \section{アクション}
 
 計算機の状態を変えることを\keyword{副作用}と呼ぶ．副作用とは変数への破壊的代入に他ならない．例えば，計算機は画面やプリンタに何かを出力するが，それは画面やプリンタという「変数」を書き換えていることになる．また例えば擬似乱数の生成も副作用である．呼び出されるたびに異なる値を返す擬似乱数生成関数は，毎回同じ値を返すべき参照透過性とは真逆の性質を持つ．
@@ -2325,13 +2334,13 @@ f\mBindFunc\phi=\mLambdaExp{r}{f(\phi r)r}
 
 プログラムが計算機状態を変える一例として，画面に値を出力することを考える．画面に値を出力するアクションを $\mPut$ と名付けよう．例えば次のプログラム例は，画面に ``Hello, world.'' と書き出すものとする．
 \begin{equation}
-\omega=\mPut s\mWhere{s}{\textsl{``Hello, world.''}}
+\omega=\mPut s\mWhere{s}{\mString{``Hello, world.''}}
 \end{equation}
 アクション $\mPut$ は変数を一つとり，その値を画面へ出力すなち破壊的代入を行う．では $\omega=\mPut\alpha$ とすればアクション $\alpha$ が実行されて，晴れて擬似乱数が生成され，その値が画面へ出力されるだろうか．もちろんそうはならないのである．
 
 ここに $\alpha$ はアクションであり，変数ではない．一方で，アクション $\mPut$ は変数を受け取る．つまり，アクションから何らかの方法で値を「安全に」抜き取らないといけない．ここで安全性にこだわるのは，アクション $\alpha$ が副作用を持つからである．副作用を参照透過な変数へ伝播させてはいけない．副作用を持つアクションは，副作用を持つアクションへのみ受け継がれなければならない．
 
-この話は何かと似ていないだろうか．そう，Maybeである．一度ゼロ除算の可能性に汚染されたコンテナ変数は，コンテナから出すことが許されないのである．
+この話は何かと似ていないだろうか．そう，Maybeである．一度ゼロ除算の可能性に汚染されたコンテナ変数は，コンテナから出すことが許されないのである．Maybeを返す関数$f$の戻り値
 \begin{equation}
 fx=\begin{cases}
 \mMaybeWith{1/x}&\mIf x\neq0\\
@@ -2354,19 +2363,13 @@ hx=g\mBind fx
 \end{equation}
 とする．これは第\ref{ch:monad}章で見たバインド演算子と同じものである．同じバインド演算子が使えるカラクリは，次節で見ていくことにする．
 
-% Maybeに安全性を追加．
-
-
-
-
-
-\section{IOモナド}
+\section{IOモナド*}
 
 $$
 \mPut s
 $$
 
-\section{a}
+\section{a*}
 
 
 \section{余計な話：do記法}
@@ -2429,6 +2432,7 @@ do記法には $\mDoEq$ の他に，我々の $\mLet$ とよく似た $\mDoLetKe
 \end{multline}
 この例では変数 $y,y'$ が2回使われている．
 
+我々はバインド演算子を使った通常の記法とdo記法のいずれか読みやすい方を採用すれば良い．
 
 % main = 
 % do
