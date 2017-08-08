@@ -891,9 +891,7 @@ a_1\mBinOp a_2\mIn\mSet{A}
 
 計算機にとって都合の良い整数の範囲を考慮した整数型を $\mIntType$ で表す．計算機にとって都合の良い整数の範囲とは，例えば64ビット計算機の場合 $-2^{63}$ から $2^{63}-1$ までの範囲のことである．
 
-% Integer
-
-計算機は残念ながら無限精度の実数を扱えない．そこで標準精度の浮動小数点数を表す型を $\mFloatType$ で表す．
+計算機は残念ながら無限精度の実数を扱えない．そこで標準精度の浮動小数点数を表す型を $\mFloatType$ で表し，倍精度の浮動小数点を表す型を $\mDoubleType$ で表す．
 
 もう一つ，計算機ならではの型を導入しておこう．それは $\mIntType$ とよく似ているが，特別に文字を扱うために考えられた型 $\mCharType$ である．文字といってもその中身は整数である．整数ではあるが，わざわざ別な型とするのには理由がある．歴史的には文字は小さな整数として表現されることが多かったため，計算機のメモリが高価であった時代背景もあり，メモリの節約のために文字を表す型が存在した．現在では，文字が数値にエンコードされる方式がより複雑になってきたために，文字を通常の数値と区別するために特別な型が用意さてれいる．
 
@@ -1104,7 +1102,35 @@ $\mIntType$
     &$\checkmark$
     &$\checkmark$\\
 \hline
+$\mIntegerType$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$\\
+\hline
 $\mFloatType$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &$\checkmark$
+    &
+    &\\
+\hline
+$\mDoubleType$
     &$\checkmark$
     &$\checkmark$
     &$\checkmark$
@@ -1122,7 +1148,17 @@ $\mFloatType$
 \end{center}
 \end{table*}
 
-\section{この章のまとめ*}
+\section{この章のまとめ}
+
+\begin{enumerate}
+\item 集合 $\mSet{A}$ の元 $a_1,a_2\mIn\mSet{A}$ について，二項演算子 $\mBinOp$ があり $a_1\mBinOp a_2\mIn\mSet{A}$ であるとき，すなわち演算子が全域性を有する場合 $\mTupleWith{\mSet{A},\mBinOp}$ のことをマグマと呼ぶ．
+\item マグマ $\mSet{A}$ の元 $a_1,a_2,a_3\mIn\mSet{A}$ について $(a_1\mBinOp a_2)\mBinOp a_3=a_1\mBinOp(a_2\mBinOp a_3)$ である場合，すなわち演算子が結合性を有する場合 $\mSet{A}$ を半群と呼ぶ．
+\item 半群のうち $\mZero\mIn\mSet{A}$ なる元 $\mZero$ があり，任意の $a\mIn\mSet{A}$ に対して $\mZero\mBinOp a=a\mBinOp\mZero=a$ である場合，すなわち単位元が存在する場合 $\mSet{A}$ をモノイドと呼ぶ．
+\item 関数は集合 $\mSet{A}$ から集合 $\mSet{B}$ への写像という型を持つ． % ***写像***
+\item 複数引数を取る関数はカリー化によって，1引数をとる複数の関数へ分解される．
+\item 型のインタフェースをまとめたものを型クラスと呼ぶ． % ***インタフェース***
+\end{enumerate}
+
 
 
 \chapter{リスト}
