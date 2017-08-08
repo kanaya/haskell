@@ -92,8 +92,8 @@
 \newcommand{\mSpecialVar}[1]{\mathrm{#1}} % Internal use
 \newcommand{\mFirstVar}{\mSpecialVar{first}}
 \newcommand{\mRestVar}{\mSpecialVar{rest}}
-\newcommand{\mAnonParameter}{\diamond}
-\newcommand{\mAnyParameter}{\_}
+\newcommand{\mAnonParam}{\diamond}
+\newcommand{\mAnyParam}{\_}
 
 % Functions
 \DeclareMathOperator{\mHead}{head}
@@ -324,7 +324,7 @@ do記法中のキーワード&タイプライタ&$\mDoLetKeyword$\\
 記号&意味&最初に登場するページ\\
 \hline\hline
 $\mLambda, \mLambdaArrow$&ラムダ式&\\
-$\mAnonParameter$&無名パラメタ&\\
+$\mAnonParam$&無名パラメタ&\\
 \hline
 $\mIn$&集合の元&\\
 $\in$&集合の元&\\
@@ -530,11 +530,11 @@ lambda x: 1+x
 \end{equation}
 のように引数を並べて書く．
 
-本書では新たに，次のラムダ式記法も導入する．式中に記号 $\mAnonParameter$ が現れた場合，その式全体がラムダ式であるとみなす．記号 $\mAnonParameter$ の部分には引数が入る．第 $n$ 番目の $\mAnonParameter$ には第 $n$ 番目の引数が入る．例えばラムダ式 $\mLambdaExp{xy}{x+y}$ は
+本書では新たに，次のラムダ式記法も導入する．式中に記号 $\mAnonParam$ が現れた場合，その式全体がラムダ式であるとみなす．記号 $\mAnonParam$ の部分には引数が入る．第 $n$ 番目の $\mAnonParam$ には第 $n$ 番目の引数が入る．例えばラムダ式 $\mLambdaExp{xy}{x+y}$ は
 \begin{equation}
-\mAnonParameter+\mAnonParameter
+\mAnonParam+\mAnonParam
 \end{equation}
-と書いても良い．式を左から読んで1番目の $\mAnonParameter$ が元々の $x$ すなわち第1引数を，2番目の $\mAnonParameter$ が元々の $y$ すなわち第2引数を意味する．この省略記法はプログラミング言語\scheme における\code{cut}プロシジャに由来する．\footnote{この記法は\haskell にはない．}
+と書いても良い．式を左から読んで1番目の $\mAnonParam$ が元々の $x$ すなわち第1引数を，2番目の $\mAnonParam$ が元々の $y$ すなわち第2引数を意味する．この省略記法はプログラミング言語\scheme における\code{cut}プロシジャに由来する．\footnote{この記法は\haskell にはない．}
 
 \section{パタンマッチとガード}
 
@@ -561,7 +561,7 @@ f=\mLambdaExp{x}{(\sin x)/x}
 \begin{equation}
 fx=(\sin x)/x
 \end{equation}
-と書いても良い．\footnote{\haskell では $f=\mLambdaExp{x}{(\sin x)/x}$ を \code{f = \textbackslash x -> (sin x)/x} と書き，一方 $fx=(\sin x)/x$ を \code{f x = (sin x)/x} と書く．}
+と書いても良い．この書き方は今後頻出するので，是非覚えておいてもらいたい．\footnote{\haskell では $f=\mLambdaExp{x}{(\sin x)/x}$ を \code{f = \textbackslash x -> (sin x)/x} と書き，一方 $fx=(\sin x)/x$ を \code{f x = (sin x)/x} と書く．}
 
 関数に\keyword{スペシャルバージョン}がある場合はそれらを列挙する．例えば引数が $0$ の場合は特別に戻り値も $0$ であり，その他の場合は関数 $f$ と同じ振る舞いをする関数 $f'$ を考える．このとき $f'$ は
 \begin{equation}
@@ -584,11 +584,11 @@ f'x&=(\sin x)/x
 f'x=\mCaseOf{x}\left\{
 \begin{split}
 0&\mIfSo1\\
-\mAnyParameter&\mIfSo(\sin x)/x
+\mAnyParam&\mIfSo(\sin x)/x
 \end{split}
 \right.
 \end{equation}
-のように書く．ここに $\mAnyParameter$ は任意の値の意味である．パタンマッチは上から順番にマッチングしていくため，この場合は $0$ 以外を意味する．\footnote{\haskell では
+のように書く．ここに $\mAnyParam$ は任意の値の意味である．パタンマッチは上から順番にマッチングしていくため，この場合は $0$ 以外を意味する．\footnote{\haskell では
 \begin{verbatim}
   f' x = case x of
     0 -> 1
@@ -651,10 +651,10 @@ y=fx'\mWhere{x'}{1+x}
 \item 変数 $x,y$ に関数 $g$ を適用することを $gxy$ と書く．関数適用は左結合するので $gxy=(gx)y$ である．この関数 $(gx)$ は部分適用された関数と呼ぶ．
 \item 関数はラムダ式で定義する．
 \item ラムダ式は $\mLambdaExp{x}{(\sin x)/x}$ のように表記する．
-\item ラムダ式は $f\mAnonParameter$ のように無名パラメタ $\mAnonParameter$ を用いて表記しても良い．
+\item ラムダ式は $f\mAnonParam$ のように無名パラメタ $\mAnonParam$ を用いて表記しても良い．
 \item 関数定義 $f=\mLambdaExp{x}{(\sin x)/x}$ は $fx=(\sin x)/x$ と省略表記できる．
 \item 関数定義にはパタンマッチが使える．例えば $f'0=1;f'x=(\sin x)/x$ と定義できる．
-\item パタンマッチは関数本体に書いても良い．関数 $f'$ の例で言えば $f'=\mCaseOf{x}0\mIfSo1;\mAnyParameter\mIfSo(\sin x)/x$ と定義できる．
+\item パタンマッチは関数本体に書いても良い．関数 $f'$ の例で言えば $f'=\mCaseOf{x}0\mIfSo1;\mAnyParam\mIfSo(\sin x)/x$ と定義できる．
 \item 関数定義にはガードが使える．例えば $f''\mGuard{x<0}=0;f''\mGuard{x\equiv0}=1;f''\mGuard{\mOtherwise}=(\sin x)/x$ と定義できる．
 \item 局所変数は $y=\mLetIn{x'}{\dots}{fx'}$ または $y=fx'\mWhere{x'}{\dots}$ という書き方で導入できる．
 \end{enumerate}
@@ -689,10 +689,10 @@ y=fx'\mWhere{x'}{1+x}
 \end{equation}
 であるから，部分適用が可能である．式\eqref{eq:star-x-y}から第2引数 $y$ を取り除いて $(\mBinOp)x$ という「餓えた」1引数関数を取り出せる．例えば関数 $((+)1)$ は引数に $1$ を加える関数である．\footnote{\haskell では $((+)1)$ を \code{((+)1)} と書く．}
 
-二項演算子の部分適用に限って，\keyword{セクション}と言う記法も用いられる．二項演算子 $\mBinOp$ に対して $(\mBinOp x)$ および $(x\mBinOp)$ はそれぞれ
+二項演算子の部分適用に限って\keyword{セクション}と言う記法も用いられる．二項演算子 $\mBinOp$ に対して $(\mBinOp x)$ および $(x\mBinOp)$ はそれぞれ
 \begin{align}
-(\mBinOp x)&=\mAnonParameter\mBinOp x\\
-(x\mBinOp)&=x\mBinOp\mAnonParameter
+(\mBinOp x)&=\mAnonParam\mBinOp x\\
+(x\mBinOp)&=x\mBinOp\mAnonParam
 \end{align}
 である．例えば $(1+)$ は $((+)1)$ と等価である． \footnote{\haskell では $(1+)$ を \code{(1+)} と書く．}
 
@@ -724,7 +724,7 @@ z=f_2(f_1x)
 
 ここで，引数のことは忘れて，関数 $f_1$ と関数 $f_2$ を先に\keyword{合成}しておきたいとしよう．その合成を $f_2\mComp f_1$ と書く．演算子 $\mComp$ は\keyword{関数合成演算子}と呼ぶ．合成はラムダ式を使って
 \begin{equation}
-f_2\mComp f_1=f_2(f_1\mAnonParameter)
+f_2\mComp f_1=f_2(f_1\mAnonParam)
 \end{equation}
 と定義できる．関数合成演算子 $\mComp$ は関数適用よりも優先順位が高く，$\left(f_2\mComp f_1\right)x$ は単に $f_2\mComp f_1x$ と書いても良い．この記法は括弧の数を減らすためにしばしば用いられる．式\eqref{eq:ffx}は関数合成演算子を用いると
 \begin{equation}
@@ -734,7 +734,7 @@ z=f_2\mComp f_1x
 
 関数合成演算子とは逆に，優先順位の低い\keyword{関数適用演算子}も考えておくと便利なこともある．関数適用演算子 $\mApply$ を関数合成演算子と同じように次のように定義しておく．
 \begin{equation}
-f_2\mApply f_1=f_2\left(f_1\mAnonParameter\right)
+f_2\mApply f_1=f_2\left(f_1\mAnonParam\right)
 \end{equation}
 演算子 $\mApply$ の優先順位は関数適用も含めあらゆる演算よりも低いものとする．関数適用演算子を用いて式\eqref{eq:ffx}を書き直すと
 \begin{equation}
@@ -803,6 +803,14 @@ f&=\mLambdaExp{x}{x+a}
 \haskell ではそもそも変数への破壊的代入がないので，関数 $f$ がレキシカルクロージャであるかどうか悩む必要はない．あえて言えば，\haskell ではラムダ式はいつもレキシカルクロージャである．もしあなたのそばの\cxx プログラマが「え？\haskell にはレキシカルクロージャが無いの？」などと聞いてきたら，「ええ，\haskell には破壊的代入すらありませんから」と答えておこう．
 
 \section{この章のまとめ*}
+
+\begin{enumerate}
+\item 関数と演算子は同じものである．
+\item 任意の二項演算子 $\mBinOp$ について $x\mBinOp y$ と $(\mBinOp)xy$ は全く同じ意味である．
+\item 任意の二項演算子 $\mBinOp$ について $(\mBinOp x)=\mAnonParam\mBinOp x$ であり，$(x\mBinOp)=x\mBinOp\mAnonParam$ である．これらの記法をセクション記法と呼ぶ． 
+\item 関数 $f$ と関数 $g$ を合成した関数を $f\mComp g$ と書く．
+\item 式 $f\mApply$
+\end{enumerate}
 
 
 
@@ -1332,7 +1340,7 @@ f\mMapList&\mIn\mProj{\mListType{a}}{\mListType{b}}
 
 \section{余計な話：リストの実装}
 
-ここでリストの実装について述べておかねばならない．紙上ではリストは自由に考えられるが，計算機上ではそれほど自由ではないからである．我々はリストを\lisp におけるリストと同じ構造を持つものとする．\lisp におけるリストとは変数 $\mFirstVar$ と変数 $\mRestVar$ からなるペアの集合である．変数 $\mFirstVar$ がリストの要素を参照し，変数 $\mRestVar$ が次のペアを参照する．リストの最後のペアの $\mRestVar$ は空リストを参照する特別な値を持つ．
+ここでリストの実装について述べておこう．紙上ではリストは自由に考えられるが，計算機上ではそれほど自由ではないからである．我々はリストを\lisp におけるリストと同じ構造を持つものとする．\lisp におけるリストとは変数 $\mFirstVar$ と変数 $\mRestVar$ からなるペアの集合である．変数 $\mFirstVar$ がリストの要素を参照し，変数 $\mRestVar$ が次のペアを参照する．リストの最後のペアの $\mRestVar$ は空リストを参照する特別な値を持つ．
 
 リストのための特別な表現
 \begin{equation}
@@ -1368,6 +1376,8 @@ f\mMapList\mEmptyList
 \mTail\mList{x}&\dots\text{$\mList{x}$の2番目以降の要素からなるリスト}
 \end{align*}
 これらは\lisp  の \code{car} 関数，\code{cdr} 関数と同じものであり，この二者を用いればどのようなリストの処理も可能である．
+
+なお\haskell のランタイムはこの通りの実装をしているとは限らない．あとで見るようにリストのマップ演算子は他の演算子（後述のピュア演算子とアプリカティブマップ演算子，またはピュア演算子とバインド演算子）から導出できるためである．
 
 \section{この章のまとめ}
 
@@ -1890,7 +1900,7 @@ w=f\mMap u\mAppMap v
 新しい関手を定義する．関手の本質はマップ演算子であった．この新しい関手のマップ演算子は $\mMapFunc$ と書き， 
 \begin{equation}
 \label{eq:def-of-map-func}
-f\mMapFunc g=f(g\mAnonParameter)
+f\mMapFunc g=f(g\mAnonParam)
 \end{equation}
 と定義する．ただし $f,g$ は関数である．
 
@@ -1963,7 +1973,7 @@ f\mMapFunc g=\mFuncWith{f}\mAppMapFunc g
 \end{equation}
 である．（このとき関数 $g$ は $\mProj{\mType{r}}{\mType{a}}$ という型を持つ．）値コンストラクタの定義は
 \begin{equation}
-\mFuncWith{f}=\mLambdaExp{\mAnyParameter}{f}
+\mFuncWith{f}=\mLambdaExp{\mAnyParam}{f}
 \end{equation}
 である．関数 $\mFuncWith{f}$ は $\mType{r}$ 型の引数を取るがそれを無視し，関数 $f\mIn\mProj{\mType{a}}{\mType{b}}$ を返す．この定義は第\ref{ch:io}章でもう一度登場する．
 
@@ -2119,13 +2129,13 @@ a=i\mBind u
 \begin{equation}
 v=f\mMap u=\mPureWith{f}\mAppMap u
 \end{equation}
-であった．式\eqref{eq:def-of-i}から $ix=\mPureWith{fx}$ すなわち $i=\mPureWith{f\mAnonParameter}$ の関係を抜き出すと式\eqref{eq:i-love-u}は
+であった．式\eqref{eq:def-of-i}から $ix=\mPureWith{fx}$ すなわち $i=\mPureWith{f\mAnonParam}$ の関係を抜き出すと式\eqref{eq:i-love-u}は
 \begin{equation}
-a=\mPureWith{f\mAnonParameter}\mBind u
+a=\mPureWith{f\mAnonParam}\mBind u
 \end{equation}
 となる．いま $y=fx$ であったから $a=v$ であり，最終的に
 \begin{equation}
-v=f\mMap u=\mPureWith{f}\mAppMap u=\mPureWith{f\mAnonParameter}\mBind u
+v=f\mMap u=\mPureWith{f}\mAppMap u=\mPureWith{f\mAnonParam}\mBind u
 \end{equation}
 を得る．これが一般バインド演算子と一般アプリカティブマップ演算子，一般マップ演算子の関係である．
 
@@ -2137,9 +2147,9 @@ v=f\mMap u=\mPureWith{f}\mAppMap u=\mPureWith{f\mAnonParameter}\mBind u
 関手の一般マップ演算子 $(\mMap)$ は次の規則に従う．
 \begin{enumerate}
 \item 単位元の存在: $\mId\mMap u=u$
-\item 合成則: $(f\mComp g)\mMap=(f\mMap)\mComp{}(g\mMap)$%=f\mMap{}(g\mMap\mAnonParameter)$
+\item 合成則: $(f\mComp g)\mMap=(f\mMap)\mComp{}(g\mMap)$%=f\mMap{}(g\mMap\mAnonParam)$
 \end{enumerate}
-ただし関数 $\mId$ は $\mId x=x$ で定義される．もちろん $\mId=\mAnonParameter$ と定義しても同じである．
+ただし関数 $\mId$ は $\mId x=x$ で定義される．もちろん $\mId=\mAnonParam$ と定義しても同じである．
 % https://en.wikibooks.org/wiki/Haskell/The_Functor_class#The_functor_laws
 
 例えば $\mId\mMap\mList{x}$ は $\mId\mList{x}$ であり，結局は $\mList{x}$ である．単位元の存在とは，そのような関数 $\mId$ があるという規則である．
@@ -2147,7 +2157,7 @@ v=f\mMap u=\mPureWith{f}\mAppMap u=\mPureWith{f\mAnonParameter}\mBind u
 合成則のほうは $\mList{x}=\mListWith{x}$ を例に考えるとわかりやすく，
 \begin{align}
 (f\mMap)\mComp(g\mMap)\mList{x}
-&=(f\mMap{}(g\mMap\mAnonParameter))\mList{x}\\
+&=(f\mMap{}(g\mMap\mAnonParam))\mList{x}\\
 &=f\mMap{}(g\mMap\mList{x})\\
 &=f\mMap{}\mListWith{gx}\\
 &=\mListWith{(f\mComp g)x}\\
@@ -2165,7 +2175,7 @@ v=f\mMap u=\mPureWith{f}\mAppMap u=\mPureWith{f\mAnonParameter}\mBind u
 % \item $f\mMap=\mPureWith{f}\mAppMap$ --- （上述の四つの法則から導かれる）
 \end{enumerate}
 % https://en.wikibooks.org/wiki/Haskell/Applicative_functors#Applicative_functor_laws
-ここでも $\mId=\mAnonParameter$ である．
+ここでも $\mId=\mAnonParam$ である．
 
 アプリカティブマップ演算子の準同型則は $w=\mPureWith{fx}$ とした時に，
 \begin{align}
@@ -2194,7 +2204,7 @@ x\xrightarrow{f}fx\xrightarrow{\mPureWith{\dots}}&w
 \begin{enumerate}
 \item 右単位元の存在: $i\mBind{}\mPureWith{x}=ix$
 \item 左単位元の存在: $\mPureWith{\mId}\mBind u=u$
-\item 結合則: $i\mBind{}(j\mBind v)=(i\mBind{}(j\mAnonParameter))\mBind v$
+\item 結合則: $i\mBind{}(j\mBind v)=(i\mBind{}(j\mAnonParam))\mBind v$
 \end{enumerate}
 % https://wiki.haskell.org/Monad_laws
 % https://en.wikibooks.org/wiki/Haskell/Category_theory#The_monad_laws_and_their_importance
@@ -2204,9 +2214,9 @@ i\mBind(j\mBind v)&=i\mBind\mPureWith{gy}\\
 &=\mPureWith{f(gy)}\\
 &=\mPureWith{f\mComp gy}
 \end{align}
-である一方，$k=(i\mBind{}(j\mAnonParameter))$ とすると
+である一方，$k=(i\mBind{}(j\mAnonParam))$ とすると
 \begin{align}
-kz&=(i\mBind(j\mAnonParameter))z\\
+kz&=(i\mBind(j\mAnonParam))z\\
 &=i\mBind(jz)\\
 &=\mPureWith{f(gz)}\\
 &=\mPureWith{f\mComp gz}
@@ -2290,7 +2300,7 @@ Maybe
   &$\mFuncWith{x}$
   &$\mAppMapFunc$
   &$\mMapFunc$
-  &$\mAnonParameter$
+  &$\mAnonParam$
   &$\mComp$\\
 \hline
 整数
@@ -2316,7 +2326,7 @@ Maybe
 \section{余計な話：関数モナド}
 関数にはピュア演算子が定義されていて
 \begin{equation}
-\mFuncWith{f}=\mLambdaExp{\mAnyParameter}{f}
+\mFuncWith{f}=\mLambdaExp{\mAnyParam}{f}
 \end{equation}
 であった．そこで，もし関数のバインド演算子があれば関数はモナドとして振舞うことも出来るはずである．実際，
 \begin{equation}
@@ -2326,7 +2336,7 @@ f\mBindFunc\phi=\mLambdaExp{r}{f(\phi r)r}
 % http://south37.hatenablog.com/entry/2014/04/27/Haskell%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E3%83%A2%E3%83%8A%E3%83%89
 % https://ja.wikipedia.org/wiki/%E3%83%A2%E3%83%8A%E3%83%89_(%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0)
 
-なお関数はモノイドとしての性質も持つ．関数 $\mId=\mAnonParameter$ とすると，任意の関数 $f$ に対して
+なお関数はモノイドとしての性質も持つ．関数 $\mId=\mAnonParam$ とすると，任意の関数 $f$ に対して
 \begin{equation}
 \mId\mComp f=f\mComp\mId=f
 \end{equation}
@@ -2400,7 +2410,7 @@ $\mIOType$ のつく型はモナドである．モナドには，バインド演
 
 $\mIOUnitType$ 型の場合，ピュア演算子は何も返す必要がないから
 \begin{equation}
-\mPureWith{\mAnyParameter}=\mTupleWith{}
+\mPureWith{\mAnyParam}=\mTupleWith{}
 \end{equation}
 であるとする．ここに $\mTupleWith{}$ は空のタプルで，「ユニット」と呼ぶ．一方で $\mIOUnitType$ 型のバインド演算子は，処理系の奥深くに隠されている．
 
@@ -2409,7 +2419,13 @@ $\mIOUnitType$ 型の場合，ピュア演算子は何も返す必要がない�
 
 % http://tnomura9.exblog.jp/12069145/
 
-\section{a*}
+\section{関数であるということ*}
+
+IOモナドの変数は，たとえ値を読み出すだけであっても必ず関数適用が必要である．それは，IOモナドの変数が「自分が読み出されたこと」を知る必要があるからである．IOモナドの変数は，自分が読み出されたタイミングで副作用を発生させる．これは\objectivec や\swift に見られる getter メソッドと同じ考え方である．
+
+IOモナドの変数値を読み出すために行われる関数呼び出しはダミーである場合があり，戻り値はしばしば捨てられる．
+
+変数をダミーの関数で包み，それをさらにIOモナドで包んだのがIOモナド変数である．
 
 
 \section{余計な話：do記法}
@@ -2450,12 +2466,12 @@ do記法には $\mDoEq$ の他に，我々の $\mLet$ とよく似た $\mDoLetKe
 \begin{align}
 \mDo{\alpha x}&=\alpha x\\
 \mDo{y\mDoEq\alpha x\mDoNext\beta y}&=\beta\mBind\alpha x\\
-\mDo{\alpha x\mDoNext\beta y}&=(\mLambdaExp{\mAnyParameter}{\beta y})\mBind \alpha x\label{eq:do-alpha-beta}\\
+\mDo{\alpha x\mDoNext\beta y}&=(\mLambdaExp{\mAnyParam}{\beta y})\mBind \alpha x\label{eq:do-alpha-beta}\\
 \mDo{\mDoLet{y}{fx}\mDoNext\alpha y}&=\alpha y\mWhere{y}{fx}\\
 \mDo{y\mDoEq\alpha x\mDoNext\mDoLet{z}{fy}\mDoNext\beta z}&=\beta\mBind{}(f\mMap\alpha x)\\
 \mDo{y\mDoEq\alpha x\mDoNext y'\mDoEq\alpha'x'\mDoNext\mDoLet{z}{fyy'}\mDoNext\beta z}&=\beta\mBind{}(f\mMap\alpha x\mAppMap\alpha'x')
 \end{align}
-なお $\mFuncWith{f}=\mLambdaExp{\mAnyParameter}{f}$ の関係を用いると式\eqref{eq:do-alpha-beta}はより簡潔に
+なお $\mFuncWith{f}=\mLambdaExp{\mAnyParam}{f}$ の関係を用いると式\eqref{eq:do-alpha-beta}はより簡潔に
 \begin{equation}
 \mDo{\alpha x\mDoNext\beta y}=\mFuncWith{\beta y}\mBind\alpha x
 \end{equation}
@@ -2466,7 +2482,7 @@ do記法には $\mDoEq$ の他に，我々の $\mLet$ とよく似た $\mDoLetKe
 \mDo{y\mDoEq\alpha x\mDoNext y'\mDoEq\alpha'x'\mDoNext\mDoLet{z}{fyy'}\mDoNext\beta z\mDoNext\mDoLet{z'}{f'yy'}\mDoNext\beta'z'}\\
 =
 (\mLambdaExp{yy'}{(
-(\mLambdaExp{\mAnyParameter}{\mLetIn{z}{fyy'}{\beta z}})
+(\mLambdaExp{\mAnyParam}{\mLetIn{z}{fyy'}{\beta z}})
 \mBind{}(\mLetIn{z'}{f'yy'}{\beta'z'}))})
 (\alpha x)(\alpha'x')
 \end{multline}
