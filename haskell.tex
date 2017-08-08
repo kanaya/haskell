@@ -606,8 +606,8 @@ f''x&\mGuard{x<0}=0\\
 \end{equation}
 という風に定義する．\footnote{\haskell では
 \begin{verbatim}
-  f'' x | x < 0     = 0
-        | x == 0    = 1
+  f'' x | x<0       = 0
+        | x==0      = 1
         | otherwise = (sin x)/x
 \end{verbatim}
 と書く．}
@@ -660,7 +660,7 @@ y=fx'\mWhere{x'}{1+x}
 \end{enumerate}
 
 
-\chapter{さらにカリー風な書き方*}
+\chapter{さらにカリー風な書き方}
 
 \begin{leader}
 我々は関数とラムダ式の「カリー風」な書き方を見てきた．この章ではさらに演算子，関数合成，条件分岐についても「カリー風」な書き方を見ていく．
@@ -755,7 +755,7 @@ z=f_2\mApply f_1x
 \begin{pythoncode}
 \begin{verbatim}
 def f(x):
-  if x == 0:
+  if x==0:
     return 1
   else:
     return sin(x)/x
@@ -768,7 +768,7 @@ def f(x):
 fx
 =\mIfThenElse{x\equiv0}{1}{{}(\sin x)/x}
 \end{equation}
-のように $\mIf$ 節，$\mThen$ 節，及び $\mElse$ 節からなるものであって，$\mThen$ 節も $\mElse$ 節も省略できないものとする．$\mIf$ 節の式の値が真 $(\mTrue)$ であれば $\mThen$ 節の式が評価され，偽 $(\mFalse)$ であれば $\mElse$ 節の式が評価される．我々の条件式は\clang/\cxx における三項演算子と等しい．\footnote{\haskell では $fx=\mIfThenElse{x\equiv0}{1}{{}(\sin x)/x}$ を \code{f x = if x == 0 then 1 else (sin x)/x} と書く．}
+のように $\mIf$ 節，$\mThen$ 節，及び $\mElse$ 節からなるものであって，$\mThen$ 節も $\mElse$ 節も省略できないものとする．$\mIf$ 節の式の値が真 $(\mTrue)$ であれば $\mThen$ 節の式が評価され，偽 $(\mFalse)$ であれば $\mElse$ 節の式が評価される．我々の条件式は\clang/\cxx における三項演算子と等しい．\footnote{\haskell では $fx=\mIfThenElse{x\equiv0}{1}{{}(\sin x)/x}$ を \code{f x = if x==0 then 1 else (sin x)/x} と書く．}
 
 $\mIf$ 節の中身は真理値を返す関数であれば良いので，関数 $p$ を
 \begin{equation}
@@ -787,7 +787,7 @@ fx=\begin{cases}
 (\sin x)/x&\mOtherwise
 \end{cases}
 \end{equation}
-左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっていることに注目しよう．
+左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっていることに注目しよう．\footnote{\haskell ではいつも \code{if ... then ... else ...} を使った式にする．}
 
 \section{余計な話：クロージャ}
 
@@ -802,14 +802,16 @@ f&=\mLambdaExp{x}{x+a}
 
 \haskell ではそもそも変数への破壊的代入がないので，関数 $f$ がレキシカルクロージャであるかどうか悩む必要はない．あえて言えば，\haskell ではラムダ式はいつもレキシカルクロージャである．もしあなたのそばの\cxx プログラマが「え？\haskell にはレキシカルクロージャが無いの？」などと聞いてきたら，「ええ，\haskell には破壊的代入すらありませんから」と答えておこう．
 
-\section{この章のまとめ*}
+\section{この章のまとめ}
 
 \begin{enumerate}
 \item 関数と演算子は同じものである．
 \item 任意の二項演算子 $\mBinOp$ について $x\mBinOp y$ と $(\mBinOp)xy$ は全く同じ意味である．
 \item 任意の二項演算子 $\mBinOp$ について $(\mBinOp x)=\mAnonParam\mBinOp x$ であり，$(x\mBinOp)=x\mBinOp\mAnonParam$ である．これらの記法をセクション記法と呼ぶ． 
 \item 関数 $f$ と関数 $g$ を合成した関数を $f\mComp g$ と書く．
-\item 式 $f\mApply$
+\item 式 $f\mApply gx$ は $f(gx)$ の意味である．
+\item 条件分岐は $\mIfThenElse{x}{y}{z}$ と書き，$x\equiv\mTrue$ の時には $y$ が，$x\equiv\mFalse$ のときには $z$ が式の値になる．
+\item \haskell のラムダ式はいつもレキシカルクロージャである．
 \end{enumerate}
 
 
@@ -1159,7 +1161,7 @@ ls = [x*2 for x in range(0, 10)]
 \begin{equation}
 \mList{x}=\mListWith{x*2\mListGuard{x\mFrom{\mListWith{0,1\dotsb9}}}}
 \end{equation}
-のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mFrom$を用いた．\footnote{\haskell では \code{xs = [x*2 | x <- [0,1..9]]} と書く．}
+のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mFrom$を用いた．\footnote{\haskell では \code{xs = [x*2 | x<-[0,1..9]]} と書く．}
 
 ガードの中の式は複数あっても良い．例えば
 \begin{equation}
@@ -1172,13 +1174,13 @@ ls = [x*2 for x in range(0, 10)]
 ls = [x+y for x in range(0,10) for y in range(0,6) if x+y > 3]
 \end{verbatim}
 \end{pythoncode}
-のことである．\footnote{\haskell では \code{xs = [x+y | x <- [0,1..9], y <- [0,1..5], x+y > 3]} と書く．}
+のことである．\footnote{\haskell では \code{xs = [x+y | x<-[0,1..9], y<-[0,1..5], x+y>3]} と書く．}
 
 リストは\keyword{結合}できる．例えばリスト$\mList{x}$ とリスト $\mList{y}$ を結合したリストは
 \begin{equation}
 \mList{x}\mAppend\mList{y}
 \end{equation}
-と表現する．\footnote{\haskell では \code{xs ++ ys} と書く．}
+と表現する．\footnote{\haskell では \code{xs++ys} と書く．}
 
 リストは\keyword{無限個}の要素を持っても良い．例えば自然数全体を表すリスト $\mList{n}$ は
 \begin{equation}
@@ -1484,6 +1486,14 @@ x*\mFact(x-1)&\mOtherwise
 \mSort(x:\mList{x})&=\mList{a}\mAppend\mListWith{x}\mAppend\mList{b}\mWhereII{\mList{a}}{\mListWith{a\mListGuard a\mFrom\mList{x},a<x}}{\mList{b}}{\mListWith{b\mListGuard b\mFrom\mList{x},b>x}}
 \end{align}
 
+a \footnote{\haskell では
+\begin{verbatim}
+  sort [] = []
+  sort x:xs = as++[x]++bs
+    where as = [a | a<-xs, a<x], bs = [b | b<-xs, b>x]
+\end{verbatim}
+と書く．
+}
 
 \section{この章のまとめ*}
 
@@ -2499,6 +2509,11 @@ do記法には $\mDoEq$ の他に，我々の $\mLet$ とよく似た $\mDoLetKe
 
 
 \section{この章のまとめ*}
+
+\begin{enumerate}
+\item do記法．
+\end{enumerate}
+
 
 \part{\haskell プログラミング}
 
