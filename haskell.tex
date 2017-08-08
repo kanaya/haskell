@@ -194,6 +194,7 @@
 \newcommand{\mFuncType}[1]{\(\mType{#1}\)_\mType{r}}
 \newcommand{\mDoubleType}{\mType{Double}}
 \newcommand{\mIntType}{\mType{Int}}
+\newcommand{\mIntegerType}{\mType{Integer}}
 \newcommand{\mIOType}{\mType{IO}}
 \newcommand{\mListType}[1]{\mListWith{\mType{#1}}}
 \newcommand{\mMaybeType}[1]{\mMaybeWith{\mType{#1}}}
@@ -377,7 +378,7 @@ $\mBindFunc$&関数のバインド演算子&\\
 \chapter{はじめに}
 
 \begin{leader}
-本書はプログラミング言語\haskell の入門書である．
+本書はプログラミング言語\haskell の入門書である．それと同時に，本書はプログラミング言語を用いた代数構造の入門書でもある．プログラミングと代数構造の間には密接な関係があるが，特に関数型プログラミングを実践する時にはその関係を意識する必要が出てくる．本書はその両者を同時に解説することを試みる．
 \end{leader}
 
 \section{\haskell という森*}
@@ -884,9 +885,13 @@ a_1\mBinOp a_2\mIn\mSet{A}
 
 我々がよく使う型はは論理型 $(\mBSet)$，整数型 $(\mZSet)$，実数型 $(\mRSet)$といったところだ．ただし数学者たちは型ではなく集合と呼ぶ．括弧内に示した記号は数学者たちが慣用的に用いているものである．我々は計算機での実装を考慮して，数学者たちとは若干異なる型と表記方法を扱うことにする．
 
-まず論理型 $(\mBSet)$ はそのまま論理型として $\mBoolType$ で表す．
+まず論理型 $(\mBSet)$ は $\mBoolType$ で表す．論理型 $(\mBSet)$ と $\mBoolType$ は厳密に一致する．
+
+整数型 $(\mZSet)$ に関しては $\mIntegerType$ で表す．この $\mIntegerType$ は厳密には整数型 $(\mZSet)$ とは異なるが，非常に近い．つまり，計算機にとっては非常識なぐらい大きな値を表すことができる．
 
 計算機にとって都合の良い整数の範囲を考慮した整数型を $\mIntType$ で表す．計算機にとって都合の良い整数の範囲とは，例えば64ビット計算機の場合 $-2^{63}$ から $2^{63}-1$ までの範囲のことである．
+
+% Integer
 
 計算機は残念ながら無限精度の実数を扱えない．そこで標準精度の浮動小数点数を表す型を $\mFloatType$ で表す．
 
@@ -1749,7 +1754,7 @@ u,v\mIn{}\mEitherType{a}{b}
 \end{align}
 のように使う．\footnote{\haskell ではそれぞれ \code{u = Left x} および \code{v = Right x} と書く．}
 
-Eitherはより複雑な計算エラーが発生する場合に用いる．Maybeが単に失敗を表す $\mNothing$ しか表現できなかったのに対し，Eitherは任意の型の変数で表現できる．習慣的に，正しい計算結果は $\mEitherRightWith{x}$ 値コンストラクタで格納し，エラーの情報は $\mEitherLeftWith{x}$ 値コンストラクタで格納する．
+Eitherはより複雑な計算エラーが発生する場合に用いる．Maybeが単に失敗を表す $\mNothing$ しか表現できなかったのに対し，Eitherは任意の型の変数で表現できる．習慣的に，正しい (right) 計算結果は $\mEitherRightWith{x}$ 値コンストラクタで格納し，エラーの情報は $\mEitherLeftWith{x}$ 値コンストラクタで格納する．
 
 \section{この章のまとめ*}
 
