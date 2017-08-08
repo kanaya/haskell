@@ -96,15 +96,17 @@
 \newcommand{\mAnyParam}{\_}
 
 % Functions
+\DeclareMathOperator{\mFact}{fact}
 \DeclareMathOperator{\mHead}{head}
 \DeclareMathOperator{\mId}{id}
 \DeclareMathOperator{\mIfFunc}{if}
-\DeclareMathOperator{\mFact}{fact}
+\DeclareMathOperator{\mMainFunc}{main}
 \DeclareMathOperator{\mPred}{pred}
 \DeclareMathOperator{\mSort}{sort}
 \DeclareMathOperator{\mSucc}{succ}
 \DeclareMathOperator{\mSum}{sum}
 \DeclareMathOperator{\mTail}{tail}
+\DeclareMathOperator{\mTake}{take}
 
 % Actions
 \newcommand{\mAction}[1]{\textsl{#1}}
@@ -204,6 +206,7 @@
 
 % IO Types
 \newcommand{\mIODoubleType}{{}^\mIOType\mDoubleType}
+\newcommand{\mIOIntType}{{}^\mIOType\mIntType}
 \newcommand{\mIOStringType}{{}^\mIOType\mStringType}
 \newcommand{\mIOUnitType}{{}^\mIOType\mUnitType}
 
@@ -375,7 +378,7 @@ $\mBindFunc$&関数のバインド演算子&\\
 
 \part{代数的構造とプログラミング}
 
-\chapter{はじめに}
+\chapter{はじめに*}
 
 \begin{leader}
 本書はプログラミング言語\haskell の入門書である．それと同時に，本書はプログラミング言語を用いた代数構造の入門書でもある．プログラミングと代数構造の間には密接な関係があるが，特に関数型プログラミングを実践する時にはその関係を意識する必要が出てくる．本書はその両者を同時に解説することを試みる．
@@ -817,7 +820,7 @@ f&=\mLambdaExp{x}{x+a}
 
 
 
-\chapter{型*}
+\chapter{型}
 
 \begin{leader}
 プログラマのいう型とは，数学者のいう集合のことである．
@@ -1162,6 +1165,8 @@ $\mDoubleType$
 
 
 \chapter{リスト}
+\label{ch:list}
+
 \begin{leader}
 型から作る型をコンテナと呼ぶ．代表的なコンテナはある型のホモジニアスな配列であるリストである．この章ではリストと，リストに対する重要な演算である畳み込み，マップを取り扱う．
 \end{leader}
@@ -1513,11 +1518,24 @@ x*\mFact(x-1)&\mOtherwise
 
 計算機科学者が末尾再帰を好む理由は，\haskell を含む幾つかのプログラミング言語処理系が\keyword{末尾再帰最適化}を行うからである．末尾再帰最適化とは，一言で言うと再帰をコンピュータが扱いやすいループに置き換えることである．では最初から我々もループで関数を表現しておけば，と思われるかもしれないが，再帰以外の方法でループを表現する場合には必ず変数への破壊的代入が必要になるため，我々は末尾再帰に慎ましくループを隠すのである．
 
-\section{遅延評価*}
+\section{無限リストと遅延評価}
 
-アンボックス．
+第\ref{ch:list}章で見た通り，我々は無限リストを持つことができる．例えば自然数を表すリスト $\mList{n}$ は
+\begin{equation}
+\mList{n}=\mListWith{1,2\dotsb}
+\end{equation}
+と書くことができた．無限リストを扱えるのは，我々がいつも\keyword{遅延評価}を行うからである．遅延評価とは，本当の計算は必要になるまで行わないという方式のことである．
 
+もし本当に無限リストを計算機の上で再現する必要があったなら，計算機には無限のメモリが必要になってしまう．しかし我々は，計算が必要になるまで評価を行わないので，無限リストの中から有限個の要素が取り出されるのを待つことができるのである．例えば関数 $\mTake x\mList{y}$ はリスト $\mList{y}$ から最初の $x$ 個の要素からなるリストを返す．いま
+\begin{equation}
+\mList{z}=\mTake 8\mList{n}
+\end{equation}
+とすると，リスト $\mList{z}$ は $\mList{z}=\mListWith{1,2\dotsb8}$ という値を持つ．
+
+% \haskell には言語拡張として，\keyword{アンボックス化タプル}という機能がある．
+% 
 % http://qiita.com/7shi/items/d3d3492ddd90d47160f2
+% https://downloads.haskell.org/~ghc/7.0.1/docs/html/users_guide/primitives.html
 
 \section{余計な話：クイックソート}
 
@@ -2587,13 +2605,13 @@ A...
 
 \section{文字セットとコメント}
 
-\haskell コンパイラを含む多くのコンパイラがUnicode文字セットに対応しているものの，従来からの習慣や英語圏での使いやすさを考慮してか，ASCII文字セットだけでプログラムを書けるようにしているし，またそれを推奨さえしている．
+\haskell コンパイラを含む多くのコンパイラがUnicode文字セットに対応しているものの，従来からの習慣や英語圏での使いやすさを考慮してか，ASCII文字セットだけでプログラムを書けるようにしているし，またそれを推奨している．
 
-\haskell プログラムもまた，文字定数を除いてはASCII文字セットの範囲で書くことが普通である．そこで我々もその習慣に従うことにしよう．例えば円周率を代入する変数を$\pi$と書きたいところだが，我々は\code{pi}と書く．
+\haskell プログラムもまた，文字定数を除いてはASCII文字セットの範囲で書くことが普通である．そこで我々もその習慣に従うことにしよう．例えば円周率を代入する変数を $\pi$ と書きたいところだが，我々は \code{pi} と書く．
 
 数学記号のほとんども，ASCII文字セットの中から記号を組み合わせるか，さもなくば言葉で表現する．例えば\haskell では $\mFrom$ の代わりに \code{<-} を使うし，$\mLogicalAnd$ の代わりに \code{and} を使う．
 
-また計算機科学者たちの絶えざる努力にもかかわらず，プログラム中の文字の装飾はこれまでほとんど受け入れられていない．我々は本書で $\textrm{f},\textbf{f},f$ を使い分けてきたが，\haskell プログラム中では全て \code{f} と書く．
+また計算機科学者たちの絶えざる努力にもかかわらず，プログラム中の文字の装飾はこれまでほとんど受け入れられていない．我々は本書で $\textrm{f},\textsl{f},\textbf{f},\textsf{f},f$ を使い分けてきたが，\haskell プログラム中では全て \code{f} と書く．
 
 以上のような制約にもかかわらず，\haskell プログラムと我々が見えきた「カリー風の」数学記法は本質的に差がない．本書を読み進めてきた読者なら，\haskell プログラムを読むのに苦労はいらないだろう．
 
@@ -2609,45 +2627,47 @@ A...
 \end{equation}
 のように関数名のあとに等号 $(=)$ を置いて定義する．
 
-\cxx で $\mMain$ 関数の型がOSの都合で決められているように，\haskell でも $\mMain$ 関数の型はあらかじめ決められている．その型は \code{main :: IO ()} である．
+\clang で $\mMain$ 関数の型がOSの都合で \code{int main(int, const char *const *);} と決められているように，\haskell でも $\mMain$ 関数の型はあらかじめ決められている．その型は $\mIOIntType$ である． 
 
 
 \section{プログラムの本質}
 
 プログラムに与えられた引数やファイルを $x$ とし，プログラムの出力を $y$ とすると，副作用のないプログラムの本質は
 \begin{equation}
-y=\mMain x
+y=\mMainFunc x
 \end{equation}
-という $\mMain$ 関数であり，それを
+という $\mMainFunc$ 関数であり，それを
 \begin{equation}
-\mMain=f_1\mComp f_2\mComp\dotsb\mComp f_n
+\mMainFunc=f_1\mComp f_2\mComp\dotsb\mComp f_n
 \end{equation}
-と部分関数に分解することがプログラマの能力である．
+と部分関数に分解することがプログラマの能力である．副作用のないプログラムとは，例えば標準入力から文字列を読み取り，標準出力へ文字列を書き出すUNIXのフィルタプログラムのようなものである．例えば \code{wc} というUNIXプログラムは，標準入力に与えられた文字列から行数，単語数，文字数を数えて，その数値を標準出力へ書き出す副作用のないプログラムである．
 
 副作用のない関数を合成するのはわけのないことだ．もし\python ならば
 \begin{pythoncode}
 \begin{verbatim}
-y = f1(f2(x))
+y = f2(f1(x))
 \end{verbatim}
 \end{pythoncode}
 のように関数を入れ子にしても良いし，読みづらければ途中経過を一時変数にして
 \begin{pythoncode}
 \begin{verbatim}
-y2 = f2(x)
-y1 = f1(y2)
+y1 = f1(x)
+y2 = f2(y1)
 \end{verbatim}
 \end{pythoncode}
 としてもよい．副作用のない関数の場合，これが関数合成の規則である．
 
-プログラムが副作用を持つ場合は，文脈を持った変数に入れると見通しが良くなるのであった．文脈を持った変数を $u,v$ とするとき，副作用を持つプログラムは
+プログラムが副作用を持つ場合は，プログラム自身がIOモナドであるため，関数へと分解できないのであった．副作用を持つプログラムは
 \begin{equation}
-v=\mMain\mBind u
+w=\mMain\mBind\mPureWith{x}
 \end{equation}
 という $\mMain$ 関数であり，それを
 \begin{equation}
 \mMain=f_1\mBind f_2\mBind\dotsb\mBind f_n  % *** mBind?? ***
 \end{equation}
 と部分関数に分解することがプログラマの能力となる．
+
+% How to unwrap w?
 
 \chapter{新しい型の導入}
 
@@ -2661,24 +2681,9 @@ v=\mMain\mBind u
 
 \chapter{IO}
 
-\section{参照透過性とIO}
-
-\section{アクション}
-
-\section{IOモナド}
-
-\begin{haskellcode}
-\begin{verbatim}
-class
-\end{verbatim}
-\end{haskellcode}
-
 
 \chapter{例外}
 
-\section{例外}
-
-\section{do記法}
 
 \chapter{乱数}
 
@@ -2692,6 +2697,7 @@ class
 
 \chapter{スペースの使い方}
 
+\section{余計な話：アンボックス化型*}
 
 
 
