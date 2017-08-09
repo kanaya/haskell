@@ -124,7 +124,7 @@
 \DeclareMathOperator{\mAppMapList}{\otimes}
 \DeclareMathOperator{\mAppMapMaybe}{\boxtimes}
 \DeclareMathOperator{\mBind}{\heartsuit}
-\DeclareMathOperator{\mBindFunc}{\diamondsuit_\mType{r}}
+\DeclareMathOperator{\mBindFunc}{\diamondsuit}
 \DeclareMathOperator{\mBindList}{\clubsuit}
 \DeclareMathOperator{\mBindMaybe}{\spadesuit}
 \DeclareMathOperator{\mBindRight}{\ooalign{$\longrightarrow$\crcr\hss$\mBind$\hss}}
@@ -156,7 +156,7 @@
 \DeclareMathOperator{\mMapsTo}{\mapsto}
 \DeclareMathOperator{\mMinus}{\ominus}
 \DeclareMathOperator{\mMorphTo}{\rightarrowtail}
-\DeclareMathOperator{\mPlus}{\boxplus}
+\DeclareMathOperator{\mPlus}{\dotplus}
 \DeclareMathOperator{\mSetTimes}{\circledast}
 \DeclareMathOperator{\mUnOp}{\star}
 
@@ -1817,29 +1817,32 @@ X map_over(fn f, X x);
 
 \section{余計な話：Either}
 
-Maybeとよく似た型にEitherがある．Maybeが $\mType{a}$ 型または $\mNothing$ のいずれかの値をとったように，Eitherは $\mType{a}$ 型または $\mType{b}$ 型のいずれかの値を取る．$\mType{a}$ 型または $\mType{b}$ 型を取るEither型の変数 $\mEither{u},\mEither{v}$ があるとすると，
+Maybeとよく似た型にEitherがある．Maybeが $\mType{a}$ 型または $\mNothing$ のいずれかの値をとったように，Eitherは $\mType{a}$ 型または $\mType{b}$ 型のいずれかの値を取る．$\mType{a}$ 型または $\mType{b}$ 型を取るEither型の変数 $\mEither{e}$ があるとすると，
 \begin{equation}
-u,v\mIn{}\mEitherType{a}{b}
+\mEither{e}\mIn{}\mEitherType{a}{b}
 \end{equation}
-と書く．Etherには値コンストラクタが2種類あり，それぞれ $\mEitherLeftWith{x}$ と $\mEitherRightWith{x}$ である．値コンストラクタは
-\begin{align}
-\mEither{u}&=\mEitherLeftWith{x}\\
-\mEither{v}&=\mEitherRightWith{y}
-\end{align}
-のように使う．\footnote{\haskell ではそれぞれ \code{u = Left x} および \code{v = Right x} と書く．}
+と書く．Etherには値コンストラクタが2種類あり，それぞれ $\mEitherRightWith{x}$ と $\mEitherLeftWith{x}$ である．値コンストラクタは
+\begin{equation}
+\mEither{e}=\mEitherRightWith{x}
+\end{equation}
+または
+\begin{equation}
+\mEither{e}=\mEitherLeftWith{x}
+\end{equation}
+のように使う．\footnote{\haskell ではそれぞれ \code{e = Right x} および \code{e = Left x} と書く．}
 
 Eitherはより複雑な計算エラーが発生する場合に用いる．Maybeが単に失敗を表す $\mNothing$ しか表現できなかったのに対し，Eitherは任意の型の変数で表現できる．習慣的に，正しい (right) 計算結果は $\mEitherRightWith{x}$ 値コンストラクタで格納し，エラーの情報は $\mEitherLeftWith{x}$ 値コンストラクタで格納する．
 
 Either型は，今ではほとんど使われなくなった\clang の共有型 (\code{union}) に近い．
 
-\section{この章のまとめ*}
+\section{この章のまとめ}
 
 \begin{enumerate}
 \item ある型 $\mType{a}$ からそのMaybe型 $\mMaybeType{a}$ を作ることを $\mMaybeType{a}=\mMaybeTypeConstructor\mType{a}$ と書く．ここに $\mMaybeTypeConstructor$ はMaybe型コンストラクタである．
 \item ある変数 $x$ からMaybe変数 $\mMaybe{u}$ を作るには $\mMaybe{u}=\mMaybeWith{x}$ とする．ここに $\mMaybeWith{\dotsb}$ はMaybe値コンストラクタである．
 \item Maybe変数は $\mMaybeWith{x}$ のような値か，かまたは $\mNothing$ なる「ナッシング」値のかどちらかを持つことができる．
 \item 普通の関数 $f\mIn\mProj{\mType{a}}{\mType{b}}$ をMaybe値に適用することはできない．関数 $f$ をMaybe値に適用するには $f\mMapMaybe\mMaybe{u}$ のようにMaybeマップ演算子が必要であり，この関数適用の結果は $\mMaybeType{b}$ 型である．
-\item Either変数は二つの型のいずれかを持つことができる．
+\item Either変数は二つの型のいずれかを持つことができ，$\mEither{e}=\mEitherRightWith{x}$ または $\mEither{e}=\mEitherLeftWith{x}$ のように生成する．
 \end{enumerate}
 
 
@@ -2342,6 +2345,8 @@ k\mBind v&=\mPureWith{(f\mComp g)y}\\
 
 
 \begin{table*}
+\label{tab:monadplus}
+\caption{型と型クラスの関係}
 \begin{center}
 \begin{tabular}{||c||c|c|c|c|c|c||}
 \hline
@@ -2433,6 +2438,7 @@ Maybe
 f\mBindFunc\phi=\mLambdaExp{r}{f(\phi r)r}
 \end{equation}
 のように関数のバインド演算子を定義すると，関数はモナドとしての性質を持つ．
+% ***Reason***
 % http://south37.hatenablog.com/entry/2014/04/27/Haskell%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E3%83%A2%E3%83%8A%E3%83%89
 % https://ja.wikipedia.org/wiki/%E3%83%A2%E3%83%8A%E3%83%89_(%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0)
 
@@ -2443,6 +2449,8 @@ f\mBindFunc\phi=\mLambdaExp{r}{f(\phi r)r}
 であるから，関数全体の集合を $\mFSet$ で表すと，組み合わせ $\mTupleWith{\mFSet,\mComp,\mId}$ はモノイドである．
 
 モナドでありモノイドである型クラスを\keyword{モナドプラス}と呼ぶ．関数はモナドプラスである．
+
+今まで出てきた型と型クラスの関係を表\ref{tab:monadplus}に示す．Maybeに関しては $\mType{a}$ 型がモノイドである場合に限って $\mMaybeType{a}$ 型もモノイドである．
 
 
 \section{この章のまとめ*}
