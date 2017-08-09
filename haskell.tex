@@ -29,7 +29,7 @@
 
 %% Leaders and Key Points
 
-\newenvironment{leader}{\begingroup}{\endgroup}
+\newenvironment{leader}{\begingroup\gt}{\endgroup}
 \newenvironment{keypoint}{\begin{screen}}{\end{screen}}
 \newenvironment{caution}{\begin{boxnote}\begin{center}注意\end{center}}{\end{boxnote}}
 
@@ -744,7 +744,7 @@ f_2\mApply f_1=f_2\left(f_1\mAnonParam\right)
 \begin{equation}
 z=f_2\mApply f_1x
 \end{equation}
-となる．演算子 $\mApply$ の優先順位は足し算よりも低いので $f(x+1)$ は $f\mApply x+1$ と書くこともできる．演算子 $\mApply$ を閉じ括弧のいらない開き括弧と考えてもよい．\footnote{\haskell では $f2\mApply f_1x$ を \code{f2 \$ f1 x} と書く．}
+となる．演算子 $\mApply$ の優先順位は足し算よりも低いので $f(x+1)$ は $f\mApply x+1$ と書くこともできる．演算子 $\mApply$ を閉じ括弧のいらない開き括弧と考えてもよい．\footnote{\haskell では $f_2\mApply f_1x$ を \code{f2 \$ f1 x} と書く．}
 
 関数適用演算子のもう一つの興味深い使い方は，関数適用演算子の部分適用である．セクション $(\mApply x)$ を用いると
 \begin{equation}
