@@ -1546,19 +1546,19 @@ x*\mFact(x-1)&\mOtherwise
 \mSort\mEmptyList
   &=\mEmptyList\\
 \mSort(x:\mList{x})
-  &=\mList{a}\mAppend\mListWith{x}\mAppend\mList{b}\\
+  &=(\mSort\mList{a})\mAppend\mListWith{x}\mAppend(\mSort\mList{b})\\
 &\quad\mWhereKeyword\\
-&\qquad\mList{a}\mLetEq\mListWith{a\mListGuard a\mFrom\mList{x},a<x}\\
+&\qquad\mList{a}\mLetEq\mListWith{a\mListGuard a\mFrom\mList{x},a\le x}\\
 &\qquad\mList{b}\mLetEq\mListWith{b\mListGuard b\mFrom\mList{x},b>x}
 \end{align}
 
 a \footnote{\haskell では
 \begin{verbatim}
-  sort []   = []
-  sort x:xs = as++[x]++bs
-                where
-                  as = [a | a<-xs, a<x]
-                  bs = [b | b<-xs, b>x]
+  sort []     = []
+  sort (x:xs) = sort as ++ [x] ++ sort bs
+                  where
+                    as = [a | a<-xs, a<=x]
+                    bs = [b | b<-xs, b>x]
 \end{verbatim}
 と書く．
 }
