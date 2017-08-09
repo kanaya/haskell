@@ -1,4 +1,4 @@
-\documentclass[a4paper]{jsbook}
+\documentclass[a4paper,twocolumn,draft]{jsbook}
 % \usepackage{eulervm}
 \usepackage{amsmath,amssymb,ascmac,bm,graphicx,latexsym,mathtools,multirow,okuverb}
 \makeindex
@@ -641,11 +641,11 @@ y=fx'\mWhere{x'}{1+x}
 のように書いても良い．\footnote{\haskell では \code{y = let x' = 1+x in f x'} および \code{y = f x' where x' = 1+x} のように書く．}
 
 式\eqref{eq:letin}や式\eqref{eq:where}はラムダ式を使った\keyword{シンタックスシュガー}（糖衣構文，構文糖）であり，一般に
-\begin{equation}
+\begin{align}
 \{\mLetIn{x'}{gx}{fx'}\}
-=\{fx'\mWhere{x'}{gx}\}
-=(\mLambdaExp{x'}{fx'})(gx)
-\end{equation}
+&=\{fx'\mWhere{x'}{gx}\}\\
+&=(\mLambdaExp{x'}{fx'})(gx)
+\end{align}
 である．
 
 \section{この章のまとめ}
@@ -1217,7 +1217,8 @@ ls = [x*2 for x in range(0, 10)]
 は $0\le x\le9$ かつ $0\le y\le5$ の範囲で $x+y>3$となる $x$ 及び $y$ から $x+y$ を並べたリストである．これは\python でいう
 \begin{pythoncode}
 \begin{verbatim}
-ls = [x+y for x in range(0,10) for y in range(0,6) if x+y > 3]
+ls = [x+y for x in range(0,10) \
+  for y in range(0,6) if x+y > 3]
 \end{verbatim}
 \end{pythoncode}
 のことである．\footnote{\haskell では \code{xs = [x+y | x<-[0,1..9], y<-[0,1..5], x+y>3]} と書く．}
@@ -1541,15 +1542,20 @@ x*\mFact(x-1)&\mOtherwise
 
 クイックソートは次のように定義できる．
 \begin{align}
-\mSort\mEmptyList&=\mEmptyList\\
-\mSort(x:\mList{x})&=\mList{a}\mAppend\mListWith{x}\mAppend\mList{b}\mWhereII{\mList{a}}{\mListWith{a\mListGuard a\mFrom\mList{x},a<x}}{\mList{b}}{\mListWith{b\mListGuard b\mFrom\mList{x},b>x}}
+\mSort\mEmptyList
+  &=\mEmptyList\\
+\mSort(x:\mList{x})
+  &=\mList{a}\mAppend\mListWith{x}\mAppend\mList{b}\\
+\mathop{\mWhereKeyword}\mList{a}&\mLetEq\mListWith{a\mListGuard a\mFrom\mList{x},a<x},\\
+\mList{b}&\mLetEq\mListWith{b\mListGuard b\mFrom\mList{x},b>x}
 \end{align}
 
 a \footnote{\haskell では
 \begin{verbatim}
   sort [] = []
   sort x:xs = as++[x]++bs
-    where as = [a | a<-xs, a<x], bs = [b | b<-xs, b>x]
+    where as = [a | a<-xs, a<x],
+          bs = [b | b<-xs, b>x]
 \end{verbatim}
 と書く．
 }
@@ -1692,7 +1698,8 @@ template <typename a> class maybe {
     bool valid;
   public:
     maybe(): value(0), valid(false) { }
-    maybe(a a_value): value(a_value), valid(true) { }
+    maybe(a a_value):
+      value(a_value), valid(true) { }
     a get_value() const { return value; }
     bool is_valid() const { return valid; }
 }
@@ -1757,7 +1764,8 @@ maybe<int> v = map_over(f,u);
 \begin{cxxcode}
 \begin{verbatim}
 template <typename a, typename fn>
-std::list<a> map_over(fn f, std::list<a> xs) {
+std::list<a>
+map_over(fn f, std::list<a> xs) {
   std::list<a> ys(xs.size());
   auto i = xs.cbegin();
   auto j = ys.begin();
@@ -1774,7 +1782,8 @@ std::list<a> map_over(fn f, std::list<a> xs) {
 \begin{verbatim}
 // List
 template <typename a, typename fn>
-std::list<a> map_over(fn f, std::list<a> xs);
+std::list<a>
+map_over(fn f, std::list<a> xs);
 // Maybe
 template <typename a, typename fn>
 maybe<a> map_over(fn f, maybe<a> u);
@@ -1862,7 +1871,7 @@ g=f\mMapMaybe
 議論の抽象性を保つために，そして歴史的な経緯に従って，ある型 $\mType{a}$ において $\mProj{\mType{a}}{\mPureType{a}}$ 型のマップ演算子さえ定義されていれば，$\mPureType{a}$ 型は $\mFunctorTypeClass$ 型クラスに属すものとする．ここに $\mPureType{a}$ 型とは\keyword{一般コンテナ型}であり，リスト型 $\mListType{a}$ やMaybe型 $\mMaybeType{a}$ を抽象化したものである． 
 
 
-\begin{table}
+\begin{table*}
 \label{tab:list-and-maybe}
 \caption{リストとMaybeの関係}
 \begin{center}
@@ -1872,7 +1881,7 @@ g=f\mMapMaybe
 Maybe&$\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mMaybeWith{x}$\\\hline
 \end{tabular}
 \end{center}
-\end{table}
+\end{table*}
 
 % \section{$\mFunctorTypeClass$ 型クラス}
 
@@ -1897,14 +1906,14 @@ Maybe&$\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mMaybeWith{x}$\\\
 リストバージョンのアプリカティブマップ演算子はこのように，左引数のリスト内のすべての関数を順番に右引数のリスト内の変数に適用し，その結果をリストとして返す．
 
 リストバージョンのアプリ化ティブマップ演算子 $\mAppMapList$ の型は $\mProj{\mListType{\mProj{\mType{a}}{\mType{b}}}}{\mProj{\mListType{\mType{a}}}{\mListType{\mType{b}}}}$ である．これは
-\begin{equation}
+\begin{multline}
 \mAppMapList\mIn
 \underbrace{\mListWith{\mType{a}\mapsto\mType{b}}}_{\mListWith{f_0,f_1\dotsb f_n}}
 \mapsto
-\underbrace{\mListType{a}}_{\mListWith{x_0,x_1\dotsb x_n}}
+\underbrace{\mListType{a}}_{\mListWith{x_0,x_1\dotsb x_n}}\\
 \mapsto
 \underbrace{\mListType{\mType{b}}}_{\mListWith{f_0x_0,f_0x_1\dotsb f_0x_n,f_1x_0,f_1x_1\dotsb f_nx_n}}
-\end{equation}
+\end{multline}
 と解釈すれば良い．
 
 リストバージョンのアプリカティブマップ演算子 $(\mAppMapList)$ の特別な場合として，左引数のリストの要素数が $1$ の場合を考えると
@@ -2297,13 +2306,13 @@ k\mBind v&=\mPureWith{(f\mComp g)y}\\
 \end{align}
 となるため結合則の左辺と右辺が一致する．
 
-\begin{figure}
+\begin{figure*}
 \begin{center}
-\includegraphics[width=140mm]{fig/functor.eps}
+\includegraphics[width=150mm]{fig/functor.eps}
 \end{center}
 \caption{...}
 \label{fig:functor}
-\end{figure}
+\end{figure*}
 
 
 % \section{IOモナド*}
@@ -2515,6 +2524,18 @@ y=g_2(g_1x)
 とする．\footnote{\clang では \code{void} 型を返す関数 \code{void g1(int);} を 引数を取らない関数 \code{int g2(void);} に「食わせる」ことが可能で， \code{g2(g1(x));} は正しいコードである．もっとも\clang プログラマは \code{g1(x), g2();} という書き方の方を好むであろう．}
 
 
+\begin{table*}[tp]
+\label{tab:do-alpha-alpha}
+\caption{do記法中に変数を2回以上使いまわす例}
+\begin{multline*}
+\mDo{y\mDoEq\alpha x\mDoNext y'\mDoEq\alpha'x'\mDoNext\mDoLet{z}{fyy'}\mDoNext\beta z\mDoNext\mDoLet{z'}{f'yy'}\mDoNext\beta'z'}\\
+=
+(\mLambdaExp{yy'}{(
+(\mLambdaExp{\mAnyParam}{\mLetIn{z}{fyy'}{\beta z}})
+\mBind{}(\mLetIn{z'}{f'yy'}{\beta'z'}))})
+(\alpha x)(\alpha'x')
+\end{multline*}
+\end{table*}
 
 
 \section{余計な話：do記法}
@@ -2552,30 +2573,40 @@ do記法には $\mDoEq$ の他に，我々の $\mLet$ とよく似た $\mDoLetKe
 のように使う．
 
 以下に，do記法を使った例を示す．
-\begin{align}
-\mDo{\alpha x}&=\alpha x\\
-\mDo{y\mDoEq\alpha x\mDoNext\beta y}&=\beta\mBind\alpha x\\
-\mDo{\alpha x\mDoNext\beta y}&=(\mLambdaExp{\mAnyParam}{\beta y})\mBind \alpha x\label{eq:do-alpha-beta}\\
-\mDo{\mDoLet{y}{fx}\mDoNext\alpha y}&=\alpha y\mWhere{y}{fx}\\
-\mDo{y\mDoEq\alpha x\mDoNext\mDoLet{z}{fy}\mDoNext\beta z}&=\beta\mBind{}(f\mMap\alpha x)\\
-\mDo{y\mDoEq\alpha x\mDoNext y'\mDoEq\alpha'x'\mDoNext\mDoLet{z}{fyy'}\mDoNext\beta z}&=\beta\mBind{}(f\mMap\alpha x\mAppMap\alpha'x')
-\end{align}
+\begin{equation}
+\mDo{\alpha x}=\alpha x
+\end{equation}
+
+\begin{equation}
+\mDo{y\mDoEq\alpha x\mDoNext\beta y}=\beta\mBind\alpha x
+\end{equation}
+
+\begin{equation}
+\mDo{\alpha x\mDoNext\beta y}=(\mLambdaExp{\mAnyParam}{\beta y})\mBind \alpha x\label{eq:do-alpha-beta}
+\end{equation}
+
+\begin{equation}
+\mDo{\mDoLet{y}{fx}\mDoNext\alpha y}=\alpha y\mWhere{y}{fx}
+\end{equation}
+
+\begin{multline}
+\mDo{y\mDoEq\alpha x\mDoNext\mDoLet{z}{fy}\mDoNext\beta z}\\
+=\beta\mBind{}(f\mMap\alpha x)
+\end{multline}
+
+\begin{multline}
+\mDo{y\mDoEq\alpha x\mDoNext y'\mDoEq\alpha'x'\mDoNext\mDoLet{z}{fyy'}\mDoNext\beta z}\\
+=\beta\mBind{}(f\mMap\alpha x\mAppMap\alpha'x')
+\end{multline}
+
+
 なお $\mFuncWith{f}=\mLambdaExp{\mAnyParam}{f}$ の関係を用いると式\eqref{eq:do-alpha-beta}はより簡潔に
 \begin{equation}
 \mDo{\alpha x\mDoNext\beta y}=\mFuncWith{\beta y}\mBind\alpha x
 \end{equation}
 と書ける．
 
-最後に，do記法中に変数を2回以上使いまわす例を示す．
-\begin{multline}
-\mDo{y\mDoEq\alpha x\mDoNext y'\mDoEq\alpha'x'\mDoNext\mDoLet{z}{fyy'}\mDoNext\beta z\mDoNext\mDoLet{z'}{f'yy'}\mDoNext\beta'z'}\\
-=
-(\mLambdaExp{yy'}{(
-(\mLambdaExp{\mAnyParam}{\mLetIn{z}{fyy'}{\beta z}})
-\mBind{}(\mLetIn{z'}{f'yy'}{\beta'z'}))})
-(\alpha x)(\alpha'x')
-\end{multline}
-この例では変数 $y,y'$ が2回使われている．
+最後に，do記法中に変数を2回以上使いまわす例を表\ref{tab:do-alpha-alpha}に示す．この例では変数 $y,y'$ が2回使われている．
 
 我々はバインド演算子を使った通常の記法とdo記法のいずれか読みやすい方を採用すれば良い．
 
