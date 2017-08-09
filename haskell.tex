@@ -422,7 +422,7 @@ print("Hello, world.")
 
 \section{\haskell コンパイラの準備*}
 
-\haskell コンパイラの中で最もよく使われているものは Glasgow's Haskell Compiler (GHC) である．本書に登場する\haskell コードもすべてGHCでテストをしている．
+\haskell コンパイラの中で最もよく使われているものは Glasgow's Haskell Compiler (GHC) である．本書に登場する\haskell コードもすべてGHCでテストをしている．GHCは2015年にリリースされたバージョン7.10とそれまでのバージョンとの間に大きな違いがある．本書はバージョン7.10以降を対象としているため，一部は古い書籍と互換性がない．
 
 GHCは公式サイト\cite{haskellplatform}からダウンロード可能であるが，GNU/Linuxシステム（以下Linux），macOSはそれぞれのパッケージマネージャからインストールすることを勧める．インストール方法は以下の参考文献にアクセスしてもらいたい．
 \begin{description}
@@ -1541,21 +1541,24 @@ x*\mFact(x-1)&\mOtherwise
 \section{余計な話：クイックソート}
 
 クイックソートは次のように定義できる．
+
 \begin{align}
 \mSort\mEmptyList
   &=\mEmptyList\\
 \mSort(x:\mList{x})
   &=\mList{a}\mAppend\mListWith{x}\mAppend\mList{b}\\
-\mathop{\mWhereKeyword}\mList{a}&\mLetEq\mListWith{a\mListGuard a\mFrom\mList{x},a<x},\\
-\mList{b}&\mLetEq\mListWith{b\mListGuard b\mFrom\mList{x},b>x}
+&\quad\mWhereKeyword\\
+&\qquad\mList{a}\mLetEq\mListWith{a\mListGuard a\mFrom\mList{x},a<x}\\
+&\qquad\mList{b}\mLetEq\mListWith{b\mListGuard b\mFrom\mList{x},b>x}
 \end{align}
 
 a \footnote{\haskell では
 \begin{verbatim}
-  sort [] = []
+  sort []   = []
   sort x:xs = as++[x]++bs
-    where as = [a | a<-xs, a<x],
-          bs = [b | b<-xs, b>x]
+                where
+                  as = [a | a<-xs, a<x]
+                  bs = [b | b<-xs, b>x]
 \end{verbatim}
 と書く．
 }
