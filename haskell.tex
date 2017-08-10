@@ -29,9 +29,9 @@
 
 %% Leaders and Key Points
 
-\newenvironment{leader}{\begingroup\gt}{\endgroup}
 \newenvironment{keypoint}{\begin{screen}}{\end{screen}}
-\newenvironment{caution}{\begin{boxnote}\begin{center}注意\end{center}}{\end{boxnote}}
+\newenvironment{leader}{\begingroup\gt}{\endgroup}
+\newenvironment{note}[1]{\begin{boxnote}\begin{center}#1\end{center}}{\end{boxnote}}
 
 %% Keywords
 
@@ -471,6 +471,11 @@ $ stack install ghc
 
 第I部は対応する\haskell のコードを脚注に記載している．脚注部分は\haskell を一通り覚えた後で読み返してもらいたい．\footnote{\haskell のコードは \code{x = 1} のようにタイプライタ体で書く．}
 
+\begin{note}
+A.
+\end{note}
+
+
 \chapter{カリー風な書き方}
 \begin{leader}
 本書では一般の数学書やプログラミングの教科書からは少し異なった記法を用いる．ある概念が発明されてからずっと後になって正しい記法が見つかり，それがきっかけとなって正しく理解されるという現象は歴史上よくあることである．本書でも様々な新しい記号，記法を導入するが，この章では\haskell に近い記法から始めることにする．
@@ -526,7 +531,7 @@ lambda x: 1+x
 \begin{equation}
 \mLambdaExp{x}{1+x}
 \end{equation}
-と書くことにする．この式はラムダ式を発明したアロンゾ・チャーチのオリジナルの論文の記法であれば $\Hat{x}\,.\,1+x$ と書かれたところであり，現在でも多くの書物で $\lambda x\,.\,1+x$ と記述されるところである．しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号 $(.)$ が今後登場する二項演算子 $\cdot$ と紛らわしいため，上述の記法を用いる．\footnote{\haskell ではラムダ式 $\mLambdaExp{x}{1+x}$ を \code{\textbackslash x -> 1+x} と書く．}
+と書くことにする．この式はラムダ式を発明したアロンゾ・チャーチのオリジナルの論文の記法であれば $\Hat{x}\mathbin{.}1+x$ と書かれたところであり，現在でも多くの書物で $\lambda x\mathbin{.}1+x$ と記述されるところである．しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号 $(.)$ が今後登場する二項演算子 $\cdot$ と紛らわしいため，上述の記法を用いる．\footnote{\haskell ではラムダ式 $\mLambdaExp{x}{1+x}$ を \code{\textbackslash x -> 1+x} と書く．}
 
 ラムダ式は関数である．ラムダ式を適用するには，ラムダ式を括弧で包む必要がある．例を挙げる．
 \begin{equation}
@@ -668,6 +673,10 @@ y=fx'\mWhere{x'}{1+x}
 \item 関数定義にはガードが使える．例えば $f''\mGuard{x<0}=0;f''\mGuard{x\equiv0}=1;f''\mGuard{\mOtherwise}=(\sin x)/x$ と定義できる．
 \item 局所変数は $y=\mLetIn{x'}{\dotsb}{fx'}$ または $y=fx'\mWhere{x'}{\dotsb}$ という書き方で導入できる．
 \end{enumerate}
+
+\begin{note}{ラムダ式の書き方}
+ラムダ式は元々は $\Hat x\mathbin{.}x+1$ のように書かれていた．これが次第に $\mathop{\texttt{\textasciicircum}}x\mathbin{.}x+1$ となり，$\lambda x\mathbin{.}x+1$ に変化していったと言われている．\haskell が $\lambda$ の代わりに $\mLambda$ 記号を使うのは，その形が似ているからである．
+\end{note}
 
 
 \chapter{さらにカリー風な書き方*}
@@ -1879,11 +1888,6 @@ Either型は，今ではほとんど使われなくなった\clang の共有型 
 A...
 \end{leader}
 
-\begin{caution}
-関手は英語でファンクター(functor)と言うが，\cxx の関数オブジェクト (function object) もかつてはファンクター(functor)と呼ばれていた．\cxx のファンクターとはクロージャの粗末な代用品のことで，本書で述べる関手とは異なる概念である．混同しないように注意しよう．
-\end{caution}
-
-
 \section{圏と関手*}
 
 型 $\mType{a}$ の変数 $x,y\mIn\mType{a}$ について，関数 $f\mIn\mProj{\mType{a}}{\mType{a}}$ があり
@@ -2028,101 +2032,10 @@ w=f\mMap u\mAppMap v
 \end{equation}
 とすれば良い．このようにアプリカティブマップ演算子を並べる書き方をアプリカティブスタイルと呼ぶ．
 
-\section{関手としての関数*}
+\section{高階関数*}
+...
 
-【要移動】第9章へ．
-
-【要訂正】新しい関手を定義する．関手の本質はマップ演算子であった．この新しい関手のマップ演算子は $\mMapFunc$ と書き， 
-\begin{equation}
-\label{eq:def-of-map-func}
-f\mMapFunc g=f(g\mAnonParam)
-\end{equation}
-と定義する．ただし $f,g$ は関数である．
-
----
-
-$$
-f\mMapFunc g=\mFuncWith{f\mComp g}
-$$
-
----
-
-
-こんな定義で大丈夫だろうか．念のため一般マップ演算子の型を思い出すことにしよう．一般マップ演算子の型は
-\begin{equation}
-\mMap
-\mIn{}
-\mProj{
-  (\mProj{\mType{a}}{\mType{b}})
-}
-{
-  \mProj{\mPureType{a}}{\mPureType{b}}
-}
-\end{equation}
-であった．ここでちょっとしたトリックを使う．$\mFuncType{a}$ というコンテナ型があるとし，それを作る型コンストラクタを
-\begin{equation}
-\mFuncType{a}=\mFuncTypeConstructor\mType{a}
-\end{equation}
-と書くことにしよう．ここで $\mFuncTypeConstructor\mType{a}$ は
-\begin{equation}
-\mFuncTypeConstructor\mType{a}=(\mProj{\mType{r}}{\mType{a}})
-\end{equation}
-であると定義する．ここに $\mProj{\mType{r}}{\mType{a}}$ は確かに正当な型であるから，型コンストラクタ $\mFuncTypeConstructor$ は正しい仕事をしている．そもそも $\mProj{\mType{a}}{\mType{b}}$ は二つの型パラメタ $\mType{a}$ と $\mType{b}$ を引数に取る型コンストラクタだと解釈できるから，両辺の整合性は保たれている．
-
-この新しい型 $\mFuncType{a}$ でマップ演算子 $\mMapFunc$ の型を読むと
-\begin{equation}
-\label{eq:type-of-mapfunc}
-\mMapFunc
-\mIn{}
-\mProj{
-  (\mProj{\mType{a}}{\mType{b}})
-}
-{
-  \mProj{\mFuncType{a}}{\mFuncType{b}}
-}
-\end{equation}
-である．ここで $\mFuncType{a}=(\mProj{\mType{r}}{\mType{a}})$ の関係を使うと，式\eqref{eq:type-of-mapfunc}は
-\begin{equation}
-\label{eq:type-of-mapfunc-ii}
-\mMapFunc
-\mIn{}
-\mProj{
-  (\mProj{\mType{a}}{\mType{b}})
-}
-{
-  \mProj{(\mProj{\mType{r}}{\mType{a}})}{(\mProj{\mType{r}}{\mType{b}})}
-}
-\end{equation}
-となる．
-
-関数 $f\mIn\mProj{\mType{a}}{\mType{b}}$ に対してリストのマップ演算子 $\mMapList$ を使うと $f\mMapList\mIn\mProj{\mListType{a}}{\mListType{b}}$ が得られた．Maybeのマップ演算子 $\mMapMaybe$ を使うと $f\mMapMaybe\mIn\mProj{\mMaybeType{a}}{\mMaybeType{b}}$ が得られた．では $f\mMapFunc$ はどうだろう．式\eqref{eq:type-of-mapfunc-ii}から $f\mMapFunc$ の型は $\mProj{(\mProj{\mType{r}}{\mType{a}})}{(\mProj{\mType{r}}{\mType{b}})}$ である．もし関数 $g\mIn\mProj{\mType{r}}{\mType{a}}$ があったとすると，マップした結果である $f\mMapFunc g$ は $\mProj{\mType{r}}{\mType{b}}$ という型を持つ．これは関数合成そのものである．実際に式\eqref{eq:def-of-map-func}は関数合成の定義式そのものである．従って，新しいマップ演算子 $\mMapFunc$ は
-\begin{equation}
-\mMapFunc=\mComp
-\end{equation}
-と定義しても良い．
-
-マップ演算子が定義できたので，この新しい関手は $\mFunctorTypeClass$ 型クラスに属す．この新しい関手は関数そのものなので，特に名前はない．\footnote{\haskell では \code{(->)r} 関手と呼ぶ．}
-
-% 関数はアプリカティブ関手でもある．
-% \begin{equation}
-% f\mMap\omega=\mPureWith{f}\mAppMap\omega
-% \end{equation}
-% であることを思い出すと，
-% \begin{equation}
-% f\mMapFunc g=\mFuncWith{f}\mAppMapFunc g
-% \end{equation}
-% であるような値コンストラクタ $\mFuncWith{f}$ およびアプリカティブマップ演算子 $\mAppMapFunc$ を考えることが出来る．関数 $f$ の型が $\mProj{\mType{a}}{\mType{b}}$ であるとき，コンテナ値 $\mFuncWith{f}$ の型は $\mFuncType{\mProj{\mType{a}}{\mType{b}}}$ であるから，すなわち
-% \begin{equation}
-% \mFuncWith{f}\mIn\mProj{\mType{r}}{\mProj{\mType{a}}{\mType{b}}}
-% \end{equation}
-% である．（このとき関数 $g$ は $\mProj{\mType{r}}{\mType{a}}$ という型を持つ．）値コンストラクタの定義は
-% \begin{equation}
-% \mFuncWith{f}=\mLambdaExp{\mAnyParam}{f}
-% \end{equation}
-% である．関数 $\mFuncWith{f}$ は $\mType{r}$ 型の引数を取るがそれを無視し，関数 $f\mIn\mProj{\mType{a}}{\mType{b}}$ を返す．この定義は第\ref{ch:io}章でもう一度登場する．
-
-
-\section{余計な話：アプリカティブマップ演算子の実装}
+\section*{【消去?】余計な話：アプリカティブマップ演算子の実装*}
 
 リストとMaybeのアプリカティブマップ演算子は，それぞれのマップ演算子から定義することが出来る．リストのアプリカティブマップ演算子の定義は次の通り．
 \begin{equation}
@@ -2168,6 +2081,13 @@ g\mMapMaybe\mMaybe{u}&\mIf\mMaybe{h}\equiv\mMaybeWith{f}\\
 \haskell には最初に関手が導入され，その次に関手を拡張する形でモナドが導入された．そして，その次に，関手を拡張しなおす形でアプリカティブ関手が導入された．それゆえ，モナドとアプリカティブ関手には概念的重複があるにもかかわらず，別々に定義されるという悲劇が暫くの間続いた．アプリカティブ関手のピュア演算子と，モナドのユニット演算子は概念的に同じものであるにもかかわらず，別々の演算子として定義されていたのである．この状態は GHC v7.10 以降で，モナドがアプリカティブ関手を拡張する形に改められたことで解消した．
 
 \section{この章のまとめ*}
+
+
+\begin{note}{ファンクター}
+関手は英語でファンクター(functor)と言うが，\cxx の関数オブジェクト (function object) もかつてはファンクター(functor)と呼ばれていた．\cxx のファンクターとはクロージャの粗末な代用品のことで，本書で述べる関手とは異なる概念である．混同しないように注意しよう．
+\end{note}
+
+
 
 \chapter{モナド*}
 \label{ch:monad}
@@ -2474,6 +2394,101 @@ Maybe
 \end{table*}
 
 \section{余計な話：関数モナド}
+
+---
+
+【要訂正】新しい関手を定義する．関手の本質はマップ演算子であった．この新しい関手のマップ演算子は $\mMapFunc$ と書き， 
+\begin{equation}
+\label{eq:def-of-map-func}
+f\mMapFunc g=f(g\mAnonParam)
+\end{equation}
+と定義する．ただし $f,g$ は関数である．
+
+---
+
+$$
+f\mMapFunc g=\mFuncWith{f\mComp g}
+$$
+
+---
+
+
+こんな定義で大丈夫だろうか．念のため一般マップ演算子の型を思い出すことにしよう．一般マップ演算子の型は
+\begin{equation}
+\mMap
+\mIn{}
+\mProj{
+  (\mProj{\mType{a}}{\mType{b}})
+}
+{
+  \mProj{\mPureType{a}}{\mPureType{b}}
+}
+\end{equation}
+であった．ここでちょっとしたトリックを使う．$\mFuncType{a}$ というコンテナ型があるとし，それを作る型コンストラクタを
+\begin{equation}
+\mFuncType{a}=\mFuncTypeConstructor\mType{a}
+\end{equation}
+と書くことにしよう．ここで $\mFuncTypeConstructor\mType{a}$ は
+\begin{equation}
+\mFuncTypeConstructor\mType{a}=(\mProj{\mType{r}}{\mType{a}})
+\end{equation}
+であると定義する．ここに $\mProj{\mType{r}}{\mType{a}}$ は確かに正当な型であるから，型コンストラクタ $\mFuncTypeConstructor$ は正しい仕事をしている．そもそも $\mProj{\mType{a}}{\mType{b}}$ は二つの型パラメタ $\mType{a}$ と $\mType{b}$ を引数に取る型コンストラクタだと解釈できるから，両辺の整合性は保たれている．
+
+この新しい型 $\mFuncType{a}$ でマップ演算子 $\mMapFunc$ の型を読むと
+\begin{equation}
+\label{eq:type-of-mapfunc}
+\mMapFunc
+\mIn{}
+\mProj{
+  (\mProj{\mType{a}}{\mType{b}})
+}
+{
+  \mProj{\mFuncType{a}}{\mFuncType{b}}
+}
+\end{equation}
+である．ここで $\mFuncType{a}=(\mProj{\mType{r}}{\mType{a}})$ の関係を使うと，式\eqref{eq:type-of-mapfunc}は
+\begin{equation}
+\label{eq:type-of-mapfunc-ii}
+\mMapFunc
+\mIn{}
+\mProj{
+  (\mProj{\mType{a}}{\mType{b}})
+}
+{
+  \mProj{(\mProj{\mType{r}}{\mType{a}})}{(\mProj{\mType{r}}{\mType{b}})}
+}
+\end{equation}
+となる．
+
+関数 $f\mIn\mProj{\mType{a}}{\mType{b}}$ に対してリストのマップ演算子 $\mMapList$ を使うと $f\mMapList\mIn\mProj{\mListType{a}}{\mListType{b}}$ が得られた．Maybeのマップ演算子 $\mMapMaybe$ を使うと $f\mMapMaybe\mIn\mProj{\mMaybeType{a}}{\mMaybeType{b}}$ が得られた．では $f\mMapFunc$ はどうだろう．式\eqref{eq:type-of-mapfunc-ii}から $f\mMapFunc$ の型は $\mProj{(\mProj{\mType{r}}{\mType{a}})}{(\mProj{\mType{r}}{\mType{b}})}$ である．もし関数 $g\mIn\mProj{\mType{r}}{\mType{a}}$ があったとすると，マップした結果である $f\mMapFunc g$ は $\mProj{\mType{r}}{\mType{b}}$ という型を持つ．これは関数合成そのものである．実際に式\eqref{eq:def-of-map-func}は関数合成の定義式そのものである．従って，新しいマップ演算子 $\mMapFunc$ は
+\begin{equation}
+\mMapFunc=\mComp
+\end{equation}
+と定義しても良い．
+
+マップ演算子が定義できたので，この新しい関手は $\mFunctorTypeClass$ 型クラスに属す．この新しい関手は関数そのものなので，特に名前はない．\footnote{\haskell では \code{(->)r} 関手と呼ぶ．}
+
+% 関数はアプリカティブ関手でもある．
+% \begin{equation}
+% f\mMap\omega=\mPureWith{f}\mAppMap\omega
+% \end{equation}
+% であることを思い出すと，
+% \begin{equation}
+% f\mMapFunc g=\mFuncWith{f}\mAppMapFunc g
+% \end{equation}
+% であるような値コンストラクタ $\mFuncWith{f}$ およびアプリカティブマップ演算子 $\mAppMapFunc$ を考えることが出来る．関数 $f$ の型が $\mProj{\mType{a}}{\mType{b}}$ であるとき，コンテナ値 $\mFuncWith{f}$ の型は $\mFuncType{\mProj{\mType{a}}{\mType{b}}}$ であるから，すなわち
+% \begin{equation}
+% \mFuncWith{f}\mIn\mProj{\mType{r}}{\mProj{\mType{a}}{\mType{b}}}
+% \end{equation}
+% である．（このとき関数 $g$ は $\mProj{\mType{r}}{\mType{a}}$ という型を持つ．）値コンストラクタの定義は
+% \begin{equation}
+% \mFuncWith{f}=\mLambdaExp{\mAnyParam}{f}
+% \end{equation}
+% である．関数 $\mFuncWith{f}$ は $\mType{r}$ 型の引数を取るがそれを無視し，関数 $f\mIn\mProj{\mType{a}}{\mType{b}}$ を返す．この定義は第\ref{ch:io}章でもう一度登場する．
+
+
+---
+
 関数にはピュア演算子が定義されていて
 \begin{equation}
 \mFuncWith{f}=\mLambdaExp{\mAnyParam}{f}
@@ -2720,6 +2735,10 @@ do記法には $\mDoEq$ の他に，我々の $\mLet$ とよく似た $\mDoLetKe
 \begin{enumerate}
 \item do記法．
 \end{enumerate}
+
+\begin{note}{関数の評価順序}
+...
+\end{note}
 
 
 \part{\haskell プログラミング}
@@ -3250,6 +3269,8 @@ f&=\mLambdaExp{xy}{y}\\
 \section{継続*}
 \section{余計な話：ハイジェニックマクロ*}
 \section{この章のまとめ*}
+
+\chapter{もっと勉強したい人へ*}
 
 \chapter*{キーワード一覧}
 
