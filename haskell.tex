@@ -2028,14 +2028,25 @@ w=f\mMap u\mAppMap v
 \end{equation}
 とすれば良い．このようにアプリカティブマップ演算子を並べる書き方をアプリカティブスタイルと呼ぶ．
 
-\section{関手としての関数}
+\section{関手としての関数*}
 
-新しい関手を定義する．関手の本質はマップ演算子であった．この新しい関手のマップ演算子は $\mMapFunc$ と書き， 
+【要移動】第9章へ．
+
+【要訂正】新しい関手を定義する．関手の本質はマップ演算子であった．この新しい関手のマップ演算子は $\mMapFunc$ と書き， 
 \begin{equation}
 \label{eq:def-of-map-func}
 f\mMapFunc g=f(g\mAnonParam)
 \end{equation}
 と定義する．ただし $f,g$ は関数である．
+
+---
+
+$$
+f\mMapFunc g=\mFuncWith{f\mComp g}
+$$
+
+---
+
 
 こんな定義で大丈夫だろうか．念のため一般マップ演算子の型を思い出すことにしよう．一般マップ演算子の型は
 \begin{equation}
@@ -2151,6 +2162,10 @@ g\mMapMaybe\mMaybe{u}&\mIf\mMaybe{h}\equiv\mMaybeWith{f}\\
 \end{cases}
 \end{align}
 である．
+
+\section{余計な話：若干の歴史的な混乱について*}
+
+\haskell には最初に関手が導入され，その次に関手を拡張する形でモナドが導入された．そして，その次に，関手を拡張しなおす形でアプリカティブ関手が導入された．それゆえ，モナドとアプリカティブ関手には概念的重複があるにもかかわらず，別々に定義されるという悲劇が暫くの間続いた．アプリカティブ関手のピュア演算子と，モナドのユニット演算子は概念的に同じものであるにもかかわらず，別々の演算子として定義されていたのである．この状態は GHC v7.10 以降で，モナドがアプリカティブ関手を拡張する形に改められたことで解消した．
 
 \section{この章のまとめ*}
 
@@ -2595,12 +2610,14 @@ i\mBind f'&=\mLambdaExp{r}{i(f'r)r}
 
 
 \begin{align}
-i\mMapFunc f'&=(\mConst\mComp i)\mBind f'\\
+i\mMapFunc f'&=\mFuncWith{i\mAnonParam}\mBind f'\\
+&=(\mConst(i\mAnonParam))\mBind f'\\
+&=(\mConst\mComp i)\mBind f'\\
 &=\mLambdaExp{r}{(\mConst\mComp i)(f'r)r}\\
 &=\mLambdaExp{r}{\mConst(i(f'r)r}\\
 &=\mLambdaExp{r}{i(f'r)}\\
-&=\mLambdaExp{r}{(i\mComp f)r}\\ %??????
-&=\mFuncWith{i\mComp f}
+&=\mLambdaExp{r}{(i\mComp f')r}\\
+&=\mFuncWith{i\mComp f'} % so i `fmap` f' == pure i.f' ???
 \end{align}
 
 
