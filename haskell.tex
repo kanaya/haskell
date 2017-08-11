@@ -1,4 +1,4 @@
-\documentclass[a4paper,twocolumn,draft]{jsbook}
+\documentclass[a4paper,twocolumn]{jsbook}
 % \usepackage{eulervm}
 \usepackage{amsmath,amssymb,ascmac,bm,graphicx,latexsym,mathtools,multirow,okuverb}
 \makeindex
@@ -471,8 +471,8 @@ $ stack install ghc
 
 第I部は対応する\haskell のコードを脚注に記載している．脚注部分は\haskell を一通り覚えた後で読み返してもらいたい．\footnote{\haskell のコードは \code{x = 1} のようにタイプライタ体で書く．}
 
-\begin{note}
-A.
+\begin{note}{A}
+...
 \end{note}
 
 
@@ -531,7 +531,7 @@ lambda x: 1+x
 \begin{equation}
 \mLambdaExp{x}{1+x}
 \end{equation}
-と書くことにする．この式はラムダ式を発明したアロンゾ・チャーチのオリジナルの論文の記法であれば $\Hat{x}\mathbin{.}1+x$ と書かれたところであり，現在でも多くの書物で $\lambda x\mathbin{.}1+x$ と記述されるところである．しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号 $(.)$ が今後登場する二項演算子 $\cdot$ と紛らわしいため，上述の記法を用いる．\footnote{\haskell ではラムダ式 $\mLambdaExp{x}{1+x}$ を \code{\textbackslash x -> 1+x} と書く．}
+と書くことにする．この式は多くの書物で $\lambda x\mathbin{.}1+x$ と記述されるところである．しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号 $(.)$ が今後登場する二項演算子 $\cdot$ と紛らわしいため，上述の記法を用いる．\footnote{\haskell ではラムダ式 $\mLambdaExp{x}{1+x}$ を \code{\textbackslash x -> 1+x} と書く．}
 
 ラムダ式は関数である．ラムダ式を適用するには，ラムダ式を括弧で包む必要がある．例を挙げる．
 \begin{equation}
@@ -835,6 +835,9 @@ f&=\mLambdaExp{x}{x+a}
 \item \haskell のラムダ式はいつもレキシカルクロージャである．
 \end{enumerate}
 
+\begin{note}{C}
+...
+\end{note}
 
 
 \chapter{型*}
@@ -1183,6 +1186,10 @@ $\mDoubleType$
 \item 型のインタフェースをまとめたものを型クラスと呼ぶ． % ***インタフェース***
 \end{enumerate}
 
+\begin{note}{D}
+...
+\end{note}
+
 
 
 \chapter{リスト}
@@ -1317,7 +1324,7 @@ s = ls.inject(0) { |x, y| x+y }
 \begin{equation}
 \sum=\mFold^+_0
 \end{equation}
-とも書く．このような書き方を\keyword{ポイントフリースタイル}と呼ぶ．
+とも書く．このように，ラムダ式を使わずに引数を省略してしまう書き方を\keyword{ポイントフリースタイル}と呼ぶ．\footnote{\haskell はポイントフリースタイルをサポートする．}
 
 リストの要素のすべての積をとる演算子 $\prod$ は
 \begin{equation}
@@ -1482,6 +1489,10 @@ f\mMapList\mEmptyList
 
 % 型パラメタの話はどこが初出？
 
+\begin{note}{E}
+...
+\end{note}
+
 
 \chapter{再帰*}
 
@@ -1602,6 +1613,9 @@ x*\mFact(x-1)&\mOtherwise
 \item 関数はいつも遅延評価される．そのため無限リストを扱うことも可能である．
 \end{enumerate}
 
+\begin{note}{F}
+...
+\end{note}
 
 
 \chapter{Maybe*}
@@ -1879,6 +1893,10 @@ Either型は，今ではほとんど使われなくなった\clang の共有型 
 \item 普通の関数 $f\mIn\mProj{\mType{a}}{\mType{b}}$ をMaybe値に適用することはできない．関数 $f$ をMaybe値に適用するには $f\mMapMaybe\mMaybe{u}$ のようにMaybeマップ演算子が必要であり，この関数適用の結果は $\mMaybeType{b}$ 型である．
 \item Either変数は二つの型のいずれかを持つことができ，$\mEither{e}=\mEitherRightWith{x}$ または $\mEither{e}=\mEitherLeftWith{x}$ のように生成する．
 \end{enumerate}
+
+\begin{note}{G}
+...
+\end{note}
 
 
 \chapter{関手*}
@@ -2515,6 +2533,11 @@ f\mBindFunc\phi=\mLambdaExp{r}{f(\phi r)r}
 
 \section{この章のまとめ*}
 
+\begin{note}{I}
+...
+\end{note}
+
+
 \chapter{IO}
 \label{ch:io}
 
@@ -2818,6 +2841,11 @@ w=\mMain\mBind\mPureWith{x}
 
 \section{余計な話：パイプライン演算子*}
 \section{この章のまとめ*}
+
+\begin{note}{K}
+...
+\end{note}
+
 
 \chapter{インタープリタで遊ぶ*}
 \chapter{新しい型の導入*}
