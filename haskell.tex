@@ -18,6 +18,7 @@
 \newcommand{\cxxeleven}{\cxx\programminglanguage{11}}
 \newcommand{\cxxfourteen}{\cxx\programminglanguage{14}}
 \newcommand{\cxxseventeen}{\cxx\programminglanguage{17}}
+\newcommand{\cxxseventwelve}{\cxx\programminglanguage{20}}
 \newcommand{\haskell}{\programminglanguage{Haskell}}
 \newcommand{\java}{\programminglanguage{Java}}
 \newcommand{\lisp}{\programminglanguage{LISP}}
@@ -1884,6 +1885,15 @@ template <class X, class a, class b, class fn>
 X<b> map_over(fn f, X<a> x);
 \end{verbatim}
 \end{cxxcode}
+\begin{cxxcode}
+\begin{verbatim}
+// NEW
+template <class T> class List;
+template <class T> class Maybe;
+template <template<class T> class X, class fn>
+X<T> map_over(fn f, X<T> x);  // ???
+\end{verbatim}
+\end{cxxcode}
 として，型\code{X}に応じてリストバージョンかMaybeバージョンを切り替えられると便利である．残念ながら\cxxeleven ではこの書き方が出来ない．
 % 型 \code{X} がマップ可能なコンテナであることをテンプレート機構を使って保証することができないため，この \code{map\_over} 関数を誤った型に対して使った場合のコンパイル時エラーはひどく読みにくいものになる．ヒューマンエラーを防ぐための型システムが，まさに型無しになってしまうのだ．（この制約は\cxxseventeen で改善される．）
 
@@ -1914,7 +1924,7 @@ Etherには値コンストラクタが2種類あり，それぞれ $\mEitherRigh
 
 Eitherはより複雑な計算エラーが発生する場合に用いる．Maybeが単に失敗を表す $\mNothing$ しか表現できなかったのに対し，Eitherは任意の型の変数で表現できる．習慣的に，正しい (right) 計算結果は $\mEitherRightWith{x}$ 値コンストラクタで格納し，エラーの情報は $\mEitherLeftWith{x}$ 値コンストラクタで格納する．
 
-Either型は，今ではほとんど使われなくなった\clang の共有型 (\code{union}) に近い．
+Either型は\clang の共有型 (\code{union}) に近い．
 
 \section{この章のまとめ}
 
