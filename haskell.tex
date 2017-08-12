@@ -1880,21 +1880,17 @@ maybe<b> map_over(fn f, maybe<a> u);
 やはりそっくりである．であるならば
 \begin{cxxcode}
 \begin{verbatim}
-// 構文エラー
-template <class X, class a, class b, class fn>
+template <class a, class b,
+  template<class> X, class fn>
 X<b> map_over(fn f, X<a> x);
 \end{verbatim}
 \end{cxxcode}
-\begin{cxxcode}
-\begin{verbatim}
-// NEW
-template <class T> class List;
-template <class T> class Maybe;
-template <template<class T> class X, class fn>
-X<T> map_over(fn f, X<T> x);  // ???
-\end{verbatim}
-\end{cxxcode}
-として，型\code{X}に応じてリストバージョンかMaybeバージョンを切り替えられると便利である．残念ながら\cxxeleven ではこの書き方が出来ない．
+として，型\code{X}に応じてリストバージョンかMaybeバージョンを切り替えられると便利である．
+
+...
+
+% 残念ながら\cxxeleven ではこの書き方が出来ない．
+
 % 型 \code{X} がマップ可能なコンテナであることをテンプレート機構を使って保証することができないため，この \code{map\_over} 関数を誤った型に対して使った場合のコンパイル時エラーはひどく読みにくいものになる．ヒューマンエラーを防ぐための型システムが，まさに型無しになってしまうのだ．（この制約は\cxxseventeen で改善される．）
 
 一方で，数学者たちが見つけた圏という代数的構造が，リストもMaybeも統一的に扱うことを可能にしている．これを発見したのは Eugenio Moggi を始めとする計算機科学者たちである．この人類の英知は第\ref{ch:functor}章から見ていくことにしよう．
