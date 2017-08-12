@@ -3330,9 +3330,27 @@ f&=\mLambdaExp{xy}{y}\\
 
 \section{クラスとテンプレート*}
 \section{関数とラムダ式*}
+
+\cxxfourteen
+\begin{verbatim}
+auto lambda_exp
+  = [](auto x, auto y) { return x+y; };
+\end{verbatim}
+
+\begin{verbatim}
+auto lambda_exp = [u = 1] { return u; };
+\end{verbatim}
+
+
+
 \section{制御構造*}
 \section{余計な話：多様性*}
 \section{この章のまとめ*}
+
+\begin{note}{auto キーワード}
+...
+\end{note}
+
 
 \chapter{\scheme}
 
