@@ -18,7 +18,7 @@
 \newcommand{\cxxeleven}{\cxx\programminglanguage{11}}
 \newcommand{\cxxfourteen}{\cxx\programminglanguage{14}}
 \newcommand{\cxxseventeen}{\cxx\programminglanguage{17}}
-\newcommand{\cxxseventwelve}{\cxx\programminglanguage{20}}
+\newcommand{\cxxtwelve}{\cxx\programminglanguage{20}}
 \newcommand{\haskell}{\programminglanguage{Haskell}}
 \newcommand{\java}{\programminglanguage{Java}}
 \newcommand{\lisp}{\programminglanguage{LISP}}
@@ -477,7 +477,7 @@ $ stack install ghc
 \end{note}
 
 
-\chapter{カリー風な書き方}
+\chapter{カリー風な書き方*}
 \begin{leader}
 本書では一般の数学書やプログラミングの教科書からは少し異なった記法を用いる．ある概念が発明されてからずっと後になって正しい記法が見つかり，それがきっかけとなって正しく理解されるという現象は歴史上よくあることである．本書でも様々な新しい記号，記法を導入するが，この章では\haskell に近い記法から始めることにする．
 \end{leader}
@@ -1877,7 +1877,7 @@ template <class a, class b, class fn>
 maybe<b> map_over(fn f, maybe<a> u);
 \end{verbatim}
 \end{cxxcode}
-やはりそっくりである．であるならば
+やはりそっくりである．であるならば，うまく統一したい．\cxxfourteen 以降であれば次のような書き方ができる．
 \begin{cxxcode}
 \begin{verbatim}
 template <class a, class b,
@@ -1885,13 +1885,16 @@ template <class a, class b,
 X<b> map_over(fn f, X<a> x);
 \end{verbatim}
 \end{cxxcode}
-として，型\code{X}に応じてリストバージョンかMaybeバージョンを切り替えられると便利である．
+これは一見上手く行きそうに見えるが，このコードは \code{map\_over} のインスタンス化で躓くため，次のように \code{b} 型のダミー変数が必要になる．
+\begin{verbatim}
+template <class a, class b,
+  template<class> X, class fn>
+X<b> map_over(fn f, X<a> x, b dummy);
+\end{verbatim}
+残念なことに，いずれのコードにしてもリストとMaybeの本質的な抽象化にはなってない．型 \code{X} がマップ可能なコンテナであることをテンプレート機構を使って保証することができないためである．この問題は\cxxtwelve で導入予定の「コンセプト」機能によって解決する見込みである．
 
-...
-
-% 残念ながら\cxxeleven ではこの書き方が出来ない．
-
-% 型 \code{X} がマップ可能なコンテナであることをテンプレート機構を使って保証することができないため，この \code{map\_over} 関数を誤った型に対して使った場合のコンパイル時エラーはひどく読みにくいものになる．ヒューマンエラーを防ぐための型システムが，まさに型無しになってしまうのだ．（この制約は\cxxseventeen で改善される．）
+% https://stackoverflow.com/questions/213761/what-are-some-uses-of-template-template-parameters-in-c
+% https://stackoverflow.com/questions/2565097/higher-kinded-types-with-c
 
 一方で，数学者たちが見つけた圏という代数的構造が，リストもMaybeも統一的に扱うことを可能にしている．これを発見したのは Eugenio Moggi を始めとする計算機科学者たちである．この人類の英知は第\ref{ch:functor}章から見ていくことにしよう．
 
