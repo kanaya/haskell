@@ -677,45 +677,9 @@ y=fx'\mWhere{x'}{1+x}
 \item 局所変数は $y=\mLetIn{x'}{\dotsb}{fx'}$ または $y=fx'\mWhere{x'}{\dotsb}$ という書き方で導入できる．
 \end{enumerate}
 
-\begin{note}{\clang のブロック拡張*}
-\clang は公式にはラムダ式を採用していない．しかし\clang にラムダ式を持たせる拡張はいくつか提案されている．その一つがApple社が自社OSの Grand Central Dispatch 機能のために行った「ブロック拡張」である．
 
-\begin{ccode}
-\begin{verbatim}
-typedef int (^IntToInt)(int);
-int n = 100;
-IntToInt f = ^(int x) { return n+x; }
-\end{verbatim}
-\end{ccode}
-
-
-\begin{verbatim}
-#include <stdio.h>
-#include <Block.h>
-typedef int (^IntBlock)();
-
-IntBlock MakeCounter(int start, int increment) {
-  __block int i = start;
-
-  return Block_copy( ^(void) {
-    int ret = i;
-    i += increment;
-    return ret;
-  });
-}
-
-int main(void) {
-  IntBlock mycounter = MakeCounter(5, 2);
-  printf("First call: %d\n", mycounter());
-  printf("Second call: %d\n", mycounter());
-  printf("Third call: %d\n", mycounter());
-
-  /* because it was copied, it must also be released */
-  Block_release(mycounter);
-  return 0;
-}
-\end{verbatim}
-この拡張はオープンソースコミュニティに還元されているため，GCCやclangで使用可能である．
+\begin{note}{B}
+...
 \end{note}
 
 
@@ -850,7 +814,7 @@ fx=\begin{cases}
 \end{equation}
 左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっていることに注目しよう．\footnote{\haskell ではいつも \code{if ... then ... else ...} を使った式にする．}
 
-\section{余計な話：クロージャ}
+\section{余計な話：クロージャ*}
 
 ラムダ式をサポートするほとんどのプログラミング言語は，\keyword{レキシカルクロージャ}をサポートする．レキシカルクロージャとは，ラムダ式が定義された時点での，周囲の環境をラムダ式に埋め込む機構である．例えば
 \begin{align}
@@ -860,6 +824,23 @@ f&=\mLambdaExp{x}{a+x}
 というラムダ式があるとする．当然我々は関数 $f$ がいつも $f=\mLambdaExp{x}{100+x}$ であることを期待するし，\haskell においてはいつも保証される．
 
 ところが，参照透過性のない言語，言い換えると変数への破壊的代入が許されている言語では，変数 $a$ の値がいつ変わっても不思議ではない．そこで，それらの言語では関数 $f$ が定義された時点での $a$ の値を，関数 $f$ の定義に含めておく．これがレキシカルクロージャの考え方である．
+
+---
+
+高階関数
+
+---
+
+\begin{equation}
+\phi n=\mLambdaExp{x}{n+x}
+\end{equation}
+
+\begin{equation}
+(\phi n)x=n+x
+\end{equation}
+
+
+---
 
 \haskell ではそもそも変数への破壊的代入がないので，関数 $f$ がレキシカルクロージャであるかどうか悩む必要はない．あえて言えば，\haskell ではラムダ式はいつもレキシカルクロージャである．もしあなたのそばの\cxx プログラマが「え？\haskell にはレキシカルクロージャが無いの？」などと聞いてきたら，「ええ，\haskell には破壊的代入すらありませんから」と答えておこう．
 
@@ -875,10 +856,32 @@ f&=\mLambdaExp{x}{a+x}
 \item \haskell のラムダ式はいつもレキシカルクロージャである．
 \end{enumerate}
 
-\begin{note}{オブジェクト指向とクロージャ}
-...
-\end{note}
 
+\begin{note}{\clang のブロック拡張*}
+\clang は公式にはラムダ式を採用していない．しかし\clang にラムダ式を持たせる拡張はいくつか提案されている．その一つがApple社が自社OSの Grand Central Dispatch 機能のために行った「ブロック拡張」である．このブロック拡張を用いたクロージャの例を見てみよう．
+
+\begin{ccode}
+\begin{verbatim}
+#include <Block.h>
+#include <stdio.h>
+typedef int (^int_to_int)(int);
+int_to_int make_plus_n(int n) {
+  return Block_copy(^(int x) {
+      return n+x;
+    });
+}
+int main(void) {
+  int_to_int make_plus_10
+    = make_plus_n(10);
+  int x = make_plus_10(1);
+  printf("x = %d\n", x);
+  return 0;
+}
+\end{verbatim}
+\end{ccode}
+
+この拡張はオープンソースコミュニティに還元されているため，GCCやclangで使用可能である．
+\end{note}
 \chapter{型*}
 
 \begin{leader}
@@ -3581,7 +3584,7 @@ int main(void) {
 
 \section{この章のまとめ*}
 
-\begin{note}{auto キーワード}
+\begin{note}{オブジェクト指向とクロージャ}
 ...
 \end{note}
 
