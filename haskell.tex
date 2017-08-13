@@ -14,6 +14,7 @@
 \newcommand{\clang}{\programminglanguage{C}}
 \newcommand{\csharp}{\programminglanguage{C}\texttt{\#}}
 \newcommand{\cxx}{\programminglanguage{C}\texttt{++}}
+\newcommand{\cxxninetyeight}{\cxx\programminglanguage{98}}
 \newcommand{\cxxzerothree}{\cxx\programminglanguage{03}}
 \newcommand{\cxxeleven}{\cxx\programminglanguage{11}}
 \newcommand{\cxxfourteen}{\cxx\programminglanguage{14}}
@@ -44,11 +45,13 @@
 
 %% Code Blocks (like ``` ... ``` of Markdown)
 
+\newenvironment{ccode}{\begin{itembox}[r]{\clang}}{\end{itembox}}
 \newenvironment{cxxcode}{\begin{itembox}[r]{\cxx}}{\end{itembox}}
 \newenvironment{javacode}{\begin{itembox}[r]{\java}}{\end{itembox}}
 \newenvironment{haskellcode}{\begin{itembox}[r]{\haskell}}{\end{itembox}}
 \newenvironment{pythoncode}{\begin{itembox}[r]{\python}}{\end{itembox}}
 \newenvironment{rubycode}{\begin{itembox}[r]{\ruby}}{\end{itembox}}
+\newenvironment{schemecode}{\begin{itembox}[r]{\scheme}}{\end{itembox}}
 
 %% Math
 
@@ -674,10 +677,45 @@ y=fx'\mWhere{x'}{1+x}
 \item 局所変数は $y=\mLetIn{x'}{\dotsb}{fx'}$ または $y=fx'\mWhere{x'}{\dotsb}$ という書き方で導入できる．
 \end{enumerate}
 
-\begin{note}{\clang 言語とラムダ式}
-ラムダ式は計算の本質であるにも関わらず，多くのプログラミング言語では近年になるまでラムダ式を採用しなかったし，\clang は未だに採用していない．
+\begin{note}{\clang のブロック拡張*}
+\clang は公式にはラムダ式を採用していない．しかし\clang にラムダ式を持たせる拡張はいくつか提案されている．その一つがApple社が自社OSの Grand Central Dispatch 機能のために行った「ブロック拡張」である．
 
-...
+\begin{ccode}
+\begin{verbatim}
+typedef int (^IntToInt)(int);
+int n = 100;
+IntToInt f = ^(int x) { return n+x; }
+\end{verbatim}
+\end{ccode}
+
+
+\begin{verbatim}
+#include <stdio.h>
+#include <Block.h>
+typedef int (^IntBlock)();
+
+IntBlock MakeCounter(int start, int increment) {
+  __block int i = start;
+
+  return Block_copy( ^(void) {
+    int ret = i;
+    i += increment;
+    return ret;
+  });
+}
+
+int main(void) {
+  IntBlock mycounter = MakeCounter(5, 2);
+  printf("First call: %d\n", mycounter());
+  printf("Second call: %d\n", mycounter());
+  printf("Third call: %d\n", mycounter());
+
+  /* because it was copied, it must also be released */
+  Block_release(mycounter);
+  return 0;
+}
+\end{verbatim}
+この拡張はオープンソースコミュニティに還元されているため，GCCやclangで使用可能である．
 \end{note}
 
 
@@ -837,10 +875,9 @@ f&=\mLambdaExp{x}{a+x}
 \item \haskell のラムダ式はいつもレキシカルクロージャである．
 \end{enumerate}
 
-\begin{note}{C}
+\begin{note}{オブジェクト指向とクロージャ}
 ...
 \end{note}
-
 
 \chapter{型*}
 
@@ -3326,10 +3363,19 @@ f&=\mLambdaExp{xy}{y}\\
 
 \section{この章のまとめ*}
 
+
+\chapter{\scheme}
+
+\section{基本関数*}
+\section{分岐と再帰*}
+\section{継続*}
+\section{余計な話：ハイジェニックマクロ*}
+\section{この章のまとめ*}
+
 \chapter{\cxx}
 
 \section{クラスとテンプレート*}
-\section{関数とラムダ式*}
+\section{ラムダ式*}
 
 \cxxfourteen
 \begin{verbatim}
@@ -3343,8 +3389,196 @@ auto lambda_exp = [u = 1] { return u; };
 
 
 
-\section{制御構造*}
-\section{余計な話：多様性*}
+\section{オブジェクト指向*}
+
+複雑な構造に対する単純な操作について考える．
+
+オブジェクト指向（クラス指向と呼ぶべきだが歴史はそうはならなかった）は，複雑な構造に対する単純な操作をうまく抽象化する．
+
+例えば，複素数（実数に比べれば複雑だ）の足し算（単純だ）は，C89/90ならば以下のようになる．
+
+%\begin{verbatim}
+%double x_re = 1.0;
+%double x_im = 2.0;
+%double y_re = 3.0;
+%double y_im = 4.0;
+%double z_re = x_re + y_re;
+%double z_im = x_im + y_im;
+%printf(“%f, %fn”, z_re, z_im);
+%\end{verbatim}
+
+優秀なCプログラマならすぐに構造体と関数を導入するだろう．しかし，よりよい方法がある．C++を使うことだ．（C99ならば複素数を扱えるが，言語の抽象度がC89/90よりも高いわけではない．）C++98ならば次のようにする．
+
+%\begin{verbatim}
+%std::complex<double> x(1.0, 2.0), y(3.0, 4.0);
+%std::complex<double> z = x + y;
+%std::cout << z << std::endl;
+%\end{verbatim}
+
+複素数はあらかじめ用意されていたが，プログラマは独自の複雑な構造（行列だとか）を自前で作っておくことが出来る．複雑な構造に対する単純な操作を陽に扱えることは，特にGUIの設計，実装にとっては決定的となる．近代的なGUIは，複雑な構造（ビュー，コントローラ，モデルのそれぞれに当てはまる）の間をメッセージが単純に行き交うモデルであるからである．
+
+（いま述べたのはオブジェクト指向のうちカプセル化についてだけである．オブジェクト指向の本当の力はポリモーフィズムにある．それについては後半で触れる．）
+
+次は，単純な構造に対する複雑な操作について考える．
+
+C++のような素朴なオブジェクト指向機能だけでは，単純な構造に対する複雑な操作をうまく抽象化できない．次のSchemeのコードを見てもらいたい．
+
+%\begin{verbatim}
+%(define (make-plus-n n)
+% (lambda (x) (+ n x)))
+%\end{verbatim}
+
+関数（Schemeでは手続きと呼ぶ）make-plus-nは「引数にnを足す」という操作を作る．
+
+%\begin{verbatim}
+%(define plus2 (make-plus-n 2))
+%(print (plus2 3))
+%\end{verbatim}
+
+とすると5が印刷される．数値（単純だ）に対する，飢えた足し算演算子（複雑な気分になる）を作ったのだ．C++98でmake-plus-nを作ることは可能であるが，簡潔とは言い難い．準備段階として標準関数オブジェクトクラステンプレートstd::plusを使ってみる．
+
+%\begin{verbatim}
+%std::binder1st<std::plus<double>>
+%plus2(std::plus<double>(), 2);
+%\end{verbatim}
+
+として作ったオブジェクトplus2は関数風に使える．例えば
+
+%\begin{{verbatim}
+%std::cout << plus2(3) << std::endl;
+%\end{verbatim}
+
+は5を印字する．（あるいはより簡単に
+
+%\begin{verbatim}
+%std::cout << std::bind1st(std::plus<double>(), 2)(3) << std::endl;
+%\end{verbatim}
+
+と書いても同じことである．）もう一段の抽象化がC++版のmake-plus-nである．
+
+%\begin{verbatim}
+%template <typename T> std::binder1st< std::plus<T> > make_plus_n(T n) {
+% return std::binder1st< std::plus<T> >(std::plus<T>(), n);
+%}
+%std::binder1st< std::plus<double> > plus2 = make_plus_n(2);
+%std::cout << plus2(3) << std::endl;
+%\end{verbatim}
+
+は5を印字する．驚くべきことに，優れたC++プログラマは上のコードをさらさらと書く．
+
+C++0xやアップルの Grand Central Dispatch (GCD) 対応版C言語では不格好ながらラムダ抽象が導入される．例えばC++0xではmake\_plus\_nは次のように書けるようになるはずである．
+
+%\begin{verbatim}
+%template <typename T> auto make_plus_n(T n) {
+% return [=](T x) { return n + x; }
+%}
+%\end{verbatim}
+
+GCDでは同様のラムダ式をこう書く．
+
+%\begin{verbatim}
+%^(T x) { return n + x; }
+%\end{verbatim}
+
+さて，もう一度複雑な構造に対する単純な操作を振り返ってみよう．
+
+オブジェクト指向の本質は関数のディスパッチである．メジャーなオブジェクト指向言語（C++を含む）は単一ディスパッチ（第1引数が指す型ポインタによって実際の呼び出し先関数が決定される）であるが，LISP用オブジェクトシステムCLOS（これはLISP上に構築されている）は複数ディスパッチをサポートする．Clojureにおける例は「Closer to Clojure: ポリモーフィズム」から見てもらいたい．
+
+もし，オブジェクト指向かクロージャ指向かのどちらかの言語を選べと言われたら，クロージャ指向を取ろう．どちらの言語でも，その言語の上にもう一方のパラダイムを築くことは出来る．ただし，オブジェクト指向言語でクロージャ指向をサポートするのは骨の折れることだ．それに対し，クロージャ指向の言語でオブジェクト指向をサポートするのはたやすい．
+
+---
+
+\section{余計な話：\clang によるクロージャの実装*}
+
+簡単なクロージャの例として，引数に $n$ を足す関数を生成する関数を\clang 言語で考える．
+%まずはお約束の\#includeから．
+%\begin{verbatim}
+%#include <stdio.h>
+%#include <stdlib.h>
+%\end{verbatim}
+やりたいことは\scheme で言えば
+\begin{schemecode}
+\begin{verbatim}
+(define (make-plus-n n) (lambda (x) (+ n x)))
+\end{verbatim}
+\end{schemecode}
+なのだが，レキシカルクロージャを持たない\clang 言語では自前で変数をラップする必要がある．そこで，こんな構造体を作ってみる．
+\begin{ccode}
+\begin{verbatim}
+struct make_plus_n_context_t {
+  int _n;
+  int (*_func)
+    (const struct make_plus_n_context_t *,
+    int);
+};
+typedef struct make_plus_n_context_t
+  MAKE_PLUS_N_CONTEXT_T;
+\end{verbatim}
+\end{ccode}
+
+次に，足し算関数の実体を用意しておく．
+\begin{ccode}
+\begin{verbatim}
+static int plus_n(
+  const MAKE_PLUS_N_CONTEXT_T *context,
+  int x) {
+    return context->_n + x;
+}
+\end{verbatim}
+\end{ccode}
+
+最後に，関数 \code{make\_plus\_n} を定義する．
+\begin{ccode}
+\begin{verbatim}
+MAKE_PLUS_N_CONTEXT_T *make_plus_n(int n) {
+  MAKE_PLUS_N_CONTEXT_T *context;
+  context = (MAKE_PLUS_N_CONTEXT_T *)
+    malloc(sizeof(MAKE_PLUS_N_CONTEXT_T));
+  context->_n = n;
+  context->_func = plus_n;
+  return context;
+}
+\end{verbatim}
+\end{ccode}
+この関数は \code{make\_plus\_n\_context\_t} 構造体をメモリを新たに確保して返す．この構造体から \code{\_func} を呼んでやるのは，次のようなマクロを用意すると便利である．
+\begin{ccode}
+\begin{verbatim}
+#define FUNC_CALL(context, param)
+  ((context)->_func((context), (param)))
+\end{verbatim}
+\end{ccode}
+本マクロは次のように使う．
+\begin{ccode}
+\begin{verbatim}
+int main(void) {
+  MAKE_PLUS_N_CONTEXT_T *plus_2
+    = make_plus_n(2);
+  int y = FUNC_CALL(plus_2, 1);
+  printf("%dn", y);
+  free(plus_2);
+  return 0;
+}
+\end{verbatim}
+\end{ccode}
+これが\clang 版クロージャの一例である．驚くべきことに\clang ウィザードはこのようなことは朝飯前にやってしまう．
+%（いや，もっといいコードを書くだろう．）
+
+%僕は上記のようなコードを一瞬で書くことはできないので，Cウィザードではないのだろう．ただし，C++版の次のコードならすらすらと出てくる．（標準テンプレートライブラリがstd::plusを用意してくれたおかげであるが．）
+%\begin{verbatim}
+%template <typename T> std::binder1st< std::plus<T> > make_plus_n(T n) {
+%  return std::binder1st< std::plus<T> %>(std::plus<T>(), n);
+%}
+%std::binder1st< std::plus<int> > plus_2 = make_plus_n(2);
+%std::cout << plus_2(3) << std::endl;
+%\end{verbatim}
+%Scheme版の
+%\begin{verbatim}
+%(define (make-plus-n n) (lambda (x) (+ n x)))
+%\end{verbatim}
+%ならもっとたやすく書ける．（ウィザードじゃなくても書けるでしょ？）
+
+
+
 \section{この章のまとめ*}
 
 \begin{note}{auto キーワード}
@@ -3352,13 +3586,6 @@ auto lambda_exp = [u = 1] { return u; };
 \end{note}
 
 
-\chapter{\scheme}
-
-\section{基本関数*}
-\section{分岐と再帰*}
-\section{継続*}
-\section{余計な話：ハイジェニックマクロ*}
-\section{この章のまとめ*}
 
 \chapter{もっと勉強したい人へ*}
 
