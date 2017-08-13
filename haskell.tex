@@ -554,7 +554,7 @@ lambda x: 1+x
 \end{equation}
 と書いても良い．式を左から読んで1番目の $\mAnonParam$ が元々の $x$ すなわち第1引数を，2番目の $\mAnonParam$ が元々の $y$ すなわち第2引数を意味する．この省略記法はプログラミング言語\scheme における\code{cut}プロシジャに由来する．\footnote{この記法は\haskell にはない．}
 
-\section{パタンマッチとガード}
+\section{パタンマッチ・ガード・条件分岐}
 
 関数 $f$ を $fx=(\sin x)/x$ と定義したいときに，\python では
 \begin{pythoncode}
@@ -630,9 +630,47 @@ f''x&\mGuard{x<0}=0\\
 \end{verbatim}
 と書く．}
 
-場合分けを関数の中に書きたい場合は後述の $\mIf$ 構文を用いる（第\ref{sec:if}節参照）．
+% 場合分けを関数の中に書きたい場合は後述の $\mIf$ 構文を用いる．
 
-\python にはスペシャルバージョンやガードに相当する文法はない．
+% \python にはスペシャルバージョンやガードに相当する文法はない．
+
+関数定義の場合分けを駆使すれば\keyword{条件式}はなくても構わないが，条件式の記法があるのは便利である．\python には
+\begin{pythoncode}
+\begin{verbatim}
+def f(x):
+  if x==0:
+    return 1
+  else:
+    return sin(x)/x
+\end{verbatim}
+\end{pythoncode}
+のような\keyword{制御構造}としての条件文があるが，我々は値を持つ条件式を考える．
+
+我々の条件式とは
+\begin{equation}
+fx
+=\mIfThenElse{x\equiv0}{1}{{}(\sin x)/x}
+\end{equation}
+のように $\mIf$ 節，$\mThen$ 節，及び $\mElse$ 節からなるものであって，$\mThen$ 節も $\mElse$ 節も省略できないものとする．$\mIf$ 節の式の値が真 $(\mTrue)$ であれば $\mThen$ 節の式が評価され，偽 $(\mFalse)$ であれば $\mElse$ 節の式が評価される．我々の条件式は\clang/\cxx における三項演算子と等しい．\footnote{\haskell では $fx=\mIfThenElse{x\equiv0}{1}{{}(\sin x)/x}$ を \code{f x = if x==0 then 1 else (sin x)/x} と書く．}
+
+$\mIf$ 節の中身は真理値を返す関数であれば良いので，関数 $p$ を
+\begin{equation}
+p=(\equiv)0
+\end{equation}
+としておき，
+\begin{equation}
+fx=\mIfThenElse{px}{1}{{}(\sin x)/x}
+\end{equation}
+と書く方法もしばしば用いられる．
+
+条件式は紙面が許せば次のように書いても良い．
+\begin{equation}
+fx=\begin{cases}
+1&\mIf x\equiv0\\
+(\sin x)/x&\mOtherwise
+\end{cases}
+\end{equation}
+左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっていることに注目しよう．\footnote{\haskell ではいつも \code{if ... then ... else ...} を使った式にする．}
 
 \section{余計な話：局所変数}
 
@@ -773,46 +811,22 @@ z=f_2\mApply f_1x
 \end{equation}
 であるから，関数適用演算子を用いて引数を関数に渡すことができる．\footnote{\haskell では $(\mApply x)f$ を \code{(\$x)f} と書く．}
 
-\section{条件分岐}
-\label{sec:if}
+\section{高階関数*}
 
-関数定義の場合分けを駆使すれば\keyword{条件式}はなくても構わないが，条件式の記法があるのは便利である．\python には
-\begin{pythoncode}
-\begin{verbatim}
-def f(x):
-  if x==0:
-    return 1
-  else:
-    return sin(x)/x
-\end{verbatim}
-\end{pythoncode}
-のような\keyword{制御構造}としての条件文があるが，我々は値を持つ条件式を考える．
+関数を引数に取ったり，あるいは関数を返す関数のことを\keyword{高階関数}と呼ぶことがある．関数合成演算子と関数適用演算子は高階関数の好例である．
 
-我々の条件式とは
+他に例えば，引数として整数 $a$ を取り，関数 $fx=a+x$ を返すような関数 $\phi$ を
 \begin{equation}
-fx
-=\mIfThenElse{x\equiv0}{1}{{}(\sin x)/x}
+\phi a=\mLambdaExp{x}{a+x}
 \end{equation}
-のように $\mIf$ 節，$\mThen$ 節，及び $\mElse$ 節からなるものであって，$\mThen$ 節も $\mElse$ 節も省略できないものとする．$\mIf$ 節の式の値が真 $(\mTrue)$ であれば $\mThen$ 節の式が評価され，偽 $(\mFalse)$ であれば $\mElse$ 節の式が評価される．我々の条件式は\clang/\cxx における三項演算子と等しい．\footnote{\haskell では $fx=\mIfThenElse{x\equiv0}{1}{{}(\sin x)/x}$ を \code{f x = if x==0 then 1 else (sin x)/x} と書く．}
-
-$\mIf$ 節の中身は真理値を返す関数であれば良いので，関数 $p$ を
-\begin{equation}
-p=(\equiv)0
-\end{equation}
-としておき，
-\begin{equation}
-fx=\mIfThenElse{px}{1}{{}(\sin x)/x}
-\end{equation}
-と書く方法もしばしば用いられる．
-
-条件式は紙面が許せば次のように書いても良い．
-\begin{equation}
-fx=\begin{cases}
-1&\mIf x\equiv0\\
-(\sin x)/x&\mOtherwise
-\end{cases}
-\end{equation}
-左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっていることに注目しよう．\footnote{\haskell ではいつも \code{if ... then ... else ...} を使った式にする．}
+のように定義することも可能である．このとき，
+\begin{align}
+a&=100\\
+b&=1\\
+f&=\phi a\\
+x&=fb
+\end{align}
+とすれば $x=101$ を得る．\footnote{\haskell では $\phi a=\mLambdaExp{x}{a+x}$ を \code{phi a = \textbackslash x -> a+x} と書く．}
 
 \section{余計な話：クロージャ*}
 
@@ -824,23 +838,6 @@ f&=\mLambdaExp{x}{a+x}
 というラムダ式があるとする．当然我々は関数 $f$ がいつも $f=\mLambdaExp{x}{100+x}$ であることを期待するし，\haskell においてはいつも保証される．
 
 ところが，参照透過性のない言語，言い換えると変数への破壊的代入が許されている言語では，変数 $a$ の値がいつ変わっても不思議ではない．そこで，それらの言語では関数 $f$ が定義された時点での $a$ の値を，関数 $f$ の定義に含めておく．これがレキシカルクロージャの考え方である．
-
----
-
-高階関数
-
----
-
-\begin{equation}
-\phi n=\mLambdaExp{x}{n+x}
-\end{equation}
-
-\begin{equation}
-(\phi n)x=n+x
-\end{equation}
-
-
----
 
 \haskell ではそもそも変数への破壊的代入がないので，関数 $f$ がレキシカルクロージャであるかどうか悩む必要はない．あえて言えば，\haskell ではラムダ式はいつもレキシカルクロージャである．もしあなたのそばの\cxx プログラマが「え？\haskell にはレキシカルクロージャが無いの？」などと聞いてきたら，「ええ，\haskell には破壊的代入すらありませんから」と答えておこう．
 
