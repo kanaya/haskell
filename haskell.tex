@@ -717,8 +717,15 @@ y=fx'\mWhere{x'}{1+x}
 \end{enumerate}
 
 
-\begin{note}{B}
-...
+\begin{note}{引数の評価順序}
+\haskell は参照透過な言語なので，関数がいつ評価されるかを考える必要はない．一方で，参照透過ではなく，かつ複数引数を認めている言語では，引数の評価順序が決められていないことが多い．例えば\clang で書いた次のコード
+\begin{ccode}
+\begin{verbatim}
+int i = 0;
+printf("%d, %d\n", ++i, ++i);
+\end{verbatim}
+\end{ccode}
+は画面に \code{1, 2} を出力する場合もあるし，\code{2, 1} を出力する場合もある．
 \end{note}
 
 
