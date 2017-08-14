@@ -712,6 +712,7 @@ y=fx'\mWhere{x'}{1+x}
 \item 関数定義にはパタンマッチが使える．例えば $f'0=1;f'x=(\sin x)/x$ と定義できる．
 \item パタンマッチは関数本体に書いても良い．関数 $f'$ の例で言えば $f'=\mCaseOf{x}0\mIfSo1;\mAnyParam\mIfSo(\sin x)/x$ と定義できる．
 \item 関数定義にはガードが使える．例えば $f''\mGuard{x<0}=0;f''\mGuard{x\equiv0}=1;f''\mGuard{\mOtherwise}=(\sin x)/x$ と定義できる．
+\item 条件分岐は $\mIfThenElse{x}{y}{z}$ と書き，$x\equiv\mTrue$ の時には $y$ が，$x\equiv\mFalse$ のときには $z$ が式の値になる．
 \item 局所変数は $y=\mLetIn{x'}{\dotsb}{fx'}$ または $y=fx'\mWhere{x'}{\dotsb}$ という書き方で導入できる．
 \end{enumerate}
 
@@ -811,37 +812,37 @@ z=f_2\mApply f_1x
 \end{equation}
 であるから，関数適用演算子を用いて引数を関数に渡すことができる．\footnote{\haskell では $(\mApply x)f$ を \code{(\$x)f} と書く．}
 
-\section{高階関数*}
+\section{高階関数}
 
 関数を引数に取ったり，あるいは関数を返す関数のことを\keyword{高階関数}と呼ぶことがある．関数合成演算子と関数適用演算子は高階関数の好例である．
 
-他に例えば，引数として整数 $a$ を取り，関数 $fx=a+x$ を返すような関数 $\phi$ を
+他に例えば，引数として整数 $a$ を取り，関数 $fx=a+x$ を返すような関数 $g$ を
 \begin{equation}
-\phi a=\mLambdaExp{x}{a+x}
+ga=\mLambdaExp{x}{a+x}
 \end{equation}
 のように定義することも可能である．このとき，
 \begin{align}
-a&=100\\
-b&=1\\
-f&=\phi a\\
-x&=fb
+b&=100\\
+c&=1\\
+f&=gb\\
+x&=fc
 \end{align}
-とすれば $x=101$ を得る．\footnote{\haskell では $\phi a=\mLambdaExp{x}{a+x}$ を \code{phi a = \textbackslash x -> a+x} と書く．}
+とすれば $x=101$ を得る．\footnote{\haskell では $ga=\mLambdaExp{x}{a+x}$ を \code{g a = \textbackslash x -> a+x} と書く．}
 
 \section{余計な話：クロージャ*}
 
 ラムダ式をサポートするほとんどのプログラミング言語は，\keyword{レキシカルクロージャ}をサポートする．レキシカルクロージャとは，ラムダ式が定義された時点での，周囲の環境をラムダ式に埋め込む機構である．例えば
 \begin{align}
 a&=100\\
-f&=\mLambdaExp{x}{a+x}
+h&=\mLambdaExp{x}{a+x}
 \end{align}
-というラムダ式があるとする．当然我々は関数 $f$ がいつも $f=\mLambdaExp{x}{100+x}$ であることを期待するし，\haskell においてはいつも保証される．
+というラムダ式があるとする．当然我々は関数 $h$ がいつも $h=\mLambdaExp{x}{100+x}$ であることを期待するし，\haskell においてはいつも保証される．
 
-ところが，参照透過性のない言語，言い換えると変数への破壊的代入が許されている言語では，変数 $a$ の値がいつ変わっても不思議ではない．そこで，それらの言語では関数 $f$ が定義された時点での $a$ の値を，関数 $f$ の定義に含めておく．これがレキシカルクロージャの考え方である．
+ところが，参照透過性のない言語，言い換えると変数への破壊的代入が許されている言語では，変数 $a$ の値がいつ変わっても不思議ではない．そこで，それらの言語では関数 $h$ が定義された時点での $a$ の値を，関数 $h$ の定義に含めておく．これがレキシカルクロージャの考え方である．
 
-\haskell ではそもそも変数への破壊的代入がないので，関数 $f$ がレキシカルクロージャであるかどうか悩む必要はない．あえて言えば，\haskell ではラムダ式はいつもレキシカルクロージャである．もしあなたのそばの\cxx プログラマが「え？\haskell にはレキシカルクロージャが無いの？」などと聞いてきたら，「ええ，\haskell には破壊的代入すらありませんから」と答えておこう．
+\haskell ではそもそも変数への破壊的代入がないので，関数 $h$ がレキシカルクロージャであるかどうか悩む必要はない．あえて言えば，\haskell ではラムダ式はいつもレキシカルクロージャである．もしあなたのそばの\cxx プログラマが「え？\haskell にはレキシカルクロージャが無いの？」などと聞いてきたら，「ええ，\haskell には破壊的代入すらありませんから」と答えておこう．
 
-\section{この章のまとめ}
+\section{この章のまとめ*}
 
 \begin{enumerate}
 \item 関数と演算子は同じものである．
@@ -849,7 +850,7 @@ f&=\mLambdaExp{x}{a+x}
 \item 任意の二項演算子 $\mBinOp$ について $(\mBinOp x)=\mAnonParam\mBinOp x$ であり，$(x\mBinOp)=x\mBinOp\mAnonParam$ である．これらの記法をセクション記法と呼ぶ． 
 \item 関数 $f$ と関数 $g$ を合成した関数を $f\mComp g$ と書く．
 \item 式 $f\mApply gx$ は $f(gx)$ の意味である．
-\item 条件分岐は $\mIfThenElse{x}{y}{z}$ と書き，$x\equiv\mTrue$ の時には $y$ が，$x\equiv\mFalse$ のときには $z$ が式の値になる．
+\item ...
 \item \haskell のラムダ式はいつもレキシカルクロージャである．
 \end{enumerate}
 
