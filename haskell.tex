@@ -57,7 +57,9 @@
 
 % Keywords
 \newcommand{\mKeyword}[1]{\mathsf{#1}} % Internal use
+\newcommand{\mKeywordUnderline}[1]{\text{\underline{\textsf{#1}}}} % Internal use
 \newcommand{\mVarKeyword}[1]{\texttt{#1}}
+\newcommand{\mDataType}{\mathop{\mKeywordUnderline{data}\mKeyword{type}}}
 \newcommand{\mDoKeyword}{\mKeyword{do}}
 \newcommand{\mDoLetKeyword}{\mVarKeyword{let}}
 \newcommand{\mIfKeyword}{\mKeyword{if}}
@@ -68,8 +70,9 @@
 \newcommand{\mOfKeyword}{\mKeyword{of}}
 \newcommand{\mOtherwiseKeyword}{\mKeyword{otherwise}}
 \newcommand{\mThenKeyword}{\mKeyword{then}}
-\newcommand{\mWhereKeyword}{\mKeyword{where}}
+\newcommand{\mTypeClass}{\mathop{\mKeyword{type}\mKeywordUnderline{class}}}\newcommand{\mTypeSynonym}{\mathop{\mKeywordUnderline{type}\mKeyword{synonym}}}\newcommand{\mWhereKeyword}{\mKeyword{where}}
 \DeclareMathOperator{\mCase}{\mCaseKeyword} % Internal use
+\DeclareMathOperator{\mDeriving}{\mKeyword{deriving}}
 \DeclareMathOperator{\mDoKW}{\mDoKeyword}
 \DeclareMathOperator{\mElse}{\mElseKeyword}
 \DeclareMathOperator{\mIf}{\mIfKeyword}
@@ -141,7 +144,7 @@
 \DeclareMathOperator{\mCons}{:}
 \DeclareMathOperator{\mDoEq}{\leftarrow}
 \DeclareMathOperator{\mDoLetEq}{\mVarKeyword{=}}
-\DeclareMathOperator{\mDoNext}{\Rightarrow}%{\mathrel{;}}
+\DeclareMathOperator{\mDoNext}{\Rrightarrow}%{\mathrel{;}}
 \DeclareMathOperator*{\mFold}{\bigcup}
 \DeclareMathOperator*{\mFoldRight}{\bigsqcup}
 \DeclareMathOperator{\mFrom}{\in}
@@ -163,6 +166,7 @@
 \DeclareMathOperator{\mPlus}{\dotplus}
 \DeclareMathOperator{\mSetTimes}{\circledast}
 \DeclareMathOperator{\mUnOp}{\star}
+\DeclareMathOperator{\mValueOr}{\curlyvee}
 
 % Subscripts
 \newcommand{\mSpecialSub}[1]{\text{#1}}
@@ -220,6 +224,9 @@
 \DeclareMathOperator{\mFuncTypeConstructor}{\mTypeConstructor{Func}_\mType{r}}
 \DeclareMathOperator{\mListTypeConstructor}{\mTypeConstructor{List}}
 \DeclareMathOperator{\mMaybeTypeConstructor}{\mTypeConstructor{Maybe}}
+
+% Value constructors
+\newcommand{\mValueConstructor}[1]{\mathop{\mathrm{#1}}}
 
 % Functors
 \newcommand{\mFunctor}[1]{\textit{\textbf{#1}}}
@@ -480,7 +487,39 @@ $ stack install ghc
 \end{note}
 
 
-\chapter{カリー風な書き方*}
+$$
+\mDataType\mBoolType=\mFalse\mValueOr\mTrue
+$$
+
+$$
+\mDataType\mType{Shape}
+=\mValueConstructor{Circle}\mFloatType\,\mFloatType\,\mFloatType
+\mValueOr
+\mValueConstructor{Rectangle}\mFloatType\,\mFloatType\,\mFloatType\,\mFloatType
+$$
+
+
+$$
+\mTypeSynonym\mStringType=\mListType{\mCharType}
+$$
+
+$$
+\mDataType\mEitherTypeConstructor\mType{a}\mType{b}
+=\mEitherLeftWith{\mType{a}}
+\mValueOr
+\mEitherRightWith{\mType{b}}
+\mDeriving{}(\mEqTypeClass,\mOrdTypeClass)
+$$
+
+\begin{align}
+\mTypeClass\mathop{\mEqTypeClass}\mType{a}\mathop{\mWhereKeyword}{}
+&(\equiv)\mIn\mProj{\mType{a}}{\mProj{\mType{a}}{\mBoolType}}\\
+&(\neq)\mIn\mProj{\mType{a}}{\mProj{\mType{a}}{\mBoolType}}\\
+&x\equiv y=\neg(x\neq y)\\
+&x\neq y=\neg(x\equiv y)
+\end{align}
+
+\chapter{カリー風な書き方}
 \begin{leader}
 本書では一般の数学書やプログラミングの教科書からは少し異なった記法を用いる．ある概念が発明されてからずっと後になって正しい記法が見つかり，それがきっかけとなって正しく理解されるという現象は歴史上よくあることである．本書でも様々な新しい記号，記法を導入するが，この章では\haskell に近い記法から始めることにする．
 \end{leader}
@@ -717,8 +756,8 @@ y=fx'\mWhere{x'}{1+x}
 \end{enumerate}
 
 
-\begin{note}{引数の評価順序}
-\haskell は参照透過な言語なので，関数がいつ評価されるかを考える必要はない．一方で，参照透過ではなく，かつ複数引数を認めている言語では，引数の評価順序が決められていないことが多い．例えば\clang で書いた次のコード
+\begin{note}{式の評価順序}
+\haskell は参照透過な言語なので，式がいつ評価されるかを考える必要はない．一方で，参照透過でない言語は式の評価順序をいつも気にしておく必要がある．例えば\clang は関数引数の評価順序を定めていないので，次のコード
 \begin{ccode}
 \begin{verbatim}
 int i = 0;
@@ -1244,7 +1283,13 @@ $\mDoubleType$
 \item 型のインタフェースをまとめたものを型クラスと呼ぶ． % ***インタフェース***
 \end{enumerate}
 
-\begin{note}{D}
+\begin{note}{メタクラス}
+オブジェクト指向言語の多くが「クラス」と呼ぶものを，\haskell は「型」と呼ぶ．
+
+% クラスのクラスをメタクラスと言う．
+
+% メタクラスのクラスはメタメタクラスである．全てのメタクラスはメタメタクラスに属す．それ故，メタメタクラスもまたメタメタクラスに属す．
+
 ...
 \end{note}
 
