@@ -83,6 +83,7 @@
 \DeclareMathOperator{\mIf}{\mIfKeyword}
 \DeclareMathOperator{\mInKW}{\mInKeyword} % Internal use
 \DeclareMathOperator{\mInstance}{\mInstanceKeyword}
+\DeclareMathOperator{\mInstanceParametric}{\mInstanceKeyword^{\dagger}}
 \DeclareMathOperator{\mLet}{\mLetKeyword} % Internal use
 \DeclareMathOperator{\mOf}{\mOfKeyword} % Internal use
 \DeclareMathOperator{\mOtherwise}{\mOtherwiseKeyword}
@@ -2884,29 +2885,25 @@ $$
 \mDataType\mBoolType=\mFalse\mValueOr\mTrue
 $$
 
-\begin{multline*}
+{}\footnote{\haskell では $\mDataType\mBoolType=\mFalse\mValueOr\mTrue$ を \code{data Bool = False | True} と書く．}
+
+\begin{multline}
 \mDataType\mType{Shape}
 =\mValueConstructor{Circle}\mFloatType\,\mFloatType\,\mFloatType\\
 \mValueOr
 \mValueConstructor{Rectangle}\mFloatType\,\mFloatType\,\mFloatType\,\mFloatType
-\end{multline*}
+\end{multline}
 
-$$
+\begin{multline}
 \mDataType\mEitherTypeConstructor\mType{a}\mType{b}
 =\mEitherLeftWith{\mType{a}}
 \mValueOr
-\mEitherRightWith{\mType{b}}
+\mEitherRightWith{\mType{b}}\\
 \mDeriving{}(\mEqTypeClass,\mOrdTypeClass)
-$$
+\end{multline}
 
 $$
 \mDataType\mType{Trafficlight}=\mConst{Red}\mValueOr\mConst{Yellow}\mValueOr\mConst{Green}
-$$
-
-\section{Type Synonym}
-
-$$
-\mTypeSynonym\mStringType=\mListType{\mCharType}
 $$
 
 \section{Type Class}
@@ -2919,30 +2916,144 @@ $$
 &x\neq y=\neg(x\equiv y)
 \end{align}
 
+{}\footnote{\haskell では
+\begin{verbatim}
+  class Eq a where (==) :: a -> a -> Bool
+                   (/=) :: a -> a -> Bool
+                   x==y = not(x/=y)
+                   x/=y = not(x==y)
+\end{verbatim}
+と書く．}
+
 \begin{align*}
-\mTypeClass\,(\mathop{\mEqTypeClass}\mType{a})\Rightarrow\mathop{\mOrdTypeClass}\mType{a}\mWhere{}
+\mTypeClass\,(\mEqTypeClass\supset\mType{a})\Rightarrow\mathop{\mOrdTypeClass}\mType{a}\mWhere{}
 &\dotsb
 \end{align*}
 
 \section{Type}
 
 \begin{align*}
-\mInstance\mathop{\mEqTypeClass}\mType{Trafficlight}\mWhere{}
-&\mConst{Red}\equiv\mConst{Red}=\mTrue\\
-&\mConst{Green}\equiv\mConst{Green}=\mTrue\\
-&\mConst{Yellow}\equiv\mConst{Yellow}=\mTrue\\
-&\mAnyParam\equiv\mAnyParam=\mFalse
+\mInstance&
+\mathop{\mEqTypeClass}\supset\mType{Trafficlight}\\
+&\quad\mWhere{}\\
+&\qquad\mConst{Red}\equiv\mConst{Red}=\mTrue\\
+&\qquad\mConst{Green}\equiv\mConst{Green}=\mTrue\\
+&\qquad\mConst{Yellow}\equiv\mConst{Yellow}=\mTrue\\
+&\qquad\mAnyParam\equiv\mAnyParam=\mFalse
 \end{align*}
 
+{}\footnote{\haskell では $\supset$ を省略して
+\begin{verbatim}
+  instance Eq Trafficlight
+    where Red==Red       = True
+          Yellow==Yellow = True
+          Green==Green   = True
+          _==_           = False
+\end{verbatim}
+と書く．}
+
+NG.
 \begin{align*}
-\mInstance\mathop{\mEqTypeClass}(\mMaybeTypeConstructor\mType{a})\mWhere{}
+\mInstance\mathop{\mEqTypeClass}\supset(\mMaybeTypeConstructor\mType{a})\mWhere{}
 &\mMaybeWith{x}\equiv\mMaybeWith{y}=x\equiv y\\
 &\mNothing\equiv\mNothing=\mTrue\\
 &\mAnyParam\equiv\mAnyParam=\mFalse
 \end{align*}
 
+OK.
+\begin{align*}
+\mInstance{}
+&(\mEqTypeClass\supset\mType{a})\Rightarrow
+\mEqTypeClass\supset(\mMaybeTypeConstructor\mType{a})\\
+&\quad\mWhere{}\\
+&\qquad\mMaybeWith{x}\equiv\mMaybeWith{y}=x\equiv y\\
+&\qquad\mNothing\equiv\mNothing=\mTrue\\
+&\qquad\mAnyParam\equiv\mAnyParam=\mFalse
+\end{align*}
+
+{}\footnote{\haskell では
+\begin{verbatim}
+  instance (Eq a) => Eq (Maybe a)
+    where Maybe x==Maybe y = x==y
+          Nothing==Nothing = True
+          _==_             = False
+\end{verbatim}
+と書く．
+}
+
+$$
+(\equiv)\mIn{}(\mEqTypeClass\supset\mType{a})\Rightarrow\mProj{\mMaybeType{a}}{\mProj{\mMaybeType{a}}{\mBoolType}}
+$$
+
+\section{余計な話：Type Synonym}
+
+$$
+\mTypeSynonym\mStringType=\mListType{\mCharType}
+$$
+
+{}\footnote{\haskell では $\mTypeSynonym\mStringType=\mListType{\mCharType}$ を \code{type String = [Char]} と書く．}
+
+\section{この章のまとめ*}
 
 
+\chapter{Functor}
+
+
+\section{Parametric Type}
+
+\begin{align*}
+\mTypeClass\mathop{\mFunctorTypeClass}\mTypeConstructor{fn}\mWhere{}
+&\mMap\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mTypeConstructor{fn}\mType{a}}{\mTypeConstructor{fn}\mType{b}}}
+\end{align*}
+
+
+\section{List and Maybe*}
+
+\begin{align*}
+\mInstanceParametric\mathop{\mFunctorTypeClass}\mListTypeConstructor\mWhere{}
+&\mMap=\mMapList
+\end{align*}
+
+{}\footnote{\haskell では $\mInstanceParametric\mathop{\mFunctorTypeClass}\mListTypeConstructor\mWhere{}
+\mMap=\mMapList$ を，$\mInstance$ と $\mInstanceParametric$ は区別せずに \code{instance Functor [] where fmap = map} と書く．}
+
+
+\begin{align*}
+\mInstanceParametric\mathop{\mFunctorTypeClass}\mMaybeTypeConstructor\mWhere{}
+&f\mMap\mMaybeWith{x}=\mMaybeWith{fx}\\
+&f\mMap\mNothing=\mNothing
+\end{align*}
+
+
+{}\footnote{\haskell では
+\begin{verbatim}
+  instance Functor Maybe
+    where f `fmap` Maybe x = Maybe (f x)
+          f `fmap` Nothing = Nothing
+\end{verbatim}
+と書く．}
+
+\section{Either*}
+
+\begin{align*}
+\mInstanceParametric\mathop{\mFunctorTypeClass}(\mEitherTypeConstructor\mType{a})\mWhere{}
+&f\mMap{}\mEitherRightWith{x}=\mEitherRightWith{fx}\\
+&f\mMap{}\mEitherLeftWith{x}=\mEitherLeftWith{x}
+\end{align*}
+
+
+{}\footnote{\haskell では
+\begin{verbatim}
+  instance Functor (Either a)
+    where f `fmap` Right x = Right (f x)
+          f `fmap` Left x  = Left x
+\end{verbatim}
+と書く．}
+
+
+\section{余計な話：種 (kind)}
+
+\section{この章のまとめ}
 
 \part{\haskell プログラミング}
 
