@@ -2974,7 +2974,7 @@ OK.
 {}\footnote{\haskell では
 \begin{verbatim}
   instance (Eq a) => Eq (Maybe a)
-    where Maybe x==Maybe y = x==y
+    where Just x == Just y = x==y
           Nothing==Nothing = True
           _==_             = False
 \end{verbatim}
@@ -2985,7 +2985,7 @@ $$
 (\equiv)\mIn{}(\mEqTypeClass\supset\mType{a})\Rightarrow\mProj{\mMaybeType{a}}{\mProj{\mMaybeType{a}}{\mBoolType}}
 $$
 
-\section{余計な話：Type Synonym}
+\section{余計な話：タイプシノニム*}
 
 $$
 \mTypeSynonym\mStringType=\mListType{\mCharType}
@@ -2996,7 +2996,7 @@ $$
 \section{この章のまとめ*}
 
 
-\chapter{Functor}
+\chapter{Functor*}
 
 
 \section{Parametric Type}
@@ -3028,8 +3028,8 @@ $$
 {}\footnote{\haskell では
 \begin{verbatim}
   instance Functor Maybe
-    where f `fmap` Maybe x = Maybe (f x)
-          f `fmap` Nothing = Nothing
+    where fmap f (Maybe x) = Maybe (f x)
+          fmap f Nothing = Nothing
 \end{verbatim}
 と書く．}
 
@@ -3045,8 +3045,8 @@ $$
 {}\footnote{\haskell では
 \begin{verbatim}
   instance Functor (Either a)
-    where f `fmap` Right x = Right (f x)
-          f `fmap` Left x  = Left x
+    where fmap f (Right x) = Right (f x)
+          fmap f (Left x)  = Left x
 \end{verbatim}
 と書く．}
 
