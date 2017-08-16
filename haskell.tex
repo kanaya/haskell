@@ -59,31 +59,39 @@
 \newcommand{\mKeyword}[1]{\mathsf{#1}} % Internal use
 \newcommand{\mKeywordUnderline}[1]{\text{\underline{\textsf{#1}}}} % Internal use
 \newcommand{\mVarKeyword}[1]{\texttt{#1}}
-\newcommand{\mDataType}{\mathop{\mKeywordUnderline{data}\mKeyword{type}}}
+\newcommand{\mDataTypeKeyword}{\mKeywordUnderline{data}\mKeyword{type}}
+\newcommand{\mDerivingKeyword}{\mKeyword{deriving}}
 \newcommand{\mDoKeyword}{\mKeyword{do}}
 \newcommand{\mDoLetKeyword}{\mVarKeyword{let}}
 \newcommand{\mIfKeyword}{\mKeyword{if}}
 \newcommand{\mCaseKeyword}{\mKeyword{case}}
 \newcommand{\mElseKeyword}{\mKeyword{else}}
 \newcommand{\mInKeyword}{\mKeyword{in}}
+\newcommand{\mInstanceKeyword}{\mKeyword{instance}}
 \newcommand{\mLetKeyword}{\mKeyword{let}}
 \newcommand{\mOfKeyword}{\mKeyword{of}}
 \newcommand{\mOtherwiseKeyword}{\mKeyword{otherwise}}
 \newcommand{\mThenKeyword}{\mKeyword{then}}
-\newcommand{\mTypeClass}{\mathop{\mKeyword{type}\mKeywordUnderline{class}}}\newcommand{\mTypeSynonym}{\mathop{\mKeywordUnderline{type}\mKeyword{synonym}}}\newcommand{\mWhereKeyword}{\mKeyword{where}}
+\newcommand{\mTypeClass}{\mKeyword{type}\mKeywordUnderline{class}}
+\newcommand{\mTypeSynonymKeyword}{\mKeywordUnderline{type}\mKeyword{synonym}}
+\newcommand{\mWhereKeyword}{\mKeyword{where}}
 \DeclareMathOperator{\mCase}{\mCaseKeyword} % Internal use
-\DeclareMathOperator{\mDeriving}{\mKeyword{deriving}}
+\DeclareMathOperator{\mDataType}{\mDataTypeKeyword}
+\DeclareMathOperator{\mDeriving}{\mDerivingKeyword}
 \DeclareMathOperator{\mDoKW}{\mDoKeyword}
 \DeclareMathOperator{\mElse}{\mElseKeyword}
 \DeclareMathOperator{\mIf}{\mIfKeyword}
 \DeclareMathOperator{\mInKW}{\mInKeyword} % Internal use
+\DeclareMathOperator{\mInstance}{\mInstanceKeyword}
 \DeclareMathOperator{\mLet}{\mLetKeyword} % Internal use
 \DeclareMathOperator{\mOf}{\mOfKeyword} % Internal use
 \DeclareMathOperator{\mOtherwise}{\mOtherwiseKeyword}
 \DeclareMathOperator{\mThen}{\mThenKeyword}
-% \DeclareMathOperator{\mWhere}{\mWhereKeyword}
+\DeclareMathOperator{\mTypeSynonym}{\mTypeSynonymKeyword}
+\DeclareMathOperator{\mWhere}{\mWhereKeyword}
 
 % Constants
+\newcommand{\mConst}[1]{\mathrm{#1}}
 \newcommand{\mSpecialConst}[1]{\mathrm{#1}} % Internal use
 \newcommand{\mEmptyList}{{[\,]}}
 \newcommand{\mFalse}{\mSpecialConst{False}}
@@ -306,11 +314,13 @@ Ether変数&肩に!をつける&$\mEither{u}$\\
 アクション&ギリシア文字&$\alpha,\omega$\\
 有名なアクション&スラント・小文字&$\mPutStr,\mReadLn$\\
 \hline
-添字&ローマン，小文字&$x_\mLeft,x_\mRight$\\
+添字&ローマン，大文字&$x_\mLeft,x_\mRight$\\
 \hline
 集合&ボールドローマン，大文字&$\mSet{A},\mSet{B},\mSet{C}$\\
 有名な集合&ブラックボード，大文字&$\mBSet,\mZSet,\mRSet$\\
 単位元&ローマンに斜線，大文字&$\mZero$\\
+\hline
+値コンストラクタ&ローマン，大文字&$\mValueConstructor{Circle},\mValueConstructor{Rectangle}$\\
 \hline
 型パラメタ&ボールドローマン，小文字&$\mType{a},\mType{b},\mType{c}$\\
 型&ボールドローマン，大文字&$\mBoolType,\mIntType,\mFloatType$\\
@@ -327,7 +337,7 @@ do記法中のキーワード&タイプライタ&$\mDoLetKeyword$\\
 リスト&ブラケットで包む&$\mListWith{x,y,z}$\\
 集合&ブレースで包む&$\mSetWith{x,y,z}$\\
 タプル&丸括弧で包む&$\mTupleWith{x,y,z}$\\
-アンボックス化タプル&丸括弧とシャープ記号で包む&$\mTupleUnboxedWith{x,y,z}$\\
+% アンボックス化タプル&丸括弧とシャープ記号で包む&$\mTupleUnboxedWith{x,y,z}$\\
 \hline
 \end{tabular}
 \end{center}
@@ -486,38 +496,6 @@ $ stack install ghc
 ...
 \end{note}
 
-
-$$
-\mDataType\mBoolType=\mFalse\mValueOr\mTrue
-$$
-
-$$
-\mDataType\mType{Shape}
-=\mValueConstructor{Circle}\mFloatType\,\mFloatType\,\mFloatType
-\mValueOr
-\mValueConstructor{Rectangle}\mFloatType\,\mFloatType\,\mFloatType\,\mFloatType
-$$
-
-
-$$
-\mTypeSynonym\mStringType=\mListType{\mCharType}
-$$
-
-$$
-\mDataType\mEitherTypeConstructor\mType{a}\mType{b}
-=\mEitherLeftWith{\mType{a}}
-\mValueOr
-\mEitherRightWith{\mType{b}}
-\mDeriving{}(\mEqTypeClass,\mOrdTypeClass)
-$$
-
-\begin{align}
-\mTypeClass\mathop{\mEqTypeClass}\mType{a}\mathop{\mWhereKeyword}{}
-&(\equiv)\mIn\mProj{\mType{a}}{\mProj{\mType{a}}{\mBoolType}}\\
-&(\neq)\mIn\mProj{\mType{a}}{\mProj{\mType{a}}{\mBoolType}}\\
-&x\equiv y=\neg(x\neq y)\\
-&x\neq y=\neg(x\equiv y)
-\end{align}
 
 \chapter{カリー風な書き方}
 \begin{leader}
@@ -2896,6 +2874,74 @@ do記法には $\mDoEq$ の他に，我々の $\mLet$ とよく似た $\mDoLetKe
 \begin{note}{関数の評価順序}
 ...
 \end{note}
+
+
+\chapter{型の拡張*}
+
+\section{Data Type}
+
+$$
+\mDataType\mBoolType=\mFalse\mValueOr\mTrue
+$$
+
+\begin{multline*}
+\mDataType\mType{Shape}
+=\mValueConstructor{Circle}\mFloatType\,\mFloatType\,\mFloatType\\
+\mValueOr
+\mValueConstructor{Rectangle}\mFloatType\,\mFloatType\,\mFloatType\,\mFloatType
+\end{multline*}
+
+$$
+\mDataType\mEitherTypeConstructor\mType{a}\mType{b}
+=\mEitherLeftWith{\mType{a}}
+\mValueOr
+\mEitherRightWith{\mType{b}}
+\mDeriving{}(\mEqTypeClass,\mOrdTypeClass)
+$$
+
+$$
+\mDataType\mType{Trafficlight}=\mConst{Red}\mValueOr\mConst{Yellow}\mValueOr\mConst{Green}
+$$
+
+\section{Type Synonym}
+
+$$
+\mTypeSynonym\mStringType=\mListType{\mCharType}
+$$
+
+\section{Type Class}
+
+\begin{align}
+\mTypeClass\mathop{\mEqTypeClass}\mType{a}\mWhere{}
+&(\equiv)\mIn\mProj{\mType{a}}{\mProj{\mType{a}}{\mBoolType}}\\
+&(\neq)\mIn\mProj{\mType{a}}{\mProj{\mType{a}}{\mBoolType}}\\
+&x\equiv y=\neg(x\neq y)\\
+&x\neq y=\neg(x\equiv y)
+\end{align}
+
+\begin{align*}
+\mTypeClass\,(\mathop{\mEqTypeClass}\mType{a})\Rightarrow\mathop{\mOrdTypeClass}\mType{a}\mWhere{}
+&\dotsb
+\end{align*}
+
+\section{Type}
+
+\begin{align*}
+\mInstance\mathop{\mEqTypeClass}\mType{Trafficlight}\mWhere{}
+&\mConst{Red}\equiv\mConst{Red}=\mTrue\\
+&\mConst{Green}\equiv\mConst{Green}=\mTrue\\
+&\mConst{Yellow}\equiv\mConst{Yellow}=\mTrue\\
+&\mAnyParam\equiv\mAnyParam=\mFalse
+\end{align*}
+
+\begin{align*}
+\mInstance\mathop{\mEqTypeClass}(\mMaybeTypeConstructor\mType{a})\mWhere{}
+&\mMaybeWith{x}\equiv\mMaybeWith{y}=x\equiv y\\
+&\mNothing\equiv\mNothing=\mTrue\\
+&\mAnyParam\equiv\mAnyParam=\mFalse
+\end{align*}
+
+
 
 
 \part{\haskell プログラミング}
