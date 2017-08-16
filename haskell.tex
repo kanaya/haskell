@@ -2879,13 +2879,19 @@ do記法には $\mDoEq$ の他に，我々の $\mLet$ とよく似た $\mDoLetKe
 
 \chapter{型の拡張*}
 
-\section{Data Type}
+\section{データ型*}
 
-$$
+\haskell では新しい型を定義することを「\keyword{データ型}を定義する」と言う．
+
+例えば，論理集合の定義を数学者は
+\begin{equation}
+\mBSet=\mSetWith{\mFalse,\mTrue}
+\end{equation}
+というふうに書く事を好むが，我々は
+\begin{equation}
 \mDataType\mBoolType=\mFalse\mValueOr\mTrue
-$$
-
-{}\footnote{\haskell では $\mDataType\mBoolType=\mFalse\mValueOr\mTrue$ を \code{data Bool = False | True} と書く．}
+\end{equation}
+と書くことにする．式の先頭にある $\mDataType$ は，この式がデータ型の定義であることを示すタグである．部分的にアンダーラインが引かれているのは，\haskell が $\mDataType$ を \code{data} と省略してしまうからである．これは不本意なことだが，文字数節約のために仕方ないらしい．\footnote{\haskell では $\mDataType\mBoolType=\mFalse\mValueOr\mTrue$ を \code{data Bool = False | True} と書く．}
 
 \begin{multline}
 \mDataType\mType{Shape}
@@ -2906,8 +2912,9 @@ $$
 \mDataType\mType{Trafficlight}=\mConst{Red}\mValueOr\mConst{Yellow}\mValueOr\mConst{Green}
 $$
 
-\section{Type Class}
+\section{型クラス*}
 
+型クラスとは，複数の型が持つ共通のインタフェースである．その複数の型をいま $\mType{a}$ で表すこととして，型 $\mType{a}$ が型クラス $\mEqTypeClass$ に属すとしよう．型クラス $\mEqTypeClass$ は等号 $(\equiv)$ と不等号 $(\neq)$ をインタフェースとして持つ．このことを
 \begin{align}
 \mTypeClass\mathop{\mEqTypeClass}\mType{a}\mWhere{}
 &(\equiv)\mIn\mProj{\mType{a}}{\mProj{\mType{a}}{\mBoolType}}\\
@@ -2915,8 +2922,7 @@ $$
 &x\equiv y=\neg(x\neq y)\\
 &x\neq y=\neg(x\equiv y)
 \end{align}
-
-{}\footnote{\haskell では
+と書く．最初の2行は型クラス $\mEqTypeClass$ が等号と不等号を持つことを宣言しており，続く2行がその性質を宣言している．\footnote{\haskell では
 \begin{verbatim}
   class Eq a where (==) :: a -> a -> Bool
                    (/=) :: a -> a -> Bool
@@ -2925,12 +2931,14 @@ $$
 \end{verbatim}
 と書く．}
 
+型クラスは継承関係を持てる．
+
 \begin{align*}
 \mTypeClass\,(\mEqTypeClass\supset\mType{a})\Rightarrow\mathop{\mOrdTypeClass}\mType{a}\mWhere{}
 &\dotsb
 \end{align*}
 
-\section{Type}
+\section{型*}
 
 \begin{align*}
 \mInstance&
@@ -2985,7 +2993,7 @@ $$
 (\equiv)\mIn{}(\mEqTypeClass\supset\mType{a})\Rightarrow\mProj{\mMaybeType{a}}{\mProj{\mMaybeType{a}}{\mBoolType}}
 $$
 
-\section{余計な話：タイプシノニム*}
+\section{余計な話：型シノニム*}
 
 $$
 \mTypeSynonym\mStringType=\mListType{\mCharType}
