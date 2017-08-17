@@ -98,7 +98,7 @@
 
 % Constants
 \newcommand{\mConst}[1]{\mathrm{#1}}
-\newcommand{\mSpecialConst}[1]{\mathrm{#1}} % Internal use
+\newcommand{\mSpecialConst}[1]{\text{#1}} % Internal use
 \newcommand{\mEmptyList}{{[\,]}}
 \newcommand{\mColorBlack}{\mSpecialConst{K}}
 \newcommand{\mColorBlue}{\mSpecialConst{B}}
@@ -123,7 +123,7 @@
 \newcommand{\mString}[1]{\text{#1}}
 
 % Variables
-\newcommand{\mSpecialVar}[1]{\mathrm{#1}} % Internal use
+\newcommand{\mSpecialVar}[1]{\text{#1}} % Internal use
 \newcommand{\mFirstVar}{\mSpecialVar{first}}
 \newcommand{\mRestVar}{\mSpecialVar{rest}}
 \newcommand{\mAnonParam}{\diamond}
@@ -215,12 +215,12 @@
 \newcommand{\mType}[1]{\mathbf{#1}}
 
 % Value constructors
-\newcommand{\mEitherLeftWith}[1]{\{#1\}_\mLeft}
-\newcommand{\mEitherRightWith}[1]{\{#1\}_\mRight}
+\newcommand{\mEitherLeftWith}[1]{{}^\mLeft\{#1\}}
+\newcommand{\mEitherRightWith}[1]{{}^\mRight\{#1\}}
 \newcommand{\mFuncWith}[1]{\(#1\)}
 \newcommand{\mListWith}[1]{\left[#1\right]}
-\newcommand{\mMaybeWith}[1]{\[#1\]}
-% \newcommand{\mMaybeWith}[1]{{}^\text{Just}\[#1\]}
+% \newcommand{\mMaybeWith}[1]{\[#1\]}
+\newcommand{\mMaybeWith}[1]{{}^\text{Just}\{#1\}}
 \newcommand{\mPureWith}[1]{\langle#1\rangle}
 \newcommand{\mSetWith}[1]{\left\{#1\right\}}
 \newcommand{\mTupleWith}[1]{\left(#1\right)}
@@ -235,14 +235,16 @@
 \newcommand{\mIntType}{\mType{Int}}
 \newcommand{\mIntegerType}{\mType{Integer}}
 \newcommand{\mListType}[1]{[\mType{#1}]}
-\newcommand{\mMaybeType}[1]{\[\mType{#1}\]}
+% \newcommand{\mMaybeType}[1]{\[\mType{#1}\]}
+% \newcommand{\mMaybeType}[1]{{}^\text{Maybe}\{\mType{#1}\}}
+\newcommand{\mMaybeType}[1]{\{\mType{#1}\}}
 \newcommand{\mPureType}[1]{\langle\mType{#1}\rangle}
 \newcommand{\mStringType}{\mType{String}}
 \newcommand{\mUnitType}{\mType{()}}
 
 % Parametric Types
-\newcommand{\mEitherType}[2]{{}^\mathrm{Either}\{\mType{#1}\shortmid\mType{#2}\}}
-\newcommand{\mIOType}[1]{{}^\mathrm{IO}\{\mType{#1}\}}
+\newcommand{\mEitherType}[2]{{}^\mathrm{Either}\{\mType{#1},\mType{#2}\}}
+\newcommand{\mIOType}[1]{\[\mType{#1}\]}
 \newcommand{\mIODoubleType}{\mIOType{\mDoubleType}}
 \newcommand{\mIOIntType}{\mIOType{\mIntType}}
 \newcommand{\mIOStringType}{\mIOType{\mStringType}}
@@ -2181,7 +2183,7 @@ w=f\mMap u\mAppMap v
 \end{equation}
 とすれば良い．このようにアプリカティブマップ演算子を並べる書き方をアプリカティブスタイルと呼ぶ．
 
-\section{高階関数*}
+\section{未定*}
 ...
 
 \section{余計な話：アプリカティブマップ演算子の実装*}
@@ -2918,6 +2920,8 @@ do記法には $\mDoEq$ の他に，我々の $\mLet$ とよく似た $\mDoLetKe
 のように書いて定義するものとする．式の先頭にある $\mDataType$ は，この式がデータ型の定義であることを示すタグである．部分的にアンダーラインが引かれているのは，\haskell が $\mDataType$ を \code{data} と省略してしまうからである．これは不本意なことだが，文字数節約のために仕方ない．\footnote{\haskell では $\mDataType$ を \code{data} と書く．式 $\mDataType\;\mType{Num}
 =\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany$ は \code{data Color = One | Two | Three | Many} と書く．}
 
+この節で紹介したデータ型の定義は，\clang で言う \code{enum} に近い．データ型は他に，\clang で言う \code{struct} すなわち構造体になることも出来るが，これは第\ref{ch:parametric-data-type}で見ることにする．
+
 \section{型クラス}
 
 型クラスとは，複数の型が持つ共通のインタフェースである．その複数の型をいま $\mType{a}$ で表すこととして，型 $\mType{a}$ が型クラス $\mEqTypeClass$ に属すとしよう．型クラス $\mEqTypeClass$ は等号 $(\equiv)$ と不等号 $(\neq)$ をインタフェースとして持つ．このことを
@@ -2994,7 +2998,7 @@ do記法には $\mDoEq$ の他に，我々の $\mLet$ とよく似た $\mDoLetKe
 
 
 \chapter{Functor*}
-
+\label{ch:parametric-data-type}
 
 \section{パラメトリックなデータ型}
 
@@ -3006,6 +3010,12 @@ do記法には $\mDoEq$ の他に，我々の $\mLet$ とよく似た $\mDoLetKe
 \mValueOr
 \mValueConstructor{Triangle}\mFloatType\,\mFloatType\,\mFloatType
 \end{multline}
+
+\begin{equation}
+\mDataTypeParametric\;\mMaybeTypeConstructor\mType{a}
+=\mMaybeWith{\mType{a}}\mValueOr\mNothing
+\end{equation}
+この $\mMaybeWith{\mType{a}}$ は $\mType{a}$ のMaybe型 $(\mMaybeType{a})$ という意味ではなく，$\mType{a}$ 型の変数を型コンストラクタ $\mMaybeWith{\dotsb}$ に入れなさいという意味．
 
 \begin{multline}
 \mDataTypeParametric\;\mEitherTypeConstructor\mType{a}\mType{b}
