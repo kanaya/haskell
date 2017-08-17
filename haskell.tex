@@ -72,11 +72,12 @@
 \newcommand{\mOfKeyword}{\mKeyword{of}}
 \newcommand{\mOtherwiseKeyword}{\mKeyword{otherwise}}
 \newcommand{\mThenKeyword}{\mKeyword{then}}
-\newcommand{\mTypeClass}{\mKeyword{type}\mKeywordUnderline{class}}
+\newcommand{\mTypeClassKeyword}{\mKeyword{type}\mKeywordUnderline{class}}
 \newcommand{\mTypeSynonymKeyword}{\mKeywordUnderline{type}\mKeyword{synonym}}
 \newcommand{\mWhereKeyword}{\mKeyword{where}}
 \DeclareMathOperator{\mCase}{\mCaseKeyword} % Internal use
 \DeclareMathOperator{\mDataType}{\mDataTypeKeyword}
+\DeclareMathOperator{\mDataTypeParametric}{\mDataTypeKeyword^\dagger}
 \DeclareMathOperator{\mDeriving}{\mDerivingKeyword}
 \DeclareMathOperator{\mDoKW}{\mDoKeyword}
 \DeclareMathOperator{\mElse}{\mElseKeyword}
@@ -90,6 +91,8 @@
 \DeclareMathOperator{\mSuperClass}{\Rightarrow}
 \DeclareMathOperator{\mSuperSet}{\supset}
 \DeclareMathOperator{\mThen}{\mThenKeyword}
+\DeclareMathOperator{\mTypeClass}{\mTypeClassKeyword}
+\DeclareMathOperator{\mTypeClassParametric}{\mTypeClassKeyword^\dagger}
 \DeclareMathOperator{\mTypeSynonym}{\mTypeSynonymKeyword}
 \DeclareMathOperator{\mWhere}{\mWhereKeyword}
 
@@ -216,7 +219,8 @@
 \newcommand{\mEitherRightWith}[1]{\{#1\}_\mRight}
 \newcommand{\mFuncWith}[1]{\(#1\)}
 \newcommand{\mListWith}[1]{\left[#1\right]}
-\newcommand{\mMaybeWith}[1]{\[#1\]}
+%\newcommand{\mMaybeWith}[1]{\[#1\]}
+\newcommand{\mMaybeWith}[1]{{}^\text{Just}\[#1\]}
 \newcommand{\mPureWith}[1]{\langle#1\rangle}
 \newcommand{\mSetWith}[1]{\left\{#1\right\}}
 \newcommand{\mTupleWith}[1]{\left(#1\right)}
@@ -232,9 +236,9 @@
 \newcommand{\mIntType}{\mType{Int}}
 \newcommand{\mIntegerType}{\mType{Integer}}
 \newcommand{\mIOType}{\mType{IO}}
-\newcommand{\mListType}[1]{\mListWith{\mType{#1}}}
-\newcommand{\mMaybeType}[1]{\mMaybeWith{\mType{#1}}}
-\newcommand{\mPureType}[1]{\mPureWith{\mType{#1}}}
+\newcommand{\mListType}[1]{[\mType{#1}]}
+\newcommand{\mMaybeType}[1]{\[\mType{#1}\]}
+\newcommand{\mPureType}[1]{\langle\mType{#1}\rangle}
 \newcommand{\mStringType}{\mType{String}}
 \newcommand{\mUnitType}{\mType{()}}
 
@@ -2898,7 +2902,7 @@ do記法には $\mDoEq$ の他に，我々の $\mLet$ とよく似た $\mDoLetKe
 
 ...
 
-\section{データ型*}
+\section{データ型}
 
 我々はしばしば新しい集合を考える必要に迫られる．例えば，イチ，ニ，サン，タクサンからなる集合
 \begin{equation}
@@ -2906,7 +2910,7 @@ do記法には $\mDoEq$ の他に，我々の $\mLet$ とよく似た $\mDoLetKe
 \end{equation}
 を考えることがあるだろう．集合 $\mSet{Num}$ の元 $n\mIn\mSet{Num}$ は $\mNumOne,\mNumTwo,\mNumThree,\mNumMany$ のいずれかの値を取ることになる．
 
-数学者は新しい集合を定義するが，\haskell プログラマは新しい\keyword{データ型}を定義する．集合 $\mSet{Num}$ の定義の代わりに，我々はデータ型 $\mType{Num}$ を
+数学者は新しい集合を定義するが，\haskell プログラマは新しい\keyword{データ型}を定義する．データ型というのは，型の上品な言い方に過ぎない．集合 $\mSet{Num}$ の定義の代わりに，我々はデータ型 $\mType{Num}$ を
 \begin{equation}
 \mDataType\;\mType{Num}
 =\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany
@@ -2914,7 +2918,7 @@ do記法には $\mDoEq$ の他に，我々の $\mLet$ とよく似た $\mDoLetKe
 のように書いて定義するものとする．式の先頭にある $\mDataType$ は，この式がデータ型の定義であることを示すタグである．部分的にアンダーラインが引かれているのは，\haskell が $\mDataType$ を \code{data} と省略してしまうからである．これは不本意なことだが，文字数節約のために仕方ない．\footnote{\haskell では $\mDataType$ を \code{data} と書く．式 $\mDataType\;\mType{Num}
 =\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany$ は \code{data Color = One | Two | Three | Many} と書く．}
 
-\section{型クラス*}
+\section{型クラス}
 
 型クラスとは，複数の型が持つ共通のインタフェースである．その複数の型をいま $\mType{a}$ で表すこととして，型 $\mType{a}$ が型クラス $\mEqTypeClass$ に属すとしよう．型クラス $\mEqTypeClass$ は等号 $(\equiv)$ と不等号 $(\neq)$ をインタフェースとして持つ．このことを
 \begin{align}
@@ -2933,7 +2937,7 @@ do記法には $\mDoEq$ の他に，我々の $\mLet$ とよく似た $\mDoLetKe
 \end{verbatim}
 と書く．}
 
-ここで宣言したのは等号，不等号というインタフェースが「ある」という事だけで，その実装は未定義である．等号，不等号の実装は\ref{sec:type}節で見る．
+ここで宣言したのは等号，不等号というインタフェースが「ある」という事だけで，その実装は未定義である．等号，不等号の実装は\ref{sec:instance-of-type-class}節で見る．
 
 型クラスは\keyword{継承関係}を持てる．型クラス $\mOrdTypeClass$ は型クラス $\mEqTypeClass$ から等号，不等号を継承し「小なりイコール」 $(\le)$ を追加する．
 \begin{multline}
@@ -2948,8 +2952,8 @@ do記法には $\mDoEq$ の他に，我々の $\mLet$ とよく似た $\mDoLetKe
 \end{verbatim}
 と書く．}
 
-\section{型*}
-\label{sec:type}
+\section{型クラスのインスタンス化}
+\label{sec:instance-of-type-class}
 
 型クラス $\mEqTypeClass$ に属す型 $\mType{a}$ は等号と不等号を持つ．我々の型 $\mType{Num}$ が型クラス $\mEqTypeClass$ に属すことを宣言し，型クラス $\mEqTypeClass$ が備えるべき等号，不等号を実装するには
 \begin{align*}
@@ -2962,7 +2966,7 @@ do記法には $\mDoEq$ の他に，我々の $\mLet$ とよく似た $\mDoLetKe
 &\qquad\mConst{Many}\equiv\mConst{Many}=\mTrue\\
 &\qquad\mAnyParam\equiv\mAnyParam=\mFalse
 \end{align*}
-とする．\footnote{\haskell では
+とする．これを\keyword{型クラスのインスタンス化}と呼ぶ．\footnote{\haskell では
 \begin{verbatim}
   instance Eq Num
     where One==One     = True
@@ -2975,37 +2979,36 @@ do記法には $\mDoEq$ の他に，我々の $\mLet$ とよく似た $\mDoLetKe
 
 \section{余計な話：型シノニム*}
 
-$$
+データ型には\keyword{シノニム}（別名）がつけられる．例えば $\mCharType$ のリスト $\mListType{\mCharType}$ は
+\begin{equation}
 \mTypeSynonym\;\mStringType=\mListType{\mCharType}
-$$
-
-{}\footnote{\haskell では $\mTypeSynonym\;\mStringType=\mListType{\mCharType}$ を \code{type String = [Char]} と書く．}
+\end{equation}
+とすることで，別名 $\mStringType$ を与えることが出来る．\haskell では $\mTypeSynonym$ を \code{type} と省略してしまう．これは残念なことだが，\clang の \code{typedef} のようなものだと思って割り切るしかない．\footnote{\haskell では $\mTypeSynonym\;\mStringType=\mListType{\mCharType}$ を \code{type String = [Char]} と書く．}
 
 \section{この章のまとめ*}
+
+
+\begin{note}{...}
+...
+\end{note}
 
 
 \chapter{Functor*}
 
 
-\section{Parametric Type}
+\section{パラメトリックなデータ型}
 
-\begin{align*}
-\mTypeClass\mathop{\mFunctorTypeClass}\mTypeConstructor{fn}\mWhere{}
-&\mMap\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mTypeConstructor{fn}\mType{a}}{\mTypeConstructor{fn}\mType{b}}}
-\end{align*}
-
----
-
+型の定義．
 
 \begin{multline}
-\mDataType\mType{Shape}
-=\mValueConstructor{Circle}\mFloatType\,\mFloatType\,\mFloatType\\
+\mDataTypeParametric\;\mType{Shape}
+=\mValueConstructor{Circle}\mFloatType\,\mFloatType\\
 \mValueOr
-\mValueConstructor{Rectangle}\mFloatType\,\mFloatType\,\mFloatType\,\mFloatType
+\mValueConstructor{Triangle}\mFloatType\,\mFloatType\,\mFloatType
 \end{multline}
 
 \begin{multline}
-\mDataType\mEitherTypeConstructor\mType{a}\mType{b}
+\mDataTypeParametric\;\mEitherTypeConstructor\mType{a}\mType{b}
 =\mEitherLeftWith{\mType{a}}
 \mValueOr
 \mEitherRightWith{\mType{b}}\\
@@ -3014,10 +3017,11 @@ $$
 
 ---
 
+型クラスからのインスタンス化．
 
-NG.
+NG. 型 $\mType{a}$ が型クラス $\mEqTypeClass$ に属していることに依存している．
 \begin{align*}
-\mInstance\mathop{\mEqTypeClass}\mSuperSet(\mMaybeTypeConstructor\mType{a})\mWhere{}
+\mInstance\;\mEqTypeClass\mSuperSet(\mMaybeTypeConstructor\mType{a})\mWhere{}
 &\mMaybeWith{x}\equiv\mMaybeWith{y}=x\equiv y\\
 &\mNothing\equiv\mNothing=\mTrue\\
 &\mAnyParam\equiv\mAnyParam=\mFalse
@@ -3025,7 +3029,7 @@ NG.
 
 OK.
 \begin{align*}
-\mInstance{}
+\mInstance\;
 &(\mEqTypeClass\mSuperSet\mType{a})\mSuperClass
 \mEqTypeClass\mSuperSet(\mMaybeTypeConstructor\mType{a})\\
 &\quad\mWhere{}\\
@@ -3049,7 +3053,18 @@ $$
 $$
 
 
-\section{List and Maybe*}
+\section{関手の拡張}
+
+\begin{multline}
+\mTypeClass\;\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn}\\
+\mWhere{}
+\mMap\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mTypeConstructor{fn}\mType{a}}{\mTypeConstructor{fn}\mType{b}}}
+\end{multline}
+
+
+
+---
+
 
 \begin{align*}
 \mInstanceParametric\mathop{\mFunctorTypeClass}\mListTypeConstructor\mWhere{}
