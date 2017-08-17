@@ -219,8 +219,8 @@
 \newcommand{\mEitherRightWith}[1]{\{#1\}_\mRight}
 \newcommand{\mFuncWith}[1]{\(#1\)}
 \newcommand{\mListWith}[1]{\left[#1\right]}
-%\newcommand{\mMaybeWith}[1]{\[#1\]}
-\newcommand{\mMaybeWith}[1]{{}^\text{Just}\[#1\]}
+\newcommand{\mMaybeWith}[1]{\[#1\]}
+% \newcommand{\mMaybeWith}[1]{{}^\text{Just}\[#1\]}
 \newcommand{\mPureWith}[1]{\langle#1\rangle}
 \newcommand{\mSetWith}[1]{\left\{#1\right\}}
 \newcommand{\mTupleWith}[1]{\left(#1\right)}
@@ -229,24 +229,24 @@
 % Types
 \newcommand{\mBoolType}{\mType{Bool}}
 \newcommand{\mCharType}{\mType{Char}}
-\newcommand{\mEitherType}[2]{\{\mType{#1}\mid\mType{#2}\}}
 \newcommand{\mFloatType}{\mType{Float}}
 \newcommand{\mFuncType}[1]{\(\mType{#1}\)_\mType{r}}
 \newcommand{\mDoubleType}{\mType{Double}}
 \newcommand{\mIntType}{\mType{Int}}
 \newcommand{\mIntegerType}{\mType{Integer}}
-\newcommand{\mIOType}{\mType{IO}}
 \newcommand{\mListType}[1]{[\mType{#1}]}
 \newcommand{\mMaybeType}[1]{\[\mType{#1}\]}
 \newcommand{\mPureType}[1]{\langle\mType{#1}\rangle}
 \newcommand{\mStringType}{\mType{String}}
 \newcommand{\mUnitType}{\mType{()}}
 
-% IO Types
-\newcommand{\mIODoubleType}{{}^\mIOType\mDoubleType}
-\newcommand{\mIOIntType}{{}^\mIOType\mIntType}
-\newcommand{\mIOStringType}{{}^\mIOType\mStringType}
-\newcommand{\mIOUnitType}{{}^\mIOType\mUnitType}
+% Parametric Types
+\newcommand{\mEitherType}[2]{{}^\mathrm{Either}\{\mType{#1}\shortmid\mType{#2}\}}
+\newcommand{\mIOType}[1]{{}^\mathrm{IO}\{\mType{#1}\}}
+\newcommand{\mIODoubleType}{\mIOType{\mDoubleType}}
+\newcommand{\mIOIntType}{\mIOType{\mIntType}}
+\newcommand{\mIOStringType}{\mIOType{\mStringType}}
+\newcommand{\mIOUnitType}{\mIOType{()}}
 
 % Type constructors
 \newcommand{\mTypeConstructor}[1]{\mathit{#1}} % Internal use
@@ -2744,7 +2744,7 @@ hx=g\mBind fx
 
 ある関数 $c$ が引数を取らず，いつも決まった $\mDoubleType$ 型の数を返すとしよう．そうすると，関数 $c$ の型は単純に $\mDoubleType$ である．
 
-呼び出すたびに異なる擬似乱数を返すアクション $\mRand$ もまた毎回 $\mDoubleType$ 型の数を返す．そこで $\mRand$ も $\mDoubleType$ 型としたいところだが，こちらは関数ではなくアクションである．そこを区別するために，$\mRand$ の型は $\mIODoubleType$ 型と $\mIOType$ をつけて区別する．\footnote{\haskell では $\mIODoubleType$ のことを \code{IO Double} と書く．}
+呼び出すたびに異なる擬似乱数を返すアクション $\mRand$ もまた毎回 $\mDoubleType$ 型の数を返す．そこで $\mRand$ も $\mDoubleType$ 型としたいところだが，こちらは関数ではなくアクションである．そこを区別するために，$\mRand$ の型は $\mIODoubleType$ 型とIOをつけて区別する．\footnote{\haskell では $\mIODoubleType$ のことを \code{IO Double} と書く．}
 
 呼び出しても何も返さないアクションはどのような型を持つべきだろう．何も返さない関数というものは無意味だが，アクションは副作用を持つので，何も返さないものがあっても良いのである．何も返さないことを「空っぽ」を返すと読み替えて，何も返さないアクションの型を $\mIOUnitType$ 型としよう．ここに $\mUnitType$ は「空っぽ」の意味で\keyword{ユニット型}と読む．$\mIOUnitType$ 型のアクションの例は，画面に値を出力する $\mPutStr$ アクションである．\footnote{\haskell では $\mIOUnitType$ のことを \code{IO ()} と書く．}
 
@@ -2752,7 +2752,7 @@ hx=g\mBind fx
 
 アクション $\mPutStr,\mReadLn,\mRand$ は計算機の状態を変化させる．アクション $\mPutStr,\mReadLn$ はOSのシステムコールを発行して，前者ならビデオメモリの値を書き換えるし，後者ならシリアルインタフェースの入力バッファをフラッシュする．アクション $\mRand$ は呼ばれるたびに内部のカウンタ値を一つ進める．これらのアクションは参照透過性を破壊する．そのために，プログラムの他の部分から隔離されねばならない．その隔離のメカニズムを提供するのがモナドである．
 
-$\mIOType$ のつく型はモナドである．モナドには，バインド演算子と，アプリカティブ関手から引き継いだピュア演算子の二つが必要であった．アプリカティブ関手から引き継いだアプリカティブマップ演算子はバインド演算子とピュア演算子の二つから合成できるし，関手から引き継いだマップ演算子もまたアプリカティブマップ演算子とピュア演算子から合成できるから，アプリカティブマップ演算子とマップ演算子は改めて実装しておく必要はない．
+IOのつく型はモナドである．モナドには，バインド演算子と，アプリカティブ関手から引き継いだピュア演算子の二つが必要であった．アプリカティブ関手から引き継いだアプリカティブマップ演算子はバインド演算子とピュア演算子の二つから合成できるし，関手から引き継いだマップ演算子もまたアプリカティブマップ演算子とピュア演算子から合成できるから，アプリカティブマップ演算子とマップ演算子は改めて実装しておく必要はない．
 
 $\mIOUnitType$ 型の場合，ピュア演算子は何も返す必要がないから
 \begin{equation}
