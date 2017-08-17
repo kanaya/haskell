@@ -87,6 +87,8 @@
 \DeclareMathOperator{\mLet}{\mLetKeyword} % Internal use
 \DeclareMathOperator{\mOf}{\mOfKeyword} % Internal use
 \DeclareMathOperator{\mOtherwise}{\mOtherwiseKeyword}
+\DeclareMathOperator{\mSuperClass}{\Rightarrow}
+\DeclareMathOperator{\mSuperSet}{\supset}
 \DeclareMathOperator{\mThen}{\mThenKeyword}
 \DeclareMathOperator{\mTypeSynonym}{\mTypeSynonymKeyword}
 \DeclareMathOperator{\mWhere}{\mWhereKeyword}
@@ -95,8 +97,21 @@
 \newcommand{\mConst}[1]{\mathrm{#1}}
 \newcommand{\mSpecialConst}[1]{\mathrm{#1}} % Internal use
 \newcommand{\mEmptyList}{{[\,]}}
+\newcommand{\mColorBlack}{\mSpecialConst{K}}
+\newcommand{\mColorBlue}{\mSpecialConst{B}}
+\newcommand{\mColorCyan}{\mSpecialConst{C}}
+\newcommand{\mColorGreen}{\mSpecialConst{G}}
+\newcommand{\mColorMagenta}{\mSpecialConst{M}}
+\newcommand{\mColorRed}{\mSpecialConst{R}}
+\newcommand{\mColorWhite}{\mSpecialConst{W}}
+\newcommand{\mColorYellow}{\mSpecialConst{Y}}
 \newcommand{\mFalse}{\mSpecialConst{False}}
 \newcommand{\mNothing}{\emptyset}
+\newcommand{\mNumZero}{\mSpecialConst{Zero}}
+\newcommand{\mNumOne}{\mSpecialConst{One}}
+\newcommand{\mNumTwo}{\mSpecialConst{Two}}
+\newcommand{\mNumThree}{\mSpecialConst{Three}}
+\newcommand{\mNumMany}{\mSpecialConst{Many}}
 \newcommand{\mPureNothing}{\varnothing}
 \newcommand{\mTrue}{\mSpecialConst{True}}
 \newcommand{\mZero}{\O}
@@ -176,6 +191,8 @@
 \DeclareMathOperator{\mSetTimes}{\circledast}
 \DeclareMathOperator{\mUnOp}{\star}
 \DeclareMathOperator{\mValueOr}{\curlyvee}
+
+\newcommand{\mDefEq}{\stackrel{\mathrm{def}}{=}}
 
 % Subscripts
 \newcommand{\mSpecialSub}[1]{\text{#1}}
@@ -2879,19 +2896,106 @@ do記法には $\mDoEq$ の他に，我々の $\mLet$ とよく似た $\mDoLetKe
 
 \chapter{型の拡張*}
 
+...
+
 \section{データ型*}
 
-\haskell では新しい型を定義することを「\keyword{データ型}を定義する」と言う．
+我々はしばしば新しい集合を考える必要に迫られる．例えば，イチ，ニ，サン，タクサンからなる集合
+\begin{equation}
+\mSet{Num}\mDefEq\mSetWith{\mNumOne,\mNumTwo,\mNumThree,\mNumMany}
+\end{equation}
+を考えることがあるだろう．集合 $\mSet{Num}$ の元 $n\mIn\mSet{Num}$ は $\mNumOne,\mNumTwo,\mNumThree,\mNumMany$ のいずれかの値を取ることになる．
 
-例えば，論理集合の定義を数学者は
+数学者は新しい集合を定義するが，\haskell プログラマは新しい\keyword{データ型}を定義する．集合 $\mSet{Num}$ の定義の代わりに，我々はデータ型 $\mType{Num}$ を
 \begin{equation}
-\mBSet=\mSetWith{\mFalse,\mTrue}
+\mDataType\;\mType{Num}
+=\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany
 \end{equation}
-というふうに書く事を好むが，我々は
-\begin{equation}
-\mDataType\mBoolType=\mFalse\mValueOr\mTrue
-\end{equation}
-と書くことにする．式の先頭にある $\mDataType$ は，この式がデータ型の定義であることを示すタグである．部分的にアンダーラインが引かれているのは，\haskell が $\mDataType$ を \code{data} と省略してしまうからである．これは不本意なことだが，文字数節約のために仕方ないらしい．\footnote{\haskell では $\mDataType\mBoolType=\mFalse\mValueOr\mTrue$ を \code{data Bool = False | True} と書く．}
+のように書いて定義するものとする．式の先頭にある $\mDataType$ は，この式がデータ型の定義であることを示すタグである．部分的にアンダーラインが引かれているのは，\haskell が $\mDataType$ を \code{data} と省略してしまうからである．これは不本意なことだが，文字数節約のために仕方ない．\footnote{\haskell では $\mDataType$ を \code{data} と書く．式 $\mDataType\;\mType{Num}
+=\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany$ は \code{data Color = One | Two | Three | Many} と書く．}
+
+\section{型クラス*}
+
+型クラスとは，複数の型が持つ共通のインタフェースである．その複数の型をいま $\mType{a}$ で表すこととして，型 $\mType{a}$ が型クラス $\mEqTypeClass$ に属すとしよう．型クラス $\mEqTypeClass$ は等号 $(\equiv)$ と不等号 $(\neq)$ をインタフェースとして持つ．このことを
+\begin{align}
+\mTypeClass\mathop{\mEqTypeClass}\mSuperSet\mType{a}\mWhere{}
+&(\equiv)\mIn\mProj{\mType{a}}{\mProj{\mType{a}}{\mBoolType}}\\
+&(\neq)\mIn\mProj{\mType{a}}{\mProj{\mType{a}}{\mBoolType}}\\
+&x\equiv y=\neg(x\neq y)\\
+&x\neq y=\neg(x\equiv y)
+\end{align}
+と書く．最初の2行は型クラス $\mEqTypeClass$ が等号と不等号を持つことを宣言しており，続く2行がその性質を宣言している．\footnote{\haskell では $\mTypeClass$ を \code{class} と書く．また $\mSuperSet$ を省略して，
+\begin{verbatim}
+  class Eq a where (==) :: a -> a -> Bool
+                   (/=) :: a -> a -> Bool
+                   x==y = not(x/=y)
+                   x/=y = not(x==y)
+\end{verbatim}
+と書く．}
+
+ここで宣言したのは等号，不等号というインタフェースが「ある」という事だけで，その実装は未定義である．等号，不等号の実装は\ref{sec:type}節で見る．
+
+型クラスは\keyword{継承関係}を持てる．型クラス $\mOrdTypeClass$ は型クラス $\mEqTypeClass$ から等号，不等号を継承し「小なりイコール」 $(\le)$ を追加する．
+\begin{multline}
+\mTypeClass\,(\mEqTypeClass\mSuperSet\mType{a})\mSuperClass\mathop{\mOrdTypeClass}\mType{a}\\
+\mWhere{}
+(\le)\mIn\mProj{\mType{a}}{\mProj{\mType{a}}{\mBoolType}}
+\end{multline}
+型クラス $\mOrdTypeClass$ に属する型は，等号，不等号，小なりイコールと，それらから派生させることの出来る大なり $(>)$，大なりイコール $(\ge)$，小なり $(<)$，および最大値をとる関数 $\max$ と最小値をとる関数 $\min$ を持つ．\footnote{\haskell では
+\begin{verbatim}
+  class (Eq a) => Ord a
+    where (<=) :: a -> a -> Bool
+\end{verbatim}
+と書く．}
+
+\section{型*}
+\label{sec:type}
+
+型クラス $\mEqTypeClass$ に属す型 $\mType{a}$ は等号と不等号を持つ．我々の型 $\mType{Num}$ が型クラス $\mEqTypeClass$ に属すことを宣言し，型クラス $\mEqTypeClass$ が備えるべき等号，不等号を実装するには
+\begin{align*}
+\mInstance\;&
+\mEqTypeClass\mSuperSet\mType{Num}\\
+&\quad\mWhere{}\\
+&\qquad\mConst{One}\equiv\mConst{One}=\mTrue\\
+&\qquad\mConst{Two}\equiv\mConst{Two}=\mTrue\\
+&\qquad\mConst{Three}\equiv\mConst{Three}=\mTrue\\
+&\qquad\mConst{Many}\equiv\mConst{Many}=\mTrue\\
+&\qquad\mAnyParam\equiv\mAnyParam=\mFalse
+\end{align*}
+とする．\footnote{\haskell では
+\begin{verbatim}
+  instance Eq Num
+    where One==One     = True
+          Two==Two     = True
+          Three==Three = True
+          Many==Many   = True
+          _==_         = False
+\end{verbatim}
+と書く．}
+
+\section{余計な話：型シノニム*}
+
+$$
+\mTypeSynonym\;\mStringType=\mListType{\mCharType}
+$$
+
+{}\footnote{\haskell では $\mTypeSynonym\;\mStringType=\mListType{\mCharType}$ を \code{type String = [Char]} と書く．}
+
+\section{この章のまとめ*}
+
+
+\chapter{Functor*}
+
+
+\section{Parametric Type}
+
+\begin{align*}
+\mTypeClass\mathop{\mFunctorTypeClass}\mTypeConstructor{fn}\mWhere{}
+&\mMap\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mTypeConstructor{fn}\mType{a}}{\mTypeConstructor{fn}\mType{b}}}
+\end{align*}
+
+---
+
 
 \begin{multline}
 \mDataType\mType{Shape}
@@ -2908,61 +3012,12 @@ do記法には $\mDoEq$ の他に，我々の $\mLet$ とよく似た $\mDoLetKe
 \mDeriving{}(\mEqTypeClass,\mOrdTypeClass)
 \end{multline}
 
-$$
-\mDataType\mType{Trafficlight}=\mConst{Red}\mValueOr\mConst{Yellow}\mValueOr\mConst{Green}
-$$
+---
 
-\section{型クラス*}
-
-型クラスとは，複数の型が持つ共通のインタフェースである．その複数の型をいま $\mType{a}$ で表すこととして，型 $\mType{a}$ が型クラス $\mEqTypeClass$ に属すとしよう．型クラス $\mEqTypeClass$ は等号 $(\equiv)$ と不等号 $(\neq)$ をインタフェースとして持つ．このことを
-\begin{align}
-\mTypeClass\mathop{\mEqTypeClass}\mType{a}\mWhere{}
-&(\equiv)\mIn\mProj{\mType{a}}{\mProj{\mType{a}}{\mBoolType}}\\
-&(\neq)\mIn\mProj{\mType{a}}{\mProj{\mType{a}}{\mBoolType}}\\
-&x\equiv y=\neg(x\neq y)\\
-&x\neq y=\neg(x\equiv y)
-\end{align}
-と書く．最初の2行は型クラス $\mEqTypeClass$ が等号と不等号を持つことを宣言しており，続く2行がその性質を宣言している．\footnote{\haskell では
-\begin{verbatim}
-  class Eq a where (==) :: a -> a -> Bool
-                   (/=) :: a -> a -> Bool
-                   x==y = not(x/=y)
-                   x/=y = not(x==y)
-\end{verbatim}
-と書く．}
-
-型クラスは継承関係を持てる．
-
-\begin{align*}
-\mTypeClass\,(\mEqTypeClass\supset\mType{a})\Rightarrow\mathop{\mOrdTypeClass}\mType{a}\mWhere{}
-&\dotsb
-\end{align*}
-
-\section{型*}
-
-\begin{align*}
-\mInstance&
-\mathop{\mEqTypeClass}\supset\mType{Trafficlight}\\
-&\quad\mWhere{}\\
-&\qquad\mConst{Red}\equiv\mConst{Red}=\mTrue\\
-&\qquad\mConst{Green}\equiv\mConst{Green}=\mTrue\\
-&\qquad\mConst{Yellow}\equiv\mConst{Yellow}=\mTrue\\
-&\qquad\mAnyParam\equiv\mAnyParam=\mFalse
-\end{align*}
-
-{}\footnote{\haskell では $\supset$ を省略して
-\begin{verbatim}
-  instance Eq Trafficlight
-    where Red==Red       = True
-          Yellow==Yellow = True
-          Green==Green   = True
-          _==_           = False
-\end{verbatim}
-と書く．}
 
 NG.
 \begin{align*}
-\mInstance\mathop{\mEqTypeClass}\supset(\mMaybeTypeConstructor\mType{a})\mWhere{}
+\mInstance\mathop{\mEqTypeClass}\mSuperSet(\mMaybeTypeConstructor\mType{a})\mWhere{}
 &\mMaybeWith{x}\equiv\mMaybeWith{y}=x\equiv y\\
 &\mNothing\equiv\mNothing=\mTrue\\
 &\mAnyParam\equiv\mAnyParam=\mFalse
@@ -2971,8 +3026,8 @@ NG.
 OK.
 \begin{align*}
 \mInstance{}
-&(\mEqTypeClass\supset\mType{a})\Rightarrow
-\mEqTypeClass\supset(\mMaybeTypeConstructor\mType{a})\\
+&(\mEqTypeClass\mSuperSet\mType{a})\mSuperClass
+\mEqTypeClass\mSuperSet(\mMaybeTypeConstructor\mType{a})\\
 &\quad\mWhere{}\\
 &\qquad\mMaybeWith{x}\equiv\mMaybeWith{y}=x\equiv y\\
 &\qquad\mNothing\equiv\mNothing=\mTrue\\
@@ -2990,29 +3045,8 @@ OK.
 }
 
 $$
-(\equiv)\mIn{}(\mEqTypeClass\supset\mType{a})\Rightarrow\mProj{\mMaybeType{a}}{\mProj{\mMaybeType{a}}{\mBoolType}}
+(\equiv)\mIn{}(\mEqTypeClass\mSuperSet\mType{a})\mSuperClass\mProj{\mMaybeType{a}}{\mProj{\mMaybeType{a}}{\mBoolType}}
 $$
-
-\section{余計な話：型シノニム*}
-
-$$
-\mTypeSynonym\mStringType=\mListType{\mCharType}
-$$
-
-{}\footnote{\haskell では $\mTypeSynonym\mStringType=\mListType{\mCharType}$ を \code{type String = [Char]} と書く．}
-
-\section{この章のまとめ*}
-
-
-\chapter{Functor*}
-
-
-\section{Parametric Type}
-
-\begin{align*}
-\mTypeClass\mathop{\mFunctorTypeClass}\mTypeConstructor{fn}\mWhere{}
-&\mMap\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mTypeConstructor{fn}\mType{a}}{\mTypeConstructor{fn}\mType{b}}}
-\end{align*}
 
 
 \section{List and Maybe*}
