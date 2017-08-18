@@ -217,7 +217,7 @@
 % Value constructors
 \newcommand{\mEitherLeftWith}[1]{{}^\mLeft\{#1\}}
 \newcommand{\mEitherRightWith}[1]{{}^\mRight\{#1\}}
-\newcommand{\mFuncWith}[1]{\(#1\)}
+\newcommand{\mFuncWith}[1]{\[#1\]}
 \newcommand{\mListWith}[1]{\left[#1\right]}
 % \newcommand{\mMaybeWith}[1]{\[#1\]}
 \newcommand{\mMaybeWith}[1]{{}^\text{Just}\{#1\}}
@@ -230,25 +230,28 @@
 \newcommand{\mBoolType}{\mType{Bool}}
 \newcommand{\mCharType}{\mType{Char}}
 \newcommand{\mFloatType}{\mType{Float}}
-\newcommand{\mFuncType}[1]{\(\mType{#1}\)_\mType{r}}
 \newcommand{\mDoubleType}{\mType{Double}}
 \newcommand{\mIntType}{\mType{Int}}
 \newcommand{\mIntegerType}{\mType{Integer}}
-\newcommand{\mListType}[1]{[\mType{#1}]}
-% \newcommand{\mMaybeType}[1]{\[\mType{#1}\]}
-% \newcommand{\mMaybeType}[1]{{}^\text{Maybe}\{\mType{#1}\}}
-\newcommand{\mMaybeType}[1]{\{\mType{#1}\}}
-\newcommand{\mPureType}[1]{\langle\mType{#1}\rangle}
 \newcommand{\mStringType}{\mType{String}}
 \newcommand{\mUnitType}{\mType{()}}
 
 % Parametric Types
-\newcommand{\mEitherType}[2]{{}^\mathrm{Either}\{\mType{#1},\mType{#2}\}}
-\newcommand{\mIOType}[1]{\[\mType{#1}\]}
+\newcommand{\mParametricTypeConstruct}[2]{{}^{\mType{#1}}\{\mType{#2}\}}
+\newcommand{\mParametricTypeConstructII}[3]{{}^{#1}\{\mType{#2},\mType{#3}\}}\newcommand{\mEitherTypename}{\mType{Either}}
+\newcommand{\mIOTypename}{\mType{IO}}
+\newcommand{\mMaybeTypename}{\mType{Maybe}}
+
+\newcommand{\mEitherType}[2]{\mParametricTypeConstructII{\mEitherTypename}{#1}{#2}}
+\newcommand{\mFuncType}[1]{\[\mType{#1}\]_\mType{r}}
+\newcommand{\mIOType}[1]{\mParametricTypeConstruct{\mIOTypename}{#1}}
 \newcommand{\mIODoubleType}{\mIOType{\mDoubleType}}
 \newcommand{\mIOIntType}{\mIOType{\mIntType}}
 \newcommand{\mIOStringType}{\mIOType{\mStringType}}
 \newcommand{\mIOUnitType}{\mIOType{()}}
+\newcommand{\mListType}[1]{[\mType{#1}]}
+\newcommand{\mMaybeType}[1]{\mParametricTypeConstruct{\mMaybeTypename}{#1}}
+\newcommand{\mPureType}[1]{\langle\mType{#1}\rangle}
 
 % Type constructors
 \newcommand{\mTypeConstructor}[1]{\mathit{#1}} % Internal use
@@ -328,6 +331,8 @@
 リスト変数&肩に星印をつける&$\mList{x}$\\
 Maybe変数&肩に?をつける&$\mMaybe{u}$\\
 Ether変数&肩に!をつける&$\mEither{u}$\\
+アクション&ギリシア文字&$\alpha,\omega$\\
+有名なアクション&スラント・小文字&$\mPutStr,\mReadLn$\\
 \hline
 関数&イタリック，小文字&$f,g,h,i,j,k$\\
 有名な関数&ローマン，小文字&$\sin,\cos$\\
@@ -335,20 +340,20 @@ Ether変数&肩に!をつける&$\mEither{u}$\\
 % Maybe関数&肩に?をつける&$\mMaybe{g}$\\
 コンテナ関数&ギリシア文字&$\phi,\psi$\\
 \hline
-アクション&ギリシア文字&$\alpha,\omega$\\
-有名なアクション&スラント・小文字&$\mPutStr,\mReadLn$\\
-\hline
 添字&ローマン，大文字&$x_\mLeft,x_\mRight$\\
 \hline
 集合&ボールドローマン，大文字&$\mSet{A},\mSet{B},\mSet{C}$\\
 有名な集合&ブラックボード，大文字&$\mBSet,\mZSet,\mRSet$\\
 単位元&ローマンに斜線，大文字&$\mZero$\\
 \hline
-値コンストラクタ&ローマン，大文字&$\mValueConstructor{Circle},\mValueConstructor{Rectangle}$\\
-\hline
 型パラメタ&ボールドローマン，小文字&$\mType{a},\mType{b},\mType{c}$\\
 型&ボールドローマン，大文字&$\mBoolType,\mIntType,\mFloatType$\\
+コンテナ型&左肩にコンテナ名をつける&$\mMaybeType{a},\mIOType{a}$\\
+有名なコンテナ型&特別な括弧で包む&$\mListType{a},\mFuncType{a},\mPureType{a}$\\
 型クラス&スモールキャピタル&$\mEqTypeClass,\mOrdTypeClass,\mNumTypeClass$\\
+\hline
+値コンストラクタ&肩書付き括弧で包む&$\mMaybeWith{x},\mEitherRightWith{x}$\\
+有名な値コンストラクタ&特別な括弧で包む&$\mListWith{x},\mFuncWith{x},\mPureWith{x}$\\
 \hline
 型コンストラクタ&イタリック，大文字&$\mListTypeConstructor$, $\mMaybeTypeConstructor$\\
 関手&ボールドイタリック，大文字&$\mFunctor{List},\mFunctor{Maybe}$\\
@@ -2746,7 +2751,7 @@ hx=g\mBind fx
 
 ある関数 $c$ が引数を取らず，いつも決まった $\mDoubleType$ 型の数を返すとしよう．そうすると，関数 $c$ の型は単純に $\mDoubleType$ である．
 
-呼び出すたびに異なる擬似乱数を返すアクション $\mRand$ もまた毎回 $\mDoubleType$ 型の数を返す．そこで $\mRand$ も $\mDoubleType$ 型としたいところだが，こちらは関数ではなくアクションである．そこを区別するために，$\mRand$ の型は $\mIODoubleType$ 型とIOをつけて区別する．\footnote{\haskell では $\mIODoubleType$ のことを \code{IO Double} と書く．}
+呼び出すたびに異なる擬似乱数を返すアクション $\mRand$ もまた毎回 $\mDoubleType$ 型の数を返す．そこで $\mRand$ も $\mDoubleType$ 型としたいところだが，こちらは関数ではなくアクションである．そこを区別するために，$\mRand$ の型は $\mIODoubleType$ 型と $\mIOType{\dotsb}$ に入れて区別する．\footnote{\haskell では $\mIODoubleType$ のことを \code{IO Double} と書く．}
 
 呼び出しても何も返さないアクションはどのような型を持つべきだろう．何も返さない関数というものは無意味だが，アクションは副作用を持つので，何も返さないものがあっても良いのである．何も返さないことを「空っぽ」を返すと読み替えて，何も返さないアクションの型を $\mIOUnitType$ 型としよう．ここに $\mUnitType$ は「空っぽ」の意味で\keyword{ユニット型}と読む．$\mIOUnitType$ 型のアクションの例は，画面に値を出力する $\mPutStr$ アクションである．\footnote{\haskell では $\mIOUnitType$ のことを \code{IO ()} と書く．}
 
@@ -2754,7 +2759,7 @@ hx=g\mBind fx
 
 アクション $\mPutStr,\mReadLn,\mRand$ は計算機の状態を変化させる．アクション $\mPutStr,\mReadLn$ はOSのシステムコールを発行して，前者ならビデオメモリの値を書き換えるし，後者ならシリアルインタフェースの入力バッファをフラッシュする．アクション $\mRand$ は呼ばれるたびに内部のカウンタ値を一つ進める．これらのアクションは参照透過性を破壊する．そのために，プログラムの他の部分から隔離されねばならない．その隔離のメカニズムを提供するのがモナドである．
 
-IOのつく型はモナドである．モナドには，バインド演算子と，アプリカティブ関手から引き継いだピュア演算子の二つが必要であった．アプリカティブ関手から引き継いだアプリカティブマップ演算子はバインド演算子とピュア演算子の二つから合成できるし，関手から引き継いだマップ演算子もまたアプリカティブマップ演算子とピュア演算子から合成できるから，アプリカティブマップ演算子とマップ演算子は改めて実装しておく必要はない．
+$\mListType{a}$ 型が $\mType{a}$ 型のリストであるように，$\mIOType{a}$ 型は $\mType{a}$ 型の\keyword{IO}である．そしてリストがモナドであるように，IOもまたモナドである．モナドには，バインド演算子と，アプリカティブ関手から引き継いだピュア演算子の二つが必要であった．アプリカティブ関手から引き継いだアプリカティブマップ演算子はバインド演算子とピュア演算子の二つから合成できるし，関手から引き継いだマップ演算子もまたアプリカティブマップ演算子とピュア演算子から合成できるから，アプリカティブマップ演算子とマップ演算子は改めて実装しておく必要はない．
 
 $\mIOUnitType$ 型の場合，ピュア演算子は何も返す必要がないから
 \begin{equation}
@@ -2999,8 +3004,53 @@ do記法には $\mDoEq$ の他に，我々の $\mLet$ とよく似た $\mDoLetKe
 
 \chapter{Functor*}
 \label{ch:parametric-data-type}
-
+...
 \section{パラメトリックなデータ型}
+
+Maybeのように型パラメタを取る型はどのように定義されるかと言うと，
+\begin{equation}
+\mDataTypeParametric\;\mMaybeTypeConstructor\mType{a}
+=\mMaybeWith{\mType{a}}\mValueOr\mNothing
+\end{equation}
+のように，やはり $\mDataType$ を使って定義される．念のため型パラメタを取る場合は $\mDataTypeParametric$ と区別しておこう．\footnote{\haskell は $\mDataType$ と $\mDataTypeParametric$ を区別せず，$\mDataTypeParametric\;\mMaybeTypeConstructor\mType{a}
+=\mMaybeWith{\mType{a}}\mValueOr\mNothing$ を \code{data Maybe a = Just a | Nothing} と書く．}
+% この $\mMaybeWith{\mType{a}}$ は $\mType{a}$ のMaybe型 $(\mMaybeType{a})$ という意味ではなく，$\mType{a}$ 型の変数を型コンストラクタ $\mMaybeWith{\dotsb}$ に入れなさいという意味．
+
+Maybeが型クラス $\mEqTypeClass$ に属すものとして，$\mEqTypeClass$ からのインスタンス化をしておこう．ここでも型パラメタ付きの $\mInstance$ を仮に $\mInstanceParametric$ とすると次のように書けそうである．
+\begin{align*}
+\mInstanceParametric\;
+&\mEqTypeClass\mSuperSet{}(\mMaybeTypeConstructor\mType{a})\\
+&\quad\mWhere{}\\
+&\qquad\mMaybeWith{x}\equiv\mMaybeWith{y}=x\equiv y\\
+&\qquad\mNothing\equiv\mNothing=\mTrue\\
+&\qquad\mAnyParam\equiv\mAnyParam=\mFalse
+\end{align*}
+残念ながら，この式は $\mType{a}$ 型の変数 $x,y$ の間に等号 $(\equiv)$ が定義されていることが隠れた前提になっているため，正しくない．我々は $\mType{a}$ が型クラス $\mEqTypeClass$ に属すことを要求するので，次のように言い換える．
+\begin{align*}
+\mInstanceParametric\;
+&(\mEqTypeClass\mSuperSet\mType{a})\mSuperClass
+\mEqTypeClass\mSuperSet(\mMaybeTypeConstructor\mType{a})\\
+&\quad\mWhere{}\\
+&\qquad\mMaybeWith{x}\equiv\mMaybeWith{y}=x\equiv y\\
+&\qquad\mNothing\equiv\mNothing=\mTrue\\
+&\qquad\mAnyParam\equiv\mAnyParam=\mFalse
+\end{align*}
+この $(\mEqTypeClass\mSuperSet\mType{a})\mSuperClass$ の部分が「以下 $\mType{a}$ 型は $\mEqTypeClass$ 型クラスに属すものとして」という意味になる．\footnote{\haskell では
+\begin{verbatim}
+  instance (Eq a) => Eq (Maybe a)
+    where Just x == Just y = x==y
+          Nothing==Nothing = True
+          _==_             = False
+\end{verbatim}
+と書く．
+}
+
+Maybeの間に新たに定義された等号 $(\equiv)$ は次の型を持つ．
+\begin{equation}
+(\equiv)\mIn{}(\mEqTypeClass\mSuperSet\mType{a})\mSuperClass\mProj{\mMaybeType{a}}{\mProj{\mMaybeType{a}}{\mBoolType}}
+\end{equation}
+
+\section{Deriving}
 
 型の定義．
 
@@ -3011,11 +3061,6 @@ do記法には $\mDoEq$ の他に，我々の $\mLet$ とよく似た $\mDoLetKe
 \mValueConstructor{Triangle}\mFloatType\,\mFloatType\,\mFloatType
 \end{multline}
 
-\begin{equation}
-\mDataTypeParametric\;\mMaybeTypeConstructor\mType{a}
-=\mMaybeWith{\mType{a}}\mValueOr\mNothing
-\end{equation}
-この $\mMaybeWith{\mType{a}}$ は $\mType{a}$ のMaybe型 $(\mMaybeType{a})$ という意味ではなく，$\mType{a}$ 型の変数を型コンストラクタ $\mMaybeWith{\dotsb}$ に入れなさいという意味．
 
 \begin{multline}
 \mDataTypeParametric\;\mEitherTypeConstructor\mType{a}\mType{b}
@@ -3025,70 +3070,60 @@ do記法には $\mDoEq$ の他に，我々の $\mLet$ とよく似た $\mDoLetKe
 \mDeriving{}(\mEqTypeClass,\mOrdTypeClass)
 \end{multline}
 
----
-
-型クラスからのインスタンス化．
-
-NG. 型 $\mType{a}$ が型クラス $\mEqTypeClass$ に属していることに依存している．
-\begin{align*}
-\mInstance\;\mEqTypeClass\mSuperSet(\mMaybeTypeConstructor\mType{a})\mWhere{}
-&\mMaybeWith{x}\equiv\mMaybeWith{y}=x\equiv y\\
-&\mNothing\equiv\mNothing=\mTrue\\
-&\mAnyParam\equiv\mAnyParam=\mFalse
-\end{align*}
-
-OK.
-\begin{align*}
-\mInstance\;
-&(\mEqTypeClass\mSuperSet\mType{a})\mSuperClass
-\mEqTypeClass\mSuperSet(\mMaybeTypeConstructor\mType{a})\\
-&\quad\mWhere{}\\
-&\qquad\mMaybeWith{x}\equiv\mMaybeWith{y}=x\equiv y\\
-&\qquad\mNothing\equiv\mNothing=\mTrue\\
-&\qquad\mAnyParam\equiv\mAnyParam=\mFalse
-\end{align*}
-
-{}\footnote{\haskell では
-\begin{verbatim}
-  instance (Eq a) => Eq (Maybe a)
-    where Just x == Just y = x==y
-          Nothing==Nothing = True
-          _==_             = False
-\end{verbatim}
-と書く．
-}
-
-$$
-(\equiv)\mIn{}(\mEqTypeClass\mSuperSet\mType{a})\mSuperClass\mProj{\mMaybeType{a}}{\mProj{\mMaybeType{a}}{\mBoolType}}
-$$
 
 
 \section{関手の拡張}
 
+型クラス $\mFunctorTypeClass$ はマップ演算子 $(\mMap)$ を提供する．
+
+型ではなく型コンストラクタを定義する $\mTypeClassParametric$ を使ってみよう．
 \begin{multline}
-\mTypeClass\;\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn}\\
+\mTypeClassParametric\;\mFunctorTypeClass\mSuperSet\mListTypeConstructor\\
 \mWhere{}
-\mMap\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mTypeConstructor{fn}\mType{a}}{\mTypeConstructor{fn}\mType{b}}}
+\mMap\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mListType{a}}{\mListType{b}}}
 \end{multline}
 
 
+{}\footnote{\haskell では
+\begin{verbatim}
+  class Functor []
+    where map :: (a -> b) -> [a] -> [b]
+\end{verbatim}
+と書く．}
 
----
+\begin{equation}
+\mInstanceParametric\;\mFunctorTypeClass\mSuperSet\mListTypeConstructor\mWhere{}\mMap=\mMapList
+\end{equation}
 
-
-\begin{align*}
-\mInstanceParametric\mathop{\mFunctorTypeClass}\mListTypeConstructor\mWhere{}
-&\mMap=\mMapList
-\end{align*}
 
 {}\footnote{\haskell では $\mInstanceParametric\mathop{\mFunctorTypeClass}\mListTypeConstructor\mWhere{}
 \mMap=\mMapList$ を，$\mInstance$ と $\mInstanceParametric$ は区別せずに \code{instance Functor [] where fmap = map} と書く．}
 
+---
+
+Maybeの場合は次のようになる．
+\begin{multline}
+\mTypeClassParametric\;\mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor\\
+\mWhere{}
+\mMap\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mMaybeType{a}}{\mMaybeType{b}}}
+\end{multline}
+
+{}\footnote{\haskell では
+\begin{verbatim}
+  class Functor Maybe
+    where map :: (a -> b) -> Maybe a -> Maybe b
+\end{verbatim}
+と書く．}
+
+
+
 
 \begin{align*}
-\mInstanceParametric\mathop{\mFunctorTypeClass}\mMaybeTypeConstructor\mWhere{}
-&f\mMap\mMaybeWith{x}=\mMaybeWith{fx}\\
-&f\mMap\mNothing=\mNothing
+\mInstanceParametric\;
+&\mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor\\
+&\quad\mWhere{}\\
+&\qquad f\mMap\mMaybeWith{x}=\mMaybeWith{fx}\\
+&\qquad f\mMap\mNothing=\mNothing
 \end{align*}
 
 
@@ -3100,12 +3135,23 @@ $$
 \end{verbatim}
 と書く．}
 
-\section{Either*}
+
+---
+
+Eitherの場合．
+\begin{multline}
+\mTypeClassParametric\;\mFunctorTypeClass\mSuperSet{}(\mEitherTypeConstructor\mType{a})\\
+\mWhere{}
+\mMap\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mEitherType{a}{a}}{\mEitherType{a}{b}}}
+\end{multline}
+
 
 \begin{align*}
-\mInstanceParametric\mathop{\mFunctorTypeClass}(\mEitherTypeConstructor\mType{a})\mWhere{}
-&f\mMap{}\mEitherRightWith{x}=\mEitherRightWith{fx}\\
-&f\mMap{}\mEitherLeftWith{x}=\mEitherLeftWith{x}
+\mInstanceParametric\;
+&\mFunctorTypeClass\mSuperSet{}(\mEitherTypeConstructor\mType{a})\\
+&\quad\mWhere{}\\
+&\qquad f\mMap{}\mEitherRightWith{x}=\mEitherRightWith{fx}\\
+&\qquad f\mMap{}\mEitherLeftWith{x}=\mEitherLeftWith{x}
 \end{align*}
 
 
@@ -3117,10 +3163,38 @@ $$
 \end{verbatim}
 と書く．}
 
+---
+
+一般化すると次のようになる．
+\begin{multline}
+\label{eq:fn}
+\mTypeClassParametric\;\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn}\\
+\mWhere{}
+\mMap\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mParametricTypeConstruct{fn}{a}}{\mParametricTypeConstruct{fn}{b}}}
+\end{multline}
+ここで，型 $\mParametricTypeConstruct{fn}{a}$ は型 $\mType{a}$ と型コンストラクタ $\mTypeConstructor{fn}$ から
+\begin{equation}
+\mParametricTypeConstruct{fn}{a}=\mathop{\mTypeConstructor{fn}}\mType{a}
+\end{equation}
+のように作られる．\footnote{\haskell では $\mParametricTypeConstruct{fn}{a}$ も $\mathop{\mTypeConstructor{fn}}\mType{a}$ も同様に \code{fn a} と書く．そこで式\eqref{eq:fn}は
+\begin{verbatim}
+  class functor fn
+    where fmap :: (a -> b) -> fn a -> fn b
+\end{verbatim}
+と書く．}
 
 \section{余計な話：種 (kind)}
 
+$$
+\mProj{\star}{\star}
+$$
+
 \section{この章のまとめ}
+
+\begin{note}{...}
+...
+\end{note}
+
 
 \part{\haskell プログラミング}
 
@@ -3216,6 +3290,8 @@ w=\mMain\mBind\mPureWith{x}
 \chapter{状態*}
 \chapter{非決定性*}
 \chapter{乱数*}
+\chapter{...}
+\chapter{...}
 \chapter{プリミティブ型*}
 \section{余計な話：アンボックス化型*}
 
