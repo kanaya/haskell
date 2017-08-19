@@ -69,6 +69,7 @@
 \newcommand{\mInKeyword}{\mKeyword{in}}
 \newcommand{\mInstanceKeyword}{\mKeyword{instance}}
 \newcommand{\mLetKeyword}{\mKeyword{let}}
+\newcommand{\mNewDataTypeKeyword}{\mKeywordUnderline{new}\mKeyword{data}\mKeywordUnderline{type}}
 \newcommand{\mOfKeyword}{\mKeyword{of}}
 \newcommand{\mOtherwiseKeyword}{\mKeyword{otherwise}}
 \newcommand{\mThenKeyword}{\mKeyword{then}}
@@ -86,6 +87,7 @@
 \DeclareMathOperator{\mInstance}{\mInstanceKeyword}
 \DeclareMathOperator{\mInstanceParametric}{\mInstanceKeyword^{\dagger}}
 \DeclareMathOperator{\mLet}{\mLetKeyword} % Internal use
+\DeclareMathOperator{\mNewDataType}{\mNewDataTypeKeyword}
 \DeclareMathOperator{\mOf}{\mOfKeyword} % Internal use
 \DeclareMathOperator{\mOtherwise}{\mOtherwiseKeyword}
 \DeclareMathOperator{\mSuperClass}{\Rightarrow}
@@ -243,7 +245,7 @@
 \newcommand{\mMaybeTypename}{\mType{Maybe}}
 
 \newcommand{\mEitherType}[2]{\mParametricTypeConstructII{\mEitherTypename}{#1}{#2}}
-\newcommand{\mFuncType}[1]{\[\mType{#1}\]_\mType{r}}
+\newcommand{\mFuncType}[2]{\[\mType{#1}\]_\mType{#2}}
 \newcommand{\mIOType}[1]{\mParametricTypeConstruct{\mIOTypename}{#1}}
 \newcommand{\mIODoubleType}{\mIOType{\mDoubleType}}
 \newcommand{\mIOIntType}{\mIOType{\mIntType}}
@@ -255,8 +257,9 @@
 
 % Type constructors
 \newcommand{\mTypeConstructor}[1]{\mathit{#1}} % Internal use
+\newcommand{\mFuncTypeConstructor}[1]{\mathop{\mTypeConstructor{Func}_\mType{#1}}}
 \DeclareMathOperator{\mEitherTypeConstructor}{\mTypeConstructor{Either}}
-\DeclareMathOperator{\mFuncTypeConstructor}{\mTypeConstructor{Func}_\mType{r}}
+% \DeclareMathOperator{\mFuncTypeConstructor}{\mTypeConstructor{Func}_\mType{r}}
 \DeclareMathOperator{\mListTypeConstructor}{\mTypeConstructor{List}}
 \DeclareMathOperator{\mMaybeTypeConstructor}{\mTypeConstructor{Maybe}}
 
@@ -304,7 +307,7 @@
 \newcommand{\mLetIn}[3]{\mLet{#1\mLetEq#2}\mInKW{#3}}
 \newcommand{\mMorph}[2]{#1\mMorphTo#2}
 \newcommand{\mProj}[2]{#1\mMapsTo#2}
-\newcommand{\mWhere}[2]{\mathbin{\mWhereKeyword}#1\mLetEq#2}
+\newcommand{\mWhereIs}[2]{\mathbin{\mWhereKeyword}#1\mLetEq#2}
 \newcommand{\mWhereII}[4]{\mathbin{\mWhereKeyword}#1\mLetEq#2,#3\mLetEq#4}
 
 
@@ -349,7 +352,7 @@ Ether変数&肩に!をつける&$\mEither{u}$\\
 型パラメタ&ボールドローマン，小文字&$\mType{a},\mType{b},\mType{c}$\\
 型&ボールドローマン，大文字&$\mBoolType,\mIntType,\mFloatType$\\
 コンテナ型&左肩にコンテナ名をつける&$\mMaybeType{a},\mIOType{a}$\\
-有名なコンテナ型&特別な括弧で包む&$\mListType{a},\mFuncType{a},\mPureType{a}$\\
+有名なコンテナ型&特別な括弧で包む&$\mListType{a},\mFuncType{a}{r},\mPureType{a}$\\
 型クラス&スモールキャピタル&$\mEqTypeClass,\mOrdTypeClass,\mNumTypeClass$\\
 \hline
 値コンストラクタ&肩書付き括弧で包む&$\mMaybeWith{x},\mEitherRightWith{x}$\\
@@ -403,12 +406,12 @@ $\mJoin$&ジョイン&\\
 $\mEmptyList$&空リスト&\\
 $\mNothing$&空Maybe（ナッシング）&\\
 $\mPureNothing$&空&\\\hline
-$\mListWith{x}$&リスト値コンストラクタ&\\
-$\mMaybeWith{x}$&Maybe値コンストラクタ&\\
-$\mEitherLeftWith{x},\mEitherRightWith{x}$&Either値コンストラクタ&\\
-$\mPureWith{x}$&ピュア演算子（ユニット演算子）&\\
-$\mFuncWith{f}$&関数値コンストラクタ&\\
-\hline
+% $\mListWith{x}$&リスト値コンストラクタ&\\
+% $\mMaybeWith{x}$&Maybe値コンストラクタ&\\
+% $\mEitherLeftWith{x},\mEitherRightWith{x}$&Either値コンストラクタ&\\
+% $\mPureWith{x}$&ピュア演算子（ユニット演算子）&\\
+% $\mFuncWith{f}$&関数値コンストラクタ&\\
+% \hline
 $\mMap$&一般マップ&\\
 $\mMapList$&リストのマップ&\\
 $\mMapMaybe$&Maybeのマップ&\\
@@ -484,11 +487,15 @@ print("Hello, world.")
 
 ラムダ式は単純で，十分に数学的に定式化できるものだ．
 
-\section{破壊的代入の禁止*}
+\section{数学とプログラミング*}
 
 ...
 
 \section{余計な話：\haskell コンパイラの準備*}
+
+本書の第I部は\haskell コンパイラ無しで読み進めることが出来る．とは言え，前もって\haskell コンパイラを用意しておくことは無意味とも言えない．
+
+---
 
 \haskell コンパイラの中で最もよく使われているものは Glasgow's Haskell Compiler (GHC) である．本書に登場する\haskell コードもすべてGHCでテストをしている．GHCは2015年にリリースされたバージョン7.10とそれまでのバージョンとの間に大きな違いがある．本書はバージョン7.10以降を対象としているため，一部は古い書籍と互換性がない．
 
@@ -734,14 +741,14 @@ y=\mLetIn{x'}{1+x}{fx'}
 式\eqref{eq:letin}は局所変数を後ろに回して
 \begin{equation}
 \label{eq:where}
-y=fx'\mWhere{x'}{1+x}
+y=fx'\mWhereIs{x'}{1+x}
 \end{equation}
-のように書いても良い．\footnote{\haskell では $y=fx'\mWhere{x'}{1+x}$ は \code{y = f x' where x' = 1+x} と書く．}
+のように書いても良い．\footnote{\haskell では $y=fx'\mWhereIs{x'}{1+x}$ は \code{y = f x' where x' = 1+x} と書く．}
 
 式\eqref{eq:letin}や式\eqref{eq:where}はラムダ式を使った\keyword{シンタックスシュガー}（糖衣構文，構文糖）であり，一般に
 \begin{align}
 \mLetIn{x'}{gx}{fx'}
-&=fx'\mWhere{x'}{gx}\\
+&=fx'\mWhereIs{x'}{gx}\\
 &=(\mLambdaExp{x'}{fx'})(gx)
 \end{align}
 である．
@@ -759,7 +766,7 @@ y=fx'\mWhere{x'}{1+x}
 \item パタンマッチは関数本体に書いても良い．関数 $f'$ の例で言えば $f'=\mCaseOf{x}0\mIfSo1;\mAnyParam\mIfSo(\sin x)/x$ と定義できる．
 \item 関数定義にはガードが使える．例えば $f''\mGuard{x<0}=0;f''\mGuard{x\equiv0}=1;f''\mGuard{\mOtherwise}=(\sin x)/x$ と定義できる．
 \item 条件分岐は $\mIfThenElse{x}{y}{z}$ と書き，$x\equiv\mTrue$ の時には $y$ が，$x\equiv\mFalse$ のときには $z$ が式の値になる．
-\item 局所変数は $y=\mLetIn{x'}{\dotsb}{fx'}$ または $y=fx'\mWhere{x'}{\dotsb}$ という書き方で導入できる．
+\item 局所変数は $y=\mLetIn{x'}{\dotsb}{fx'}$ または $y=fx'\mWhereIs{x'}{\dotsb}$ という書き方で導入できる．
 \end{enumerate}
 
 
@@ -1719,7 +1726,7 @@ x*\mFact(x-1)&\mOtherwise
   &=\mEmptyList\\
 \mSort(x:\mList{x})
   &=(\mSort\mList{a})\mAppend\mListWith{x}\mAppend{}(\mSort\mList{b})\\
-&\quad\mWhereKeyword\\
+&\quad\mWhere\\
 &\qquad\mList{a}\mLetEq\mListWith{a\mListGuard{a\mFrom\mList{x},a\le x}}\\
 &\qquad\mList{b}\mLetEq\mListWith{b\mListGuard{b\mFrom\mList{x},b>x}}
 \end{align}
@@ -2188,8 +2195,46 @@ w=f\mMap u\mAppMap v
 \end{equation}
 とすれば良い．このようにアプリカティブマップ演算子を並べる書き方をアプリカティブスタイルと呼ぶ．
 
-\section{未定*}
-...
+\section{関手としての関数*}
+
+関手として．
+
+$$
+\mProj{\mType{r}}{\mType{a}}
+$$
+
+$$
+\mFuncType{a}{r}=\mFuncTypeConstructor{r}\mType{a}
+$$
+
+$$
+\mFuncTypeConstructor{r}\mType{a}=\mProj{\mType{r}}{\mType{a}}
+$$
+
+$$
+\mFuncTypeConstructor{r}=\mType{r}\mapsto
+$$
+
+$$
+f\mMapFunc g=f\mComp g
+$$
+
+アプリカティブ関手として．
+
+$$
+\mFuncWith{x}=\mLambdaExp{\mAnyParam}{x}
+$$
+
+
+$$
+f\mAppMapFunc g=\mLambdaExp{x}{fx(gx)}
+$$
+
+（モナドとして．）
+
+$$
+f\mBindFunc g=\mLambdaExp{x}{f(gx)x}
+$$
 
 \section{余計な話：アプリカティブマップ演算子の実装*}
 
@@ -2545,7 +2590,32 @@ Maybe
 \end{center}
 \end{table*}
 
-\section{余計な話：関数モナド}
+\section{余計な話：モナドとしての関数*}
+
+関数は関手でもあった．と言うのも，関数にはマップ演算子が定義できるからである．関数を $f,g$ とし，関数のマップ演算子を $\mMapFunc$ としたとき
+\begin{equation}
+f\mMapFunc g=f\mComp g
+\end{equation}
+であった．
+
+関数には，ピュア演算子とバインド演算子も定義できる．まずピュア演算子だが，
+\begin{equation}
+\mFuncWith{x}=\mLambdaExp{\mAnyParam}{x}
+\end{equation}
+と定義できる．この関数ピュア演算子は，任意の引数 $x$ を関数に置き換える．ただし，その関数は引数を捨てて元の変数 $x$ を返す．例えば
+\begin{equation}
+x=\mFuncWith{x}y
+\end{equation}
+と，ダミー変数 $y$ を使って中身の $x$ を取り出せる．
+
+関数ピュア演算子すなわち関数値コンストラクタの型は，関数型コンストラクタの型と一致する．関数型コンストラクタは型パラメタ $\mType{a}$ から関数型 $\mProj{\mType{r}}{\mType{a}}$ を作り出す．関数値コンストラクタも $\mType{a}$ 型の変数 $x$ から $\mProj{\mType{r}}{\mType{a}}$ 型の関数 $\mFuncWith{x}$ を作り出す．ここに型 $\mType{r}$ は関数 $\mFuncWith{x}$ が取り得る引数の型である．
+
+次に関数のバインド演算子 $\mBindFunc$ を考えておこう．関数のバインド演算子は
+\begin{equation}
+f\mBindFunc\phi=\mLambdaExp{r}{f(\phi r)r}
+\end{equation}
+と定義する．
+
 
 ---
 
@@ -2555,12 +2625,6 @@ Maybe
 f\mMapFunc g=f(g\mAnonParam)
 \end{equation}
 と定義する．ただし $f,g$ は関数である．
-
----
-
-$$
-f\mMapFunc g=\mFuncWith{f\mComp g}
-$$
 
 ---
 
@@ -2576,17 +2640,17 @@ $$
   \mProj{\mPureType{a}}{\mPureType{b}}
 }
 \end{equation}
-であった．ここでちょっとしたトリックを使う．$\mFuncType{a}$ というコンテナ型があるとし，それを作る型コンストラクタを
+であった．ここでちょっとしたトリックを使う．$\mFuncType{a}{r}$ というコンテナ型があるとし，それを作る型コンストラクタを
 \begin{equation}
-\mFuncType{a}=\mFuncTypeConstructor\mType{a}
+\mFuncType{a}{r}=\mFuncTypeConstructor{r}\mType{a}
 \end{equation}
-と書くことにしよう．ここで $\mFuncTypeConstructor\mType{a}$ は
+と書くことにしよう．ここで $\mFuncTypeConstructor{r}\mType{a}$ は
 \begin{equation}
-\mFuncTypeConstructor\mType{a}=(\mProj{\mType{r}}{\mType{a}})
+\mFuncTypeConstructor{r}\mType{a}=(\mProj{\mType{r}}{\mType{a}})
 \end{equation}
-であると定義する．ここに $\mProj{\mType{r}}{\mType{a}}$ は確かに正当な型であるから，型コンストラクタ $\mFuncTypeConstructor$ は正しい仕事をしている．そもそも $\mProj{\mType{a}}{\mType{b}}$ は二つの型パラメタ $\mType{a}$ と $\mType{b}$ を引数に取る型コンストラクタだと解釈できるから，両辺の整合性は保たれている．
+であると定義する．ここに $\mProj{\mType{r}}{\mType{a}}$ は確かに正当な型であるから，型コンストラクタ $\mFuncTypeConstructor{r}$ は正しい仕事をしている．そもそも $\mProj{\mType{a}}{\mType{b}}$ は二つの型パラメタ $\mType{a}$ と $\mType{b}$ を引数に取る型コンストラクタだと解釈できるから，両辺の整合性は保たれている．
 
-この新しい型 $\mFuncType{a}$ でマップ演算子 $\mMapFunc$ の型を読むと
+この新しい型 $\mFuncType{a}{r}$ でマップ演算子 $\mMapFunc$ の型を読むと
 \begin{equation}
 \label{eq:type-of-mapfunc}
 \mMapFunc
@@ -2595,10 +2659,10 @@ $$
   (\mProj{\mType{a}}{\mType{b}})
 }
 {
-  \mProj{\mFuncType{a}}{\mFuncType{b}}
+  \mProj{\mFuncType{a}{r}}{\mFuncType{b}{r}}
 }
 \end{equation}
-である．ここで $\mFuncType{a}=(\mProj{\mType{r}}{\mType{a}})$ の関係を使うと，式\eqref{eq:type-of-mapfunc}は
+である．ここで $\mFuncType{a}{r}=(\mProj{\mType{r}}{\mType{a}})$ の関係を使うと，式\eqref{eq:type-of-mapfunc}は
 \begin{equation}
 \label{eq:type-of-mapfunc-ii}
 \mMapFunc
@@ -2641,9 +2705,6 @@ $$
 
 ---
 
-$$\mConst f=\mLambdaExp{\mAnyParam}{f}$$
-
----
 
 関数にはピュア演算子が定義されていて
 \begin{equation}
@@ -2718,7 +2779,7 @@ A...
 
 プログラムが計算機状態を変える一例として，画面に値を出力することを考える．画面に値を出力するアクションを $\mPutStr$ と名付けよう．例えば次のプログラム例は，画面に ``Hello, world.'' と書き出すものとする．
 \begin{equation}
-\omega=\mPutStr s\mWhere{s}{\mString{``Hello, world.''}}
+\omega=\mPutStr s\mWhereIs{s}{\mString{``Hello, world.''}}
 \end{equation}
 アクション $\mPutStr$ は変数を一つとり，その値を画面へ出力すなち破壊的代入を行う．では $\omega=\mPutStr\alpha$ とすればアクション $\alpha$ が実行されて，晴れて擬似乱数が生成され，その値が画面へ出力されるだろうか．もちろんそうはならないのである．
 
@@ -2737,7 +2798,7 @@ gy=1+y
 \end{equation}
 に渡そうと思ったら，
 \begin{equation}
-hx=g\mBind fx
+g\mBind fx
 \end{equation}
 のようにバインド演算子で合成しなければならなかった．
 
@@ -2753,7 +2814,7 @@ hx=g\mBind fx
 
 呼び出すたびに異なる擬似乱数を返すアクション $\mRand$ もまた毎回 $\mDoubleType$ 型の数を返す．そこで $\mRand$ も $\mDoubleType$ 型としたいところだが，こちらは関数ではなくアクションである．そこを区別するために，$\mRand$ の型は $\mIODoubleType$ 型と $\mIOType{\dotsb}$ に入れて区別する．\footnote{\haskell では $\mIODoubleType$ のことを \code{IO Double} と書く．}
 
-呼び出しても何も返さないアクションはどのような型を持つべきだろう．何も返さない関数というものは無意味だが，アクションは副作用を持つので，何も返さないものがあっても良いのである．何も返さないことを「空っぽ」を返すと読み替えて，何も返さないアクションの型を $\mIOUnitType$ 型としよう．ここに $\mUnitType$ は「空っぽ」の意味で\keyword{ユニット型}と読む．$\mIOUnitType$ 型のアクションの例は，画面に値を出力する $\mPutStr$ アクションである．\footnote{\haskell では $\mIOUnitType$ のことを \code{IO ()} と書く．}
+呼び出しても何も返さないアクションはどのような型を持つべきだろう．何も返さない関数というものは無意味だが，アクションは副作用を持つので，何も返さないものがあっても良いのである．何も返さないことを「空っぽ」を返すと読み替えて，何も返さないアクションの型を $\mIOUnitType$ 型としよう．ここに $\mUnitType$ は「空っぽ」の意味で，\keyword{ユニット型}と読む．$\mIOUnitType$ 型のアクションの例は，画面に値を出力する $\mPutStr$ アクションである．\footnote{\haskell では $\mIOUnitType$ のことを \code{IO ()} と書く．}
 
 キーボードからの入力を受け取るアクションもある．そのアクションを $\mReadLn$ としよう．アクション $\mReadLn$ は文字列型を返すので，その型は $\mIOStringType$ である．\footnote{\haskell では $\mIOStringType$ のことを \code{IO String} と書く．}
 
@@ -2772,7 +2833,76 @@ $\mIOUnitType$ 型の場合，ピュア演算子は何も返す必要がない�
 
 % http://tnomura9.exblog.jp/12069145/
 
-\section{関数であるということ*}
+\section{do記法}
+
+モナドを使った書き方が従来のプログラムの記法からあまりにもかけ離れていることに，\haskell の設計者は気づいていたようで，\haskell には次に述べる\keyword{do記法}という記法が用意されている．このdo記法はもちろんシンタックスシュガーで，新しいことは何もない．
+
+例えば $\omega=\mPutStr\mBind\alpha\mWhereIs{\alpha}{\mRand}$ をdo記法を用いて書き直すと
+\begin{equation}
+\label{eq:do-print-random}
+\omega=\mDo{a\mDoEq\mRand\mDoNext\mPutStr a}
+\end{equation}
+となる．\footnote{\haskell では
+\begin{verbatim}
+  main = do
+    a <- rand
+    putStr a
+\end{verbatim}
+と書く．}
+
+ここで，同様なことをする\python プログラムを見てみよう．
+\begin{pythoncode}
+\begin{verbatim}
+import random
+define main:
+  a = random.random() # (1)
+  print(a)            # (2)
+\end{verbatim}
+\end{pythoncode}
+コード中の \code{(1)} の行で $a\mDoEq\mRand$ を実行し，\code{(2)} の行で $\mPutStr a$ を実行していると思えば，このコードと式\eqref{eq:do-print-random}の順序はそっくり同じである．もちろんこのdo記法はバインド演算子を使った式を切り貼りして，順序を入れ替えただけである．
+
+do記法には $\mDoEq$ の他に，我々の $\mLet$ とよく似た $\mDoLetKeyword$ という構文が用意されている．この $\mDoLetKeyword$ は局所変数の導入に用いられて，例えば
+\begin{equation}
+\omega=\mDo{\mDoLet{y}{fx}\mDoNext\alpha y}
+\end{equation}
+のように使う．
+
+以下に，do記法を使った例を示す．
+\begin{gather}
+\mDo{\alpha x}=\alpha x\\
+\mDo{y\mDoEq\alpha x\mDoNext\beta y}=\beta\mBind\alpha x\\
+\mDo{\alpha x\mDoNext\beta y}=(\mLambdaExp{\mAnyParam}{\beta y})\mBind \alpha x\label{eq:do-alpha-beta}\\
+\mDo{\mDoLet{y}{fx}\mDoNext\alpha y}=\alpha y\mWhereIs{y}{fx}\\
+\mDo{y\mDoEq\alpha x\mDoNext\mDoLet{z}{fy}\mDoNext\beta z}
+=\beta\mBind{}(f\mMap\alpha x)
+\end{gather}
+
+\begin{multline}
+\mDo{y\mDoEq\alpha x\mDoNext y'\mDoEq\alpha'x'\mDoNext\mDoLet{z}{fyy'}
+\mDoNext\beta z}\\
+=\beta\mBind{}(f\mMap\alpha x\mAppMap\alpha'x')
+\end{multline}
+
+
+% なお $\mFuncWith{f}=\mLambdaExp{\mAnyParam}{f}$ の関係を用いると式\eqref{eq:do-alpha-beta}はより簡潔に
+% \begin{equation}
+% \mDo{\alpha x\mDoNext\beta y}=\mFuncWith{\beta y}\mBind\alpha x
+% \end{equation}
+% と書ける．
+
+最後に，do記法中に変数を2回以上使いまわす例を表\ref{tab:do-alpha-alpha}に示す．この例では変数 $y,y'$ が2回使われている．
+
+我々はバインド演算子を使った通常の記法とdo記法のいずれか読みやすい方を採用すれば良い．
+
+% main = 
+% do
+%   r <- rand
+%   print r
+
+% http://qiita.com/saltheads/items/6025f69ba10267bbe3ee
+
+
+\section{余計な話：関数であるということ*}
 
 IOモナドの変数は，たとえ値を読み出すだけであっても必ず関数適用が必要である．それは，IOモナドの変数が「自分が読み出されたこと」を知る必要があるからである．IOモナドの変数は，自分が読み出されたタイミングで副作用を発生させる．これは\objectivec や\swift に見られる getter メソッドと同じ考え方である．
 
@@ -2813,85 +2943,6 @@ y=g_2(g_1x)
 \end{multline*}
 \end{table*}
 
-
-\section{余計な話：do記法}
-
-モナドを使った書き方が従来のプログラムの記法からあまりにもかけ離れていることに，\haskell の設計者は気づいていたようで，\haskell には次に述べる\keyword{do記法}という記法が用意されている．このdo記法はもちろんシンタックスシュガーで，新しいことは何もない．
-
-例えば $\omega=\mPutStr\mBind\alpha\mWhere{\alpha}{\mRand}$ をdo記法を用いて書き直すと
-\begin{equation}
-\label{eq:do-print-random}
-\omega=\mDo{a\mDoEq\mRand\mDoNext\mPutStr a}
-\end{equation}
-となる．\footnote{\haskell では
-\begin{verbatim}
-  main = do
-    a <- rand
-    putStr a
-\end{verbatim}
-と書く．}
-
-ここで，同様なことをする\python プログラムを見てみよう．
-\begin{pythoncode}
-\begin{verbatim}
-import random
-define main:
-  a = random.random() # (1)
-  print(a)            # (2)
-\end{verbatim}
-\end{pythoncode}
-コード中の \code{(1)} の行で $a\mDoEq\mRand$ を実行し，\code{(2)} の行で $\mPutStr a$ を実行していると思えば，このコードと式\eqref{eq:do-print-random}の順序はそっくり同じである．もちろんこのdo記法はバインド演算子を使った式を切り貼りして，順序を入れ替えただけである．
-
-do記法には $\mDoEq$ の他に，我々の $\mLet$ とよく似た $\mDoLetKeyword$ という構文が用意されている．この $\mDoLetKeyword$ は局所変数の導入に用いられて，例えば
-\begin{equation}
-\omega=\mDo{\mDoLet{y}{fx}\mDoNext\alpha y}
-\end{equation}
-のように使う．
-
-以下に，do記法を使った例を示す．
-\begin{equation}
-\mDo{\alpha x}=\alpha x
-\end{equation}
-
-\begin{equation}
-\mDo{y\mDoEq\alpha x\mDoNext\beta y}=\beta\mBind\alpha x
-\end{equation}
-
-\begin{equation}
-\mDo{\alpha x\mDoNext\beta y}=(\mLambdaExp{\mAnyParam}{\beta y})\mBind \alpha x\label{eq:do-alpha-beta}
-\end{equation}
-
-\begin{equation}
-\mDo{\mDoLet{y}{fx}\mDoNext\alpha y}=\alpha y\mWhere{y}{fx}
-\end{equation}
-
-\begin{multline}
-\mDo{y\mDoEq\alpha x\mDoNext\mDoLet{z}{fy}\mDoNext\beta z}\\
-=\beta\mBind{}(f\mMap\alpha x)
-\end{multline}
-
-\begin{multline}
-\mDo{y\mDoEq\alpha x\mDoNext y'\mDoEq\alpha'x'\mDoNext\mDoLet{z}{fyy'}\mDoNext\beta z}\\
-=\beta\mBind{}(f\mMap\alpha x\mAppMap\alpha'x')
-\end{multline}
-
-
-% なお $\mFuncWith{f}=\mLambdaExp{\mAnyParam}{f}$ の関係を用いると式\eqref{eq:do-alpha-beta}はより簡潔に
-% \begin{equation}
-% \mDo{\alpha x\mDoNext\beta y}=\mFuncWith{\beta y}\mBind\alpha x
-% \end{equation}
-% と書ける．
-
-最後に，do記法中に変数を2回以上使いまわす例を表\ref{tab:do-alpha-alpha}に示す．この例では変数 $y,y'$ が2回使われている．
-
-我々はバインド演算子を使った通常の記法とdo記法のいずれか読みやすい方を採用すれば良い．
-
-% main = 
-% do
-%   r <- rand
-%   print r
-
-% http://qiita.com/saltheads/items/6025f69ba10267bbe3ee
 
 
 \section{この章のまとめ*}
@@ -3092,12 +3143,11 @@ Maybeの間に新たに定義された等号 $(\equiv)$ は次の型を持つ．
 と書く．}
 
 \begin{equation}
-\mInstanceParametric\;\mFunctorTypeClass\mSuperSet\mListTypeConstructor\mWhere{}\mMap=\mMapList
+\mInstanceParametric\;\mFunctorTypeClass\mSuperSet\mListTypeConstructor\mWhereIs{\mMap}{\mMapList}
 \end{equation}
 
 
-{}\footnote{\haskell では $\mInstanceParametric\mathop{\mFunctorTypeClass}\mListTypeConstructor\mWhere{}
-\mMap=\mMapList$ を，$\mInstance$ と $\mInstanceParametric$ は区別せずに \code{instance Functor [] where fmap = map} と書く．}
+{}\footnote{\haskell では $\mInstanceParametric\mathop{\mFunctorTypeClass}\mListTypeConstructor\mWhereIs{\mMap}{\mMapList}$ を，$\mInstance$ と $\mInstanceParametric$ は区別せずに \code{instance Functor [] where fmap = map} と書く．}
 
 ---
 
@@ -3282,6 +3332,8 @@ w=\mMain\mBind\mPureWith{x}
 \chapter{インタープリタで遊ぶ*}
 \chapter{新しい型の導入*}
 % 新しいデータ型を作る http://qiita.com/7shi/items/1ce76bde464b4a55c143
+
+\section{型推論*}
 
 \chapter{IO*}
 \section{ダークサイド*}
