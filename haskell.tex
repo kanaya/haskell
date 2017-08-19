@@ -217,12 +217,12 @@
 \newcommand{\mType}[1]{\mathbf{#1}}
 
 % Value constructors
-\newcommand{\mEitherLeftWith}[1]{{}^\mLeft\{#1\}}
-\newcommand{\mEitherRightWith}[1]{{}^\mRight\{#1\}}
+\newcommand{\mEitherLeftWith}[1]{{}^\mLeft\langle#1\rangle}
+\newcommand{\mEitherRightWith}[1]{{}^\mRight\langle#1\rangle}
 \newcommand{\mFuncWith}[1]{\[#1\]}
 \newcommand{\mListWith}[1]{\left[#1\right]}
 % \newcommand{\mMaybeWith}[1]{\[#1\]}
-\newcommand{\mMaybeWith}[1]{{}^\text{Just}\{#1\}}
+\newcommand{\mMaybeWith}[1]{{}^\text{Just}\langle#1\rangle}
 \newcommand{\mPureWith}[1]{\langle#1\rangle}
 \newcommand{\mSetWith}[1]{\left\{#1\right\}}
 \newcommand{\mTupleWith}[1]{\left(#1\right)}
@@ -2956,7 +2956,7 @@ y=g_2(g_1x)
 \end{note}
 
 
-\chapter{型の拡張*}
+\chapter{代数型の定義*}
 
 ...
 
@@ -2973,9 +2973,10 @@ y=g_2(g_1x)
 \mDataType\;\mType{Num}
 =\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany
 \end{equation}
-のように書いて定義するものとする．式の先頭にある $\mDataType$ は，この式がデータ型の定義であることを示すタグである．部分的にアンダーラインが引かれているのは，\haskell が $\mDataType$ を \code{data} と省略してしまうからである．これは不本意なことだが，文字数節約のために仕方ない．\footnote{\haskell では $\mDataType$ を \code{data} と書く．式 $\mDataType\;\mType{Num}
+のように書いて定義するものとする．式の先頭にある $\mDataType$ は，この式がデータ型の定義であることを示すタグである．部分的にアンダーラインが引かれているのは，\haskell が $\mDataType$ を \code{data} と省略してしまうからである．これは不本意なことだが，文字数節約のために仕方ない．ここに $\mSet{Num}$ は型コンストラクタ，$\mNumOne,\mNumTwo,\mNumThree,\mNumMany$ は値コンストラクタである．\footnote{\haskell では $\mDataType$ を \code{data} と書く．式 $\mDataType\;\mType{Num}
 =\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany$ は \code{data Color = One | Two | Three | Many} と書く．}
 
+% 値コンストラクタを列挙したデータ型を\keyword{代数型}と呼ぶ．
 この節で紹介したデータ型の定義は，\clang で言う \code{enum} に近い．データ型は他に，\clang で言う \code{struct} すなわち構造体になることも出来るが，これは第\ref{ch:parametric-data-type}で見ることにする．
 
 \section{型クラス}
@@ -3011,6 +3012,12 @@ y=g_2(g_1x)
     where (<=) :: a -> a -> Bool
 \end{verbatim}
 と書く．}
+
+---
+
+deriving
+
+
 
 \section{型クラスのインスタンス化}
 \label{sec:instance-of-type-class}
@@ -3101,7 +3108,7 @@ Maybeの間に新たに定義された等号 $(\equiv)$ は次の型を持つ．
 (\equiv)\mIn{}(\mEqTypeClass\mSuperSet\mType{a})\mSuperClass\mProj{\mMaybeType{a}}{\mProj{\mMaybeType{a}}{\mBoolType}}
 \end{equation}
 
-\section{Deriving}
+\section{レコード構文*}
 
 型の定義．
 
@@ -3111,6 +3118,21 @@ Maybeの間に新たに定義された等号 $(\equiv)$ は次の型を持つ．
 \mValueOr
 \mValueConstructor{Triangle}\mFloatType\,\mFloatType\,\mFloatType
 \end{multline}
+
+\begin{equation}
+\mTypeSynonym\;\mType{Vector2D}=\mTupleWith{\mFloatType,\mFloatType}
+\end{equation}
+
+
+\begin{align}
+\mDataType\;
+&\mType{Rectangle}
+=\mValueConstructor{Rectangle}\,\{\\
+&\quad\mathit{origin}\mIn\mType{Vector2D},\\
+&\quad\mathit{size}\mIn\mType{Vector2D}\\
+&\}
+\end{align}
+
 
 
 \begin{multline}
@@ -3232,6 +3254,12 @@ Eitherの場合．
     where fmap :: (a -> b) -> fn a -> fn b
 \end{verbatim}
 と書く．}
+
+\section{余計な話：newtype}
+
+$$
+\mNewDataType
+$$
 
 \section{余計な話：種 (kind)}
 
