@@ -139,7 +139,7 @@
 \DeclareMathOperator{\mIfFunc}{if}
 \DeclareMathOperator{\mMainFunc}{main}
 \DeclareMathOperator{\mPred}{pred}
-\DeclareMathOperator{\mSort}{sort}
+\DeclareMathOperator{\mSort}{srt}
 \DeclareMathOperator{\mSucc}{succ}
 \DeclareMathOperator{\mSum}{sum}
 \DeclareMathOperator{\mTail}{tail}
@@ -435,6 +435,7 @@ $\mBindFunc$&関数のバインド演算子&\\
 \part{代数的構造とプログラミング}
 
 \chapter{はじめに*}
+\label{ch:introduction}
 
 \begin{leader}
 本書はプログラミング言語\haskell の入門書である．それと同時に，本書はプログラミング言語を用いた代数構造の入門書でもある．プログラミングと代数構造の間には密接な関係があるが，特に関数型プログラミングを実践する時にはその関係を意識する必要が出てくる．本書はその両者を同時に解説することを試みる．
@@ -540,6 +541,8 @@ $ stack install ghc
 
 
 \chapter{カリー風な書き方}
+\label{ch:curry}
+
 \begin{leader}
 本書では一般の数学書やプログラミングの教科書からは少し異なった記法を用いる．ある概念が発明されてからずっと後になって正しい記法が見つかり，それがきっかけとなって正しく理解されるという現象は歴史上よくあることである．本書でも様々な新しい記号，記法を導入するが，この章では\haskell に近い記法から始めることにする．
 \end{leader}
@@ -683,9 +686,9 @@ f''x&\mGuard{x<0}=0\\
 \end{equation}
 という風に定義する．\footnote{\haskell では
 \begin{verbatim}
-  f'' x | x<0       = 0
-        | x==0      = 1
-        | otherwise = (sin x)/x
+  f'' x| x<0       = 0
+       | x==0      = 1
+       | otherwise = (sin x)/x
 \end{verbatim}
 と書く．}
 
@@ -729,7 +732,7 @@ fx=\begin{cases}
 (\sin x)/x&\mOtherwise
 \end{cases}
 \end{equation}
-左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっていることに注目しよう．\footnote{\haskell ではいつも \code{if ... then ... else ...} を使った式にする．}
+左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっていることに注目しよう．\footnote{\haskell ではいつも \code{if}, \code{then}, \code{else} を使った式にする．}
 
 \section{余計な話：局所変数}
 
@@ -751,7 +754,7 @@ y=fx'\mWhereIs{x'}{1+x}
 \end{equation}
 のように書いても良い．\footnote{\haskell では $y=fx'\mWhereIs{x'}{1+x}$ は \code{y = f x' where x' = 1+x} と書く．}
 
-式\eqref{eq:letin}や式\eqref{eq:where}はラムダ式を使った\keyword{シンタックスシュガー}（糖衣構文，構文糖）であり，一般に
+式\eqref{eq:letin}や式\eqref{eq:where}はラムダ式を使った\keyword{糖衣構文}（シンタックスシュガー）であり，一般に
 \begin{align}
 \mLetIn{x'}{gx}{fx'}
 &=fx'\mWhereIs{x'}{gx}\\
@@ -789,6 +792,7 @@ printf("%d, %d\n", ++i, ++i);
 
 
 \chapter{さらにカリー風な書き方*}
+\label{ch:more-curry}
 
 \begin{leader}
 我々は関数とラムダ式の「カリー風」な書き方を見てきた．この章ではさらに演算子，関数合成，条件分岐についても「カリー風」な書き方を見ていく．
@@ -895,7 +899,7 @@ x&=fc
 \end{align}
 とすれば $x=101$ を得る．\footnote{\haskell では $ga=\mLambdaExp{x}{a+x}$ を \code{g a = \textbackslash x -> a+x} と書く．}
 
-\section{余計な話：クロージャ*}
+\section{余計な話：クロージャ}
 
 ラムダ式をサポートするほとんどのプログラミング言語は，\keyword{レキシカルクロージャ}をサポートする．レキシカルクロージャとは，ラムダ式が定義された時点での，周囲の環境をラムダ式に埋め込む機構である．例えば
 \begin{align}
@@ -921,9 +925,8 @@ h&=\mLambdaExp{x}{a+x}
 \end{enumerate}
 
 
-\begin{note}{\clang のブロック拡張*}
+\begin{note}{\clang のブロック拡張}
 \clang は公式にはラムダ式を採用していない．しかし\clang にラムダ式を持たせる拡張はいくつか提案されている．その一つがApple社が自社OSの Grand Central Dispatch 機能のために行った「ブロック拡張」である．このブロック拡張を用いたクロージャの例を見てみよう．
-
 \begin{ccode}
 \begin{verbatim}
 #include <Block.h>
@@ -943,10 +946,11 @@ int main(void) {
 }
 \end{verbatim}
 \end{ccode}
-
-この拡張はオープンソースコミュニティに還元されているため，GCCやclangで使用可能である．
+コード中の \code{\textasciicircum(int x) \{ return n+x; \}} がブロック（クロージャ）である．\clang のブロック拡張はオープンソースコミュニティに還元されているため，GCCやclangで使用可能である．
 \end{note}
+
 \chapter{型*}
+\label{ch:type}
 
 \begin{leader}
 プログラマのいう型とは，数学者のいう集合のことである．
@@ -1304,19 +1308,13 @@ $\mDoubleType$
 \end{enumerate}
 
 
+\section{この章のまとめ}
+
 \begin{note}{種 (kind)}
 $$
 \mProj{\star}{\star}
 $$
 \end{note}
-
-\section{この章のまとめ}
-
-\begin{note}{...}
-...
-\end{note}
-
-
 
 
 
@@ -1492,7 +1490,7 @@ s = ls.inject(0) { |x, y| x+y }
 と定義することにする．\footnote{\haskell では演算子 $\mConcat$ の代わりに \code{concat} 関数を使う．}
 % ***CHECK***
 
-\section{マップ*}
+\section{マップ}
 
 リストの各要素に決まった関数を適用したい場合がある．\python ではリスト \code{ls} に関数 \code{f} を適用するときには
 \begin{pythoncode}
@@ -1553,7 +1551,7 @@ f\mMapList\mListWith{x_0,x_1\dotsb x_n}
 ここで $f$ と $f\mMapList$ の型を並べてみると
 \begin{align}
 f&\mIn\mProj{\mType{a}}{\mType{b}}\\
-f\mMapList&\mIn\mProj{\mListType{a}}{\mListType{b}}
+f\mMapList&\mIn{}\mProj{\mListType{a}}{\mListType{b}}
 \end{align}
 となり，マップ演算子が何をしているのか一目瞭然になる．
 
@@ -1610,7 +1608,7 @@ f\mMapList\mEmptyList
 \begin{equation}
 f(x:\mList{x})=\dotsb
 \end{equation}
-という風にパタンマッチを行えるが，リスト全体すなわち $(x:\mList{x})$ を参照したい場合もあるであろう．そのような場合は
+という風にパタンマッチを行えるが，式の右辺でリスト全体すなわち $(x:\mList{x})$ を参照したい場合もあるであろう．そのような場合は
 \begin{equation}
 f\mList{y}@(x:\mList{x})=\dotsb
 \end{equation}
@@ -1640,11 +1638,11 @@ f\mList{y}@(x:\mList{x})=\dotsb
 % 型パラメタの話はどこが初出？
 
 \begin{note}{無限リスト}
-第\ref{ch:list}章で見た通り，我々は無限リストを持つことができる．例えば自然数を表すリスト $\mList{n}$ は
+我々は無限リストを持つことができる．例えば自然数を表すリスト $\mList{n}$ は
 \begin{equation}
 \mList{n}=\mListWith{1,2\dotsb}
 \end{equation}
-と書くことができた．無限リストを扱えるのは，我々がいつも遅延評価を行うからである．
+と書くことができる．無限リストを扱えるのは，我々がいつも遅延評価を行うからである．
 %遅延評価とは，本当の計算は必要になるまで行わないという方式のことである．
 もし本当に無限リストを計算機の上で再現する必要があったなら，計算機には無限のメモリが必要になってしまう．しかし我々は，計算が必要になるまで評価を行わないので，無限リストの中から有限個の要素が取り出されるのを待つことができるのである．例えば関数 $\mTake x\mList{y}$ はリスト $\mList{y}$ から最初の $x$ 個の要素からなるリストを返す．いま
 \begin{equation}
@@ -1674,7 +1672,9 @@ x*\mFact(x-1)&\mOtherwise
 
 これで我々は関数の適用，変数の代入，ラムダ式，条件式，再帰の方法を学んだわけである．これだけあれば，原理的にはどのようなアルゴリズムも書くことができる．今日からはカリー風な数学であらゆるアルゴリズムを表現できるのである！
 
-結合演算子 $(:)$ を関数引数のパタンにも使える．これで，例えばリストの和をとる関数 $\mSum$ は
+---
+
+結合演算子 $(:)$ は関数引数のパタンにも使える．これは，例えばリストの和をとる関数 $\mSum$ は
 \begin{equation}
 \left\{
 \begin{split}
@@ -1722,7 +1722,9 @@ x*\mFact(x-1)&\mOtherwise
 
 計算機科学者が末尾再帰を好む理由は，\haskell を含む幾つかのプログラミング言語処理系が\keyword{末尾再帰最適化}を行うからである．末尾再帰最適化とは，一言で言うと再帰を計算機が扱いやすいループに置き換えることである．では最初から我々もループで関数を表現しておけば，と思われるかもしれないが，再帰以外の方法でループを表現する場合には必ず変数（ループカウンタ）への破壊的代入が必要になるため，我々は末尾再帰に慎ましくループを隠すのである．
 
-\section{...}
+\section{アルゴリズムの本質*}
+
+逐次実行，条件分岐，繰り返し．
 
 ...
 
@@ -1737,7 +1739,7 @@ x*\mFact(x-1)&\mOtherwise
 &=\mFold^+_{(((0+x_0)+x_1)+x_2)+x_3}{}\mEmptyList\\
 &=(((0+x_0)+x_1)+x_2)+x_3
 \end{align}
-と展開される．遅延評価のために，\haskell 処理系は値ではなく式をメモリにストアしなければならないが，左畳み込み演算は大きなメモリを必要としがちである．もし，例えば予め $0+x_0$ を計算しておくなど左畳み込みだけ先に評価しておけば，大いにメモリの節約になる．そのために\haskell は「遅延評価無し」の左畳み込み演算子を用意している．\footnote{「遅延評価無し」の左畳み込み演算子を\haskell では \code{foldl'} と書く．}
+と展開される．遅延評価のために，\haskell 処理系は値ではなく式をメモリにストアしなければならないが，左畳み込み演算は大きなメモリを必要としがちである．もし例えば予め $0+x_0$ を計算しておくなど左畳み込みだけ先に評価しておけば，大いにメモリの節約になる．そのために\haskell は「遅延評価無し」の左畳み込み演算子を用意している．\footnote{「遅延評価無し」の左畳み込み演算子を\haskell では \code{foldl'} と書く．}
 
 
 % \haskell には言語拡張として，\keyword{アンボックス化タプル}という機能がある．
@@ -1755,7 +1757,7 @@ x*\mFact(x-1)&\mOtherwise
 \end{enumerate}
 
 \begin{note}{クイックソート}
-クイックソートは次のように定義できる．
+我々の記法を使うと，クイックソートは次のように定義できる．
 \begin{equation*}
 \left\{
 \begin{align}
@@ -1769,15 +1771,19 @@ x*\mFact(x-1)&\mOtherwise
 \end{align}
 \right.
 \end{equation*}
-% ...\footnote{\haskell では
-% \begin{verbatim}
-%   sort []     = []
-%   sort (x:xs) = sort as ++ [x] ++ sort bs
-%                   where
-%                     as = [a | a<-xs, a<=x]
-%                     bs = [b | b<-xs, b>x]
-% \end{verbatim}
-% と書く．}
+\haskell では
+\begin{haskellcode}
+\begin{verbatim}
+srt :: [a] -> [a]
+
+srt[]     = []
+srt(x:xs) = srt as ++ [x] ++ srt bs
+              where
+                as = [a| a<-xs, a<=x]
+                bs = [b| b<-xs, b>x]
+\end{verbatim}
+\end{haskellcode}
+と書く．このコードはしばしば\haskell のパワーを示すために紹介される．しかし，クイックソートのピボットとして常にリストの先頭要素を用いているため，必ずしも良いコードではない．
 \end{note}
 
 
@@ -2015,11 +2021,13 @@ X<b> map_over(fn f, X<a> x);
 \end{verbatim}
 \end{cxxcode}
 これは一見上手く行きそうに見えるが，このコードは \code{map\_over} のインスタンス化で躓くため，次のように \code{b} 型のダミー変数が必要になる．
+\begin{cxxcode}
 \begin{verbatim}
 template <class a, class b,
   template<class> X, class fn>
 X<b> map_over(fn f, X<a> x, b dummy);
 \end{verbatim}
+\end{cxxcode}
 残念なことに，いずれのコードにしてもリストとMaybeの本質的な抽象化にはなってない．型 \code{X} がマップ可能なコンテナであることをテンプレート機構を使って保証することができないためである．この問題は\cxxtwelve で導入予定の「コンセプト」機能によって解決する見込みである．
 
 % https://stackoverflow.com/questions/213761/what-are-some-uses-of-template-template-parameters-in-c
