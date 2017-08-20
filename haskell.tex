@@ -69,7 +69,7 @@
 \newcommand{\mInKeyword}{\mKeyword{in}}
 \newcommand{\mInstanceKeyword}{\mKeyword{instance}}
 \newcommand{\mLetKeyword}{\mKeyword{let}}
-\newcommand{\mNewDataTypeKeyword}{\mKeywordUnderline{new}\mKeyword{data}\mKeywordUnderline{type}}
+\newcommand{\mNewDataTypeKeyword}{\mKeyword{newtype}}
 \newcommand{\mOfKeyword}{\mKeyword{of}}
 \newcommand{\mOtherwiseKeyword}{\mKeyword{otherwise}}
 \newcommand{\mThenKeyword}{\mKeyword{then}}
@@ -88,6 +88,7 @@
 \DeclareMathOperator{\mInstanceParametric}{\mInstanceKeyword^{\dagger}}
 \DeclareMathOperator{\mLet}{\mLetKeyword} % Internal use
 \DeclareMathOperator{\mNewDataType}{\mNewDataTypeKeyword}
+\DeclareMathOperator{\mNewDataTypeParametric}{\mNewDataTypeKeyword^\dagger}
 \DeclareMathOperator{\mOf}{\mOfKeyword} % Internal use
 \DeclareMathOperator{\mOtherwise}{\mOtherwiseKeyword}
 \DeclareMathOperator{\mSuperClass}{\Rightarrow}
@@ -132,6 +133,7 @@
 \newcommand{\mAnyParam}{\_}
 
 % Functions
+\newcommand{\mFunc}[1]{\mathop{\mathit{#1}}}
 \DeclareMathOperator{\mConst}{const}
 \DeclareMathOperator{\mFact}{fact}
 \DeclareMathOperator{\mHead}{head}
@@ -197,6 +199,7 @@
 \DeclareMathOperator{\mSetTimes}{\circledast}
 \DeclareMathOperator{\mUnOp}{\star}
 \DeclareMathOperator{\mValueOr}{\curlyvee}
+\DeclareMathOperator{\mZip}{\circledast}
 
 \newcommand{\mDefEq}{\stackrel{\mathrm{def}}{=}}
 
@@ -218,6 +221,7 @@
 \newcommand{\mType}[1]{\mathbf{#1}}
 
 % Value constructors
+\newcommand{\mGeneralWith}[2]{{}^\text{#1}\langle#2\rangle}
 \newcommand{\mEitherLeftWith}[1]{{}^\mLeft\langle#1\rangle}
 \newcommand{\mEitherRightWith}[1]{{}^\mRight\langle#1\rangle}
 \newcommand{\mFuncWith}[1]{\[#1\]}
@@ -228,6 +232,7 @@
 \newcommand{\mSetWith}[1]{\left\{#1\right\}}
 \newcommand{\mTupleWith}[1]{\left(#1\right)}
 \newcommand{\mTupleUnboxedWith}[1]{\texttt{(\#}#1\texttt{\#)}}
+\newcommand{\mZipListWith}[1]{\mGeneralWith{Ziplist}{#1}}
 
 % Types
 \newcommand{\mBoolType}{\mType{Bool}}
@@ -244,6 +249,7 @@
 \newcommand{\mParametricTypeConstructII}[3]{{}^{#1}\{\mType{#2},\mType{#3}\}}\newcommand{\mEitherTypename}{\mType{Either}}
 \newcommand{\mIOTypename}{\mType{IO}}
 \newcommand{\mMaybeTypename}{\mType{Maybe}}
+\newcommand{\mZipListTypename}{\mType{Ziplist}}
 
 \newcommand{\mEitherType}[2]{\mParametricTypeConstructII{\mEitherTypename}{#1}{#2}}
 \newcommand{\mFuncType}[2]{\[\mType{#1}\]_\mType{#2}}
@@ -255,14 +261,16 @@
 \newcommand{\mListType}[1]{[\mType{#1}]}
 \newcommand{\mMaybeType}[1]{\mParametricTypeConstruct{\mMaybeTypename}{#1}}
 \newcommand{\mPureType}[1]{\langle\mType{#1}\rangle}
+\newcommand{\mZipListType}[1]{\mParametricTypeConstruct{\mZipListTypename}{#1}}
 
 % Type constructors
-\newcommand{\mTypeConstructor}[1]{\mathit{#1}} % Internal use
+\newcommand{\mTypeConstructor}[1]{\mathit{#1}} % Internal useMaybe
 \newcommand{\mFuncTypeConstructor}[1]{\mathop{\mTypeConstructor{Func}_\mType{#1}}}
 \DeclareMathOperator{\mEitherTypeConstructor}{\mTypeConstructor{Either}}
 % \DeclareMathOperator{\mFuncTypeConstructor}{\mTypeConstructor{Func}_\mType{r}}
 \DeclareMathOperator{\mListTypeConstructor}{\mTypeConstructor{List}}
 \DeclareMathOperator{\mMaybeTypeConstructor}{\mTypeConstructor{Maybe}}
+\DeclareMathOperator{\mZipListTypeConstructor}{\mTypeConstructor{Ziplist}}
 
 % Value constructors
 \newcommand{\mValueConstructor}[1]{\mathop{\mathrm{#1}}}
@@ -3173,8 +3181,8 @@ Tree
 \mDataType\;
 &\mType{Rectangle}
 =\mValueConstructor{Rectangle}\,\{\\
-&\quad\mathit{origin}\mIn\mType{Vector2D},\\
-&\quad\mathit{size}\mIn\mType{Vector2D}\\
+&\quad\mFunc{origin}\mIn\mType{Vector2D},\\
+&\quad\mFunc{size}\mIn\mType{Vector2D}\\
 &\}
 \end{align}
 
@@ -3291,9 +3299,9 @@ Eitherの場合．
 \end{multline}
 ここで，型 $\mParametricTypeConstruct{fn}{a}$ は型 $\mType{a}$ と型コンストラクタ $\mTypeConstructor{fn}$ から
 \begin{equation}
-\mParametricTypeConstruct{fn}{a}=\mathop{\mTypeConstructor{fn}}\mType{a}
+\mParametricTypeConstruct{fn}{a}={\mTypeConstructor{fn}}\mType{a}
 \end{equation}
-のように作られる．\footnote{\haskell では $\mParametricTypeConstruct{fn}{a}$ も $\mathop{\mTypeConstructor{fn}}\mType{a}$ も同様に \code{fn a} と書く．そこで式\eqref{eq:fn}は
+のように作られる．\footnote{\haskell では $\mParametricTypeConstruct{fn}{a}$ も ${\mTypeConstructor{fn}}\mType{a}$ も同様に \code{fn a} と書く．そこで式\eqref{eq:fn}は
 \begin{verbatim}
   class functor fn
     where fmap :: (a -> b) -> fn a -> fn b
@@ -3302,13 +3310,48 @@ Eitherの場合．
 
 \section{余計な話：newtype}
 
-$$
-\mNewDataType
-$$
+リストに新しいマップ演算子 $\mZip$ を定義したいとしよう．この演算子 $\mZip$ は
+\begin{equation}
+\mListWith{f,g,h}\mZip\mListWith{x,y,z}=\mListWith{fx,gy,hz}
+\end{equation}
+のように働くとする．新しいマップ演算子 $\mZip$ のことを我々は\keyword{ジップ演算子}と呼ぶことにする．
 
-$$
-[f,g,h]\circledast[x,y,z]=[fx,gy,hz]
-$$
+ジップ演算子を定義するにはどうしたら良いだろうか．リストには既に $\mAppMapList$ というアプリカティブマップ演算子が定義されている．念のためにアプリカティブマップ演算子を用いると
+\begin{equation}
+\mListWith{f,g,h}\mAppMapList\mListWith{x,y,z}=\mListWith{fx,fy,fz,gx,gy,gz,hx,hy,hz}
+\end{equation}
+である．ある型のインスタンス化は一種類しか行えないので，リスト型に新しいアプリカティブマップ演算子を追加することは出来ない．
+
+そこで $\mDataTypeParametric$ を使ってリスト型をラップした新しい型を作る．例えば新しい型を $\mZipListType{a}$ とすると
+\begin{equation}
+\label{eq:data-type-ziplist}
+\mDataTypeParametric\;\mZipListTypeConstructor\mType{a}=\mValueConstructor{Ziplist}\,\{\mFunc{getlist}\mIn{}\mListType{a}\}
+\end{equation}
+のように定義することになる．こうしておいて，あとは
+\begin{align}
+\mInstanceParametric\;&\mApplicativeTypeClass\mSuperSet\mZipListTypeConstructor\mType{a}\\
+&\quad\mWhere\\
+&\qquad\mPureWith{x}=\mZipListWith{\mFunc{repeat}x}\\
+&\qquad\mZipListWith{\mList{f}}\mAppMap\mZipListWith{\mList{x}}\\
+&\qquad\quad=\mZipListWith{\mFunc{zipwith}(\mLambdaExp{fx}{fx})\mList{f}\mList{x}}
+\end{align}
+とすれば上手くいく．ここに関数 $\mFunc{zipwith}$ は
+\begin{align}
+\mFunc{zipwith}\mAnyParam\mEmptyList\mAnyParam
+&=\mEmptyList\\
+\mFunc{zipwith}\mAnyParam\mAnyParam\mEmptyList
+&=\mEmptyList\\
+\mFunc{zipwith}f(x:\mList{x})(y:\mList{y})
+&=fxy:\mFunc{zipwith}f\mList{x}\mList{y}
+\end{align}
+であり，関数 $\mFunc{repeat}$ は引数を無限回繰り返すリストを返す関数である．
+
+このままでも問題はないのだが，式\eqref{eq:data-type-ziplist}を次のように書き換えることがより好ましい．
+\begin{equation}
+\mNewDataTypeParametric\;{\mTypeConstructor{ZipList}}\mType{a}=\mValueConstructor{ZipList}\,\{\mFunc{getlist}\mIn{}\mListType{a}\}
+\end{equation}
+やったことはキーワード $\mDataTypeParametric$ を $\mNewDataTypeParametric$ に置き換えたことである．これは，字面に反して，型 $\mType{ZipList}$ が何一つ「新しくない」ことを\haskell コンパイラに伝えるためである．
+
 
 \part{\haskell プログラミング}
 
