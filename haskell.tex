@@ -276,6 +276,7 @@
 
 % Value constructors
 \newcommand{\mValueConstructor}[1]{\mathop{\mathrm{#1}}}
+\DeclareMathOperator{\mZipListValueConstructor}{\mValueConstructor{Ziplist}}
 
 % Functors
 \newcommand{\mFunctor}[1]{\textit{\textbf{#1}}}
@@ -3318,7 +3319,7 @@ Eitherの場合．
 \end{equation}
 のように働くとする．新しいマップ演算子 $\mZip$ のことを我々は\keyword{ジップ演算子}と呼ぶことにする．
 
-ジップ演算子を定義するにはどうしたら良いだろうか．リストには既に $\mAppMapList$ というアプリカティブマップ演算子が定義されている．念のためにアプリカティブマップ演算子を用いると
+ジップ演算子を定義するにはどうしたら良いだろうか．汎用性を考えると，ジップ演算子もまたリストのアプリカティブマップ演算子であって欲しい．ところが，リストには既に $\mAppMapList$ というアプリカティブマップ演算子が定義されている．念のためにアプリカティブマップ演算子を用いると
 \begin{equation}
 \mListWith{f,g,h}\mAppMapList\mListWith{x,y,z}=\mListWith{fx,fy,fz,gx,gy,gz,hx,hy,hz}
 \end{equation}
@@ -3327,9 +3328,20 @@ Eitherの場合．
 そこで $\mDataTypeParametric$ を使ってリスト型をラップした新しい型を作る．例えば新しい型を $\mZipListType{a}$ とすると
 \begin{equation}
 \label{eq:data-type-ziplist}
-\mDataTypeParametric\;\mZipListTypeConstructor\mType{a}=\mValueConstructor{Ziplist}\,\{\mFunc{getlist}\mIn{}\mListType{a}\}
+\mDataTypeParametric\;\mZipListTypeConstructor\mType{a}=\mZipListValueConstructor\{\mFunc{getlist}\mIn{}\mListType{a}\}
 \end{equation}
-のように定義することになる．こうしておいて，あとは
+のように定義することになる．念のため，左辺の $\mZipListTypeConstructor$ は型コンストラクタ，右辺の $\mZipListValueConstructor$ は値コンストラクタである．すなわち
+\begin{equation}
+\mZipListType{a}=\mZipListTypeConstructor\mType{a}
+\end{equation}
+であり，
+\begin{equation}
+\mZipListWith{x}=\mZipListValueConstructor x
+\end{equation}
+である．
+
+
+こうしておいて，あとは
 \begin{align}
 \mInstanceParametric\;&\mApplicativeTypeClass\mSuperSet\mZipListTypeConstructor\mType{a}\\
 &\quad\mWhere\\
