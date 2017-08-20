@@ -141,11 +141,13 @@
 \DeclareMathOperator{\mIfFunc}{if}
 \DeclareMathOperator{\mMainFunc}{main}
 \DeclareMathOperator{\mPred}{pred}
+\DeclareMathOperator{\mRepeat}{repeat}
 \DeclareMathOperator{\mSort}{srt}
 \DeclareMathOperator{\mSucc}{succ}
 \DeclareMathOperator{\mSum}{sum}
 \DeclareMathOperator{\mTail}{tail}
 \DeclareMathOperator{\mTake}{take}
+\DeclareMathOperator{\mZipWith}{zipwith}
 
 % Actions
 \newcommand{\mAction}[1]{\textsl{#1}}
@@ -3331,32 +3333,32 @@ Eitherの場合．
 \begin{align}
 \mInstanceParametric\;&\mApplicativeTypeClass\mSuperSet\mZipListTypeConstructor\mType{a}\\
 &\quad\mWhere\\
-&\qquad\mPureWith{x}=\mZipListWith{\mFunc{repeat}x}\\
+&\qquad\mPureWith{x}=\mZipListWith{\mRepeat x}\\
 &\qquad\mZipListWith{\mList{f}}\mAppMap\mZipListWith{\mList{x}}\\
-&\qquad\quad=\mZipListWith{\mFunc{zipwith}(\mLambdaExp{fx}{fx})\mList{f}\mList{x}}
+&\qquad\quad=\mZipListWith{\mZipWith(\mLambdaExp{fx}{fx})\mList{f}\mList{x}}
 \end{align}
-とすれば上手くいく．ここに関数 $\mFunc{zipwith}$ は
+とすれば上手くいく．ここに関数 $\mZipWith$ は
 \begin{align}
-\mFunc{zipwith}\mAnyParam\mEmptyList\mAnyParam
+\mZipWith\mAnyParam\mEmptyList\mAnyParam
 &=\mEmptyList\\
-\mFunc{zipwith}\mAnyParam\mAnyParam\mEmptyList
+\mZipWith\mAnyParam\mAnyParam\mEmptyList
 &=\mEmptyList\\
-\mFunc{zipwith}f(x:\mList{x})(y:\mList{y})
-&=fxy:\mFunc{zipwith}f\mList{x}\mList{y}
+\mZipWith f(x:\mList{x})(y:\mList{y})
+&=fxy:\mZipWith f\mList{x}\mList{y}
 \end{align}
-であり，関数 $\mFunc{zipwith}$ の型は
+であり，関数 $\mZipWith$ の型は
 \begin{equation}
-\mFunc{zipwith}\mIn{}\mProj{\mProj{\mProj{(\mProj{\mType{a}}{\mProj{\mType{b}}{\mType{c}}})}{\mListType{a}}}{\mListType{b}}}{\mListType{c}}
+\mZipWith\mIn{}\mProj{\mProj{\mProj{(\mProj{\mType{a}}{\mProj{\mType{b}}{\mType{c}}})}{\mListType{a}}}{\mListType{b}}}{\mListType{c}}
 \end{equation}
 である．
 
-関数 $\mFunc{repeat}$ は引数を無限回繰り返すリストを返す関数である．念のため関数 $\mFunc{repeat}$ の実装方法を書いておくと
+関数 $\mRepeat$ は引数を無限回繰り返すリストを返す関数である．念のため関数 $\mRepeat$ の実装方法を書いておくと
 \begin{equation}
-\mFunc{repeat}x=x:\mFunc{repeat}x
+\mRepeat x=x:\mRepeat x
 \end{equation}
-である．関数 $\mFunc{repeat}$ の型は
+である．関数 $\mRepeat$ の型は
 \begin{equation}
-\mFunc{repeat}\mIn{}\mProj{\mListType{a}}{\mListType{a}}
+\mRepeat\mIn{}\mProj{\mListType{a}}{\mListType{a}}
 \end{equation}
 である．
 
@@ -3374,14 +3376,14 @@ Eitherの場合．
 
 このままでも問題はないのだが，式\eqref{eq:data-type-ziplist}を次のように書き換えることがより好ましい．
 \begin{equation}
-\mNewDataTypeParametric\;{\mTypeConstructor{ZipList}}\mType{a}=\mValueConstructor{ZipList}\,\{\mFunc{getlist}\mIn{}\mListType{a}\}
+\mNewDataTypeParametric\;\mZipListTypeConstructor\mType{a}=\mValueConstructor{ZipList}\,\{\mFunc{getlist}\mIn{}\mListType{a}\}
 \end{equation}
 やったことはキーワード $\mDataTypeParametric$ を $\mNewDataTypeParametric$ に置き換えたことである．これは，字面に反して，型 $\mType{ZipList}$ が何一つ「新しくない」ことを\haskell コンパイラに伝えるためである．
 
 
 \section{この章のまとめ*}
 
-\begin{note}{第1部で学んだこと}
+\begin{note}{第I部で学んだこと}
 ...
 \end{note}
 
