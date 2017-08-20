@@ -3344,13 +3344,46 @@ Eitherの場合．
 \mFunc{zipwith}f(x:\mList{x})(y:\mList{y})
 &=fxy:\mFunc{zipwith}f\mList{x}\mList{y}
 \end{align}
-であり，関数 $\mFunc{repeat}$ は引数を無限回繰り返すリストを返す関数である．
+であり，関数 $\mFunc{zipwith}$ の型は
+\begin{equation}
+\mFunc{zipwith}\mIn{}\mProj{\mProj{\mProj{(\mProj{\mType{a}}{\mProj{\mType{b}}{\mType{c}}})}{\mListType{a}}}{\mListType{b}}}{\mListType{c}}
+\end{equation}
+である．
+
+関数 $\mFunc{repeat}$ は引数を無限回繰り返すリストを返す関数である．念のため関数 $\mFunc{repeat}$ の実装方法を書いておくと
+\begin{equation}
+\mFunc{repeat}x=x:\mFunc{repeat}x
+\end{equation}
+である．関数 $\mFunc{repeat}$ の型は
+\begin{equation}
+\mFunc{repeat}\mIn{}\mProj{\mListType{a}}{\mListType{a}}
+\end{equation}
+である．
+
+任意のリスト $\mList{x}$ と任意の関数リスト $\mList{f}$ ただし
+\begin{align}
+\mList{x}&=\mListWith{x_0,x_1,\dotsb}\\
+\mList{f}&=\mListWith{f_0,f_1,\dotsb}
+\end{align}
+の両方をそれぞれ値コンストラクタで包んでアプリカティブマップ演算子を適用すると
+\begin{equation}
+\mZipListWith{\mList{f}}\mAppMap\mZipListWith{\mList{x}}
+=\mListWith{f_0x_0,f_1x_1,\dotsb}
+\end{equation}
+のようにジップ演算子を適用できる．
 
 このままでも問題はないのだが，式\eqref{eq:data-type-ziplist}を次のように書き換えることがより好ましい．
 \begin{equation}
 \mNewDataTypeParametric\;{\mTypeConstructor{ZipList}}\mType{a}=\mValueConstructor{ZipList}\,\{\mFunc{getlist}\mIn{}\mListType{a}\}
 \end{equation}
 やったことはキーワード $\mDataTypeParametric$ を $\mNewDataTypeParametric$ に置き換えたことである．これは，字面に反して，型 $\mType{ZipList}$ が何一つ「新しくない」ことを\haskell コンパイラに伝えるためである．
+
+
+\section{この章のまとめ*}
+
+\begin{note}{第1部で学んだこと}
+...
+\end{note}
 
 
 \part{\haskell プログラミング}
