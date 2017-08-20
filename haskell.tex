@@ -8,6 +8,9 @@
 \def\({\left(\!\left(}
 \def\){\right)\!\right)}
 
+\newcommand{\Langle}{\langle\!\langle}
+\newcommand{\Rangle}{\rangle\!\rangle}
+
 %% Programming Languages
 
 \newcommand{\programminglanguage}[1]{\textsf{#1}}
@@ -223,13 +226,13 @@
 \newcommand{\mType}[1]{\mathbf{#1}}
 
 % Value constructors
-\newcommand{\mGeneralWith}[2]{{}^\text{#1}\langle#2\rangle}
-\newcommand{\mEitherLeftWith}[1]{{}^\mLeft\langle#1\rangle}
-\newcommand{\mEitherRightWith}[1]{{}^\mRight\langle#1\rangle}
-\newcommand{\mFuncWith}[1]{\[#1\]}
+\newcommand{\mGeneralWith}[2]{{}^\text{#1}\[#2\]}
+\newcommand{\mEitherLeftWith}[1]{\mGeneralWith{\mLeft}{#1}}
+\newcommand{\mEitherRightWith}[1]{\mGeneralWith{\mRight}{#1}}
+\newcommand{\mFuncWith}[1]{\Langle#1\Rangle}
 \newcommand{\mListWith}[1]{\left[#1\right]}
 % \newcommand{\mMaybeWith}[1]{\[#1\]}
-\newcommand{\mMaybeWith}[1]{{}^\text{Just}\langle#1\rangle}
+\newcommand{\mMaybeWith}[1]{\mGeneralWith{Just}{#1}}
 \newcommand{\mPureWith}[1]{\langle#1\rangle}
 \newcommand{\mSetWith}[1]{\left\{#1\right\}}
 \newcommand{\mTupleWith}[1]{\left(#1\right)}
@@ -247,14 +250,15 @@
 \newcommand{\mUnitType}{\mType{()}}
 
 % Parametric Types
-\newcommand{\mParametricTypeConstruct}[2]{{}^{\mType{#1}}\{\mType{#2}\}}
-\newcommand{\mParametricTypeConstructII}[3]{{}^{#1}\{\mType{#2},\mType{#3}\}}\newcommand{\mEitherTypename}{\mType{Either}}
+\newcommand{\mParametricTypeConstruct}[2]{{}^{\mType{#1}}\[\mType{#2}\]}
+\newcommand{\mParametricTypeConstructII}[3]{{}^{#1}\[\mType{#2},\mType{#3}\]}
+\newcommand{\mEitherTypename}{\mType{Either}}
 \newcommand{\mIOTypename}{\mType{IO}}
 \newcommand{\mMaybeTypename}{\mType{Maybe}}
 \newcommand{\mZipListTypename}{\mType{Ziplist}}
 
 \newcommand{\mEitherType}[2]{\mParametricTypeConstructII{\mEitherTypename}{#1}{#2}}
-\newcommand{\mFuncType}[2]{\[\mType{#1}\]_\mType{#2}}
+\newcommand{\mFuncType}[2]{\Langle\mType{#1}\Rangle_\mType{#2}}
 \newcommand{\mIOType}[1]{\mParametricTypeConstruct{\mIOTypename}{#1}}
 \newcommand{\mIODoubleType}{\mIOType{\mDoubleType}}
 \newcommand{\mIOIntType}{\mIOType{\mIntType}}
@@ -364,11 +368,11 @@ Ether変数&肩に!をつける&$\mEither{u}$\\
 型パラメタ&ボールドローマン，小文字&$\mType{a},\mType{b},\mType{c}$\\
 型&ボールドローマン，大文字&$\mBoolType,\mIntType,\mFloatType$\\
 コンテナ型&左肩にコンテナ名をつける&$\mMaybeType{a},\mIOType{a}$\\
-有名なコンテナ型&特別な括弧で包む&$\mListType{a},\mFuncType{a}{r},\mPureType{a}$\\
+有名なコンテナ型&特別な括弧で包む&$\mListType{a},\mFuncType{a}{r}$\\
 型クラス&スモールキャピタル&$\mEqTypeClass,\mOrdTypeClass,\mNumTypeClass$\\
 \hline
 値コンストラクタ&肩書付き括弧で包む&$\mMaybeWith{x},\mEitherRightWith{x}$\\
-有名な値コンストラクタ&特別な括弧で包む&$\mListWith{x},\mFuncWith{x},\mPureWith{x}$\\
+有名な値コンストラクタ&特別な括弧で包む&$\mListWith{x},\mFuncWith{x}$\\
 \hline
 型コンストラクタ&イタリック，大文字&$\mListTypeConstructor$, $\mMaybeTypeConstructor$\\
 関手&ボールドイタリック，大文字&$\mFunctor{List},\mFunctor{Maybe}$\\
@@ -3023,7 +3027,7 @@ y=g_2(g_1x)
 =\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany$ は \code{data Color = One | Two | Three | Many} と書く．}
 
 % 値コンストラクタを列挙したデータ型を\keyword{代数型}と呼ぶ．
-この節で紹介したデータ型の定義は，\clang で言う \code{enum} に近い．データ型は他に，\clang で言う \code{struct} すなわち構造体になることも出来るが，これは第\ref{ch:parametric-data-type}で見ることにする．
+この節で紹介したデータ型の定義は，\clang で言う \code{enum} に近い．データ型は他に，\clang で言う \code{struct} すなわち構造体になることも出来るが，これは第\ref{ch:parametric-data-type}章で見ることにする．
 
 \section{型クラス}
 
@@ -3170,9 +3174,9 @@ Tree
 
 \begin{multline}
 \mDataTypeParametric\;\mType{Shape}
-=\mValueConstructor{Circle}\mFloatType\,\mFloatType\\
+={}^{\mValueConstructor{Circle}}\langle\mFloatType\,\mFloatType\rangle\\
 \mValueOr
-\mValueConstructor{Triangle}\mFloatType\,\mFloatType\,\mFloatType
+{}^{\mValueConstructor{Triangle}}\langle\mFloatType\,\mFloatType\,\mFloatType\rangle
 \end{multline}
 
 \begin{equation}
