@@ -201,7 +201,7 @@
 \DeclareMathOperator{\mMinus}{\ominus}
 \DeclareMathOperator{\mMorphTo}{\rightarrowtail}
 \DeclareMathOperator{\mPlus}{\dotplus}
-\DeclareMathOperator{\mSetTimes}{\circledast}
+\DeclareMathOperator{\mSetTimes}{\boldmath{\times}}
 \DeclareMathOperator{\mUnOp}{\star}
 \DeclareMathOperator{\mValueOr}{\curlyvee}
 \DeclareMathOperator{\mZip}{\circledast}
@@ -415,6 +415,7 @@ $\mFoldRight$&右畳み込み&\\
 \hline
 $\mCons$&結合 (cons)&\\
 $\mAppend$&リスト結合 (append)&\\
+$\mZip$&ジップ&\\
 $\mConcat$&平坦化 (concat)&\\
 $\mJoin$&ジョイン&\\
 % $\mathMaybeAppend$&Maybe結合&\\
@@ -3780,7 +3781,7 @@ R_t=\cos t+I\sin t
 \begin{equation}
 \mBinOp\mIn{}\mMorph{(\mSet{M}\mSetTimes\mSet{M})}{\mSet{M}}
 \end{equation}
-と書く．ここに $\mSet{X}\circledast\mSet{Y}$ は集合 $\mSet{X}$ と集合 $\mSet{Y}$ の\keyword{直積集合}である．直積集合と元の集合はもはや別な集合であることに注意しよう．
+と書く．ここに $\mSet{X}\mSetTimes\mSet{Y}$ は集合 $\mSet{X}$ と集合 $\mSet{Y}$ の\keyword{直積集合}である．直積集合と元の集合はもはや別な集合であることに注意しよう．
 
 写像は $\mMorph{\mSet{M}\mSetTimes\mSet{M}}{\mSet{M}}$ に限ったもの出はなく，集合 $\mSet{M}$ から集合 $\mSet{M}$ への写像 $\mUnOp$ ただし
 \begin{equation}
