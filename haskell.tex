@@ -487,13 +487,15 @@ print("Hello, world.")
 
 \section{関数型プログラミング}
 
-ところで，プログラマはなぜ\haskell を習得しなければならないのだろう．それは\haskell と\keyword{関数型プログラミング}の間に密接な関係があるからである．
+プログラマはなぜ\haskell を習得しなければならないのだろう．それは\haskell と\keyword{関数型プログラミング}の間に密接な関係があるからである．
 
 関数型プログラミングとはプログラミングにおける一種のスローガンのようなもので，どの言語を用いたから関数型でどの言語を用いたから関数型ではない，というものではない．しかし，関数型プログラミングを強くサポートする言語と，そうでない言語とがある．ここら辺の事情はオブジェクト指向プログラミングとプログラミング言語の関係と似ている．\haskell は関数型プログラミングを強くサポートし，\python はほとんどサポートしない．
 
 関数型プログラミングの特徴を一言で言えば，プログラム中の\keyword{破壊的代入}を禁止することである．変数 $x$ に $1$ という数値が一度代入されたら，変数 $x$ の値をプログラム中に書き換える，すなわち破壊的代入をすることはできない．この結果，変数の値はプログラムのどこでも，どの時点で読み出しても同じであることが保証される．これを変数の\keyword{参照透過性}と呼ぶ．
 
 プログラム全体に参照透過性があると，そのプログラムはブロックに分割しやすく，各々のブロックは再利用しやすい．またプログラムのどの断片から読み始めても，全体の構造を見失いにくい．これが関数型プログラミングとそれを強くサポートする\haskell を習得する理由である．
+
+参照透過性がもたらすもう一つのボーナスは変数の\keyword{遅延評価}である．変数はいつ評価しても値が変わらないのだから，コンパイラは変数をできるだけ遅く評価してよい．この遅延評価によって，\haskell コンパイラは他の言語に見られない\keyword{無限リスト}を扱う能力を獲得している．
 
 ---
 
@@ -507,38 +509,40 @@ print("Hello, world.")
 
 ラムダ式は単純で，十分に数学的に定式化できるものだ．
 
----
 
-遅延評価．
+\section{色気のない文字セットが引き起こす問題}
+
+プログラムのソースコードは，現代ではUnicode文字セットが使用可能であるにも関わらずASCII文字セットの範囲で書くことが標準的である．まして，文字にカラーを指定したり，フォントや装飾を指定することはない．例えば変数 \code{a} のことを \textbf{a} と書いたり \underline{a} と書いたり $\Hat a$ と書いたりして区別することはない．
+
+\haskell プログラマもまた，多くの異なる概念を同じ貧弱な文字セットで表現しなければならない．これは，初めて\haskell コードを読むときに大きな問題になり得る．例えば，\haskell では \code{[a]} という表記をよく扱う．この \code{[a]} は \code{a} という変数1要素からなるリストなのか，それとも \code{a} という型のリストなのか，字面からでは判断できない．もし変数はイタリック体，型はボールド体と決まっていれば，それぞれ $\mListWith{a}$ および $\mListType{a}$ と区別出来たところである．
+
+本書は，異なる性質のものには異なるフォントを割り当てるようにしている．ただし，どの表現もいつでも\haskell に翻訳できるように配慮している．実際，本書執筆の最大の困難点は，数学的に妥当で，かつ\haskell の記法とも矛盾しない記法を見つけることであった．
+
+% プログラマというのは口数の少ない人種なのかもしれない．
+
+% 標準\clang が制定される前の\clang 言語のことを\clangkr と呼ぶが，\clangkr ではこんなコードが当たり前のように書かれていた．
+% \begin{ckrcode}
+% \begin{verbatim}
+% main(argc, argv) {
+%   /* do something */
+%   return 0;
+% }
+% \end{verbatim}
+% \end{ckrcode}
+% 現代の標準\clang なら
+% \begin{ccode}
+% \begin{verbatim}
+% int main(int argc, const char *const *argv) {
+%   /* do something */
+%   return 0;
+% }
+% \end{verbatim}
+% \end{ccode}
+% と書かれるべきところ，関数 \code{main} もその引数 \code{argc} も \code{argv} も，型が明示されていないのである．
+
+% これは\clangkr プログラマにとって，型 \code{int} はありふれているので自明であり，ポインタは \code{int} と同一視しても問題ないと認識されていたからである．
 
 
-% \section{数学とプログラミング*}
-
-\section{口数の少ない\haskell プログラマ}
-
-...
-
-
-\clangkr では，次のようなコードが書かれていた．
-\begin{ckrcode}
-\begin{verbatim}
-main(argc, argv) {
-  /* do something */
-  return 0;
-}
-\end{verbatim}
-\end{ckrcode}
-関数 \code{main} もその引数 \code{argc} も \code{argv} も，型が明示されていないのである．% しかし\clangkr プログラマにとってはそれで十分だった．
-
-
-\begin{ccode}
-\begin{verbatim}
-int main(int argc, const char *const *argv) {
-  /* do something */
-  return 0;
-}
-\end{verbatim}
-\end{ccode}
 
 
 
@@ -579,7 +583,7 @@ $ stack install ghc
 
 第I部は対応する\haskell のコードを脚注に記載している．脚注部分は\haskell を一通り覚えた後で読み返してもらいたい．\footnote{\haskell のコードは \code{x = 1} のようにタイプライタ体で書く．}
 
-\begin{note}{A}
+\begin{note}{プログラムの本質}
 ...
 \end{note}
 
@@ -1094,7 +1098,7 @@ g\mIn
 のようにイメージすると良い．自然言語で考えると $\mIntType$ 型の引数を一つ取り，$\mIntType$ 型の引数を一つ取って $\mIntType$ 型の値を返す関数を返す，と読める．
 
 
-\section{多相型と型クラス*}
+\section{多相型と型クラス}
 
 整数型 $(\mIntType)$ と浮動小数点型 $(\mFloatType)$ はよく似ている．どちらも値同士を比較可能で，それ故どちらにも等値演算子が定義されている．
 
@@ -1108,66 +1112,32 @@ g\mIn
 \end{equation}
 である．
 
-\keyword{多相型}
+このように型が異なっても（だいたい）同じ意味で定義されている演算子のことを\keyword{多相的}な演算子と呼ぶ．等値演算子は多相的な演算子の例である．
 
-$$
+% ここで\cxx のテンプレート，\java のジェネリッククラスを思い浮かべる読者もいるだろう．
+
+具体的な型を指定せずに，仮の変数で表したものを\keyword{型パラメタ}と呼ぶ．我々は型パラメタをボールド体で表す．いま型を表す仮の変数を $\mType{a}$ として，等値演算子の型を
+\begin{equation}
+\label{eq:equiv}
 (\equiv)\mIn\mProj{\mProj{\mType{a}}{\mType{a}}}{\mBoolType}
-$$
+\end{equation}
+と表現してみよう．このような型パラメタを用いた型を総称して\keyword{多相型}と呼ぶ．
 
-\keyword{型クラス}
+実は式\eqref{eq:equiv}は不完全なものである．このままでは型 $\mType{a}$ に何の制約もないため，等値演算の定義されていない型が来るかもしれないからである．
 
-$$
+そこで，型自身が所属する，より大きな型があるとしよう．そのような型を我々は\keyword{型クラス}と呼ぶ．例えば型 $\mBoolType,\mIntType,\mIntegerType,\mFloatType,\mDoubleType$ は全て等値演算が定義できるので，型クラス $\mEqTypeClass$ に属すとする．この関係を我々は
+\begin{equation}
+\mEqTypeClass\mSuperSet\mBoolType,\mIntType,\mIntegerType,\mFloatType,\mDoubleType
+\end{equation}
+と書く．ここに $\mEqTypeClass\mSuperSet\mType{a}$ と書いて「型 $\mType{a}$ は型クラス $\mEqTypeClass$ の\keyword{インスタンス}である」と読む．
+
+式\eqref{eq:equiv}に型クラスの制約を加えてみよう．型 $\mType{a}$ は型クラス $\mEqTypeClass$ に属さなければならないから，新たな記号 $\mSuperClass$ を使って
+\begin{equation}
 (\equiv)\mIn{}(\mEqTypeClass\mSuperSet\mType{a})\mSuperClass\mProj{\mProj{\mType{a}}{\mType{a}}}{\mBoolType}
-$$
+\end{equation}
+と書くことにする．\footnote{\haskell では $(\equiv)\mIn{}(\mEqTypeClass\mSuperSet\mType{a})\mSuperClass\mProj{\mProj{\mType{a}}{\mType{a}}}{\mBoolType}$ を \code{(==) :: (Eq a) => a -> a -> Bool} と書く．記号 $\mSuperSet$ は省略する．}
 
-
----
-
-このような型をより抽象化した型のようなものを\keyword{型クラス}と呼ぶ．$\mType{a}\mIn\mMonoidTypeClass$ は「型 $\mType{a}$ は $\mMonoidTypeClass$ 型クラスの\keyword{インスタンス}である」と読む．モノイドは型クラスの例である．表\ref{tab:monoids}に型と対応するモノイドの単位元，演算子の一覧を示す．
-
-\begin{table}
-\caption{モノイド（単位的半群）}
-\label{tab:monoids}
-\begin{center}
-\begin{tabular}{||c||c|c||}
-\hline
-型
-    &演算子
-    &単位元\\
-\hline\hline
-$\mBoolType$
-    &$\vee$
-    &$\mFalse$\\
-\hline
-$\mBoolType$
-    &$\wedge$
-    &$\mTrue$\\
-\hline
-$\mIntType$
-    &$+$
-    &$0$\\
-\hline
-$\mIntType$
-    &$*$
-    &$1$\\
-\hline
-$\mFloatType$
-    &$+$
-    &$0$\\
-\hline
-$\mFloatType$
-    &$*$
-    &$1$\\
-\hline
-\end{tabular}
-\end{center}
-\end{table}
-
-
-もっと身近な型クラスもある．例えば，型 $\mType{a}$ の変数同士の間で等値性が定義されている場合，
-その型は型クラス $\mEqTypeClass$ に属することになる．型クラス $\mEqTypeClass$ に属する型の変数同士は等値演算子 $\equiv$ で比較できる．
-
-型 $\mType{a}$ の変数同士の間で大小関係が定義されている場合，かつその型が型クラス $\mEqTypeClass$ に属する場合，その型は型クラス $\mOrdTypeClass$ にも属する．型クラス $\mOrdTypeClass$ に属する型は比較演算子 $<,\le,\ge,>$ を提供する．
+型 $\mType{a}$ の変数同士の間で大小関係が定義されている場合，かつその型が型クラス $\mEqTypeClass$ に属する場合，その型は型クラス $\mOrdTypeClass$ にも属する．型クラス $\mOrdTypeClass$ に属する型は比較演算子 $<,\le,\ge,>$ を提供する．例えば型 $\mIntType$ は型クラス $\mOrdTypeClass$ に属すが，型 $\mBoolType$ は型クラス $\mOrdTypeClass$ に属さない．
 
 型 $\mType{a}$ の変数同士の間で四則演算関係が定義されている場合，かつその型が型クラス $\mEqTypeClass$ に属する場合，その型は型クラス $\mNumTypeClass$ にも属する．型クラス $\mNumTypeClass$ に属する型は二項演算子 $+,-,*,/$ を提供する．ここに$-$は二項演算子のマイナスである．
 
@@ -1178,12 +1148,6 @@ $\mFloatType$
 型 $\mType{a}$ が型クラス $\mRealTypeClass$ 及び型クラス $\mEnumTypeClass$ に属しているとき，かつそのときに限り，型 $\mType{a}$ は型クラス $\mIntegralTypeClass$ にも属する．
 
 これらの関係を表にまとめたものが表\ref{tab:type-and-typeclass}である．この表から，型 $\mIntType$ は型クラス $\mIntegralTypeClass$, $\mRealTypeClass$, $\mOrdTypeClass$, $\mNumTypeClass$, $\mEnumTypeClass$, $\mEqTypeClass$ に属しているのに対し，型 $\mBoolType$ は $\mOrdTypeClass$, $\mEnumTypeClass$, $\mEqTypeClass$ にのみ属しているのがわかる．
-
----
-
-$$
-\mSuperSet
-$$
 
 
 \begin{table*}
@@ -1313,7 +1277,58 @@ $\mDoubleType$
 \end{center}
 \end{table*}
 
+
+
 \section{余計な話：モノイド*}
+
+---
+
+
+---
+
+表\ref{tab:monoids}に型と対応するモノイドの単位元，演算子の一覧を示す．
+
+\begin{table}
+\caption{モノイド（単位的半群）}
+\label{tab:monoids}
+\begin{center}
+\begin{tabular}{||c||c|c||}
+\hline
+型
+    &演算子
+    &単位元\\
+\hline\hline
+$\mBoolType$
+    &$\vee$
+    &$\mFalse$\\
+\hline
+$\mBoolType$
+    &$\wedge$
+    &$\mTrue$\\
+\hline
+$\mIntType$
+    &$+$
+    &$0$\\
+\hline
+$\mIntType$
+    &$*$
+    &$1$\\
+\hline
+$\mFloatType$
+    &$+$
+    &$0$\\
+\hline
+$\mFloatType$
+    &$*$
+    &$1$\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+
+もっと身近な型クラスもある．例えば，型 $\mType{a}$ の変数同士の間で等値性が定義されている場合，
+その型は型クラス $\mEqTypeClass$ に属することになる．型クラス $\mEqTypeClass$ に属する型の変数同士は等値演算子 $\equiv$ で比較できる．
 
 
 
@@ -1493,7 +1508,7 @@ $\mType{a}$ 型の変数 $x$ を入れた $\mListType{a}$ 型の変数を作る�
 
 ある型を包み込んだ別の型を一般に\keyword{コンテナ型}または単に\keyword{コンテナ}と呼ぶ．コンテナ型の変数を\keyword{コンテナ変数}と呼ぶ．
 
-なお，リスト型，結合演算子，空リストの組み合わせ $\mTupleWith{\mListType{a},\mAppend,\mEmptyList}$ はモノイドである．
+% なお，リスト型，結合演算子，空リストの組み合わせ $\mTupleWith{\mListType{a},\mAppend,\mEmptyList}$ はモノイドである．
 
 \section{畳み込み}
 
@@ -2877,7 +2892,7 @@ i\mMapFunc f'&=\mFuncWith{i\mAnonParam}\mBind f'\\
 \section{この章のまとめ*}
 
 \begin{note}{若干の歴史的な混乱について}
-\haskell には最初に関手が導入され，その次に関手を拡張する形でモナドが導入された．そして，その次に，関手を拡張しなおす形でアプリカティブ関手が導入された．それゆえ，モナドとアプリカティブ関手には概念的重複があるにもかかわらず，別々に定義されるという悲劇が暫くの間続いた．アプリカティブ関手のピュア演算子と，モナドのユニット演算子は概念的に同じものであるにもかかわらず，別々の演算子として定義されていたのである．この状態は GHC v7.10 以降で，モナドがアプリカティブ関手を拡張する形に改められたことで解消した．
+\haskell には最初に関手が導入され，その次に関手を拡張する形でモナドが導入された．そしてその次に，関手を拡張しなおす形でアプリカティブ関手が導入された．それゆえ，モナドとアプリカティブ関手には概念的重複があるにもかかわらず，別々に定義されるという悲劇が暫くの間続いた．アプリカティブ関手のピュア演算子と，モナドのユニット演算子は概念的に同じものであるにもかかわらず，別々の演算子として定義されていたのである．この状態は GHC v7.10 以降で，モナドがアプリカティブ関手を拡張する形に改められたことで解消した．
 \end{note}
 
 
@@ -2997,12 +3012,13 @@ do記法には $\mDoEq$ の他に，我々の $\mLet$ とよく似た $\mDoLetKe
 \mDo{y\mDoEq\alpha x\mDoNext\mDoLet{z}{fy}\mDoNext\beta z}
 =\beta\mBind{}(f\mMap\alpha x)
 \end{gather}
-
+より複雑な例も挙げる．
 \begin{multline}
 \mDo{y\mDoEq\alpha x\mDoNext y'\mDoEq\alpha'x'\mDoNext\mDoLet{z}{fyy'}
 \mDoNext\beta z}\\
 =\beta\mBind{}(f\mMap\alpha x\mAppMap\alpha'x')
 \end{multline}
+最後にdo記法中に変数を2回以上使いまわす例を表\ref{tab:do-alpha-alpha}に示す．この例では変数 $y,y'$ が2回使われている．
 
 
 % なお $\mFuncWith{f}=\mLambdaExp{\mAnyParam}{f}$ の関係を用いると式\eqref{eq:do-alpha-beta}はより簡潔に
@@ -3011,7 +3027,6 @@ do記法には $\mDoEq$ の他に，我々の $\mLet$ とよく似た $\mDoLetKe
 % \end{equation}
 % と書ける．
 
-最後に，do記法中に変数を2回以上使いまわす例を表\ref{tab:do-alpha-alpha}に示す．この例では変数 $y,y'$ が2回使われている．
 
 我々はバインド演算子を使った通常の記法とdo記法のいずれか読みやすい方を採用すれば良い．
 
@@ -3044,9 +3059,10 @@ y=g_2(g_1x)
 
 直列に評価したい関数の戻り値が，いつも次の関数の引数の型と一致しているとは限らないし，次の関数（アクション）が引数を取らない可能性もある．もし関数 $g_2$ が引数を取らなければ
 \begin{equation}
-(\mConst g_2)(g_1x)
+\mFuncWith{g_2}(g_1x)
 \end{equation}
 とする．\footnote{\clang では \code{void} 型を返す関数 \code{void g1(int);} を 引数を取らない関数 \code{int g2(void);} に「食わせる」ことが可能で， \code{g2(g1(x));} は正しいコードである．もっとも\clang プログラマは \code{g1(x), g2();} という書き方の方を好むであろう．}
+
 
 ---
 
@@ -3072,7 +3088,7 @@ y=g_2(g_1x)
 \item do記法．
 \end{enumerate}
 
-\begin{note}{関数の評価順序}
+\begin{note}{...}
 ...
 \end{note}
 
