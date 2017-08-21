@@ -2460,19 +2460,16 @@ g\mMapFunc f=\mLambdaExp{x}{g(fx)}
 g\mAppMapFunc f=\mLambdaExp{x}{gx(fx)}
 \end{equation}
 とする．
-
 % Why???
-
----
-
-
-
-
-（モナドとして．）
-
-$$
-f\mBindFunc g=\mLambdaExp{x}{f(gx)x}
-$$
+関数版マップ演算子は，関数版ピュア演算子と関数版アプリカティブマップ演算子から合成できる．これは
+\begin{align}
+\mFuncWith{g}\mAppMapFunc f
+&=\mLambdaExp{x}{\mFuncWith{g}x(\phi f)}\\
+&=\mLambdaExp{x}{(\mLambdaExp{\mAnyParam}{g})x(fx)}\\
+&=\mLambdaExp{x}{g(fx)}\\
+&=g\mComp f
+\end{align}
+とすれば確かめられる．
 
 \section{余計な話：アプリカティブマップ演算子の実装*}
 
@@ -2611,7 +2608,7 @@ hy=\begin{cases}
 
 \section{モナド}
 
-$\mFunctorTypeClass$ 型クラスは一般マップ演算子 $(\mMap)$ を持っていた．$\mApplicativeTypeClass$ 型クラスはピュア演算子 $(\mPureWith{x})$ と一般アプリカティブマップ演算子 $(\mAppMap)$ を持っており，このふたつの演算子から一般マップ演算子を合成できた．新しい $\mMonadTypeClass$ 型クラスは，\keyword{一般バインド演算子} $(\mBind)$ を持つものとしよう．後で見るように，一般マップ演算子はピュア演算子と一般バインド演算子から合成できるし，一般アプリカティブマップ演算子もまたピュア演算子と一般バインド演算子から合成できる．\footnote{\haskell では歴史的経緯によって $\mApplicativeTypeClass$ 型クラスではなく $\mFunctorTypeClass$ 型クラスを拡張することで $\mMonadTypeClass$ 型クラスを作っていた．そのため $\mMonadTypeClass$ 型クラスでは $\mApplicativeTypeClass$ 型クラスから継承したピュア演算子のことを「ユニット演算子」と呼ぶ．}
+$\mFunctorTypeClass$ 型クラスは一般マップ演算子 $(\mMap)$ を持っていた．$\mApplicativeTypeClass$ 型クラスはピュア演算子 $(\mPureWith{x})$ と一般アプリカティブマップ演算子 $(\mAppMap)$ を持っており，このふたつの演算子から一般マップ演算子を合成できた．新しい $\mMonadTypeClass$ 型クラスは，\keyword{一般バインド演算子} $(\mBind)$ とピュア演算子を持つものとしよう．後で見るように，一般マップ演算子はピュア演算子と一般バインド演算子から合成できるし，一般アプリカティブマップ演算子もまたピュア演算子と一般バインド演算子から合成できる．%\footnote{\haskell では歴史的経緯によって $\mApplicativeTypeClass$ 型クラスではなく $\mFunctorTypeClass$ 型クラスを拡張することで $\mMonadTypeClass$ 型クラスを作っていた．そのため $\mMonadTypeClass$ 型クラスでは $\mApplicativeTypeClass$ 型クラスから継承したピュア演算子のことを「ユニット演算子」と呼ぶ．}
 
 関数 $i$ が次の形をしているとする．
 \begin{equation}
@@ -2645,7 +2642,7 @@ v=f\mMap u=\mPureWith{f}\mAppMap u=\mPureWith{f\mAnonParam}\mBind u
 を得る．これが一般バインド演算子と一般アプリカティブマップ演算子，一般マップ演算子の関係である．
 
 
-\section{関手則・アプリカティブ関手則・モナド則}
+\section{関手則・アプリカティブ関手則・モナド則*}
 
 関手，アプリカティブ関手，モナドにはそれぞれ従う規則がある．これらは自然法則ではなく，定義である．
 
@@ -2671,6 +2668,8 @@ v=f\mMap u=\mPureWith{f}\mAppMap u=\mPureWith{f\mAnonParam}\mBind u
 \end{align}
 のような関係を一般化したものだと考えれば良い．
 
+\separator
+
 アプリカティブ関手の一般アプリカティブマップ演算子 $(\mAppMap)$ およびピュア演算子は次の規則に従う．
 \begin{enumerate}
 \item 単位元の存在: $\mPureWith{\mId}\mAppMap u=u$
@@ -2684,8 +2683,8 @@ v=f\mMap u=\mPureWith{f}\mAppMap u=\mPureWith{f\mAnonParam}\mBind u
 
 アプリカティブマップ演算子の準同型則は $w=\mPureWith{fx}$ とした時に，
 \begin{align}
-x\xrightarrow{\mPureWith{\dots}}\mPureWith{x}\xrightarrow{\mPureWith{f}}&w\\
-x\xrightarrow{f}fx\xrightarrow{\mPureWith{\dots}}&w
+x\xrightarrow{\mPureWith{\dotsb}}\mPureWith{x}\xrightarrow{\mPureWith{f}\mAppMap\dotsb}&w\\
+x\xrightarrow{f}fx\xrightarrow{\mPureWith{\dotsb}}&w
 \end{align}
 のように $x$ からスタートして，どちらのルートを辿っても $w$ に行き着くという意味である．
 
@@ -2705,6 +2704,8 @@ x\xrightarrow{f}fx\xrightarrow{\mPureWith{\dots}}&w
 \end{align}
 となり一致する．合成則とは，このような関係が満たされるように一般アプリカティブマップ演算子を定義しておきなさいという意味だ．
 
+\separator
+
 モナドの一般バインド演算子 $(\mBind)$ は次の規則に従う．
 \begin{enumerate}
 \item 右単位元の存在: $i\mBind{}\mPureWith{x}=ix$
@@ -2713,25 +2714,41 @@ x\xrightarrow{f}fx\xrightarrow{\mPureWith{\dots}}&w
 \end{enumerate}
 % https://wiki.haskell.org/Monad_laws
 % https://en.wikibooks.org/wiki/Haskell/Category_theory#The_monad_laws_and_their_importance
-結合則についてのみ解説しておこう．$iz=\mPureWith{fz},jz=\mPureWith{gz},v=\mPureWith{y}$ とすると
+
+結合則についてのみ解説しておこう．
+\begin{equation}
+i\mBind\mPureWith{z}=\mPureWith{fz},\,
+j\mBind\mPureWith{z}=\mPureWith{gz},\,
+v=\mPureWith{y}
+\end{equation}
+とすると
 \begin{align}
 i\mBind(j\mBind v)&=i\mBind\mPureWith{gy}\\
 &=\mPureWith{f(gy)}\\
 &=\mPureWith{f\mComp gy}
 \end{align}
-である一方，$k=(i\mBind{}(j\mAnonParam))$ とすると
+である一方，$k=i\mBind{}(j\mAnonParam)$ とすると
 \begin{align}
 kz&=(i\mBind(j\mAnonParam))z\\
 &=i\mBind(jz)\\
 &=\mPureWith{f(gz)}\\
 &=\mPureWith{f\mComp gz}
 \end{align}
-であるから $k=f\mComp g$ であり，結局
+であるから
+\begin{equation}
+k=i\mBind{}(j\mAnonParam)=\mPureWith{f\mComp g\mAnonParam}
+\end{equation}
+を得る．ここで
 \begin{align}
-k\mBind v&=\mPureWith{(f\mComp g)y}\\
+\mPureWith{f\mComp g\mAnonParam}\mBind v
+&=(f\mComp g)\mMap v\\
 &=\mPureWith{f\mComp gy}
 \end{align}
-となるため結合則の左辺と右辺が一致する．
+であるから，結合則
+\begin{equation}
+i\mBind{}(j\mBind v)=(i\mBind{}(j\mAnonParam))\mBind v
+\end{equation}
+を得ることになる．
 
 \begin{figure*}
 \begin{center}
@@ -2832,129 +2849,32 @@ Maybe
 
 \section{余計な話：モナドとしての関数*}
 
-関数は関手でもあった．と言うのも，関数にはマップ演算子が定義できるからである．関数を $f,g$ とし，関数のマップ演算子を $\mMapFunc$ としたとき
-\begin{equation}
-f\mMapFunc g=f\mComp g
-\end{equation}
-であった．
-
-関数には，ピュア演算子とバインド演算子も定義できる．まずピュア演算子だが，
-\begin{equation}
-\mFuncWith{x}=\mLambdaExp{\mAnyParam}{x}
-\end{equation}
-と定義できる．この関数ピュア演算子は，任意の引数 $x$ を関数に置き換える．ただし，その関数は引数を捨てて元の変数 $x$ を返す．例えば
+関数はアプリカティブ関手であった．関数のピュア演算子とアプリカティブマップ演算子はそれぞれ
+\begin{align}
+\mFuncWith{x}&=\mLambdaExp{\mAnyParam}{x}\\
+g\mAppMapFunc f&=\mLambdaExp{x}{gx(fx)}
+\end{align}
+であった．関数ピュア演算子は，任意の引数 $x$ を関数に置き換える．ただし，その関数は引数を捨てて元の変数 $x$ を返す．例えば
 \begin{equation}
 x=\mFuncWith{x}y
 \end{equation}
 と，ダミー変数 $y$ を使って中身の $x$ を取り出せる．
 
-関数ピュア演算子すなわち関数値コンストラクタの型は，関数型コンストラクタの型と一致する．関数型コンストラクタは型パラメタ $\mType{a}$ から関数型 $\mProj{\mType{r}}{\mType{a}}$ を作り出す．関数値コンストラクタも $\mType{a}$ 型の変数 $x$ から $\mProj{\mType{r}}{\mType{a}}$ 型の関数 $\mFuncWith{x}$ を作り出す．ここに型 $\mType{r}$ は関数 $\mFuncWith{x}$ が取り得る引数の型である．
-
-次に関数のバインド演算子 $\mBindFunc$ を考えておこう．関数のバインド演算子は
+関数のバインド演算子 $\mBindFunc$ を考えておこう．関数のバインド演算子は
 \begin{equation}
-f\mBindFunc\phi=\mLambdaExp{r}{f(\phi r)r}
+g\mBindFunc f=\mLambdaExp{x}{g(fx)x}
 \end{equation}
-と定義する．
+と定義する．ピュア演算子とバインド演算子から，関数のマップ演算子を合成できる．
+\begin{align}
+\mFuncWith{g\mAnonParam}\mBindFunc f
+&=\mLambdaExp{x}{\mFuncWith{g\mAnonParam}(fx)x}\\
+&=\mLambdaExp{x}{\mFuncWith{g(fx)}x}\\
+&=\mLambdaExp{x}{(\mLambdaExp{\mAnyParam}{g(fx)})x}\\
+&=\mLambdaExp{x}{g(fx)}\\
+&=g\mComp f\\
+&=g\mMapFunc f
+\end{align}
 
-
----
-
-【要訂正】新しい関手を定義する．関手の本質はマップ演算子であった．この新しい関手のマップ演算子は $\mMapFunc$ と書き， 
-\begin{equation}
-\label{eq:def-of-map-func}
-f\mMapFunc g=f(g\mAnonParam)
-\end{equation}
-と定義する．ただし $f,g$ は関数である．
-
----
-
-
-こんな定義で大丈夫だろうか．念のため一般マップ演算子の型を思い出すことにしよう．一般マップ演算子の型は
-\begin{equation}
-\mMap
-\mIn{}
-\mProj{
-  (\mProj{\mType{a}}{\mType{b}})
-}
-{
-  \mProj{\mPureType{a}}{\mPureType{b}}
-}
-\end{equation}
-であった．ここでちょっとしたトリックを使う．$\mFuncType{a}{r}$ というコンテナ型があるとし，それを作る型コンストラクタを
-\begin{equation}
-\mFuncType{a}{r}=\mFuncTypeConstructor{r}\mType{a}
-\end{equation}
-と書くことにしよう．ここで $\mFuncTypeConstructor{r}\mType{a}$ は
-\begin{equation}
-\mFuncTypeConstructor{r}\mType{a}=(\mProj{\mType{r}}{\mType{a}})
-\end{equation}
-であると定義する．ここに $\mProj{\mType{r}}{\mType{a}}$ は確かに正当な型であるから，型コンストラクタ $\mFuncTypeConstructor{r}$ は正しい仕事をしている．そもそも $\mProj{\mType{a}}{\mType{b}}$ は二つの型パラメタ $\mType{a}$ と $\mType{b}$ を引数に取る型コンストラクタだと解釈できるから，両辺の整合性は保たれている．
-
-この新しい型 $\mFuncType{a}{r}$ でマップ演算子 $\mMapFunc$ の型を読むと
-\begin{equation}
-\label{eq:type-of-mapfunc}
-\mMapFunc
-\mIn{}
-\mProj{
-  (\mProj{\mType{a}}{\mType{b}})
-}
-{
-  \mProj{\mFuncType{a}{r}}{\mFuncType{b}{r}}
-}
-\end{equation}
-である．ここで $\mFuncType{a}{r}=(\mProj{\mType{r}}{\mType{a}})$ の関係を使うと，式\eqref{eq:type-of-mapfunc}は
-\begin{equation}
-\label{eq:type-of-mapfunc-ii}
-\mMapFunc
-\mIn{}
-\mProj{
-  (\mProj{\mType{a}}{\mType{b}})
-}
-{
-  \mProj{(\mProj{\mType{r}}{\mType{a}})}{(\mProj{\mType{r}}{\mType{b}})}
-}
-\end{equation}
-となる．
-
-関数 $f\mIn\mProj{\mType{a}}{\mType{b}}$ に対してリストのマップ演算子 $\mMapList$ を使うと $f\mMapList\mIn\mProj{\mListType{a}}{\mListType{b}}$ が得られた．Maybeのマップ演算子 $\mMapMaybe$ を使うと $f\mMapMaybe\mIn\mProj{\mMaybeType{a}}{\mMaybeType{b}}$ が得られた．では $f\mMapFunc$ はどうだろう．式\eqref{eq:type-of-mapfunc-ii}から $f\mMapFunc$ の型は $\mProj{(\mProj{\mType{r}}{\mType{a}})}{(\mProj{\mType{r}}{\mType{b}})}$ である．もし関数 $g\mIn\mProj{\mType{r}}{\mType{a}}$ があったとすると，マップした結果である $f\mMapFunc g$ は $\mProj{\mType{r}}{\mType{b}}$ という型を持つ．これは関数合成そのものである．実際に式\eqref{eq:def-of-map-func}は関数合成の定義式そのものである．従って，新しいマップ演算子 $\mMapFunc$ は
-\begin{equation}
-\mMapFunc=\mComp
-\end{equation}
-と定義しても良い．
-
-マップ演算子が定義できたので，この新しい関手は $\mFunctorTypeClass$ 型クラスに属す．この新しい関手は関数そのものなので，特に名前はない．\footnote{\haskell では \code{(->)r} 関手と呼ぶ．}
-
-% 関数はアプリカティブ関手でもある．
-% \begin{equation}
-% f\mMap\omega=\mPureWith{f}\mAppMap\omega
-% \end{equation}
-% であることを思い出すと，
-% \begin{equation}
-% f\mMapFunc g=\mFuncWith{f}\mAppMapFunc g
-% \end{equation}
-% であるような値コンストラクタ $\mFuncWith{f}$ およびアプリカティブマップ演算子 $\mAppMapFunc$ を考えることができる．関数 $f$ の型が $\mProj{\mType{a}}{\mType{b}}$ であるとき，コンテナ値 $\mFuncWith{f}$ の型は $\mFuncType{\mProj{\mType{a}}{\mType{b}}}$ であるから，すなわち
-% \begin{equation}
-% \mFuncWith{f}\mIn\mProj{\mType{r}}{\mProj{\mType{a}}{\mType{b}}}
-% \end{equation}
-% である．（このとき関数 $g$ は $\mProj{\mType{r}}{\mType{a}}$ という型を持つ．）値コンストラクタの定義は
-% \begin{equation}
-% \mFuncWith{f}=\mLambdaExp{\mAnyParam}{f}
-% \end{equation}
-% である．関数 $\mFuncWith{f}$ は $\mType{r}$ 型の引数を取るがそれを無視し，関数 $f\mIn\mProj{\mType{a}}{\mType{b}}$ を返す．この定義は第\ref{ch:io}章でもう一度登場する．
-
-
----
-
-
-関数にはピュア演算子が定義されていて
-\begin{equation}
-\mFuncWith{f}=\mLambdaExp{\mAnyParam}{f}
-\end{equation}
-であった．そこで，もし関数のバインド演算子があれば関数はモナドとして振舞うこともできるはずである．実際，
-\begin{equation}
-f\mBindFunc\phi=\mLambdaExp{r}{f(\phi r)r}
-\end{equation}
-のように関数のバインド演算子を定義すると，関数はモナドとしての性質を持つ．
 % ***Reason***
 % http://south37.hatenablog.com/entry/2014/04/27/Haskell%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E3%83%A2%E3%83%8A%E3%83%89
 % https://ja.wikipedia.org/wiki/%E3%83%A2%E3%83%8A%E3%83%89_(%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0)
