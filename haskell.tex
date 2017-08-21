@@ -15,6 +15,7 @@
 
 \newcommand{\programminglanguage}[1]{\textsf{#1}}
 \newcommand{\clang}{\programminglanguage{C}}
+\newcommand{\clangkr}{\programminglanguage{K\&R~C}}
 \newcommand{\csharp}{\programminglanguage{C}\texttt{\#}}
 \newcommand{\cxx}{\programminglanguage{C}\texttt{++}}
 \newcommand{\cxxninetyeight}{\cxx\programminglanguage{98}}
@@ -49,6 +50,7 @@
 %% Code Blocks (like ``` ... ``` of Markdown)
 
 \newenvironment{ccode}{\begin{itembox}[r]{\clang}}{\end{itembox}}
+\newenvironment{ckrcode}{\begin{itembox}[r]{\clangkr}}{\end{itembox}}
 \newenvironment{cxxcode}{\begin{itembox}[r]{\cxx}}{\end{itembox}}
 \newenvironment{javacode}{\begin{itembox}[r]{\java}}{\end{itembox}}
 \newenvironment{haskellcode}{\begin{itembox}[r]{\haskell}}{\end{itembox}}
@@ -510,9 +512,35 @@ print("Hello, world.")
 遅延評価．
 
 
-\section{数学とプログラミング*}
+% \section{数学とプログラミング*}
+
+\section{口数の少ない\haskell プログラマ}
 
 ...
+
+
+\clangkr では，次のようなコードが書かれていた．
+\begin{ckrcode}
+\begin{verbatim}
+main(argc, argv) {
+  /* do something */
+  return 0;
+}
+\end{verbatim}
+\end{ckrcode}
+関数 \code{main} もその引数 \code{argc} も \code{argv} も，型が明示されていないのである．% しかし\clangkr プログラマにとってはそれで十分だった．
+
+
+\begin{ccode}
+\begin{verbatim}
+int main(int argc, const char *const *argv) {
+  /* do something */
+  return 0;
+}
+\end{verbatim}
+\end{ccode}
+
+
 
 \section{余計な話：\haskell コンパイラの準備*}
 
@@ -595,8 +623,7 @@ g(x, y)
 \begin{equation}
 gxy=(gx)y
 \end{equation}
-である．これは引数 $y$ に関数 $(gx)$ がhidarikara 
-作用していると解釈する．関数 $(gx)$ は引数 $x$ に関数 $g$ を作用させて作った関数である．引数に「飢えた」関数 $(gx)$ を\keyword{部分適用}された関数と呼ぶ．
+である．これは引数 $y$ に関数 $(gx)$ が左から作用していると解釈する．関数 $(gx)$ は引数 $x$ に関数 $g$ を作用させて作った関数である．引数に「飢えた」関数 $(gx)$ を\keyword{部分適用}された関数と呼ぶ．
 
 このように式の左側を優先的に演算していくことを\keyword{左結合}と呼ぶ．\haskell の場合，関数適用はいつも左結合である．
 
@@ -634,21 +661,6 @@ lambda x: 1+x
 
 \section{パタンマッチ・ガード・条件分岐}
 
-関数 $f$ を $fx=(\sin x)/x$ と定義したいときに，\python では
-\begin{pythoncode}
-\begin{verbatim}
-def f(x):
-  return sin(x)/x
-\end{verbatim}
-\end{pythoncode}
-と書くことが普通である．これは，ある値をとってある値を返す関数の記述方法としてはオーバーキルである．事実，ラムダ式を用いた
-\begin{pythoncode}
-\begin{verbatim}
-f = lambda x: sin(x)/x
-\end{verbatim}
-\end{pythoncode}
-も全く同じ意味になるので，ラムダ式を使う方法を基本に据えよう．
-
 関数の定義は，基本的にはラムダ式の変数への代入である．引数 $x$ をとり値 $(\sin x)/x$ を返す関数 $f$ は
 \begin{equation}
 f=\mLambdaExp{x}{(\sin x)/x}
@@ -658,6 +670,21 @@ f=\mLambdaExp{x}{(\sin x)/x}
 fx=(\sin x)/x
 \end{equation}
 と書いても良い．この書き方は今後頻出するので，是非覚えておいてもらいたい．\footnote{\haskell では $f=\mLambdaExp{x}{(\sin x)/x}$ を \code{f = \textbackslash x -> (sin x)/x} と書き，一方 $fx=(\sin x)/x$ を \code{f x = (sin x)/x} と書く．}
+
+% 関数 $f$ を $fx=(\sin x)/x$ と定義したいときに，\python では
+% \begin{pythoncode}
+% \begin{verbatim}
+% def f(x):
+%   return sin(x)/x
+% \end{verbatim}
+% \end{pythoncode}
+% と書くことが普通である．これは，ある値をとってある値を返す関数の記述方法としてはオーバーキルである．事実，ラムダ式を用いた
+% \begin{pythoncode}
+% \begin{verbatim}
+% f = lambda x: sin(x)/x
+% \end{verbatim}
+% \end{pythoncode}
+% も全く同じ意味になるので，ラムダ式を使う方法を基本に据えよう．
 
 関数に\keyword{スペシャルバージョン}がある場合はそれらを列挙する．例えば引数が $0$ の場合は特別に戻り値が $1$ であり，その他の場合は関数 $f$ と同じ振る舞いをする関数 $f'$ を考える．このとき $f'$ は
 \begin{equation}
@@ -722,14 +749,14 @@ def f(x):
     return sin(x)/x
 \end{verbatim}
 \end{pythoncode}
-のような\keyword{制御構造}としての条件文があるが，我々は値を持つ条件式を考える．
+のような\keyword{制御構造}としての条件文があるが，我々は値を持つ\keyword{条件式}を考える．
 
 我々の条件式とは
 \begin{equation}
 fx
 =\mIfThenElse{x\equiv0}{1}{{}(\sin x)/x}
 \end{equation}
-のように $\mIf$ 節，$\mThen$ 節，及び $\mElse$ 節からなるものであって，$\mThen$ 節も $\mElse$ 節も省略できないものとする．$\mIf$ 節の式の値が真 $(\mTrue)$ であれば $\mThen$ 節の式が評価され，偽 $(\mFalse)$ であれば $\mElse$ 節の式が評価される．我々の条件式は\clang/\cxx における三項演算子と等しい．\footnote{\haskell では $fx=\mIfThenElse{x\equiv0}{1}{{}(\sin x)/x}$ を \code{f x = if x==0 then 1 else (sin x)/x} と書く．}
+のように $\mIf$ 節，$\mThen$ 節，及び $\mElse$ 節からなるものであって，$\mThen$ 節も $\mElse$ 節も省略できないものとする．$\mIf$ 節の式の値が真 $(\mTrue)$ であれば $\mThen$ 節の式が評価され，偽 $(\mFalse)$ であれば $\mElse$ 節の式が評価される．我々の条件式は\clang/\cxx における条件演算子（三項演算子）と等しく見えるが，\haskell の場合は遅延評価が行われるため，結果として条件式の\keyword{短絡評価}が行われる点が異なる．\footnote{\haskell では $fx=\mIfThenElse{x\equiv0}{1}{{}(\sin x)/x}$ を \code{f x = if x==0 then 1 else (sin x)/x} と書く．}
 
 $\mIf$ 節の中身は真理値を返す関数であれば良いので，関数 $p$ を
 \begin{equation}
@@ -898,7 +925,7 @@ z=f_2\mApply f_1x
 \end{equation}
 であるから，関数適用演算子を用いて引数を関数に渡すことができる．\footnote{\haskell では $(\mApply x)f$ を \code{(\$x)f} と書く．}
 
-\section{高階関数}
+\section{高階関数*}
 
 関数を引数に取ったり，あるいは関数を返す関数のことを\keyword{高階関数}と呼ぶことがある．関数合成演算子と関数適用演算子は高階関数の好例である．
 
@@ -911,20 +938,22 @@ ga=\mLambdaExp{x}{a+x}
 b&=100\\
 c&=1\\
 f&=gb\\
-x&=fc
+r&=fc
 \end{align}
-とすれば $x=101$ を得る．\footnote{\haskell では $ga=\mLambdaExp{x}{a+x}$ を \code{g a = \textbackslash x -> a+x} と書く．}
+とすれば $r=101$ を得る．\footnote{\haskell では $ga=\mLambdaExp{x}{a+x}$ を \code{g a = \textbackslash x -> a+x} と書く．}
+
+...
 
 \section{余計な話：クロージャ}
 
 ラムダ式をサポートするほとんどのプログラミング言語は，\keyword{レキシカルクロージャ}をサポートする．レキシカルクロージャとは，ラムダ式が定義された時点での，周囲の環境をラムダ式に埋め込む機構である．例えば
 \begin{align}
-a&=100\\
-h&=\mLambdaExp{x}{a+x}
+d&=100\\
+h&=\mLambdaExp{x}{d+x}
 \end{align}
 というラムダ式があるとする．当然我々は関数 $h$ がいつも $h=\mLambdaExp{x}{100+x}$ であることを期待するし，\haskell においてはいつも保証される．
 
-ところが，参照透過性のない言語，言い換えると変数への破壊的代入が許されている言語では，変数 $a$ の値がいつ変わっても不思議ではない．そこで，それらの言語では関数 $h$ が定義された時点での $a$ の値を，関数 $h$ の定義に含めておく．これがレキシカルクロージャの考え方である．
+ところが，参照透過性のない言語，言い換えると変数への破壊的代入が許されている言語では，変数 $d$ の値がいつ変わっても不思議ではない．そこで，それらの言語では関数 $h$ が定義された時点での $d$ の値を，関数 $h$ の定義に含めておく．これがレキシカルクロージャの考え方である．
 
 \haskell ではそもそも変数への破壊的代入がないので，関数 $h$ がレキシカルクロージャであるかどうか悩む必要はない．あえて言えば，\haskell ではラムダ式はいつもレキシカルクロージャである．もしあなたのそばの\cxx プログラマが「え？\haskell にはレキシカルクロージャが無いの？」などと聞いてきたら，「ええ，\haskell には破壊的代入すらありませんから」と答えておこう．
 
@@ -974,84 +1003,32 @@ int main(void) {
 ...
 \end{leader}
 
-\section{モノイド}
 
-整数全てからなる\keyword{集合}を $\mZSet$ で表すことにする．計算機科学で整数と言うと，本当の整数と，例えば $-2^{63}$ から $2^{63}-1$ までの間の整数の意味と両方あるが，今は前者の意味である．
+\section{データ型}
 
-集合 $\mZSet$ の任意の\keyword{元}（\keyword{要素}）$z$ のことを，数学者は $z\in\mZSet$ と書くことを好むが，我々は $\in$ 記号を別な用途に用いたいため
-\begin{equation}
-\label{eq:totality}
-z\mIn\mZSet
-\end{equation}
-と書くことにする．
-
-二つの整数 $z_1,z_2$ があるとしよう．両者の間には\keyword{足し算} $(+)$ が定義されており，その結果すなわち\keyword{和}もまた整数である．ここで
-\begin{equation}
-z_1+z_2\mIn\mZSet
-\end{equation}
-であるとき，演算子 $+$ が集合 $\mZSet$ に対して\keyword{全域性}を持つと言う．
-% ***CHECK***
-一般に集合 $\mSet{A}$ の元に対して二項演算子 $\mBinOp$ が定義されていて，$a_1,a_2\mIn\mSet{A}$ のときに
-\begin{equation}
-\label{eq:totality}
-a_1\mBinOp a_2\mIn\mSet{A}
-\end{equation}
-である場合，つまり演算子 $\mBinOp$ が集合 $\mSet{A}$ に対して全域性を持つ場合，組み合わせ $\mTupleWith{\mSet{A},\mBinOp}$ を\keyword{マグマ}と呼ぶ．組み合わせ $\mTupleWith{\mZSet,+}$ はマグマの例であり，$\mTupleWith{\mZSet,*}$ もマグマの例である．
-% マグマはかつて亜群と呼ばれていたが，現在は亜群は別の意味(groupoid)の訳語に使われている．
-
-他に\keyword{論理集合} $\mBSet=\mSetWith{\mTrue,\mFalse}$ に対して，\keyword{論理和} $(\mLogicalOr)$ は全域性を持つから，組み合わせ $\mTupleWith{\mBSet,\mLogicalOr}$ はマグマであるし，同様に\keyword{論理積} $(\mLogicalAnd)$ も全域性を持つから，組み合わせ $\mTupleWith{\mBSet,\mLogicalAnd}$ もマグマである．
-
-マグマのうち，演算を2回続ける場合，その順序によって結果が異ならない，つまり
-\begin{equation}
-\label{eq:associativity}
-\left(a_1\mBinOp a_2\right)\mBinOp a_3
-=a_1\mBinOp\left(a_2\mBinOp{a_3}\right)
-\end{equation}
-ただし $a_1,a_2,a_3\mIn\mSet{A}$ のとき，組み合わせ $\mTupleWith{\mSet{A},\mBinOp}$ のことを\keyword{半群}と呼ぶ．この式\eqref{eq:associativity}で表される性質を\keyword{結合性}と呼ぶ．組み合わせ $\mTupleWith{\mZSet,+}$, $\mTupleWith{\mZSet,*}$, $\mTupleWith{\mBSet,\mLogicalOr}$, $\mTupleWith{\mBSet,\mLogicalOr}$ はすべて半群である．
-
-ところで，整数全体の集合 $\mZSet$ には特別な元 $0$ がある．この元 $0$ は $z\mIn\mZSet$ のとき
-\begin{equation}
-0+z=z+0=z
-\end{equation}
-という性質を持つ．
-この $0$ を演算 $+$ における\keyword{単位元}と呼ぶ．足し算のことを\keyword{加法}とも言うので $0$ のことは\keyword{加法単位元}と呼ぶこともあるし，文字通り\keyword{零元}と呼ぶこともある．
-
-一般に，$a,\mZero_\mLeft,\mZero_\mRight\mIn\mSet{A}$ として
-\begin{equation}
-\label{eq:identity}
-\mZero_\mLeft\mPlus a=a\mPlus\mZero_\mRight=a
-\end{equation}
-であるとき，元 $\mZero_\mLeft,\mZero_\mRight$ を単位元と呼ぶ．我々は多くの場合 $\mZero_\mLeft=\mZero_\mRight$ であるケースを扱うので，二つの単位元を区別する必要はほとんどないが，必要な場合は $\mZero_\mRight$ を\keyword{左単位元}，$\mZero_\mRight$ を\keyword{右単位元}と呼ぶ．
-
-組み合わせ $\mTupleWith{\mSet{A},\mPlus,\mZero_\mLeft,\mZero_\mRight}$ のことを
-\keyword{モノイド}または\keyword{単位的半群}と呼ぶ．例えば $\mTupleWith{\mZSet,+,0,0}$ はモノイドであるし，$\mTupleWith{\mZSet,*,1,1}$, $\mTupleWith{\mBSet,\mLogicalOr,\mFalse,\mFalse}$, $\mTupleWith{\mBSet,\mLogicalAnd,\mTrue,\mTrue}$ もモノイドである．これらのモノイドは全て左単位元と右単位元が同じなので，それぞれ $\mTupleWith{\mZSet,+,0}$, $\mTupleWith{\mZSet,*,1}$, $\mTupleWith{\mBSet,\mLogicalOr,\mFalse}$, $\mTupleWith{\mBSet,\mLogicalAnd,\mTrue}$ とも書く．
-
-このように，数学者は数の性質を抽象化し，集合とその集合に対する演算というものの見方をよく行う．
-プログラミングの言葉で言えば，複数のクラスに共通のインタフェースを定義するようなものである．
-
-\section{型}
-
-型とは変数が取りうる値に言語処理系が与えた制約のことである．\haskell を含む多くのコンパイラ言語は\keyword{静的型付け}と言って，コンパイル時までに変数の型が決まっていることをプログラマに要求する．一方，\python のようなインタプリタ言語はたいてい\keyword{動的型付け}と言って，プログラムの実行時まで変数の型を決めない．
+\keyword{型}とは変数が取りうる値に言語処理系が与えた制約のことである．\haskell を含む多くのコンパイラ言語は\keyword{静的型付け}と言って，コンパイル時までに変数の型が決まっていることをプログラマに要求する．一方，\python のようなインタプリタ言語はたいてい\keyword{動的型付け}と言って，プログラムの実行時まで変数の型を決めない．
 
 変数に型の制約を設ける理由は，プログラム上のエラーが減ることを期待するためである．例えば真理値が必要とされるところに整数値の変数が来ることは悪い予兆である．一方で\clang 言語のように全ての変数にいちいち型を明記していくのも骨が折れる．
 
-数学者や物理学者は変数に型の制約を求める一方，新しい変数の型は明記せず読者に推論させる方法をしばしばとる．例えば，質量 $m$ は「スカラー」という型を持つし，速度$\mVec{v}$は「3次元ベクトル」という型を持つ．スカラーと3次元ベクトルの間に足し算は定義されていないため，例えば $m+\mVec{v}$という表記を見たときに，両者の型を知っていれば直ちにエラーであることがわかる．
+数学者や物理学者は変数に型の制約を求める一方，新しい変数の型は明記せず読者に推論させる方法をしばしばとる．例えば，質量 $m$ は「スカラー」という型を持つし，速度 $v$ は「3次元ベクトル」という型を持つ．スカラーと3次元ベクトルの間に足し算は定義されていないため，例えば $m+v$という表記を見たときに，両者の型を知っていれば直ちにエラーであることがわかる．
 
----
+\haskell にはよく使う型が予め用意されている．例えば\keyword{論理型} は論理値すなわち真 $(\mTrue)$ または偽 $(\mFalse)$ という値をとる変数の型である．ある変数 $x$ が論理型であることを，\haskell では
+\begin{equation}
+x\mIn\mBoolType
+\end{equation}
+と書く．数学者なら同じことを
+\begin{equation}
+x\in\mBSet
+\end{equation}
+と書くところであるが，ここは\haskell の流儀に従おう．
 
-我々がよく使う型はは論理型 $(\mBSet)$，整数型 $(\mZSet)$，実数型 $(\mRSet)$といったところだ．ただし数学者たちは型ではなく集合と呼ぶ．括弧内に示した記号は数学者たちが慣用的に用いているものである．我々は計算機での実装を考慮して，数学者たちとは若干異なる型と表記方法を扱うことにする．
+他に整数を表す\keyword{整数型}がある．整数型には2種類あって，その一つは $\mIntType$ である．この $\mIntType$ は\clang の \code{int} と似た「計算機にとって都合の良い整数」である．計算機にとって都合の良い整数とは，例えば64ビット計算機の場合 $-2^{63}$ から $2^{63}-1$ の間の整数という意味である．
 
----
+もう一つの整数型は $\mIntegerType$ である．この $\mIntegerType$ は計算機にとっては非常識なぐらい大きな，あるいは小さな値を表すことができる．
 
-まず論理型 $(\mBSet)$ は $\mBoolType$ で表す．論理型 $(\mBSet)$ と $\mBoolType$ は厳密に一致する．
+計算機は残念ながら無限精度の実数を扱えない．そこで標準精度（単精度）の\keyword{浮動小数点数型}である $\mFloatType$ と，\keyword{倍精度浮動小数点型}である $\mDoubleType$ が提供される．
 
-整数型 $(\mZSet)$ に関しては $\mIntegerType$ で表す．この $\mIntegerType$ は厳密には整数型 $(\mZSet)$ とは異なるが，非常に近い．つまり，計算機にとっては非常識なぐらい大きな値を表すことができる．
-
-計算機にとって都合の良い整数の範囲を考慮した整数型を $\mIntType$ で表す．計算機にとって都合の良い整数の範囲とは，例えば64ビット計算機の場合 $-2^{63}$ から $2^{63}-1$ までの範囲のことである．
-
-計算機は残念ながら無限精度の実数を扱えない．そこで標準精度の浮動小数点数を表す型を $\mFloatType$ で表し，倍精度の浮動小数点を表す型を $\mDoubleType$ で表す．
-
-もう一つ，計算機ならではの型を導入しておこう．それは $\mIntType$ とよく似ているが，特別に文字を扱うために考えられた型 $\mCharType$ である．文字といってもその中身は整数である．整数ではあるが，わざわざ別な型とするのには理由がある．
+もう一つ，計算機ならではの型がある．それは $\mIntType$ とよく似ているが，特別に文字を扱うために考えられた\keyword{文字型} $\mCharType$ である．文字といってもその中身は整数である．整数ではあるが，わざわざ別な型とするのには理由がある．
 
 理由の第一は，文字が小さな整数であるため，文字型を独立して定義しておくことでメモリを節約できるのである．特にメモリが高価であった時代はこれが唯一の理由であった．現在でも，整数が一般に64ビットを消費するのに対し，UTF8文字エンコードを用いている場合，アルファベットは8ビットしか消費しない．
 
@@ -1071,12 +1048,6 @@ f
 \underbrace{\mIntType}_{fx}
 \end{equation}
 のようにイメージすると良い．これは関数 $f$ が集合 $\mIntType$ から集合 $\mIntType$ への\keyword{写像}であると読む．
-
----
-
-$$
-\mSuperSet
-$$
 
 \section{カリー化}
 
@@ -1123,17 +1094,34 @@ g\mIn
 のようにイメージすると良い．自然言語で考えると $\mIntType$ 型の引数を一つ取り，$\mIntType$ 型の引数を一つ取って $\mIntType$ 型の値を返す関数を返す，と読める．
 
 
-\section{余計な話：型クラス}
+\section{多相型と型クラス*}
 
-組み合わせ $\mTupleWith{\mIntType,+,0}$ はモノイドである．同様に $\mTupleWith{\mIntType,*,1}$, $\mTupleWith{\mFloatType,+,0}$, $\mTupleWith{\mFloatType,*,1}$, $\mTupleWith{\mBoolType,\mLogicalOr,\mFalse}$, $\mTupleWith{\mBoolType,\mLogicalAnd,\mTrue}$ もモノイドである．そこで，任意の型 $\mType{a}$ について，組み合わせ $\mTupleWith{\mType{a},\mPlus,\mZero}$ がモノイドである場合には
+整数型 $(\mIntType)$ と浮動小数点型 $(\mFloatType)$ はよく似ている．どちらも値同士を比較可能で，それ故どちらにも等値演算子が定義されている．
+
+整数型の等値演算子は
 \begin{equation}
-\mTupleWith{\mType{a},\mPlus,\mZero}\mIn\mMonoidTypeClass
+(\equiv)\mIn\mProj{\mProj{\mIntType}{\mIntType}}{\mBoolType}
 \end{equation}
-と書くことにする．二項演算子，単位元が自明な場合は簡略化して
+であり，浮動小数点型の等値演算子は
 \begin{equation}
-\mType{a}\mIn\mMonoidTypeClass
+(\equiv)\mIn\mProj{\mProj{\mFloatType}{\mFloatType}}{\mBoolType}
 \end{equation}
-と書くことにする．\footnote{\haskell では $\mPlus$ を \code{<|>} と書き，$\mZero$ を \code{mzero} と書く．}
+である．
+
+\keyword{多相型}
+
+$$
+(\equiv)\mIn\mProj{\mProj{\mType{a}}{\mType{a}}}{\mBoolType}
+$$
+
+\keyword{型クラス}
+
+$$
+(\equiv)\mIn{}(\mEqTypeClass\mSuperSet\mType{a})\mSuperClass\mProj{\mProj{\mType{a}}{\mType{a}}}{\mBoolType}
+$$
+
+
+---
 
 このような型をより抽象化した型のようなものを\keyword{型クラス}と呼ぶ．$\mType{a}\mIn\mMonoidTypeClass$ は「型 $\mType{a}$ は $\mMonoidTypeClass$ 型クラスの\keyword{インスタンス}である」と読む．モノイドは型クラスの例である．表\ref{tab:monoids}に型と対応するモノイドの単位元，演算子の一覧を示す．
 
@@ -1190,6 +1178,13 @@ $\mFloatType$
 型 $\mType{a}$ が型クラス $\mRealTypeClass$ 及び型クラス $\mEnumTypeClass$ に属しているとき，かつそのときに限り，型 $\mType{a}$ は型クラス $\mIntegralTypeClass$ にも属する．
 
 これらの関係を表にまとめたものが表\ref{tab:type-and-typeclass}である．この表から，型 $\mIntType$ は型クラス $\mIntegralTypeClass$, $\mRealTypeClass$, $\mOrdTypeClass$, $\mNumTypeClass$, $\mEnumTypeClass$, $\mEqTypeClass$ に属しているのに対し，型 $\mBoolType$ は $\mOrdTypeClass$, $\mEnumTypeClass$, $\mEqTypeClass$ にのみ属しているのがわかる．
+
+---
+
+$$
+\mSuperSet
+$$
+
 
 \begin{table*}
 \caption{型と型クラス}
@@ -1317,6 +1312,77 @@ $\mDoubleType$
 \end{tabular}
 \end{center}
 \end{table*}
+
+\section{余計な話：モノイド*}
+
+
+
+組み合わせ $\mTupleWith{\mIntType,+,0}$ はモノイドである．同様に $\mTupleWith{\mIntType,*,1}$, $\mTupleWith{\mFloatType,+,0}$, $\mTupleWith{\mFloatType,*,1}$, $\mTupleWith{\mBoolType,\mLogicalOr,\mFalse}$, $\mTupleWith{\mBoolType,\mLogicalAnd,\mTrue}$ もモノイドである．そこで，任意の型 $\mType{a}$ について，組み合わせ $\mTupleWith{\mType{a},\mPlus,\mZero}$ がモノイドである場合には
+\begin{equation}
+\mTupleWith{\mType{a},\mPlus,\mZero}\mIn\mMonoidTypeClass
+\end{equation}
+と書くことにする．二項演算子，単位元が自明な場合は簡略化して
+\begin{equation}
+\mType{a}\mIn\mMonoidTypeClass
+\end{equation}
+と書くことにする．\footnote{\haskell では $\mPlus$ を \code{<|>} と書き，$\mZero$ を \code{mzero} と書く．}
+
+
+
+---
+
+整数全てからなる\keyword{集合}を $\mZSet$ で表すことにする．計算機科学で整数と言うと，本当の整数と，例えば $-2^{63}$ から $2^{63}-1$ までの間の整数の意味と両方あるが，今は前者の意味である．
+
+集合 $\mZSet$ の任意の\keyword{元}（\keyword{要素}）$z$ のことを，数学者は $z\in\mZSet$ と書くことを好むが，我々は $\in$ 記号を別な用途に用いたいため
+\begin{equation}
+\label{eq:totality}
+z\mIn\mZSet
+\end{equation}
+と書くことにする．
+
+二つの整数 $z_1,z_2$ があるとしよう．両者の間には\keyword{足し算} $(+)$ が定義されており，その結果すなわち\keyword{和}もまた整数である．ここで
+\begin{equation}
+z_1+z_2\mIn\mZSet
+\end{equation}
+であるとき，演算子 $+$ が集合 $\mZSet$ に対して\keyword{全域性}を持つと言う．
+% ***CHECK***
+一般に集合 $\mSet{A}$ の元に対して二項演算子 $\mBinOp$ が定義されていて，$a_1,a_2\mIn\mSet{A}$ のときに
+\begin{equation}
+\label{eq:totality}
+a_1\mBinOp a_2\mIn\mSet{A}
+\end{equation}
+である場合，つまり演算子 $\mBinOp$ が集合 $\mSet{A}$ に対して全域性を持つ場合，組み合わせ $\mTupleWith{\mSet{A},\mBinOp}$ を\keyword{マグマ}と呼ぶ．組み合わせ $\mTupleWith{\mZSet,+}$ はマグマの例であり，$\mTupleWith{\mZSet,*}$ もマグマの例である．
+% マグマはかつて亜群と呼ばれていたが，現在は亜群は別の意味(groupoid)の訳語に使われている．
+
+他に\keyword{論理集合} $\mBSet=\mSetWith{\mTrue,\mFalse}$ に対して，\keyword{論理和} $(\mLogicalOr)$ は全域性を持つから，組み合わせ $\mTupleWith{\mBSet,\mLogicalOr}$ はマグマであるし，同様に\keyword{論理積} $(\mLogicalAnd)$ も全域性を持つから，組み合わせ $\mTupleWith{\mBSet,\mLogicalAnd}$ もマグマである．
+
+マグマのうち，演算を2回続ける場合，その順序によって結果が異ならない，つまり
+\begin{equation}
+\label{eq:associativity}
+\left(a_1\mBinOp a_2\right)\mBinOp a_3
+=a_1\mBinOp\left(a_2\mBinOp{a_3}\right)
+\end{equation}
+ただし $a_1,a_2,a_3\mIn\mSet{A}$ のとき，組み合わせ $\mTupleWith{\mSet{A},\mBinOp}$ のことを\keyword{半群}と呼ぶ．この式\eqref{eq:associativity}で表される性質を\keyword{結合性}と呼ぶ．組み合わせ $\mTupleWith{\mZSet,+}$, $\mTupleWith{\mZSet,*}$, $\mTupleWith{\mBSet,\mLogicalOr}$, $\mTupleWith{\mBSet,\mLogicalOr}$ はすべて半群である．
+
+ところで，整数全体の集合 $\mZSet$ には特別な元 $0$ がある．この元 $0$ は $z\mIn\mZSet$ のとき
+\begin{equation}
+0+z=z+0=z
+\end{equation}
+という性質を持つ．
+この $0$ を演算 $+$ における\keyword{単位元}と呼ぶ．足し算のことを\keyword{加法}とも言うので $0$ のことは\keyword{加法単位元}と呼ぶこともあるし，文字通り\keyword{零元}と呼ぶこともある．
+
+一般に，$a,\mZero_\mLeft,\mZero_\mRight\mIn\mSet{A}$ として
+\begin{equation}
+\label{eq:identity}
+\mZero_\mLeft\mPlus a=a\mPlus\mZero_\mRight=a
+\end{equation}
+であるとき，元 $\mZero_\mLeft,\mZero_\mRight$ を単位元と呼ぶ．我々は多くの場合 $\mZero_\mLeft=\mZero_\mRight$ であるケースを扱うので，二つの単位元を区別する必要はほとんどないが，必要な場合は $\mZero_\mRight$ を\keyword{左単位元}，$\mZero_\mRight$ を\keyword{右単位元}と呼ぶ．
+
+組み合わせ $\mTupleWith{\mSet{A},\mPlus,\mZero_\mLeft,\mZero_\mRight}$ のことを
+\keyword{モノイド}または\keyword{単位的半群}と呼ぶ．例えば $\mTupleWith{\mZSet,+,0,0}$ はモノイドであるし，$\mTupleWith{\mZSet,*,1,1}$, $\mTupleWith{\mBSet,\mLogicalOr,\mFalse,\mFalse}$, $\mTupleWith{\mBSet,\mLogicalAnd,\mTrue,\mTrue}$ もモノイドである．これらのモノイドは全て左単位元と右単位元が同じなので，それぞれ $\mTupleWith{\mZSet,+,0}$, $\mTupleWith{\mZSet,*,1}$, $\mTupleWith{\mBSet,\mLogicalOr,\mFalse}$, $\mTupleWith{\mBSet,\mLogicalAnd,\mTrue}$ とも書く．
+
+このように，数学者は数の性質を抽象化し，集合とその集合に対する演算というものの見方をよく行う．
+プログラミングの言葉で言えば，複数のクラスに共通のインタフェースを定義するようなものである．
 
 \section{この章のまとめ}
 
@@ -3011,7 +3077,7 @@ y=g_2(g_1x)
 \end{note}
 
 
-\chapter{代数型の定義*}
+\chapter{データ型の定義*}
 
 ...
 
@@ -3119,7 +3185,7 @@ deriving
 \end{note}
 
 
-\chapter{Functor*}
+\chapter{多相型の定義*}
 \label{ch:parametric-data-type}
 ...
 \section{パラメトリックなデータ型}
