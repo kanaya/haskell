@@ -11,6 +11,8 @@
 \newcommand{\Langle}{\langle\!\langle}
 \newcommand{\Rangle}{\rangle\!\rangle}
 
+\newcommand{\separator}{\begin{center}$*$~$*$~$*$\end{center}}
+
 %% Programming Languages
 
 \newcommand{\programminglanguage}[1]{\textsf{#1}}
@@ -252,24 +254,24 @@
 \newcommand{\mUnitType}{\mType{()}}
 
 % Parametric Types
-\newcommand{\mParametricTypeConstruct}[2]{{}^{\mType{#1}}\[\mType{#2}\]}
-\newcommand{\mParametricTypeConstructII}[3]{{}^{#1}\[\mType{#2},\mType{#3}\]}
+\newcommand{\mGeneralTypeConstruct}[2]{{}^{\mType{#1}}\[\mType{#2}\]}
+\newcommand{\mGeneralTypeConstructII}[3]{{}^{#1}\[\mType{#2},\mType{#3}\]}
 \newcommand{\mEitherTypename}{\mType{Either}}
 \newcommand{\mIOTypename}{\mType{IO}}
 \newcommand{\mMaybeTypename}{\mType{Maybe}}
 \newcommand{\mZipListTypename}{\mType{Ziplist}}
 
-\newcommand{\mEitherType}[2]{\mParametricTypeConstructII{\mEitherTypename}{#1}{#2}}
+\newcommand{\mEitherType}[2]{\mGeneralTypeConstructII{\mEitherTypename}{#1}{#2}}
 \newcommand{\mFuncType}[2]{\Langle\mType{#1}\Rangle_\mType{#2}}
-\newcommand{\mIOType}[1]{\mParametricTypeConstruct{\mIOTypename}{#1}}
+\newcommand{\mIOType}[1]{\mGeneralTypeConstruct{\mIOTypename}{#1}}
 \newcommand{\mIODoubleType}{\mIOType{\mDoubleType}}
 \newcommand{\mIOIntType}{\mIOType{\mIntType}}
 \newcommand{\mIOStringType}{\mIOType{\mStringType}}
 \newcommand{\mIOUnitType}{\mIOType{()}}
 \newcommand{\mListType}[1]{[\mType{#1}]}
-\newcommand{\mMaybeType}[1]{\mParametricTypeConstruct{\mMaybeTypename}{#1}}
+\newcommand{\mMaybeType}[1]{\mGeneralTypeConstruct{\mMaybeTypename}{#1}}
 \newcommand{\mPureType}[1]{\langle\mType{#1}\rangle}
-\newcommand{\mZipListType}[1]{\mParametricTypeConstruct{\mZipListTypename}{#1}}
+\newcommand{\mZipListType}[1]{\mGeneralTypeConstruct{\mZipListTypename}{#1}}
 
 % Type constructors
 \newcommand{\mTypeConstructor}[1]{\mathit{#1}} % Internal useMaybe
@@ -497,7 +499,7 @@ print("Hello, world.")
 
 参照透過性がもたらすもう一つのボーナスは変数の\keyword{遅延評価}である．変数はいつ評価しても値が変わらないのだから，コンパイラは変数をできるだけ遅く評価してよい．この遅延評価によって，\haskell コンパイラは他の言語に見られない\keyword{無限リスト}を扱う能力を獲得している．
 
----
+\separator
 
 数学とプログラミングの関係について述べておこう．ある方程式を解くためにコンピュータによって数値シミュレーションを行うとか，非常に複雑な微分を機械的に行うとか，プログラミングによって数学をサポートすることは計算機科学の主たる分野の一つであるが，ここではもっと根源的な話をする．
 
@@ -509,14 +511,15 @@ print("Hello, world.")
 
 ラムダ式は単純で，十分に数学的に定式化できるものだ．
 
+...
 
 \section{色気のない文字セットが引き起こす問題}
 
-プログラムのソースコードは，現代ではUnicode文字セットが使用可能であるにも関わらずASCII文字セットの範囲で書くことが標準的である．まして，文字にカラーを指定したり，フォントや装飾を指定することはない．例えば変数 \code{a} のことを \textbf{a} と書いたり \underline{a} と書いたり $\Hat a$ と書いたりして区別することはない．
+プログラムのソースコードは，現代ではUnicode文字セットが使用可能であるにも関わらずASCII文字セットの範囲で書くことが標準的である．まして，文字にカラーを指定したり，書体や装飾を指定することはない．例えば変数 \code{a} のことを \textbf{a} と書いたり \underline{a} と書いたり $\Hat a$ と書いたりして区別することはない．
 
 \haskell プログラマもまた，多くの異なる概念を同じ貧弱な文字セットで表現しなければならない．これは，初めて\haskell コードを読むときに大きな問題になり得る．例えば，\haskell では \code{[a]} という表記をよく扱う．この \code{[a]} は \code{a} という変数1要素からなるリストなのか，それとも \code{a} という型のリストなのか，字面からでは判断できない．もし変数はイタリック体，型はボールド体と決まっていれば，それぞれ $\mListWith{a}$ および $\mListType{a}$ と区別出来たところである．
 
-本書は，異なる性質のものには異なるフォントを割り当てるようにしている．ただし，どの表現もいつでも\haskell に翻訳できるように配慮している．実際，本書執筆の最大の困難点は，数学的に妥当で，かつ\haskell の記法とも矛盾しない記法を見つけることであった．
+本書は，異なる性質のものには異なる書体を割り当てるようにしている．ただし，どの表現もいつでも\haskell に翻訳できるように配慮している．実際，本書執筆の最大の困難点は，数学的に妥当で，かつ\haskell の記法とも矛盾しない記法を見つけることであった．
 
 % プログラマというのは口数の少ない人種なのかもしれない．
 
@@ -809,7 +812,7 @@ y=fx'\mWhereIs{x'}{1+x}
 \end{align}
 である．
 
-\section{この章のまとめ}
+\section{この章のまとめ*}
 
 \begin{enumerate}
 \item 変数 $x$ に関数 $f$ を適用することを $fx$ と書く．
@@ -1016,6 +1019,8 @@ int main(void) {
 
 数学者や物理学者は変数に型の制約を求める一方，新しい変数の型は明記せず読者に推論させる方法をしばしばとる．例えば，質量 $m$ は「スカラー」という型を持つし，速度 $v$ は「3次元ベクトル」という型を持つ．スカラーと3次元ベクトルの間に足し算は定義されていないため，例えば $m+v$という表記を見たときに，両者の型を知っていれば直ちにエラーであることがわかる．
 
+\separator
+
 \haskell にはよく使う型が予め用意されている．例えば\keyword{論理型} は論理値すなわち真 $(\mTrue)$ または偽 $(\mFalse)$ という値をとる変数の型である．ある変数 $x$ が論理型であることを，\haskell では
 \begin{equation}
 x\mIn\mBoolType
@@ -1024,7 +1029,7 @@ x\mIn\mBoolType
 \begin{equation}
 x\in\mBSet
 \end{equation}
-と書くところであるが，ここは\haskell の流儀に従おう．
+と書くところであるが，ここは\haskell の流儀に従おう．\footnote{\haskell では $x\mIn\mBoolType$ を \code{x :: Bool} と書く．}
 
 他に整数を表す\keyword{整数型}がある．整数型には2種類あって，その一つは $\mIntType$ である．この $\mIntType$ は\clang の \code{int} と似た「計算機にとって都合の良い整数」である．計算機にとって都合の良い整数とは，例えば64ビット計算機の場合 $-2^{63}$ から $2^{63}-1$ の間の整数という意味である．
 
@@ -1277,14 +1282,60 @@ $\mDoubleType$
 \end{center}
 \end{table*}
 
-
-
 \section{余計な話：モノイド*}
 
----
+整数全てからなる\keyword{集合}を $\mZSet$ で表すことにする．計算機科学で整数と言うと，本当の整数と，例えば $-2^{63}$ から $2^{63}-1$ までの間の整数の意味と両方あるが，今は前者の意味である．
 
+集合 $\mZSet$ の任意の\keyword{元}（\keyword{要素}）$z$ を
+\begin{equation}
+\label{eq:totality}
+z\mIn\mZSet
+\end{equation}
+と書く．
 
----
+二つの整数 $z_1,z_2\mIn\mZSet$ があるとしよう．両者の間には\keyword{足し算} $(+)$ が定義されており，その結果すなわち\keyword{和}もまた整数である．ここで
+\begin{equation}
+z_1+z_2\mIn\mZSet
+\end{equation}
+であるとき，演算子 $+$ が集合 $\mZSet$ に対して\keyword{全域性}を持つと言う．
+% ***CHECK***
+一般に集合 $\mSet{A}$ の元に対して二項演算子 $\mBinOp$ が定義されていて，$a_1,a_2\mIn\mSet{A}$ のときに
+\begin{equation}
+\label{eq:totality}
+a_1\mBinOp a_2\mIn\mSet{A}
+\end{equation}
+である場合，つまり演算子 $\mBinOp$ が集合 $\mSet{A}$ に対して全域性を持つ場合，組み合わせ $\mTupleWith{\mSet{A},\mBinOp}$ を\keyword{マグマ}と呼ぶ．組み合わせ $\mTupleWith{\mZSet,+}$ はマグマの例であり，$\mTupleWith{\mZSet,*}$ もマグマの例である．
+% マグマはかつて亜群と呼ばれていたが，現在は亜群は別の意味(groupoid)の訳語に使われている．
+
+他に\keyword{論理集合} $\mBSet=\mSetWith{\mTrue,\mFalse}$ に対して，\keyword{論理和} $(\mLogicalOr)$ は全域性を持つから，組み合わせ $\mTupleWith{\mBSet,\mLogicalOr}$ はマグマであるし，同様に\keyword{論理積} $(\mLogicalAnd)$ も全域性を持つから，組み合わせ $\mTupleWith{\mBSet,\mLogicalAnd}$ もマグマである．論理集合 $\mBSet$ とは論理型 $\mBoolType$ を数学風に言い換えたものである．
+
+マグマのうち，演算を2回続ける場合，その順序によって結果が異ならない，つまり
+\begin{equation}
+\label{eq:associativity}
+\left(a_1\mBinOp a_2\right)\mBinOp a_3
+=a_1\mBinOp\left(a_2\mBinOp{a_3}\right)
+\end{equation}
+ただし $a_1,a_2,a_3\mIn\mSet{A}$ のとき，組み合わせ $\mTupleWith{\mSet{A},\mBinOp}$ のことを\keyword{半群}と呼ぶ．この式\eqref{eq:associativity}で表される性質を\keyword{結合性}と呼ぶ．組み合わせ $\mTupleWith{\mZSet,+}$, $\mTupleWith{\mZSet,*}$, $\mTupleWith{\mBSet,\mLogicalOr}$, $\mTupleWith{\mBSet,\mLogicalOr}$ はすべて半群である．
+
+ところで，整数全体の集合 $\mZSet$ には特別な元 $0\mIn\mZSet$ がある．この元 $0$ は $z\mIn\mZSet$ のとき
+\begin{equation}
+0+z=z+0=z
+\end{equation}
+という性質を持つ．
+この $0$ を演算 $+$ における\keyword{単位元}と呼ぶ．足し算のことを\keyword{加法}とも言うので $0$ のことは\keyword{加法単位元}と呼ぶこともあるし，文字通り\keyword{零元}と呼ぶこともある．
+
+一般に，$a,\mZero_\mLeft,\mZero_\mRight\mIn\mSet{A}$ として
+\begin{equation}
+\label{eq:identity}
+\mZero_\mLeft\mPlus a=a\mPlus\mZero_\mRight=a
+\end{equation}
+であるとき，元 $\mZero_\mLeft,\mZero_\mRight$ を単位元と呼ぶ．我々は多くの場合 $\mZero_\mLeft=\mZero_\mRight$ であるケースを扱うので，二つの単位元を区別する必要はほとんどないが，必要な場合は $\mZero_\mRight$ を\keyword{左単位元}，$\mZero_\mRight$ を\keyword{右単位元}と呼ぶ．
+
+組み合わせ $\mTupleWith{\mSet{A},\mPlus,\mZero_\mLeft,\mZero_\mRight}$ のことを
+\keyword{モノイド}または\keyword{単位的半群}と呼ぶ．例えば $\mTupleWith{\mZSet,+,0,0}$ はモノイドであるし，$\mTupleWith{\mZSet,*,1,1}$, $\mTupleWith{\mBSet,\mLogicalOr,\mFalse,\mFalse}$, $\mTupleWith{\mBSet,\mLogicalAnd,\mTrue,\mTrue}$ もモノイドである．これらのモノイドは全て左単位元と右単位元が同じなので，それぞれ $\mTupleWith{\mZSet,+,0}$, $\mTupleWith{\mZSet,*,1}$, $\mTupleWith{\mBSet,\mLogicalOr,\mFalse}$, $\mTupleWith{\mBSet,\mLogicalAnd,\mTrue}$ とも書く．
+
+このように，数学者は数の性質を抽象化し，集合とその集合に対する演算というものの見方をよく行う．
+プログラミングの言葉で言えば，複数のクラスに共通のインタフェースを定義するようなものである．
 
 表\ref{tab:monoids}に型と対応するモノイドの単位元，演算子の一覧を示す．
 
@@ -1326,78 +1377,17 @@ $\mFloatType$
 \end{center}
 \end{table}
 
+組み合わせ $\mTupleWith{\mIntType,+,0}$ はモノイドである．同様に $\mTupleWith{\mIntType,*,1}$, $\mTupleWith{\mFloatType,+,0}$, $\mTupleWith{\mFloatType,*,1}$, $\mTupleWith{\mBoolType,\mLogicalOr,\mFalse}$, $\mTupleWith{\mBoolType,\mLogicalAnd,\mTrue}$ もモノイドである．
 
-もっと身近な型クラスもある．例えば，型 $\mType{a}$ の変数同士の間で等値性が定義されている場合，
-その型は型クラス $\mEqTypeClass$ に属することになる．型クラス $\mEqTypeClass$ に属する型の変数同士は等値演算子 $\equiv$ で比較できる．
-
-
-
-組み合わせ $\mTupleWith{\mIntType,+,0}$ はモノイドである．同様に $\mTupleWith{\mIntType,*,1}$, $\mTupleWith{\mFloatType,+,0}$, $\mTupleWith{\mFloatType,*,1}$, $\mTupleWith{\mBoolType,\mLogicalOr,\mFalse}$, $\mTupleWith{\mBoolType,\mLogicalAnd,\mTrue}$ もモノイドである．そこで，任意の型 $\mType{a}$ について，組み合わせ $\mTupleWith{\mType{a},\mPlus,\mZero}$ がモノイドである場合には
-\begin{equation}
-\mTupleWith{\mType{a},\mPlus,\mZero}\mIn\mMonoidTypeClass
-\end{equation}
-と書くことにする．二項演算子，単位元が自明な場合は簡略化して
-\begin{equation}
-\mType{a}\mIn\mMonoidTypeClass
-\end{equation}
-と書くことにする．\footnote{\haskell では $\mPlus$ を \code{<|>} と書き，$\mZero$ を \code{mzero} と書く．}
-
-
-
----
-
-整数全てからなる\keyword{集合}を $\mZSet$ で表すことにする．計算機科学で整数と言うと，本当の整数と，例えば $-2^{63}$ から $2^{63}-1$ までの間の整数の意味と両方あるが，今は前者の意味である．
-
-集合 $\mZSet$ の任意の\keyword{元}（\keyword{要素}）$z$ のことを，数学者は $z\in\mZSet$ と書くことを好むが，我々は $\in$ 記号を別な用途に用いたいため
-\begin{equation}
-\label{eq:totality}
-z\mIn\mZSet
-\end{equation}
-と書くことにする．
-
-二つの整数 $z_1,z_2$ があるとしよう．両者の間には\keyword{足し算} $(+)$ が定義されており，その結果すなわち\keyword{和}もまた整数である．ここで
-\begin{equation}
-z_1+z_2\mIn\mZSet
-\end{equation}
-であるとき，演算子 $+$ が集合 $\mZSet$ に対して\keyword{全域性}を持つと言う．
-% ***CHECK***
-一般に集合 $\mSet{A}$ の元に対して二項演算子 $\mBinOp$ が定義されていて，$a_1,a_2\mIn\mSet{A}$ のときに
-\begin{equation}
-\label{eq:totality}
-a_1\mBinOp a_2\mIn\mSet{A}
-\end{equation}
-である場合，つまり演算子 $\mBinOp$ が集合 $\mSet{A}$ に対して全域性を持つ場合，組み合わせ $\mTupleWith{\mSet{A},\mBinOp}$ を\keyword{マグマ}と呼ぶ．組み合わせ $\mTupleWith{\mZSet,+}$ はマグマの例であり，$\mTupleWith{\mZSet,*}$ もマグマの例である．
-% マグマはかつて亜群と呼ばれていたが，現在は亜群は別の意味(groupoid)の訳語に使われている．
-
-他に\keyword{論理集合} $\mBSet=\mSetWith{\mTrue,\mFalse}$ に対して，\keyword{論理和} $(\mLogicalOr)$ は全域性を持つから，組み合わせ $\mTupleWith{\mBSet,\mLogicalOr}$ はマグマであるし，同様に\keyword{論理積} $(\mLogicalAnd)$ も全域性を持つから，組み合わせ $\mTupleWith{\mBSet,\mLogicalAnd}$ もマグマである．
-
-マグマのうち，演算を2回続ける場合，その順序によって結果が異ならない，つまり
-\begin{equation}
-\label{eq:associativity}
-\left(a_1\mBinOp a_2\right)\mBinOp a_3
-=a_1\mBinOp\left(a_2\mBinOp{a_3}\right)
-\end{equation}
-ただし $a_1,a_2,a_3\mIn\mSet{A}$ のとき，組み合わせ $\mTupleWith{\mSet{A},\mBinOp}$ のことを\keyword{半群}と呼ぶ．この式\eqref{eq:associativity}で表される性質を\keyword{結合性}と呼ぶ．組み合わせ $\mTupleWith{\mZSet,+}$, $\mTupleWith{\mZSet,*}$, $\mTupleWith{\mBSet,\mLogicalOr}$, $\mTupleWith{\mBSet,\mLogicalOr}$ はすべて半群である．
-
-ところで，整数全体の集合 $\mZSet$ には特別な元 $0$ がある．この元 $0$ は $z\mIn\mZSet$ のとき
-\begin{equation}
-0+z=z+0=z
-\end{equation}
-という性質を持つ．
-この $0$ を演算 $+$ における\keyword{単位元}と呼ぶ．足し算のことを\keyword{加法}とも言うので $0$ のことは\keyword{加法単位元}と呼ぶこともあるし，文字通り\keyword{零元}と呼ぶこともある．
-
-一般に，$a,\mZero_\mLeft,\mZero_\mRight\mIn\mSet{A}$ として
-\begin{equation}
-\label{eq:identity}
-\mZero_\mLeft\mPlus a=a\mPlus\mZero_\mRight=a
-\end{equation}
-であるとき，元 $\mZero_\mLeft,\mZero_\mRight$ を単位元と呼ぶ．我々は多くの場合 $\mZero_\mLeft=\mZero_\mRight$ であるケースを扱うので，二つの単位元を区別する必要はほとんどないが，必要な場合は $\mZero_\mRight$ を\keyword{左単位元}，$\mZero_\mRight$ を\keyword{右単位元}と呼ぶ．
-
-組み合わせ $\mTupleWith{\mSet{A},\mPlus,\mZero_\mLeft,\mZero_\mRight}$ のことを
-\keyword{モノイド}または\keyword{単位的半群}と呼ぶ．例えば $\mTupleWith{\mZSet,+,0,0}$ はモノイドであるし，$\mTupleWith{\mZSet,*,1,1}$, $\mTupleWith{\mBSet,\mLogicalOr,\mFalse,\mFalse}$, $\mTupleWith{\mBSet,\mLogicalAnd,\mTrue,\mTrue}$ もモノイドである．これらのモノイドは全て左単位元と右単位元が同じなので，それぞれ $\mTupleWith{\mZSet,+,0}$, $\mTupleWith{\mZSet,*,1}$, $\mTupleWith{\mBSet,\mLogicalOr,\mFalse}$, $\mTupleWith{\mBSet,\mLogicalAnd,\mTrue}$ とも書く．
-
-このように，数学者は数の性質を抽象化し，集合とその集合に対する演算というものの見方をよく行う．
-プログラミングの言葉で言えば，複数のクラスに共通のインタフェースを定義するようなものである．
+% そこで，任意の型 $\mType{a}$ について，組み合わせ $\mTupleWith{\mType{a},\mPlus,\mZero}$ がモノイドである場合には
+% \begin{equation}
+% \mTupleWith{\mType{a},\mPlus,\mZero}\mIn\mMonoidTypeClass
+% \end{equation}
+% と書くことにする．二項演算子，単位元が自明な場合は簡略化して
+% \begin{equation}
+% \mType{a}\mIn\mMonoidTypeClass
+% \end{equation}
+% と書くことにする．\footnote{\haskell では $\mPlus$ を \code{<|>} と書き，$\mZero$ を \code{mzero} と書く．}
 
 \section{この章のまとめ}
 
@@ -1412,9 +1402,9 @@ a_1\mBinOp a_2\mIn\mSet{A}
 
 
 \begin{note}{種 (kind)}
-$$
+\begin{equation*}
 \mProj{\star}{\star}
-$$
+\end{equation*}
 \end{note}
 
 
@@ -1506,7 +1496,7 @@ $\mType{a}$ 型の変数 $x$ を入れた $\mListType{a}$ 型の変数を作る�
 
 リスト型を表す $\mListType{a}$ と，1要素のリストである $\mListWith{x}$ の違いにはいつも気をつけておこう．本書では中身がボールドローマン体ならばリスト型，中身がイタリック体ならリスト値である．またリストを保持する変数にも，本書では $\mList{x}$ のように星印をつけておくことにする．
 
-ある型を包み込んだ別の型を一般に\keyword{コンテナ型}または単に\keyword{コンテナ}と呼ぶ．コンテナ型の変数を\keyword{コンテナ変数}と呼ぶ．
+ある型を包み込んだ別の型を一般に\keyword{コンテナ型}または単に\keyword{コンテナ}と呼ぶ．コンテナ型の変数を\keyword{コンテナ変数}と呼ぶ．コンテナ型は多相型の一種である．
 
 % なお，リスト型，結合演算子，空リストの組み合わせ $\mTupleWith{\mListType{a},\mAppend,\mEmptyList}$ はモノイドである．
 
@@ -1970,11 +1960,11 @@ def map_over(f, p):
 
 ここで変数 $\mMaybe{u}$ が取り得る値は正しく計算された値 $x$ をラップしたものか，あるいはエラーを表す値 $\mNothing$ である．このように計算結果に「意味付け」をすることを\keyword{文脈}に入れると言う．定数 $\mNothing$ は「ナッシング」と呼ぶ．
 
-この変数 $\mMaybe{u}$ はもはや整数 $(\mIntType)$ 型とは言えない．そこでこの $\mMaybe{u}$ の型を $\mMaybeType{\mIntType}$ と表して「Maybe整数（おそらく整数）」型と呼ぶことにしよう．型 $\mType{a}$ から型 $\mMaybeType{a}$ を生成することを\keyword{型コンストラクト}と呼び，\keyword{型コンストラクタ} $\mMaybeTypeConstructor$ を用いて
+この変数 $\mMaybe{u}$ はもはや整数 $(\mIntType)$ 型とは言えない．そこでこの $\mMaybe{u}$ の型を $\mMaybeType{\mIntType}$ と表して「Maybe整数（おそらく整数）」型と呼ぶことにしよう．型 $\mType{a}$ から型 $\mMaybeType{a}$ を生成するこには\keyword{型コンストラクタ} $\mMaybeTypeConstructor$ を用いて
 \begin{equation}
 \mMaybeType{a}=\mMaybeTypeConstructor\mType{a}
 \end{equation}
-であるとする．\footnote{\haskell では表記上コンテナ型 $\mMaybeType{a}$ と型コンストラクタ式 $\mMaybeTypeConstructor\mType{a}$ を区別せず，両者とも \code{Maybe a} と書く．}
+とする．\footnote{\haskell では表記上コンテナ型 $\mMaybeType{a}$ と型コンストラクタ式 $\mMaybeTypeConstructor\mType{a}$ を区別せず，両者とも \code{Maybe a} と書く．}
 
 $\mType{a}$ 型の変数を $\mMaybeType{a}$ 型の変数に代入するには，次の値コンストラクタを用いて
 \begin{equation}
@@ -2222,6 +2212,24 @@ g=f\mMapMaybe
 
 同じことはリストにも言える．値コンストラクタ $\mListWith{x}$ とマップ演算子 $\mMapList$ もまた関手である．この場合値コンストラクタは $\mProj{\mType{a}}{\mListType{a}}$ という型を持ち，マップ演算子も同じく $\mProj{(\mProj{\mType{a}}{\mType{b}})}{(\mProj{\mListType{a}}{\mListType{b}})}$ という型を持つ．
 
+\separator
+
+\haskell ではマップ演算子が定義された型を関手と呼ぶ．具体的には，マップ演算子が定義された全ての型は $\mFunctorTypeClass$ 型クラスのインスタンスであるとする．つまり，$\mFunctorTypeClass$ 型クラスには一般化されたマップ演算子が定義されており，そのインスタンスであるリストやMaybeは独自のマップ演算子を定義しなければならないということである．
+
+一般化されたマップ演算子を $\mMap$ で表そう．この $\mMap$ 演算子は
+\begin{equation}
+(\mMap)\mIn{}(\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn})\mSuperClass\mProj{\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mGeneralTypeConstruct{fn}{a}}}{\mGeneralTypeConstruct{fn}{b}}
+\end{equation}
+という型を持つ．もし型コンストラクタがリスト型コンストラクタであれば
+\begin{equation}
+(\mMapList)\mIn{}\mProj{\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mListType{a}}}{\mListType{b}}
+\end{equation}
+であるし，もし型コンストラクタがMaybe型コンストラクタであれば
+\begin{equation}
+(\mMapMaybe)\mIn{}\mProj{\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mMaybeType{a}}}{\mMaybeType{b}}
+\end{equation}
+である．
+
 ---
 
 リストとMaybeは両者とも値コンストラクタとマップ演算子という関手を持つ．両者の関係をまとてみたのが表\ref{tab:list-and-maybe}である．オブジェクト指向プログラマなら，リストとMaybeに共通のスーパークラスを設計したくなるであろう．
@@ -2248,6 +2256,8 @@ Maybe&$\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mMaybeWith{x}$\\\
 我々はオブジェクト指向プログラミングよりもエレガントな方法で，リストとMaybeの共通項をくくりだすことにする．いよいよ型クラスの出番である．
 
 リスト型 $\mListType{a}$ もMaybe型 $\mMaybeType{a}$ も $\mFunctorTypeClass$ 型クラスに属すのであった．そこで $\mFunctorTypeClass$ 型クラスは\keyword{一般マップ演算子} $(\mMap)$ を持つものとする．一般マップ演算子は，リスト型であれば $\mMapList$ 演算子に，Maybe型であれば $\mMapMaybe$ 演算子にオーバーライドされる．
+
+---
 
 一般マップ演算子 $(\mMap)$ は\keyword{多様的}である．この意味は，もし $f\mMap\mList{x}$ と書いてあれば $f\mMapList\mList{x}$ のことであるし，もし $f\mMap\mMaybe{u}$ と書いてあれば $f\mMapMaybe\mMaybe{u}$ のことであると自動的に解釈することである．そして，何の飾りもつけられていない変数 $x$ がふらっと現れ，目の前に $f\mMap x$という式が登場しても，落ち着いて変数 $x$ の型を調べ，変数 $x$ がリストならば $\mMap$ の部分に $\mMapList$ を，変数 $x$ がMaybeならば $\mMap$ の部分に $\mMapMaybe$ をはめ込むのだ．\footnote{\haskell では一般マップ演算子 $(\mMap)$ は \code{fmap} である．ただしその実装は与えられず，対象とする型に応じて定義されるものとする．例えばリストに対しては \code{fmap = map} と定義されている．}
 
@@ -2333,38 +2343,130 @@ w=f\mMap u\mAppMap v
 
 \section{関手としての関数*}
 
-関手として．
+関数は関手である．関手とはマップ演算子を持つ型クラスのことであった．そこで，関数がどのようなマップ演算子を持つのか考えてみる．
 
-$$
-\mProj{\mType{r}}{\mType{a}}
-$$
+ま関数 $f$ が
+\begin{equation}
+f\mIn\mProj{\mType{r}}{\mType{a}}
+\end{equation}
+という型を持っているとする．全く形式的に，$\mFuncTypeConstructor{r}$ なる型コンストラクタがあるとして
+\begin{equation}
+\mProj{\mType{r}}{\mType{a}}=\mFuncTypeConstructor{r}\mType{a}
+\end{equation}
+であると考えてみる．型コンストラクタによって型 $(\mProj{\mType{r}}{\mType{a}})$ が作られると考えるのだ．
 
-$$
-\mFuncType{a}{r}=\mFuncTypeConstructor{r}\mType{a}
-$$
+マップ演算子の型は
+\begin{equation}
+(\mMap)\mIn{}(\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn})\mSuperClass\mProj{\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mGeneralTypeConstruct{fn}{a}}}{\mGeneralTypeConstruct{fn}{b}}
+\end{equation}
+であって，いま $\mTypeConstructor{fn}=\mFuncTypeConstructor{r}$ を考えているから，関数のマップ演算子を $\mMapFunc$ とすると
+\begin{equation}
+(\mMapFunc)\mIn{}\mProj{\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mFuncTypeConstructor{r}\mType{a}}}{\mFuncTypeConstructor{r}\mType{b}}
+\end{equation}
+であり，これはすなわち
+\begin{equation}
+(\mMapFunc)
+\mIn{}\mProj{
+  \mProj{
+    (\mProj{\mType{a}}{\mType{b}})
+  }
+  {
+    (\mProj{\mType{r}}{\mType{a}})
+  }
+}
+{
+  (\mProj{\mType{r}}{\mType{b}})
+}
+\end{equation}
+のことである．
 
-$$
-\mFuncTypeConstructor{r}\mType{a}=\mProj{\mType{r}}{\mType{a}}
-$$
+いま関数 $f\mIn\mProj{\mType{r}}{\mType{a}}$ とは別な関数 $g\mIn\mProj{\mType{a}}{\mType{b}}$ があったとしよう．関数 $f$ と関数 $g$ の合成 $g\mComp f$ の型は
+\begin{equation}
+g\mComp f\mIn\mProj{\mType{r}}{\mType{b}}
+\end{equation}
+であるから，
+\begin{equation}
+(\mComp)
+\mIn{}\mProj{
+  \mProj{
+    (\mProj{\mType{a}}{\mType{b}})
+  }
+  {
+    (\mProj{\mType{r}}{\mType{a}})
+  }
+}
+{
+  (\mProj{\mType{r}}{\mType{b}})
+}
+\end{equation}
+である．つまり関数のマップ演算子 $(\mMapFunc)$ と関数の合成演算子 $(\mComp)$ は同じ型を持つ．
 
-$$
-\mFuncTypeConstructor{r}=\mType{r}\mapsto
-$$
+幸い，我々は関数のマップ演算子の実装に関しては，型さえ守っていれば自由に選べる．そこで
+\begin{equation}
+g\mMapFunc f=g\mComp f
+\end{equation}
+としておこう．これは
+\begin{equation}
+g\mMapFunc f=\mLambdaExp{x}{g(fx)}
+\end{equation}
+と書いても同じことである．
 
-$$
-f\mMapFunc g=f\mComp g
-$$
+\separator
 
-アプリカティブ関手として．
+関数はアプリカティブ関手でもある．アプリカティブ関手には，アプリカティブマップ演算子とピュア演算子が定義されるのであった．そこで，関数版のアプリカティブマップ演算子を $\mAppMapFunc$ とし，関数版のピュア演算子を $\mFuncWith{\dotsb}$ と書くことにしよう．
 
-$$
+ピュア演算子は $\mProj{\mType{a}}{(\mProj{\mType{r}}{\mType{a}})}$ 型を持たなければならない．従って関数版のピュア演算子は変数から関数を作るとも考えられる．我々は
+\begin{equation}
 \mFuncWith{x}=\mLambdaExp{\mAnyParam}{x}
-$$
+\end{equation}
+を採用する．
+
+関数版のアプリカティブマップ演算子を $\mAppMapFunc$ とすると
+\begin{equation}
+\mAppMapFunc
+\mIn
+\mProj{
+  \mProj{
+    \mFuncTypeConstructor{r}(\mProj{\mType{a}}{\mType{b}})
+  }
+  {
+    \mFuncTypeConstructor{r}\mType{a}
+  }
+}
+{
+  \mFuncTypeConstructor{r}\mType{b}
+}
+\end{equation}
+つまり
+\begin{equation}
+\mAppMapFunc
+\mIn{}
+\mProj{
+  \mProj{
+    (\mProj{\mType{r}}{\mProj{\mType{a}}{\mType{b}}})
+  }
+  {
+    (\mProj{\mType{r}}{\mType{a}})
+  }
+}
+{
+  (\mProj{\mType{r}}{\mType{b}})
+}
+\end{equation}
+である．
+
+我々は関数版アプリカティブマップ演算子として
+\begin{equation}
+g\mAppMapFunc f=\mLambdaExp{x}{gx(fx)}
+\end{equation}
+とする．
+
+% Why???
+
+---
 
 
-$$
-f\mAppMapFunc g=\mLambdaExp{x}{fx(gx)}
-$$
+
 
 （モナドとして．）
 
@@ -2388,33 +2490,35 @@ $$
 Maybeのアプリカティブマップ演算子の定義は次の通り．
 \begin{equation}
 \label{eq:maybe-applicative-map-by-maybe-map}
-\mMaybe{h}\mAppMapMaybe\mMaybe{u}
+\mMaybe{g}\mAppMapMaybe\mMaybe{u}
 =\begin{cases}
-g\mMapMaybe\mMaybe{u}&\mIf\mMaybe{h}\equiv\mMaybeWith{f}\\
+h\mMapMaybe\mMaybe{u}&\mIf\mMaybe{g}\equiv\mMaybeWith{h}\\
 \mNothing&\mOtherwise
 \end{cases}
 \end{equation}
-ここに $\mMaybe{g}$ はMaybeコンテナに入れられた関数，$\mMaybe{u}$ はMaybe変数である．式\eqref{eq:maybe-applicative-map-by-maybe-map}を展開すると
-\begin{align}
-\mMaybe{h}\mAppMapMaybe\mMaybe{u}
-&=\begin{cases}
-\left\{
-\begin{array}{ll}
-\mMaybeWith{fx}&\mIf\mMaybe{u}\equiv\mMaybeWith{x}\\
-\mNothing&\mOtherwise
-\end{array}\right\}
-&\mIf\mMaybe{h}\equiv\mMaybeWith{f}\\
-\mNothing&\mOtherwise
-\end{cases}\\
-&=\begin{cases}
-\mMaybeWith{fx}&\mIf\left(\mMaybe{u}\equiv\mMaybeWith{x}\right)\mLogicalAnd\left(\mMaybe{h}\equiv\mMaybeWith{f}\right)\\
-\mNothing&\mOtherwise
-\end{cases}
-\end{align}
-である．
+ここに $\mMaybe{g}$ はMaybeコンテナに入れられた関数，$\mMaybe{u}$ はMaybe変数である．
+% 式\eqref{eq:maybe-applicative-map-by-maybe-map}を展開すると
+% \begin{align}
+% \mMaybe{h}\mAppMapMaybe\mMaybe{u}
+% &=\begin{cases}
+% \left\{
+% \begin{array}{ll}
+% \mMaybeWith{fx}&\mIf\mMaybe{u}\equiv\mMaybeWith{x}\\
+% \mNothing&\mOtherwise
+% \end{array}\right\}
+% &\mIf\mMaybe{h}\equiv\mMaybeWith{f}\\
+% \mNothing&\mOtherwise
+% \end{cases}\\
+% &=\begin{cases}
+% \mMaybeWith{fx}&\mIf\left(\mMaybe{u}\equiv\mMaybeWith{x}\right)\mLogicalAnd\left(\mMaybe{h}\equiv\mMaybeWith{f}\right)\\
+% \mNothing&\mOtherwise
+% \end{cases}
+% \end{align}
+% である．
 
 \section{この章のまとめ*}
 
+...
 
 \begin{note}{ファンクター}
 関手は英語でファンクター(functor)と言うが，\cxx の関数オブジェクト (function object) もかつてはファンクター(functor)と呼ばれていた．\cxx のファンクターとはクロージャの粗末な代用品のことで，本書で述べる関手とは異なる概念である．混同しないように注意しよう．
@@ -3389,13 +3493,13 @@ Eitherの場合．
 \label{eq:fn}
 \mTypeClassParametric\;\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn}\\
 \mWhere{}
-\mMap\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mParametricTypeConstruct{fn}{a}}{\mParametricTypeConstruct{fn}{b}}}
+\mMap\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mGeneralTypeConstruct{fn}{a}}{\mGeneralTypeConstruct{fn}{b}}}
 \end{multline}
-ここで，型 $\mParametricTypeConstruct{fn}{a}$ は型 $\mType{a}$ と型コンストラクタ $\mTypeConstructor{fn}$ から
+ここで，型 $\mGeneralTypeConstruct{fn}{a}$ は型 $\mType{a}$ と型コンストラクタ $\mTypeConstructor{fn}$ から
 \begin{equation}
-\mParametricTypeConstruct{fn}{a}={\mTypeConstructor{fn}}\mType{a}
+\mGeneralTypeConstruct{fn}{a}={\mTypeConstructor{fn}}\mType{a}
 \end{equation}
-のように作られる．\footnote{\haskell では $\mParametricTypeConstruct{fn}{a}$ も ${\mTypeConstructor{fn}}\mType{a}$ も同様に \code{fn a} と書く．そこで式\eqref{eq:fn}は
+のように作られる．\footnote{\haskell では $\mGeneralTypeConstruct{fn}{a}$ も ${\mTypeConstructor{fn}}\mType{a}$ も同様に \code{fn a} と書く．そこで式\eqref{eq:fn}は
 \begin{verbatim}
   class functor fn
     where fmap :: (a -> b) -> fn a -> fn b
