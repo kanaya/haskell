@@ -138,20 +138,23 @@
 % Functions
 \newcommand{\mFunc}[1]{\mathop{\mathit{#1}}}
 
+\DeclareMathOperator{\mFact}{\mathit{fact}}
+\DeclareMathOperator{\mGetList}{\mathit{getList}}
+\DeclareMathOperator{\mHead}{\mathit{head}}
+\DeclareMathOperator{\mMainFunc}{\mathit{main}}
+\DeclareMathOperator{\mPred}{\mathit{pred}}
+\DeclareMathOperator{\mSucc}{\mathit{succ}}
+\DeclareMathOperator{\mRepeat}{\mathit{repeat}}
+\DeclareMathOperator{\mSort}{\mathit{srt}}
+\DeclareMathOperator{\mSum}{\mathit{sum}}
+\DeclareMathOperator{\mTail}{\mathit{tail}}
+\DeclareMathOperator{\mTake}{\mathit{take}}
+\DeclareMathOperator{\mZipWith}{\mathit{zipWith}}
+
+% Famous functions
 \DeclareMathOperator{\mConst}{const}
-\DeclareMathOperator{\mFact}{fact}
-\DeclareMathOperator{\mHead}{head}
 \DeclareMathOperator{\mId}{id}
 \DeclareMathOperator{\mIfFunc}{if}
-\DeclareMathOperator{\mMainFunc}{main}
-\DeclareMathOperator{\mPred}{pred}
-\DeclareMathOperator{\mRepeat}{repeat}
-\DeclareMathOperator{\mSort}{srt}
-\DeclareMathOperator{\mSucc}{succ}
-\DeclareMathOperator{\mSum}{sum}
-\DeclareMathOperator{\mTail}{tail}
-\DeclareMathOperator{\mTake}{take}
-\DeclareMathOperator{\mZipWith}{zipwith}
 
 % Actions
 \newcommand{\mAction}[1]{\textsl{#1}}
@@ -162,8 +165,6 @@
 \DeclareMathOperator{\mRand}{\mAction{rand}}
 
 % Operators
-\newcommand{\mDefEq}{\stackrel{\mathrm{def}}{=}}
-
 \DeclareMathOperator{\mAppend}{\oplus}
 \DeclareMathOperator{\mApply}{\$}
 \DeclareMathOperator{\mApplyRight}{\rightsquigarrow}
@@ -182,6 +183,7 @@
 \DeclareMathOperator{\mCompProj}{\circledcirc}
 \DeclareMathOperator{\mConcat}{\flat}
 \DeclareMathOperator{\mCons}{:}
+\DeclareMathOperator{\mDefEq}{\stackrel{\mathrm{def}}{=}}
 \DeclareMathOperator{\mDoEq}{\leftarrow}
 \DeclareMathOperator{\mDoLetEq}{\mVarKeyword{=}}
 \DeclareMathOperator{\mDoNext}{\Rrightarrow}
@@ -226,6 +228,9 @@
 \newcommand{\mRSet}{\mSpecialSet{R}}
 \newcommand{\mZSet}{\mSpecialSet{Z}}
 
+% Internal type names
+\newcommand{\mZipList}{ZipList}
+
 % Type names
 \newcommand{\mType}[1]{\mathbf{#1}}
 
@@ -242,7 +247,7 @@
 \newcommand{\mEitherTypename}{\mType{Either}}
 \newcommand{\mIOTypename}{\mType{IO}}
 \newcommand{\mMaybeTypename}{\mType{Maybe}}
-\newcommand{\mZipListTypename}{\mType{Ziplist}}
+\newcommand{\mZipListTypename}{\mType{\mZipList}}
 
 % General type assemblers
 \newcommand{\mGenericTypeAssemble}[2]{{}^{\mType{#1}}\[\mType{#2}\]}
@@ -270,7 +275,7 @@
 \DeclareMathOperator{\mEitherTypeConstructor}{\mTypeConstructor{Either}}
 \DeclareMathOperator{\mListTypeConstructor}{\mTypeConstructor{List}}
 \DeclareMathOperator{\mMaybeTypeConstructor}{\mTypeConstructor{Maybe}}
-\DeclareMathOperator{\mZipListTypeConstructor}{\mTypeConstructor{Ziplist}}
+\DeclareMathOperator{\mZipListTypeConstructor}{\mTypeConstructor{\mZipList}}
 
 \newcommand{\mFuncTypeConstructor}[1]{\mathop{\mTypeConstructor{Func}_\mType{#1}}}
 
@@ -282,8 +287,8 @@
 \newcommand{\mLeftWith}[1]{\mGenericWith{\mLeft}{#1}}
 \newcommand{\mRightWith}[1]{\mGenericWith{\mRight}{#1}}
 \newcommand{\mJustWith}[1]{\mGenericWith{Just}{#1}}
-\newcommand{\mZipListWith}[1]{\mGenericWith{Ziplist}{#1}}
-\newcommand{\mZipListRecordWith}[1]{\mGenericRecordWith{Ziplist}{#1}}
+\newcommand{\mZipListWith}[1]{\mGenericWith{\mZipList}{#1}}
+\newcommand{\mZipListRecordWith}[1]{\mGenericRecordWith{\mZipList}{#1}}
 
 % Special value constructors
 \newcommand{\mFuncWith}[1]{\Langle#1\Rangle}
@@ -3457,7 +3462,7 @@ Eitherの場合．
 そこで $\mDataTypeParametric$ を使ってリスト型をラップした新しい型を作る．例えば新しい型を $\mZipListType{a}$ とすると
 \begin{equation}
 \label{eq:data-type-ziplist}
-\mDataTypeParametric\;\mZipListTypeConstructor\mType{a}=\mGenericRecordWith{Ziplist}{\mFunc{getlist}\mIn{}\mListType{a}}
+\mDataTypeParametric\;\mZipListTypeConstructor\mType{a}=\mGenericRecordWith{Ziplist}{\mGetList\mIn{}\mListType{a}}
 \end{equation}
 のように定義することになる．念のため，左辺の $\mZipListTypeConstructor$ は型コンストラクタ，右辺の $\mGenericValueConstructor{Ziplist}$ は値コンストラクタである．すなわち
 \begin{equation}
@@ -3513,7 +3518,7 @@ Eitherの場合．
 
 このままでも問題はないのだが，式\eqref{eq:data-type-ziplist}を次のように書き換えることがより好ましい．
 \begin{equation}
-\mNewDataTypeParametric\;\mZipListTypeConstructor\mType{a}=\mZipListRecordWith{\mFunc{getlist}\mIn{}\mListType{a}}
+\mNewDataTypeParametric\;\mZipListTypeConstructor\mType{a}=\mZipListRecordWith{\mGetList\mIn{}\mListType{a}}
 \end{equation}
 やったことはキーワード $\mDataTypeParametric$ を $\mNewDataTypeParametric$ に置き換えたことである．これは，字面に反して，型 $\mType{ZipList}$ が何一つ「新しくない」ことを\haskell コンパイラに伝えるためである．
 
