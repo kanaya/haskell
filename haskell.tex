@@ -253,7 +253,7 @@
 \newcommand{\mStringType}{\mType{String}}
 \newcommand{\mUnitType}{\mType{()}}
 
-% Parametric Types
+% Polymorphic Types
 \newcommand{\mGeneralTypeConstruct}[2]{{}^{\mType{#1}}\[\mType{#2}\]}
 \newcommand{\mGeneralTypeConstructII}[3]{{}^{#1}\[\mType{#2},\mType{#3}\]}
 \newcommand{\mEitherTypename}{\mType{Either}}
@@ -283,8 +283,11 @@
 \DeclareMathOperator{\mZipListTypeConstructor}{\mTypeConstructor{Ziplist}}
 
 % Value constructors
-\newcommand{\mValueConstructor}[1]{\mathop{\mathrm{#1}}}
-\DeclareMathOperator{\mZipListValueConstructor}{\mValueConstructor{Ziplist}}
+\newcommand{\mValueConstructorName}[1]{\mathrm{#1}}
+\newcommand{\mGenericValueConstructor}[2]{{}^\mValueConstructorName{#1}\[{#2}\]}
+\newcommand{\mGenericValueConstructorRecord}[2]{{}^\mValueConstructorName{#1}\{{#2}\}}
+
+% \DeclareMathOperator{\mZipListValueConstructor}{\mValueConstructorName{Ziplist}}
 
 % Functors
 \newcommand{\mFunctor}[1]{\textit{\textbf{#1}}}
@@ -3138,9 +3141,46 @@ y=g_2(g_1x)
 =\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany$ は \code{data Color = One | Two | Three | Many} と書く．}
 
 % 値コンストラクタを列挙したデータ型を\keyword{代数型}と呼ぶ．
-この節で紹介したデータ型の定義は，\clang で言う \code{enum} に近い．データ型は他に，\clang で言う \code{struct} すなわち構造体になることも出来るが，これは第\ref{ch:parametric-data-type}章で見ることにする．
+この節で紹介したデータ型の定義は\clang で言う \code{enum} に近い．他に\clang で言う \code{struct} や \code{union} すなわち構造体や共用体もこの $\mDataType$ 文で定義出来るが，これは次節で見ることにする．
 
-\section{型クラス}
+\section{レコード構文*}
+
+型の定義．
+
+\begin{multline}
+\mDataTypeParametric\;\mType{Shape}
+=\mGenericValueConstructor{Circle}{\mFloatType\,\mFloatType}\\
+\mValueOr
+\mGenericValueConstructor{Triangle}{\mFloatType\,\mFloatType\,\mFloatType}
+\end{multline}
+
+\begin{equation}
+\mTypeSynonym\;\mType{Vector2D}=\mTupleWith{\mFloatType,\mFloatType}
+\end{equation}
+
+
+\begin{align}
+\mDataType\;
+&\mType{Rectangle}
+=\mValueConstructorName{Rectangle}\,\{\\
+&\quad\mFunc{origin}\mIn\mType{Vector2D},\\
+&\quad\mFunc{size}\mIn\mType{Vector2D}\\
+&\}
+\end{align}
+
+
+
+\begin{multline}
+\mDataTypeParametric\;\mEitherTypeConstructor\mType{a}\mType{b}
+=\mEitherLeftWith{\mType{a}}
+\mValueOr
+\mEitherRightWith{\mType{b}}\\
+\mDeriving{}(\mEqTypeClass,\mOrdTypeClass)
+\end{multline}
+
+
+
+\section{型クラスとインスタンス化}
 
 型クラスとは，複数の型が持つ共通のインタフェースである．その複数の型をいま $\mType{a}$ で表すこととして，型 $\mType{a}$ が型クラス $\mEqTypeClass$ に属すとしよう．型クラス $\mEqTypeClass$ は等号 $(\equiv)$ と不等号 $(\neq)$ をインタフェースとして持つ．このことを
 \begin{align}
@@ -3159,29 +3199,8 @@ y=g_2(g_1x)
 \end{verbatim}
 と書く．}
 
-ここで宣言したのは等号，不等号というインタフェースが「ある」という事だけで，その実装は未定義である．等号，不等号の実装は\ref{sec:instance-of-type-class}節で見る．
+ここで宣言したのは等号，不等号というインタフェースが「ある」という事だけで，その実装は未定義である．等号，不等号の実装は次に述べる $\mInstance$ 文を使う．
 
-型クラスは\keyword{継承関係}を持てる．型クラス $\mOrdTypeClass$ は型クラス $\mEqTypeClass$ から等号，不等号を継承し「小なりイコール」 $(\le)$ を追加する．
-\begin{multline}
-\mTypeClass\,(\mEqTypeClass\mSuperSet\mType{a})\mSuperClass\mathop{\mOrdTypeClass}\mType{a}\\
-\mWhere{}
-(\le)\mIn\mProj{\mType{a}}{\mProj{\mType{a}}{\mBoolType}}
-\end{multline}
-型クラス $\mOrdTypeClass$ に属する型は，等号，不等号，小なりイコールと，それらから派生させることの出来る大なり $(>)$，大なりイコール $(\ge)$，小なり $(<)$，および最大値をとる関数 $\max$ と最小値をとる関数 $\min$ を持つ．\footnote{\haskell では
-\begin{verbatim}
-  class (Eq a) => Ord a
-    where (<=) :: a -> a -> Bool
-\end{verbatim}
-と書く．}
-
----
-
-deriving
-
-
-
-\section{型クラスのインスタンス化}
-\label{sec:instance-of-type-class}
 
 型クラス $\mEqTypeClass$ に属す型 $\mType{a}$ は等号と不等号を持つ．我々の型 $\mType{Num}$ が型クラス $\mEqTypeClass$ に属すことを宣言し，型クラス $\mEqTypeClass$ が備えるべき等号，不等号を実装するには
 \begin{align*}
@@ -3204,6 +3223,28 @@ deriving
           _==_         = False
 \end{verbatim}
 と書く．}
+
+
+
+型クラスは\keyword{継承関係}を持てる．型クラス $\mOrdTypeClass$ は型クラス $\mEqTypeClass$ から等号，不等号を継承し「小なりイコール」 $(\le)$ を追加する．
+\begin{multline}
+\mTypeClass\,(\mEqTypeClass\mSuperSet\mType{a})\mSuperClass\mathop{\mOrdTypeClass}\mType{a}\\
+\mWhere{}
+(\le)\mIn\mProj{\mType{a}}{\mProj{\mType{a}}{\mBoolType}}
+\end{multline}
+型クラス $\mOrdTypeClass$ に属する型は，等号，不等号，小なりイコールと，それらから派生させることの出来る大なり $(>)$，大なりイコール $(\ge)$，小なり $(<)$，および最大値をとる関数 $\max$ と最小値をとる関数 $\min$ を持つ．\footnote{\haskell では
+\begin{verbatim}
+  class (Eq a) => Ord a
+    where (<=) :: a -> a -> Bool
+\end{verbatim}
+と書く．}
+
+---
+
+deriving
+
+---
+
 
 \section{余計な話：型シノニム*}
 
@@ -3278,41 +3319,6 @@ Maybeの間に新たに定義された等号 $(\equiv)$ は次の型を持つ．
 自己参照型
 
 Tree
-
-\section{レコード構文*}
-
-型の定義．
-
-\begin{multline}
-\mDataTypeParametric\;\mType{Shape}
-={}^{\mValueConstructor{Circle}}\langle\mFloatType\,\mFloatType\rangle\\
-\mValueOr
-{}^{\mValueConstructor{Triangle}}\langle\mFloatType\,\mFloatType\,\mFloatType\rangle
-\end{multline}
-
-\begin{equation}
-\mTypeSynonym\;\mType{Vector2D}=\mTupleWith{\mFloatType,\mFloatType}
-\end{equation}
-
-
-\begin{align}
-\mDataType\;
-&\mType{Rectangle}
-=\mValueConstructor{Rectangle}\,\{\\
-&\quad\mFunc{origin}\mIn\mType{Vector2D},\\
-&\quad\mFunc{size}\mIn\mType{Vector2D}\\
-&\}
-\end{align}
-
-
-
-\begin{multline}
-\mDataTypeParametric\;\mEitherTypeConstructor\mType{a}\mType{b}
-=\mEitherLeftWith{\mType{a}}
-\mValueOr
-\mEitherRightWith{\mType{b}}\\
-\mDeriving{}(\mEqTypeClass,\mOrdTypeClass)
-\end{multline}
 
 
 
@@ -3443,15 +3449,11 @@ Eitherの場合．
 そこで $\mDataTypeParametric$ を使ってリスト型をラップした新しい型を作る．例えば新しい型を $\mZipListType{a}$ とすると
 \begin{equation}
 \label{eq:data-type-ziplist}
-\mDataTypeParametric\;\mZipListTypeConstructor\mType{a}=\mZipListValueConstructor\{\mFunc{getlist}\mIn{}\mListType{a}\}
+\mDataTypeParametric\;\mZipListTypeConstructor\mType{a}=\mGenericValueConstructorRecord{Ziplist}{\mFunc{getlist}\mIn{}\mListType{a}}
 \end{equation}
-のように定義することになる．念のため，左辺の $\mZipListTypeConstructor$ は型コンストラクタ，右辺の $\mZipListValueConstructor$ は値コンストラクタである．すなわち
+のように定義することになる．念のため，左辺の $\mZipListTypeConstructor$ は型コンストラクタ，右辺の $\mValueConstructorName{Ziplist}$ は値コンストラクタである．すなわち
 \begin{equation}
 \mZipListType{a}=\mZipListTypeConstructor\mType{a}
-\end{equation}
-であり，
-\begin{equation}
-\mZipListWith{x}=\mZipListValueConstructor x
 \end{equation}
 である．
 
@@ -3503,7 +3505,7 @@ Eitherの場合．
 
 このままでも問題はないのだが，式\eqref{eq:data-type-ziplist}を次のように書き換えることがより好ましい．
 \begin{equation}
-\mNewDataTypeParametric\;\mZipListTypeConstructor\mType{a}=\mValueConstructor{ZipList}\,\{\mFunc{getlist}\mIn{}\mListType{a}\}
+\mNewDataTypeParametric\;\mZipListTypeConstructor\mType{a}=\mValueConstructorName{ZipList}\,\{\mFunc{getlist}\mIn{}\mListType{a}\}
 \end{equation}
 やったことはキーワード $\mDataTypeParametric$ を $\mNewDataTypeParametric$ に置き換えたことである．これは，字面に反して，型 $\mType{ZipList}$ が何一つ「新しくない」ことを\haskell コンパイラに伝えるためである．
 
