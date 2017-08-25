@@ -67,7 +67,8 @@
 % Keywords
 \newcommand{\mKeyword}[1]{\mathsf{#1}} % Internal use
 \newcommand{\mKeywordUnderline}[1]{\text{\underline{\textsf{#1}}}} % Internal use
-\newcommand{\mVarKeyword}[1]{\texttt{#1}}
+\newcommand{\mVarKeyword}[1]{\texttt{#1}} % Internal use
+
 \newcommand{\mDataTypeKeyword}{\mKeywordUnderline{data}\mKeyword{type}}
 \newcommand{\mDerivingKeyword}{\mKeyword{deriving}}
 \newcommand{\mDoKeyword}{\mKeyword{do}}
@@ -85,7 +86,8 @@
 \newcommand{\mTypeClassKeyword}{\mKeyword{type}\mKeywordUnderline{class}}
 \newcommand{\mTypeSynonymKeyword}{\mKeywordUnderline{type}\mKeyword{synonym}}
 \newcommand{\mWhereKeyword}{\mKeyword{where}}
-\DeclareMathOperator{\mCase}{\mCaseKeyword} % Internal use
+
+\DeclareMathOperator{\mCaseKW}{\mCaseKeyword} % Internal use
 \DeclareMathOperator{\mDataType}{\mDataTypeKeyword}
 \DeclareMathOperator{\mDataTypeParametric}{\mDataTypeKeyword^\dagger}
 \DeclareMathOperator{\mDeriving}{\mDerivingKeyword}
@@ -95,10 +97,10 @@
 \DeclareMathOperator{\mInKW}{\mInKeyword} % Internal use
 \DeclareMathOperator{\mInstance}{\mInstanceKeyword}
 \DeclareMathOperator{\mInstanceParametric}{\mInstanceKeyword^{\dagger}}
-\DeclareMathOperator{\mLet}{\mLetKeyword} % Internal use
+\DeclareMathOperator{\mLetKW}{\mLetKeyword} % Internal use
 \DeclareMathOperator{\mNewDataType}{\mNewDataTypeKeyword}
 \DeclareMathOperator{\mNewDataTypeParametric}{\mNewDataTypeKeyword^\dagger}
-\DeclareMathOperator{\mOf}{\mOfKeyword} % Internal use
+\DeclareMathOperator{\mOfKW}{\mOfKeyword} % Internal use
 \DeclareMathOperator{\mOtherwise}{\mOtherwiseKeyword}
 \DeclareMathOperator{\mSuperClass}{\Rightarrow}
 \DeclareMathOperator{\mSuperSet}{\supset}
@@ -111,15 +113,8 @@
 % Constants
 \newcommand{\mConst}[1]{\mathrm{#1}}
 \newcommand{\mSpecialConst}[1]{\text{#1}} % Internal use
+
 \newcommand{\mEmptyList}{{[\,]}}
-\newcommand{\mColorBlack}{\mSpecialConst{K}}
-\newcommand{\mColorBlue}{\mSpecialConst{B}}
-\newcommand{\mColorCyan}{\mSpecialConst{C}}
-\newcommand{\mColorGreen}{\mSpecialConst{G}}
-\newcommand{\mColorMagenta}{\mSpecialConst{M}}
-\newcommand{\mColorRed}{\mSpecialConst{R}}
-\newcommand{\mColorWhite}{\mSpecialConst{W}}
-\newcommand{\mColorYellow}{\mSpecialConst{Y}}
 \newcommand{\mFalse}{\mSpecialConst{False}}
 \newcommand{\mNothing}{\emptyset}
 \newcommand{\mNumZero}{\mSpecialConst{Zero}}
@@ -134,32 +129,38 @@
 % Strings
 \newcommand{\mString}[1]{\text{#1}}
 
-% Variables
+% Special variables
 \newcommand{\mSpecialVar}[1]{\text{#1}} % Internal use
+
+\newcommand{\mAnyParam}{\_}
+\newcommand{\mAnonParam}{\diamond}
 \newcommand{\mFirstVar}{\mSpecialVar{first}}
 \newcommand{\mRestVar}{\mSpecialVar{rest}}
-\newcommand{\mAnonParam}{\diamond}
-\newcommand{\mAnyParam}{\_}
 
 % Functions
 \newcommand{\mFunc}[1]{\mathop{\mathit{#1}}}
+
+\DeclareMathOperator{\mFact}{\mathit{fact}}
+\DeclareMathOperator{\mGetList}{\mathit{getList}}
+\DeclareMathOperator{\mHead}{\mathit{head}}
+\DeclareMathOperator{\mMainFunc}{\mathit{main}}
+\DeclareMathOperator{\mPred}{\mathit{pred}}
+\DeclareMathOperator{\mSucc}{\mathit{succ}}
+\DeclareMathOperator{\mRepeat}{\mathit{repeat}}
+\DeclareMathOperator{\mSort}{\mathit{srt}}
+\DeclareMathOperator{\mSum}{\mathit{sum}}
+\DeclareMathOperator{\mTail}{\mathit{tail}}
+\DeclareMathOperator{\mTake}{\mathit{take}}
+\DeclareMathOperator{\mZipWith}{\mathit{zipWith}}
+
+% Famous functions
 \DeclareMathOperator{\mConst}{const}
-\DeclareMathOperator{\mFact}{fact}
-\DeclareMathOperator{\mHead}{head}
 \DeclareMathOperator{\mId}{id}
 \DeclareMathOperator{\mIfFunc}{if}
-\DeclareMathOperator{\mMainFunc}{main}
-\DeclareMathOperator{\mPred}{pred}
-\DeclareMathOperator{\mRepeat}{repeat}
-\DeclareMathOperator{\mSort}{srt}
-\DeclareMathOperator{\mSucc}{succ}
-\DeclareMathOperator{\mSum}{sum}
-\DeclareMathOperator{\mTail}{tail}
-\DeclareMathOperator{\mTake}{take}
-\DeclareMathOperator{\mZipWith}{zipwith}
 
 % Actions
 \newcommand{\mAction}[1]{\textsl{#1}}
+
 \DeclareMathOperator{\mReadLn}{\mAction{readln}}
 \DeclareMathOperator{\mMain}{\mAction{main}}
 \DeclareMathOperator{\mPutStr}{\mAction{putstr}}
@@ -184,9 +185,10 @@
 \DeclareMathOperator{\mCompProj}{\circledcirc}
 \DeclareMathOperator{\mConcat}{\flat}
 \DeclareMathOperator{\mCons}{:}
+\DeclareMathOperator{\mDefEq}{\stackrel{\mathrm{def}}{=}}
 \DeclareMathOperator{\mDoEq}{\leftarrow}
 \DeclareMathOperator{\mDoLetEq}{\mVarKeyword{=}}
-\DeclareMathOperator{\mDoNext}{\Rrightarrow}%{\mathrel{;}}
+\DeclareMathOperator{\mDoNext}{\Rrightarrow}
 \DeclareMathOperator*{\mFold}{\bigcup}
 \DeclareMathOperator*{\mFoldStrict}{\bigcup{}_\text{Strict}}
 \DeclareMathOperator*{\mFoldRight}{\bigsqcup}
@@ -212,40 +214,28 @@
 \DeclareMathOperator{\mValueOr}{\curlyvee}
 \DeclareMathOperator{\mZip}{\circledast}
 
-\newcommand{\mDefEq}{\stackrel{\mathrm{def}}{=}}
-
 % Subscripts
 \newcommand{\mSpecialSub}[1]{\text{#1}}
+
 \newcommand{\mLeft}{\mSpecialSub{Left}}
 \newcommand{\mRight}{\mSpecialSub{Right}}
 
 % Sets
 \newcommand{\mSet}[1]{\mathbf{#1}}
 \newcommand{\mSpecialSet}[1]{\mathbb{#1}} % Internal use
+
 \newcommand{\mBSet}{\mSpecialSet{B}}
 \newcommand{\mFSet}{\mSpecialSet{F}}
 \newcommand{\mKSet}{\mSpecialSet{K}}
 \newcommand{\mRSet}{\mSpecialSet{R}}
 \newcommand{\mZSet}{\mSpecialSet{Z}}
 
-% Type parameter
+% Internal type names
+\newcommand{\mZipList}{ZipList}
+
+% Type names
 \newcommand{\mType}[1]{\mathbf{#1}}
 
-% Value constructors
-\newcommand{\mGeneralWith}[2]{{}^\text{#1}\[#2\]}
-\newcommand{\mEitherLeftWith}[1]{\mGeneralWith{\mLeft}{#1}}
-\newcommand{\mEitherRightWith}[1]{\mGeneralWith{\mRight}{#1}}
-\newcommand{\mFuncWith}[1]{\Langle#1\Rangle}
-\newcommand{\mListWith}[1]{\left[#1\right]}
-% \newcommand{\mMaybeWith}[1]{\[#1\]}
-\newcommand{\mMaybeWith}[1]{\mGeneralWith{Just}{#1}}
-\newcommand{\mPureWith}[1]{\langle#1\rangle}
-\newcommand{\mSetWith}[1]{\left\{#1\right\}}
-\newcommand{\mTupleWith}[1]{\left(#1\right)}
-\newcommand{\mTupleUnboxedWith}[1]{\texttt{(\#}#1\texttt{\#)}}
-\newcommand{\mZipListWith}[1]{\mGeneralWith{Ziplist}{#1}}
-
-% Types
 \newcommand{\mBoolType}{\mType{Bool}}
 \newcommand{\mCharType}{\mType{Char}}
 \newcommand{\mFloatType}{\mType{Float}}
@@ -255,63 +245,86 @@
 \newcommand{\mStringType}{\mType{String}}
 \newcommand{\mUnitType}{\mType{()}}
 
-% Polymorphic Types
-\newcommand{\mGeneralTypeConstruct}[2]{{}^{\mType{#1}}\[\mType{#2}\]}
-\newcommand{\mGeneralTypeConstructII}[3]{{}^{#1}\[\mType{#2},\mType{#3}\]}
+% General polymorphic type names without type parameter
 \newcommand{\mEitherTypename}{\mType{Either}}
 \newcommand{\mIOTypename}{\mType{IO}}
 \newcommand{\mMaybeTypename}{\mType{Maybe}}
-\newcommand{\mZipListTypename}{\mType{Ziplist}}
+\newcommand{\mZipListTypename}{\mType{\mZipList}}
 
-\newcommand{\mEitherType}[2]{\mGeneralTypeConstructII{\mEitherTypename}{#1}{#2}}
+% General type assemblers
+\newcommand{\mGenericTypeAssemble}[2]{{}^{\mType{#1}}\[\mType{#2}\]}
+\newcommand{\mGenericTypeAssembleII}[3]{{}^{#1}\[\mType{#2},\mType{#3}\]}
+
+\newcommand{\mEitherType}[2]{\mGenericTypeAssembleII{\mEitherTypename}{#1}{#2}}
+\newcommand{\mIOType}[1]{\mGenericTypeAssemble{\mIOTypename}{#1}}
+\newcommand{\mMaybeType}[1]{\mGenericTypeAssemble{\mMaybeTypename}{#1}}
+\newcommand{\mZipListType}[1]{\mGenericTypeAssemble{\mZipListTypename}{#1}}
+
+% Special polymorphic types
 \newcommand{\mFuncType}[2]{\Langle\mType{#1}\Rangle_\mType{#2}}
-\newcommand{\mIOType}[1]{\mGeneralTypeConstruct{\mIOTypename}{#1}}
+\newcommand{\mListType}[1]{[\mType{#1}]}
+\newcommand{\mPureType}[1]{\langle\mType{#1}\rangle}
+
+% General polymorphic type names with type parameter
 \newcommand{\mIODoubleType}{\mIOType{\mDoubleType}}
 \newcommand{\mIOIntType}{\mIOType{\mIntType}}
 \newcommand{\mIOStringType}{\mIOType{\mStringType}}
-\newcommand{\mIOUnitType}{\mIOType{()}}
-\newcommand{\mListType}[1]{[\mType{#1}]}
-\newcommand{\mMaybeType}[1]{\mGeneralTypeConstruct{\mMaybeTypename}{#1}}
-\newcommand{\mPureType}[1]{\langle\mType{#1}\rangle}
-\newcommand{\mZipListType}[1]{\mGeneralTypeConstruct{\mZipListTypename}{#1}}
+\newcommand{\mIOUnitType}{\mIOType{\mUnitType}}
 
 % Type constructors
-\newcommand{\mTypeConstructor}[1]{\mathit{#1}} % Internal useMaybe
-\newcommand{\mFuncTypeConstructor}[1]{\mathop{\mTypeConstructor{Func}_\mType{#1}}}
+\newcommand{\mTypeConstructor}[1]{\mathit{#1}} % Internal use
+
 \DeclareMathOperator{\mEitherTypeConstructor}{\mTypeConstructor{Either}}
-% \DeclareMathOperator{\mFuncTypeConstructor}{\mTypeConstructor{Func}_\mType{r}}
 \DeclareMathOperator{\mListTypeConstructor}{\mTypeConstructor{List}}
 \DeclareMathOperator{\mMaybeTypeConstructor}{\mTypeConstructor{Maybe}}
-\DeclareMathOperator{\mZipListTypeConstructor}{\mTypeConstructor{Ziplist}}
+\DeclareMathOperator{\mZipListTypeConstructor}{\mTypeConstructor{\mZipList}}
 
-% Value constructors
-\newcommand{\mValueConstructorName}[1]{\mathrm{#1}}
-\newcommand{\mGenericValueConstructor}[2]{{}^\mValueConstructorName{#1}\[{#2}\]}
-\newcommand{\mGenericValueConstructorRecord}[2]{{}^\mValueConstructorName{#1}\{{#2}\}}
+\newcommand{\mFuncTypeConstructor}[1]{\mathop{\mTypeConstructor{Func}_\mType{#1}}}
 
-% \DeclareMathOperator{\mZipListValueConstructor}{\mValueConstructorName{Ziplist}}
+% General value constructors
+\newcommand{\mGenericValueConstructor}[1]{\text{#1}}
+\newcommand{\mGenericWith}[2]{{}^\mGenericValueConstructor{#1}\[#2\]}
+\newcommand{\mGenericRecordWith}[2]{{}^\mGenericValueConstructor{#1}\{#2\}}
+
+\newcommand{\mLeftWith}[1]{\mGenericWith{\mLeft}{#1}}
+\newcommand{\mRightWith}[1]{\mGenericWith{\mRight}{#1}}
+\newcommand{\mJustWith}[1]{\mGenericWith{Just}{#1}}
+\newcommand{\mZipListWith}[1]{\mGenericWith{\mZipList}{#1}}
+\newcommand{\mZipListRecordWith}[1]{\mGenericRecordWith{\mZipList}{#1}}
+
+% Special value constructors
+\newcommand{\mFuncWith}[1]{\Langle#1\Rangle}
+\newcommand{\mListWith}[1]{\left[#1\right]}
+\newcommand{\mPureWith}[1]{\langle#1\rangle}
+
+% Built-in value constructors
+\newcommand{\mSetWith}[1]{\left\{#1\right\}}
+\newcommand{\mTupleWith}[1]{\left(#1\right)}
+\newcommand{\mTupleUnboxedWith}[1]{\texttt{(\#}#1\texttt{\#)}}
 
 % Functors
 \newcommand{\mFunctor}[1]{\textit{\textbf{#1}}}
 \newcommand{\mSpecialFunctor}[1]{\mathcal{#1}} % Internal use
+
 \DeclareMathOperator{\mIFunctor}{\mSpecialFunctor{I}}
 \DeclareMathOperator{\mFunctionFunctor}{{(\mapsto)\mType{r}}}
 \DeclareMathOperator{\mListFunctor}{\mFunctor{List}}
 \DeclareMathOperator{\mMaybeFunctor}{\mFunctor{Maybe}}
 
 % Type classes
-\newcommand{\mSpecialTypeClass}[1]{\textsc{#1}} % Inetrnal use
-\newcommand{\mApplicativeTypeClass}{\mSpecialTypeClass{Applicative}}
-\newcommand{\mEnumTypeClass}{\mSpecialTypeClass{Enum}}
-\newcommand{\mEqTypeClass}{\mSpecialTypeClass{Eq}}
-\newcommand{\mFunctorTypeClass}{\mSpecialTypeClass{Functor}}
-\newcommand{\mIntegralTypeClass}{\mSpecialTypeClass{Integral}}
-\newcommand{\mMonadTypeClass}{\mSpecialTypeClass{Monad}}
-\newcommand{\mMonadPlusTypeClass}{\mSpecialTypeClass{MonadPlus}}
-\newcommand{\mMonoidTypeClass}{\mSpecialTypeClass{Monoid}}
-\newcommand{\mNumTypeClass}{\mSpecialTypeClass{Num}}
-\newcommand{\mOrdTypeClass}{\mSpecialTypeClass{Ord}}
-\newcommand{\mRealTypeClass}{\mSpecialTypeClass{Real}}
+\newcommand{\mGenericTypeClass}[1]{\textsc{#1}} % Inetrnal use
+
+\newcommand{\mApplicativeTypeClass}{\mGenericTypeClass{Applicative}}
+\newcommand{\mEnumTypeClass}{\mGenericTypeClass{Enum}}
+\newcommand{\mEqTypeClass}{\mGenericTypeClass{Eq}}
+\newcommand{\mFunctorTypeClass}{\mGenericTypeClass{Functor}}
+\newcommand{\mIntegralTypeClass}{\mGenericTypeClass{Integral}}
+\newcommand{\mMonadTypeClass}{\mGenericTypeClass{Monad}}
+\newcommand{\mMonadPlusTypeClass}{\mGenericTypeClass{MonadPlus}}
+\newcommand{\mMonoidTypeClass}{\mGenericTypeClass{Monoid}}
+\newcommand{\mNumTypeClass}{\mGenericTypeClass{Num}}
+\newcommand{\mOrdTypeClass}{\mGenericTypeClass{Ord}}
+\newcommand{\mRealTypeClass}{\mGenericTypeClass{Real}}
 
 % Decolations
 \newcommand{\mEither}[1]{{#1}^\text{!}}
@@ -319,21 +332,21 @@
 \newcommand{\mMaybe}[1]{{#1}^\text{?}}
 \newcommand{\mVec}[1]{\Vec{#1}}
 
-% Guard
+% Guards
 \newcommand{\mGuard}[1]{\mathop{\mid_{#1}}}
 \newcommand{\mListGuard}[1]{\mathop{\mid_{#1}}}
 
-% Syntax
-\newcommand{\mCaseOf}[1]{\mCase{#1}\mOf}
+% Syntaxes
+\newcommand{\mCaseOf}[1]{\mCaseKW#1\mOfKW}
 \newcommand{\mDo}[1]{\mDoKW\left\{#1\right\}}
 \newcommand{\mDoLet}[2]{\mathop{\mDoLetKeyword}#1\mDoLetEq#2}
 \newcommand{\mIfThenElse}[3]{\mIf{#1}\mThen{#2}\mElse{#3}}
 \newcommand{\mLambdaExp}[2]{\mLambda{#1}\mLambdaArrow{#2}}
-\newcommand{\mLetIn}[3]{\mLet{#1\mLetEq#2}\mInKW{#3}}
+\newcommand{\mLetIn}[3]{\mLetKW#1\mLetEq#2\mInKW{#3}}
 \newcommand{\mMorph}[2]{#1\mMorphTo#2}
 \newcommand{\mProj}[2]{#1\mMapsTo#2}
 \newcommand{\mWhereIs}[2]{\mathbin{\mWhereKeyword}#1\mLetEq#2}
-\newcommand{\mWhereII}[4]{\mathbin{\mWhereKeyword}#1\mLetEq#2,#3\mLetEq#4}
+\newcommand{\mWhereIsII}[4]{\mathbin{\mWhereKeyword}#1\mLetEq#2,#3\mLetEq#4}
 
 
 \title{関数型プログラミングと代数構造}
@@ -380,7 +393,7 @@ Ether変数&肩に!をつける&$\mEither{u}$\\
 有名なコンテナ型&特別な括弧で包む&$\mListType{a},\mFuncType{a}{r}$\\
 型クラス&スモールキャピタル&$\mEqTypeClass,\mOrdTypeClass,\mNumTypeClass$\\
 \hline
-値コンストラクタ&肩書付き括弧で包む&$\mMaybeWith{x},\mEitherRightWith{x}$\\
+値コンストラクタ&肩書付き括弧で包む&$\mJustWith{x},\mRightWith{x}$\\
 有名な値コンストラクタ&特別な括弧で包む&$\mListWith{x},\mFuncWith{x}$\\
 \hline
 型コンストラクタ&イタリック，大文字&$\mListTypeConstructor$, $\mMaybeTypeConstructor$\\
@@ -433,8 +446,8 @@ $\mEmptyList$&空リスト&\\
 $\mNothing$&空Maybe（ナッシング）&\\
 $\mPureNothing$&空&\\\hline
 % $\mListWith{x}$&リスト値コンストラクタ&\\
-% $\mMaybeWith{x}$&Maybe値コンストラクタ&\\
-% $\mEitherLeftWith{x},\mEitherRightWith{x}$&Either値コンストラクタ&\\
+% $\mJustWith{x}$&Maybe値コンストラクタ&\\
+% $\mLeftWith{x},\mRightWith{x}$&Either値コンストラクタ&\\
 % $\mPureWith{x}$&ピュア演算子（ユニット演算子）&\\
 % $\mFuncWith{f}$&関数値コンストラクタ&\\
 % \hline
@@ -1986,20 +1999,20 @@ def map_over(f, p):
 
 $\mType{a}$ 型の変数を $\mMaybeType{a}$ 型の変数に代入するには，次の値コンストラクタを用いて
 \begin{equation}
-\mMaybe{u}=\mMaybeWith{x}
+\mMaybe{u}=\mJustWith{x}
 \end{equation}
-と書く．\footnote{\haskell では $\mMaybe{u}=\mMaybeWith{x}$ を \code{u = Just x} と書く．Maybeを表す疑問符は省略する．}
+と書く．\footnote{\haskell では $\mMaybe{u}=\mJustWith{x}$ を \code{u = Just x} と書く．Maybeを表す疑問符は省略する．}
 
-変数 $x$ が一度ゼロ除算の危険性に「汚染」された場合，その後ずっとMaybe変数に入れ続けなければいけない．そこで，普通の変数を引数にとる関数 $f$ にMaybe変数 $\mMaybe{u}$ を食わせるには，リストの時と同じようなマップ演算子が必要になる．具体的には，変数 $x$ が $\mType{Int}$ 型として，Maybe変数 $\mMaybe{u}=\mMaybeWith{x}$ が与えられたとき
+変数 $x$ が一度ゼロ除算の危険性に「汚染」された場合，その後ずっとMaybe変数に入れ続けなければいけない．そこで，普通の変数を引数にとる関数 $f$ にMaybe変数 $\mMaybe{u}$ を食わせるには，リストの時と同じようなマップ演算子が必要になる．具体的には，変数 $x$ が $\mType{Int}$ 型として，Maybe変数 $\mMaybe{u}=\mJustWith{x}$ が与えられたとき
 \begin{equation}
-f\mMapMaybe\mMaybe{u}=\mMaybeWith{fx}
+f\mMapMaybe\mMaybe{u}=\mJustWith{fx}
 \end{equation}
 となるようなMaybeバージョンのマップ演算子 $\mMapMaybe$ を用いる．ここに $f\mMapMaybe\mMaybe{u}$ の型は，もし $f\mIn\mProj{\mIntType}{\mFloatType}$ ならば $\mMaybeType{\mFloatType}$ である．
 
 実際には $\mMaybe{u}\equiv\mNothing$ の可能性も考えなければならないから，Maybeバージョンのマップ演算子は
 \begin{equation}
 f\mMapMaybe\mMaybe{u}=\begin{cases}
-\mMaybeWith{fx}&\mIf\mMaybe{u}\equiv\mMaybeWith{x}\\
+\mJustWith{fx}&\mIf\mMaybe{u}\equiv\mJustWith{x}\\
 \mNothing&\mOtherwise
 \end{cases}
 \end{equation}
@@ -2007,7 +2020,7 @@ f\mMapMaybe\mMaybe{u}=\begin{cases}
 \begin{equation}
 \left\{
 \begin{split}
-f\mMapMaybe\mMaybeWith{x}&=\mMaybeWith{fx}\\
+f\mMapMaybe\mJustWith{x}&=\mJustWith{fx}\\
 f\mMapMaybe\mNothing&=\mNothing
 \end{split}
 \right.
@@ -2061,7 +2074,7 @@ maybe<b> map_over(fn f, maybe<a> u) {
 % \cxx11スタイルのラムダ式も受け取ることができる．
 （\cxxzerothree プログラマへの注意：関数 \code{f} の代わりに関数オブジェクトを渡しても良い．）
 
-整数 $x$ からMaybe値 $\mMaybe{u}=\mMaybeWith{x}$ を作り，関数 $gx=1+x$ をMaybe値 $\mMaybe{u}$ に食わせてMaybe値 $\mMaybe{v}$ ただし
+整数 $x$ からMaybe値 $\mMaybe{u}=\mJustWith{x}$ を作り，関数 $gx=1+x$ をMaybe値 $\mMaybe{u}$ に食わせてMaybe値 $\mMaybe{v}$ ただし
 \begin{equation}
 \mMaybe{v}=g\mMapMaybe\mMaybe{u}
 \end{equation}
@@ -2157,17 +2170,17 @@ Maybeとよく似た型にEitherがある．Maybeが $\mType{a}$ 型または $\
 \end{equation}
 のように作られる．
 
-Etherには値コンストラクタが2種類あり，それぞれ $\mEitherRightWith{x}$ と $\mEitherLeftWith{x}$ である．値コンストラクタは
+Etherには値コンストラクタが2種類あり，それぞれ $\mRightWith{x}$ と $\mLeftWith{x}$ である．値コンストラクタは
 \begin{equation}
-\mEither{e}=\mEitherRightWith{x}
+\mEither{e}=\mRightWith{x}
 \end{equation}
 または
 \begin{equation}
-\mEither{e}=\mEitherLeftWith{x}
+\mEither{e}=\mLeftWith{x}
 \end{equation}
 のように使う．\footnote{\haskell ではそれぞれ \code{e = Right x} および \code{e = Left x} と書く．}
 
-Eitherはより複雑な計算エラーが発生する場合に用いる．Maybeが単に失敗を表す $\mNothing$ しか表現できなかったのに対し，Eitherは任意の型の変数で表現できる．習慣的に，正しい (right) 計算結果は $\mEitherRightWith{x}$ 値コンストラクタで格納し，エラーの情報は $\mEitherLeftWith{x}$ 値コンストラクタで格納する．
+Eitherはより複雑な計算エラーが発生する場合に用いる．Maybeが単に失敗を表す $\mNothing$ しか表現できなかったのに対し，Eitherは任意の型の変数で表現できる．習慣的に，正しい (right) 計算結果は $\mRightWith{x}$ 値コンストラクタで格納し，エラーの情報は $\mLeftWith{x}$ 値コンストラクタで格納する．
 
 Either型は\clang の共有型 (\code{union}) に近い．
 
@@ -2175,10 +2188,10 @@ Either型は\clang の共有型 (\code{union}) に近い．
 
 \begin{enumerate}
 \item ある型 $\mType{a}$ からそのMaybe型 $\mMaybeType{a}$ を作ることを $\mMaybeType{a}=\mMaybeTypeConstructor\mType{a}$ と書く．ここに $\mMaybeTypeConstructor$ はMaybe型コンストラクタである．
-\item ある変数 $x$ からMaybe変数 $\mMaybe{u}$ を作るには $\mMaybe{u}=\mMaybeWith{x}$ とする．ここに $\mMaybeWith{\dotsb}$ はMaybe値コンストラクタである．
-\item Maybe変数は $\mMaybeWith{x}$ のような値か，かまたは $\mNothing$ なる「ナッシング」値のかどちらかを持つことができる．
+\item ある変数 $x$ からMaybe変数 $\mMaybe{u}$ を作るには $\mMaybe{u}=\mJustWith{x}$ とする．ここに $\mJustWith{\dotsb}$ はMaybe値コンストラクタである．
+\item Maybe変数は $\mJustWith{x}$ のような値か，かまたは $\mNothing$ なる「ナッシング」値のかどちらかを持つことができる．
 \item 普通の関数 $f\mIn\mProj{\mType{a}}{\mType{b}}$ をMaybe値に適用することはできない．関数 $f$ をMaybe値に適用するには $f\mMapMaybe\mMaybe{u}$ のようにMaybeマップ演算子が必要であり，この関数適用の結果は $\mMaybeType{b}$ 型である．
-\item Either変数は二つの型のいずれかを持つことができ，$\mEither{e}=\mEitherRightWith{x}$ または $\mEither{e}=\mEitherLeftWith{x}$ のように生成する．
+\item Either変数は二つの型のいずれかを持つことができ，$\mEither{e}=\mRightWith{x}$ または $\mEither{e}=\mLeftWith{x}$ のように生成する．
 \end{enumerate}
 
 
@@ -2211,12 +2224,12 @@ y=fx
 
 ここで，変数 $x,y$ とMaybe変数 $\mMaybe{u},\mMaybe{v}$ はMaybe値コンストラクタによって
 \begin{align}
-\mMaybe{u}&=\mMaybeWith{x}\\
-\mMaybe{v}&=\mMaybeWith{y}
+\mMaybe{u}&=\mJustWith{x}\\
+\mMaybe{v}&=\mJustWith{y}
 \end{align}
 の関係にあるとしよう．値コンストラクタは値を $\mType{a}$ 世界から $\mMaybeType{a}$ 世界へとジャンプさせる機能を持っている．
 
-他に $\mType{a}$ 世界から $\mMaybeType{a}$ 世界へジャンプさせるものがあるだろうか．よく考えてみると，マップ演算子もそうである．いま $\mMaybe{u}=\mMaybeWith{x},\mMaybe{v}=\mMaybeWith{y}$ なのだから，$\mType{a}$ 世界の関数 $f$ と $\mMaybeType{a}$ 世界の関数 $g$ は無関係ではなく
+他に $\mType{a}$ 世界から $\mMaybeType{a}$ 世界へジャンプさせるものがあるだろうか．よく考えてみると，マップ演算子もそうである．いま $\mMaybe{u}=\mJustWith{x},\mMaybe{v}=\mJustWith{y}$ なのだから，$\mType{a}$ 世界の関数 $f$ と $\mMaybeType{a}$ 世界の関数 $g$ は無関係ではなく
 \begin{equation}
 \mMaybe{v}=g\mMaybe{u}=f\mMapMaybe\mMaybe{u}
 \end{equation}
@@ -2226,7 +2239,7 @@ g=f\mMapMaybe
 \end{equation}
 である．つまりマップ演算子 $\mMapMaybe$ が関数 $f$ を $\mType{a}$ 世界から $\mMaybeType{a}$ 世界へとジャンプさせているのである．
 
-いま「世界」と呼んだものを，数学者は\keyword{圏}と呼ぶ．圏とは\keyword{対象}と\keyword{射}の組み合わせである．本書では「対象」とは型のことであり，射とは関数だと思えば良い．コンテナに入れられた関数も射に含まれる．そして，圏から圏へとジャンプさせるものを\keyword{関手}と呼ぶ．この例で言えば値コンストラクタ $\mMaybeWith{x}$ とマップ演算子 $\mMapMaybe$ が関手である．値コンストラクタ $\mMaybeWith{x}$ は $\mProj{\mType{a}}{\mMaybeType{a}}$ という型を持ち，マップ演算子 $\mMapMaybe$ は $\mProj{(\mProj{\mType{a}}{\mType{b}})}{(\mProj{\mMaybeType{a}}{\mMaybeType{b}})}$ という型を持つ．
+いま「世界」と呼んだものを，数学者は\keyword{圏}と呼ぶ．圏とは\keyword{対象}と\keyword{射}の組み合わせである．本書では「対象」とは型のことであり，射とは関数だと思えば良い．コンテナに入れられた関数も射に含まれる．そして，圏から圏へとジャンプさせるものを\keyword{関手}と呼ぶ．この例で言えば値コンストラクタ $\mJustWith{x}$ とマップ演算子 $\mMapMaybe$ が関手である．値コンストラクタ $\mJustWith{x}$ は $\mProj{\mType{a}}{\mMaybeType{a}}$ という型を持ち，マップ演算子 $\mMapMaybe$ は $\mProj{(\mProj{\mType{a}}{\mType{b}})}{(\mProj{\mMaybeType{a}}{\mMaybeType{b}})}$ という型を持つ．
 
 同じことはリストにも言える．値コンストラクタ $\mListWith{x}$ とマップ演算子 $\mMapList$ もまた関手である．この場合値コンストラクタは $\mProj{\mType{a}}{\mListType{a}}$ という型を持ち，マップ演算子も同じく $\mProj{(\mProj{\mType{a}}{\mType{b}})}{(\mProj{\mListType{a}}{\mListType{b}})}$ という型を持つ．
 
@@ -2236,7 +2249,7 @@ g=f\mMapMaybe
 
 一般化されたマップ演算子を $\mMap$ で表そう．この $\mMap$ 演算子は
 \begin{equation}
-(\mMap)\mIn{}(\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn})\mSuperClass\mProj{\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mGeneralTypeConstruct{fn}{a}}}{\mGeneralTypeConstruct{fn}{b}}
+(\mMap)\mIn{}(\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn})\mSuperClass\mProj{\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mGenericTypeAssemble{fn}{a}}}{\mGenericTypeAssemble{fn}{b}}
 \end{equation}
 という型を持つ．もし型コンストラクタがリスト型コンストラクタであれば
 \begin{equation}
@@ -2264,7 +2277,7 @@ g=f\mMapMaybe
 \begin{tabular}{||c|c|c|c|c||}\hline
 型の名前&型&型コンストラクタ&マップ&値コンストラクタ\\\hline\hline
 リスト&$\mListType{a}$&$\mListTypeConstructor$&$\mMapList$&$\mListWith{x}$\\
-Maybe&$\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mMaybeWith{x}$\\\hline
+Maybe&$\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mJustWith{x}$\\\hline
 \end{tabular}
 \end{center}
 \end{table*}
@@ -2323,17 +2336,17 @@ Maybeバージョンについても考えてみよう．Maybeな関数 $\mMaybe{
 \begin{equation}
 \mMaybe{i}\mAppMapMaybe\mMaybe{u}
 =\begin{cases}
-\mMaybeWith{fx}
-&\mIf\left(\mMaybe{i}\equiv\mMaybeWith{f}\right)
+\mJustWith{fx}
+&\mIf\left(\mMaybe{i}\equiv\mJustWith{f}\right)
 \mLogicalAnd
-\left(\mMaybe{u}\equiv\mMaybeWith{x}\right)\\
+\left(\mMaybe{u}\equiv\mJustWith{x}\right)\\
 \mNothing&\mOtherwise
 \end{cases}
 \end{equation}
 で定義する．このMaybeバージョンのアプリカティブマップ演算子 $(\mAppMapMaybe)$ からMaybeバージョンのマップ演算子 $(\mMapMaybe)$ は
 \begin{equation}
 f\mMapMaybe\mMaybe{u}
-=\mMaybeWith{f}\mAppMapMaybe\mMaybe{u}
+=\mJustWith{f}\mAppMapMaybe\mMaybe{u}
 \end{equation}
 のように導出できる．
 
@@ -2344,9 +2357,9 @@ f\mMap w=\mPureWith{f}\mAppMap w
 \end{equation}
 となるような\keyword{一般アプリカティブマップ演算子} $(\mAppMap)$ を考える．ここに $f$ は関数，$w$ はリストやMaybeといったコンテナ型の変数すなわち\keyword{コンテナ変数}である．一般アプリカティブマップ演算子 $(\mAppMap)$ から一般マップ演算子 $(\mMap)$ を導き出すには，式 \eqref{eq:general-applicative-map} のように値コンストラクタが必要である．この一般化された値コンストラクタを\keyword{ピュア演算子}と呼ぶ．アプリカティブマップ演算子とピュア演算子を持つ型クラスを\keyword{アプリカティブ関手}と呼び，$\mApplicativeTypeClass$ 型クラスと定義する．\footnote{\haskell では一般アプリカティブマップ演算子を \code{<*>} と書く．}
 
-ピュア演算子をピュア値コンストラクタと呼ばないのは，単純に「ピュア値」というものがないからである．$\mFunctorTypeClass$ 型クラスはリスト型やMaybe型を抽象化したものであって，直接変数を生成できない．型クラスは，\cxx の用語で言えば純粋仮想クラスのようなものであるし，\objectivec の用語で言えばメタクラスであるからである．もちろんリストのピュア演算子は $\mListWith{x}$ であるし，Maybeのピュア演算子は $\mMaybeWith{x}$ であり，それぞれ具体的な変数を生成する．しかし変数 $x$ にピュア演算子を適用した $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在しない．\footnote{\haskell は一般のピュア演算子の実装を与えていない．変数の型に応じて対応する関数が適用される．}
+ピュア演算子をピュア値コンストラクタと呼ばないのは，単純に「ピュア値」というものがないからである．$\mFunctorTypeClass$ 型クラスはリスト型やMaybe型を抽象化したものであって，直接変数を生成できない．型クラスは，\cxx の用語で言えば純粋仮想クラスのようなものであるし，\objectivec の用語で言えばメタクラスであるからである．もちろんリストのピュア演算子は $\mListWith{x}$ であるし，Maybeのピュア演算子は $\mJustWith{x}$ であり，それぞれ具体的な変数を生成する．しかし変数 $x$ にピュア演算子を適用した $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在しない．\footnote{\haskell は一般のピュア演算子の実装を与えていない．変数の型に応じて対応する関数が適用される．}
 
-一般アプリカティブマップ演算子 $(\mAppMap)$ は多様性によってそれぞれリストバージョンのアプリカティブマップ演算子 $(\mAppMapList)$ やMaybeバージョンのアプリカティブマップ演算子 $(\mAppMapMaybe)$ にオーバーライドされ，それぞれリスト値コンストラクタ $(\mListWith{x})$, Maybe値コンストラクタ $(\mMaybeWith{x})$ を用いることでリストバージョンのマップ演算子 $(\mMapList)$, Maybeバージョンのマップ演算子 $(\mMapMaybe)$ を生成することができる．リスト値コンストラクタ，Maybe値コンストラクタはそれぞれピュア演算子 $(\mPureWith{x})$ をオーバーライドしたものであるから，結局，一般アプリカティブマップ演算子とピュア演算子のふたつがあれば，任意のクラスのマップ演算子を生成することができる．
+一般アプリカティブマップ演算子 $(\mAppMap)$ は多様性によってそれぞれリストバージョンのアプリカティブマップ演算子 $(\mAppMapList)$ やMaybeバージョンのアプリカティブマップ演算子 $(\mAppMapMaybe)$ にオーバーライドされ，それぞれリスト値コンストラクタ $(\mListWith{x})$, Maybe値コンストラクタ $(\mJustWith{x})$ を用いることでリストバージョンのマップ演算子 $(\mMapList)$, Maybeバージョンのマップ演算子 $(\mMapMaybe)$ を生成することができる．リスト値コンストラクタ，Maybe値コンストラクタはそれぞれピュア演算子 $(\mPureWith{x})$ をオーバーライドしたものであるから，結局，一般アプリカティブマップ演算子とピュア演算子のふたつがあれば，任意のクラスのマップ演算子を生成することができる．
 
 この節の最後に\keyword{アプリカティブスタイル}という記法を紹介しておこう．アプリカティブマップ演算子は連続して
 \begin{equation}
@@ -2375,7 +2388,7 @@ f\mIn\mProj{\mType{r}}{\mType{a}}
 
 マップ演算子の型は
 \begin{equation}
-(\mMap)\mIn{}(\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn})\mSuperClass\mProj{\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mGeneralTypeConstruct{fn}{a}}}{\mGeneralTypeConstruct{fn}{b}}
+(\mMap)\mIn{}(\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn})\mSuperClass\mProj{\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mGenericTypeAssemble{fn}{a}}}{\mGenericTypeAssemble{fn}{b}}
 \end{equation}
 であって，いま $\mTypeConstructor{fn}=\mFuncTypeConstructor{r}$ を考えているから，関数のマップ演算子を $\mMapFunc$ とすると
 \begin{equation}
@@ -2507,7 +2520,7 @@ Maybeのアプリカティブマップ演算子の定義は次の通り．
 \label{eq:maybe-applicative-map-by-maybe-map}
 \mMaybe{g}\mAppMapMaybe\mMaybe{u}
 =\begin{cases}
-h\mMapMaybe\mMaybe{u}&\mIf\mMaybe{g}\equiv\mMaybeWith{h}\\
+h\mMapMaybe\mMaybe{u}&\mIf\mMaybe{g}\equiv\mJustWith{h}\\
 \mNothing&\mOtherwise
 \end{cases}
 \end{equation}
@@ -2518,14 +2531,14 @@ h\mMapMaybe\mMaybe{u}&\mIf\mMaybe{g}\equiv\mMaybeWith{h}\\
 % &=\begin{cases}
 % \left\{
 % \begin{array}{ll}
-% \mMaybeWith{fx}&\mIf\mMaybe{u}\equiv\mMaybeWith{x}\\
+% \mJustWith{fx}&\mIf\mMaybe{u}\equiv\mJustWith{x}\\
 % \mNothing&\mOtherwise
 % \end{array}\right\}
-% &\mIf\mMaybe{h}\equiv\mMaybeWith{f}\\
+% &\mIf\mMaybe{h}\equiv\mJustWith{f}\\
 % \mNothing&\mOtherwise
 % \end{cases}\\
 % &=\begin{cases}
-% \mMaybeWith{fx}&\mIf\left(\mMaybe{u}\equiv\mMaybeWith{x}\right)\mLogicalAnd\left(\mMaybe{h}\equiv\mMaybeWith{f}\right)\\
+% \mJustWith{fx}&\mIf\left(\mMaybe{u}\equiv\mJustWith{x}\right)\mLogicalAnd\left(\mMaybe{h}\equiv\mJustWith{f}\right)\\
 % \mNothing&\mOtherwise
 % \end{cases}
 % \end{align}
@@ -2560,10 +2573,10 @@ f\mMap u\mAppMap v\mAppMap w
 
 しかしながら，アプリカティブスタイルでは変数に文脈を与えるタイミングがコンテナ変数を作るときのそれぞれ1回に限られている．そこで，任意のタイミングで変数に文脈を与えられるように，別な方法で一般マップ演算子を分解してみよう．
 
-Maybeの例を思い出そう．Maybe型の変数 $\mMaybe{u}$ はラップされた値 $\mMaybeWith{x}$ を持つのか，エラーを表す $\mNothing$ を持つのかを選べる．そこで，引数 $x$ をとり何らかの計算をする関数 $g$ を考えよう．この関数 $g$ は引数 $x$ の値次第ではエラーを表す $\mNothing$ を返す．例えば
+Maybeの例を思い出そう．Maybe型の変数 $\mMaybe{u}$ はラップされた値 $\mJustWith{x}$ を持つのか，エラーを表す $\mNothing$ を持つのかを選べる．そこで，引数 $x$ をとり何らかの計算をする関数 $g$ を考えよう．この関数 $g$ は引数 $x$ の値次第ではエラーを表す $\mNothing$ を返す．例えば
 \begin{equation}
 gx=\begin{cases}
-\mMaybeWith{1/x}&\mIf x\neq0\\
+\mJustWith{1/x}&\mIf x\neq0\\
 \mNothing&\mOtherwise
 \end{cases}
 \end{equation}
@@ -2577,13 +2590,13 @@ gx=\begin{cases}
 \begin{equation}
 g\mIn\mProj{\mType{a}}{\mMaybeType{a}}
 \end{equation}
-である．ということは，関数 $g$ をMaybe変数に適用させるようと思っても，我々が既に知っているマップ演算子 $\mMapMaybe$ やアプリカティブマップ演算子 $\mAppMapMaybe$ が使えないということである．前者は第1引数に $\mProj{\mType{a}}{\mType{b}}$ 型の関数を取るし，後者は第1引数に $\mMaybeWith{(\mProj{\mType{a}}{\mType{b}})}$ 型の関数（Maybe関数）を取るからである． % ***CHECK***
+である．ということは，関数 $g$ をMaybe変数に適用させるようと思っても，我々が既に知っているマップ演算子 $\mMapMaybe$ やアプリカティブマップ演算子 $\mAppMapMaybe$ が使えないということである．前者は第1引数に $\mProj{\mType{a}}{\mType{b}}$ 型の関数を取るし，後者は第1引数に $\mJustWith{(\mProj{\mType{a}}{\mType{b}})}$ 型の関数（Maybe関数）を取るからである． % ***CHECK***
 
-そこで，新しいマップ演算子を発明する．いまMaybe変数 $\mMaybe{u}$ を $\mMaybe{u}=\mMaybeWith{x}$ としよう．新しいマップ演算子 $\mBindMaybe$ を使って
+そこで，新しいマップ演算子を発明する．いまMaybe変数 $\mMaybe{u}$ を $\mMaybe{u}=\mJustWith{x}$ としよう．新しいマップ演算子 $\mBindMaybe$ を使って
 \begin{equation}
 \mMaybe{v}=g\mBindMaybe\mMaybe{u}
 \end{equation}
-とする．この新しいマップ演算子 $\mBindMaybe$ のことをMaybeの\keyword{バインド演算子}と呼ぶ．ここで $\mMaybe{v}=\mMaybeWith{gx}$ である．
+とする．この新しいマップ演算子 $\mBindMaybe$ のことをMaybeの\keyword{バインド演算子}と呼ぶ．ここで $\mMaybe{v}=\mJustWith{gx}$ である．
 
 演算 $(g\mBindMaybe\mMaybe{u})$ の結果はMaybe値であるから，バインド演算子は連続して用いることができる．通常の引数を取ってMaybe値を返すもう一つの関数 $h$ があるとすると
 \begin{equation}
@@ -2599,22 +2612,22 @@ g\mIn\mProj{\mType{a}}{\mMaybeType{a}}
 具体例で考えてみよう．関数 $g$ を
 \begin{equation}
 gx=\begin{cases}
-\mMaybeWith{1/x}&\mIf x\neq0\\
+\mJustWith{1/x}&\mIf x\neq0\\
 \mPureNothing&\mOtherwise
 \end{cases}
 \end{equation}
 とする．また，関数 $h$ を
 \begin{equation}
 hy=\begin{cases}
-\mMaybeWith{\tan y}&\mIf -\frac{\pi}{2}<y<\frac{\pi}{2}\\
+\mJustWith{\tan y}&\mIf -\frac{\pi}{2}<y<\frac{\pi}{2}\\
 \mPureNothing&\mOtherwise
 \end{cases}
 \end{equation}
-とする．このとき $\mMaybe{u}=\mMaybeWith{4/\pi}$ とすると
+とする．このとき $\mMaybe{u}=\mJustWith{4/\pi}$ とすると
 \begin{equation}
 \mMaybe{v}=h\mBindMaybe g\mBindMaybe\mMaybe{u}
 \end{equation}
-の計算結果として $\mMaybe{v}=\mMaybeWith{1}$ を得る．一方で $\mMaybe{u}=\mMaybeWith{0},\mMaybe{u}=\mMaybeWith{1/\pi},u=\mNothing$ などの場合は $\mMaybe{v}=\mNothing$ となり，計算できなかったという結果を得る．
+の計算結果として $\mMaybe{v}=\mJustWith{1}$ を得る．一方で $\mMaybe{u}=\mJustWith{0},\mMaybe{u}=\mJustWith{1/\pi},u=\mNothing$ などの場合は $\mMaybe{v}=\mNothing$ となり，計算できなかったという結果を得る．
 
 % バインド演算子は向きを反転させても良い．式\eqref{eq:maybe-z-bind-style}は
 % \begin{equation}
@@ -2831,7 +2844,7 @@ i\mBind{}(j\mBind v)=(i\mBind{}(j\mAnonParam))\mBind v
 \hline
 Maybe
   &$\mBindMaybe$
-  &$\mMaybeWith{x}$
+  &$\mJustWith{x}$
   &$\mAppMapMaybe$
   &$\mMapMaybe$
   &$\mNothing$
@@ -2966,7 +2979,7 @@ A...
 この話は何かと似ていないだろうか．そう，Maybeである．一度ゼロ除算の可能性に汚染されたコンテナ変数は，コンテナから出すことが許されないのである．Maybeを返す関数$f$の戻り値
 \begin{equation}
 fx=\begin{cases}
-\mMaybeWith{1/x}&\mIf x\neq0\\
+\mJustWith{1/x}&\mIf x\neq0\\
 \mNothing&\mOtherwise
 \end{cases}
 \end{equation}
@@ -3039,7 +3052,7 @@ define main:
 \end{pythoncode}
 コード中の \code{(1)} の行で $a\mDoEq\mRand$ を実行し，\code{(2)} の行で $\mPutStr a$ を実行していると思えば，このコードと式\eqref{eq:do-print-random}の順序はそっくり同じである．もちろんこのdo記法はバインド演算子を使った式を切り貼りして，順序を入れ替えただけである．
 
-do記法には $\mDoEq$ の他に，我々の $\mLet$ とよく似た $\mDoLetKeyword$ という構文が用意されている．この $\mDoLetKeyword$ は局所変数の導入に用いられて，例えば
+do記法には $\mDoEq$ の他に，我々の $\mLetKeyword$ とよく似た $\mDoLetKeyword$ という構文が用意されている．この $\mDoLetKeyword$ は局所変数の導入に用いられて，例えば
 \begin{equation}
 \omega=\mDo{\mDoLet{y}{fx}\mDoNext\alpha y}
 \end{equation}
@@ -3164,9 +3177,9 @@ y=g_2(g_1x)
 
 \begin{multline}
 \mDataTypeParametric\;\mType{Shape}
-=\mGenericValueConstructor{Circle}{\mFloatType\,\mFloatType}\\
+=\mGenericWith{Circle}{\mFloatType\,\mFloatType}\\
 \mValueOr
-\mGenericValueConstructor{Triangle}{\mFloatType\,\mFloatType\,\mFloatType}
+\mGenericWith{Triangle}{\mFloatType\,\mFloatType\,\mFloatType}
 \end{multline}
 
 \begin{equation}
@@ -3187,9 +3200,9 @@ y=g_2(g_1x)
 
 \begin{multline}
 \mDataTypeParametric\;\mEitherTypeConstructor\mType{a}\mType{b}
-=\mEitherLeftWith{\mType{a}}
+=\mLeftWith{\mType{a}}
 \mValueOr
-\mEitherRightWith{\mType{b}}\\
+\mRightWith{\mType{b}}\\
 \mDeriving{}(\mEqTypeClass,\mOrdTypeClass)
 \end{multline}
 
@@ -3289,18 +3302,18 @@ deriving
 Maybeのように型パラメタを取る型はどのように定義されるかと言うと，
 \begin{equation}
 \mDataTypeParametric\;\mMaybeTypeConstructor\mType{a}
-=\mMaybeWith{\mType{a}}\mValueOr\mNothing
+=\mJustWith{\mType{a}}\mValueOr\mNothing
 \end{equation}
 のように，やはり $\mDataType$ を使って定義される．念のため型パラメタを取る場合は $\mDataTypeParametric$ と区別しておこう．\footnote{\haskell は $\mDataType$ と $\mDataTypeParametric$ を区別せず，$\mDataTypeParametric\;\mMaybeTypeConstructor\mType{a}
-=\mMaybeWith{\mType{a}}\mValueOr\mNothing$ を \code{data Maybe a = Just a | Nothing} と書く．}
-% この $\mMaybeWith{\mType{a}}$ は $\mType{a}$ のMaybe型 $(\mMaybeType{a})$ という意味ではなく，$\mType{a}$ 型の変数を型コンストラクタ $\mMaybeWith{\dotsb}$ に入れなさいという意味．
+=\mJustWith{\mType{a}}\mValueOr\mNothing$ を \code{data Maybe a = Just a | Nothing} と書く．}
+% この $\mJustWith{\mType{a}}$ は $\mType{a}$ のMaybe型 $(\mMaybeType{a})$ という意味ではなく，$\mType{a}$ 型の変数を型コンストラクタ $\mJustWith{\dotsb}$ に入れなさいという意味．
 
 Maybeが型クラス $\mEqTypeClass$ に属すものとして，$\mEqTypeClass$ からのインスタンス化をしておこう．ここでも型パラメタ付きの $\mInstance$ を仮に $\mInstanceParametric$ とすると次のように書けそうである．
 \begin{align*}
 \mInstanceParametric\;
 &\mEqTypeClass\mSuperSet{}(\mMaybeTypeConstructor\mType{a})\\
 &\quad\mWhere{}\\
-&\qquad\mMaybeWith{x}\equiv\mMaybeWith{y}=x\equiv y\\
+&\qquad\mJustWith{x}\equiv\mJustWith{y}=x\equiv y\\
 &\qquad\mNothing\equiv\mNothing=\mTrue\\
 &\qquad\mAnyParam\equiv\mAnyParam=\mFalse
 \end{align*}
@@ -3310,7 +3323,7 @@ Maybeが型クラス $\mEqTypeClass$ に属すものとして，$\mEqTypeClass$ 
 &(\mEqTypeClass\mSuperSet\mType{a})\mSuperClass
 \mEqTypeClass\mSuperSet(\mMaybeTypeConstructor\mType{a})\\
 &\quad\mWhere{}\\
-&\qquad\mMaybeWith{x}\equiv\mMaybeWith{y}=x\equiv y\\
+&\qquad\mJustWith{x}\equiv\mJustWith{y}=x\equiv y\\
 &\qquad\mNothing\equiv\mNothing=\mTrue\\
 &\qquad\mAnyParam\equiv\mAnyParam=\mFalse
 \end{align*}
@@ -3386,7 +3399,7 @@ Maybeの場合は次のようになる．
 \mInstanceParametric\;
 &\mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor\\
 &\quad\mWhere{}\\
-&\qquad f\mMap\mMaybeWith{x}=\mMaybeWith{fx}\\
+&\qquad f\mMap\mJustWith{x}=\mJustWith{fx}\\
 &\qquad f\mMap\mNothing=\mNothing
 \end{align*}
 
@@ -3414,8 +3427,8 @@ Eitherの場合．
 \mInstanceParametric\;
 &\mFunctorTypeClass\mSuperSet{}(\mEitherTypeConstructor\mType{a})\\
 &\quad\mWhere{}\\
-&\qquad f\mMap{}\mEitherRightWith{x}=\mEitherRightWith{fx}\\
-&\qquad f\mMap{}\mEitherLeftWith{x}=\mEitherLeftWith{x}
+&\qquad f\mMap{}\mRightWith{x}=\mRightWith{fx}\\
+&\qquad f\mMap{}\mLeftWith{x}=\mLeftWith{x}
 \end{align*}
 
 
@@ -3434,13 +3447,13 @@ Eitherの場合．
 \label{eq:fn}
 \mTypeClassParametric\;\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn}\\
 \mWhere{}
-\mMap\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mGeneralTypeConstruct{fn}{a}}{\mGeneralTypeConstruct{fn}{b}}}
+\mMap\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mGenericTypeAssemble{fn}{a}}{\mGenericTypeAssemble{fn}{b}}}
 \end{multline}
-ここで，型 $\mGeneralTypeConstruct{fn}{a}$ は型 $\mType{a}$ と型コンストラクタ $\mTypeConstructor{fn}$ から
+ここで，型 $\mGenericTypeAssemble{fn}{a}$ は型 $\mType{a}$ と型コンストラクタ $\mTypeConstructor{fn}$ から
 \begin{equation}
-\mGeneralTypeConstruct{fn}{a}={\mTypeConstructor{fn}}\mType{a}
+\mGenericTypeAssemble{fn}{a}={\mTypeConstructor{fn}}\mType{a}
 \end{equation}
-のように作られる．\footnote{\haskell では $\mGeneralTypeConstruct{fn}{a}$ も ${\mTypeConstructor{fn}}\mType{a}$ も同様に \code{fn a} と書く．そこで式\eqref{eq:fn}は
+のように作られる．\footnote{\haskell では $\mGenericTypeAssemble{fn}{a}$ も ${\mTypeConstructor{fn}}\mType{a}$ も同様に \code{fn a} と書く．そこで式\eqref{eq:fn}は
 \begin{verbatim}
   class functor fn
     where fmap :: (a -> b) -> fn a -> fn b
@@ -3464,9 +3477,9 @@ Eitherの場合．
 そこで $\mDataTypeParametric$ を使ってリスト型をラップした新しい型を作る．例えば新しい型を $\mZipListType{a}$ とすると
 \begin{equation}
 \label{eq:data-type-ziplist}
-\mDataTypeParametric\;\mZipListTypeConstructor\mType{a}=\mGenericValueConstructorRecord{Ziplist}{\mFunc{getlist}\mIn{}\mListType{a}}
+\mDataTypeParametric\;\mZipListTypeConstructor\mType{a}=\mGenericRecordWith{Ziplist}{\mGetList\mIn{}\mListType{a}}
 \end{equation}
-のように定義することになる．念のため，左辺の $\mZipListTypeConstructor$ は型コンストラクタ，右辺の $\mValueConstructorName{Ziplist}$ は値コンストラクタである．すなわち
+のように定義することになる．念のため，左辺の $\mZipListTypeConstructor$ は型コンストラクタ，右辺の $\mGenericValueConstructor{Ziplist}$ は値コンストラクタである．すなわち
 \begin{equation}
 \mZipListType{a}=\mZipListTypeConstructor\mType{a}
 \end{equation}
@@ -3520,7 +3533,7 @@ Eitherの場合．
 
 このままでも問題はないのだが，式\eqref{eq:data-type-ziplist}を次のように書き換えることがより好ましい．
 \begin{equation}
-\mNewDataTypeParametric\;\mZipListTypeConstructor\mType{a}=\mValueConstructorName{ZipList}\,\{\mFunc{getlist}\mIn{}\mListType{a}\}
+\mNewDataTypeParametric\;\mZipListTypeConstructor\mType{a}=\mZipListRecordWith{\mGetList\mIn{}\mListType{a}}
 \end{equation}
 やったことはキーワード $\mDataTypeParametric$ を $\mNewDataTypeParametric$ に置き換えたことである．これは，字面に反して，型 $\mType{ZipList}$ が何一つ「新しくない」ことを\haskell コンパイラに伝えるためである．
 
