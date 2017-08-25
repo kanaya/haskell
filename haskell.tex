@@ -139,19 +139,20 @@
 
 % Functions
 \newcommand{\mFunc}[1]{\mathop{\mathit{#1}}}
+\newcommand{\mSpecialFunc}[1]{\mathrm{#1}}
 
-\DeclareMathOperator{\mFact}{\mathit{fact}}
-\DeclareMathOperator{\mGetList}{\mathit{getList}}
-\DeclareMathOperator{\mHead}{\mathit{head}}
-\DeclareMathOperator{\mMainFunc}{\mathit{main}}
-\DeclareMathOperator{\mPred}{\mathit{pred}}
-\DeclareMathOperator{\mSucc}{\mathit{succ}}
-\DeclareMathOperator{\mRepeat}{\mathit{repeat}}
-\DeclareMathOperator{\mSort}{\mathit{srt}}
-\DeclareMathOperator{\mSum}{\mathit{sum}}
-\DeclareMathOperator{\mTail}{\mathit{tail}}
-\DeclareMathOperator{\mTake}{\mathit{take}}
-\DeclareMathOperator{\mZipWith}{\mathit{zipWith}}
+\DeclareMathOperator{\mFact}{\mSpecialFunc{fact}}
+\DeclareMathOperator{\mGetList}{\mSpecialFunc{getList}} % Func?
+\DeclareMathOperator{\mHead}{\mSpecialFunc{head}}
+\DeclareMathOperator{\mMainFunc}{\mSpecialFunc{main}}
+\DeclareMathOperator{\mPred}{\mSpecialFunc{pred}}
+\DeclareMathOperator{\mSucc}{\mSpecialFunc{succ}}
+\DeclareMathOperator{\mRepeat}{\mSpecialFunc{repeat}}
+\DeclareMathOperator{\mSort}{\mSpecialFunc{srt}}
+\DeclareMathOperator{\mSum}{\mSpecialFunc{sum}}
+\DeclareMathOperator{\mTail}{\mSpecialFunc{tail}}
+\DeclareMathOperator{\mTake}{\mSpecialFunc{take}}
+\DeclareMathOperator{\mZipWith}{\mSpecialFunc{zipWith}} % Func?
 
 % Famous functions
 \DeclareMathOperator{\mConst}{const}
@@ -1761,15 +1762,15 @@ f\mList{y}@(x:\mList{x})=\dotsb
 
 \begin{note}{無限リスト}
 我々は無限リストを持つことができる．例えば自然数を表すリスト $\mList{n}$ は
-\begin{equation}
+\begin{equation*}
 \mList{n}=\mListWith{1,2\dotsb}
-\end{equation}
+\end{equation*}
 と書くことができる．無限リストを扱えるのは，我々がいつも遅延評価を行うからである．
 %遅延評価とは，本当の計算は必要になるまで行わないという方式のことである．
 もし本当に無限リストを計算機の上で再現する必要があったなら，計算機には無限のメモリが必要になってしまう．しかし我々は，計算が必要になるまで評価を行わないので，無限リストの中から有限個の要素が取り出されるのを待つことができるのである．例えば関数 $\mTake x\mList{y}$ はリスト $\mList{y}$ から最初の $x$ 個の要素からなるリストを返す．いま
-\begin{equation}
-\mList{z}=\mTake5\mList{n}
-\end{equation}
+\begin{equation*}
+\mList{z}=\mTake5\,\mList{n}
+\end{equation*}
 とすると，リスト $\mList{z}$ は $\mList{z}=\mListWith{1,2\dotsb5}$ という値を持つ．
 \end{note}
 
@@ -2168,7 +2169,7 @@ Maybeとよく似た型にEitherがある．Maybeが $\mType{a}$ 型または $\
 \begin{equation}
 \mEitherType{a}{b}=\mEitherTypeConstructor\mType{a}\mType{b}
 \end{equation}
-のように作られる．
+のように作られる．\footnote{\haskell では $\mEitherType{a}{b}$ も $\mEitherTypeConstructor\mType{a}\mType{b}$ も区別せずに \code{Either a b} と書く．}
 
 Etherには値コンストラクタが2種類あり，それぞれ $\mRightWith{x}$ と $\mLeftWith{x}$ である．値コンストラクタは
 \begin{equation}
