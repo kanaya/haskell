@@ -141,8 +141,10 @@
 \newcommand{\mFunc}[1]{\mathop{\mathit{#1}}}
 \newcommand{\mSpecialFunc}[1]{\mathrm{#1}}
 
+\DeclareMathOperator{\mGetList}{\mFunc{getlist}}
+\DeclareMathOperator{\mZipWith}{\mFunc{zipwith}}
+
 \DeclareMathOperator{\mFact}{\mSpecialFunc{fact}}
-\DeclareMathOperator{\mGetList}{\mSpecialFunc{getList}} % Func?
 \DeclareMathOperator{\mHead}{\mSpecialFunc{head}}
 \DeclareMathOperator{\mMainFunc}{\mSpecialFunc{main}}
 \DeclareMathOperator{\mPred}{\mSpecialFunc{pred}}
@@ -152,7 +154,6 @@
 \DeclareMathOperator{\mSum}{\mSpecialFunc{sum}}
 \DeclareMathOperator{\mTail}{\mSpecialFunc{tail}}
 \DeclareMathOperator{\mTake}{\mSpecialFunc{take}}
-\DeclareMathOperator{\mZipWith}{\mSpecialFunc{zipWith}} % Func?
 
 % Famous functions
 \DeclareMathOperator{\mConst}{const}
@@ -232,7 +233,7 @@
 \newcommand{\mZSet}{\mSpecialSet{Z}}
 
 % Internal type names
-\newcommand{\mZipList}{ZipList}
+\newcommand{\mZipList}{Ziplist}
 
 % Type names
 \newcommand{\mType}[1]{\mathbf{#1}}
@@ -3461,7 +3462,7 @@ Eitherの場合．
 \end{verbatim}
 と書く．}
 
-\section{余計な話：newtype}
+\section{余計な話: \code{newtype}}
 
 リストに新しいマップ演算子 $\mZip$ を定義したいとしよう．この演算子 $\mZip$ は
 \begin{equation}
@@ -3478,9 +3479,9 @@ Eitherの場合．
 そこで $\mDataTypeParametric$ を使ってリスト型をラップした新しい型を作る．例えば新しい型を $\mZipListType{a}$ とすると
 \begin{equation}
 \label{eq:data-type-ziplist}
-\mDataTypeParametric\;\mZipListTypeConstructor\mType{a}=\mGenericRecordWith{Ziplist}{\mGetList\mIn{}\mListType{a}}
+\mDataTypeParametric\;\mZipListTypeConstructor\mType{a}=\mGenericRecordWith{\mZipList}{\mGetList\mIn{}\mListType{a}}
 \end{equation}
-のように定義することになる．念のため，左辺の $\mZipListTypeConstructor$ は型コンストラクタ，右辺の $\mGenericValueConstructor{Ziplist}$ は値コンストラクタである．すなわち
+のように定義することになる．念のため，左辺の $\mZipListTypeConstructor$ は型コンストラクタ，右辺の $\mGenericValueConstructor{\mZipList}$ は値コンストラクタである．すなわち
 \begin{equation}
 \mZipListType{a}=\mZipListTypeConstructor\mType{a}
 \end{equation}
@@ -3536,7 +3537,7 @@ Eitherの場合．
 \begin{equation}
 \mNewDataTypeParametric\;\mZipListTypeConstructor\mType{a}=\mZipListRecordWith{\mGetList\mIn{}\mListType{a}}
 \end{equation}
-やったことはキーワード $\mDataTypeParametric$ を $\mNewDataTypeParametric$ に置き換えたことである．これは，字面に反して，型 $\mType{ZipList}$ が何一つ「新しくない」ことを\haskell コンパイラに伝えるためである．
+やったことはキーワード $\mDataTypeParametric$ を $\mNewDataTypeParametric$ に置き換えたことである．これは，字面に反して，型 $\mType{\mZipList}$ が何一つ「新しくない」ことを\haskell コンパイラに伝えるためである．
 
 
 \section{この章のまとめ*}
