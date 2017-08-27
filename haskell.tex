@@ -3,8 +3,6 @@
 \usepackage{amsmath,amssymb,ascmac,bm,graphicx,latexsym,mathtools,multirow,okuverb}
 \makeindex
 
-%%% NEEDS TO MERGE FROM MAC MINI %%%
-
 \def\[{\left[\!\left[}
 \def\]{\right]\!\right]}
 \def\({\left(\!\left(}
@@ -111,19 +109,19 @@
 \DeclareMathOperator{\mWhere}{\mWhereKeyword}
 
 % Constants
-\newcommand{\mConst}[1]{\mathrm{#1}}
-\newcommand{\mSpecialConst}[1]{\text{#1}} % Internal use
+\newcommand{\mConstant}[1]{\mathrm{#1}}
+\newcommand{\mSpecialConstant}[1]{\text{#1}} % Internal use
 
 \newcommand{\mEmptyList}{{[\,]}}
-\newcommand{\mFalse}{\mSpecialConst{False}}
+\newcommand{\mFalse}{\mSpecialConstant{False}}
 \newcommand{\mNothing}{\emptyset}
-\newcommand{\mNumZero}{\mSpecialConst{Zero}}
-\newcommand{\mNumOne}{\mSpecialConst{One}}
-\newcommand{\mNumTwo}{\mSpecialConst{Two}}
-\newcommand{\mNumThree}{\mSpecialConst{Three}}
-\newcommand{\mNumMany}{\mSpecialConst{Many}}
+\newcommand{\mNumZero}{\mSpecialConstant{Zero}}
+\newcommand{\mNumOne}{\mSpecialConstant{One}}
+\newcommand{\mNumTwo}{\mSpecialConstant{Two}}
+\newcommand{\mNumThree}{\mSpecialConstant{Three}}
+\newcommand{\mNumMany}{\mSpecialConstant{Many}}
 \newcommand{\mPureNothing}{\varnothing}
-\newcommand{\mTrue}{\mSpecialConst{True}}
+\newcommand{\mTrue}{\mSpecialConstant{True}}
 \newcommand{\mZero}{\O}
 
 % Strings
@@ -210,7 +208,7 @@
 \DeclareMathOperator{\mMapsTo}{\mapsto}
 \DeclareMathOperator{\mMinus}{\ominus}
 \DeclareMathOperator{\mMorphTo}{\rightarrowtail}
-\DeclareMathOperator{\mPlus}{\dotplus}
+\DeclareMathOperator{\mPlus}{\maltese}
 \DeclareMathOperator{\mSetTimes}{\boldmath{\times}}
 \DeclareMathOperator{\mUnOp}{\star}
 \DeclareMathOperator{\mValueOr}{\curlyvee}
@@ -287,6 +285,8 @@
 \newcommand{\mGenericValueConstructor}[1]{\text{#1}}
 \newcommand{\mGenericWith}[2]{{}^\mGenericValueConstructor{#1}\[#2\]}
 \newcommand{\mGenericRecordWith}[2]{{}^\mGenericValueConstructor{#1}\{#2\}}
+\newcommand{\mGenericValueConstructorRecordBeginWith}[1]{{}^\mGenericValueConstructor{#1}\{}
+\newcommand{\mGenericValueConstructorRecordEnd}{\}}
 
 \newcommand{\mLeftWith}[1]{\mGenericWith{\mLeft}{#1}}
 \newcommand{\mRightWith}[1]{\mGenericWith{\mRight}{#1}}
@@ -481,7 +481,7 @@ $\mBindFunc$&関数のバインド演算子&\\
 本書はプログラミング言語\haskell の入門書である．それと同時に，本書はプログラミング言語を用いた代数構造の入門書でもある．プログラミングと代数構造の間には密接な関係があるが，特に関数型プログラミングを実践する時にはその関係を意識する必要が出てくる．本書はその両者を同時に解説することを試みる．
 \end{leader}
 
-\section{\haskell という森*}
+\section{\haskell という森}
 
 これからのプログラマにとって\haskell を無視することはできない．\haskell の「欠点をあげつらうことも，攻撃することもできるが，無視することだけはできない」のだ．それは\haskell がプログラミングの本質に深く関わっているからである．
 
@@ -535,11 +535,13 @@ print("Hello, world.")
 
 どちらも同じ関数であるのに，なぜこうもイメージが違うのだろうか．
 
-もし，我々が関数型プログラミングの原則を忠実に守り，プログラム中のいかなる破壊的代入をも禁止するとすると，両者の関数は全く同じ性格になる．条件分岐もループも，それどころか定数さえ，\keyword{ラムダ式}という式だけで書けるようになる．あらゆるプログラムが，最終的には単一のラムダ式で書ける．
+もし，我々が関数型プログラミングの原則を忠実に守り，プログラム中のいかなる破壊的代入をも禁止するとすると，両者の関数は全く同じ性格になる．逐次実行も条件分岐もループも，それどころか定数さえ，\keyword{ラムダ式}という式だけで書けるようになる．あらゆるプログラムが，最終的には単一のラムダ式で書ける．
 
-ラムダ式は単純で，十分に数学的に定式化できるものだ．
+ところが，入出力，状態変数，例外など，プログラミングに使われる多くのテクニックは関数の副作用を前提としている．参照透過性と副作用を統一的に扱うためには\keyword{モナド}という数学概念が必要である．\haskell はモナドを陽に扱うプログラミング言語である．
 
-...
+... % 数学とプログラミングの関係
+
+% ラムダ式は単純で，十分に数学的に定式化できるものだ．
 
 % \section{色気のない文字セットが引き起こす問題}
 
@@ -607,10 +609,6 @@ $ stack install ghc
 
 第I部は対応する\haskell のコードを脚注に記載している．脚注部分は\haskell を一通り覚えた後で読み返してもらいたい．\footnote{\haskell のコードは \code{x = 1} のようにタイプライタ体で書く．}
 
----
-
-この章のまとめ．
-
 \section{この章のまとめ*}
 
 \begin{enumerate}
@@ -624,7 +622,7 @@ $ stack install ghc
 \end{note}
 
 
-\chapter{カリー風な書き方}
+\chapter{カリー風な書き方*}
 \label{ch:curry}
 
 \begin{leader}
@@ -845,13 +843,12 @@ y=fx'\mWhereIs{x'}{1+x}
 \end{align}
 である．
 
-\section{この章のまとめ*}
+\section{この章のまとめ}
 
 \begin{enumerate}
 \item 変数 $x$ に関数 $f$ を適用することを $fx$ と書く．
 \item 変数 $x,y$ に関数 $g$ を適用することを $gxy$ と書く．関数適用は左結合するので $gxy=(gx)y$ である．この関数 $(gx)$ は部分適用された関数と呼ぶ．
-\item 関数はラムダ式で定義する．
-\item ラムダ式は $\mLambdaExp{x}{(\sin x)/x}$ のように表記する．
+\item 関数はラムダ式で定義する．ラムダ式は $\mLambdaExp{x}{(\sin x)/x}$ のように表記する．
 \item ラムダ式は $f\mAnonParam$ のように無名パラメタ $\mAnonParam$ を用いて表記しても良い．
 \item 関数定義 $f=\mLambdaExp{x}{(\sin x)/x}$ は $fx=(\sin x)/x$ と省略表記できる．
 \item 関数定義にはパタンマッチが使える．例えば $f'0=1;f'x=(\sin x)/x$ と定義できる．
@@ -874,13 +871,11 @@ printf("%d, %d\n", ++i, ++i);
 \end{note}
 
 
-\chapter{さらにカリー風な書き方*}
+\chapter{さらにカリー風な書き方}
 \label{ch:more-curry}
 
 \begin{leader}
-我々は関数とラムダ式の「カリー風」な書き方を見てきた．この章ではさらに演算子，関数合成，条件分岐についても「カリー風」な書き方を見ていく．
-
-...
+我々は関数とラムダ式の「カリー風」な書き方を見てきた．この章ではさらに演算子，関数合成についても「カリー風」な書き方を見ていく．
 \end{leader}
 
 \section{演算子}
@@ -965,39 +960,37 @@ z=f_2\mApply f_1x
 \end{equation}
 であるから，関数適用演算子を用いて引数を関数に渡すことができる．\footnote{\haskell では $(\mApply x)f$ を \code{(\$x)f} と書く．}
 
-\section{高階関数*}
+\section{高階関数}
 
 関数を引数に取ったり，あるいは関数を返す関数のことを\keyword{高階関数}と呼ぶことがある．関数合成演算子と関数適用演算子は高階関数の好例である．
 
 他に例えば，引数として整数 $a$ を取り，関数 $fx=a+x$ を返すような関数 $g$ を
 \begin{equation}
-ga=\mLambdaExp{x}{a+x}
+ga=a+\mAnonParam
 \end{equation}
 のように定義することも可能である．このとき，
 \begin{align}
-b&=100\\
-c&=1\\
-f&=gb\\
-r&=fc
+f&=g(100)\\
+r&=f1
 \end{align}
-とすれば $r=101$ を得る．\footnote{\haskell では $ga=\mLambdaExp{x}{a+x}$ を \code{g a = \textbackslash x -> a+x} と書く．}
+とすれば $r=101$ を得る．\footnote{\haskell では $ga=a+\mAnonParam$ を $ga=\mLambdaExp{x}{a+x}$ と展開しておいて \code{g a = \textbackslash x -> a+x} と書く．}
 
-...
+高階関数は今後度々顔をだすことになる．第\ref{ch:list}章に登場するマップ演算子や畳込み演算子は高階関数の一種である．
 
 \section{余計な話：クロージャ}
 
 ラムダ式をサポートするほとんどのプログラミング言語は，\keyword{レキシカルクロージャ}をサポートする．レキシカルクロージャとは，ラムダ式が定義された時点での，周囲の環境をラムダ式に埋め込む機構である．例えば
 \begin{align}
-d&=100\\
-h&=\mLambdaExp{x}{d+x}
+a&=100\\
+h&=a+\mAnonParam
 \end{align}
-というラムダ式があるとする．当然我々は関数 $h$ がいつも $h=\mLambdaExp{x}{100+x}$ であることを期待するし，\haskell においてはいつも保証される．
+というラムダ式があるとする．当然我々は関数 $h$ がいつも $h=100+\mAnonParam$ であることを期待するし，\haskell においてはいつも保証される．
 
-ところが，参照透過性のない言語，言い換えると変数への破壊的代入が許されている言語では，変数 $d$ の値がいつ変わっても不思議ではない．そこで，それらの言語では関数 $h$ が定義された時点での $d$ の値を，関数 $h$ の定義に含めておく．これがレキシカルクロージャの考え方である．
+ところが，参照透過性のない言語，言い換えると変数への破壊的代入が許されている言語では，変数 $a$ の値がいつ変わっても不思議ではない．そこで，それらの言語では関数 $h$ が定義された時点での $a$ の値を，関数 $h$ の定義に含めておく．これがレキシカルクロージャの考え方である．
 
 \haskell ではそもそも変数への破壊的代入がないので，関数 $h$ がレキシカルクロージャであるかどうか悩む必要はない．あえて言えば，\haskell ではラムダ式はいつもレキシカルクロージャである．もしあなたのそばの\cxx プログラマが「え？\haskell にはレキシカルクロージャが無いの？」などと聞いてきたら，「ええ，\haskell には破壊的代入すらありませんから」と答えておこう．
 
-\section{この章のまとめ*}
+\section{この章のまとめ}
 
 \begin{enumerate}
 \item 関数と演算子は同じものである．
@@ -1005,7 +998,7 @@ h&=\mLambdaExp{x}{d+x}
 \item 任意の二項演算子 $\mBinOp$ について $(\mBinOp x)=\mAnonParam\mBinOp x$ であり，$(x\mBinOp)=x\mBinOp\mAnonParam$ である．これらの記法をセクション記法と呼ぶ． 
 \item 関数 $f$ と関数 $g$ を合成した関数を $f\mComp g$ と書く．
 \item 式 $f\mApply gx$ は $f(gx)$ の意味である．
-\item ...
+\item 関数を引数に取ったり，関数を返す関数のことを高階関数と呼ぶ．
 \item \haskell のラムダ式はいつもレキシカルクロージャである．
 \end{enumerate}
 
@@ -1038,9 +1031,7 @@ int main(void) {
 \label{ch:type}
 
 \begin{leader}
-プログラマのいう型とは，数学者のいう集合のことである．
-
-...
+\haskell の変数，関数にはすべて型がある．プログラマの言う型とは，数学者の言う集合のことである．本章では，\haskell が扱う基本的な型であるデータ型と，パラメトリックな型である多相型，および型の型である型クラスについて述べる．また関数のカリー化についても述べる．
 \end{leader}
 
 
@@ -1315,7 +1306,7 @@ $\mDoubleType$
 \end{center}
 \end{table*}
 
-\section{余計な話：モノイド*}
+\section{余計な話：モノイド}
 
 整数全てからなる\keyword{集合}を $\mZSet$ で表すことにする．計算機科学で整数と言うと，本当の整数と，例えば $-2^{63}$ から $2^{63}-1$ までの間の整数の意味と両方あるが，今は前者の意味である．
 
@@ -1884,7 +1875,7 @@ x*\mFact(x-1)&\mOtherwise
 我々の記法を使うと，クイックソートは次のように定義できる．
 \begin{equation*}
 \left\{
-\begin{align}
+\begin{split}
 \mSort\mEmptyList
   &=\mEmptyList\\
 \mSort(x:\mList{x})
@@ -1892,7 +1883,7 @@ x*\mFact(x-1)&\mOtherwise
 &\quad\mWhere\\
 &\qquad\mList{a}\mLetEq\mListWith{a\mListGuard{a\mFrom\mList{x},a\le x}}\\
 &\qquad\mList{b}\mLetEq\mListWith{b\mListGuard{b\mFrom\mList{x},b>x}}
-\end{align}
+\end{split}
 \right.
 \end{equation*}
 \haskell では
@@ -2136,7 +2127,7 @@ template <class a, class b, class fn>
 maybe<b> map_over(fn f, maybe<a> u);
 \end{verbatim}
 \end{cxxcode}
-やはりそっくりである．であるならば，うまく統一したい．\cxxfourteen 以降であれば次のような書き方ができる．
+やはりそっくりである．であるならば，うまく統一したい．\cxxfourteen 以降であれば次のような書き方が文法的には可能である．
 \begin{cxxcode}
 \begin{verbatim}
 template <class a, class b,
@@ -2210,7 +2201,7 @@ Either型は\clang の共有型 (\code{union}) に近い．
 A...
 \end{leader}
 
-\section{圏と関手*}
+\section{圏と関手}
 
 型 $\mType{a}$ の変数 $x,y\mIn\mType{a}$ について，関数 $f\mIn\mProj{\mType{a}}{\mType{a}}$ があり
 \begin{equation}
@@ -2253,24 +2244,19 @@ g=f\mMapMaybe
 \begin{equation}
 (\mMap)\mIn{}(\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn})\mSuperClass\mProj{\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mGenericTypeAssemble{fn}{a}}}{\mGenericTypeAssemble{fn}{b}}
 \end{equation}
-という型を持つ．もし型コンストラクタがリスト型コンストラクタであれば
+という型を持つ．ここに $\mTypeConstructor{fn}$ は型コンストラクタであり，$\mGenericTypeAssemble{fn}{a}$ は $\mTypeConstructor{fn}$ によって作られた型である．
+
+もし型コンストラクタがリスト型コンストラクタであれば，つまり $\mTypeConstructor{fn}=\mListTypeConstructor$ であれば
 \begin{equation}
 (\mMapList)\mIn{}\mProj{\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mListType{a}}}{\mListType{b}}
 \end{equation}
-であるし，もし型コンストラクタがMaybe型コンストラクタであれば
+であるし，もし型コンストラクタがMaybe型コンストラクタであれば，つまり $\mTypeConstructor{fn}=\mMaybeTypeConstructor$ であれば
 \begin{equation}
 (\mMapMaybe)\mIn{}\mProj{\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mMaybeType{a}}}{\mMaybeType{b}}
 \end{equation}
 である．
 
----
-
-リストとMaybeは両者とも値コンストラクタとマップ演算子という関手を持つ．両者の関係をまとてみたのが表\ref{tab:list-and-maybe}である．オブジェクト指向プログラマなら，リストとMaybeに共通のスーパークラスを設計したくなるであろう．
-
----
-
-【要訂正】議論の抽象性を保つために，そして歴史的な経緯に従って，ある型 $\mType{a}$ において $\mProj{\mType{a}}{\mPureType{a}}$ 型のマップ演算子さえ定義されていれば，$\mPureType{a}$ 型は $\mFunctorTypeClass$ 型クラスに属すものとする．ここに $\mPureType{a}$ 型とは\keyword{一般コンテナ型}であり，リスト型 $\mListType{a}$ やMaybe型 $\mMaybeType{a}$ を抽象化したものである． 
-
+リストとMaybeは両者ともマップ演算子（と値コンストラクタ）を持つ．両者の関係をまとてみたのが表\ref{tab:list-and-maybe}である．オブジェクト指向プログラマなら，リストとMaybeに共通のスーパークラスを設計したくなるであろう．それが型クラス $\mFunctorTypeClass$ である．
 
 \begin{table*}
 \label{tab:list-and-maybe}
@@ -2279,20 +2265,20 @@ g=f\mMapMaybe
 \begin{tabular}{||c|c|c|c|c||}\hline
 型の名前&型&型コンストラクタ&マップ&値コンストラクタ\\\hline\hline
 リスト&$\mListType{a}$&$\mListTypeConstructor$&$\mMapList$&$\mListWith{x}$\\
-Maybe&$\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mJustWith{x}$\\\hline
+Maybe&$\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mJustWith{x},\mNothing$\\\hline
 \end{tabular}
 \end{center}
 \end{table*}
 
 % \section{$\mFunctorTypeClass$ 型クラス}
 
-我々はオブジェクト指向プログラミングよりもエレガントな方法で，リストとMaybeの共通項をくくりだすことにする．いよいよ型クラスの出番である．
+% 我々はオブジェクト指向プログラミングよりもエレガントな方法で，リストとMaybeの共通項をくくりだすことにする．いよいよ型クラスの出番である．
 
-リスト型 $\mListType{a}$ もMaybe型 $\mMaybeType{a}$ も $\mFunctorTypeClass$ 型クラスに属すのであった．そこで $\mFunctorTypeClass$ 型クラスは\keyword{一般マップ演算子} $(\mMap)$ を持つものとする．一般マップ演算子は，リスト型であれば $\mMapList$ 演算子に，Maybe型であれば $\mMapMaybe$ 演算子にオーバーライドされる．
+% リスト型 $\mListType{a}$ もMaybe型 $\mMaybeType{a}$ も $\mFunctorTypeClass$ 型クラスに属すのであった．そこで $\mFunctorTypeClass$ 型クラスは\keyword{一般マップ演算子} $(\mMap)$ を持つものとする．一般マップ演算子は，リスト型であれば $\mMapList$ 演算子に，Maybe型であれば $\mMapMaybe$ 演算子にオーバーライドされる．
 
----
+% ---
 
-一般マップ演算子 $(\mMap)$ は\keyword{多様的}である．この意味は，もし $f\mMap\mList{x}$ と書いてあれば $f\mMapList\mList{x}$ のことであるし，もし $f\mMap\mMaybe{u}$ と書いてあれば $f\mMapMaybe\mMaybe{u}$ のことであると自動的に解釈することである．そして，何の飾りもつけられていない変数 $x$ がふらっと現れ，目の前に $f\mMap x$という式が登場しても，落ち着いて変数 $x$ の型を調べ，変数 $x$ がリストならば $\mMap$ の部分に $\mMapList$ を，変数 $x$ がMaybeならば $\mMap$ の部分に $\mMapMaybe$ をはめ込むのだ．\footnote{\haskell では一般マップ演算子 $(\mMap)$ は \code{fmap} である．ただしその実装は与えられず，対象とする型に応じて定義されるものとする．例えばリストに対しては \code{fmap = map} と定義されている．}
+% 一般マップ演算子 $(\mMap)$ は\keyword{多様的}である．この意味は，もし $f\mMap\mList{x}$ と書いてあれば $f\mMapList\mList{x}$ のことであるし，もし $f\mMap\mMaybe{u}$ と書いてあれば $f\mMapMaybe\mMaybe{u}$ のことであると自動的に解釈することである．そして，何の飾りもつけられていない変数 $x$ がふらっと現れ，目の前に $f\mMap x$という式が登場しても，落ち着いて変数 $x$ の型を調べ，変数 $x$ がリストならば $\mMap$ の部分に $\mMapList$ を，変数 $x$ がMaybeならば $\mMap$ の部分に $\mMapMaybe$ をはめ込むのだ．\footnote{\haskell では一般マップ演算子 $(\mMap)$ は \code{fmap} である．ただしその実装は与えられず，対象とする型に応じて定義されるものとする．例えばリストに対しては \code{fmap = map} と定義されている．}
 
 
 \section{アプリカティブ関手}
@@ -2334,17 +2320,24 @@ f\mMapList\mList{x}
 \end{equation}
 と定義できる．
 
-Maybeバージョンについても考えてみよう．Maybeな関数 $\mMaybe{i}$ をMaybeな変数 $\mMaybe{u}$ にマップするアプリカティブマップ演算子 $\mAppMapMaybe$ を
+Maybeバージョンについても考えてみよう．Maybeに包まれた関数 $\mMaybe{i}$ をMaybeな変数 $\mMaybe{u}$ にマップするアプリカティブマップ演算子 $\mAppMapMaybe$ を
 \begin{equation}
 \mMaybe{i}\mAppMapMaybe\mMaybe{u}
 =\begin{cases}
-\mJustWith{fx}
-&\mIf\left(\mMaybe{i}\equiv\mJustWith{f}\right)
-\mLogicalAnd
-\left(\mMaybe{u}\equiv\mJustWith{x}\right)\\
+j\mMapMaybe\mMaybe{u}&\mIf i\equiv\mJustWith{j}\\
 \mNothing&\mOtherwise
 \end{cases}
 \end{equation}
+% \begin{equation}
+% \mMaybe{i}\mAppMapMaybe\mMaybe{u}
+% =\begin{cases}
+% \mJustWith{fx}
+% &\mIf\left(\mMaybe{i}\equiv\mJustWith{f}\right)
+% \mLogicalAnd
+% \left(\mMaybe{u}\equiv\mJustWith{x}\right)\\
+% \mNothing&\mOtherwise
+% \end{cases}
+% \end{equation}
 で定義する．このMaybeバージョンのアプリカティブマップ演算子 $(\mAppMapMaybe)$ からMaybeバージョンのマップ演算子 $(\mMapMaybe)$ は
 \begin{equation}
 f\mMapMaybe\mMaybe{u}
@@ -2374,11 +2367,11 @@ w=f\mMap u\mAppMap v
 \end{equation}
 とすれば良い．このようにアプリカティブマップ演算子を並べる書き方をアプリカティブスタイルと呼ぶ．
 
-\section{関手としての関数*}
+\section{関手としての関数}
 
 関数は関手である．関手とはマップ演算子を持つ型クラスのことであった．そこで，関数がどのようなマップ演算子を持つのか考えてみる．
 
-ま関数 $f$ が
+いま関数 $f$ が
 \begin{equation}
 f\mIn\mProj{\mType{r}}{\mType{a}}
 \end{equation}
@@ -2386,7 +2379,7 @@ f\mIn\mProj{\mType{r}}{\mType{a}}
 \begin{equation}
 \mProj{\mType{r}}{\mType{a}}=\mFuncTypeConstructor{r}\mType{a}
 \end{equation}
-であると考えてみる．型コンストラクタによって型 $(\mProj{\mType{r}}{\mType{a}})$ が作られると考えるのだ．
+であると考えてみる．型 $\mType{a}$ から型コンストラクタ $\mFuncTypeConstructor{r}$ によって型 $(\mProj{\mType{r}}{\mType{a}})$ が作られると考えるのだ．
 
 マップ演算子の型は
 \begin{equation}
@@ -2442,19 +2435,19 @@ g\mMapFunc f=g\mComp f
 \begin{equation}
 g\mMapFunc f=\mLambdaExp{x}{g(fx)}
 \end{equation}
-と書いても同じことである．
+と書いても同じことである．これが \haskell における関数のマップ演算子の定義である．
 
 \separator
 
-関数はアプリカティブ関手でもある．アプリカティブ関手には，アプリカティブマップ演算子とピュア演算子が定義されるのであった．そこで，関数版のアプリカティブマップ演算子を $\mAppMapFunc$ とし，関数版のピュア演算子を $\mFuncWith{\dotsb}$ と書くことにしよう．
+関数はアプリカティブ関手でもある．アプリカティブ関手には，アプリカティブマップ演算子とピュア演算子が定義されるのであった．そこで，関数版のアプリカティブマップ演算子を $\mAppMapFunc$ とし，関数版のピュア演算子を $\mFuncWith{x}$ と書くことにしよう．
 
-ピュア演算子は $\mProj{\mType{a}}{(\mProj{\mType{r}}{\mType{a}})}$ 型を持たなければならない．従って関数版のピュア演算子は変数から関数を作るとも考えられる．我々は
+ピュア演算子は $\mProj{\mType{a}}{(\mProj{\mType{r}}{\mType{a}})}$ 型を持たなければならない．従って関数版のピュア演算子は変数から関数を作るとも考えられる．我々は関数版のピュア演算子として
 \begin{equation}
 \mFuncWith{x}=\mLambdaExp{\mAnyParam}{x}
 \end{equation}
 を採用する．
 
-関数版のアプリカティブマップ演算子を $\mAppMapFunc$ とすると
+関数版のアプリカティブマップ演算子を $\mAppMapFunc$ とすると，その型は
 \begin{equation}
 \mAppMapFunc
 \mIn
@@ -2492,19 +2485,17 @@ g\mMapFunc f=\mLambdaExp{x}{g(fx)}
 \begin{equation}
 g\mAppMapFunc f=\mLambdaExp{x}{gx(fx)}
 \end{equation}
-とする．
-% Why???
-関数版マップ演算子は，関数版ピュア演算子と関数版アプリカティブマップ演算子から合成できる．これは
+とする．これは，関数版のピュア演算子の定義と，一般マップ演算子と一般アプリカティブマップ演算子の関係 $f\mMap w=\mPureWith{f}\mAppMap w$ から導かれる．すなわち
 \begin{align}
 \mFuncWith{g}\mAppMapFunc f
-&=\mLambdaExp{x}{\mFuncWith{g}x(\phi f)}\\
+&=\mLambdaExp{x}{\mFuncWith{g}x(fx)}\\
 &=\mLambdaExp{x}{(\mLambdaExp{\mAnyParam}{g})x(fx)}\\
 &=\mLambdaExp{x}{g(fx)}\\
 &=g\mComp f
 \end{align}
-とすれば確かめられる．
+であるからである．
 
-\section{余計な話：アプリカティブマップ演算子の実装*}
+\section{余計な話：アプリカティブマップ演算子の実装}
 
 リストとMaybeのアプリカティブマップ演算子は，それぞれのマップ演算子から定義することができる．リストのアプリカティブマップ演算子の定義は次の通り．
 \begin{equation}
@@ -2548,7 +2539,10 @@ h\mMapMaybe\mMaybe{u}&\mIf\mMaybe{g}\equiv\mJustWith{h}\\
 
 \section{この章のまとめ*}
 
-...
+\begin{enumerate}
+\item ...
+\end{enumerate}
+
 
 \begin{note}{ファンクター}
 関手は英語でファンクター(functor)と言うが，\cxx の関数オブジェクト (function object) もかつてはファンクター(functor)と呼ばれていた．\cxx のファンクターとはクロージャの粗末な代用品のことで，本書で述べる関手とは異なる概念である．混同しないように注意しよう．
@@ -2598,7 +2592,7 @@ g\mIn\mProj{\mType{a}}{\mMaybeType{a}}
 \begin{equation}
 \mMaybe{v}=g\mBindMaybe\mMaybe{u}
 \end{equation}
-とする．この新しいマップ演算子 $\mBindMaybe$ のことをMaybeの\keyword{バインド演算子}と呼ぶ．ここで $\mMaybe{v}=\mJustWith{gx}$ である．
+とする．この新しいマップ演算子 $\mBindMaybe$ のことをMaybeの\keyword{バインド演算子}と呼ぶ．ここで，もし計算が成功していたら $\mMaybe{v}=\mJustWith{gx}$ であり，失敗していたら $\mMaybe{v}=\mNothing$ である．
 
 演算 $(g\mBindMaybe\mMaybe{u})$ の結果はMaybe値であるから，バインド演算子は連続して用いることができる．通常の引数を取ってMaybe値を返すもう一つの関数 $h$ があるとすると
 \begin{equation}
@@ -2651,7 +2645,7 @@ ix=\begin{cases}
 \mPureNothing&\mOtherwise
 \end{cases}
 \end{equation}
-ここに $x$ は非コンテナ変数で，関数 $f$ も「普通の」（コンテナではない）関数である．より厳密に言えば $x\mIn\mType{a}$ かつ $f\mIn\mProj{\mType{a}}{\mType{b}}$ である．従って，関数 $i$ の型は $\mProj{\mType{a}}{\mPureType{b}}$ である．
+ここに $x$ は非コンテナ変数で，関数 $f$ も「普通の」（コンテナに入っていない）関数である．より厳密に言えば $x\mIn\mType{a}$ かつ $f\mIn\mProj{\mType{a}}{\mType{b}}$ である．従って，関数 $i$ の型は $\mProj{\mType{a}}{\mPureType{b}}$ である．
 
 関数 $i$ をコンテナに入った変数 $u=\mPureWith{x}$ に適用させるのが一般バインド演算子 $(\mBind)$ の役割である．計算結果をコンテナ変数 $a$ に格納するとすると，関数 $i$ のコンテナ変数 $u$ への適用は
 \begin{equation}
@@ -2715,10 +2709,13 @@ v=f\mMap u=\mPureWith{f}\mAppMap u=\mPureWith{f\mAnonParam}\mBind u
 ここでも $\mId=\mAnonParam$ である．
 
 アプリカティブマップ演算子の準同型則は $w=\mPureWith{fx}$ とした時に，
-\begin{align}
-x\xrightarrow{\mPureWith{\dotsb}}\mPureWith{x}\xrightarrow{\mPureWith{f}\mAppMap\dotsb}&w\\
-x\xrightarrow{f}fx\xrightarrow{\mPureWith{\dotsb}}&w
-\end{align}
+\begin{equation}
+\begin{matrix}
+&x&\xrightarrow{\mPureWith{\dotsb}}&\mPureWith{x}\\
+f&\Big\downarrow&&\Big\downarrow&\mPureWith{f}\mAppMap\\
+&fx&\xrightarrow{\mPureWith{\dotsb}}&w
+\end{matrix}
+\end{equation}
 のように $x$ からスタートして，どちらのルートを辿っても $w$ に行き着くという意味である．
 
 アプリカティブマップ演算子の合成則も注釈が必要であろう．仮に $\phi=\mPureWith{g},\psi=\mPureWith{h},v=\mPureWith{z}$ とすると，合成則の左辺は
@@ -2887,17 +2884,18 @@ Maybe
 \mFuncWith{x}&=\mLambdaExp{\mAnyParam}{x}\\
 g\mAppMapFunc f&=\mLambdaExp{x}{gx(fx)}
 \end{align}
-であった．関数ピュア演算子は，任意の引数 $x$ を関数に置き換える．ただし，その関数は引数を捨てて元の変数 $x$ を返す．例えば
-\begin{equation}
-x=\mFuncWith{x}y
-\end{equation}
-と，ダミー変数 $y$ を使って中身の $x$ を取り出せる．
+であった．
+% 関数ピュア演算子は，任意の引数 $x$ を関数に置き換える．ただし，その関数は引数を捨てて元の変数 $x$ を返す．例えば
+% \begin{equation}
+% x=\mFuncWith{x}y
+% \end{equation}
+% と，ダミー変数 $y$ を使って中身の $x$ を取り出せる．
 
 関数のバインド演算子 $\mBindFunc$ を考えておこう．関数のバインド演算子は
 \begin{equation}
 g\mBindFunc f=\mLambdaExp{x}{g(fx)x}
 \end{equation}
-と定義する．ピュア演算子とバインド演算子から，関数のマップ演算子を合成できる．
+と定義する．ピュア演算子とバインド演算子から，関数のマップ演算子を次のように合成できる．
 \begin{align}
 \mFuncWith{g\mAnonParam}\mBindFunc f
 &=\mLambdaExp{x}{\mFuncWith{g\mAnonParam}(fx)x}\\
@@ -2922,31 +2920,12 @@ g\mBindFunc f=\mLambdaExp{x}{g(fx)x}
 
 今まで出てきた型と型クラスの関係を表\ref{tab:monadplus}に示す．Maybeに関しては $\mType{a}$ 型がモノイドである場合に限って $\mMaybeType{a}$ 型もモノイドである．
 
----
-
-
-
-\begin{align}
-\mConst x&=\mLambdaExp{\mAnyParam}{x}\\
-\mFuncWith{f}&=\mConst f\\
-i\mBind f'&=\mLambdaExp{r}{i(f'r)r}
-\end{align}
-
-
-\begin{align}
-i\mMapFunc f'&=\mFuncWith{i\mAnonParam}\mBind f'\\
-&=(\mConst(i\mAnonParam))\mBind f'\\
-&=(\mConst\mComp i)\mBind f'\\
-&=\mLambdaExp{r}{(\mConst\mComp i)(f'r)r}\\
-&=\mLambdaExp{r}{\mConst(i(f'r)r}\\
-&=\mLambdaExp{r}{i(f'r)}\\
-&=\mLambdaExp{r}{(i\mComp f')r}\\
-&=\mFuncWith{i\mComp f'} % so i `fmap` f' == pure i.f' ???
-\end{align}
-
-
-
 \section{この章のまとめ*}
+
+\begin{enumerate}
+\item ...
+\end{enumerate}
+
 
 \begin{note}{若干の歴史的な混乱について}
 \haskell には最初に関手が導入され，その次に関手を拡張する形でモナドが導入された．そしてその次に，関手を拡張しなおす形でアプリカティブ関手が導入された．それゆえ，モナドとアプリカティブ関手には概念的重複があるにもかかわらず，別々に定義されるという悲劇が暫くの間続いた．アプリカティブ関手のピュア演算子と，モナドのユニット演算子は概念的に同じものであるにもかかわらず，別々の演算子として定義されていたのである．この状態は GHC v7.10 以降で，モナドがアプリカティブ関手を拡張する形に改められたことで解消した．
@@ -3035,7 +3014,7 @@ $\mIOUnitType$ 型の場合，ピュア演算子は何も返す必要がない�
 \label{eq:do-print-random}
 \omega=\mDo{a\mDoEq\mRand\mDoNext\mPutStr a}
 \end{equation}
-となる．\footnote{\haskell では
+となる．\footnote{\haskell では $\mDoNext$ を改行に置き換えて
 \begin{verbatim}
   main = do
     a <- rand
@@ -3192,10 +3171,10 @@ y=g_2(g_1x)
 \begin{align}
 \mDataType\;
 &\mType{Rectangle}
-=\mValueConstructorName{Rectangle}\,\{\\
+=\mGenericValueConstructorRecordBeginWith{Rectangle}\\
 &\quad\mFunc{origin}\mIn\mType{Vector2D},\\
 &\quad\mFunc{size}\mIn\mType{Vector2D}\\
-&\}
+&\mGenericValueConstructorRecordEnd
 \end{align}
 
 
@@ -3237,10 +3216,10 @@ y=g_2(g_1x)
 \mInstance\;&
 \mEqTypeClass\mSuperSet\mType{Num}\\
 &\quad\mWhere{}\\
-&\qquad\mConst{One}\equiv\mConst{One}=\mTrue\\
-&\qquad\mConst{Two}\equiv\mConst{Two}=\mTrue\\
-&\qquad\mConst{Three}\equiv\mConst{Three}=\mTrue\\
-&\qquad\mConst{Many}\equiv\mConst{Many}=\mTrue\\
+&\qquad\mConstant{One}\equiv\mConstant{One}=\mTrue\\
+&\qquad\mConstant{Two}\equiv\mConstant{Two}=\mTrue\\
+&\qquad\mConstant{Three}\equiv\mConstant{Three}=\mTrue\\
+&\qquad\mConstant{Many}\equiv\mConstant{Many}=\mTrue\\
 &\qquad\mAnyParam\equiv\mAnyParam=\mFalse
 \end{align*}
 とする．これを\keyword{型クラスのインスタンス化}と呼ぶ．\footnote{\haskell では
@@ -4027,18 +4006,6 @@ Abelian Group&$\checkmark$&$\checkmark$&$\checkmark$&$\checkmark$&$\checkmark$\\
 % 擬群のことを準群と呼ぶこともある．この場合ループを擬群と呼ぶこともある．
 
 
-\chapter{モナドとプログラミング言語*}
-
-\section{ジョイン*}
-
-\section{数学におけるモナド*}
-
-\section{クライスリ・トリプル*}
-
-\section{余計な話*}
-
-\section{この章のまとめ*}
-
 \chapter{ラムダ*}
 
 \section{条件式}
@@ -4054,7 +4021,7 @@ f&=\mLambdaExp{xy}{y}\\
 \mIfFunc txy&=txy\\
 &=(\mLambdaExp{xy}{x})xy\\
 &=x\\
-\mIfFuncfxy&=fxy\\
+\mIfFunc fxy&=fxy\\
 &=(\mLambdaExp{xy}{y})xy\\
 &=y
 \end{align}
@@ -4065,23 +4032,39 @@ f&=\mLambdaExp{xy}{y}\\
 
 % http://qiita.com/7shi/items/1345bf32003faff435cb#%E4%B8%8D%E5%8B%95%E7%82%B9%E3%82%B3%E3%83%B3%E3%83%93%E3%83%8D%E3%83%BC%E3%82%BF
 
-\section{余計な話：マクロ*}
+\section{余計な話：継続*}
 
 \section{この章のまとめ*}
 
 
-\chapter{\scheme}
+\chapter{モナドとプログラミング言語*}
 
-\section{基本関数*}
-\section{分岐と再帰*}
-\section{継続*}
-\section{余計な話：ハイジェニックマクロ*}
+\section{ジョイン*}
+
+\section{数学におけるモナド*}
+
+\section{クライスリ・トリプル*}
+
+\section{余計な話*}
+
 \section{この章のまとめ*}
 
-\chapter{\cxx}
+\chapter{カリー=ハワード同型対応}
 
-\section{クラスとテンプレート*}
-\section{ラムダ式*}
+\section{型付きラムダ計算}
+
+\chapter{整理中*}
+
+% \section{基本関数*}
+% \section{分岐と再帰*}
+% \section{継続*}
+% \section{余計な話：ハイジェニックマクロ*}
+% \section{この章のまとめ*}
+
+% \chapter{\cxx}
+
+% \section{クラスとテンプレート*}
+% \section{ラムダ式*}
 
 \cxxfourteen
 \begin{verbatim}
@@ -4092,7 +4075,6 @@ auto lambda_exp
 \begin{verbatim}
 auto lambda_exp = [u = 1] { return u; };
 \end{verbatim}
-
 
 
 \section{オブジェクト指向*}
