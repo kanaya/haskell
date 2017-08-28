@@ -140,6 +140,7 @@
 \newcommand{\mSpecialFunc}[1]{\mathrm{#1}}
 
 \DeclareMathOperator{\mGetList}{\mFunc{getlist}}
+\DeclareMathOperator{\mRepeat}{\mFunc{repeat}}
 \DeclareMathOperator{\mZipWith}{\mFunc{zipwith}}
 
 \DeclareMathOperator{\mFact}{\mSpecialFunc{fact}}
@@ -147,7 +148,6 @@
 \DeclareMathOperator{\mMainFunc}{\mSpecialFunc{main}}
 \DeclareMathOperator{\mPred}{\mSpecialFunc{pred}}
 \DeclareMathOperator{\mSucc}{\mSpecialFunc{succ}}
-\DeclareMathOperator{\mRepeat}{\mSpecialFunc{repeat}}
 \DeclareMathOperator{\mSort}{\mSpecialFunc{srt}}
 \DeclareMathOperator{\mSum}{\mSpecialFunc{sum}}
 \DeclareMathOperator{\mTail}{\mSpecialFunc{tail}}
@@ -231,7 +231,7 @@
 \newcommand{\mZSet}{\mSpecialSet{Z}}
 
 % Internal type names
-\newcommand{\mZipList}{ZL}
+\newcommand{\mZipList}{Z}
 
 % Type names
 \newcommand{\mType}[1]{\mathbf{#1}}
@@ -3160,13 +3160,15 @@ y=g_2(g_1x)
 
 \separator
 
-新しいデータ型がある型クラスに属すとき，$\mDataType$ 文でそれを同時に宣言出来る．例えば $\mType{Num}$ 型が $\mEqTypeClass$ 型クラスに属すとき，
+新しいデータ型がある型クラスに属すとき，$\mDataType$ 文でそれを同時に宣言出来る．例えば $\mType{Num}$ 型は同値演算子 $(\equiv)$ を持つことが自然である．型 $\mType{Num}$ が $\mEqTypeClass$ 型クラスに属すとき，
 \begin{multline}
 \mDataType\;\mType{Num}\\
 =\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany\\
 \mDeriving\mEqTypeClass
 \end{multline}
 のように書く．\footnote{\haskell では \code{data Num = One | Two | Three | Many deriving Eq} と書く．}
+
+型 $\mType{Num}$ の同値演算子 $(\equiv)$ の実装は\ref{sec:type-class-and-instance}節で見ることにする．
 
 \section{レコード構文*}
 
@@ -3185,7 +3187,13 @@ $\mType{Rencatngle}$ 型の変数は次のように初期化する．
 r&\mIn\mType{Rectangle}\\
 r&=\mGenericWith{Rectangle}{1\,2\,3\,4}
 \end{align}
-これは\clang で言う \code{struct} と似た用法である．
+これは\clang で言う \code{struct} と似た用法である．\footnote{\haskell では
+\begin{verbatim}
+  r :: Rectangle
+  r = Rectangle 1 2 3 4
+\end{verbatim}
+と書く．
+}
 
 $\mType{Rectangle}$ 型から中身を取り出すには，次のような関数を用意しておかねばならない．
 \begin{align}
@@ -3194,22 +3202,40 @@ $\mType{Rectangle}$ 型から中身を取り出すには，次のような関数
 \mFunc{width}\mGenericWith{Rectangle}{\mAnyParam\,\mAnyParam\,w\,\mAnyParam}&=w\\
 \mFunc{height}\mGenericWith{Rectangle}{\mAnyParam\,\mAnyParam\,\mAnyParam\,h}&=h
 \end{align}
-この面倒は，次のシンタックスシュガーを使うことで軽減される．
+この面倒は，次のシンタックスシュガーを使うことで軽減される．\footnote{\haskell では
+\begin{verbatim}
+  x      Rectangle x _ _ _ = x
+  y      Rectangle _ y _ _ = y
+  width  Rectangle _ _ w _ = w
+  height Rectangle _ _ _ h = h
+\end{verbatim}
+と書く．}
 
 型 $\mType{Rectangle}$ のようにパラメタが多いときは，パラメタに名前があると便利である．そこで利用できるのが\keyword{レコード構文}である．レコード構文を使うと，式\eqref{eq:rectangle}は
-\begin{equation}
-\begin{aligned}
+\begin{multline}
 \mDataType\;
-&\mType{Rectangle}
-=\mGenericRecordBeginWith{Rectangle}\\
-&\quad\mFunc{x}\mIn\mFloatType,\\
-&\quad\mFunc{y}\mIn\mFloatType,\\
-&\quad\mFunc{width}\mIn\mFloatType,\\
-&\quad\mFunc{height}\mIn\mFloatType,\\
-&\mGenericRecordEnd\\
-&\mDeriving\mEqTypeClass
-\end{aligned}
-\end{equation}
+\mType{Rectangle}
+=\mGenericRecordBeginWith{Rectangle}
+\mFunc{x}\mIn\mFloatType,\\
+\mFunc{y}\mIn\mFloatType,
+\mFunc{width}\mIn\mFloatType,
+\mFunc{height}\mIn\mFloatType
+\mGenericRecordEnd\\
+\mDeriving\mEqTypeClass
+\end{multline}
+% \begin{equation}
+% \begin{aligned}
+% \mDataType\;
+% &\mType{Rectangle}
+% =\mGenericRecordBeginWith{Rectangle}\\
+% &\quad\mFunc{x}\mIn\mFloatType,\\
+% &\quad\mFunc{y}\mIn\mFloatType,\\
+% &\quad\mFunc{width}\mIn\mFloatType,\\
+% &\quad\mFunc{height}\mIn\mFloatType\\
+% &\mGenericRecordEnd\\
+% &\mDeriving\mEqTypeClass
+% \end{aligned}
+% \end{equation}
 のように書き直すことが出来る．\footnote{\haskell では
 \begin{verbatim}
   data Rectangle = Rectangle {
@@ -3242,19 +3268,8 @@ r=\mGenericRecordWith{Rectangle}{\mFunc{x}=1,
 \end{multline}
 のようなデータ型の定義も可能である．この例では型 $\mType{Shape}$ は値コンストラクタ $\mGenericValueConstructor{Circle}$ または $\mGenericValueConstructor{Triangle}$ によって初期化され，それぞれ2個または3個の $\mFloatType$ 型のパラメタを取る．\footnote{\haskell では \code{data Shape = Circle Float Float | Triangle Float Float Float} と書く．}
 
----
-
-\begin{multline}
-\mDataTypeParametric\;\mEitherTypeConstructor\mType{a}\mType{b}
-=\mLeftWith{\mType{a}}
-\mValueOr
-\mRightWith{\mType{b}}\\
-\mDeriving{}(\mEqTypeClass,\mOrdTypeClass)
-\end{multline}
-
-
-
 \section{型クラスとインスタンス化}
+\label{sec:type-class-and-instance}
 
 型クラスとは，複数の型が持つ共通のインタフェースである．その複数の型をいま $\mType{a}$ で表すこととして，型 $\mType{a}$ が型クラス $\mEqTypeClass$ に属すとしよう．型クラス $\mEqTypeClass$ は等号 $(\equiv)$ と不等号 $(\neq)$ をインタフェースとして持つ．このことを
 \begin{align}
@@ -3302,8 +3317,6 @@ r=\mGenericRecordWith{Rectangle}{\mFunc{x}=1,
 \end{verbatim}
 と書く．}
 
-
-
 型クラスは\keyword{継承関係}を持てる．型クラス $\mOrdTypeClass$ は型クラス $\mEqTypeClass$ から等号，不等号を継承し「小なりイコール」 $(\le)$ を追加する．
 \begin{multline}
 \mTypeClass\,(\mEqTypeClass\mSuperSet\mType{a})\mSuperClass\mathop{\mOrdTypeClass}\mType{a}\\
@@ -3319,7 +3332,35 @@ r=\mGenericRecordWith{Rectangle}{\mFunc{x}=1,
 
 ---
 
-deriving
+
+
+\begin{multline}
+\mDataType\;\mType{Num}\\
+=\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany\\
+\mDeriving{}(\mEqTypeClass,\mOrdTypeClass)
+\end{multline}
+
+\begin{multline}
+\mInstance\;
+\mOrdTypeClass\mSuperSet\mType{Num}\\
+\mWhere{}
+\left\{
+\begin{aligned}
+\mConstant{One}\le\mConstant{One}&=\mTrue\\
+\mConstant{One}\le\mConstant{Two}&=\mTrue\\
+\mConstant{One}\le\mConstant{Three}&=\mTrue\\
+\mConstant{One}\le\mConstant{Many}&=\mTrue\\
+\mConstant{Two}\le\mConstant{Two}&=\mTrue\\
+\mConstant{Two}\le\mConstant{Three}&=\mTrue\\
+\mConstant{Two}\le\mConstant{Many}&=\mTrue\\
+\mConstant{Three}\le\mConstant{Three}&=\mTrue\\
+\mConstant{Three}\le\mConstant{Many}&=\mTrue\\
+\mConstant{Many}\le\mConstant{Many}&=\mTrue\\
+\mAnyParam\equiv\mAnyParam&=\mFalse
+\end{aligned}
+\right.
+\end{multline}
+
 
 ---
 
@@ -3399,6 +3440,19 @@ Maybeの間に新たに定義された等号 $(\equiv)$ は次の型を持つ．
 \begin{equation}
 (\equiv)\mIn{}(\mEqTypeClass\mSuperSet\mType{a})\mSuperClass\mProj{\mMaybeType{a}}{\mProj{\mMaybeType{a}}{\mBoolType}}
 \end{equation}
+
+---
+
+\begin{multline}
+\mDataTypeParametric\;\mEitherTypeConstructor\mType{a}\mType{b}
+=\mLeftWith{\mType{a}}
+\mValueOr
+\mRightWith{\mType{b}}\\
+\mDeriving{}(\mEqTypeClass,\mOrdTypeClass)
+\end{multline}
+
+
+
 
 ---
 
@@ -3520,7 +3574,7 @@ f\mMap{}\mLeftWith{x}&=\mLeftWith{x}
 \begin{equation}
 \mGenericTypeAssemble{fn}{a}=\mathop{\mTypeConstructor{fn}}\mType{a}
 \end{equation}
-のように作られる．\footnote{\haskell では $\mGenericTypeAssemble{fn}{a}$ も ${\mTypeConstructor{fn}}\mType{a}$ も同様に \code{fn a} と書く．そこで式\eqref{eq:fn}は
+のように作られる．\footnote{\haskell では $\mGenericTypeAssemble{fn}{a}$ も $\mathop{\mTypeConstructor{fn}}\mType{a}$ も同様に \code{fn a} と書く．そこで式\eqref{eq:fn}は
 \begin{verbatim}
   class functor fn
     where fmap :: (a -> b) -> fn a -> fn b
@@ -3607,7 +3661,7 @@ f\mMap{}\mLeftWith{x}&=\mLeftWith{x}
 \begin{equation}
 \mNewDataTypeParametric\;\mZipListTypeConstructor\mType{a}=\mZipListRecordWith{\mGetList\mIn{}\mListType{a}}
 \end{equation}
-やったことはキーワード $\mDataTypeParametric$ を $\mNewDataTypeParametric$ に置き換えたことである．これは，字面に反して，型 $\mType{\mZipList}$ が何一つ「新しくない」ことを\haskell コンパイラに伝えるためである．
+やったことはキーワード $\mDataTypeParametric$ を $\mNewDataTypeParametric$ に置き換えたことである．これは，字面に反して，型 $\mType{\mZipList}$ が何一つ「新しくない」ことを\haskell コンパイラに伝えるためである．その結果\haskell コンパイラは型 $\mType{\mZipList}$ に対する最適化の機会を得る．
 
 
 \section{この章のまとめ*}
