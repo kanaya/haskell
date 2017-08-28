@@ -231,7 +231,7 @@
 \newcommand{\mZSet}{\mSpecialSet{Z}}
 
 % Internal type names
-\newcommand{\mZipList}{Ziplist}
+\newcommand{\mZipList}{ZL}
 
 % Type names
 \newcommand{\mType}[1]{\mathbf{#1}}
@@ -272,7 +272,7 @@
 \newcommand{\mIOUnitType}{\mIOType{\mUnitType}}
 
 % Type constructors
-\newcommand{\mTypeConstructor}[1]{\mathit{#1}} % Internal use
+\newcommand{\mTypeConstructor}[1]{\mathit{#1}}
 
 \DeclareMathOperator{\mEitherTypeConstructor}{\mTypeConstructor{Either}}
 \DeclareMathOperator{\mListTypeConstructor}{\mTypeConstructor{List}}
@@ -285,8 +285,8 @@
 \newcommand{\mGenericValueConstructor}[1]{\text{#1}}
 \newcommand{\mGenericWith}[2]{{}^\mGenericValueConstructor{#1}\[#2\]}
 \newcommand{\mGenericRecordWith}[2]{{}^\mGenericValueConstructor{#1}\{#2\}}
-\newcommand{\mGenericValueConstructorRecordBeginWith}[1]{{}^\mGenericValueConstructor{#1}\{}
-\newcommand{\mGenericValueConstructorRecordEnd}{\}}
+\newcommand{\mGenericRecordBeginWith}[1]{{}^\mGenericValueConstructor{#1}\{}
+\newcommand{\mGenericRecordEnd}{\}}
 
 \newcommand{\mLeftWith}[1]{\mGenericWith{\mLeft}{#1}}
 \newcommand{\mRightWith}[1]{\mGenericWith{\mRight}{#1}}
@@ -597,11 +597,11 @@ $ stack install ghc
 \end{description}
 
 
-\section{余計な話：本書の構成*}
+\section{余談：本書の構成*}
 
-ところで，各章の終りにはこのような「余計な話」の節を設けている．余計な話には，本書を読み進めるに当たって本質的ではない話を詰め込んでいる．ではなぜ書くかというと，これは筆者が頭を整理するために書くのである．なので，筆者が何を思って本書を執筆していたかを知りたいときが万が一来れば，目を通してもらいたい．
+ところで，各章の終りにはこのような「余談」の節を設けている．余談には，本書を読み進めるに当たって本質的ではない話を詰め込んでいる．ではなぜ書くかというと，これは筆者が頭を整理するために書くのである．なので，筆者が何を思って本書を執筆していたかを知りたいときが万が一来れば，目を通してもらいたい．
 
-最初の余計な話は本書の構成である．
+最初の余談は本書の構成である．
 
 そもそも本の構成など，目次を見ればわかることであるが，執筆時点では目次がまだない．そこで，筆者がときどきこの節を読み返し，全体の構成を確認しているのである．
 
@@ -622,7 +622,7 @@ $ stack install ghc
 \end{note}
 
 
-\chapter{カリー風な書き方*}
+\chapter{カリー風な書き方}
 \label{ch:curry}
 
 \begin{leader}
@@ -727,10 +727,10 @@ fx=(\sin x)/x
 関数に\keyword{スペシャルバージョン}がある場合はそれらを列挙する．例えば引数が $0$ の場合は特別に戻り値が $1$ であり，その他の場合は関数 $f$ と同じ振る舞いをする関数 $f'$ を考える．このとき $f'$ は
 \begin{equation}
 \left\{
-\begin{split}
+\begin{aligned}
 f'0&=1\\
 f'x&=(\sin x)/x
-\end{split}
+\end{aligned}
 \right.
 \end{equation}
 ように定義する．これを関数の\keyword{パタンマッチ}と呼ぶ．\footnote{\haskell では
@@ -743,10 +743,10 @@ f'x&=(\sin x)/x
 関数のパタンマッチは，関数の内部に書いても良い．関数内部にパタンマッチを書きたい場合は
 \begin{equation}
 f'x=\mCaseOf{x}\left\{
-\begin{split}
+\begin{aligned}
 0&\mIfSo1\\
 \mAnyParam&\mIfSo(\sin x)/x
-\end{split}
+\end{aligned}
 \right.
 \end{equation}
 のように書く．ここに $\mAnyParam$ は任意の値の意味である．パタンマッチは上から順番にマッチングしていくため，この場合は $0$ 以外を意味する．\footnote{\haskell では
@@ -759,11 +759,11 @@ f'x=\mCaseOf{x}\left\{
 
 関数定義にパタンマッチではなく\keyword{場合分け}が必要な場合は\keyword{ガード}を用いる．例えば引数の値が負の場合は $-1$ を，$0$ の場合は $1$ を，それ以外の場合は関数 $f$ と同じ振る舞いをする関数 $f''$ は
 \begin{equation}
-\begin{split}
+\begin{aligned}
 f''x&\mGuard{x<0}=0\\
 &\mGuard{x\equiv 0}=1\\
 &\mGuard{\mOtherwise}=(\sin x)/x
-\end{split}
+\end{aligned}
 \end{equation}
 という風に定義する．\footnote{\haskell では
 \begin{verbatim}
@@ -815,7 +815,7 @@ fx=\begin{cases}
 \end{equation}
 左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっていることに注目しよう．\footnote{\haskell ではいつも \code{if}, \code{then}, \code{else} を使った式にする．}
 
-\section{余計な話：局所変数}
+\section{余談：局所変数}
 
 数式が長く続くとき，読みやすさのために局所変数を導入すると便利である．例えば
 \begin{equation}
@@ -977,7 +977,7 @@ r&=f1
 
 高階関数は今後度々顔をだすことになる．第\ref{ch:list}章に登場するマップ演算子や畳込み演算子は高階関数の一種である．
 
-\section{余計な話：クロージャ}
+\section{余談：クロージャ}
 
 ラムダ式をサポートするほとんどのプログラミング言語は，\keyword{レキシカルクロージャ}をサポートする．レキシカルクロージャとは，ラムダ式が定義された時点での，周囲の環境をラムダ式に埋め込む機構である．例えば
 \begin{align}
@@ -1027,7 +1027,7 @@ int main(void) {
 コード中の \code{\textasciicircum(int x) \{ return n+x; \}} がブロック（クロージャ）である．\clang のブロック拡張はオープンソースコミュニティに還元されているため，GCCやclangで使用可能である．
 \end{note}
 
-\chapter{型*}
+\chapter{型}
 \label{ch:type}
 
 \begin{leader}
@@ -1306,7 +1306,7 @@ $\mDoubleType$
 \end{center}
 \end{table*}
 
-\section{余計な話：モノイド}
+\section{余談：モノイド}
 
 整数全てからなる\keyword{集合}を $\mZSet$ で表すことにする．計算機科学で整数と言うと，本当の整数と，例えば $-2^{63}$ から $2^{63}-1$ までの間の整数の意味と両方あるが，今は前者の意味である．
 
@@ -1678,7 +1678,7 @@ f&=\mLambdaExp{x}{100+x}\\
 \end{align}
 とすると $\mList{y}$ の値は $\mListWith{101,102,103,104,105}$ となる．
 
-\section{余計な話：リストの実装}
+\section{余談：リストの実装}
 
 ここでリストの実装について述べておこう．紙上ではリストは自由に考えられるが，計算機上ではそれほど自由ではないからである．我々はリストを\lisp におけるリストと同じ構造を持つものとする．\lisp におけるリストとは変数 $\mFirstVar$ と変数 $\mRestVar$ からなるペアの集合である．変数 $\mFirstVar$ がリストの要素を参照し，変数 $\mRestVar$ が次のペアを参照する．リストの最後のペアの $\mRestVar$ は空リストを参照する特別な値を持つ．
 
@@ -1700,12 +1700,12 @@ f&=\mLambdaExp{x}{100+x}\\
 マップ演算子の実装は，リストの実装に踏み込めば簡単である．空でないリストは必ず $x:\mList{x}$ へと分解できるから
 \begin{equation}
 \left\{
-\begin{split}
+\begin{aligned}
 f\mMapList{}(x:\mList{x})
   &=(fx):(f\mMapList\mList{x})\\
 f\mMapList\mEmptyList
   &=\mEmptyList
-\end{split}
+\end{aligned}
 \right.
 \end{equation}
 とマップ演算子 $(\mMapList)$ を定義できる．つまりマップ演算子 $(\mMapList)$ は結合演算子 $(:)$ から作ることができる．換言すれば，マップ演算子はシンタックスシュガーである．
@@ -1792,10 +1792,10 @@ x*\mFact(x-1)&\mOtherwise
 結合演算子 $(:)$ は関数引数のパタンにも使える．これは，例えばリストの和をとる関数 $\mSum$ は
 \begin{equation}
 \left\{
-\begin{split}
+\begin{aligned}
 \mSum\mEmptyList&=0\\
 \mSum(x:\mList{x})&=x+\mSum\mList{x}
-\end{split}
+\end{aligned}
 \right.
 \end{equation}
 のようにも定義できるということである．
@@ -1837,13 +1837,7 @@ x*\mFact(x-1)&\mOtherwise
 
 計算機科学者が末尾再帰を好む理由は，\haskell を含む幾つかのプログラミング言語処理系が\keyword{末尾再帰最適化}を行うからである．末尾再帰最適化とは，一言で言うと再帰を計算機が扱いやすいループに置き換えることである．では最初から我々もループで関数を表現しておけば，と思われるかもしれないが，再帰以外の方法でループを表現する場合には必ず変数（ループカウンタ）への破壊的代入が必要になるため，我々は末尾再帰に慎ましくループを隠すのである．
 
-\section{アルゴリズムの本質*}
-
-逐次実行，条件分岐，繰り返し．
-
-...
-
-\section{余計な話：遅延評価*}
+\section{遅延評価*}
 
 \haskell は，意図しない限り遅延評価を行う．これは特に左畳み込み演算子 $(\mFold)$ を使う場合に問題となる．いま $\mList{x}=\mListWith{x_0,x_1,x_2,x_3}$ とすると，左畳み込み演算 $\mFold^+_0\mList{x}$ は
 \begin{align}
@@ -1863,6 +1857,14 @@ x*\mFact(x-1)&\mOtherwise
 % https://downloads.haskell.org/~ghc/7.0.1/docs/html/users_guide/primitives.html
 
 
+\section{余談：アルゴリズムの本質*}
+
+逐次実行，条件分岐，繰り返し．
+
+...
+
+
+
 \section{この章のまとめ}
 
 \begin{enumerate}
@@ -1875,15 +1877,19 @@ x*\mFact(x-1)&\mOtherwise
 我々の記法を使うと，クイックソートは次のように定義できる．
 \begin{equation*}
 \left\{
-\begin{split}
+\begin{aligned}
 \mSort\mEmptyList
   &=\mEmptyList\\
 \mSort(x:\mList{x})
   &=(\mSort\mList{a})\mAppend\mListWith{x}\mAppend{}(\mSort\mList{b})\\
-&\quad\mWhere\\
-&\qquad\mList{a}\mLetEq\mListWith{a\mListGuard{a\mFrom\mList{x},a\le x}}\\
-&\qquad\mList{b}\mLetEq\mListWith{b\mListGuard{b\mFrom\mList{x},b>x}}
-\end{split}
+&\mWhere
+\left\{
+\begin{aligned}
+\mList{a}&\mLetEq\mListWith{a\mListGuard{a\mFrom\mList{x},a\le x}}\\
+\mList{b}&\mLetEq\mListWith{b\mListGuard{b\mFrom\mList{x},b>x}}
+\end{aligned}
+\right.
+\end{aligned}
 \right.
 \end{equation*}
 \haskell では
@@ -1902,7 +1908,7 @@ srt(x:xs) = srt as ++ [x] ++ srt bs
 \end{note}
 
 
-\chapter{Maybe*}
+\chapter{Maybe}
 
 \begin{leader}
 この章では計算結果が正しいかもしれないし，正しくないかもしれないという曖昧な状況を表す型を導入する．手始めに\python でクラス \code{Possibly} を実装し，それがカリー風の数式で綺麗に書けることを示す．またリストとの共通点についても見ていくことにする．
@@ -2012,10 +2018,10 @@ f\mMapMaybe\mMaybe{u}=\begin{cases}
 でなければならない．このMaybeバージョンのマップ演算子 $\mMapMaybe$ は
 \begin{equation}
 \left\{
-\begin{split}
+\begin{aligned}
 f\mMapMaybe\mJustWith{x}&=\mJustWith{fx}\\
 f\mMapMaybe\mNothing&=\mNothing
-\end{split}
+\end{aligned}
 \right.
 \end{equation}
 と定義すれば得られる．
@@ -2151,7 +2157,7 @@ X<b> map_over(fn f, X<a> x, b dummy);
 一方で，数学者たちが見つけた圏という代数的構造が，リストもMaybeも統一的に扱うことを可能にしている．これを発見したのは Eugenio Moggi を始めとする計算機科学者たちである．この人類の英知は第\ref{ch:functor}章から見ていくことにしよう．
 
 
-\section{余計な話：Either}
+\section{余談：Either}
 
 Maybeとよく似た型にEitherがある．Maybeが $\mType{a}$ 型または $\mNothing$ のいずれかの値をとったように，Eitherは $\mType{a}$ 型または $\mType{b}$ 型のいずれかの値を取る．$\mType{a}$ 型または $\mType{b}$ 型を取るEither型の変数 $\mEither{e}$ があるとすると，
 \begin{equation}
@@ -2194,7 +2200,7 @@ Either型は\clang の共有型 (\code{union}) に近い．
 \end{note}
 
 
-\chapter{関手*}
+\chapter{関手}
 \label{ch:functor}
 
 \begin{leader}
@@ -2495,15 +2501,15 @@ g\mAppMapFunc f=\mLambdaExp{x}{gx(fx)}
 \end{align}
 であるからである．
 
-\section{余計な話：アプリカティブマップ演算子の実装}
+\section{余談：アプリカティブマップ演算子の実装}
 
 リストとMaybeのアプリカティブマップ演算子は，それぞれのマップ演算子から定義することができる．リストのアプリカティブマップ演算子の定義は次の通り．
 \begin{equation}
 \left\{
-\begin{split}
+\begin{aligned}
 (f:\mList{f})\mAppMapList\mList{x}&=\mConcat{}((f\mMapList\mList{x}):(\mList{f}\mAppMapList\mList{x}))\\
 \mEmptyList\mAppMapList\mList{x}&=\mEmptyList
-\end{split}
+\end{aligned}
 \right.
 \end{equation}
 ここに $(f:\mList{f})$ は関数のリストであり， $\mList{x}$ はリスト変数である．
@@ -2550,7 +2556,7 @@ h\mMapMaybe\mMaybe{u}&\mIf\mMaybe{g}\equiv\mJustWith{h}\\
 
 
 
-\chapter{モナド*}
+\chapter{モナド}
 \label{ch:monad}
 
 \begin{leader}
@@ -2669,7 +2675,7 @@ v=f\mMap u=\mPureWith{f}\mAppMap u=\mPureWith{f\mAnonParam}\mBind u
 を得る．これが一般バインド演算子と一般アプリカティブマップ演算子，一般マップ演算子の関係である．
 
 
-\section{関手則・アプリカティブ関手則・モナド則*}
+\section{関手則・アプリカティブ関手則・モナド則}
 
 関手，アプリカティブ関手，モナドにはそれぞれ従う規則がある．これらは自然法則ではなく，定義である．
 
@@ -2877,7 +2883,7 @@ Maybe
 \end{center}
 \end{table*}
 
-\section{余計な話：モナドとしての関数*}
+\section{余談：モナドとしての関数}
 
 関数はアプリカティブ関手であった．関数のピュア演算子とアプリカティブマップ演算子はそれぞれ
 \begin{align}
@@ -2980,7 +2986,7 @@ g\mBind fx
 \end{equation}
 とする．これは第\ref{ch:monad}章で見たバインド演算子と同じものである．同じバインド演算子が使えるカラクリは，次節で見ていくことにする．
 
-\section{IOモナド*}
+\section{IOモナド}
 
 ある関数 $c$ が引数を取らず，いつも決まった $\mDoubleType$ 型の数を返すとしよう．そうすると，関数 $c$ の型は単純に $\mDoubleType$ である．
 
@@ -3074,7 +3080,7 @@ do記法には $\mDoEq$ の他に，我々の $\mLetKeyword$ とよく似た $\m
 % http://qiita.com/saltheads/items/6025f69ba10267bbe3ee
 
 
-\section{余計な話：関数であるということ*}
+\section{余談：関数であるということ*}
 
 IOモナドの変数は，たとえ値を読み出すだけであっても必ず関数適用が必要である．それは，IOモナドの変数が「自分が読み出されたこと」を知る必要があるからである．IOモナドの変数は，自分が読み出されたタイミングで副作用を発生させる．これは\objectivec や\swift に見られる getter メソッドと同じ考え方である．
 
@@ -3147,37 +3153,96 @@ y=g_2(g_1x)
 =\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany
 \end{equation}
 のように書いて定義するものとする．式の先頭にある $\mDataType$ は，この式がデータ型の定義であることを示すタグである．部分的にアンダーラインが引かれているのは，\haskell が $\mDataType$ を \code{data} と省略してしまうからである．これは不本意なことだが，文字数節約のために仕方ない．ここに $\mSet{Num}$ は型コンストラクタ，$\mNumOne,\mNumTwo,\mNumThree,\mNumMany$ は値コンストラクタである．\footnote{\haskell では $\mDataType$ を \code{data} と書く．式 $\mDataType\;\mType{Num}
-=\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany$ は \code{data Color = One | Two | Three | Many} と書く．}
+=\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany$ は \code{data Num = One | Two | Three | Many} と書く．}
 
 % 値コンストラクタを列挙したデータ型を\keyword{代数型}と呼ぶ．
 この節で紹介したデータ型の定義は\clang で言う \code{enum} に近い．他に\clang で言う \code{struct} や \code{union} すなわち構造体や共用体もこの $\mDataType$ 文で定義出来るが，これは次節で見ることにする．
 
+\separator
+
+新しいデータ型がある型クラスに属すとき，$\mDataType$ 文でそれを同時に宣言出来る．例えば $\mType{Num}$ 型が $\mEqTypeClass$ 型クラスに属すとき，
+\begin{multline}
+\mDataType\;\mType{Num}\\
+=\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany\\
+\mDeriving\mEqTypeClass
+\end{multline}
+のように書く．\footnote{\haskell では \code{data Num = One | Two | Three | Many deriving Eq} と書く．}
+
 \section{レコード構文*}
 
-型の定義．
+データ型の定義では，値コンストラクタにパラメタを与えることも出来る．例えば $\mType{Rectangle}$ という型を考えよう．この型は，始点の平面座標と幅，高さで合計4個の $\mFloatType$ のパラメタを取るものとする．このとき
+\begin{multline}
+\label{eq:rectangle}
+\mDataType\;\mType{Rectangle}\\
+=\mGenericWith{Rectangle}{\mFloatType\,\mFloatType\,
+  \mFloatType\,\mFloatType}\\
+\mDeriving\mEqTypeClass
+\end{multline}
+という風にデータ型の定義を行う．\footnote{\haskell では \code{data Rectangle = Rectangle Float Float Float Float} と書く．}
 
+$\mType{Rencatngle}$ 型の変数は次のように初期化する．
+\begin{align}
+r&\mIn\mType{Rectangle}\\
+r&=\mGenericWith{Rectangle}{1\,2\,3\,4}
+\end{align}
+これは\clang で言う \code{struct} と似た用法である．
+
+$\mType{Rectangle}$ 型から中身を取り出すには，次のような関数を用意しておかねばならない．
+\begin{align}
+\mFunc{x}\mGenericWith{Rectangle}{x\,\mAnyParam\,\mAnyParam\,\mAnyParam}&=x\\
+\mFunc{y}\mGenericWith{Rectangle}{\mAnyParam\,y\,\mAnyParam\,\mAnyParam}&=y\\
+\mFunc{width}\mGenericWith{Rectangle}{\mAnyParam\,\mAnyParam\,w\,\mAnyParam}&=w\\
+\mFunc{height}\mGenericWith{Rectangle}{\mAnyParam\,\mAnyParam\,\mAnyParam\,h}&=h
+\end{align}
+この面倒は，次のシンタックスシュガーを使うことで軽減される．
+
+型 $\mType{Rectangle}$ のようにパラメタが多いときは，パラメタに名前があると便利である．そこで利用できるのが\keyword{レコード構文}である．レコード構文を使うと，式\eqref{eq:rectangle}は
+\begin{equation}
+\begin{aligned}
+\mDataType\;
+&\mType{Rectangle}
+=\mGenericRecordBeginWith{Rectangle}\\
+&\quad\mFunc{x}\mIn\mFloatType,\\
+&\quad\mFunc{y}\mIn\mFloatType,\\
+&\quad\mFunc{width}\mIn\mFloatType,\\
+&\quad\mFunc{height}\mIn\mFloatType,\\
+&\mGenericRecordEnd\\
+&\mDeriving\mEqTypeClass
+\end{aligned}
+\end{equation}
+のように書き直すことが出来る．\footnote{\haskell では
+\begin{verbatim}
+  data Rectangle = Rectangle {
+      x      :: Float,
+      y      :: Float,
+      width  :: Float,
+      height :: Float
+    }
+    deriving Eq
+\end{verbatim}
+と書く．}
+
+レコード構文を用いると，型から中身を取り出す関数は自動的に定義される．また
+\begin{equation}
+r=\mGenericRecordWith{Rectangle}{\mFunc{x}=1,
+  \mFunc{y}=2,
+  \mFunc{width}=3,
+  \mFunc{height}=4}
+\end{equation}
+のようなレコード構文専用の初期化が行える．\footnote{\haskell では \code{r = Rectangle \{ x = 1, y = 2, width = 3, height = 4 \}} と書く．}
+
+\separator
+
+データ型の定義には，複数の値コンストラクタを指定できる．そのため
 \begin{multline}
 \mDataTypeParametric\;\mType{Shape}
 =\mGenericWith{Circle}{\mFloatType\,\mFloatType}\\
 \mValueOr
 \mGenericWith{Triangle}{\mFloatType\,\mFloatType\,\mFloatType}
 \end{multline}
+のようなデータ型の定義も可能である．この例では型 $\mType{Shape}$ は値コンストラクタ $\mGenericValueConstructor{Circle}$ または $\mGenericValueConstructor{Triangle}$ によって初期化され，それぞれ2個または3個の $\mFloatType$ 型のパラメタを取る．\footnote{\haskell では \code{data Shape = Circle Float Float | Triangle Float Float Float} と書く．}
 
-\begin{equation}
-\mTypeSynonym\;\mType{Vector2D}=\mTupleWith{\mFloatType,\mFloatType}
-\end{equation}
-
-
-\begin{align}
-\mDataType\;
-&\mType{Rectangle}
-=\mGenericValueConstructorRecordBeginWith{Rectangle}\\
-&\quad\mFunc{origin}\mIn\mType{Vector2D},\\
-&\quad\mFunc{size}\mIn\mType{Vector2D}\\
-&\mGenericValueConstructorRecordEnd
-\end{align}
-
-
+---
 
 \begin{multline}
 \mDataTypeParametric\;\mEitherTypeConstructor\mType{a}\mType{b}
@@ -3212,16 +3277,20 @@ y=g_2(g_1x)
 
 
 型クラス $\mEqTypeClass$ に属す型 $\mType{a}$ は等号と不等号を持つ．我々の型 $\mType{Num}$ が型クラス $\mEqTypeClass$ に属すことを宣言し，型クラス $\mEqTypeClass$ が備えるべき等号，不等号を実装するには
-\begin{align*}
-\mInstance\;&
+\begin{multline}
+\mInstance\;
 \mEqTypeClass\mSuperSet\mType{Num}\\
-&\quad\mWhere{}\\
-&\qquad\mConstant{One}\equiv\mConstant{One}=\mTrue\\
-&\qquad\mConstant{Two}\equiv\mConstant{Two}=\mTrue\\
-&\qquad\mConstant{Three}\equiv\mConstant{Three}=\mTrue\\
-&\qquad\mConstant{Many}\equiv\mConstant{Many}=\mTrue\\
-&\qquad\mAnyParam\equiv\mAnyParam=\mFalse
-\end{align*}
+\mWhere{}
+\left\{
+\begin{aligned}
+\mConstant{One}\equiv\mConstant{One}&=\mTrue\\
+\mConstant{Two}\equiv\mConstant{Two}&=\mTrue\\
+\mConstant{Three}\equiv\mConstant{Three}&=\mTrue\\
+\mConstant{Many}\equiv\mConstant{Many}&=\mTrue\\
+\mAnyParam\equiv\mAnyParam&=\mFalse
+\end{aligned}
+\right.
+\end{multline}
 とする．これを\keyword{型クラスのインスタンス化}と呼ぶ．\footnote{\haskell では
 \begin{verbatim}
   instance Eq Num
@@ -3255,7 +3324,7 @@ deriving
 ---
 
 
-\section{余計な話：型シノニム*}
+\section{余談：型シノニム*}
 
 データ型には\keyword{シノニム}（別名）がつけられる．例えば $\mCharType$ のリスト $\mListType{\mCharType}$ は
 \begin{equation}
@@ -3290,24 +3359,32 @@ Maybeのように型パラメタを取る型はどのように定義されるか
 % この $\mJustWith{\mType{a}}$ は $\mType{a}$ のMaybe型 $(\mMaybeType{a})$ という意味ではなく，$\mType{a}$ 型の変数を型コンストラクタ $\mJustWith{\dotsb}$ に入れなさいという意味．
 
 Maybeが型クラス $\mEqTypeClass$ に属すものとして，$\mEqTypeClass$ からのインスタンス化をしておこう．ここでも型パラメタ付きの $\mInstance$ を仮に $\mInstanceParametric$ とすると次のように書けそうである．
-\begin{align*}
+\begin{multline}
 \mInstanceParametric\;
-&\mEqTypeClass\mSuperSet{}(\mMaybeTypeConstructor\mType{a})\\
-&\quad\mWhere{}\\
-&\qquad\mJustWith{x}\equiv\mJustWith{y}=x\equiv y\\
-&\qquad\mNothing\equiv\mNothing=\mTrue\\
-&\qquad\mAnyParam\equiv\mAnyParam=\mFalse
-\end{align*}
+\mEqTypeClass\mSuperSet{}(\mMaybeTypeConstructor\mType{a})\\
+\mWhere
+\left\{
+\begin{aligned}
+\mJustWith{x}\equiv\mJustWith{y}&=x\equiv y\\
+\mNothing\equiv\mNothing&=\mTrue\\
+\mAnyParam\equiv\mAnyParam&=\mFalse
+\end{aligned}
+\right.
+\end{multline}
 残念ながら，この式は $\mType{a}$ 型の変数 $x,y$ の間に等号 $(\equiv)$ が定義されていることが隠れた前提になっているため，正しくない．我々は $\mType{a}$ が型クラス $\mEqTypeClass$ に属すことを要求するので，次のように言い換える．
-\begin{align*}
+\begin{multline}
 \mInstanceParametric\;
-&(\mEqTypeClass\mSuperSet\mType{a})\mSuperClass
-\mEqTypeClass\mSuperSet(\mMaybeTypeConstructor\mType{a})\\
-&\quad\mWhere{}\\
-&\qquad\mJustWith{x}\equiv\mJustWith{y}=x\equiv y\\
-&\qquad\mNothing\equiv\mNothing=\mTrue\\
-&\qquad\mAnyParam\equiv\mAnyParam=\mFalse
-\end{align*}
+(\mEqTypeClass\mSuperSet\mType{a})\mSuperClass
+\mEqTypeClass\mSuperSet{}(\mMaybeTypeConstructor\mType{a})\\
+\mWhere
+\left\{
+\begin{aligned}
+\mJustWith{x}\equiv\mJustWith{y}&=x\equiv y\\
+\mNothing\equiv\mNothing&=\mTrue\\
+\mAnyParam\equiv\mAnyParam&=\mFalse
+\end{aligned}
+\right.
+\end{multline}
 この $(\mEqTypeClass\mSuperSet\mType{a})\mSuperClass$ の部分が「以下 $\mType{a}$ 型は $\mEqTypeClass$ 型クラスに属すものとして」という意味になる．\footnote{\haskell では
 \begin{verbatim}
   instance (Eq a) => Eq (Maybe a)
@@ -3361,8 +3438,8 @@ Tree
 
 Maybeの場合は次のようになる．
 \begin{multline}
-\mTypeClassParametric\;\mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor\\
-\mWhere{}
+\mTypeClassParametric\;\mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor
+\mWhere{}\\
 \mMap\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mMaybeType{a}}{\mMaybeType{b}}}
 \end{multline}
 
@@ -3376,13 +3453,17 @@ Maybeの場合は次のようになる．
 
 
 
-\begin{align*}
+\begin{multline}
 \mInstanceParametric\;
-&\mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor\\
-&\quad\mWhere{}\\
-&\qquad f\mMap\mJustWith{x}=\mJustWith{fx}\\
-&\qquad f\mMap\mNothing=\mNothing
-\end{align*}
+\mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor\\
+\mWhere
+\left\{
+\begin{aligned}
+f\mMap\mJustWith{x}&=\mJustWith{fx}\\
+f\mMap\mNothing&=\mNothing
+\end{aligned}
+\right.
+\end{multline}
 
 
 {}\footnote{\haskell では
@@ -3403,14 +3484,19 @@ Eitherの場合．
 \mMap\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mEitherType{a}{a}}{\mEitherType{a}{b}}}
 \end{multline}
 
-
-\begin{align*}
+\begin{multline}
 \mInstanceParametric\;
-&\mFunctorTypeClass\mSuperSet{}(\mEitherTypeConstructor\mType{a})\\
-&\quad\mWhere{}\\
-&\qquad f\mMap{}\mRightWith{x}=\mRightWith{fx}\\
-&\qquad f\mMap{}\mLeftWith{x}=\mLeftWith{x}
-\end{align*}
+\mFunctorTypeClass\mSuperSet{}(\mEitherTypeConstructor\mType{a})\\
+\mWhere
+\left\{
+\begin{aligned}
+f\mMap{}\mRightWith{x}&=\mRightWith{fx}\\
+f\mMap{}\mLeftWith{x}&=\mLeftWith{x}
+\end{aligned}
+\right.
+\end{multline}
+
+
 
 
 {}\footnote{\haskell では
@@ -3432,7 +3518,7 @@ Eitherの場合．
 \end{multline}
 ここで，型 $\mGenericTypeAssemble{fn}{a}$ は型 $\mType{a}$ と型コンストラクタ $\mTypeConstructor{fn}$ から
 \begin{equation}
-\mGenericTypeAssemble{fn}{a}={\mTypeConstructor{fn}}\mType{a}
+\mGenericTypeAssemble{fn}{a}=\mathop{\mTypeConstructor{fn}}\mType{a}
 \end{equation}
 のように作られる．\footnote{\haskell では $\mGenericTypeAssemble{fn}{a}$ も ${\mTypeConstructor{fn}}\mType{a}$ も同様に \code{fn a} と書く．そこで式\eqref{eq:fn}は
 \begin{verbatim}
@@ -3441,7 +3527,7 @@ Eitherの場合．
 \end{verbatim}
 と書く．}
 
-\section{余計な話: \code{newtype}}
+\section{余談: \code{newtype}}
 
 リストに新しいマップ演算子 $\mZip$ を定義したいとしよう．この演算子 $\mZip$ は
 \begin{equation}
@@ -3468,13 +3554,18 @@ Eitherの場合．
 
 
 こうしておいて，あとは
-\begin{align}
-\mInstanceParametric\;&\mApplicativeTypeClass\mSuperSet\mZipListTypeConstructor\mType{a}\\
-&\quad\mWhere\\
-&\qquad\mPureWith{x}=\mZipListWith{\mRepeat x}\\
-&\qquad\mZipListWith{\mList{f}}\mAppMap\mZipListWith{\mList{x}}\\
-&\qquad\quad=\mZipListWith{\mZipWith(\mLambdaExp{fx}{fx})\mList{f}\mList{x}}
-\end{align}
+\begin{multline}
+\mInstanceParametric\;
+\mApplicativeTypeClass\mSuperSet\mZipListTypeConstructor\mType{a}\\
+\mWhere
+\left\{
+\begin{aligned}
+\mPureWith{x}&=\mZipListWith{\mRepeat x}\\
+\mZipListWith{\mList{f}}\mAppMap\mZipListWith{\mList{x}}
+&=\mZipListWith{\mZipWith(\mAnonParam\,\mAnonParam)\mList{f}\mList{x}}
+\end{aligned}
+\right.
+\end{multline}
 とすれば上手くいく．ここに関数 $\mZipWith$ は
 \begin{align}
 \mZipWith\mAnyParam\mEmptyList\mAnyParam
@@ -3601,7 +3692,7 @@ w=\mMain\mBind\mPureWith{x}
 
 % How to unwrap w?
 
-\section{余計な話：パイプライン演算子*}
+\section{余談：パイプライン演算子*}
 \section{この章のまとめ*}
 
 \begin{note}{K}
@@ -3625,7 +3716,7 @@ w=\mMain\mBind\mPureWith{x}
 \chapter{...}
 \chapter{...}
 \chapter{プリミティブ型*}
-\section{余計な話：アンボックス化型*}
+\section{余談：アンボックス化型*}
 
 
 
@@ -3953,7 +4044,7 @@ I_\mSet{Z}\mCompProj g=g\mCompProj I_\mSet{Y}
 \end{equation}
 とすると，組み合わせ $\mTupleWith{\mSet{C},\mSet{P}}$ は圏になっている．
 
-\section{余計な話：束*}
+\section{余談：束*}
 
 \section{この章のまとめ}
 
@@ -4006,6 +4097,19 @@ Abelian Group&$\checkmark$&$\checkmark$&$\checkmark$&$\checkmark$&$\checkmark$\\
 % 擬群のことを準群と呼ぶこともある．この場合ループを擬群と呼ぶこともある．
 
 
+\chapter{モナドとプログラミング言語*}
+
+\section{ジョイン*}
+
+\section{数学におけるモナド*}
+
+\section{クライスリ・トリプル*}
+
+\section{余談*}
+
+\section{この章のまとめ*}
+
+
 \chapter{ラムダ*}
 
 \section{条件式}
@@ -4032,33 +4136,21 @@ f&=\mLambdaExp{xy}{y}\\
 
 % http://qiita.com/7shi/items/1345bf32003faff435cb#%E4%B8%8D%E5%8B%95%E7%82%B9%E3%82%B3%E3%83%B3%E3%83%93%E3%83%8D%E3%83%BC%E3%82%BF
 
-\section{余計な話：継続*}
+\section{余談：継続*}
 
 \section{この章のまとめ*}
 
 
-\chapter{モナドとプログラミング言語*}
+\chapter{型付きラムダ}
 
-\section{ジョイン*}
+\section{カリー=ハワード同型対応}
 
-\section{数学におけるモナド*}
-
-\section{クライスリ・トリプル*}
-
-\section{余計な話*}
-
-\section{この章のまとめ*}
-
-\chapter{カリー=ハワード同型対応}
-
-\section{型付きラムダ計算}
-
-\chapter{整理中*}
+\chapter{その他の話題*}
 
 % \section{基本関数*}
 % \section{分岐と再帰*}
 % \section{継続*}
-% \section{余計な話：ハイジェニックマクロ*}
+% \section{余談：ハイジェニックマクロ*}
 % \section{この章のまとめ*}
 
 % \chapter{\cxx}
@@ -4176,7 +4268,7 @@ GCDでは同様のラムダ式をこう書く．
 
 ---
 
-\section{余計な話：\clang によるクロージャの実装*}
+\section{余談：\clang によるクロージャの実装*}
 
 簡単なクロージャの例として，引数に $n$ を足す関数を生成する関数を\clang 言語で考える．
 %まずはお約束の\#includeから．
