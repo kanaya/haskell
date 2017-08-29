@@ -372,14 +372,15 @@
 リスト変数&肩に星印をつける&$\mList{x}$\\
 Maybe変数&肩に?をつける&$\mMaybe{u}$\\
 Ether変数&肩に!をつける&$\mEither{u}$\\
-アクション&ギリシア文字&$\alpha,\omega$\\
-有名なアクション&スラント・小文字&$\mPutStr,\mReadLn$\\
 \hline
 関数&イタリック，小文字&$f,g,h,i,j,k$\\
 有名な関数&ローマン，小文字&$\sin,\cos$\\
 % リスト関数&肩に星印をつける&$\mList{f}$\\
 % Maybe関数&肩に?をつける&$\mMaybe{g}$\\
 コンテナ関数&ギリシア文字&$\phi,\psi$\\
+\hline
+アクション&ギリシア文字&$\alpha,\omega$\\
+有名なアクション&スラント・小文字&$\mPutStr,\mReadLn$\\
 \hline
 添字&ローマン，大文字&$x_\mLeft,x_\mRight$\\
 \hline
@@ -3759,6 +3760,12 @@ w=\mMain\mBind\mPureWith{x}
 ...
 \end{note}
 
+\chapter{演算*}
+\section{名前と予約語*}
+\section{型とデータ構造*}
+\section{演算と構文*}
+\section{余談：演算子*}
+\section{この章のまとめ*}
 
 \chapter{IO*}
 \section{書き出し*}
@@ -3776,25 +3783,57 @@ w=\mMain\mBind\mPureWith{x}
 
 \chapter{文字列処理*}
 \section{文字列型*}
-\section{パーザ (1)*}
-\section{パーザ (2)*}
+\section{構文解析 (1)*}
+\section{構文解析 (2)*}
 \section{余談: Unicode*}
 \section{この章のまとめ}
 
-\chapter{状態と例外*}
-\section{状態*}
-\section{例外*}
-\section{ログ*}
-% \chapter{状態*}
-\chapter{非決定性*}
-\chapter{乱数*}
-% \chapter{継続*}
+\chapter{状態系モナド*}
+\section{STモナド*}
+\section{Stateモナド*}
+\section{ReaderモナドとWriterモナド*}
+\section{余談：関数モナド*}
+\section{この章のまとめ*}
+
+\chapter{モナド変換子*}
+\section{Identityモナド*}
+\section{StateTモナド*}
+\section{リフト*}
+% http://qiita.com/7shi/items/4408b76624067c17e933
+\section{余談: Extensible Effects*}
+% http://konn-san.com/prog/haskell/extensible-effects.html
+\section{この章のまとめ*}
+% \section{余談：プリミティブ型*}
+
+\chapter{例外*}
+\section{Eitherモナド*}
+\section{mtlモジュール*}
+\section{exceptionsモジュール*}
+\section{余談：モナド変換子を使う*}
+\section{この章のまとめ*}
+
+% http://syocy.hatenablog.com/entry/2016/07/02/174426
+
+\chapter{道具箱*}
+\section{リストの操作*}
+\section{非決定性*}
+\section{並列処理*}
+\section{余談：チューニング*}
+\section{この賞のまとめ*}
+
 \chapter{アローと継続*}
+\section{アロー*}
 $\mArrow,\mArrowAnd,\mArrowOr$
 % http://qiita.com/CyLomw/items/688942f19a5bc3a25037
 % http://d.hatena.ne.jp/r-west/20070720/1184946510
-\chapter{モナド変換子*}
-\chapter{自由モナド*}
+\section{\scheme の継続*}
+\section{継続モナド*}
+\section{余談：チューリング・チャーチのテーゼ*}
+\section{この章のまとめ*}
+
+\chapter{Freeモナド*}
+\section{ドメイン特化言語*}
+\section{Freeモナド*}
 \begin{align}
 \mDataType\;&\mathop{\mTypeConstructor{Free}}\mType{f}\mType{a}=\mathop{\mGenericValueConstructor{Pure}}\mType{a}\mValueOr\mathop{\mGenericValueConstructor{Free}(\mType{f}(\mathop{\mGenericValueConstructor{Free}}\mType{f}\mType{a}))}\\
 \mInstance\;&\mFunctorTypeClass\mSuperSet\mType{f}\mSuperClass\mTypeConstructor{Monad}(\mathop{\mTypeConstructor{Free}}\mType{f})\nonumber\\
@@ -3817,6 +3856,10 @@ instance Functor f => Monad (Free f) where
 \end{verbatim}
 \end{haskellcode}
 
+\section{(DSLの例)*}
+\section{余談: Operationalモナド*}
+\section{この章のまとめ*}
+
 % http://d.hatena.ne.jp/its_out_of_tune/20121111/1352632815
 % http://qiita.com/hiruberuto/items/3d55b0e54565dbb286a7
 % http://fumieval.hatenablog.com/entry/2013/05/09/223604
@@ -3825,13 +3868,14 @@ instance Functor f => Monad (Free f) where
 
 % http://tune.hateblo.jp/entry/2014/09/28/185233
 % http://konn-san.com/prog/haskell/extensible-effects.html
-\chapter{演算子の定義*}
-\chapter{プリミティブ型*}
-\section{余談：アンボックス化型*}
 
-
-
-% \chapter{Haskellで作る純LISP}
+\chapter{モジュール*}
+\section{標準モジュール*}
+\section{モジュールの作成*}
+\section{非標準モジュール*}
+\section{余談：モジュールの公開*}
+\section{この章のまとめ*}
+% http://itpro.nikkeibp.co.jp/article/COLUMN/20060801/244812/?itp_leaf_index
 
 \part{補講}
 
@@ -4209,17 +4253,10 @@ Abelian Group&$\checkmark$&$\checkmark$&$\checkmark$&$\checkmark$&$\checkmark$\\
 
 
 \chapter{モナドとプログラミング言語*}
-
 \section{ジョイン*}
-
 \section{クライスリ・トリプル*}
-
-\section{プログラムの制御構造*}
-
-\section{余談：継続*}
-
-
-
+\section{*}
+\section{*}
 \section{この章のまとめ*}
 
 
@@ -4255,9 +4292,12 @@ f&=\mLambdaExp{xy}{y}\\
 \section{この章のまとめ*}
 
 
-\chapter{型付きラムダ}
-
-\section{カリー=ハワード同型対応}
+\chapter{型付きラムダ*}
+\section{型付きラムダ*}
+\section{カリー＝ハワード同型対応*}
+\section{*}
+\section{*}
+\section{この章のまとめ*}
 
 \chapter{マクロ*}
 
