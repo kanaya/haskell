@@ -111,7 +111,7 @@
 
 % Constants
 \newcommand{\mConstant}[1]{\mathrm{#1}}
-\newcommand{\mSpecialConstant}[1]{\text{#1}} % Internal use
+\newcommand{\mSpecialConstant}[1]{\textrm{#1}} % Internal use
 
 \newcommand{\mEmptyList}{{[\,]}}
 \newcommand{\mFalse}{\mSpecialConstant{False}}
@@ -129,7 +129,7 @@
 \newcommand{\mString}[1]{\text{#1}}
 
 % Special variables
-\newcommand{\mSpecialVar}[1]{\text{#1}} % Internal use
+\newcommand{\mSpecialVar}[1]{\mathrm{#1}} % Internal use
 
 \newcommand{\mAnyParam}{\_}
 \newcommand{\mAnonParam}{\diamond}
@@ -247,19 +247,10 @@
 \newcommand{\mUnitType}{\mType{()}}
 
 % General polymorphic type names without type parameter
-\newcommand{\mEitherTypename}{\mType{Either}}
-\newcommand{\mIOTypename}{\mType{IO}}
-\newcommand{\mMaybeTypename}{\mType{Maybe}}
-\newcommand{\mZipListTypename}{\mType{\mZipList}}
-
-% General type assemblers
-\newcommand{\mGenericTypeAssemble}[2]{{}^{\mType{#1}}\[\mType{#2}\]}
-\newcommand{\mGenericTypeAssembleII}[3]{{}^{#1}\[\mType{#2},\mType{#3}\]}
-
-\newcommand{\mEitherType}[2]{\mGenericTypeAssembleII{\mEitherTypename}{#1}{#2}}
-\newcommand{\mIOType}[1]{\mGenericTypeAssemble{\mIOTypename}{#1}}
-\newcommand{\mMaybeType}[1]{\mGenericTypeAssemble{\mMaybeTypename}{#1}}
-\newcommand{\mZipListType}[1]{\mGenericTypeAssemble{\mZipListTypename}{#1}}
+% \newcommand{\mEitherTypename}{\mType{Either}}
+% \newcommand{\mIOTypename}{\mType{IO}}
+% \newcommand{\mMaybeTypename}{\mType{Maybe}}
+% \newcommand{\mZipListTypename}{\mType{\mZipList}}
 
 % Special polymorphic types
 \newcommand{\mFuncType}[2]{\Langle\mType{#1}\Rangle_\mType{#2}}
@@ -273,7 +264,7 @@
 \newcommand{\mIOUnitType}{\mIOType{\mUnitType}}
 
 % Type constructors
-\newcommand{\mTypeConstructor}[1]{\mathit{#1}}
+\newcommand{\mTypeConstructor}[1]{\textit{#1}}
 
 \DeclareMathOperator{\mEitherTypeConstructor}{\mTypeConstructor{Either}}
 \DeclareMathOperator{\mListTypeConstructor}{\mTypeConstructor{List}}
@@ -282,8 +273,17 @@
 
 \newcommand{\mFuncTypeConstructor}[1]{\mathop{\mTypeConstructor{Func}_\mType{#1}}}
 
+% General type assemblers
+\newcommand{\mGenericTypeAssemble}[2]{{}^{\mTypeConstructor{#1}}\[\mType{#2}\]}
+\newcommand{\mGenericTypeAssembleII}[3]{{}^{\mTypeConstructor{#1}}\[\mType{#2},\mType{#3}\]}
+
+\newcommand{\mEitherType}[2]{\mGenericTypeAssembleII{Either}{#1}{#2}}
+\newcommand{\mIOType}[1]{\mGenericTypeAssemble{IO}{#1}}
+\newcommand{\mMaybeType}[1]{\mGenericTypeAssemble{Maybe}{#1}}
+\newcommand{\mZipListType}[1]{\mGenericTypeAssemble{\mZipList}{#1}}
+
 % General value constructors
-\newcommand{\mGenericValueConstructor}[1]{\text{#1}}
+\newcommand{\mGenericValueConstructor}[1]{\mathrm{#1}}
 \newcommand{\mGenericWith}[2]{{}^\mGenericValueConstructor{#1}\[#2\]}
 \newcommand{\mGenericRecordWith}[2]{{}^\mGenericValueConstructor{#1}\{#2\}}
 \newcommand{\mGenericRecordBeginWith}[1]{{}^\mGenericValueConstructor{#1}\{}
@@ -330,9 +330,9 @@
 \newcommand{\mRealTypeClass}{\mGenericTypeClass{Real}}
 
 % Decolations
-\newcommand{\mEither}[1]{{#1}^\text{!}}
+\newcommand{\mEither}[1]{{#1}^!}
 \newcommand{\mList}[1]{{#1}^\mathrm{\star}}
-\newcommand{\mMaybe}[1]{{#1}^\text{?}}
+\newcommand{\mMaybe}[1]{{#1}^?}
 \newcommand{\mVec}[1]{\Vec{#1}}
 
 % Guards
@@ -2251,7 +2251,7 @@ g=f\mMapMaybe
 \begin{equation}
 (\mMap)\mIn{}(\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn})\mSuperClass\mProj{\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mGenericTypeAssemble{fn}{a}}}{\mGenericTypeAssemble{fn}{b}}
 \end{equation}
-という型を持つ．ここに $\mTypeConstructor{fn}$ は型コンストラクタであり，$\mGenericTypeAssemble{fn}{a}$ は $\mTypeConstructor{fn}$ によって作られた型である．
+という型を持つ．ここに $(\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn})\mSuperClass$ は，続く式に対して $\mTypeConstructor{fn}$ が $\mFunctorTypeClass$ 型クラスに属すという制約を表している．また $\mTypeConstructor{fn}$ は型コンストラクタであり，$\mGenericTypeAssemble{fn}{a}$ は $\mTypeConstructor{fn}$ によって作られた型である．
 
 もし型コンストラクタがリスト型コンストラクタであれば，つまり $\mTypeConstructor{fn}=\mListTypeConstructor$ であれば
 \begin{equation}
@@ -2854,7 +2854,7 @@ Maybe
   &$\mAppMapMaybe$
   &$\mMapMaybe$
   &$\mNothing$
-  &$\dotsb$\\
+  &（$x$ の型に依存する）\\
 \hline
 関数
   &$\mBindFunc$
@@ -3171,7 +3171,7 @@ y=g_2(g_1x)
 
 型 $\mType{Num}$ の同値演算子 $(\equiv)$ の実装は\ref{sec:type-class-and-instance}節で見ることにする．
 
-\section{レコード構文*}
+\section{レコード構文}
 
 データ型の定義では，値コンストラクタにパラメタを与えることも出来る．例えば $\mType{Rectangle}$ という型を考えよう．この型は，始点の平面座標と幅，高さで合計4個の $\mFloatType$ のパラメタを取るものとする．このとき
 \begin{multline}
@@ -3331,16 +3331,22 @@ r=\mGenericRecordWith{Rectangle}{\mFunc{x}=1,
 \end{verbatim}
 と書く．}
 
----
+\separator
 
-
-
+型は複数の型クラスに同時に属すことが出来る．例えば型 $\mType{Num}$ は型クラス $\mEqTypeClass$ と同時に型クラス $\mOrdTypeClass$ に属すことも出来る．それには
 \begin{multline}
 \mDataType\;\mType{Num}\\
 =\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany\\
 \mDeriving{}(\mEqTypeClass,\mOrdTypeClass)
 \end{multline}
+とする．\footnote{\haskell では
+\begin{verbatim}
+  data Num = One | Two | Three | Many
+    deriving (Eq, Ord)
+\end{verbatim}
+と書く．}
 
+型クラス $\mOrdTypeClass$ のインスタンスは小なりイコール演算子 $(\le)$ が定義されていなければならない．我々は
 \begin{multline}
 \mInstance\;
 \mOrdTypeClass\mSuperSet\mType{Num}\\
@@ -3361,12 +3367,9 @@ r=\mGenericRecordWith{Rectangle}{\mFunc{x}=1,
 \end{aligned}
 \right.
 \end{multline}
+のように $\mType{Num}$ の $\le$ 演算子を定義することが出来る．
 
-
----
-
-
-\section{余談：型シノニム*}
+\section{余談：型シノニム}
 
 データ型には\keyword{シノニム}（別名）がつけられる．例えば $\mCharType$ のリスト $\mListType{\mCharType}$ は
 \begin{equation}
@@ -3389,7 +3392,7 @@ r=\mGenericRecordWith{Rectangle}{\mFunc{x}=1,
 \chapter{多相型の定義*}
 \label{ch:parametric-data-type}
 ...
-\section{パラメトリックなデータ型}
+\section{パラメトリックなデータ型*}
 
 Maybeのように型パラメタを取る型はどのように定義されるかと言うと，
 \begin{equation}
@@ -3442,15 +3445,15 @@ Maybeの間に新たに定義された等号 $(\equiv)$ は次の型を持つ．
 (\equiv)\mIn{}(\mEqTypeClass\mSuperSet\mType{a})\mSuperClass\mProj{\mMaybeType{a}}{\mProj{\mMaybeType{a}}{\mBoolType}}
 \end{equation}
 
----
+\separator
 
-\begin{multline}
+Eitherは次のように定義できる．
+\begin{equation}
 \mDataTypeParametric\;\mEitherTypeConstructor\mType{a}\mType{b}
 =\mLeftWith{\mType{a}}
 \mValueOr
-\mRightWith{\mType{b}}\\
-\mDeriving{}(\mEqTypeClass,\mOrdTypeClass)
-\end{multline}
+\mRightWith{\mType{b}}
+\end{equation}
 
 
 
@@ -4332,7 +4335,28 @@ GCDでは同様のラムダ式をこう書く．
 
 ---
 
-\section{余談：\clang によるクロージャの実装*}
+\section{余談：Template \haskell*}
+
+\begin{verbatim}
+import Record
+import Record.Lens
+
+type Java = [r| { power :: Integer, url :: String } |]
+type Link = [r| { title :: String, url :: String } |]
+
+example :: Link
+example = [r|{ title = "example", url = "http://www.example.org" }|]
+\end{verbatim}
+
+% https://ja.stackoverflow.com/questions/5278/haskell-の-レコード構文record-syntaxにて-簡潔なフィールド名を定義すると重複しやすい問題の解決方法
+
+---
+
+Lens
+
+---
+
+\section*{余談：\clang によるクロージャの実装*}
 
 簡単なクロージャの例として，引数に $n$ を足す関数を生成する関数を\clang 言語で考える．
 %まずはお約束の\#includeから．
