@@ -16,6 +16,7 @@
 %% Programming Languages
 
 \newcommand{\programminglanguage}[1]{\textsf{#1}}
+\newcommand{\commonlisp}{\programminglanguage{Common~Lisp}}
 \newcommand{\clang}{\programminglanguage{C}}
 \newcommand{\clangkr}{\programminglanguage{K\&R~C}}
 \newcommand{\csharp}{\programminglanguage{C}\texttt{\#}}
@@ -4155,11 +4156,13 @@ Abelian Group&$\checkmark$&$\checkmark$&$\checkmark$&$\checkmark$&$\checkmark$\\
 
 \section{ジョイン*}
 
-\section{数学におけるモナド*}
-
 \section{クライスリ・トリプル*}
 
-\section{余談*}
+\section{プログラムの制御構造*}
+
+\section{余談：継続*}
+
+
 
 \section{この章のまとめ*}
 
@@ -4188,9 +4191,10 @@ f&=\mLambdaExp{xy}{y}\\
 \section{整数*}
 \section{Yコンビネータ*}
 
-% http://qiita.com/7shi/items/1345bf32003faff435cb#%E4%B8%8D%E5%8B%95%E7%82%B9%E3%82%B3%E3%83%B3%E3%83%93%E3%83%8D%E3%83%BC%E3%82%BF
 
-\section{余談：継続*}
+\section{余談：冗談言語*}
+
+% http://qiita.com/7shi/items/1345bf32003faff435cb#%E4%B8%8D%E5%8B%95%E7%82%B9%E3%82%B3%E3%83%B3%E3%83%93%E3%83%8D%E3%83%BC%E3%82%BF
 
 \section{この章のまとめ*}
 
@@ -4199,7 +4203,13 @@ f&=\mLambdaExp{xy}{y}\\
 
 \section{カリー=ハワード同型対応}
 
-\chapter{その他の話題*}
+\chapter{マクロ*}
+
+\section{\commonlisp のマクロ}
+
+\section{\scheme のハイジェニックマクロ}
+
+\section{\cxx のテンプレート}
 
 % \section{基本関数*}
 % \section{分岐と再帰*}
@@ -4223,7 +4233,7 @@ auto lambda_exp = [u = 1] { return u; };
 \end{verbatim}
 
 
-\section{オブジェクト指向*}
+% \section{オブジェクト指向*}
 
 複雑な構造に対する単純な操作について考える．
 
