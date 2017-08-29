@@ -175,6 +175,9 @@
 \DeclareMathOperator{\mAppMapFunc}{\bowtie}
 \DeclareMathOperator{\mAppMapList}{\otimes}
 \DeclareMathOperator{\mAppMapMaybe}{\boxtimes}
+\DeclareMathOperator{\mArrow}{\twoheadrightarrow}
+\DeclareMathOperator{\mArrowAnd}{\bigwedge}%{\&\&\&}
+\DeclareMathOperator{\mArrowOr}{\bigvee}%{\mid\mid\mid}
 \DeclareMathOperator{\mBind}{\heartsuit}
 \DeclareMathOperator{\mBindFunc}{\diamondsuit}
 \DeclareMathOperator{\mBindList}{\clubsuit}
@@ -3749,29 +3752,66 @@ w=\mMain\mBind\mPureWith{x}
 
 % How to unwrap w?
 
-\section{余談：パイプライン演算子*}
+\section{余談：インタープリタ*}
 \section{この章のまとめ*}
 
-\begin{note}{K}
+\begin{note}{...}
 ...
 \end{note}
 
 
-\chapter{インタープリタで遊ぶ*}
-\chapter{新しい型の導入*}
-% 新しいデータ型を作る http://qiita.com/7shi/items/1ce76bde464b4a55c143
-
-\section{型推論*}
-
 \chapter{IO*}
-\section{ダークサイド*}
-\chapter{データ構造*}
+\section{書き出し*}
+\section{読み込み*}
+\section{IOモナド*}
+\section{余談：ダークサイド*}
+\section{この章のまとめ*}
+
+\chapter{データ構造とアルゴリズム*}
+\chapter{文字列処理*}
 \chapter{例外*}
 \chapter{状態*}
+ログ．
 \chapter{非決定性*}
 \chapter{乱数*}
 \chapter{演算子の定義*}
-\chapter{...}
+\chapter{継続*}
+\chapter{アロー*}
+$\mArrow,\mArrowAnd,\mArrowOr$
+% http://qiita.com/CyLomw/items/688942f19a5bc3a25037
+% http://d.hatena.ne.jp/r-west/20070720/1184946510
+\chapter{モナド変換子*}
+\chapter{自由モナド*}
+\begin{align}
+\mDataType\;&\mathop{\mTypeConstructor{Free}}\mType{f}\mType{a}=\mathop{\mGenericValueConstructor{Pure}}\mType{a}\mValueOr\mathop{\mGenericValueConstructor{Free}(\mType{f}(\mathop{\mGenericValueConstructor{Free}}\mType{f}\mType{a}))}\\
+\mInstance\;&\mFunctorTypeClass\mSuperSet\mType{f}\mSuperClass\mTypeConstructor{Monad}(\mathop{\mTypeConstructor{Free}}\mType{f})\nonumber\\
+&\quad\mWhere\left\{
+\begin{aligned}
+\mPureWith{x}&=\mGenericWith{Pure}{x}\\
+k\mBind\mGenericWith{Pure}{a}&=ka\\
+k\mBind\mGenericWith{Free}{f}&=\mGenericWith{Free}{(k\mBind\mAnonParam)\mMap f}
+\end{aligned}
+\right.
+\end{align}
+
+\begin{haskellcode}
+\begin{verbatim}
+data Free f a = Pure a | Free (f (Free f a))
+instance Functor f => Monad (Free f) where
+    return = Pure
+    Pure a >>= k = k a
+    Free fm >>= k = Free (fmap (>>=k) fm)
+\end{verbatim}
+\end{haskellcode}
+
+% http://d.hatena.ne.jp/its_out_of_tune/20121111/1352632815
+% http://qiita.com/hiruberuto/items/3d55b0e54565dbb286a7
+% http://fumieval.hatenablog.com/entry/2013/05/09/223604
+% http://d.hatena.ne.jp/fumiexcel/20121111/1352614885
+% http://qiita.com/dico_leque/items/d3fac511d0c284305c13
+
+% http://tune.hateblo.jp/entry/2014/09/28/185233
+% http://konn-san.com/prog/haskell/extensible-effects.html
 \chapter{プリミティブ型*}
 \section{余談：アンボックス化型*}
 
