@@ -334,7 +334,9 @@
 
 % Guards
 \newcommand{\mGuard}[1]{\mathop{\mid_{#1}}}
-\newcommand{\mListGuard}[1]{\mathop{\mid_{#1}}}
+
+% List comprehension
+\newcommand{\mListComp}[1]{\shortmid#1}
 
 % Syntaxes
 \newcommand{\mCaseOf}[1]{\mCaseKW#1\mOfKW}
@@ -858,6 +860,9 @@ y=fx'\mWhereIs{x'}{1+x}
 \item 局所変数は $y=\mLetIn{x'}{\dotsb}{fx'}$ または $y=fx'\mWhereIs{x'}{\dotsb}$ という書き方で導入できる．
 \end{enumerate}
 
+
+% Irrefutable pattern
+% https://stackoverflow.com/questions/6711870/what-are-the-cases-that-will-cause-irrefutable-pattern-failed-for-pattern?rq=1
 
 \begin{note}{式の評価順序}
 \haskell は参照透過な言語なので，式がいつ評価されるかを考える必要はない．一方で，参照透過でない言語は式の評価順序をいつも気にしておく必要がある．例えば\clang は関数引数の評価順序を定めていないので，次のコード
@@ -1481,14 +1486,14 @@ ls = [x*2 for x in range(0, 10)]
 
 我々は内包表記のかわりにガードを使って
 \begin{equation}
-\mList{x}=\mListWith{x*2\mListGuard{x\mFrom{\mListWith{0,1\dotsb9}}}}
+\mList{x}=\mListWith{x*2\mListComp{x\mFrom{\mListWith{0,1\dotsb9}}}}
 \end{equation}
-のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mFrom$を用いた．\footnote{\haskell では $\mList{x}=\mListWith{x*2\mListGuard{x\mFrom{\mListWith{0,1\dotsb9}}}}$ を \code{xs = [x*2 | x<-[0,1..9]]} と書く．}
+のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mFrom$を用いた．\footnote{\haskell では $\mList{x}=\mListWith{x*2\mListComp{x\mFrom{\mListWith{0,1\dotsb9}}}}$ を \code{xs = [x*2 | x<-[0,1..9]]} と書く．}
 
 ガードの中の式は複数あっても良い．例えば
 \begin{equation}
 \mList{x}
-=\mListWith{x+y\mListGuard{x\mFrom\mListWith{0,1\dotsb9},\,y\mFrom\mListWith{0,1\dotsb5},\,x+y>3}}
+=\mListWith{x+y\mListComp{x\mFrom\mListWith{0,1\dotsb9},\,y\mFrom\mListWith{0,1\dotsb5},\,x+y>3}}
 \end{equation}
 は $0\le x\le9$ かつ $0\le y\le5$ の範囲で $x+y>3$となる $x$ 及び $y$ から $x+y$ を並べたリストである．これは\python でいう
 \begin{pythoncode}
@@ -1497,7 +1502,7 @@ ls = [x+y for x in range(0, 10) \
   for y in range(0,6) if x+y > 3]
 \end{verbatim}
 \end{pythoncode}
-のことである．\footnote{\haskell では $\mList{x}=\mListWith{x+y\mListGuard{x\mFrom\mListWith{0,1\dotsb9},\,y\mFrom\mListWith{0,1\dotsb5},\,x+y>3}}$ を \code{xs = [x+y | x<-[0,1..9], y<-[0,1..5], x+y>3]} と書く．}
+のことである．\footnote{\haskell では $\mList{x}=\mListWith{x+y\mListComp{x\mFrom\mListWith{0,1\dotsb9},\,y\mFrom\mListWith{0,1\dotsb5},\,x+y>3}}$ を \code{xs = [x+y | x<-[0,1..9], y<-[0,1..5], x+y>3]} と書く．}
 
 リストは\keyword{結合}できる．例えばリスト$\mList{x}$ とリスト $\mList{y}$ を結合したリストは
 \begin{equation}
@@ -1898,8 +1903,8 @@ x*\mFact(x-1)&\mOtherwise
 &\mWhere
 \left\{
 \begin{aligned}
-\mList{a}&\mLetEq\mListWith{a\mListGuard{a\mFrom\mList{x},a\le x}}\\
-\mList{b}&\mLetEq\mListWith{b\mListGuard{b\mFrom\mList{x},b>x}}
+\mList{a}&\mLetEq\mListWith{a\mListComp{a\mFrom\mList{x},a\le x}}\\
+\mList{b}&\mLetEq\mListWith{b\mListComp{b\mFrom\mList{x},b>x}}
 \end{aligned}
 \right.
 \end{aligned}
@@ -2962,6 +2967,7 @@ g\mBindFunc f&=\mLambdaExp{x}{g(fx)x}
 ...
 \end{note}
 
+% http://itpro.nikkeibp.co.jp/article/COLUMN/20120110/378061/
 
 \chapter{IO}
 \label{ch:io}
@@ -3699,7 +3705,7 @@ A...
 
 以上のような制約にもかかわらず，\haskell プログラムと我々が見えきた「カリー風の」数学記法は本質的に差がない．本書を読み進めてきた読者なら，\haskell プログラムを読むのに苦労はいらないだろう．
 
-なお\haskell では \code{--} から行の終わりまでがコメントとして扱われる．
+\haskell では \code{--} から行の終わりまでがコメントとして扱われる．また \code{\{-} で始まり \code{-\}} で終わる文字列もコメントとして扱われる．
 
 \section{main関数と一般の関数定義}
 
@@ -3762,6 +3768,105 @@ y2 = f2(y1)
 
 \chapter{演算*}
 \section{名前と予約語*}
+
+\begin{table*}
+\caption{\haskell の記号}
+\begin{center}
+\begin{tabular}{||c|c||}
+\hline
+\code{!}&強制評価\\
+\code{'}&文字リテラル\\
+\code{"}&文字列リテラル\\%{\textquotedblright}\\
+\code{-}&単項マイナス $(-)$\\
+\code{--}&行コメント\\
+% \code{-<}&（アロー表記用）\\
+% \code{-<<}&（アロー表記用）\\
+\code{->}&関数型コンストラクタ $(\mapsto)$，ラムダ式の矢印 $(\rightarrow)$，case式の矢印 $(\mIfSo)$\\
+\code{::}&型の宣言 $(\mIn)$\\
+\code{;}&ステートメントセパレータ\\
+\code{<-}&リスト内包表記 $(\mFrom)$，do記法中の代入 $(\mDoEq)$\\
+\code{,}&リスト内包表記の積演算 $(,)$\\
+\code{=}&定義 $(=)$\\
+\code{=>}&インスタンス定義 $(\mSuperClass)$\\
+% \code{?}&（暗黙パラメタ）\\
+% \code{\#}&（マジックハッシュ）\\
+% \code{*}\\
+\code{@}&asパタン $(@)$\\
+% \code{[|}, \code{|]}&（テンプレート）\\
+\code{\textbackslash}&ラムダ $(\mLambda)$，行分割\\
+\code{\_}&ワイルドカード $(\mAnyParam)$\\
+\code{`}&関数の中置\\
+\code{\{}, \code{\}}&レコード構文 $(\{\dotsb\})$，ブロック\\
+\code{\{-}, \code{-\}}&コメント\\
+\code{|}&ガード $(\mGuard{})$，リスト内包 $(\mListComp)$，データ型の和演算 $(\mValueOr)$\\
+\code{\textasciitilde}&遅延バインディング\\
+\hline
+\end{tabular}
+\end{center}
+\end{table*}
+
+
+\begin{table*}
+\caption{\haskell の予約語}
+\begin{center}
+\begin{tabular}{||l|l||}
+\hline
+分岐&case, default (?), else, if, of, then\\
+型定義&class, data, deriving, instance, newtype, type\\
+do記法&do\\
+局所変数&in, let, where\\
+演算子定義&infix, infixl, infixr\\
+モジュール関係&foreign, import, module\\
+引数&\_\\
+\hline
+\end{tabular}
+\end{center}
+\end{table*}
+
+
+\begin{itemize}
+\item \code{case}
+\item \code{class}
+\item \code{data}
+\item \code{default}
+\item \code{deriving}
+\item \code{do}
+\item \code{else}
+\item \code{foreign}
+\item \code{if}
+\item \code{import}
+\item \code{in}
+\item \code{infix}
+\item \code{infixl}
+\item \code{infixr}
+\item \code{instance}
+\item \code{let}
+\item \code{module}
+\item \code{newtype}
+\item \code{of}
+\item \code{then}
+\item \code{type}
+\item \code{where}
+\item \code{\_}
+\item \code{..}
+\item \code{:}
+\item \code{::}
+\item \code{=}
+\item \code{\textbackslash}
+\item \code{|}
+\item \code{<-}
+\item \code{->}
+\item \code{@}
+\item \code{\textasciitilde}
+\item \code{=>}
+\end{itemize}
+
+
+
+
+% http://www.imada.sdu.dk/~rolf/Edu/DM22/F06/haskell-operatorer.pdf
+% https://wiki.haskell.org/Keywords
+
 \section{型とデータ構造*}
 \section{演算と構文*}
 \section{余談：演算子*}
@@ -3775,10 +3880,10 @@ y2 = f2(y1)
 \section{この章のまとめ*}
 
 \chapter{データ構造とアルゴリズム*}
-\section{逐次実行}
-\section{条件分岐}
-\section{再帰関数}
-\section{余談：木構造}
+\section{条件分岐*}
+\section{再帰関数*}
+\section{逐次実行*}
+\section{余談：木構造*}
 \section{この章のまとめ*}
 
 \chapter{文字列処理*}
@@ -3812,6 +3917,7 @@ y2 = f2(y1)
 \section{余談：モナド変換子を使う*}
 \section{この章のまとめ*}
 
+
 % http://syocy.hatenablog.com/entry/2016/07/02/174426
 
 \chapter{道具箱*}
@@ -3820,6 +3926,8 @@ y2 = f2(y1)
 \section{並列処理*}
 \section{余談：チューニング*}
 \section{この章のまとめ*}
+
+% http://itchyny.hatenablog.com/entry/2015/12/27/150000
 
 \chapter{アローと継続*}
 \section{アロー*}
@@ -4203,6 +4311,7 @@ I_\mSet{Z}\mCompProj g=g\mCompProj I_\mSet{Y}
 
 \section{この章のまとめ}
 
+% http://bitterharvest.hatenablog.com/entry/2015/02/12/155738
 
 \begin{table*}
 \begin{center}
