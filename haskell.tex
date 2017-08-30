@@ -619,7 +619,7 @@ $ stack install ghc
 \end{enumerate}
 
 
-\begin{note}{...}
+\begin{note}{ハスケル・カリー}
 ...
 \end{note}
 
@@ -864,15 +864,15 @@ y=fx'\mWhereIs{x'}{1+x}
 % Irrefutable pattern
 % https://stackoverflow.com/questions/6711870/what-are-the-cases-that-will-cause-irrefutable-pattern-failed-for-pattern?rq=1
 
-\begin{note}{式の評価順序}
-\haskell は参照透過な言語なので，式がいつ評価されるかを考える必要はない．一方で，参照透過でない言語は式の評価順序をいつも気にしておく必要がある．例えば\clang は関数引数の評価順序を定めていないので，次のコード
-\begin{ccode}
-\begin{verbatim}
-int i = 0;
-printf("%d, %d\n", ++i, ++i);
-\end{verbatim}
-\end{ccode}
-は画面に \code{1, 2} を出力する場合もあるし，\code{2, 1} を出力する場合もある．
+\begin{note}{...}%{式の評価順序}
+% \haskell は参照透過な言語なので，式がいつ評価されるかを考える必要はない．一方で，参照透過でない言語は式の評価順序をいつも気にしておく必要がある．例えば\clang は関数引数の評価順序を定めていないので，次のコード
+% \begin{ccode}
+% \begin{verbatim}
+% int i = 0;
+% printf("%d, %d\n", ++i, ++i);
+% \end{verbatim}
+% \end{ccode}
+% は画面に \code{1, 2} を出力する場合もあるし，\code{2, 1} を出力する場合もある．
 \end{note}
 
 
@@ -1008,28 +1008,8 @@ h&=a+\mAnonParam
 \end{enumerate}
 
 
-\begin{note}{\clang のブロック拡張}
-\clang は公式にはラムダ式を採用していない．しかし\clang にラムダ式を持たせる拡張はいくつか提案されている．その一つがApple社が自社OSの Grand Central Dispatch 機能のために行った「ブロック拡張」である．このブロック拡張を用いたクロージャの例を見てみよう．
-\begin{ccode}
-\begin{verbatim}
-#include <Block.h>
-#include <stdio.h>
-typedef int (^int_to_int)(int);
-int_to_int make_plus_n(int n) {
-  return Block_copy(^(int x) {
-      return n+x;
-    });
-}
-int main(void) {
-  int_to_int make_plus_10
-    = make_plus_n(10);
-  int x = make_plus_10(1);
-  printf("x = %d\n", x);
-  return 0;
-}
-\end{verbatim}
-\end{ccode}
-コード中の \code{\textasciicircum(int x) \{ return n+x; \}} がブロック（クロージャ）である．\clang のブロック拡張はオープンソースコミュニティに還元されているため，GCCやclangで使用可能である．
+\begin{note}{...}
+...
 \end{note}
 
 \chapter{型}
@@ -2175,7 +2155,7 @@ X<b> map_over(fn f, X<a> x, b dummy);
 一方で，数学者たちが見つけた圏という代数的構造が，リストもMaybeも統一的に扱うことを可能にしている．これを発見したのは Eugenio Moggi を始めとする計算機科学者たちである．この人類の英知は第\ref{ch:functor}章から見ていくことにしよう．
 
 
-\section{余談：Either}
+\section{余談: Either}
 
 Maybeとよく似た型にEitherがある．Maybeが $\mType{a}$ 型または $\mNothing$ のいずれかの値をとったように，Eitherは $\mType{a}$ 型または $\mType{b}$ 型のいずれかの値を取る．$\mType{a}$ 型または $\mType{b}$ 型を取るEither型の変数 $\mEither{e}$ があるとすると，
 \begin{equation}
@@ -2254,7 +2234,7 @@ g=f\mMapMaybe
 \end{equation}
 である．つまりマップ演算子 $\mMapMaybe$ が関数 $f$ を $\mType{a}$ 世界から $\mMaybeType{a}$ 世界へとジャンプさせているのである．
 
-いま「世界」と呼んだものを，数学者は\keyword{圏}と呼ぶ．圏とは\keyword{対象}と\keyword{射}の組み合わせである．本書では「対象」とは型のことであり，射とは関数だと思えば良い．コンテナに入れられた関数も射に含まれる．そして，圏から圏へとジャンプさせるものを\keyword{関手}と呼ぶ．この例で言えば値コンストラクタ $\mJustWith{x}$ とマップ演算子 $\mMapMaybe$ が関手である．値コンストラクタ $\mJustWith{x}$ は $\mProj{\mType{a}}{\mMaybeType{a}}$ という型を持ち，マップ演算子 $\mMapMaybe$ は $\mProj{(\mProj{\mType{a}}{\mType{b}})}{(\mProj{\mMaybeType{a}}{\mMaybeType{b}})}$ という型を持つ．
+いま「世界」と呼んだものを，数学者は\keyword{圏}と呼ぶ．圏とは\keyword{対象}と\keyword{射}の組み合わせである．本書では「対象」とは型のことであり，射とは関数だと思えば良い．コンテナに入れられた関数も射に含まれる．そして，圏から圏へとジャンプさせるものを\keyword{関手}と呼ぶ．この例で言えば値コンストラクタ $\mJustWith{x}$ とマップ演算子 $\mMapMaybe$ が関手である．値コンストラクタ $\mJustWith{x}$ は $\mProj{\mType{a}}{\mMaybeType{a}}$ という型を持ち，マップ演算子 $\mMapMaybe$ は $\mProj{(\mProj{\mType{a}}{\mType{b}})}{(\mProj{\mMaybeType{a}}{\mMaybeType{b}})}$ という型を持つ．\footnote{関手は英語でファンクター(functor)と言うが，\cxx の関数オブジェクト (function object) もかつてはファンクター(functor)と呼ばれていた．\cxx のファンクターとはクロージャの粗末な代用品のことで，本書で述べる関手とは異なる概念である．混同しないように注意しよう．}
 
 同じことはリストにも言える．値コンストラクタ $\mListWith{x}$ とマップ演算子 $\mMapList$ もまた関手である．この場合値コンストラクタは $\mProj{\mType{a}}{\mListType{a}}$ という型を持ち，マップ演算子も同じく $\mProj{(\mProj{\mType{a}}{\mType{b}})}{(\mProj{\mListType{a}}{\mListType{b}})}$ という型を持つ．
 
@@ -2568,8 +2548,9 @@ h\mMapMaybe\mMaybe{u}&\mIf\mMaybe{g}\equiv\mJustWith{h}\\
 \end{enumerate}
 
 
-\begin{note}{ファンクター}
-関手は英語でファンクター(functor)と言うが，\cxx の関数オブジェクト (function object) もかつてはファンクター(functor)と呼ばれていた．\cxx のファンクターとはクロージャの粗末な代用品のことで，本書で述べる関手とは異なる概念である．混同しないように注意しよう．
+\begin{note}{...}
+...
+% 
 \end{note}
 
 
@@ -3768,37 +3749,46 @@ y2 = f2(y1)
 
 \chapter{演算*}
 \section{名前と予約語*}
+表\ref{tab:reserved-symbols}および表\ref{tab:reserved-keywords}に\haskell で予約されている記号と名前を掲げる．もちろんこれら以外に \code{+} や \code{map} など慣例的に使われている語の再定義は避けるべきである．
 
 \begin{table*}
-\caption{\haskell の記号}
+\caption{\haskell の予約記号}
+\label{tab:reserved-symbols}
 \begin{center}
 \begin{tabular}{||c|c||}
 \hline
-\code{!}&強制評価\\
+\code{--}&行コメント\\
+\code{\{-} \code{-\}}&コメント\\
+\hline
 \code{'}&文字リテラル\\
 \code{"}&文字列リテラル\\%{\textquotedblright}\\
+\hline
 \code{-}&単項マイナス $(-)$\\
-\code{--}&行コメント\\
-% \code{-<}&（アロー表記用）\\
-% \code{-<<}&（アロー表記用）\\
-\code{->}&関数型コンストラクタ $(\mapsto)$，ラムダ式の矢印 $(\rightarrow)$，case式の矢印 $(\mIfSo)$\\
-\code{::}&型の宣言 $(\mIn)$\\
-\code{;}&ステートメントセパレータ\\
-\code{<-}&リスト内包表記 $(\mFrom)$，do記法中の代入 $(\mDoEq)$\\
-\code{,}&リスト内包表記の積演算 $(,)$\\
+\code{`}&関数の中置\\
+\hline
+\code{\textbackslash}&ラムダ $(\mLambda)$，行分割\\
+\code{\_}&ワイルドカード引数 $(\mAnyParam)$\\
 \code{=}&定義 $(=)$\\
 \code{=>}&インスタンス定義 $(\mSuperClass)$\\
+\code{@}&asパタン $(@)$\\
+\hline
+\code{::}&型の宣言 $(\mIn)$\\
+\code{->}&関数型コンストラクタ $(\mapsto)$，ラムダ式の矢印 $(\rightarrow)$，case式の矢印 $(\mIfSo)$\\
+\hline
+\code{|}&ガード $(\mGuard{})$，リスト内包 $(\mListComp)$，データ型の和演算 $(\mValueOr)$\\
+\code{<-}&リスト内包表記 $(\mFrom)$，do記法中の代入 $(\mDoEq)$\\
+\code{,}&リスト内包表記の積演算 $(,)$\\
+% \code{-<}&（アロー表記用）\\
+% \code{-<<}&（アロー表記用）\\
+% \code{[|}, \code{|]}&（テンプレート）\\
 % \code{?}&（暗黙パラメタ）\\
 % \code{\#}&（マジックハッシュ）\\
 % \code{*}\\
-\code{@}&asパタン $(@)$\\
-% \code{[|}, \code{|]}&（テンプレート）\\
-\code{\textbackslash}&ラムダ $(\mLambda)$，行分割\\
-\code{\_}&ワイルドカード $(\mAnyParam)$\\
-\code{`}&関数の中置\\
-\code{\{}, \code{\}}&レコード構文 $(\{\dotsb\})$，ブロック\\
-\code{\{-}, \code{-\}}&コメント\\
-\code{|}&ガード $(\mGuard{})$，リスト内包 $(\mListComp)$，データ型の和演算 $(\mValueOr)$\\
+\hline
+\code{\{} \code{\}}&レコード構文 $(\{\dotsb\})$，ブロック\\
+\code{;}&ステートメントセパレータ\\
+\hline
+\code{!}&強制評価\\
 \code{\textasciitilde}&遅延バインディング\\
 \hline
 \end{tabular}
@@ -3808,59 +3798,23 @@ y2 = f2(y1)
 
 \begin{table*}
 \caption{\haskell の予約語}
+\label{tab:reserved-keywords}
 \begin{center}
 \begin{tabular}{||l|l||}
 \hline
-分岐&case, default (?), else, if, of, then\\
-型定義&class, data, deriving, instance, newtype, type\\
-do記法&do\\
-局所変数&in, let, where\\
-演算子定義&infix, infixl, infixr\\
-モジュール関係&foreign, import, module\\
-引数&\_\\
+分岐 (1)&\code{case}, \code{of}\\
+分岐 (2)&\code{if}, \code{then}, \code{else}\\
+型定義&\code{class}, \code{data}, \code{default}, \code{deriving}, \code{instance}, \code{newtype}, \code{type}\\
+do記法&\code{do}\\
+局所変数 (1)&\code{let}, \code{in}\\
+局所変数 (2)&\code{where}\\
+演算子定義&\code{infix}, \code{infixl}, \code{infixr}\\
+モジュール関係&\code{foreign}, \code{import}, \code{module}\\
+% ワイルドカード引数&\code{\_}\\
 \hline
 \end{tabular}
 \end{center}
 \end{table*}
-
-
-\begin{itemize}
-\item \code{case}
-\item \code{class}
-\item \code{data}
-\item \code{default}
-\item \code{deriving}
-\item \code{do}
-\item \code{else}
-\item \code{foreign}
-\item \code{if}
-\item \code{import}
-\item \code{in}
-\item \code{infix}
-\item \code{infixl}
-\item \code{infixr}
-\item \code{instance}
-\item \code{let}
-\item \code{module}
-\item \code{newtype}
-\item \code{of}
-\item \code{then}
-\item \code{type}
-\item \code{where}
-\item \code{\_}
-\item \code{..}
-\item \code{:}
-\item \code{::}
-\item \code{=}
-\item \code{\textbackslash}
-\item \code{|}
-\item \code{<-}
-\item \code{->}
-\item \code{@}
-\item \code{\textasciitilde}
-\item \code{=>}
-\end{itemize}
-
 
 
 
@@ -4307,6 +4261,33 @@ I_\mSet{Z}\mCompProj g=g\mCompProj I_\mSet{Y}
 \end{equation}
 とすると，組み合わせ $\mTupleWith{\mSet{C},\mSet{P}}$ は圏になっている．
 
+---
+
+圏の構造．
+
+カリー化された加算．カリー化されたmin.
+
+対象，射，射の合成．
+
+対象は整数集合．
+
+射は整数から整数への関数．
+
+恒等射．
+
+射の合成．関数の合成．
+
+単位律．結合律．
+
+モノイドとは対象がひとつだけ存在する圏である．四則演算は対象がひとつだけなので，モノイドである．
+
+関手．カリー化した圏から中置演算子への圏への写像．
+
+
+% http://bitterharvest.hatenablog.com/entry/2015/02/12/155738
+
+
+
 \section{余談：束*}
 
 \section{この章のまとめ}
@@ -4409,6 +4390,29 @@ f&=\mLambdaExp{xy}{y}\\
 \section{カリー＝ハワード同型対応*}
 \section{*}
 \section{*}
+
+\clang は公式にはラムダ式を採用していない．しかし\clang にラムダ式を持たせる拡張はいくつか提案されている．その一つがApple社が自社OSの Grand Central Dispatch 機能のために行った「ブロック拡張」である．このブロック拡張を用いたクロージャの例を見てみよう．
+\begin{ccode}
+\begin{verbatim}
+#include <Block.h>
+#include <stdio.h>
+typedef int (^int_to_int)(int);
+int_to_int make_plus_n(int n) {
+  return Block_copy(^(int x) {
+      return n+x;
+    });
+}
+int main(void) {
+  int_to_int make_plus_10
+    = make_plus_n(10);
+  int x = make_plus_10(1);
+  printf("x = %d\n", x);
+  return 0;
+}
+\end{verbatim}
+\end{ccode}
+コード中の \code{\textasciicircum(int x) \{ return n+x; \}} がブロック（クロージャ）である．\clang のブロック拡張はオープンソースコミュニティに還元されているため，GCCやclangで使用可能である．
+
 \section{この章のまとめ*}
 
 % https://ja.wikipedia.org/wiki/ホーア論理
