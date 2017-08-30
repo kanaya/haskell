@@ -76,6 +76,9 @@
 \newcommand{\mCaseKeyword}{\mKeyword{case}}
 \newcommand{\mElseKeyword}{\mKeyword{else}}
 \newcommand{\mInKeyword}{\mKeyword{in}}
+\newcommand{\mInfixKeyword}{\mKeyword{infix}}
+\newcommand{\mInfixlKeyword}{\mKeyword{infixl}}
+\newcommand{\mInfixrKeyword}{\mKeyword{infixr}}
 \newcommand{\mInstanceKeyword}{\mKeyword{instance}}
 \newcommand{\mLetKeyword}{\mKeyword{let}}
 \newcommand{\mNewDataTypeKeyword}{\mKeyword{newtype}}
@@ -94,6 +97,9 @@
 \DeclareMathOperator{\mElse}{\mElseKeyword}
 \DeclareMathOperator{\mIf}{\mIfKeyword}
 \DeclareMathOperator{\mInKW}{\mInKeyword} % Internal use
+\DeclareMathOperator{\mInfix}{\mInfixKeyword}
+\DeclareMathOperator{\mInfixl}{\mInfixlKeyword}
+\DeclareMathOperator{\mInfixr}{\mInfixrKeyword}
 \DeclareMathOperator{\mInstance}{\mInstanceKeyword}
 \DeclareMathOperator{\mInstanceParametric}{\mInstanceKeyword^{\dagger}}
 \DeclareMathOperator{\mLetKW}{\mLetKeyword} % Internal use
@@ -982,18 +988,35 @@ r&=f1
 
 高階関数は今後度々顔をだすことになる．第\ref{ch:list}章に登場するマップ演算子や畳込み演算子は高階関数の一種である．
 
-\section{余談：クロージャ}
+\section{余談：演算子の定義}
 
-ラムダ式をサポートするほとんどのプログラミング言語は，\keyword{レキシカルクロージャ}をサポートする．レキシカルクロージャとは，ラムダ式が定義された時点での，周囲の環境をラムダ式に埋め込む機構である．例えば
+\haskell では関数だけでなく，新しい演算子も定義できる．
+
+計算機科学者ドナルド・クヌースは，整数 $x,y$ が与えられたとき $x$ の $y$ 乗を $x^y$ ではなく $x\uparrow y$ と書いた．これは
+\begin{equation}
+x\uparrow y=\underbrace{x*x*\dotsb*x}_{y}%=x^y
+\end{equation}
+という意味である．\footnote{\haskell では $x\uparrow y$ を \code{x\textasciicircum y} と書く．}
+
+クヌースはさらに演算子 $\uparrow\uparrow$ を
+\begin{equation}
+x\uparrow\uparrow y=\underbrace{x\uparrow x\dotsb\uparrow x}_{y}%=\underbrace{x^{x^{\text{\reflectbox{$\ddots$}}}}}_{y}
+\end{equation}
+のように定義した．これを\keyword{クヌースの矢印}と呼ぶ．クヌースの矢印は
 \begin{align}
-a&=100\\
-h&=a+\mAnonParam
+% \uparrow\uparrow&\mIn\mProj{\mIntegerType}{\mProj{\mIntegerType}{\mIntegerType}}\\
+x\uparrow\uparrow n&\mGuard{n\le0}=1\\
+&\mGuard{\mOtherwise}=x\uparrow(x\uparrow\uparrow(n-1))
 \end{align}
-というラムダ式があるとする．当然我々は関数 $h$ がいつも $h=100+\mAnonParam$ であることを期待するし，\haskell においてはいつも保証される．
+と定義できる．\footnote{\haskell では
+\begin{verbatim}
+  x^^^n | n <= 0    = 1
+        | otherwise = x^(x^^^(n-1))
+\end{verbatim}
+と書く．演算子 \code{\textasciicircum\textasciicircum} が予約済みのため \code{\textasciicircum\textasciicircum\textasciicircum} を使った．}
 
-ところが，参照透過性のない言語，言い換えると変数への破壊的代入が許されている言語では，変数 $a$ の値がいつ変わっても不思議ではない．そこで，それらの言語では関数 $h$ が定義された時点での $a$ の値を，関数 $h$ の定義に含めておく．これがレキシカルクロージャの考え方である．
+なおこの定義は自分自身を呼び出す\keyword{再帰}を行っている．再帰に関しては第\ref{ch:recursion}章で詳しく述べる．
 
-\haskell ではそもそも変数への破壊的代入がないので，関数 $h$ がレキシカルクロージャであるかどうか悩む必要はない．あえて言えば，\haskell ではラムダ式はいつもレキシカルクロージャである．もしあなたのそばの\cxx プログラマが「え？\haskell にはレキシカルクロージャが無いの？」などと聞いてきたら，「ええ，\haskell には破壊的代入すらありませんから」と答えておこう．
 
 \section{この章のまとめ}
 
@@ -1766,6 +1789,7 @@ f\mList{y}@(x:\mList{x})=\dotsb
 
 
 \chapter{再帰*}
+\label{ch:recursion}
 
 \begin{leader}
 A...
@@ -1854,12 +1878,24 @@ x*\mFact(x-1)&\mOtherwise
 % http://qiita.com/7shi/items/d3d3492ddd90d47160f2
 % https://downloads.haskell.org/~ghc/7.0.1/docs/html/users_guide/primitives.html
 
+\section{余談：クロージャ}
 
-\section{余談：アルゴリズムの本質*}
+ラムダ式をサポートするほとんどのプログラミング言語は，\keyword{レキシカルクロージャ}をサポートする．レキシカルクロージャとは，ラムダ式が定義された時点での，周囲の環境をラムダ式に埋め込む機構である．例えば
+\begin{align}
+a&=100\\
+h&=a+\mAnonParam
+\end{align}
+というラムダ式があるとする．当然我々は関数 $h$ がいつも $h=100+\mAnonParam$ であることを期待するし，\haskell においてはいつも保証される．
 
-逐次実行，条件分岐，繰り返し．
+ところが，参照透過性のない言語，言い換えると変数への破壊的代入が許されている言語では，変数 $a$ の値がいつ変わっても不思議ではない．そこで，それらの言語では関数 $h$ が定義された時点での $a$ の値を，関数 $h$ の定義に含めておく．これがレキシカルクロージャの考え方である．
 
-...
+\haskell ではそもそも変数への破壊的代入がないので，関数 $h$ がレキシカルクロージャであるかどうか悩む必要はない．あえて言えば，\haskell ではラムダ式はいつもレキシカルクロージャである．もしあなたのそばの\cxx プログラマが「え？\haskell にはレキシカルクロージャが無いの？」などと聞いてきたら，「ええ，\haskell には破壊的代入すらありませんから」と答えておこう．
+
+% \section{余談：アルゴリズムの本質*}
+
+% 逐次実行，条件分岐，繰り返し．
+
+% ...
 
 
 
@@ -3700,6 +3736,35 @@ A...
 
 \clang で $\mMain$ 関数の型がOSの都合で \code{int main(int, const char *const *);} と決められているように，\haskell でも $\mMain$ 関数の型はあらかじめ決められている．その型は $\mIOIntType$ である． 
 
+何もせずにOSに $0$ を返すプログラムすなわち
+\begin{equation}
+\mMain=\mPureWith{0}
+\end{equation}
+を\haskell で書くと，
+\begin{haskellcode}
+\begin{verbatim}
+main :: IO Int
+main = pure 0
+\end{verbatim}
+\end{haskellcode}
+または
+\begin{haskellcode}
+\begin{verbatim}
+main :: IO Int
+main = return 0
+\end{verbatim}
+\end{haskellcode}
+のようになる．ここに \code{return} はモナドのピュア演算子の別名で，特別に\keyword{ユニット演算子}と呼ぶ．\footnote{GHC v7.8 以前はモナドにピュア演算子が定義されず，モナド独自のユニット演算子が定義されていた．}
+
+このプログラムは\clang の
+\begin{ccode}
+\begin{verbatim}
+int main() {
+  return 0;
+}
+\end{verbatim}
+\end{ccode}
+と等しい．
 
 \section{プログラムの本質}
 
@@ -3816,14 +3881,44 @@ do記法&\code{do}\\
 \end{center}
 \end{table*}
 
-
-
 % http://www.imada.sdu.dk/~rolf/Edu/DM22/F06/haskell-operatorer.pdf
 % https://wiki.haskell.org/Keywords
 
 \section{型とデータ構造*}
+
+\haskell が標準的に使える型を表\ref{tab:data-types}に示す．
+
+\begin{table}
+\caption{\haskell のデータ型}
+\label{tab:data-types}
+\begin{center}
+\begin{tabular}{||c|c||}
+\hline
+\code{Char}&文字型\\
+\code{Int}&整数型\\
+\code{Integer}&整数型\\
+\code{Float}&単精度浮動小数点型\\
+\code{Double}&倍精度浮動小数点型\\
+\code{String}&\code{[Char]} の型シノニム\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+
 \section{演算と構文*}
-\section{余談：演算子*}
+
+\subsection{単項マイナス}
+
+\subsection{二項演算子}
+
+\subsection{関数適用}
+
+\subsection{関数定義}
+
+\subsection{演算子定義}
+
+\section{余談：単項マイナス*}
 \section{この章のまとめ*}
 
 \chapter{IO*}
