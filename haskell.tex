@@ -189,6 +189,7 @@
 \DeclareMathOperator{\mBindList}{\clubsuit}
 \DeclareMathOperator{\mBindMaybe}{\spadesuit}
 \DeclareMathOperator{\mBindRight}{\ooalign{$\longrightarrow$\crcr\hss$\mBind$\hss}}
+\DeclareMathOperator{\mBindRightIgnore}{\longrightarrow}
 \DeclareMathOperator{\mBinOp}{\bigstar}
 \DeclareMathOperator{\mComp}{\centerdot}
 \DeclareMathOperator{\mCompRot}{\cdot}
@@ -471,10 +472,12 @@ $\mAppMapList$&リストのアプリカティブマップ&\\
 $\mAppMapMaybe$&Maybeのアプリカティブマップ&\\
 $\mAppMapFunc$&関数のアプリカティブマップ&\\
 \hline
+$\mBind$&一般バインド演算子&\\
+$\mBindRight$&一般右バインド演算子&\\
+% $\mBindRightIgnore$&一般右バインド演算子&\\
 $\mBindList$&リストのバインド演算子&\\
 $\mBindMaybe$&Maybeのバインド演算子&\\
 $\mBindFunc$&関数のバインド演算子&\\
-$\mBind$&モナドのバインド演算子&\\
 \hline
 \end{tabular}
 \end{center}
@@ -3806,6 +3809,24 @@ y2 = f2(y1)
 % How to unwrap w?
 
 \section{余談：インタープリタ*}
+
+\begin{haskellcode}
+\begin{verbatim}
+x :: Double
+x = {- Value -}
+f :: Double -> Double
+f = {- Function -}
+main :: IO Int
+main = print (f x) >> pure 0
+\end{verbatim}
+\end{haskellcode}
+
+\begin{verbatim}
+$ ghc sample.hs
+$ ./sample
+\end{verbatim}%$
+
+
 \section{この章のまとめ*}
 
 \begin{note}{...}
