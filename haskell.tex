@@ -50,6 +50,10 @@
 
 \newcommand{\code}[1]{\texttt{#1}}
 
+%% File name
+
+\newcommand{\filename}[1]{\texttt{#1}}
+
 %% Code Blocks (like ``` ... ``` of Markdown)
 
 \newenvironment{ccode}{\begin{itembox}[r]{\clang}}{\end{itembox}}
@@ -3822,23 +3826,29 @@ y2 = f2(y1)
 
 % How to unwrap w?
 
-\section{余談：インタープリタ*}
+\separator
 
+ここで，プログラマの「サバイバルキット」を用意しておこう．次のプログラムで定数 \code{x} と関数 \code{f} の部分を埋めれば，関数適用の結果つまり \code{f x} の値を画面に出力する．
 \begin{haskellcode}
 \begin{verbatim}
+-- sample.hs
 x :: Double
 x = {- Value -}
 f :: Double -> Double
-f = {- Function -}
+f x = {- Function -}
 main :: IO Int
 main = print (f x) >> pure 0
 \end{verbatim}
 \end{haskellcode}
-
+ファイル名を \filename{sample.hs} とすると，コンパイルと実行は次のようにする．
 \begin{verbatim}
 $ ghc sample.hs
 $ ./sample
 \end{verbatim}%$
+
+
+\section{余談：インタープリタ*}
+
 
 
 \section{この章のまとめ*}
@@ -3945,6 +3955,8 @@ do記法&\code{do}\\
 
 \subsection{単項マイナス}
 
+\haskell には単項マイナス $(-)$ を除いて他に単項演算子はない．例えば \code{(+ 1)} はセクションであり $\mLambdaExp{x}{x+1}$ の意味であるが，マイナス記号 \code{-} は単項演算子の意味を持つので \code{(- 1)} はマイナス $1$ であり \code{(-1)} と同じ意味である．
+
 \subsection{二項演算子}
 
 \subsection{関数適用}
@@ -3961,6 +3973,7 @@ z={}!x{}\dotplus{}!y
 
 \begin{haskellcode}
 \begin{verbatim}
+import Data.Complex
 z :: Complex Double
 z = !x :+ !y
 \end{verbatim}
@@ -4029,15 +4042,7 @@ z = !x :+ !y
 
 % http://itchyny.hatenablog.com/entry/2015/12/27/150000
 
-\chapter{アローと継続*}
-\section{アロー*}
-$\mArrow,\mArrowAnd,\mArrowOr$
-% http://qiita.com/CyLomw/items/688942f19a5bc3a25037
-% http://d.hatena.ne.jp/r-west/20070720/1184946510
-\section{\scheme の継続*}
-\section{継続モナド*}
-\section{余談：チューリング＝チャーチのテーゼ*}
-\section{この章のまとめ*}
+
 
 \chapter{Freeモナド*}
 \section{ドメイン特化言語*}
@@ -4076,6 +4081,18 @@ instance Functor f => Monad (Free f) where
 
 % http://tune.hateblo.jp/entry/2014/09/28/185233
 % http://konn-san.com/prog/haskell/extensible-effects.html
+
+
+
+\chapter{アローと継続*}
+\section{アロー*}
+$\mArrow,\mArrowAnd,\mArrowOr$
+% http://qiita.com/CyLomw/items/688942f19a5bc3a25037
+% http://d.hatena.ne.jp/r-west/20070720/1184946510
+\section{\scheme の継続*}
+\section{継続モナド*}
+\section{余談：チューリング＝チャーチのテーゼ*}
+\section{この章のまとめ*}
 
 \chapter{モジュール*}
 \section{標準モジュール*}
