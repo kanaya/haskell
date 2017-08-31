@@ -199,7 +199,7 @@
 \DeclareMathOperator{\mDefEq}{\stackrel{\mathrm{def}}{=}}
 \DeclareMathOperator{\mDoEq}{\leftarrow}
 \DeclareMathOperator{\mDoLetEq}{\mVarKeyword{=}}
-\DeclareMathOperator{\mDoNext}{\Rrightarrow}
+\DeclareMathOperator{\mDoNext}{;\;}%{\Rrightarrow}
 \DeclareMathOperator*{\mFold}{\bigcup}
 \DeclareMathOperator*{\mFoldStrict}{\bigcup{}_\text{Strict}}
 \DeclareMathOperator*{\mFoldRight}{\bigsqcup}
@@ -1003,7 +1003,7 @@ x\uparrow y=\underbrace{x*x*\dotsb*x}_{y}%=x^y
 
 クヌースはさらに演算子 $\uparrow\uparrow$ を
 \begin{equation}
-x\uparrow\uparrow y=\underbrace{x\uparrow x\dotsb\uparrow x}_{y}%=\underbrace{x^{x^{\text{\reflectbox{$\ddots$}}}}}_{y}
+x\uparrow\uparrow y=\underbrace{x\uparrow x\uparrow\dotsb\uparrow x}_{y}%=\underbrace{x^{x^{\text{\reflectbox{$\ddots$}}}}}_{y}
 \end{equation}
 のように定義した．これを\keyword{クヌースの矢印}と呼ぶ．クヌースの矢印は
 \begin{align}
@@ -1013,10 +1013,14 @@ x\uparrow\uparrow n&\mGuard{n\le0}=1\\
 \end{align}
 と定義できる．\footnote{\haskell では
 \begin{verbatim}
-  x^^^n | n <= 0    = 1
-        | otherwise = x^(x^^^(n-1))
+  x^^:n | n <= 0    = 1
+        | otherwise = x^(x^^:(n-1))
 \end{verbatim}
-と書く．演算子 \code{\textasciicircum\textasciicircum} が予約済みのため \code{\textasciicircum\textasciicircum\textasciicircum} を使った．}
+と書く．演算子 \code{\textasciicircum\textasciicircum} が予約済みのため \code{\textasciicircum\textasciicircum:} を使った．なお厳密には
+\begin{verbatim}
+  (^^:) :: Integral a => a -> a -> a
+\end{verbatim}
+と演算子の型を宣言しておく必要がある．型に関しては第\ref{ch:type}章で述べる．}
 
 なおこの定義は自分自身を呼び出す\keyword{再帰}を行っている．再帰に関しては第\ref{ch:recursion}章で詳しく述べる．
 
@@ -1508,13 +1512,17 @@ ls = [x+y for x in range(0, 10) \
   for y in range(0,6) if x+y > 3]
 \end{verbatim}
 \end{pythoncode}
-のことである．\footnote{\haskell では $\mList{x}=\mListWith{x+y\mListComp{x\mFrom\mListWith{0,1\dotsb9},\,y\mFrom\mListWith{0,1\dotsb5},\,x+y>3}}$ を \code{xs = [x+y | x<-[0,1..9], y<-[0,1..5], x+y>3]} と書く．}
+のことである．\footnote{\haskell では \code{xs = [x+y | x<-[0,1..9], y<-[0,1..5], x+y>3]} と書く．}
 
 リストは\keyword{結合}できる．例えばリスト$\mList{x}$ とリスト $\mList{y}$ を結合したリストは
 \begin{equation}
 \mList{x}\mAppend\mList{y}
 \end{equation}
-と表現する．\footnote{\haskell では $\mList{x}\mAppend\mList{y}$ を \code{xs++ys} と書く．}
+と表現する．リストの結合演算子の型は
+\begin{equation}
+(\mAppend)\mIn{}\mProj{\mListType{a}}{\mProj{\mListType{a}}{\mListType{a}}}
+\end{equation}
+である．\footnote{\haskell では $\mList{x}\mAppend\mList{y}$ を \code{xs++ys} と書く．}
 
 リストは\keyword{無限個}の要素を持っても良い．例えば自然数全体を表すリスト $\mList{n}$ は
 \begin{equation}
@@ -1556,6 +1564,11 @@ $\mType{a}$ 型の変数 $x$ を入れた $\mListType{a}$ 型の変数を作る�
 \end{equation*}
 とすると，リスト $\mList{z}$ は $\mList{z}=\mListWith{1,2\dotsb5}$ という値を持つ．
 
+関数 $\mTake$ の型は
+\begin{equation}
+\mTake\mIn{}\mProj{\mIntType}{\mProj{\mListType{a}}{\mListType{a}}}
+\end{equation}
+である．
 
 \section{畳み込み}
 \label{sec:convolution}
@@ -1753,7 +1766,9 @@ f\mMapList\mEmptyList
 
 このように基本的な関数から高機能な関数を実装する方法はよく行われる．この例ではcons演算子からマップ演算子を合成した．
 
-なお，リストを引数にとる関数はいつでも
+\separator
+
+リストを引数にとる関数はいつでも
 \begin{equation}
 f(x:\mList{x})=\dotsb
 \end{equation}
@@ -2218,7 +2233,7 @@ Etherには値コンストラクタが2種類あり，それぞれ $\mRightWith{
 
 Eitherはより複雑な計算エラーが発生する場合に用いる．Maybeが単に失敗を表す $\mNothing$ しか表現できなかったのに対し，Eitherは任意の型の変数で表現できる．習慣的に，正しい (right) 計算結果は $\mRightWith{x}$ 値コンストラクタで格納し，エラーの情報は $\mLeftWith{x}$ 値コンストラクタで格納する．
 
-Either型は\clang の共有型 (\code{union}) に近い．
+Either型は\clang の共有型 (\code{union}) や\cxxseventeen のバリアント型 (\code{std::variant}) に近い．
 
 \section{この章のまとめ}
 
@@ -3064,7 +3079,6 @@ $\mIOUnitType$ 型の場合，ピュア演算子は何も返す必要がない�
 
 \section{do記法}
 
-
 \begin{table*}[tp]
 \label{tab:do-alpha-alpha}
 \caption{do記法中に変数を2回以上使いまわす例}
@@ -3087,9 +3101,9 @@ $\mIOUnitType$ 型の場合，ピュア演算子は何も返す必要がない�
 \label{eq:do-print-random}
 \omega=\mDo{a\mDoEq\mRand\mDoNext\mPutStr a}
 \end{equation}
-となる．\footnote{\haskell では $\mDoNext$ を改行に置き換えて
+となる．\footnote{\haskell では \code{omega = do \{ a <- rand; putStr a \}} と書くか，または $\mDoNext$ を改行に置き換えて
 \begin{verbatim}
-  main = do
+  omega = do
     a <- rand
     putStr a
 \end{verbatim}
