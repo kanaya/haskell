@@ -923,9 +923,9 @@ y=fx'\mWhereIs{x'}{1+x}
 二項演算子の部分適用に限って\keyword{セクション}と言う記法も用いられる．二項演算子 $\mBinOp$ に対して $(\mBinOp x)$ および $(x\mBinOp)$ はそれぞれ
 \begin{align}
 (\mBinOp x)&=\mAnonParam\mBinOp x\\
-(x\mBinOp)&=x\mBinOp\mAnonParam
+(x\mBinOp)&=x\mBinOp\mAnonParam=(\mBinOp)x
 \end{align}
-である．例えば $(1+)$ は $((+)1)$ と等価である． \footnote{\haskell では $(1+)$ を \code{(1+)} と書く．}
+である．例えば $(1+)$ は $((+)1)$ と等価である．ただし，マイナス演算子 $(-)$ だけは例外で，$(-1)$ はマイナス $1$ を表す．\footnote{\haskell では $(1+)$ を \code{(1+)} と書く．}
 
 なお，二項演算子の結合性，すなわち左結合か右結合かは，演算子によって異なる．また演算の優先順位を明示的に与えるために括弧が用いられる．
 
@@ -3195,22 +3195,26 @@ y=g_2(g_1x)
 
 直列に評価したい関数の戻り値が，いつも次の関数の引数の型と一致しているとは限らないし，次の関数（アクション）が引数を取らない可能性もある．もし関数 $g_2$ が引数を取らなければ
 \begin{equation}
-\label{eq:ignore-return}
 \mFuncWith{g_2}(g_1x)
 \end{equation}
 とする．この時，関数適用 $(g_1x)$ の結果は単純に捨てられる．\footnote{\clang では \code{void} 型を返す関数 \code{void g1(int);} を 引数を取らない関数 \code{int g2(void);} に「食わせる」ことが可能で， \code{g2(g1(x));} は正しいコードである．もっとも\clang プログラマは \code{g1(x), g2();} という書き方の方を好むであろう．}
 
-式\eqref{eq:ignore-return}はしばしば
+\separator
+
+ふたつのアクション $\alpha_1,\alpha_2$ があり，アクション $\alpha_2$ が引数を取らない場合，その二つを合成するには
+\begin{equation}
+\label{eq:ignore-return}
+\mFuncWith{\alpha_2}\mBind\alpha_1 x
+\end{equation}
+とする．式\eqref{eq:ignore-return}はしばしば
 % \begin{equation}
 % g_2\twoheadleftarrow g_1x=\mFuncWith{g_2}(g_1x)
 % \end{equation}
 % または
 \begin{equation}
-g_1 x\mBindRightIgnore g_2=\mFuncWith{g_2}(g_1x)
+\alpha_1 x\mBindRightIgnore\alpha_2=\mFuncWith{\alpha_2}\mBind(\alpha_1x)
 \end{equation}
-なる演算子 $\mBindRightIgnore$ を用いて記述される．\footnote{\haskell では $g_1x\mBindRightIgnore g_2$ を \code{g1 x >> g2} と書く．}
-
-
+なる演算子 $\mBindRightIgnore$ を用いて記述される．\footnote{\haskell では $\alpha_1x\mBindRightIgnore\alpha_2$ を \code{alpha1 x >> alpha2} と書く．}
 
 \section{この章のまとめ*}
 
@@ -3754,7 +3758,7 @@ A...
 
 \haskell プログラムもまた，文字定数を除いてはASCII文字セットの範囲で書くことが普通である．そこで我々もその習慣に従うことにしよう．例えば円周率を代入する変数を $\pi$ と書きたいところだが，我々は \code{pi} と書く．
 
-数学記号のほとんども，ASCII文字セットの中から記号を組み合わせるか，さもなくば言葉で表現する．例えば\haskell では $\mFrom$ の代わりに \code{<-} を使うし，$\mLogicalAnd$ の代わりに \code{and} を使う．
+数学記号のほとんども，ASCII文字セットの中から記号を組み合わせるか，さもなくば言葉で表現する．例えば\haskell では $\mFrom$ の代わりに \code{<-} を使うし，$\neg$ の代わりに \code{not} を使う．
 
 また計算機科学者たちの絶えざる努力にもかかわらず，プログラム中の文字の装飾はこれまでほとんど受け入れられていない．我々は本書で $\textrm{f},\textsl{f},\textbf{f},\textsf{f},f$ を使い分けてきたが，\haskell プログラム中では全て \code{f} と書く．
 
@@ -3762,17 +3766,21 @@ A...
 
 \haskell では \code{--} から行の終わりまでがコメントとして扱われる．また \code{\{-} で始まり \code{-\}} で終わる文字列もコメントとして扱われる．
 
+\separator
+
+習慣的に\haskell プログラムのファイルには拡張子 \filename{.hs} を付ける．
+
 \section{main関数と一般の関数定義}
 
-\python インタプリタはプログラムを頭から実行していくので，$\mMain$ 関数は書かなくてもよいが，アプリケーションプログラマにとっての一番の関心事は $\mMain$ 関数の書き方だろう．iOSアプリケーション開発のように，基本的には $\mMain$ 関数をプログラマが触れないというスタイルもあるが，それでもデバッグの時には $\mMain$ 関数から辿ることになるので，$\mMain$ 関数のありかを知っておくことはいつでも重要だ．
+\python インタプリタはプログラムを頭から実行していくので，main関数は書かなくてもよいが，アプリケーションプログラマにとっての一番の関心事はmain関数（\haskell では $\mMain$ アクション）の書き方だろう．iOSアプリケーション開発のように，基本的にはmain関数をプログラマが触れないというスタイルもあるが，それでもデバッグの時にはmain関数から辿ることになるので，main関数のありかを知っておくことはいつでも重要だ．
 
-\haskell コンパイラも $\mMain$ 関数をアプリケーションプログラムのエントリポイントとして認識する．というよりも，\haskell プログラムとは $\mMain$ という一つの関数である．$\mMain$ 関数を含む一般の関数はこれまで通り
+\haskell コンパイラも $\mMain$ アクションをアプリケーションプログラムのエントリポイントとして認識する．というよりも，\haskell プログラムとは $\mMain$ という一つのアクションである．$\mMain$ を含む一般の関数やアクションはこれまで通り
 \begin{equation}
 \mMain=\dotsb
 \end{equation}
 のように関数名のあとに等号 $(=)$ を置いて定義する．
 
-\clang で $\mMain$ 関数の型がOSの都合で \code{int main(int, const char *const *);} と決められているように，\haskell でも $\mMain$ 関数の型はあらかじめ決められている．その型は $\mIOIntType$ である． 
+\clang でmain関数の型がOSの都合で \code{int main(void)} または \code{int main(int, const char *const *)} と決められているように，\haskell でも $\mMain$ アクションの型はあらかじめ決められている．その型は $\mIOIntType$ である． 
 
 何もせずにOSに $0$ を返すプログラムすなわち
 \begin{equation}
@@ -3781,6 +3789,7 @@ A...
 を\haskell で書くと，
 \begin{haskellcode}
 \begin{verbatim}
+-- do-nothing.hs
 main :: IO Int
 main = pure 0
 \end{verbatim}
@@ -3788,6 +3797,7 @@ main = pure 0
 または
 \begin{haskellcode}
 \begin{verbatim}
+-- do-nothing.hs
 main :: IO Int
 main = return 0
 \end{verbatim}
@@ -3797,7 +3807,8 @@ main = return 0
 このプログラムは\clang の
 \begin{ccode}
 \begin{verbatim}
-int main() {
+/* do-nothing.c */
+int main(void) {
   return 0;
 }
 \end{verbatim}
@@ -3806,15 +3817,12 @@ int main() {
 
 \section{プログラムの本質}
 
-プログラムに与えられた引数やファイルを $x$ とし，プログラムの出力を $y$ とすると，副作用のないプログラムの本質は
-\begin{equation}
-y=\mMainFunc x
-\end{equation}
-という $\mMainFunc$ 関数であり，それを
+副作用のないプログラムはひとつの関数で書ける．その関数を $\mMainFunc$ と呼ぶことにすると，この $\mMainFunc$ 関数を
 \begin{equation}
 \mMainFunc=f_n\mComp f_{n-1}\mComp\dotsb\mComp f_1
 \end{equation}
-と部分関数に分解することがプログラマの能力である．副作用のないプログラムとは，例えば標準入力から文字列を読み取り，標準出力へ文字列を書き出すUNIXのフィルタプログラムのようなものである．例えば \code{wc} というUNIXプログラムは，標準入力に与えられた文字列から行数，単語数，文字数を数えて，その数値を標準出力へ書き出す副作用のないプログラムである．
+と部分関数に分解することがプログラマの能力である．副作用のないプログラムとは，コマンドラインから引数 $x$ を受け取り，なんらかの処理を行い，OSに終了値を返すだけのプログラムである．このようなプログラムは普通役に立たないが，議論が簡単になるので少し見てみよう．
+% 例えば標準入力から文字列を読み取り，標準出力へ文字列を書き出すUNIXのフィルタプログラムのようなものである．例えば \code{wc} というUNIXプログラムは，標準入力に与えられた文字列から行数，単語数，文字数を数えて，その数値を標準出力へ書き出す副作用のないプログラムである．
 
 副作用のない関数を合成するのはわけのないことだ．もし\python ならば
 \begin{pythoncode}
@@ -3831,25 +3839,17 @@ y2 = f2(y1)
 \end{pythoncode}
 としてもよい．副作用のない関数の場合，これが関数合成の規則である．
 
-プログラムが副作用を持つ場合は，プログラム自身がIOモナドであるため，関数へと分解できないのであった．副作用を持つプログラムは
+プログラムが副作用を持つ場合は，プログラム自身がIOモナドであるため，関数へと分解できないのであった．副作用を持つプログラムはアクションであり，そのアクションを $\mMain$ アクションと名付けると，その $\mMain$ アクションを
 \begin{equation}
-\omega=\mMain\mBind\mPureWith{x}
+\mMain=\alpha_n\mBind\alpha_{n-1}\mBind\dotsb\mBind\alpha_0
 \end{equation}
-という $\mMain$ 関数であり，それを
-\begin{equation}
-\mMain=\alpha_n\mBind\alpha_{n-1}\mBind\dotsb\mBind\alpha_0  % *** mBind?? ***
-\end{equation}
-と部分関数に分解することがプログラマの能力となる．
+と部分アクションに分解することがプログラマの能力となる．
 
 % How to unwrap w?
 
 \separator
 
-ここで，プログラマの「サバイバルキット」を用意しておこう．次のプログラムで定数 \code{x} と関数 \code{f} の部分を埋めれば，関数適用の結果つまり \code{f x} の値を画面に出力する．\footnote{プログラム \filename{sample.hs} を数式で書くと
-\begin{equation}
-\mMain=\mPrint(fx)\mBindRightIgnore\mPureWith{0}
-\end{equation}
-である．この式は $\mPrint(fx)$ がいかなる値を返そうとも，アクション $\mMain$ の値は $0$ になることを示している．}
+ここで，プログラマの「サバイバルキット」を用意しておこう．次のプログラムで定数 \code{x} と関数 \code{f} の部分を埋めれば，関数適用の結果つまり \code{f x} の値を画面に出力する．
 \begin{haskellcode}
 \begin{verbatim}
 -- sample.hs
@@ -3866,6 +3866,12 @@ main = print (f x) >> pure 0
 $ ghc sample.hs
 $ ./sample
 \end{verbatim}%$
+
+プログラム \filename{sample.hs} を数式で書くと
+\begin{equation}
+\mMain=\mPrint(fx)\mBindRightIgnore\mPureWith{0}
+\end{equation}
+である．この式は $\mPrint(fx)$ がいかなる値を返そうとも，アクション $\mMain$ の値は $0$ になることを示している．
 
 
 \section{余談：インタープリタ*}
@@ -3976,7 +3982,7 @@ do記法&\code{do}\\
 
 \subsection{単項マイナス}
 
-\haskell には単項マイナス $(-)$ を除いて他に単項演算子はない．例えば \code{(+ 1)} はセクションであり $\mLambdaExp{x}{x+1}$ の意味であるが，マイナス記号 \code{-} は単項演算子の意味を持つので \code{(- 1)} はマイナス $1$ であり \code{(-1)} と同じ意味である．
+\haskell には単項マイナス $(-)$ を除いて他に単項演算子はない．例えば \code{(+1)} はセクションであり $\mLambdaExp{x}{x+1}$ の意味であるが，マイナス記号 \code{-} は単項演算子の意味を持つので \code{(-1)} はマイナス $1$ である．これは \code{(- 1)} と空白を挿入しても同じである．
 
 \subsection{二項演算子}
 
@@ -3986,7 +3992,10 @@ do記法&\code{do}\\
 
 \subsection{演算子定義}
 
-\section{余談：複素数*}
+
+\section{余談：コマンドライン引数*}
+
+% \section{余談：複素数*}
 
 \begin{equation}
 z={}!x{}\dotplus{}!y
