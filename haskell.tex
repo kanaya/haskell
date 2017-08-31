@@ -174,6 +174,7 @@
 
 \DeclareMathOperator{\mReadLn}{\mAction{readln}}
 \DeclareMathOperator{\mMain}{\mAction{main}}
+\DeclareMathOperator{\mPrint}{\mAction{print}}
 \DeclareMathOperator{\mPutStr}{\mAction{putstr}}
 \DeclareMathOperator{\mRand}{\mAction{rand}}
 
@@ -185,7 +186,7 @@
 \DeclareMathOperator{\mAppMapFunc}{\bowtie}
 \DeclareMathOperator{\mAppMapList}{\otimes}
 \DeclareMathOperator{\mAppMapMaybe}{\boxtimes}
-\DeclareMathOperator{\mArrow}{\twoheadrightarrow}
+\DeclareMathOperator{\mArrow}{\Rrightarrow}
 \DeclareMathOperator{\mArrowAnd}{\bigwedge}%{\&\&\&}
 \DeclareMathOperator{\mArrowOr}{\bigvee}%{\mid\mid\mid}
 \DeclareMathOperator{\mBind}{\heartsuit}
@@ -193,7 +194,7 @@
 \DeclareMathOperator{\mBindList}{\clubsuit}
 \DeclareMathOperator{\mBindMaybe}{\spadesuit}
 \DeclareMathOperator{\mBindRight}{\ooalign{$\longrightarrow$\crcr\hss$\mBind$\hss}}
-\DeclareMathOperator{\mBindRightIgnore}{\longrightarrow}
+\DeclareMathOperator{\mBindRightIgnore}{\twoheadrightarrow}
 \DeclareMathOperator{\mBinOp}{\bigstar}
 \DeclareMathOperator{\mComp}{\centerdot}
 \DeclareMathOperator{\mCompRot}{\cdot}
@@ -3164,6 +3165,13 @@ do記法には $\mDoEq$ の他に，我々の $\mLetKeyword$ とよく似た $\m
 
 % http://qiita.com/saltheads/items/6025f69ba10267bbe3ee
 
+\separator
+
+バインド演算子には，左右の引数を入れ替えた\keyword{右バインド演算子}がある．右バインド演算子は $\mBindRight$ と書き，
+\begin{equation}
+\alpha x\mBindRight\beta=\beta\mBind\alpha x
+\end{equation}
+であるとする．\footnote{\haskell では $\alpha x\mBindRight\beta$ を \code{alpha x >>= beta} と書く．}
 
 
 \section{余談：関数であるということ*}
@@ -3187,11 +3195,20 @@ y=g_2(g_1x)
 
 直列に評価したい関数の戻り値が，いつも次の関数の引数の型と一致しているとは限らないし，次の関数（アクション）が引数を取らない可能性もある．もし関数 $g_2$ が引数を取らなければ
 \begin{equation}
+\label{eq:ignore-return}
 \mFuncWith{g_2}(g_1x)
 \end{equation}
 とする．この時，関数適用 $(g_1x)$ の結果は単純に捨てられる．\footnote{\clang では \code{void} 型を返す関数 \code{void g1(int);} を 引数を取らない関数 \code{int g2(void);} に「食わせる」ことが可能で， \code{g2(g1(x));} は正しいコードである．もっとも\clang プログラマは \code{g1(x), g2();} という書き方の方を好むであろう．}
 
-
+式\eqref{eq:ignore-return}はしばしば
+% \begin{equation}
+% g_2\twoheadleftarrow g_1x=\mFuncWith{g_2}(g_1x)
+% \end{equation}
+% または
+\begin{equation}
+g_1 x\mBindRightIgnore g_2=\mFuncWith{g_2}(g_1x)
+\end{equation}
+なる演算子 $\mBindRightIgnore$ を用いて記述される．\footnote{\haskell では $g_1x\mBindRightIgnore g_2$ を \code{g1 x >> g2} と書く．}
 
 
 
@@ -3795,7 +3812,7 @@ y=\mMainFunc x
 \end{equation}
 という $\mMainFunc$ 関数であり，それを
 \begin{equation}
-\mMainFunc=f_1\mComp f_2\mComp\dotsb\mComp f_n
+\mMainFunc=f_n\mComp f_{n-1}\mComp\dotsb\mComp f_1
 \end{equation}
 と部分関数に分解することがプログラマの能力である．副作用のないプログラムとは，例えば標準入力から文字列を読み取り，標準出力へ文字列を書き出すUNIXのフィルタプログラムのようなものである．例えば \code{wc} というUNIXプログラムは，標準入力に与えられた文字列から行数，単語数，文字数を数えて，その数値を標準出力へ書き出す副作用のないプログラムである．
 
@@ -3820,7 +3837,7 @@ y2 = f2(y1)
 \end{equation}
 という $\mMain$ 関数であり，それを
 \begin{equation}
-\mMain=f_1\mBind f_2\mBind\dotsb\mBind f_n  % *** mBind?? ***
+\mMain=\alpha_n\mBind\alpha_{n-1}\mBind\dotsb\mBind\alpha_0  % *** mBind?? ***
 \end{equation}
 と部分関数に分解することがプログラマの能力となる．
 
@@ -3828,7 +3845,11 @@ y2 = f2(y1)
 
 \separator
 
-ここで，プログラマの「サバイバルキット」を用意しておこう．次のプログラムで定数 \code{x} と関数 \code{f} の部分を埋めれば，関数適用の結果つまり \code{f x} の値を画面に出力する．
+ここで，プログラマの「サバイバルキット」を用意しておこう．次のプログラムで定数 \code{x} と関数 \code{f} の部分を埋めれば，関数適用の結果つまり \code{f x} の値を画面に出力する．\footnote{プログラム \filename{sample.hs} を数式で書くと
+\begin{equation}
+\mMain=\mPrint(fx)\mBindRightIgnore\mPureWith{0}
+\end{equation}
+である．この式は $\mPrint(fx)$ がいかなる値を返そうとも，アクション $\mMain$ の値は $0$ になることを示している．}
 \begin{haskellcode}
 \begin{verbatim}
 -- sample.hs
