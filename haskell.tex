@@ -150,9 +150,9 @@
 \newcommand{\mFunc}[1]{\mathop{\mathit{#1}}}
 \newcommand{\mSpecialFunc}[1]{\mathrm{#1}}
 
-\DeclareMathOperator{\mGetList}{\mFunc{getlist}}
+\DeclareMathOperator{\mGetList}{\mFunc{getList}}
 \DeclareMathOperator{\mRepeat}{\mFunc{repeat}}
-\DeclareMathOperator{\mZipWith}{\mFunc{zipwith}}
+\DeclareMathOperator{\mZipWith}{\mFunc{zipWith}}
 
 \DeclareMathOperator{\mFact}{\mSpecialFunc{fact}}
 \DeclareMathOperator{\mHead}{\mSpecialFunc{head}}
@@ -172,10 +172,10 @@
 % Actions
 \newcommand{\mAction}[1]{\textsl{#1}}
 
-\DeclareMathOperator{\mReadLn}{\mAction{readln}}
+\DeclareMathOperator{\mReadLn}{\mAction{readLn}}
 \DeclareMathOperator{\mMain}{\mAction{main}}
 \DeclareMathOperator{\mPrint}{\mAction{print}}
-\DeclareMathOperator{\mPutStr}{\mAction{putstr}}
+\DeclareMathOperator{\mPutStr}{\mAction{putStr}}
 \DeclareMathOperator{\mRand}{\mAction{rand}}
 
 % Operators
@@ -3994,6 +3994,24 @@ do記法&\code{do}\\
 
 
 \section{余談：コマンドライン引数*}
+
+コマンドライン引数はアクション \code{getArgs} で読み出すことができる．
+
+\begin{haskellcode}
+\begin{verbatim}
+main :: IO Int
+main = do
+  (x:xs) <- getArgs
+  {- do something -}
+  return 0
+\end{verbatim}
+\end{haskellcode}
+
+\begin{equation}
+\mMain=(\dotsb\mWhere{}(x:\mList{x})=\mAction{getArgs})\mBindRightIgnore\mPureWith{0}
+\end{equation}
+
+---
 
 % \section{余談：複素数*}
 
