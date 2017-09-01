@@ -3886,7 +3886,7 @@ $ ./sample
 
 \chapter{演算*}
 \section{名前と予約語*}
-表\ref{tab:reserved-symbols}および表\ref{tab:reserved-keywords}に\haskell で予約されている記号と名前を掲げる．もちろんこれら以外に \code{+} や \code{map} など慣例的に使われている語の再定義は避けるべきである．特に \code{Prelude} モジュールは特段の事情がない限り必ず読み込まれるモジュールなので，\code{Prelude} で定義される記号と名前の再定義は避けるべきであろう．\code{Prelude} で定義される記号と名前を表XYZに掲げる．
+表\ref{tab:reserved-symbols}および表\ref{tab:reserved-keywords}に\haskell で予約されている記号と名前を掲げる．もちろんこれら以外に \code{+} や \code{map} など慣例的に使われている語の再定義は避けるべきである．特に \code{Prelude} モジュールは特段の事情がない限り必ず読み込まれるモジュールなので，\code{Prelude} で定義される記号と名前の再定義は避けるべきであろう．% \code{Prelude} で定義される記号と名前を表XYZに掲げる．
 
 \begin{table*}
 \caption{\haskell の予約記号}
@@ -3960,23 +3960,43 @@ do記法&\code{do}\\
 \begin{table*}
 \caption{\code{Prelude} モジュールの予約語と記号}
 \begin{center}
-\begin{tabular}{||c||}
+\begin{tabular}{||l||}
 \hline
-\code{Bool}\\
+\code{Bool}, \code{\&\&}, \code{||}, \code{otherwise}\\
 \code{Bounded}, \code{minBoud}, \code{maxBound}\\
 \code{Enum}, \code{succ}, \code{pred}, \code{toEnum}, \code{fromEnum}, \code{enumFrom}, \code{enumFromThen}, \code{enumFromTo}, \code{enumFromThenTo}\\
 \code{Eq}, \code{==}, \code{/=}\\
-\code{Data}, ...\\
+\code{Data}, \code{gfoldl}, \code{gunfold}, \code{toConstr}, \code{dataTypeOf}, \code{dataCast1}, \code{dataCast2}, \code{gmapT}, \code{gmapQl}, \code{gmapQr}, \code{gmapQ}\\
+~~\code{gmapQi}, \code{gmapM}, \code{gmapMp}, \code{gmapMo}\\
 \code{Ord}, \code{<}, \code{<=}, \code{>}, \code{>=}, \code{max}, \code{min}\\
 \code{Read}, \code{readsPrec}, \code{readList}, \code{readPrec}, \code{readListPrec}\\
 \code{Show}, \code{showsPrec}, \code{show}, \code{showList}\\
 \code{Ix}, \code{range}, \code{index}, \code{unsafeIndex}, \code{inRange}, \code{rangeSize}, \code{unsafeRangeSize}\\
 \code{Generic}, \code{Rep}, \code{from}, \code{to}\\
 \code{FiniteBits}, \code{finiteBitSize}, \code{countLeadingZeros}, \code{countTailingZeros}\\
-\code{Bits}, \code{.\&.}, \code{.|.}, \code{xor}, \code{complement}, \code{shift}, \code{rotate}, \code{zeroBits}, \code{bit}, \code{setBit}, \code{clearBit}, \code{complementBit}\\
-\code{testBit}, \code{bitSizeMaybe}, \code{bitSize}, \code{isSigned}, \code{shiftL}, \code{unsafeShiftL}, \code{shiftR}, \code{unsafeShiftR}\\
-\code{rotateL}, \code{rotateR}, \code{popCount}\\
-\code{Storable}, ...\\
+\code{Bits}, \code{.\&.}, \code{.|.}, \code{xor}, \code{complement}, \code{shift}, \code{rotate}, \code{zeroBits}, \code{bit}, \code{setBit}, \code{clearBit}, \code{complementBit},\\
+~~\code{testBit}, \code{bitSizeMaybe}, \code{bitSize}, \code{isSigned}, \code{shiftL}, \code{unsafeShiftL}, \code{shiftR}, \code{unsafeShiftR},\\
+~~\code{rotateL}, \code{rotateR}, \code{popCount}\\
+\code{Storable}, \code{sizeOf}, \code{alignment}, \code{peekElemOff}, \code{pokeElemOff}, \code{peekByteOff}, \code{pokeByteOff}, \code{peek}, \code{poke}\\
+\code{Maybe}, \code{Just}, \code{Nothing}\\
+\code{Monad}, \code{>>=}, \code{>>}, \code{return}, \code{fail}\\
+\code{Functor}, \code{fmap}, \code{<\$}\\
+\code{MonadFix}, \code{mfix}\\
+\code{MonadFail}\\
+\code{Applicative}, \code{pure}, \code{<*>}, \code{liftA2}, \code{*>},  \code{<*}\\
+\code{Foldable}, \code{fold}, \code{foldMap}, \code{fordr}, \code{foldr'}, \code{foldl}, \code{foldl'}, \code{foldr1}, \code{foldl1}, \code{toList}, \code{null}, \code{length},\\
+~~\code{elem}, \code{maximum}, \code{minimum}, \code{sum}, \code{product}\\
+\code{Traversable}, \code{traverse}, \code{sequenceA}, \code{mapM}, \code{sequence}\\
+\code{MonadPlus}, \code{mzero}, \code{mplus}\\
+\code{Alternative}, \code{empty}, \code{<|>}, \code{some}, \code{many}\\
+\code{MonadZip}, \code{mzip}, \code{mzipWith}, \code{munzip}\\
+\code{Show1}, \code{liftShowsPrec}, \code{liftShowList}\\
+\code{Read1}, \code{liftReadsSec}, \code{liftReadList}, \code{liftReadPrec}, \code{liftReadListPrec}\\
+\code{Ord1}, \code{liftCompare}\\
+\code{Eq1}, \code{liftEq}\\
+\code{Either}\\
+\code{Show2}, \code{liftShowsPrec2}, \code{liftShowList2}\\
+\code{Read2}, ...\\
 \hline
 \end{tabular}
 
