@@ -3886,7 +3886,7 @@ $ ./sample
 
 \chapter{演算*}
 \section{名前と予約語*}
-表\ref{tab:reserved-symbols}および表\ref{tab:reserved-keywords}に\haskell で予約されている記号と名前を掲げる．もちろんこれら以外に \code{+} や \code{map} など慣例的に使われている語の再定義は避けるべきである．
+表\ref{tab:reserved-symbols}および表\ref{tab:reserved-keywords}に\haskell で予約されている記号と名前を掲げる．もちろんこれら以外に \code{+} や \code{map} など慣例的に使われている語の再定義は避けるべきである．特に \code{Prelude} モジュールは特段の事情がない限り必ず読み込まれるモジュールなので，\code{Prelude} で定義される記号と名前の再定義は避けるべきであろう．\code{Prelude} で定義される記号と名前を表XYZに掲げる．
 
 \begin{table*}
 \caption{\haskell の予約記号}
@@ -3901,6 +3901,7 @@ $ ./sample
 \code{"}&文字列リテラル\\%{\textquotedblright}\\
 \hline
 \code{-}&単項マイナス $(-)$\\
+\code{(} \code{)}&括弧\\
 \code{`}&関数の中置\\
 \hline
 \code{\textbackslash}&ラムダ $(\mLambda)$，行分割\\
@@ -3955,6 +3956,34 @@ do記法&\code{do}\\
 
 % http://www.imada.sdu.dk/~rolf/Edu/DM22/F06/haskell-operatorer.pdf
 % https://wiki.haskell.org/Keywords
+
+\begin{table*}
+\caption{\code{Prelude} モジュールの予約語と記号}
+\begin{center}
+\begin{tabular}{||c||}
+\hline
+\code{Bool}\\
+\code{Bounded}, \code{minBoud}, \code{maxBound}\\
+\code{Enum}, \code{succ}, \code{pred}, \code{toEnum}, \code{fromEnum}, \code{enumFrom}, \code{enumFromThen}, \code{enumFromTo}, \code{enumFromThenTo}\\
+\code{Eq}, \code{==}, \code{/=}\\
+\code{Data}, ...\\
+\code{Ord}, \code{<}, \code{<=}, \code{>}, \code{>=}, \code{max}, \code{min}\\
+\code{Read}, \code{readsPrec}, \code{readList}, \code{readPrec}, \code{readListPrec}\\
+\code{Show}, \code{showsPrec}, \code{show}, \code{showList}\\
+\code{Ix}, \code{range}, \code{index}, \code{unsafeIndex}, \code{inRange}, \code{rangeSize}, \code{unsafeRangeSize}\\
+\code{Generic}, \code{Rep}, \code{from}, \code{to}\\
+\code{FiniteBits}, \code{finiteBitSize}, \code{countLeadingZeros}, \code{countTailingZeros}\\
+\code{Bits}, \code{.\&.}, \code{.|.}, \code{xor}, \code{complement}, \code{shift}, \code{rotate}, \code{zeroBits}, \code{bit}, \code{setBit}, \code{clearBit}, \code{complementBit}\\
+\code{testBit}, \code{bitSizeMaybe}, \code{bitSize}, \code{isSigned}, \code{shiftL}, \code{unsafeShiftL}, \code{shiftR}, \code{unsafeShiftR}\\
+\code{rotateL}, \code{rotateR}, \code{popCount}\\
+\code{Storable}, ...\\
+\hline
+\end{tabular}
+
+\end{center}
+
+\end{table*}
+
 
 \section{型とデータ構造*}
 
