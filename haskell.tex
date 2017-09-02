@@ -4088,7 +4088,7 @@ fx&\mGuard{x\equiv0}=1\\
 \end{aligned}
 \right.
 \end{equation*}
-実はこのままではまずい．
+実はこのままではまずい．変数 $i$ も変数 $n$ も $\mIntType$ 型なので，割り算が出来ないのだ．そこで型変換のための関数 $\mFromIntegral$ を使おう．関数 $\mFromIntegral$ は $\mIntegralTypeClass$ 型クラスの型の変数を，任意の型へと変換する．関数 $\mFromIntegral$ を使って書き直すと
 \begin{equation}
 \left\mBrace
 \begin{aligned}
@@ -4097,6 +4097,7 @@ fx&\mGuard{x\equiv0}=1\\
 \end{aligned}
 \right.
 \end{equation}
+となる．
 
 
 リスト $\mList{x}$ は
