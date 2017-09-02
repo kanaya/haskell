@@ -149,9 +149,20 @@
 \newcommand{\mFirstVar}{\mSpecialVar{first}}
 \newcommand{\mRestVar}{\mSpecialVar{rest}}
 
+% Cast
+
+\newcommand{\mUpCast}{\bigtriangleup}
+
+%\DeclareMathOperator{\mFromIntegral}{\widetilde{\text{integral}}}
+%\DeclareMathOperator{\mFromIntegral}{\xleftarrow{integral}}
+\DeclareMathOperator{\mFromIntegral}{\mUpCast_\text{integral}}
+
+
+
 % Functions
 \newcommand{\mFunc}[1]{\mathop{\mathit{#1}}}
 \newcommand{\mSpecialFunc}[1]{\mathrm{#1}}
+\newcommand{\mSpecialFuncSmall}[1]{\mathrm{#1}}
 
 \DeclareMathOperator{\mGetList}{\mFunc{getList}}
 \DeclareMathOperator{\mRepeat}{\mFunc{repeat}}
@@ -4036,7 +4047,102 @@ do記法&\code{do}\\
 % \end{table*}
 
 
-\section{関数と演算子*}
+\section{例題*}
+
+$y=fx$ ただし
+\begin{equation}
+\begin{aligned}
+fx&\mGuard{x\equiv0}=1\\
+&\mGuard{\mOtherwise}=(\sin x)/x
+\end{aligned}
+\end{equation}
+とする．ここで $0\le x\le\pi$ の範囲で $y$ の値を求めたいとしよう．$x$ の範囲を $n+1$ 分割するとする．
+
+まず $n$ に具体的な型と値を与えておこう．これは次のようにする．
+\begin{equation}
+\left\mBrace
+\begin{aligned}
+n&\mIn\mIntType\\
+n&=100
+\end{aligned}
+\right.
+\end{equation}
+
+次に，関数 $f$ を定義しておこう．
+\begin{equation}
+\left\mBrace
+\begin{aligned}
+f&\mIn\mProj{\mDoubleType}{\mDoubleType}\\
+fx&\mGuard{x\equiv0}=1\\
+&\mGuard{\mOtherwise}=(\sin x)/x
+\end{aligned}
+\right.
+\end{equation}
+
+関数 $f$ に与える引数 $x$ のリストを定義する．
+\begin{equation*}
+\left\mBrace
+\begin{aligned}
+\mList{x}&\mIn{}\mListType{\mDoubleType}\\
+\mList{x}&=\mListWith{i/n*\pi\mListComp{i\mFrom\mListWith{0\dotsb n}}}
+\end{aligned}
+\right.
+\end{equation*}
+実はこのままではまずい．
+\begin{equation}
+\left\mBrace
+\begin{aligned}
+\mList{x}&\mIn{}\mListType{\mDoubleType}\\
+\mList{x}&=\mListWith{(\mFromIntegral i)/(\mFromIntegral n)*\pi\mListComp{i\mFrom\mListWith{0\dotsb n}}}
+\end{aligned}
+\right.
+\end{equation}
+
+
+リスト $\mList{x}$ は
+\begin{equation}
+\mList{x}=\mListWith{0,(1/n)*\pi,(2/n)*\pi,\dotsb,\pi}
+\end{equation}
+となる．
+
+最後に，関数 $f$ をリスト $\mList{x}$ に適用して結果を得る．
+\begin{equation}
+\left\mBrace
+\begin{align}
+y&\mIn{}\mListType{\mDoubleType}\\
+y&=f\mMapList\mList{x}
+\end{align}
+\right.
+\end{equation}
+
+これをそのまま\haskell プログラムにすると次のようになる．
+\begin{haskellcode}
+\begin{verbatim}
+-- sample.hs
+n :: Int
+n = 100
+
+f :: Double -> Double
+f x | x == 0    = 1
+    | otherwise = (sin x)/x
+
+xs :: [Double]
+xs = [(fromIntegral i) / (fromIntegral n) 
+  * pi | i <- [0..n]]
+
+ys :: [Double]
+y = f `map` xs
+\end{verbatim}
+\end{haskellcode}
+
+
+
+
+
+
+
+
+---
 
 本書でこれまでに登場した関数，演算子と，その\haskell での表現を示す．
 
