@@ -167,9 +167,11 @@
 \DeclareMathOperator{\mZipWith}{\mFunc{zipWith}}
 
 \DeclareMathOperator{\mFact}{\mSpecialFunc{fact}}
+\DeclareMathOperator{\mFirst}{\mSpecialFunc{fst}}
 \DeclareMathOperator{\mHead}{\mSpecialFunc{head}}
 \DeclareMathOperator{\mMainFunc}{\mSpecialFunc{main}}
 \DeclareMathOperator{\mPred}{\mSpecialFunc{pred}}
+\DeclareMathOperator{\mSecond}{\mSpecialFunc{snd}}
 \DeclareMathOperator{\mSucc}{\mSpecialFunc{succ}}
 \DeclareMathOperator{\mSort}{\mSpecialFunc{srt}}
 \DeclareMathOperator{\mSum}{\mSpecialFunc{sum}}
@@ -3706,13 +3708,15 @@ f\mMap{}\mLeftWith{x}&=\mLeftWith{x}
 \end{verbatim}
 と書く．}
 
-\section{余談: \code{newtype}}
+\section{余談: \code{newtype}*}
 
 リストに新しいマップ演算子 $\mZip$ を定義したいとしよう．この演算子 $\mZip$ は
 \begin{equation}
-\mListWith{f,g,h}\mZip\mListWith{x,y,z}=\mListWith{fx,gy,hz}
+\mListWith{f,g,h}\mZip_\phi\mListWith{x,y,z}=\mListWith{\phi fx,\phi gy,\phi hz}
 \end{equation}
 のように働くとする．新しいマップ演算子 $\mZip$ のことを我々は\keyword{ジップ演算子}と呼ぶことにする．
+
+---
 
 ジップ演算子を定義するにはどうしたら良いだろうか．汎用性を考えると，ジップ演算子もまたリストのアプリカティブマップ演算子であって欲しい．ところが，リストには既に $\mAppMapList$ というアプリカティブマップ演算子が定義されている．念のためにアプリカティブマップ演算子を用いると
 \begin{equation}
@@ -4085,7 +4089,7 @@ do記法&\code{do}\\
 % \end{table*}
 
 
-\section{例題*}
+\section{数学関数の演算*}
 
 $y=fx$ ただし
 \begin{equation}
@@ -4178,7 +4182,7 @@ main = print ys >> pure 0
 なお，円周率 $\pi$ はそのまま定数 \code{pi} として \filename{Prelude} で定義されている．
 
 \begin{table}
-\caption{\haskell のデータ型}
+\caption{\filename{Prelude} のデータ型}
 \label{tab:data-types}
 \begin{center}
 \begin{tabular}{||c|c||}
@@ -4186,11 +4190,11 @@ main = print ys >> pure 0
 名前&型名\\
 \hline\hline
 \code{Bool}&論理型 $(\mBoolType)$\\
-\code{Char}&文字型\\
-\code{Int}&整数型\\
-\code{Integer}&整数型\\
-\code{Float}&単精度浮動小数点型\\
-\code{Double}&倍精度浮動小数点型\\
+\code{Char}&文字型 $(\mCharType)$\\
+\code{Int}&整数型 $(\mIntType)$\\
+\code{Integer}&整数型 $(\mIntegerType)$\\
+\code{Float}&単精度浮動小数点型 $(\mFloatType)$\\
+\code{Double}&倍精度浮動小数点型 $(\mDoubleType)$\\
 \code{String}&\code{[Char]} の型シノニム\\
 \hline
 \end{tabular}
@@ -4198,21 +4202,68 @@ main = print ys >> pure 0
 \end{table}
 
 \begin{table}
-\caption{\haskell の多相型}
+\caption{\filename{Prelude} の多相型}
 \label{tab:data-types}
 \begin{center}
 \begin{tabular}{||c|c||}
 \hline
 名前&型名\\
 \hline\hline
-\code{[]}&リスト $(\mListType{a})$\\
+\code{[a]}&リスト $(\mListType{a})$\\
 \code{Maybe a}&Maybe $\left(\mMaybeType{a}\right)$\\
 \code{Either a b}&Either $\left(\mEitherType{a}{b}\right)$\\
-\code{((->)r)}&関数 $\left(\mFuncType{a}{r}\right)$\\
+\code{((->)r)a}&関数 $\left(\mFuncType{a}{r}\right)$\\
 \hline
 \end{tabular}
 \end{center}
 \end{table}
+
+\section{コンボリューション演算*}
+
+\begin{equation}
+(f\circledast g)t=\sum_xfx*g(t-x)
+\end{equation}
+
+\begin{multline}
+yt=\sum(\mLambdaExp{x}{\mFirst x*\mSecond x})\mMapList\mList{h}\\
+\mWhere\mList{h}\mLetEq\mZipWith\mList{f}\mList{g}\\
+\mList{f}\mLetEq\mListWith{fx\mListComp x\mFrom\mListWith{0\dotsb n}},\\
+\mList{g}\mLetEq\mListWith{g(t-x)\mListComp x\mFrom\mListWith{0\dotsb n}}
+\end{multline}
+
+
+\begin{equation}
+(\circledast)\mIn{}(\mNumTypeClass\mSuperSet\mType{a})\mSuperClass{}
+\mProj{
+  (\mProj{\mType{a}}{\mType{a}})
+}
+{
+  \mProj{(\mProj{\mType{a}}{\mType{a}})}
+  {\mProj{\mType{a}}{\mType{a}}}
+}
+\end{equation}
+
+\begin{equation}
+f\circledast g=\mLambdaExp{t}{\sum fx*g(t-x)}
+\end{equation}
+
+
+$$
+yt=(f\circledast g)t
+$$
+
+
+$$
+yt=\sum_xfx*g(t-x)
+$$
+
+$$
+y=\sum_xfx*g(\mAnonParam-x)
+$$
+
+\section{イメージ演算*}
+
+
 
 \section{型とデータ構造*}
 
