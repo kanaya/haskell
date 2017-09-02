@@ -979,9 +979,9 @@ z=f_2\mComp f_1x
 \end{equation}
 と書ける．\footnote{\haskell では関数 \code{f2} と関数 \code{f1} の合成は \code{f2.f1} である．式 $z=f_2\mComp f_1x$ は \code{z = f2.f1 x} と書く．}
 
-関数合成演算子とは逆に，結合の優先順位の低い\keyword{関数適用演算子}も考えておくと便利なこともある．関数適用演算子 $\mApply$ を関数合成演算子と同じように次のように定義しておく．
+関数合成演算子とは逆に，結合の優先順位の低い\keyword{関数適用演算子}も考えておくと便利なこともある．関数適用演算子 $\mApply$ を次のように定義しておく．
 \begin{equation}
-f_2\mApply f_1=f_2\left(f_1\mAnonParam\right)
+f\mApply x=fx
 \end{equation}
 演算子 $\mApply$ の優先順位は関数適用も含めあらゆる演算子よりも低いものとする．関数適用演算子を用いて式\eqref{eq:ffx}を書き直すと
 \begin{equation}
@@ -3712,11 +3712,9 @@ f\mMap{}\mLeftWith{x}&=\mLeftWith{x}
 
 リストに新しいマップ演算子 $\mZip$ を定義したいとしよう．この演算子 $\mZip$ は
 \begin{equation}
-\mListWith{f,g,h}\mZip_\phi\mListWith{x,y,z}=\mListWith{\phi fx,\phi gy,\phi hz}
+\mListWith{f,g,h}\mZip\mListWith{x,y,z}=\mListWith{fx,gy,hz}
 \end{equation}
 のように働くとする．新しいマップ演算子 $\mZip$ のことを我々は\keyword{ジップ演算子}と呼ぶことにする．
-
----
 
 ジップ演算子を定義するにはどうしたら良いだろうか．汎用性を考えると，ジップ演算子もまたリストのアプリカティブマップ演算子であって欲しい．ところが，リストには既に $\mAppMapList$ というアプリカティブマップ演算子が定義されている．念のためにアプリカティブマップ演算子を用いると
 \begin{equation}
@@ -3735,6 +3733,11 @@ f\mMap{}\mLeftWith{x}&=\mLeftWith{x}
 \end{equation}
 である．
 
+---
+
+% REWRITE
+
+% zip=(zipWith ($))
 
 こうしておいて，あとは
 \begin{multline}
@@ -3745,7 +3748,7 @@ f\mMap{}\mLeftWith{x}&=\mLeftWith{x}
 \begin{aligned}
 \mPureWith{x}&=\mZipListWith{\mRepeat x}\\
 \mZipListWith{\mList{f}}\mAppMap\mZipListWith{\mList{x}}
-&=\mZipListWith{\mZipWith(\mAnonParam\,\mAnonParam)\mList{f}\mList{x}}
+&=\mZipListWith{\mZipWith(\$)\mList{f}\mList{x}}
 \end{aligned}
 \right.
 \end{multline}
