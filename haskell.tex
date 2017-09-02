@@ -155,9 +155,7 @@
 
 %\DeclareMathOperator{\mFromIntegral}{\widetilde{\text{integral}}}
 %\DeclareMathOperator{\mFromIntegral}{\xleftarrow{integral}}
-\DeclareMathOperator{\mFromIntegral}{\mUpCast_\text{integral}}
-
-
+\DeclareMathOperator{\mFromIntegral}{\mUpCast_\text{Integral}}
 
 % Functions
 \newcommand{\mFunc}[1]{\mathop{\mathit{#1}}}
@@ -458,6 +456,8 @@ $\mMapsTo$&写像&\\\hline
 $\mBinOp$&任意の二項演算子&\\
 $\mPlus$&一般加法演算子&\\
 \hline
+$\mFromIntegral$&型変換演算子&\\
+\hline
 $\mComp$&関数合成&\\
 $\mApply$&関数適用&\\
 $\mApplyRight$&関数の右適用&\\\hline
@@ -603,7 +603,7 @@ print("Hello, world.")
 
 \section{\haskell コンパイラの準備*}
 
-本書の第I部は\haskell コンパイラ無しで読み進めることが出来る．とは言え，前もって\haskell コンパイラを用意しておくことは無意味とも言えない．
+本書の第I部は\haskell コンパイラ無しで読み進めることができる．とは言え，前もって\haskell コンパイラを用意しておくことは無意味とも言えない．
 
 ---
 
@@ -1087,7 +1087,19 @@ x\mIn\mBoolType
 \begin{equation}
 x\in\mBSet
 \end{equation}
-と書くところであるが，ここは\haskell の流儀に従おう．\footnote{\haskell では $x\mIn\mBoolType$ を \code{x :: Bool} と書く．}
+と書くところであるが，ここは\haskell の流儀に従おう．また型定義と値定義はよく一緒に行われるので，今後
+\begin{equation}
+\left\mBrace\begin{aligned}
+x&\mIn\mBoolType\\
+x&=\mTrue
+\end{aligned}\right.
+\end{equation}
+のようにまとめて書くことにしよう．\footnote{\haskell では
+\begin{verbatim}
+  x :: Bool
+  x = True
+\end{verbatim}
+と書く．}
 
 他に整数を表す\keyword{整数型}がある．整数型には2種類あって，その一つは $\mIntType$ である．この $\mIntType$ は\clang の \code{int} と似た「計算機にとって都合の良い整数」である．計算機にとって都合の良い整数とは，例えば64ビット計算機の場合 $-2^{63}$ から $2^{63}-1$ の間の整数という意味である．
 
@@ -1214,6 +1226,32 @@ g\mIn
 
 \separator
 
+便利な型変換演算子をひとつだけ紹介しておこう．型変換演算子 $\mFromIntegral$ は
+\begin{equation}
+\mFromIntegral\mIn{}(\mIntegralTypeClass\mSuperSet\mType{a})\mSuperClass\mProj{\mType{a}}{\mType{b}}
+\end{equation}
+という型を持ち，$\mIntegralTypeClass$ 型クラスの型の変数を，任意の型へ変換する．例えば
+\begin{align}
+{}&\left\mBrace\begin{aligned}
+x&\mIn\mIntType\\
+x&=1
+\end{aligned}\right.\\
+{}&\left\mBrace\begin{aligned}
+y&\mIn\mDoubleType\\
+y&=\mFromIntegral x
+\end{aligned}\right.
+\end{align}
+とすることで，$\mIntType$ 型の変数 $x$ の値を $\mDoubleType$ 型の変数 $y$ へ代入することができる．\footnote{\haskell では
+\begin{verbatim}
+  x :: Int
+  x = 1
+  y :: Double
+  y = fromIntegral x
+\end{verbatim}
+と書く．}
+
+
+\separator
 
 種...
 
@@ -3262,11 +3300,11 @@ y=g_2(g_1x)
 =\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany$ は \code{data Num = One | Two | Three | Many} と書く．}
 
 % 値コンストラクタを列挙したデータ型を\keyword{代数型}と呼ぶ．
-この節で紹介したデータ型の定義は\clang で言う \code{enum} に近い．他に\clang で言う \code{struct} や \code{union} すなわち構造体や共用体もこの $\mDataType$ 文で定義出来るが，これは次節で見ることにする．
+この節で紹介したデータ型の定義は\clang で言う \code{enum} に近い．他に\clang で言う \code{struct} や \code{union} すなわち構造体や共用体もこの $\mDataType$ 文で定義できるが，これは次節で見ることにする．
 
 \separator
 
-新しいデータ型がある型クラスに属すとき，$\mDataType$ 文でそれを同時に宣言出来る．例えば $\mType{Num}$ 型は同値演算子 $(\equiv)$ を持つことが自然である．型 $\mType{Num}$ が $\mEqTypeClass$ 型クラスに属すとき，
+新しいデータ型がある型クラスに属すとき，$\mDataType$ 文でそれを同時に宣言できる．例えば $\mType{Num}$ 型は同値演算子 $(\equiv)$ を持つことが自然である．型 $\mType{Num}$ が $\mEqTypeClass$ 型クラスに属すとき，
 \begin{multline}
 \mDataType\;\mType{Num}\\
 =\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany\\
@@ -3278,7 +3316,7 @@ y=g_2(g_1x)
 
 \section{レコード構文}
 
-データ型の定義では，値コンストラクタにパラメタを与えることも出来る．例えば $\mType{Rectangle}$ という型を考えよう．この型は，始点の平面座標と幅，高さで合計4個の $\mFloatType$ のパラメタを取るものとする．このとき
+データ型の定義では，値コンストラクタにパラメタを与えることもできる．例えば $\mType{Rectangle}$ という型を考えよう．この型は，始点の平面座標と幅，高さで合計4個の $\mFloatType$ のパラメタを取るものとする．このとき
 \begin{multline}
 \label{eq:rectangle}
 \mDataType\;\mType{Rectangle}\\
@@ -3346,7 +3384,7 @@ $\mType{Rectangle}$ 型から中身を取り出すには，次のような関数
 % &\mDeriving\mEqTypeClass
 % \end{aligned}
 % \end{equation}
-のように書き直すことが出来る．\footnote{\haskell では
+のように書き直すことができる．\footnote{\haskell では
 \begin{verbatim}
   data Rectangle = Rectangle {
       x      :: Float,
@@ -3433,7 +3471,7 @@ r=\mGenericRecordWith{Rectangle}{\mFunc{x}=1,
 \mWhere{}
 (\le)\mIn\mProj{\mType{a}}{\mProj{\mType{a}}{\mBoolType}}
 \end{multline}
-型クラス $\mOrdTypeClass$ に属する型は，等号，不等号，小なりイコールと，それらから派生させることの出来る大なり $(>)$，大なりイコール $(\ge)$，小なり $(<)$，および最大値をとる関数 $\max$ と最小値をとる関数 $\min$ を持つ．\footnote{\haskell では
+型クラス $\mOrdTypeClass$ に属する型は，等号，不等号，小なりイコールと，それらから派生させることのできる大なり $(>)$，大なりイコール $(\ge)$，小なり $(<)$，および最大値をとる関数 $\max$ と最小値をとる関数 $\min$ を持つ．\footnote{\haskell では
 \begin{verbatim}
   class (Eq a) => Ord a
     where (<=) :: a -> a -> Bool
@@ -3442,7 +3480,7 @@ r=\mGenericRecordWith{Rectangle}{\mFunc{x}=1,
 
 \separator
 
-型は複数の型クラスに同時に属すことが出来る．例えば型 $\mType{Num}$ は型クラス $\mEqTypeClass$ と同時に型クラス $\mOrdTypeClass$ に属すことも出来る．それには
+型は複数の型クラスに同時に属すことができる．例えば型 $\mType{Num}$ は型クラス $\mEqTypeClass$ と同時に型クラス $\mOrdTypeClass$ に属すこともできる．それには
 \begin{multline}
 \mDataType\;\mType{Num}\\
 =\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany\\
@@ -3476,7 +3514,7 @@ r=\mGenericRecordWith{Rectangle}{\mFunc{x}=1,
 \end{aligned}
 \right.
 \end{multline}
-のように $\mType{Num}$ の $\le$ 演算子を定義することが出来る．
+のように $\mType{Num}$ の $\le$ 演算子を定義することができる．
 
 \section{余談：型シノニム}
 
@@ -3484,7 +3522,7 @@ r=\mGenericRecordWith{Rectangle}{\mFunc{x}=1,
 \begin{equation}
 \mTypeSynonym\;\mStringType=\mListType{\mCharType}
 \end{equation}
-とすることで，別名 $\mStringType$ を与えることが出来る．\haskell では $\mTypeSynonym$ を \code{type} と省略してしまう．これは残念なことだが，\clang の \code{typedef} のようなものだと思って割り切るしかない．\footnote{\haskell では $\mTypeSynonym\;\mStringType=\mListType{\mCharType}$ を \code{type String = [Char]} と書く．}
+とすることで，別名 $\mStringType$ を与えることができる．\haskell では $\mTypeSynonym$ を \code{type} と省略してしまう．これは残念なことだが，\clang の \code{typedef} のようなものだと思って割り切るしかない．\footnote{\haskell では $\mTypeSynonym\;\mStringType=\mListType{\mCharType}$ を \code{type String = [Char]} と書く．}
 
 \section{この章のまとめ*}
 
@@ -3574,7 +3612,7 @@ Maybeの間に新たに定義された等号 $(\equiv)$ は次の型を持つ．
 \begin{equation}
 \mDataTypeParametric\;\mListTypeConstructor\mType{a}=\mEmptyList\mValueOr\mType{a}:\mListTypeConstructor\mType{a}
 \end{equation}
-のように定義出来る．
+のように定義できる．
 
 
 
@@ -3928,7 +3966,7 @@ $ ./sample
 \section{名前と予約語*}
 表\ref{tab:reserved-symbols}および表\ref{tab:reserved-keywords}に\haskell で予約されている記号と名前を掲げる．これらの記号，名前は演算子，関数，定数として使うことが出来ない．
 
-もちろんこれら以外に \code{+} や \code{map} など慣例的に使われている語の再定義は避けるべきである．特に \code{Prelude} モジュールは特段の事情がない限り必ず読み込まれるモジュールなので，\code{Prelude} で定義される記号と名前の再定義は避けるべきであろう．\code{Prelude} で定義される記号と名前は膨大な数になるので，リファレンスを参考にしてもらいたい．
+もちろんこれら以外に \code{+} や \code{map} など慣例的に使われている語の再定義は避けるべきである．特に \filename{Prelude} モジュールは特段の事情がない限り必ず読み込まれるモジュールなので，\filename{Prelude} で定義される記号と名前の再定義は避けるべきであろう．\filename{Prelude} で定義される記号と名前は膨大な数になるので，リファレンスを参考にしてもらいたい．
 
 % *** リファレンス ***
 
@@ -4097,10 +4135,7 @@ fx&\mGuard{x\equiv0}=1\\
 \end{aligned}
 \right.
 \end{equation}
-となる．
-
-
-リスト $\mList{x}$ は
+となる．この結果，リスト $\mList{x}$ は
 \begin{equation}
 \mList{x}=\mListWith{0,(1/n)*\pi,(2/n)*\pi,\dotsb,\pi}
 \end{equation}
@@ -4116,83 +4151,31 @@ y&=f\mMapList\mList{x}
 \right.
 \end{equation}
 
+結果 $\mList{y}$ はプログラム
+\begin{equation}
+\mMain=\mPrint y\mBindRightIgnore\mPureWith{0}
+\end{equation}
+によって出力できる．
+
 これをそのまま\haskell プログラムにすると次のようになる．
 \begin{haskellcode}
 \begin{verbatim}
 -- sample.hs
 n :: Int
 n = 100
-
 f :: Double -> Double
 f x | x == 0    = 1
     | otherwise = (sin x)/x
-
 xs :: [Double]
 xs = [(fromIntegral i) / (fromIntegral n) 
   * pi | i <- [0..n]]
-
 ys :: [Double]
-y = f `map` xs
+ys = f `map` xs
+main = print ys >> pure 0
 \end{verbatim}
 \end{haskellcode}
 
-
-
-
-
-
-
-
----
-
-本書でこれまでに登場した関数，演算子と，その\haskell での表現を示す．
-
-\subsection{関数呼び出し}
-
-\begin{equation}
-fx
-\end{equation}
-
-\begin{haskellcode}
-\begin{verbatim}
-f x
-\end{verbatim}
-\end{haskellcode}
-
-
-\subsection{ラムダ式}
-
-\begin{equation}
-\mLambdaExp{x}{1+x}
-\end{equation}
-
-\begin{haskellcode}
-\begin{verbatim}
-\textbackslash x = 1+x
-\end{verbatim}
-\end{haskellcode}
-
-
-
-\begin{table*}
-\begin{center}
-\begin{tabular}{||c|c||}
-\hline
-$fx$&\code{f x}\\
-$\mLambdaExp{x}{1+x}$&\code{\textbackslash x -> 1+x}\\
-$fx=(\sin x)/x$&\code{f x = (sin x)/x}\\
-\hline
-\end{tabular}
-
-\end{center}
-
-\end{table*}
-
-
-
-\section{型とデータ構造*}
-
-\code{Prelude} で定義される主だった型を表\ref{tab:data-types}に示す．
+なお，円周率 $\pi$ はそのまま定数 \code{pi} として \filename{Prelude} で定義されている．
 
 \begin{table}
 \caption{\haskell のデータ型}
@@ -4202,7 +4185,7 @@ $fx=(\sin x)/x$&\code{f x = (sin x)/x}\\
 \hline
 名前&型名\\
 \hline\hline
-\code{Bool}&論理型\\
+\code{Bool}&論理型 $(\mBoolType)$\\
 \code{Char}&文字型\\
 \code{Int}&整数型\\
 \code{Integer}&整数型\\
@@ -4213,6 +4196,30 @@ $fx=(\sin x)/x$&\code{f x = (sin x)/x}\\
 \end{tabular}
 \end{center}
 \end{table}
+
+\begin{table}
+\caption{\haskell の多相型}
+\label{tab:data-types}
+\begin{center}
+\begin{tabular}{||c|c||}
+\hline
+名前&型名\\
+\hline\hline
+\code{[]}&リスト $(\mListType{a})$\\
+\code{Maybe a}&Maybe $\left(\mMaybeType{a}\right)$\\
+\code{Either a b}&Either $\left(\mEitherType{a}{b}\right)$\\
+\code{((->)r)}&関数 $\left(\mFuncType{a}{r}\right)$\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\section{型とデータ構造*}
+
+\filename{Prelude} で定義される主だった型を表\ref{tab:data-types}に示す．
+
+\filename{Prelude} で定義される主だったコンテナ型を表\ref{tab:polymorphic-types}に示す．
+
 
 
 \section{演算と構文*}
@@ -4922,7 +4929,7 @@ auto lambda_exp = [u = 1] { return u; };
 %std::cout << z << std::endl;
 %\end{verbatim}
 
-複素数はあらかじめ用意されていたが，プログラマは独自の複雑な構造（行列だとか）を自前で作っておくことが出来る．複雑な構造に対する単純な操作を陽に扱えることは，特にGUIの設計，実装にとっては決定的となる．近代的なGUIは，複雑な構造（ビュー，コントローラ，モデルのそれぞれに当てはまる）の間をメッセージが単純に行き交うモデルであるからである．
+複素数はあらかじめ用意されていたが，プログラマは独自の複雑な構造（行列だとか）を自前で作っておくことができる．複雑な構造に対する単純な操作を陽に扱えることは，特にGUIの設計，実装にとっては決定的となる．近代的なGUIは，複雑な構造（ビュー，コントローラ，モデルのそれぞれに当てはまる）の間をメッセージが単純に行き交うモデルであるからである．
 
 （いま述べたのはオブジェクト指向のうちカプセル化についてだけである．オブジェクト指向の本当の力はポリモーフィズムにある．それについては後半で触れる．）
 
@@ -4991,7 +4998,7 @@ GCDでは同様のラムダ式をこう書く．
 
 オブジェクト指向の本質は関数のディスパッチである．メジャーなオブジェクト指向言語（C++を含む）は単一ディスパッチ（第1引数が指す型ポインタによって実際の呼び出し先関数が決定される）であるが，LISP用オブジェクトシステムCLOS（これはLISP上に構築されている）は複数ディスパッチをサポートする．Clojureにおける例は「Closer to Clojure: ポリモーフィズム」から見てもらいたい．
 
-もし，オブジェクト指向かクロージャ指向かのどちらかの言語を選べと言われたら，クロージャ指向を取ろう．どちらの言語でも，その言語の上にもう一方のパラダイムを築くことは出来る．ただし，オブジェクト指向言語でクロージャ指向をサポートするのは骨の折れることだ．それに対し，クロージャ指向の言語でオブジェクト指向をサポートするのはたやすい．
+もし，オブジェクト指向かクロージャ指向かのどちらかの言語を選べと言われたら，クロージャ指向を取ろう．どちらの言語でも，その言語の上にもう一方のパラダイムを築くことはできる．ただし，オブジェクト指向言語でクロージャ指向をサポートするのは骨の折れることだ．それに対し，クロージャ指向の言語でオブジェクト指向をサポートするのはたやすい．
 
 ---
 
