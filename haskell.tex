@@ -67,6 +67,9 @@
 
 %% Math
 
+% Brace
+\newcommand{\mBrace}{\Vert}
+
 % Keywords
 \newcommand{\mKeyword}[1]{\mathsf{#1}} % Internal use
 \newcommand{\mKeywordUnderline}[1]{\text{\underline{\textsf{#1}}}} % Internal use
@@ -3275,10 +3278,14 @@ y=g_2(g_1x)
 という風にデータ型の定義を行う．\footnote{\haskell では \code{data Rectangle = Rectangle Float Float Float Float} と書く．}
 
 $\mType{Rencatngle}$ 型の変数は次のように初期化する．
-\begin{align}
+\begin{equation}
+\left\mBrace
+\begin{aligned}
 r&\mIn\mType{Rectangle}\\
 r&=\mGenericWith{Rectangle}{1\,2\,3\,4}
-\end{align}
+\end{aligned}
+\right.
+\end{equation}
 これは\clang で言う \code{struct} と似た用法である．\footnote{\haskell では
 \begin{verbatim}
   r :: Rectangle
@@ -3776,7 +3783,7 @@ A...
 
 \haskell コンパイラも $\mMain$ アクションをアプリケーションプログラムのエントリポイントとして認識する．というよりも，\haskell プログラムとは $\mMain$ という一つのアクションである．$\mMain$ を含む一般の関数やアクションはこれまで通り
 \begin{equation}
-\mMain=\dotsb
+\mMain=\dots
 \end{equation}
 のように関数名のあとに等号 $(=)$ を置いて定義する．
 
@@ -3784,7 +3791,12 @@ A...
 
 何もせずにOSに $0$ を返すプログラムすなわち
 \begin{equation}
-\mMain=\mPureWith{0}
+\left\mBrace
+\begin{aligned}
+\mMain&\mIn{}\mIOIntType\\
+\mMain&=\mPureWith{0}
+\end{aligned}
+\right.
 \end{equation}
 を\haskell で書くと，
 \begin{haskellcode}
@@ -3852,7 +3864,7 @@ y2 = f2(y1)
 ここで，プログラマの「サバイバルキット」を用意しておこう．次のプログラムで定数 \code{x} と関数 \code{f} の部分を埋めれば，関数適用の結果つまり \code{f x} の値を画面に出力する．
 \begin{haskellcode}
 \begin{verbatim}
--- sample.hs
+-- survivalkit.hs
 x :: Double
 x = {- Value -}
 f :: Double -> Double
@@ -3861,16 +3873,33 @@ main :: IO Int
 main = print (f x) >> pure 0
 \end{verbatim}
 \end{haskellcode}
-ファイル名を \filename{sample.hs} とすると，コンパイルと実行は次のようにする．
+ファイル名を \filename{survivalkit.hs} とすると，コンパイルと実行は次のようにする．
 \begin{verbatim}
-$ ghc sample.hs
+$ ghc survivalkit.hs
 $ ./sample
 \end{verbatim}%$
 
-プログラム \filename{sample.hs} を数式で書くと
-\begin{equation}
-\mMain=\mPrint(fx)\mBindRightIgnore\mPureWith{0}
-\end{equation}
+プログラム \filename{survivalkit.hs} を数式で書くと
+\begin{align}
+  {}&\left\mBrace
+    \begin{aligned}
+      x&\mIn\mDoubleType\\
+      x&=\dots\\
+    \end{aligned}
+    \right.\\
+  {}&\left\mBrace
+    \begin{aligned}
+      f&\mIn{}\mProj{\mDoubleType}{\mDoubleType}\\
+      f&=\dots\\
+    \end{aligned}
+    \right.\\
+  {}&\left\mBrace
+    \begin{aligned}
+      \mMain&\mIn{}\mIODoubleType\\
+      \mMain&=\mPrint(fx)\mBindRightIgnore\mPureWith{0}
+    \end{aligned}
+    \right.
+\end{align}
 である．この式は $\mPrint(fx)$ がいかなる値を返そうとも，アクション $\mMain$ の値は $0$ になることを示している．
 
 
