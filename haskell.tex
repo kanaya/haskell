@@ -4157,16 +4157,18 @@ do記法&\code{do}\\
 
 \section{2次方程式の解*}
 
+2次方程式の解とは，定数 $a,b,c$ が既知の式
 \begin{equation}
 a*x\uparrow2+b*x+c=0
 \end{equation}
+において定数 $x$ が取り得る値のことである．
 
-
-
+2次方程式の解法は知られており，それを「カリー風」に書くと
 \begin{multline}
 \mTupleWith{x_0,x_1}=\mTupleWith{(-b+d)/(2*a),(-b-d)/(2*a)}\\
 \mWhereIs{d}{\sqrt{b\uparrow2-4*a*c}}
 \end{multline}
+となる．これをそのまま\haskell で実装すれば，一応は2次方程式の解が求まる．（「一応は」と断ったのは，この解法は定数 $a$ の値が小さい場合には計算誤差が大きくなるからである．）
 
 
 
