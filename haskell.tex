@@ -4155,6 +4155,22 @@ do記法&\code{do}\\
 % \end{table*}
 
 
+\section{2次方程式の解*}
+
+\begin{equation}
+a*x\uparrow2+b*x+c=0
+\end{equation}
+
+
+
+\begin{multline}
+\mTupleWith{x_0,x_1}=\mTupleWith{(-b+d)/(2*a),(-b-d)/(2*a)}\\
+\mWhereIs{d}{\sqrt{b\uparrow2-4*a*c}}
+\end{multline}
+
+
+
+
 \section{数学関数の演算*}
 
 $y=fx$ ただし
@@ -4299,6 +4315,8 @@ yt&=\sum(\mLambdaExp{x}{\mFirst x*\mSecond x})\mMapList\mList{h}\\
 &\qquad\mList{g}\mLetEq\mListWith{g(t-x)\mListComp x\mFrom\mListWith{0,1\dotsb n}}
 \end{aligned}
 \end{equation}
+
+効率悪い．
 
 ---
 
