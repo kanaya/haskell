@@ -3815,23 +3815,14 @@ f\mMap{}\mLeftWith{x}&=\mLeftWith{x}
 \begin{equation}
 (\mZip)=\mZipWith(\mApply)
 \end{equation}
-と関数 $\mZipWith$ から定義できる．\footnote{\haskell では $\mZipWith$ 関数を
-\begin{verbatim}
-  zipWith :: (a -> b -> c)
-    -> [a] -> [b] -> [c]
-  zipWith _ [] _ = []
-  zipWith [] _ _ = []
-  zipWith f (x:xs) (y:ys) = f x y
-    : zipWith f xs ys
-\end{verbatim}
-と書ける．}
+と関数 $\mZipWith$ から定義できる．
 
-ただし
+関数 $\mZipWith$ を再帰的に定義したが，再帰をリストのマップ演算子に押し込むこともできる．それには
 \begin{multline}
 \mZipWith f(x:\mList{x})(y:\mList{y})=f'\mMapList\mList{z}\\
 \mWhereIsII{f'}{\mUncurry f}{\mList{z}}{\mZipFunc\mList{x}\mList{y}}
 \end{multline}
-と，先に $\mZipFunc$ 関数を定義しておいて，その後 $\mZipWith$ 関数を定義することも出来る．ここに $\mZipFunc$ 関数は
+と，先に $\mZipFunc$ 関数を定義しておいて，その後 $\mZipWith$ 関数を定義する．ここに $\mZipFunc$ 関数は
 \begin{equation}
 \left\mBrace
 \begin{aligned}
@@ -3844,22 +3835,28 @@ f\mMap{}\mLeftWith{x}&=\mLeftWith{x}
 \begin{equation}
 \left\mBrace
 \begin{aligned}
-{}&
-\begin{aligned}
 {}&\mUncurry\mIn{}
 \mProj{
   (\mProj{\mType{a}}{\mProj{\mType{b}}{\mType{c}}})
 }
 {
   \mProj{\mTupleWith{\mType{a},\mType{b}}}{\mType{c}}
-}
-\end{aligned}\\
-{}&
-\mUncurry fxy=f\mTupleWith{x,y}
+}\\
+{}&\mUncurry fxy=f\mTupleWith{x,y}
 \end{aligned}
 \right.
 \end{equation}
-...
+である．\footnote{\haskell では $\mZipWith$ 関数を
+\begin{verbatim}
+  zipWith :: (a -> b -> c)
+    -> [a] -> [b] -> [c]
+  zipWith f (x:xs) (y:ys) = f' `map` zs
+    where f' = uncurry f
+          zs = zip xs ys
+\end{verbatim}
+と書ける．ただし \code{zipWith} は \filename{Prelude} から提供される．}
+
+% http://haskell.g.hatena.ne.jp/hyuki/20060603/zipwith
 
 \section{この章のまとめ*}
 
@@ -4290,19 +4287,23 @@ main = print ys >> pure 0
 \section{コンボリューション演算*}
 
 \begin{equation}
-(f\circledast g)t=\sum_xfx*g(t-x)
+(f\circledcirc g)t=\sum_xfx*g(t-x)
 \end{equation}
 
-\begin{multline}
-yt=\sum(\mLambdaExp{x}{\mFirst x*\mSecond x})\mMapList\mList{h}\\
-\mWhere\mList{h}\mLetEq\mZipWith\mList{f}\mList{g}\\
-\mList{f}\mLetEq\mListWith{fx\mListComp x\mFrom\mListWith{0\dotsb n}},\\
-\mList{g}\mLetEq\mListWith{g(t-x)\mListComp x\mFrom\mListWith{0\dotsb n}}
-\end{multline}
+\begin{equation}
+\begin{aligned}
+yt&=\sum(\mLambdaExp{x}{\mFirst x*\mSecond x})\mMapList\mList{h}\\
+&\quad\mWhere\\
+&\qquad\mList{h}\mLetEq{}\mZipFunc\mList{f}\mList{g}\\
+&\qquad\mList{f}\mLetEq\mListWith{fx\mListComp x\mFrom\mListWith{0,1\dotsb n}}\\
+&\qquad\mList{g}\mLetEq\mListWith{g(t-x)\mListComp x\mFrom\mListWith{0,1\dotsb n}}
+\end{aligned}
+\end{equation}
 
+---
 
 \begin{equation}
-(\circledast)\mIn{}(\mNumTypeClass\mSuperSet\mType{a})\mSuperClass{}
+(\circledcirc)\mIn{}(\mNumTypeClass\mSuperSet\mType{a})\mSuperClass{}
 \mProj{
   (\mProj{\mType{a}}{\mType{a}})
 }
@@ -4313,12 +4314,12 @@ yt=\sum(\mLambdaExp{x}{\mFirst x*\mSecond x})\mMapList\mList{h}\\
 \end{equation}
 
 \begin{equation}
-f\circledast g=\mLambdaExp{t}{\sum fx*g(t-x)}
+f\circledcirc g=\mLambdaExp{t}{\sum fx*g(t-x)}
 \end{equation}
 
 
 $$
-yt=(f\circledast g)t
+yt=(f\circledcirc g)t
 $$
 
 
