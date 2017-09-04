@@ -13,6 +13,8 @@
 
 \newcommand{\separator}{\begin{center}$*$~$*$~$*$\end{center}}
 
+\DeclareMathOperator{\sgn}{sgn}
+
 %% Programming Languages
 
 \newcommand{\programminglanguage}[1]{\textsf{#1}}
@@ -4161,17 +4163,54 @@ do記法&\code{do}\\
 \begin{equation}
 a*x\uparrow2+b*x+c=0
 \end{equation}
-において定数 $x$ が取り得る値のことである．
+において定数 $x$ が取り得る値のことである．（これは $ax^2+bx+c=0$ をカリー風に書いたものである．）
 
-2次方程式の解法は知られており，それを「カリー風」に書くと
+2次方程式の解法は知られており，
+\begin{equation}
+\begin{aligned}
+\mTupleWith{x_0,x_1}&=\mTupleWith{q/a,c/q}\\
+&\quad\mWhere\\
+&\qquad q\mLetEq\left(b+(\sgn b)\sqrt{b\uparrow 2-4*a*c}\right)/2
+\end{aligned}
+\end{equation}
+である．ここに関数 $\sgn$ は
+\begin{equation}
+\left\mBrace
+\begin{aligned}
+{}&\sgn\mIn{}(\mNumTypeClass\mSuperSet\mType{a})\mSuperClass\mProj{\mType{a}}{\mType{a}}\\
+{}&
+\begin{aligned}
+\sgn x&\mGuard{x<0}=-1\\
+&\mGuard{\mOtherwise}=1
+\end{aligned}
+\end{aligned}
+\right.
+\end{equation}
+である．
+
+これをそのまま\haskell で実装すれば，2次方程式の解が求まる．
+\begin{haskellcode}
+\begin{verbatim}
+-- quadratic.hs
+sgn :: (Num a) => a -> a
+sgn x | x<0       = -1
+      | otherwise = 1
+a = {- ... -}
+b = {- ... -}
+c = {- ... -}
+(x0, x1) = (q/a, c/q)
+  where q = (b+sgn(b)*sqrt(b^2-4*a*c))/2.0
+main :: IO Int
+main = print (x0, x1) >> pure 0
+\end{verbatim}
+\end{haskellcode}
+
+なお，2次方程式のよく知られた解法，すなわち
 \begin{multline}
 \mTupleWith{x_0,x_1}=\mTupleWith{(-b+d)/(2*a),(-b-d)/(2*a)}\\
 \mWhereIs{d}{\sqrt{b\uparrow2-4*a*c}}
 \end{multline}
-となる．これをそのまま\haskell で実装すれば，一応は2次方程式の解が求まる．（「一応は」と断ったのは，この解法は定数 $a$ の値が小さい場合には計算誤差が大きくなるからである．）
-
-
-
+は定数 $a$ または $c$ の値が小さい場合には計算誤差が大きくなるため，推奨されない．
 
 \section{数学関数の演算*}
 
