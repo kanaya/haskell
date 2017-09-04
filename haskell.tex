@@ -4188,6 +4188,17 @@ a*x\uparrow2+b*x+c=0
 \end{equation}
 である．
 
+最後にタプル $\mTupleWith{x_0,x_1}$ を画面に表示すれば完了なので
+\begin{equation}
+\left\mBrace
+\begin{aligned}
+{}&\mMain\mIn\mIOIntType\\
+{}&\mMain=\mPrint\mTupleWith{x_0,x_1}\mBindRightIgnore\mPureWith{0}
+\end{aligned}
+\right.
+\end{equation}
+とする．
+
 これをそのまま\haskell で実装すれば，2次方程式の解が求まる．
 \begin{haskellcode}
 \begin{verbatim}
@@ -4204,21 +4215,6 @@ main :: IO Int
 main = print (x0, x1) >> pure 0
 \end{verbatim}
 \end{haskellcode}
-
----
-
-\begin{equation}
-\left\mBrace
-\begin{aligned}
-{}&\mMain\mIn\mIOIntType\\
-{}&\mMain=\mPrint\mTupleWith{x_0,x_1}\mBindRightIgnore\mPureWith{0}
-\end{aligned}
-\right.
-\end{equation}
-
-
----
-
 
 なお，2次方程式のよく知られた解法，すなわち
 \begin{multline}
