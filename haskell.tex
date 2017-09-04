@@ -4205,6 +4205,21 @@ main = print (x0, x1) >> pure 0
 \end{verbatim}
 \end{haskellcode}
 
+---
+
+\begin{equation}
+\left\mBrace
+\begin{aligned}
+{}&\mMain\mIn\mIOIntType\\
+{}&\mMain=\mPrint\mTupleWith{x_0,x_1}\mBindRightIgnore\mPureWith{0}
+\end{aligned}
+\right.
+\end{equation}
+
+
+---
+
+
 なお，2次方程式のよく知られた解法，すなわち
 \begin{multline}
 \mTupleWith{x_0,x_1}=\mTupleWith{(-b+d)/(2*a),(-b-d)/(2*a)}\\
