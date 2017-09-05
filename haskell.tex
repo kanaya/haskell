@@ -4057,6 +4057,12 @@ $ ./sample
 \end{note}
 
 \chapter{演算*}
+
+\begin{leader}
+演算の例を挙げる．
+\end{leader}
+
+
 \section{名前と予約語*}
 表\ref{tab:reserved-symbols}および表\ref{tab:reserved-keywords}に\haskell で予約されている記号と名前を掲げる．これらの記号，名前は演算子，関数，定数として使うことが出来ない．
 
@@ -4192,7 +4198,7 @@ a*x^2+b*x+c=0
 \begin{aligned}
 \mTupleWith{x_0,x_1}&=\mTupleWith{q/a,c/q}\\
 &\quad\mWhere\\
-&\qquad q\mLetEq\left(b+(\sgn b)*\sqrt{\mSq b-4*a*c}\right)/2
+&\qquad q\mLetEq\frac{\left(b+(\sgn b)*\sqrt{\mSq b-4*a*c}\right)}{2}
 \end{aligned}
 \end{equation}
 である．ここに関数 $\mSq$ は
@@ -4208,7 +4214,7 @@ a*x^2+b*x+c=0
 \end{aligned}
 \right.
 \end{equation}
-を後で与えるためである．
+を後で与えるためである．平方根 $\sqrt{x}$ は\haskell では \code{sqrt x} と書く．
 
 また関数 $\sgn$ は
 \begin{equation}
@@ -4240,12 +4246,12 @@ a*x^2+b*x+c=0
 \begin{haskellcode}
 \begin{verbatim}
 -- quadratic.hs
-sgn :: Real a => a -> a
-sgn x | x<0       = -1
-      | otherwise = 1
 a = {- ... -}
 b = {- ... -}
 c = {- ... -}
+sgn :: Real a => a -> a
+sgn x | x<0       = -1
+      | otherwise = 1
 sq :: Real a => a -> a
 sq x = x*x
 (x0, x1) = (q/a, c/q)
@@ -4257,8 +4263,9 @@ main = print (x0, x1) >> pure 0
 
 なお，2次方程式のよく知られた解法，すなわち
 \begin{multline}
-\mTupleWith{x_0,x_1}=\mTupleWith{(-b+d)/(2*a),(-b-d)/(2*a)}\\
-\mWhereIs{d}{\sqrt{b\uparrow2-4*a*c}}
+\mTupleWith{x_0,x_1}
+=\mTupleWith{\frac{-b+d}{2*a},\frac{-b-d}{2*a}}\\
+\mWhereIs{d}{\sqrt{b^2-4*a*c}}
 \end{multline}
 は定数 $a$ または $c$ の値が小さい場合には計算誤差が大きくなるため，推奨されない．
 
@@ -4279,6 +4286,12 @@ a = ar :+ ai
 \end{verbatim}
 \end{haskellcode}
 のように \code{:+} 演算子を使って複素数をコンストラクトする．
+
+このように\haskell では複素数を 
+\begin{equation}
+\mComplexType{a}=\mathop{\mTypeConstructor{Complex}}\mType{a}
+\end{equation}
+の型パラメタ $\mType{a}$ に $\mFloatType$ 型または $\mDoubleType$ 型を当てはめて構築した型を用いる．$\mFloatType$ 型および $\mDoubleType$ 型は $\mRealFloatTypeClass$ 型クラスに属する．
 
 複素数の場合の2次方程式の解は，実数の場合とほぼ同じで
 \begin{equation}
@@ -4377,11 +4390,11 @@ sgn' :: RealFloat a =>
     -> Complex a
 sgn' a b c | realPart((conjugate b)
                *sqrt'(sq' b - 4#(a*c)))<0
-               = (-1):+0
+                 = (-1):+0
            | otherwise = 1:+0
 
 (x0, x1) = (q/a, c/q)
-  where q = (b + sgn' a b c * r) / 2.0
+  where q = (b + sgn' a b c * r) / 2
         r = sqrt(sq' b - 4#(a*c))
 
 main :: IO Int
@@ -4389,6 +4402,15 @@ main = print a >> pure 0
 \end{verbatim}
 \end{haskellcode}
 
+\section{余談：強制評価*}
+
+\section{この章のまとめ*}
+
+\begin{note}{...}
+...
+\end{note}
+
+\chapter{より複雑な演算}
 
 
 \section{数学関数の演算*}
@@ -4572,47 +4594,10 @@ $$
 \section{イメージ演算*}
 
 
-
-\section{型とデータ構造*}
-
-\filename{Prelude} で定義される主だった型を表\ref{tab:data-types}に示す．
-
-\filename{Prelude} で定義される主だったコンテナ型を表\ref{tab:polymorphic-types}に示す．
-
-
-
-\section{演算と構文*}
-
-\subsection{単項マイナス}
+\section{余談：単項マイナス}
 
 \haskell には単項マイナス $(-)$ を除いて他に単項演算子はない．例えば \code{(+1)} はセクションであり $\mLambdaExp{x}{x+1}$ の意味であるが，マイナス記号 \code{-} は単項演算子の意味を持つので \code{(-1)} はマイナス $1$ である．これは \code{(- 1)} と空白を挿入しても同じである．
 
-\subsection{二項演算子}
-
-\subsection{関数適用}
-
-\subsection{関数定義}
-
-\subsection{演算子定義}
-
-
-\section{余談：コマンドライン引数*}
-
-コマンドライン引数はアクション \code{getArgs} で読み出すことができる．
-
-\begin{haskellcode}
-\begin{verbatim}
-main :: IO Int
-main = do
-  (x:xs) <- getArgs
-  {- do something -}
-  return 0
-\end{verbatim}
-\end{haskellcode}
-
-\begin{equation}
-\mMain=(\dotsb\mWhere{}(x:\mList{x})=\mAction{getArgs})\mBindRightIgnore\mPureWith{0}
-\end{equation}
 
 ---
 
@@ -4641,6 +4626,26 @@ z = !x :+ !y
 \section{読み込み*}
 \section{IOモナド*}
 \section{余談：ダークサイド*}
+
+\section{余談：コマンドライン引数*}
+
+コマンドライン引数はアクション \code{getArgs} で読み出すことができる．
+
+\begin{haskellcode}
+\begin{verbatim}
+main :: IO Int
+main = do
+  (x:xs) <- getArgs
+  {- do something -}
+  return 0
+\end{verbatim}
+\end{haskellcode}
+
+\begin{equation}
+\mMain=(\dotsb\mWhere{}(x:\mList{x})=\mAction{getArgs})\mBindRightIgnore\mPureWith{0}
+\end{equation}
+
+
 \section{この章のまとめ*}
 
 \chapter{データ構造とアルゴリズム*}
