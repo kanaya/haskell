@@ -1030,7 +1030,7 @@ r&=f1
 
 \haskell では関数だけでなく，新しい演算子も定義できる．\footnote{\haskell で演算子に使える記号は
 \begin{verbatim}
-  @ # $ % ^ & * - + = \ | / . < > ? ~
+ ! @ # $ % ^ & * - + = . \ | / < : > ? ~
 \end{verbatim}%$
 の組み合わせである．}
 
@@ -4100,7 +4100,7 @@ $ ./sample
 
 
 \begin{table*}
-\caption{\haskell の予約記号}
+\caption{\haskell の予約済み演算子と記号}
 \label{tab:reserved-symbols}
 \begin{center}
 \begin{tabular}{||c|c||}
@@ -4110,22 +4110,22 @@ $ ./sample
 \hline
 \code{'}&文字リテラル\\
 \code{"}&文字列リテラル\\%{\textquotedblright}\\
-\hline
-\code{-}&単項マイナス $(-)$\\
-\code{(} \code{)}&括弧\\
 \code{`}&関数の中置\\
+\code{(} \code{)}&括弧\\
+\code{\{} \code{\}}&レコード構文 $(\{\dotsb\})$，ブロック\\
+\code{;}&ステートメントセパレータ\\
 \hline
+% \code{-}&単項マイナス $(-)$\\
 \code{\textbackslash}&ラムダ $(\mLambda)$，行分割\\
-\code{\_}&ワイルドカード引数 $(\mAnyParam)$\\
+\code{:}&結合演算子\\
+\code{::}&型の宣言 $(\mIn)$\\
+\code{..}&等差数列\\
 \code{=}&定義 $(=)$\\
 \code{=>}&インスタンス定義 $(\mSuperClass)$\\
-\code{@}&asパタン $(@)$\\
-\hline
-\code{::}&型の宣言 $(\mIn)$\\
 \code{->}&関数型コンストラクタ $(\mapsto)$，ラムダ式の矢印 $(\rightarrow)$，case式の矢印 $(\mIfSo)$\\
-\hline
-\code{|}&ガード $(\mGuard{})$，リスト内包 $(\mListComp)$，データ型の和演算 $(\mValueOr)$\\
 \code{<-}&リスト内包表記 $(\mFrom)$，do記法中の代入 $(\mDoEq)$\\
+\code{@}&asパタン $(@)$\\
+\code{|}&ガード $(\mGuard{})$，リスト内包 $(\mListComp)$，データ型の和演算 $(\mValueOr)$\\
 \code{,}&リスト内包表記の積演算 $(,)$\\
 % \code{-<}&（アロー表記用）\\
 % \code{-<<}&（アロー表記用）\\
@@ -4134,9 +4134,6 @@ $ ./sample
 % \code{\#}&（マジックハッシュ）\\
 % \code{*}\\
 \hline
-\code{\{} \code{\}}&レコード構文 $(\{\dotsb\})$，ブロック\\
-\code{;}&ステートメントセパレータ\\
-\hline
 \code{!}&正格評価\\
 \code{\textasciitilde}&遅延評価\\
 \hline
@@ -4144,6 +4141,7 @@ $ ./sample
 \end{center}
 \end{table*}
 
+% http://www.nslabs.jp/haskell-keywords.rhtml
 
 \begin{table*}
 \caption{\haskell の予約語}
@@ -4158,8 +4156,8 @@ do記法&\code{do}\\
 局所変数 (1)&\code{let}, \code{in}\\
 局所変数 (2)&\code{where}\\
 演算子定義&\code{infix}, \code{infixl}, \code{infixr}\\
-モジュール関係&\code{import}, \code{module}\\
-% ワイルドカード引数&\code{\_}\\
+モジュール関係&\code{foreign}, \code{import}, \code{module}\\
+ワイルドカード引数&\code{\_}\\
 \hline
 \end{tabular}
 \end{center}
