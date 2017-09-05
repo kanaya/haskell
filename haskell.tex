@@ -218,8 +218,10 @@
 \DeclareMathOperator{\mBindRightIgnore}{\twoheadrightarrow}
 \DeclareMathOperator{\mBinOp}{\bigstar}
 \DeclareMathOperator{\mComp}{\centerdot}
-\DeclareMathOperator{\mCompRot}{\cdot}
 \DeclareMathOperator{\mCompProj}{\circledcirc}
+\DeclareMathOperator{\mCompRot}{\cdot}
+\DeclareMathOperator{\mComplexPlus}{\dotplus}
+\DeclareMathOperator{\mComplexTimes}{\Dot\times}
 \DeclareMathOperator{\mConcat}{\flat}
 \DeclareMathOperator{\mCons}{:}
 \DeclareMathOperator{\mDefEq}{\stackrel{\mathrm{def}}{=}}
@@ -931,6 +933,8 @@ y=fx'\mWhereIs{x'}{1+x}
 % 二つの例外とは，数学者が自然数 $n$ の\keyword{階乗}をしばしば $n!$ と書き，実数 $x$ の\keyword{逆数}（\keyword{乗法逆元}）を $x^{-1}$ と書くことに倣い，このふたつだけは本書でも例外的に\keyword{後置}する単項演算子とする．
 前置する演算子のことを\keyword{前置演算子}と呼ぶが，数学者は同じものを左作用素と呼ぶ．
 
+\haskell には単項マイナス $(-)$ を除いて他に単項演算子はない．
+
 二項演算子のうちよく使われるものは和 $(+)$，積 $(*)$，論理和 $(\mLogicalOr)$，論理積 $(\mLogicalAnd)$，同値 $(\equiv)$，大なり $(>)$，小なり $(<)$ 等である．二項演算子はたとえ積記号であっても省略できない．二項演算子は多数あるので，その都度説明する．
 
 二項演算子は\keyword{中置}することが基本であるが，括弧で包むことで前置することも可能である．任意の二項演算子 $\mBinOp$ について $x\mBinOp y$ 及び $(\mBinOp)xy$ は全く同じ意味である．すなわち
@@ -951,7 +955,7 @@ y=fx'\mWhereIs{x'}{1+x}
 (\mBinOp x)&=\mAnonParam\mBinOp x\\
 (x\mBinOp)&=x\mBinOp\mAnonParam=(\mBinOp)x
 \end{align}
-である．例えば $(1+)$ は $((+)1)$ と等価である．ただし，マイナス演算子 $(-)$ だけは例外で，$(-1)$ はマイナス $1$ を表す．\footnote{\haskell では $(1+)$ を \code{(1+)} と書く．}
+である．例えば $(1+)$ は $((+)1)$ と等価である．ただし，マイナス演算子 $(-)$ だけは例外で，$(-1)$ はマイナス $1$ を表す．負の数をいつも括弧で包んでおくのは良いアイディアである．\footnote{\haskell では $(1+)$ を \code{(1+)} と書く．また \code{(-1)} はセクションではなくマイナス $1$ を表す（\code{-1} というリテラルとみなされる）．ただし \code{(- 1)} のように空白を挟んでも同じくマイナス $1$ とみなされる（\code{1} というリテラルに単項マイナス演算子が適用される）．}
 
 なお，二項演算子の結合性，すなわち左結合か右結合かは，演算子によって異なる．また演算の優先順位を明示的に与えるために括弧が用いられる．
 
@@ -1140,7 +1144,7 @@ f
 \end{equation}
 のようにイメージすると良い．これは関数 $f$ が集合 $\mIntType$ から集合 $\mIntType$ への\keyword{写像}であると読む．
 
-\section{カリー化}
+\section{カリー化*}
 
 \haskell では，どのような関数であれ引数は1個しかとらない．引数が2個あるように見える関数として，例えば $gxy$ があったとしよう．ここに $g$ は関数，$x,y$ は変数である．関数適用が左結合であるから，これは $\left(gx\right)y$ である．ここに $\left(gx\right)$ は引数 $y$ をとる関数であると見ることができる．つまり，関数 $f$ とは引数 $x$ をとり「引数 $y$ をとって値を返す関数 $\left(gx\right)$ を返す」関数であると言える．
 
@@ -1183,6 +1187,16 @@ g\mIn
 \mMapsTo\overbrace{\mIntType}^{(gx)y}}_{gx}
 \end{equation*}
 のようにイメージすると良い．自然言語で考えると $\mIntType$ 型の引数を一つ取り，$\mIntType$ 型の引数を一つ取って $\mIntType$ 型の値を返す関数を返す，と読める．
+
+\separator
+
+タプル．
+
+curry.
+
+uncurry.
+
+()
 
 
 \section{多相型と型クラス}
@@ -4070,6 +4084,15 @@ $ ./sample
 
 % *** リファレンス ***
 
+次の演算子は標準的なモジュールで使われているため，使用を避けるべきである．
+
+\begin{itemize}
+% \item \code{!}
+% \item \code{\textasciitilde}
+\item \code{:} ではじまる記号
+\end{itemize}
+
+
 \begin{table*}
 \caption{\haskell の予約記号}
 \label{tab:reserved-symbols}
@@ -4108,8 +4131,8 @@ $ ./sample
 \code{\{} \code{\}}&レコード構文 $(\{\dotsb\})$，ブロック\\
 \code{;}&ステートメントセパレータ\\
 \hline
-\code{!}&強制評価\\
-\code{\textasciitilde}&遅延バインディング\\
+\code{!}&正格評価\\
+\code{\textasciitilde}&遅延評価\\
 \hline
 \end{tabular}
 \end{center}
@@ -4124,12 +4147,12 @@ $ ./sample
 \hline
 分岐 (1)&\code{case}, \code{of}\\
 分岐 (2)&\code{if}, \code{then}, \code{else}\\
-型定義&\code{class}, \code{data}, \code{default}, \code{deriving}, \code{instance}, \code{newtype}, \code{type}\\
+型定義&\code{class}, \code{data}, \code{deriving}, \code{instance}, \code{newtype}, \code{type}\\
 do記法&\code{do}\\
 局所変数 (1)&\code{let}, \code{in}\\
 局所変数 (2)&\code{where}\\
 演算子定義&\code{infix}, \code{infixl}, \code{infixr}\\
-モジュール関係&\code{foreign}, \code{import}, \code{module}\\
+モジュール関係&\code{import}, \code{module}\\
 % ワイルドカード引数&\code{\_}\\
 \hline
 \end{tabular}
@@ -4273,11 +4296,11 @@ main = print (x0, x1) >> pure 0
 
 2次方程式の定数 $a,b,c$ が複素数だとしよう．それぞれの実部を添え字 $r$ で，虚部を添え字 $i$ で区別することにすると
 \begin{align}
-a&=a_r\dotplus a_i\\
-b&=b_r\dotplus b_i\\
-c&=c_r\dotplus c_i
+a&=a_r\mComplexPlus a_i\\
+b&=b_r\mComplexPlus b_i\\
+c&=c_r\mComplexPlus c_i
 \end{align}
-となる．ここに $\dotplus$ は複素数を合成する演算子で，第1引数（左引数）が実部，第2引数（右引数）が虚部からなる複素数を合成するものとする．\haskell では
+となる．ここに $\mComplexPlus$ は複素数を合成する演算子で，第1引数（左引数）が実部，第2引数（右引数）が虚部からなる複素数を合成するものとする．\haskell では
 \begin{haskellcode}
 \begin{verbatim}
 import Data.Complex
@@ -4320,7 +4343,7 @@ a = ar :+ ai
 &\quad\mProj{\mComplexType{a}}{\mProj{\mComplexType{a}}{\mProj{\mComplexType{a}}{\mType{a}}}}
 \end{aligned}\\
 &\begin{aligned}
-\sgn'abc&\mGuard{\mRealPart((\mConjugate b)*\mSqrtFunc'{(\mSq' b-4\#a*c)})<0}=-1\\
+\sgn'abc&\mGuard{\mRealPart((\mConjugate b)*\mSqrtFunc'{(\mSq' b-4\mComplexTimes a*c)})<0}=-1\\
 &\mGuard{\mOtherwise}=1
 \end{aligned}
 \end{aligned}
@@ -4335,24 +4358,26 @@ a = ar :+ ai
 &\mSqrtFunc'\mIn\mRealFloatTypeClass\mSuperSet\mType{a}
 \mSuperClass\mProj{\mType{a}}{\mType{a}}\\
 &\begin{aligned}
-\mSqrtFunc'(x\dotplus y)
-&=\frac{\sqrt{2}}{2}*\left(\sqrt{d+x}\dotplus(\sgn y)*\sqrt{d-x}\right)\\
+\mSqrtFunc'(x\mComplexPlus y)
+&=\frac{\sqrt{2}}{2}*\left(\sqrt{d+x}\mComplexPlus(\sgn y)*\sqrt{d-x}\right)\\
 &\quad\mWhereIs{d}{\sqrt{\mSq x+\mSq y}}
 \end{aligned}
 \end{aligned}
 \right.
 \end{equation}
-と定義し，複素数の実数倍は演算子 $\#$ で表すとして
+と定義し，複素数の実数倍は演算子 $\mComplexTimes$ で表すとして
 \begin{equation}
 \left\mBrace
 \begin{aligned}
-&(\#)\mIn\mRealFloatTypeClass\mSuperSet\mType{a}\mSuperClass\\
+&(\mComplexTimes)\mIn\mRealFloatTypeClass\mSuperSet\mType{a}\mSuperClass\\
 &\quad\mProj{\mType{a}}{\mProj{\mComplexType{a}}{\mComplexType{a}}}\\
-&(\#)a(x\dotplus y)=a*x\dotplus a*y
+&(\mComplexTimes)a(x\mComplexPlus y)=a*x\mComplexPlus a*y
 \end{aligned}
 \right.
 \end{equation}
-とした．
+とした．（演算子 $\mComplexTimes$ は \code{*.} と書くことにする．）
+
+なお，$\mConjugate$ は共役複素数を求める関数，$\Re$ は実部を求める関数である．$\Re$ は\haskell では \code{realPart} と書く．
 
 まとめると次のようになる．
 
@@ -4366,8 +4391,8 @@ a = {- ... -} :+ {- ... -}
 b = {- ... -} :+ {- ... -}
 c = {- ... -} :+ {- ... -}
 
-(#) :: Real a => a -> Complex a -> Complex a
-(#) a (x:+y) = a*x:+a*y
+(*.) :: Real a => a -> Complex a -> Complex a
+(*.) a (x:+y) = a*x:+a*y
 
 sq :: Real a => a -> a
 sq x = x*x
@@ -4389,13 +4414,13 @@ sgn' :: RealFloat a =>
   Complex a -> Complex a -> Complex a
     -> Complex a
 sgn' a b c | realPart((conjugate b)
-               *sqrt'(sq' b - 4#(a*c)))<0
+               *sqrt'(sq' b - 4*.(a*c)))<0
                  = (-1):+0
            | otherwise = 1:+0
 
 (x0, x1) = (q/a, c/q)
   where q = (b + sgn' a b c * r) / 2
-        r = sqrt(sq' b - 4#(a*c))
+        r = sqrt(sq' b - 4*.(a*c))
 
 main :: IO Int
 main = print a >> pure 0
@@ -4542,6 +4567,8 @@ main = print ys >> pure 0
 \end{center}
 \end{table}
 
+\section{...}
+
 \section{コンボリューション演算*}
 
 \begin{equation}
@@ -4591,12 +4618,8 @@ $$
 y=\sum_xfx*g(\mAnonParam-x)
 $$
 
-\section{イメージ演算*}
+\section{余談：イメージ演算*}
 
-
-\section{余談：単項マイナス}
-
-\haskell には単項マイナス $(-)$ を除いて他に単項演算子はない．例えば \code{(+1)} はセクションであり $\mLambdaExp{x}{x+1}$ の意味であるが，マイナス記号 \code{-} は単項演算子の意味を持つので \code{(-1)} はマイナス $1$ である．これは \code{(- 1)} と空白を挿入しても同じである．
 
 
 ---
@@ -4604,7 +4627,7 @@ $$
 % \section{余談：複素数*}
 
 \begin{equation}
-z={}!x{}\dotplus{}!y
+z={}!x{}\mComplexPlus{}!y
 \end{equation}
 
 \begin{haskellcode}
@@ -4625,24 +4648,26 @@ z = !x :+ !y
 \section{書き出し*}
 \section{読み込み*}
 \section{IOモナド*}
-\section{余談：ダークサイド*}
+% \section{余談：ダークサイド*}
 
 \section{余談：コマンドライン引数*}
 
-コマンドライン引数はアクション \code{getArgs} で読み出すことができる．
-
+コマンドライン引数はアクション \code{getArgs} で読み出すことができる．例えば
 \begin{haskellcode}
 \begin{verbatim}
+-- args.hs
+import System.Environment (getArgs)
 main :: IO Int
 main = do
-  (x:xs) <- getArgs
+  args <- getArgs
   {- do something -}
   return 0
 \end{verbatim}
 \end{haskellcode}
+とすると，リスト \code{args} にコマンドライン引数が渡される．アクション \code{getArgs} の戻り値の型は \code{[String]} である．
 
 \begin{equation}
-\mMain=(\dotsb\mWhere{}(x:\mList{x})=\mAction{getArgs})\mBindRightIgnore\mPureWith{0}
+\mMain=(\dotsb\mWhere{}\mList{a}=\mAction{getArgs})\mBindRightIgnore\mPureWith{0}
 \end{equation}
 
 
