@@ -164,13 +164,14 @@
 \newcommand{\mSpecialFunc}[1]{\mathrm{#1}}
 \newcommand{\mSpecialFuncSmall}[1]{\mathrm{#1}}
 
+\DeclareMathOperator{\mConjugate}{\mSpecialFunc{conjugate}}
 \DeclareMathOperator{\mGetList}{\mFunc{getList}}
-
 \DeclareMathOperator{\mFact}{\mSpecialFunc{fact}}
 \DeclareMathOperator{\mFirst}{\mSpecialFunc{fst}}
 \DeclareMathOperator{\mHead}{\mSpecialFunc{head}}
 \DeclareMathOperator{\mMainFunc}{\mSpecialFunc{main}}
 \DeclareMathOperator{\mPred}{\mSpecialFunc{pred}}
+\DeclareMathOperator{\mRealPart}{\Re}
 \DeclareMathOperator{\mRepeat}{\mSpecialFunc{repeat}}
 \DeclareMathOperator{\mSecond}{\mSpecialFunc{snd}}
 \DeclareMathOperator{\mSucc}{\mSpecialFunc{succ}}
@@ -284,7 +285,18 @@
 \newcommand{\mListType}[1]{[\mType{#1}]}
 \newcommand{\mPureType}[1]{\langle\mType{#1}\rangle}
 
+% General type assemblers
+\newcommand{\mGenericTypeAssemble}[2]{{}^{\mTypeConstructor{#1}}\[\mType{#2}\]}
+\newcommand{\mGenericTypeAssembleII}[3]{{}^{\mTypeConstructor{#1}}\[\mType{#2},\mType{#3}\]}
+
+\newcommand{\mComplexType}[1]{\mGenericTypeAssemble{Complex}{#1}}
+\newcommand{\mEitherType}[2]{\mGenericTypeAssembleII{Either}{#1}{#2}}
+\newcommand{\mIOType}[1]{\mGenericTypeAssemble{IO}{#1}}
+\newcommand{\mMaybeType}[1]{\mGenericTypeAssemble{Maybe}{#1}}
+\newcommand{\mZipListType}[1]{\mGenericTypeAssemble{\mZipList}{#1}}
+
 % General polymorphic type names with type parameter
+\newcommand{\mComplexDoubleType}{\mComplexType{\mDoubleType}}
 \newcommand{\mIODoubleType}{\mIOType{\mDoubleType}}
 \newcommand{\mIOIntType}{\mIOType{\mIntType}}
 \newcommand{\mIOStringType}{\mIOType{\mStringType}}
@@ -299,15 +311,6 @@
 \DeclareMathOperator{\mZipListTypeConstructor}{\mTypeConstructor{\mZipList}}
 
 \newcommand{\mFuncTypeConstructor}[1]{\mathop{\mTypeConstructor{Func}_\mType{#1}}}
-
-% General type assemblers
-\newcommand{\mGenericTypeAssemble}[2]{{}^{\mTypeConstructor{#1}}\[\mType{#2}\]}
-\newcommand{\mGenericTypeAssembleII}[3]{{}^{\mTypeConstructor{#1}}\[\mType{#2},\mType{#3}\]}
-
-\newcommand{\mEitherType}[2]{\mGenericTypeAssembleII{Either}{#1}{#2}}
-\newcommand{\mIOType}[1]{\mGenericTypeAssemble{IO}{#1}}
-\newcommand{\mMaybeType}[1]{\mGenericTypeAssemble{Maybe}{#1}}
-\newcommand{\mZipListType}[1]{\mGenericTypeAssemble{\mZipList}{#1}}
 
 % General value constructors
 \newcommand{\mGenericValueConstructor}[1]{\mathrm{#1}}
@@ -1214,9 +1217,11 @@ g\mIn
 
 式\eqref{eq:equiv}に型クラスの制約を加えてみよう．型 $\mType{a}$ は型クラス $\mEqTypeClass$ に属さなければならないから，新たな記号 $\mSuperClass$ を使って
 \begin{equation}
-(\equiv)\mIn{}(\mEqTypeClass\mSuperSet\mType{a})\mSuperClass\mProj{\mProj{\mType{a}}{\mType{a}}}{\mBoolType}
+(\equiv)
+\mIn{}\mEqTypeClass\mSuperSet\mType{a}
+\mSuperClass\mProj{\mProj{\mType{a}}{\mType{a}}}{\mBoolType}
 \end{equation}
-と書くことにする．\footnote{\haskell では $(\equiv)\mIn{}(\mEqTypeClass\mSuperSet\mType{a})\mSuperClass\mProj{\mProj{\mType{a}}{\mType{a}}}{\mBoolType}$ を \code{(==) :: (Eq a) => a -> a -> Bool} と書く．記号 $\mSuperSet$ は省略する．}
+と書くことにする．\footnote{\haskell では $(\equiv)\mIn{}\mEqTypeClass\mSuperSet\mType{a}\mSuperClass\mProj{\mProj{\mType{a}}{\mType{a}}}{\mBoolType}$ を \code{(==) :: Eq a => a -> a -> Bool} と書く．記号 $\mSuperSet$ は省略する．}
 
 型 $\mType{a}$ の変数同士の間で大小関係が定義されている場合，かつその型が型クラス $\mEqTypeClass$ に属する場合，その型は型クラス $\mOrdTypeClass$ にも属する．型クラス $\mOrdTypeClass$ に属する型は比較演算子 $<,\le,\ge,>$ を提供する．例えば型 $\mIntType$ は型クラス $\mOrdTypeClass$ に属すが，型 $\mBoolType$ は型クラス $\mOrdTypeClass$ に属さない．
 
@@ -1234,7 +1239,9 @@ g\mIn
 
 便利な型変換演算子をひとつだけ紹介しておこう．型変換演算子 $\mFromIntegral$ は
 \begin{equation}
-\mFromIntegral\mIn{}(\mIntegralTypeClass\mSuperSet\mType{a})\mSuperClass\mProj{\mType{a}}{\mType{b}}
+\mFromIntegral
+\mIn{}\mIntegralTypeClass\mSuperSet\mType{a}
+\mSuperClass\mProj{\mType{a}}{\mType{b}}
 \end{equation}
 という型を持ち，$\mIntegralTypeClass$ 型クラスの型の変数を，任意の型へ変換する．例えば
 \begin{align}
@@ -2361,7 +2368,9 @@ g=f\mMapMaybe
 
 一般化されたマップ演算子を $\mMap$ で表そう．この $\mMap$ 演算子は
 \begin{equation}
-(\mMap)\mIn{}(\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn})\mSuperClass\mProj{\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mGenericTypeAssemble{fn}{a}}}{\mGenericTypeAssemble{fn}{b}}
+(\mMap)
+\mIn{}\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn}
+\mSuperClass\mProj{\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mGenericTypeAssemble{fn}{a}}}{\mGenericTypeAssemble{fn}{b}}
 \end{equation}
 という型を持つ．ここに $(\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn})\mSuperClass$ は，続く式に対して $\mTypeConstructor{fn}$ が $\mFunctorTypeClass$ 型クラスに属すという制約を表している．また $\mTypeConstructor{fn}$ は型コンストラクタであり，$\mGenericTypeAssemble{fn}{a}$ は $\mTypeConstructor{fn}$ によって作られた型である．
 
@@ -2504,7 +2513,9 @@ f\mIn\mProj{\mType{r}}{\mType{a}}
 
 マップ演算子の型は
 \begin{equation}
-(\mMap)\mIn{}(\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn})\mSuperClass\mProj{\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mGenericTypeAssemble{fn}{a}}}{\mGenericTypeAssemble{fn}{b}}
+(\mMap)
+\mIn{}\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn}
+\mSuperClass\mProj{\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mGenericTypeAssemble{fn}{a}}}{\mGenericTypeAssemble{fn}{b}}
 \end{equation}
 であって，いま $\mTypeConstructor{fn}=\mFuncTypeConstructor{r}$ を考えているから，関数のマップ演算子を $\mMapFunc$ とすると
 \begin{equation}
@@ -3473,7 +3484,9 @@ r=\mGenericRecordWith{Rectangle}{\mFunc{x}=1,
 
 型クラスは\keyword{継承関係}を持てる．型クラス $\mOrdTypeClass$ は型クラス $\mEqTypeClass$ から等号，不等号を継承し「小なりイコール」 $(\le)$ を追加する．
 \begin{multline}
-\mTypeClass\,(\mEqTypeClass\mSuperSet\mType{a})\mSuperClass\mathop{\mOrdTypeClass}\mType{a}\\
+\mTypeClass\,
+\mEqTypeClass\mSuperSet\mType{a}
+\mSuperClass\mathop{\mOrdTypeClass}\mType{a}\\
 \mWhere{}
 (\le)\mIn\mProj{\mType{a}}{\mProj{\mType{a}}{\mBoolType}}
 \end{multline}
@@ -3576,7 +3589,8 @@ Maybeが型クラス $\mEqTypeClass$ に属すものとして，$\mEqTypeClass$ 
 残念ながら，この式は $\mType{a}$ 型の変数 $x,y$ の間に等号 $(\equiv)$ が定義されていることが隠れた前提になっているため，正しくない．我々は $\mType{a}$ が型クラス $\mEqTypeClass$ に属すことを要求するので，次のように言い換える．
 \begin{multline}
 \mInstanceParametric\;
-(\mEqTypeClass\mSuperSet\mType{a})\mSuperClass
+\mEqTypeClass\mSuperSet\mType{a}
+\mSuperClass
 \mEqTypeClass\mSuperSet{}(\mMaybeTypeConstructor\mType{a})\\
 \mWhere
 \left\{
@@ -3587,9 +3601,9 @@ Maybeが型クラス $\mEqTypeClass$ に属すものとして，$\mEqTypeClass$ 
 \end{aligned}
 \right.
 \end{multline}
-この $(\mEqTypeClass\mSuperSet\mType{a})\mSuperClass$ の部分が「以下 $\mType{a}$ 型は $\mEqTypeClass$ 型クラスに属すものとして」という意味になる．\footnote{\haskell では
+この $\mEqTypeClass\mSuperSet\mType{a}\mSuperClass$ の部分が「以下 $\mType{a}$ 型は $\mEqTypeClass$ 型クラスに属すものとして」という意味になる．\footnote{\haskell では
 \begin{verbatim}
-  instance (Eq a) => Eq (Maybe a)
+  instance Eq a => Eq (Maybe a)
     where Just x == Just y = x==y
           Nothing==Nothing = True
           _==_             = False
@@ -3599,7 +3613,9 @@ Maybeが型クラス $\mEqTypeClass$ に属すものとして，$\mEqTypeClass$ 
 
 Maybeの間に新たに定義された等号 $(\equiv)$ は次の型を持つ．
 \begin{equation}
-(\equiv)\mIn{}(\mEqTypeClass\mSuperSet\mType{a})\mSuperClass\mProj{\mMaybeType{a}}{\mProj{\mMaybeType{a}}{\mBoolType}}
+(\equiv)
+\mIn{}\mEqTypeClass\mSuperSet\mType{a}
+\mSuperClass\mProj{\mMaybeType{a}}{\mProj{\mMaybeType{a}}{\mBoolType}}
 \end{equation}
 
 \separator
@@ -3626,10 +3642,12 @@ Maybeの間に新たに定義された等号 $(\equiv)$ は次の型を持つ．
 
 型クラス $\mFunctorTypeClass$ はマップ演算子 $(\mMap)$ を提供する．リスト型は $\mFunctorTypeClass$ 型クラスのインスタンスなので，
 \begin{align}
-\mTypeClassParametric\;&\mFunctorTypeClass\mSuperSet\mListTypeConstructor\nonumber\\
+\mTypeClassParametric\;
+&\mFunctorTypeClass\mSuperSet\mListTypeConstructor\nonumber\\
 &\quad\mWhere{}
 \mMap\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mListType{a}}{\mListType{b}}}\\
-\mInstanceParametric\;&\mFunctorTypeClass\mSuperSet\mListTypeConstructor{}\mWhereIs{\mMap}{\mMapList}
+\mInstanceParametric\;
+&\mFunctorTypeClass\mSuperSet\mListTypeConstructor{}\mWhereIs{\mMap}{\mMapList}
 \end{align}
 と定義する．\footnote{\haskell では
 \begin{verbatim}
@@ -3642,11 +3660,12 @@ Maybeの間に新たに定義された等号 $(\equiv)$ は次の型を持つ．
 
 Maybe型の場合は
 \begin{align}
-\mTypeClassParametric\;&\mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor\nonumber\\
+\mTypeClassParametric\;
+&\mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor\nonumber\\
 &\quad\mWhere{}\mMap\mIn{}\nonumber\\
 &\qquad\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mMaybeType{a}}{\mMaybeType{b}}}\\
-\mInstanceParametric\;&
-\mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor\nonumber\\
+\mInstanceParametric\;
+&\mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor\nonumber\\
 &\quad\mWhere
 \left\{
 \begin{aligned}
@@ -4170,14 +4189,14 @@ a*x\uparrow2+b*x+c=0
 \begin{aligned}
 \mTupleWith{x_0,x_1}&=\mTupleWith{q/a,c/q}\\
 &\quad\mWhere\\
-&\qquad q\mLetEq\left(b+(\sgn b)\sqrt{b\uparrow 2-4*a*c}\right)/2
+&\qquad q\mLetEq\left(b+(\sgn b)*\sqrt{b\uparrow 2-4*a*c}\right)/2
 \end{aligned}
 \end{equation}
 である．ここに関数 $\sgn$ は
 \begin{equation}
 \left\mBrace
 \begin{aligned}
-{}&\sgn\mIn{}(\mNumTypeClass\mSuperSet\mType{a})\mSuperClass\mProj{\mType{a}}{\mType{a}}\\
+{}&\sgn\mIn{}\mRealTypeClass\mSuperSet\mType{a}\mSuperClass\mProj{\mType{a}}{\mType{a}}\\
 {}&
 \begin{aligned}
 \sgn x&\mGuard{x<0}=-1\\
@@ -4203,7 +4222,7 @@ a*x\uparrow2+b*x+c=0
 \begin{haskellcode}
 \begin{verbatim}
 -- quadratic.hs
-sgn :: (Num a) => a -> a
+sgn :: Real a => a -> a
 sgn x | x<0       = -1
       | otherwise = 1
 a = {- ... -}
@@ -4222,6 +4241,94 @@ main = print (x0, x1) >> pure 0
 \mWhereIs{d}{\sqrt{b\uparrow2-4*a*c}}
 \end{multline}
 は定数 $a$ または $c$ の値が小さい場合には計算誤差が大きくなるため，推奨されない．
+
+\section{複素数*}
+
+2次方程式の定数 $a,b,c$ が複素数だとしよう．それぞれの実部を添え字 $r$ で，虚部を添え字 $i$ で区別することにすると
+\begin{align}
+a&=a_r\dotplus a_i\\
+b&=b_r\dotplus b_i\\
+c&=c_r\dotplus c_i
+\end{align}
+となる．ここに $\dotplus$ は複素数を合成する演算子で，第1引数（左引数）が実部，第2引数（右引数）が虚部からなる複素数を合成するものとする．\haskell では
+\begin{haskellcode}
+\begin{verbatim}
+import Data.Complex
+a :: Complex Double
+a = ar :+ ai
+\end{verbatim}
+\end{haskellcode}
+のように \code{:+} 演算子を使って複素数をコンストラクトする．
+
+複素数の場合の2次方程式の解は，実数の場合とほぼ同じで
+\begin{equation}
+\begin{aligned}
+\mTupleWith{x_0,x_1}&=\mTupleWith{q/a,c/q}\\
+&\quad\mWhere\\
+&\qquad q\mLetEq\left(b+\sgn'abc*r\right)/2\\
+&\qquad r\mLetEq\sqrt{b\uparrow2-4*a*c}
+\end{aligned}
+\end{equation}
+である．実数の場合との違いは $\sgn$ 関数を $\sgn'$ 関数に置き換えたことで，これは
+\begin{equation}
+\left\mBrace
+\begin{aligned}
+&\begin{aligned}
+\sgn'&\mIn\mRealTypeClass\mSuperSet\mType{a}\mSuperClass\\
+&\quad\mProj{\mComplexType{a}}{\mProj{\mComplexType{a}}{\mProj{\mComplexType{a}}{\mType{a}}}}
+\end{aligned}\\
+&\begin{aligned}
+\sgn'abc&\mGuard{\mRealPart((\mConjugate b)*\sqrt{b\uparrow2-4*a*c})<0}=-1\\
+&\mGuard{\mOtherwise}=1
+\end{aligned}
+\end{aligned}
+\right.
+\end{equation}
+である．
+
+まとめると次のようになる．
+
+\begin{haskellcode}
+\begin{verbatim}
+-- complextest.hs
+import Data.Complex
+
+a, b, c :: Complex Double
+a = {- ... -} :+ {- ... -}
+b = {- ... -} :+ {- ... -}
+c = {- ... -} :+ {- ... -}
+
+(#) :: Real a => a -> Complex a -> Complex a
+(#) a (x:+y) = a*x:+a*y
+
+sgn :: Real a => a -> a
+sgn x | x < 0     = (-1)
+      | otherwise = 1
+
+sqrt' :: RealFloat a =>
+  Complex a -> Complex a
+sqrt' (x:+y) = (sqrt 2)/2*((sqrt(d+x))
+  :+sgn(y)*(sqrt(d-x)))
+    where d = sqrt(x*x+y*y)
+
+sgn' :: RealFloat a =>
+  Complex a -> Complex a -> Complex a
+    -> Complex a
+sgn' a b c | realPart((conjugate b)
+               *sqrt'(b*b-4#(a*c)))<0
+               = (-1):+0
+           | otherwise = 1:+0
+
+(x0, x1) = (q/a, c/q)
+  where q = (b + sgn' a b c * r) / 2.0
+        r = sqrt(b*b-4#(a*c))
+
+main :: IO Int
+main = print a >> pure 0
+\end{verbatim}
+\end{haskellcode}
+
+
 
 \section{数学関数の演算*}
 
