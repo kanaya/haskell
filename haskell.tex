@@ -1028,7 +1028,13 @@ r&=f1
 
 \section{余談：演算子の定義}
 
-\haskell では関数だけでなく，新しい演算子も定義できる．
+\haskell では関数だけでなく，新しい演算子も定義できる．\footnote{\haskell で演算子に使える記号は
+\begin{verbatim}
+  @ # $ % ^ & * - + = \ | / . < > ? ~
+\end{verbatim}%$
+の組み合わせである．}
+
+% http://qiita.com/techno-tanoC/items/1fa1c65db08da2440fc4
 
 計算機科学者ドナルド・クヌースは，整数 $x,y$ が与えられたとき $x$ の $y$ 乗を $x^y$ ではなく $x\uparrow y$ と書いた．これは
 \begin{equation}
@@ -1048,12 +1054,12 @@ x\uparrow\uparrow n&\mGuard{n\le0}=1\\
 \end{align}
 と定義できる．\footnote{\haskell では
 \begin{verbatim}
-  x^^:n | n <= 0    = 1
-        | otherwise = x^(x^^:(n-1))
+  x^^.n | n <= 0    = 1
+        | otherwise = x^(x^^.(n-1))
 \end{verbatim}
-と書く．演算子 \code{\textasciicircum\textasciicircum} が予約済みのため \code{\textasciicircum\textasciicircum:} を使った．なお厳密には
+と書く．演算子 \code{\textasciicircum\textasciicircum} が予約済みのため \code{\textasciicircum\textasciicircum.} を使った．なお厳密には
 \begin{verbatim}
-  (^^:) :: Integral a => a -> a -> a
+  (^^.) :: Integral a => a -> a -> a
 \end{verbatim}
 と演算子の型を宣言しておく必要がある．型に関しては第\ref{ch:type}章で述べる．}
 
@@ -4437,6 +4443,9 @@ main = print a >> pure 0
 
 \chapter{より複雑な演算}
 
+\section{演算子の優先順位*}
+
+
 
 \section{数学関数の演算*}
 
@@ -4567,8 +4576,6 @@ main = print ys >> pure 0
 \end{center}
 \end{table}
 
-\section{...}
-
 \section{コンボリューション演算*}
 
 \begin{equation}
@@ -4673,12 +4680,12 @@ main = do
 
 \section{この章のまとめ*}
 
-\chapter{データ構造とアルゴリズム*}
-\section{条件分岐*}
-\section{再帰関数*}
-\section{逐次実行*}
-\section{余談：木構造*}
-\section{この章のまとめ*}
+% \chapter{データ構造とアルゴリズム*}
+% \section{条件分岐*}
+% \section{再帰関数*}
+% \section{逐次実行*}
+% \section{余談：木構造*}
+% \section{この章のまとめ*}
 
 \chapter{文字列処理*}
 \section{文字列型*}
