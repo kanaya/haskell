@@ -799,7 +799,7 @@ f'x=\mCaseOf{x}\left\{
     0 -> 1
     _ -> (sin x)/x
 \end{verbatim}
-と書く．}
+または \code{f' x = case x of \{0 -> 1; \_ -> (sin x)/x\}} と書く．}
 
 関数定義にパタンマッチではなく\keyword{場合分け}が必要な場合は\keyword{ガード}を用いる．例えば引数の値が負の場合は $-1$ を，$0$ の場合は $1$ を，それ以外の場合は関数 $f$ と同じ振る舞いをする関数 $f''$ は
 \begin{equation}
@@ -4095,6 +4095,8 @@ $ ./sample
 である．ただし \code{:} ではじまる記号は予約されている．
 
 % *** リファレンス ***
+% http://www.sampou.org/haskell/report-revised-j/basic.html
+% http://mew.org/~kazu/academic/2013/miyazaki-u/syntax.html
 
 \begin{table*}
 \caption{\haskell の予約済み演算子と記号}
@@ -4437,7 +4439,9 @@ main = print a >> pure 0
 \end{verbatim}
 \end{haskellcode}
 
-\section{余談：強制評価*}
+\section{余談：正格評価*}
+
+% https://blog.miz-ar.info/2016/06/writing-efficient-program-with-haskell/
 
 \section{この章のまとめ*}
 
@@ -4543,6 +4547,10 @@ main = print ys >> pure 0
 
 なお，円周率 $\pi$ はそのまま定数 \code{pi} として \filename{Prelude} で定義されている．
 
+\separator
+
+\haskell は\cxx の \code{std::vector} や \code{std::valarray} のような効率的な数値配列を表す型を持っていない．
+
 \begin{table}
 \caption{\filename{Prelude} のデータ型}
 \label{tab:data-types}
@@ -4580,7 +4588,8 @@ main = print ys >> pure 0
 \end{center}
 \end{table}
 
-\section{コンボリューション演算*}
+% \section{コンボリューション演算*}
+---
 
 \begin{equation}
 (f\circledcirc g)t=\sum_xfx*g(t-x)
@@ -4629,9 +4638,16 @@ $$
 y=\sum_xfx*g(\mAnonParam-x)
 $$
 
+\section{行列演算*}
+% http://qiita.com/lotz/items/2c932b45f78f6fc70e9c
+% http://itpro.nikkeibp.co.jp/article/COLUMN/20120605/400424/
+
 \section{余談：イメージ演算*}
 
+\haskell だけでイメージ（画像）を効率的に扱おうとすると非常な困難に出会う．これは\haskell がイメージデータを効率的に保存するデータ構造を持たないからである．一つの解決策は OpenCV というイメージ演算ライブラリの\haskell バインディングを用いることである．
 
+% http://qiita.com/ma-oshita/items/2a66d8818664f2936afe
+% http://nebuta.hatenablog.com/entry/2013/06/15/154259
 
 ---
 
@@ -4789,6 +4805,8 @@ $\mArrow,\mArrowAnd,\mArrowOr$
 \chapter{モジュール*}
 \section{標準モジュール*}
 \section{モジュールの作成*}
+% http://mew.org/~kazu/academic/2013/miyazaki-u/syntax.html
+% http://qiita.com/techno-tanoC/items/1fa1c65db08da2440fc4
 \section{非標準モジュール*}
 \section{余談：モジュールの公開*}
 \section{この章のまとめ*}
