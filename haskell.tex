@@ -221,7 +221,7 @@
 \DeclareMathOperator{\mCompProj}{\circledcirc}
 \DeclareMathOperator{\mCompRot}{\cdot}
 \DeclareMathOperator{\mComplexPlus}{\dotplus}
-\DeclareMathOperator{\mComplexTimes}{\Dot\times}
+\DeclareMathOperator{\mComplexTimes}{\Dot\ast}
 \DeclareMathOperator{\mConcat}{\flat}
 \DeclareMathOperator{\mCons}{:}
 \DeclareMathOperator{\mDefEq}{\stackrel{\mathrm{def}}{=}}
@@ -4088,16 +4088,13 @@ $ ./sample
 
 もちろんこれら以外に \code{+} や \code{map} など慣例的に使われている語の再定義は避けるべきである．特に \filename{Prelude} モジュールは特段の事情がない限り必ず読み込まれるモジュールなので，\filename{Prelude} で定義される記号と名前の再定義は避けるべきであろう．\filename{Prelude} で定義される記号と名前は膨大な数になるので，リファレンスを参考にしてもらいたい．
 
+\haskell で演算子に使える記号は
+\begin{verbatim}
+ ! @ # $ % ^ & * - + = . \ | / < : > ? ~
+\end{verbatim}%$
+である．ただし \code{:} ではじまる記号は予約されている．
+
 % *** リファレンス ***
-
-次の演算子は標準的なモジュールで使われているため，使用を避けるべきである．
-
-\begin{itemize}
-% \item \code{!}
-% \item \code{\textasciitilde}
-\item \code{:} ではじまる記号
-\end{itemize}
-
 
 \begin{table*}
 \caption{\haskell の予約済み演算子と記号}
@@ -4126,7 +4123,7 @@ $ ./sample
 \code{<-}&リスト内包表記 $(\mFrom)$，do記法中の代入 $(\mDoEq)$\\
 \code{@}&asパタン $(@)$\\
 \code{|}&ガード $(\mGuard{})$，リスト内包 $(\mListComp)$，データ型の和演算 $(\mValueOr)$\\
-\code{,}&リスト内包表記の積演算 $(,)$\\
+\code{,}&リストの値の区切り，リスト内包表記の区切り，タプルの値の区切り\\
 % \code{-<}&（アロー表記用）\\
 % \code{-<<}&（アロー表記用）\\
 % \code{[|}, \code{|]}&（テンプレート）\\
@@ -4381,6 +4378,15 @@ a = ar :+ ai
 \end{equation}
 とした．（演算子 $\mComplexTimes$ は \code{*.} と書くことにする．）
 
+\haskell は複素数の実数倍のための演算子を標準では用意していないため，このように独自の演算子を定義するか，あるいは複素数掛ける複素数の形にして演算を行うかのいずれかが必要である．効率を考えなければ，次のような型変換関数を作ることも手である．
+\begin{haskellcode}
+\begin{verbatim}
+toComplex :: RealFloat a => a -> Complex a
+toComplex x = x :+ 0
+\end{verbatim}
+\end{haskellcode}
+
+
 なお，$\mConjugate$ は共役複素数を求める関数，$\Re$ は実部を求める関数である．$\Re$ は\haskell では \code{realPart} と書く．
 
 まとめると次のようになる．
@@ -4424,7 +4430,7 @@ sgn' a b c | realPart((conjugate b)
 
 (x0, x1) = (q/a, c/q)
   where q = (b + sgn' a b c * r) / 2
-        r = sqrt(sq' b - 4*.(a*c))
+        r = sqrt'(sq' b - 4*.(a*c))
 
 main :: IO Int
 main = print a >> pure 0
