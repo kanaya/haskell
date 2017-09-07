@@ -1,4 +1,4 @@
-\documentclass[a4paper,twocolumn]{jsbook}
+\documentclass[a4paper]{jsbook}
 % \usepackage{eulervm}
 \usepackage{amsmath,amssymb,ascmac,bm,graphicx,latexsym,mathtools,multirow,okuverb}
 \makeindex
@@ -768,6 +768,8 @@ fx=(\sin x)/x
 % \end{pythoncode}
 % も全く同じ意味になるので，ラムダ式を使う方法を基本に据えよう．
 
+\separator
+
 関数に\keyword{スペシャルバージョン}がある場合はそれらを列挙する．例えば引数が $0$ の場合は特別に戻り値が $1$ であり，その他の場合は関数 $f$ と同じ振る舞いをする関数 $f'$ を考える．このとき $f'$ は
 \begin{equation}
 \left\{
@@ -801,6 +803,8 @@ f'x=\mCaseOf{x}\left\{
 \end{verbatim}
 または \code{f' x = case x of \{0 -> 1; \_ -> (sin x)/x\}} と書く．}
 
+\separator
+
 関数定義にパタンマッチではなく\keyword{場合分け}が必要な場合は\keyword{ガード}を用いる．例えば引数の値が負の場合は $-1$ を，$0$ の場合は $1$ を，それ以外の場合は関数 $f$ と同じ振る舞いをする関数 $f''$ は
 \begin{equation}
 \begin{aligned}
@@ -820,6 +824,8 @@ f''x&\mGuard{x<0}=0\\
 % 場合分けを関数の中に書きたい場合は後述の $\mIf$ 構文を用いる．
 
 % \python にはスペシャルバージョンやガードに相当する文法はない．
+
+\separator
 
 関数定義の場合分けを駆使すれば\keyword{条件式}はなくても構わないが，条件式の記法があるのは便利である．\python には
 \begin{pythoncode}
