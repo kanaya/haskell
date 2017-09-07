@@ -1,4 +1,4 @@
-\documentclass[a5paper,twoside]{jsbook}
+\documentclass[a5paper,twoside,fleqn]{jsbook}
 % \usepackage{eulervm}
 \usepackage{amsmath,amssymb,ascmac,bm,graphicx,latexsym,mathtools,multirow,okuverb}
 \makeindex
@@ -3205,20 +3205,20 @@ $\mIOUnitType$ 型の場合，ピュア演算子は何も返す必要がない�
 
 \section{do記法}
 
-\begin{table*}[tp]
-\label{tab:do-alpha-alpha}
-\caption{do記法中に変数を2回以上使いまわす例}
-\begin{screen}
-\begin{multline*}
-\mDo{y\mDoEq\alpha x\mDoNext y'\mDoEq\alpha'x'\mDoNext\mDoLet{z}{fyy'}\mDoNext\beta z\mDoNext\mDoLet{z'}{f'yy'}\mDoNext\beta'z'}\\
-=
-(\mLambdaExp{yy'}{(
-(\mLambdaExp{\mAnyParam}{\mLetIn{z}{fyy'}{\beta z}})
-\mBind{}(\mLetIn{z'}{f'yy'}{\beta'z'}))})
-(\alpha x)(\alpha'x')
-\end{multline*}
-\end{screen}
-\end{table*}
+% \begin{table*}[tp]
+% \label{tab:do-alpha-alpha}
+% \caption{do記法中に変数を2回以上使いまわす例}
+% \begin{screen}
+% \begin{multline*}
+% \mDo{y\mDoEq\alpha x\mDoNext y'\mDoEq\alpha'x'\mDoNext\mDoLet{z}{fyy'}\mDoNext\beta z\mDoNext\mDoLet{z'}{f'yy'}\mDoNext\beta'z'}\\
+% =
+% (\mLambdaExp{yy'}{(
+% (\mLambdaExp{\mAnyParam}{\mLetIn{z}{fyy'}{\beta z}})
+% \mBind{}(\mLetIn{z'}{f'yy'}{\beta'z'}))})
+% (\alpha x)(\alpha'x')
+% \end{multline*}
+% \end{screen}
+% \end{table*}
 
 モナドを使った書き方が従来のプログラムの記法からあまりにもかけ離れていることに，\haskell の設計者は気づいていたようで，\haskell には次に述べる\keyword{do記法}という記法が用意されている．このdo記法はもちろんシンタックスシュガーで，新しいことは何もない．
 
@@ -3267,8 +3267,13 @@ do記法には $\mDoEq$ の他に，我々の $\mLetKeyword$ とよく似た $\m
 \mDoNext\beta z}\\
 =\beta\mBind{}(f\mMap\alpha x\mAppMap\alpha'x')
 \end{multline}
-最後にdo記法中に変数を2回以上使いまわす例を表\ref{tab:do-alpha-alpha}に示す．この例では変数 $y,y'$ が2回使われている．
-
+最後にdo記法中に変数を2回以上使いまわす例を示す．
+\begin{multline}
+\mDo{y\mDoEq\alpha x\mDoNext y'\mDoEq\alpha'x'\mDoNext\mDoLet{z}{fyy'}\mDoNext\beta z\mDoNext\mDoLet{z'}{f'yy'}\mDoNext\beta'z'}\\
+=(\mLambda yy'\mLambdaArrow{}((\mLambdaExp{\mAnyParam}{\mLetIn{z}{fyy'}{\beta z}})\\
+\mBind{}(\mLetIn{z'}{f'yy'}{\beta'z'}))) (\alpha x)(\alpha'x')
+\end{multline}
+この例では変数 $y,y'$ が2回使われている．
 
 % なお $\mFuncWith{f}=\mLambdaExp{\mAnyParam}{f}$ の関係を用いると式\eqref{eq:do-alpha-beta}はより簡潔に
 % \begin{equation}
