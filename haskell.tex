@@ -2043,11 +2043,10 @@ h&=a+\mAnonParam
 \end{aligned}
 \right.
 \end{equation*}
-\haskell では
+\haskell では % Num a =>
 \begin{haskellcode}
 \begin{verbatim}
 srt :: [a] -> [a]
-
 srt[]     = []
 srt(x:xs) = srt as ++ [x] ++ srt bs
               where
