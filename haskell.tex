@@ -1,4 +1,4 @@
-\documentclass[a4paper]{jsbook}
+\documentclass[a5paper,twoside]{jsbook}
 % \usepackage{eulervm}
 \usepackage{amsmath,amssymb,ascmac,bm,graphicx,latexsym,mathtools,multirow,okuverb}
 \makeindex
@@ -397,8 +397,9 @@
 \maketitle
 \tableofcontents
 
+
 \begin{table*}[p]
-\caption{凡例}
+\caption{凡例 (1)}
 \begin{center}
 \begin{tabular}{||c|c|c||}
 \hline
@@ -434,13 +435,23 @@ Ether変数&肩に!をつける&$\mEither{u}$\\
 有名なコンテナ型&特別な括弧で包む&$\mListType{a},\mFuncType{a}{r}$\\
 型クラス&スモールキャピタル&$\mEqTypeClass,\mOrdTypeClass,\mNumTypeClass$\\
 \hline
+\end{tabular}
+\end{center}
+\end{table*}
+
+\begin{table*}[p]
+\caption{凡例 (2)}
+\begin{center}
+\begin{tabular}{||c|c|c||}
+\hline
+種類&字体・表記法&例\\
+\hline\hline
 値コンストラクタ&肩書付き括弧で包む&$\mJustWith{x},\mRightWith{x}$\\
 有名な値コンストラクタ&特別な括弧で包む&$\mListWith{x},\mFuncWith{x}$\\
 \hline
 型コンストラクタ&イタリック，大文字&$\mListTypeConstructor$, $\mMaybeTypeConstructor$\\
 関手&ボールドイタリック，大文字&$\mFunctor{List},\mFunctor{Maybe}$\\
 有名な関手&カリグラフィ，大文字&$\mIFunctor$\\
-\hline
 キーワード&サンセリフ，小文字&$\mIf,\mOtherwise$\\
 do記法中のキーワード&タイプライタ&$\mDoLetKeyword$\\
 % リストの構造&サンセリフ，大文字&$\mathFirst$, $\mathRest$\\
@@ -455,62 +466,75 @@ do記法中のキーワード&タイプライタ&$\mDoLetKeyword$\\
 \end{table*}
 
 \begin{table*}[p]
-\caption{記号一覧}
+\caption{記号一覧 (1)}
 \begin{center}
-\begin{tabular}{||c|c|c||}
+\begin{tabular}{||c|c||}
 \hline
-記号&意味&最初に登場するページ\\
+記号&意味\\
 \hline\hline
-$\mLambda, \mLambdaArrow$&ラムダ式&\\
-$\mAnonParam$&無名パラメタ&\\
+$\mLambda, \mLambdaArrow$&ラムダ式\\
+$\mAnonParam$&無名パラメタ\\
 \hline
-$\mIn$&集合の元&\\
-$\in$&集合の元&\\
-$\mMapsTo$&写像&\\\hline
-$\mBinOp$&任意の二項演算子&\\
-$\mPlus$&一般加法演算子&\\
+$\mIn$&型集合の元\\
+$\in$&値集合の元\\
+$\mMapsTo$&写像\\
 \hline
-$\mFromIntegral$&型変換演算子&\\
+$\mBinOp$&任意の二項演算子\\
+$\mPlus$&一般加法演算子\\
 \hline
-$\mComp$&関数合成&\\
-$\mApply$&関数適用&\\
-$\mApplyRight$&関数の右適用&\\\hline
-$\mFold$&左畳み込み&\\
-$\mFoldRight$&右畳み込み&\\
+$\mFromIntegral$&型変換演算子\\
 \hline
-$\mCons$&cons演算子&\\
-$\mAppend$&結合演算子&\\
-$\mZip$&ジップ演算子&\\
-$\mConcat$&平坦化演算子&\\
-$\mJoin$&ジョイン演算子&\\
-% $\mathMaybeAppend$&Maybe結合&\\
+$\mComp$&関数合成\\
+$\mApply$&関数適用\\
+$\mApplyRight$&関数の右適用\\
 \hline
-$\mEmptyList$&空リスト&\\
-$\mNothing$&空Maybe（ナッシング）&\\
-$\mPureNothing$&空&\\
+$\mFold$&左畳み込み\\
+$\mFoldRight$&右畳み込み\\
 \hline
-$\mListWith{x}$&リスト値コンストラクタ&\\
-$\mJustWith{x}$&Maybe値コンストラクタ&\\
-$\mLeftWith{x},\mRightWith{x}$&Either値コンストラクタ&\\
-$\mFuncWith{x}$&関数値コンストラクタ&\\
-$\mPureWith{x}$&ピュア演算子&\\
+$\mCons$&cons演算子\\
+$\mAppend$&結合演算子\\
+$\mZip$&ジップ演算子\\
+$\mConcat$&平坦化演算子\\
+$\mJoin$&ジョイン演算子\\
+% $\mathMaybeAppend$&Maybe結合\\
 \hline
-$\mMap$&一般マップ&\\
-$\mMapList$&リストのマップ&\\
-$\mMapMaybe$&Maybeのマップ&\\
-$\mMapFunc$&関数のマップ&\\
+$\mEmptyList$&空リスト\\
+$\mNothing$&空Maybe（ナッシング）\\
+$\mPureNothing$&空\\
 \hline
-$\mAppMap$&一般アプリカティブマップ&\\
-$\mAppMapList$&リストのアプリカティブマップ&\\
-$\mAppMapMaybe$&Maybeのアプリカティブマップ&\\
-$\mAppMapFunc$&関数のアプリカティブマップ&\\
+\end{tabular}
+\end{center}
+\end{table*}
+
+\begin{table*}[p]
+\caption{記号一覧 (2)}
+\begin{center}
+\begin{tabular}{||c|c||}
 \hline
-$\mBind$&一般バインド演算子&\\
-$\mBindRight$&一般右バインド演算子&\\
-% $\mBindRightIgnore$&一般右バインド演算子&\\
-$\mBindList$&リストのバインド演算子&\\
-$\mBindMaybe$&Maybeのバインド演算子&\\
-$\mBindFunc$&関数のバインド演算子&\\
+記号&意味\\
+\hline\hline
+$\mListWith{x}$&リスト値コンストラクタ\\
+$\mJustWith{x}$&Maybe値コンストラクタ\\
+$\mLeftWith{x},\mRightWith{x}$&Either値コンストラクタ\\
+$\mFuncWith{x}$&関数値コンストラクタ\\
+$\mPureWith{x}$&ピュア演算子\\
+\hline
+$\mMap$&一般マップ\\
+$\mMapList$&リストのマップ\\
+$\mMapMaybe$&Maybeのマップ\\
+$\mMapFunc$&関数のマップ\\
+\hline
+$\mAppMap$&一般アプリカティブマップ\\
+$\mAppMapList$&リストのアプリカティブマップ\\
+$\mAppMapMaybe$&Maybeのアプリカティブマップ\\
+$\mAppMapFunc$&関数のアプリカティブマップ\\
+\hline
+$\mBind$&一般バインド演算子\\
+$\mBindRight$&一般右バインド演算子\\
+% $\mBindRightIgnore$&一般右バインド演算子\\
+$\mBindList$&リストのバインド演算子\\
+$\mBindMaybe$&Maybeのバインド演算子\\
+$\mBindFunc$&関数のバインド演算子\\
 \hline
 \end{tabular}
 \end{center}
@@ -4519,10 +4543,10 @@ fx&\mGuard{x\equiv0}=1\\
 最後に，関数 $f$ をリスト $\mList{x}$ に適用して結果を得る．
 \begin{equation}
 \left\mBrace
-\begin{align}
+\begin{aligned}
 y&\mIn{}\mListType{\mDoubleType}\\
 y&=f\mMapList\mList{x}
-\end{align}
+\end{aligned}
 \right.
 \end{equation}
 
