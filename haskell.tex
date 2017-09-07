@@ -1459,7 +1459,6 @@ $\mDoubleType$
 
 集合 $\mZSet$ の任意の\keyword{元}（\keyword{要素}）$z$ を
 \begin{equation}
-\label{eq:totality}
 z\mIn\mZSet
 \end{equation}
 と書く．
@@ -2070,7 +2069,6 @@ h&=a+\mAnonParam
 \haskell では % Num a =>
 \begin{haskellcode}
 \begin{verbatim}
-srt :: [a] -> [a]
 srt[]     = []
 srt(x:xs) = srt as ++ [x] ++ srt bs
               where
@@ -4607,7 +4605,7 @@ main = print ys >> pure 0
 
 \begin{table}
 \caption{\filename{Prelude} の多相型}
-\label{tab:data-types}
+\label{tab:data-types-polymorphic}
 \begin{center}
 \begin{tabular}{||c|c||}
 \hline
