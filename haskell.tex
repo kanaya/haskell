@@ -625,9 +625,9 @@ print("Hello, world.")
 
 \section{関数型プログラミング}
 
-プログラマはなぜ\haskell を習得しなければならないのだろう．
-それは\haskell と\keyword{関数型プログラミング}の間に密接な関係がある
-からである．
+プログラマはなぜ\haskell を習得しなければならないのだろう．それは
+\haskell と\keyword{関数型プログラミング}の間に密接な関係があるからで
+ある．
 
 関数型プログラミングとはプログラミングにおける一種のスローガンのような
 もので，どの言語を用いたから関数型でどの言語を用いたから関数型ではない，
@@ -641,7 +641,7 @@ print("Hello, world.")
 れたら，変数 $x$ の値をプログラム中に書き換える，すなわち破壊的代入を
 することはできない．この結果，変数の値はプログラムのどこでも，どの時点
 で読み出しても同じであることが保証される．これを変数の\keyword{参照透
-過性}と呼ぶ．
+  過性}と呼ぶ．
 
 プログラム全体に参照透過性があると，そのプログラムはブロックに分割しや
 すく，各々のブロックは再利用しやすい．またプログラムのどの断片から読み
@@ -731,24 +731,22 @@ GNU/Linuxシステム（以下Linux），macOSはそれぞれのパッケージ�
 \begin{description}
 \item[Linux] パッケージマネージャからghciをインストールする．Debian系
   ならAPT，Red Hat系ならYumを使うのが一般的であろう．文献\cite{linux}
-  を参考にしてもらいたい．
-\item[macOS] 文献\cite{osx}にHomebrewのインストール方法が書かれている
-  ので，Homebrewのインストールまでしておき，ターミナルで
+  を参考にしてもらいたい．\item[macOS] 文献\cite{osx}にHomebrewのイン
+  ストール方法が書かれているので，Homebrewのインストールまでしておき，
+  ターミナルで
 \begin{verbatim}
 $ brew install ghci
 \end{verbatim} %$
 とする．（本書執筆時点でHaskell Stackという新しいパッケージングシステ
-ムが登場してきている．将来的にはGHC本体もHaskell Stackからインストー
-ルすることが望ましくなるだろう．Haskell Stackを用いたGHCのインストー
-ルはmacOSではHomebrewを用いて
+  ムが登場してきている．将来的にはGHC本体もHaskell Stackからインストー
+  ルすることが望ましくなるだろう．Haskell Stackを用いたGHCのインストー
+  ルはmacOSではHomebrewを用いて
 \begin{verbatim}
-$ brew install haskell-stack
-$ stack install ghc
+$ brew install haskell-stack $ stack install ghc
 \end{verbatim} %$ %$
 とすれば良い．本書はひとまずGHCを直接インストールすることを前提に進め
-る．）
-\item[Windows 10] GHC公式サイト\cite{haskellplatform}からパッケージを
-インストールする．
+る．）\item[Windows 10] GHC公式サイト\cite{haskellplatform}からパッケー
+ジをインストールする．
 \end{description}
 
 
@@ -777,8 +775,7 @@ $ stack install ghc
 \section{この章のまとめ*}
 
 \begin{enumerate}
-\item ...
-\item 各章にはこのように「この章のまとめ」を置く．
+\item ...  \item 各章にはこのように「この章のまとめ」を置く．
 \end{enumerate}
 
 
@@ -831,8 +828,8 @@ $fx$ と書いてあったら，それは $f$ と $x$ の積，つまり $f*x$ �
 高校生向けの数学書でも $\sin x$ のように三角関数に限ってはカリー風に書
 くことになっているので，まるで馴染みがないということもないだろう．なお，
 関数はいつも引数の左側に書くことにする．これを「関数 $f$ が変数 $x$ の
-\keyword{左から作用する}」と言い，
-また関数 $f$ のことを\keyword{左作用素}とも呼ぶ．
+  \keyword{左から作用する}」と言い，また関数 $f$ のことを\keyword{左作
+  用素}とも呼ぶ．
 
 複数引数をとる関数を\python や一般的な数学の教科書では
 \begin{pythoncode}
@@ -868,12 +865,12 @@ lambda x: 1+x
 述されるところである．しかし我々はすべてのギリシア文字を変数名のために
 予約しておきたいのと，ピリオド記号 $(.)$ が今後登場する二項演算子
 $\cdot$ と紛らわしいため，上述の記法を用いる．\footnote{\haskell では
-ラムダ式 $\mLambdaExp{x}{1+x}$ を \code{\textbackslash x -> 1+x} と
-書く．ラムダ式は元々は $\Hat x\mathbin{.}x+1$ のように書かれていた．
-これが次第に $\mathop{\texttt{\textasciicircum}}x\mathbin{.}x+1$ と
-なり，$\lambda x\mathbin{.}x+1$ に変化していったと言われている．
-\haskell が $\lambda$ の代わりに $\mLambda$ 記号を使うのは，その形が
-似ているからである．}
+  ラムダ式 $\mLambdaExp{x}{1+x}$ を \code{\textbackslash x -> 1+x} と
+  書く．ラムダ式は元々は $\Hat x\mathbin{.}x+1$ のように書かれていた．
+  これが次第に $\mathop{\texttt{\textasciicircum}}x\mathbin{.}x+1$ と
+  なり，$\lambda x\mathbin{.}x+1$ に変化していったと言われている．
+  \haskell が $\lambda$ の代わりに $\mLambda$ 記号を使うのは，その形が
+  似ているからである．}
 
 ラムダ式は関数である．ラムダ式を適用するには，ラムダ式を括弧で包む必要
 がある．例を挙げる．
@@ -913,8 +910,8 @@ fx=(\sin x)/x
 \end{equation}
 と書いても良い．この書き方は今後頻出するので，是非覚えておいてもらいた
 い．\footnote{\haskell では $f=\mLambdaExp{x}{(\sin x)/x}$ を \code{f
- = \textbackslash x -> (sin x)/x} と書き，一方 $fx=(\sin x)/x$ を
-\code{f x = (sin x)/x} と書く．}
+    = \textbackslash x -> (sin x)/x} と書き，一方 $fx=(\sin x)/x$ を
+  \code{f x = (sin x)/x} と書く．}
 
 % 関数 $f$ を $fx=(\sin x)/x$ と定義したいときに，\python では
 % \begin{pythoncode}
@@ -939,16 +936,14 @@ fx=(\sin x)/x
 \begin{equation}
 \left\{
 \begin{aligned}
-f'0&=1\\
-f'x&=(\sin x)/x
+f'0&=1\\ f'x&=(\sin x)/x
 \end{aligned}
 \right.
 \end{equation}
 ように定義する．これを関数の\keyword{パタンマッチ}と呼ぶ．
 \footnote{\haskell では
 \begin{verbatim}
-  f' 0 = 1
-  f' x = (sin x)/x
+  f' 0 = 1 f' x = (sin x)/x
 \end{verbatim}
 と書く．\haskell ではプライム記号 (\code{'}) はアルファベットと同一視
 される．}
@@ -958,8 +953,7 @@ f'x&=(\sin x)/x
 \begin{equation}
 f'x=\mCaseOf{x}\left\{
 \begin{aligned}
-0&\mIfSo1\\
-\mAnyParam&\mIfSo(\sin x)/x
+0&\mIfSo1\\ \mAnyParam&\mIfSo(\sin x)/x
 \end{aligned}
 \right.
 \end{equation}
@@ -967,9 +961,7 @@ f'x=\mCaseOf{x}\left\{
 は上から順番にマッチングしていくため，この場合は $0$ 以外を意味する．
 \footnote{\haskell では
 \begin{verbatim}
-  f' x = case x of
-    0 -> 1
-    _ -> (sin x)/x
+  f' x = case x of 0 -> 1 _ -> (sin x)/x
 \end{verbatim}
 または \code{f' x = case x of \{0 -> 1; \_ -> (sin x)/x\}} と書く．}
 
@@ -980,16 +972,13 @@ f'x=\mCaseOf{x}\left\{
 合は $1$ を，それ以外の場合は関数 $f$ と同じ振る舞いをする関数 $f''$ は
 \begin{equation}
 \begin{aligned}
-f''x&\mGuard{x<0}=0\\
-&\mGuard{x\equiv 0}=1\\
-&\mGuard{\mOtherwise}=(\sin x)/x
+f''x&\mGuard{x<0}=0\\ &\mGuard{x\equiv
+  0}=1\\ &\mGuard{\mOtherwise}=(\sin x)/x
 \end{aligned}
 \end{equation}
 という風に定義する．\footnote{\haskell では
 \begin{verbatim}
-  f'' x| x<0       = 0
-       | x==0      = 1
-       | otherwise = (sin x)/x
+  f'' x| x<0 = 0 | x==0 = 1 | otherwise = (sin x)/x
 \end{verbatim}
 と書く．}
 
@@ -1003,11 +992,7 @@ f''x&\mGuard{x<0}=0\\
 件式の記法があるのは便利である．\python には
 \begin{pythoncode}
 \begin{verbatim}
-def f(x):
-  if x==0:
-    return 1
-  else:
-    return sin(x)/x
+def f(x): if x==0: return 1 else: return sin(x)/x
 \end{verbatim}
 \end{pythoncode}
 のような\keyword{制御構造}としての条件文があるが，我々は値を持つ
@@ -1038,9 +1023,7 @@ fx=\mIfThenElse{px}{1}{{}(\sin x)/x}
 
 条件式は紙面が許せば次のように書いても良い．
 \begin{equation}
-fx=\begin{cases}
-1&\mIf x\equiv0\\
-(\sin x)/x&\mOtherwise
+fx=\begin{cases} 1&\mIf x\equiv0\\ (\sin x)/x&\mOtherwise
 \end{cases}
 \end{equation}
 左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっ
@@ -1062,7 +1045,7 @@ y=\mLetIn{x'}{1+x}{fx'}
 \end{equation}
 と書くことにする．このようにして導入された $x'$ を\keyword{局所変数}と
 呼ぶ．\footnote{\haskell では $y=\mLetIn{x'}{1+x}{fx'}$ を \code{y =
- let x' = 1+x in f x'} と書く．}
+    let x' = 1+x in f x'} と書く．}
 
 式\eqref{eq:letin}は局所変数を後ろに回して
 \begin{equation}
@@ -1070,40 +1053,34 @@ y=\mLetIn{x'}{1+x}{fx'}
 y=fx'\mWhereIs{x'}{1+x}
 \end{equation}
 のように書いても良い．\footnote{\haskell では
- $y=fx'\mWhereIs{x'}{1+x}$ は \code{y = f x' where x' = 1+x} と書く．}
+  $y=fx'\mWhereIs{x'}{1+x}$ は \code{y = f x' where x' = 1+x} と書く．}
 
 式\eqref{eq:letin}や式\eqref{eq:where}はラムダ式を使った\keyword{糖衣
   構文}（シンタックスシュガー）であり，一般に
 \begin{align}
 \mLetIn{x'}{gx}{fx'}
-&=fx'\mWhereIs{x'}{gx}\\
-&=(\mLambdaExp{x'}{fx'})(gx)
+&=fx'\mWhereIs{x'}{gx}\\ &=(\mLambdaExp{x'}{fx'})(gx)
 \end{align}
 である．
 
 \section{この章のまとめ}
 
 \begin{enumerate}
-\item 変数 $x$ に関数 $f$ を適用することを $fx$ と書く．
-\item 変数 $x,y$ に関数 $g$ を適用することを $gxy$ と書く．関数適用は
-左結合するので $gxy=(gx)y$ である．この関数 $(gx)$ は部分適用された
-関数と呼ぶ．
+\item 変数 $x$ に関数 $f$ を適用することを $fx$ と書く．\item 変数
+  $x,y$ に関数 $g$ を適用することを $gxy$ と書く．関数適用は左結合する
+  ので $gxy=(gx)y$ である．この関数 $(gx)$ は部分適用された関数と呼ぶ．
 \item 関数はラムダ式で定義する．ラムダ式は $\mLambdaExp{x}{(\sin
-  x)/x}$ のように表記する．
-\item ラムダ式は $f\mAnonParam$ のように無名パラメタ $\mAnonParam$ を
-用いて表記しても良い．
-\item 関数定義 $f=\mLambdaExp{x}{(\sin x)/x}$ は $fx=(\sin x)/x$ と省
-略表記できる．
+  x)/x}$ のように表記する．\item ラムダ式は $f\mAnonParam$ のように無
+  名パラメタ $\mAnonParam$ を用いて表記しても良い．\item 関数定義
+  $f=\mLambdaExp{x}{(\sin x)/x}$ は $fx=(\sin x)/x$ と省略表記できる．
 \item 関数定義にはパタンマッチが使える．例えば $f'0=1;f'x=(\sin x)/x$
-と定義できる．
-\item パタンマッチは関数本体に書いても良い．関数 $f'$ の例で言えば
-  $f'=\mCaseOf{x}0\mIfSo1;\mAnyParam\mIfSo(\sin x)/x$ と定義できる．
-\item 関数定義にはガードが使える．例えば
+  と定義できる．\item パタンマッチは関数本体に書いても良い．関数 $f'$
+  の例で言えば $f'=\mCaseOf{x}0\mIfSo1;\mAnyParam\mIfSo(\sin x)/x$ と
+  定義できる．\item 関数定義にはガードが使える．例えば
   $f''\mGuard{x<0}=0;f''\mGuard{x\equiv0}=1;f''\mGuard{\mOtherwise}=(\sin
-  x)/x$ と定義できる．
-\item 条件分岐は $\mIfThenElse{x}{y}{z}$ と書き，$x\equiv\mTrue$ の時
-  には $y$ が，$x\equiv\mFalse$ のときには $z$ が式の値になる．
-\item 局所変数は $y=\mLetIn{x'}{\dotsb}{fx'}$ または
+  x)/x$ と定義できる．\item 条件分岐は $\mIfThenElse{x}{y}{z}$ と書き，
+  $x\equiv\mTrue$ の時には $y$ が，$x\equiv\mFalse$ のときには $z$ が
+  式の値になる．\item 局所変数は $y=\mLetIn{x'}{\dotsb}{fx'}$ または
   $y=fx'\mWhereIs{x'}{\dotsb}$ という書き方で導入できる．
 \end{enumerate}
 
@@ -1162,9 +1139,9 @@ $(>)$，小なり $(<)$ 等である．二項演算子はたとえ積記号で�
 \end{equation}
 である．従って，二項演算子と2引数関数に本質的な差はない．本書では演算
 子と関数という用語は全く同じ意味で用いる．\footnote{\haskell では任意
-の二項演算子を括弧で包むことで前置演算子として使うことができる．例え
-ば \code{x+y}と \code{(+)x y} は同じ結果を返す．逆に任意の2引数関数
-\code{f}は \code{x `f` y} と書くことで中置することができる．}
+  の二項演算子を括弧で包むことで前置演算子として使うことができる．例え
+  ば \code{x+y}と \code{(+)x y} は同じ結果を返す．逆に任意の2引数関数
+  \code{f}は \code{x `f` y} と書くことで中置することができる．}
 
 一般の関数が左結合であることを思い出すと，二項演算子を関数に見立てた
 $(\mBinOp)$ も
@@ -1175,22 +1152,22 @@ $(\mBinOp)$ も
 であるから，部分適用が可能である．式\eqref{eq:star-x-y}から第2引数 $y$
 を取り除いて $(\mBinOp)x$ という「餓えた」1引数関数を取り出せる．例え
 ば関数 $((+)1)$ は引数に $1$ を加える関数である．\footnote{\haskell で
-は $((+)1)$ を \code{((+)1)} と書く．}
+  は $((+)1)$ を \code{((+)1)} と書く．}
 
 二項演算子の部分適用に限って\keyword{セクション}と言う記法も用いられる．
 二項演算子 $\mBinOp$ に対して $(\mBinOp x)$ および $(x\mBinOp)$ はそれ
 ぞれ
 \begin{align}
-(\mBinOp x)&=\mAnonParam\mBinOp x\\
-(x\mBinOp)&=x\mBinOp\mAnonParam=(\mBinOp)x
+(\mBinOp x)&=\mAnonParam\mBinOp
+  x\\ (x\mBinOp)&=x\mBinOp\mAnonParam=(\mBinOp)x
 \end{align}
 である．例えば $(1+)$ は $((+)1)$ と等価である．ただし，マイナス演算子
 $(-)$ だけは例外で，$(-1)$ はマイナス $1$ を表す．負の数をいつも括弧で
 包んでおくのは良いアイディアである．\footnote{\haskell では $(1+)$ を
-\code{(1+)} と書く．また \code{(-1)} はセクションではなくマイナス
-$1$ を表す（\code{-1} というリテラルとみなされる）．ただし \code{(-
- 1)} のように空白を挟んでも同じくマイナス $1$ とみなされる
-（\code{1} というリテラルに単項マイナス演算子が適用される）．}
+  \code{(1+)} と書く．また \code{(-1)} はセクションではなくマイナス
+  $1$ を表す（\code{-1} というリテラルとみなされる）．ただし \code{(-
+    1)} のように空白を挟んでも同じくマイナス $1$ とみなされる
+       （\code{1} というリテラルに単項マイナス演算子が適用される）．}
 
 なお，二項演算子の結合性，すなわち左結合か右結合かは，演算子によって異
 なる．また演算の優先順位を明示的に与えるために括弧が用いられる．
@@ -1200,8 +1177,7 @@ $1$ を表す（\code{-1} というリテラルとみなされる）．ただし
 ある変数に複数の関数を順に適用することはよくあることである．例えば
 \begin{pythoncode}
 \begin{verbatim}
-y = f1(x)
-z = f2(y)
+y = f1(x) z = f2(y)
 \end{verbatim}
 \end{pythoncode}
 あるいは，同じことであるが
@@ -1234,8 +1210,8 @@ $\left(f_2\mComp f_1\right)x$ は単に $f_2\mComp f_1x$ と書いても良い�
 z=f_2\mComp f_1x
 \end{equation}
 と書ける．\footnote{\haskell では関数 \code{f2} と関数 \code{f1} の合
-成は \code{f2.f1} である．式 $z=f_2\mComp f_1x$ は \code{z = f2.f1
- x} と書く．}
+  成は \code{f2.f1} である．式 $z=f_2\mComp f_1x$ は \code{z = f2.f1
+    x} と書く．}
 
 関数合成演算子とは逆に，結合の優先順位の低い\keyword{関数適用演算子}も
 考えておくと便利なこともある．関数適用演算子 $\mApply$ を次のように定
@@ -1273,12 +1249,11 @@ ga=a+\mAnonParam
 \end{equation}
 のように定義することも可能である．このとき，
 \begin{align}
-f&=g(100)\\
-r&=f1
+f&=g(100)\\ r&=f1
 \end{align}
 とすれば $r=101$ を得る．\footnote{\haskell では $ga=a+\mAnonParam$ を
-$ga=\mLambdaExp{x}{a+x}$ と展開しておいて \code{g a = \textbackslash
-x -> a+x} と書く．}
+  $ga=\mLambdaExp{x}{a+x}$ と展開しておいて \code{g a = \textbackslash
+    x -> a+x} と書く．}
 
 高階関数は今後度々顔をだすことになる．第\ref{ch:list}章に登場するマッ
 プ演算子や畳込み演算子は高階関数の一種である．
@@ -1300,22 +1275,22 @@ $y$ 乗を $x^y$ ではなく $x\uparrow y$ と書いた．これは
 x\uparrow y=\underbrace{x*x*\dotsb*x}_{y}
 \end{equation}
 という意味である．\footnote{\haskell では $x\uparrow y$ を
-\code{x\textasciicircum y} と書く．}
+  \code{x\textasciicircum y} と書く．}
 
 クヌースはさらに演算子 $\uparrow\uparrow$ を
 \begin{equation}
-  x\uparrow\uparrow y
-  =\underbrace{x\uparrow x\uparrow\dotsb\uparrow x}_{y}
+  x\uparrow\uparrow y =\underbrace{x\uparrow x\uparrow\dotsb\uparrow
+  x}_{y}
 \end{equation}
-のように定義した．これを\keyword{クヌースの矢印}と呼ぶ．クヌースの矢印は
+のように定義した．これを\keyword{クヌースの矢印}と呼ぶ．クヌースの矢印
+は
 \begin{align}
-x\uparrow\uparrow n&\mGuard{n\le0}=1\\
-&\mGuard{\mOtherwise}=x\uparrow(x\uparrow\uparrow(n-1))
+x\uparrow\uparrow
+n&\mGuard{n\le0}=1\\ &\mGuard{\mOtherwise}=x\uparrow(x\uparrow\uparrow(n-1))
 \end{align}
 と定義できる．\footnote{\haskell では
 \begin{verbatim}
-  x^^.n | n <= 0    = 1
-        | otherwise = x^(x^^.(n-1))
+  x^^.n | n <= 0 = 1 | otherwise = x^(x^^.(n-1))
 \end{verbatim}
 と書く．演算子 \code{\textasciicircum\textasciicircum} が予約済みのた
 め \code{\textasciicircum\textasciicircum.} を使った．なお厳密には
@@ -1331,14 +1306,12 @@ x\uparrow\uparrow n&\mGuard{n\le0}=1\\
 \section{この章のまとめ}
 
 \begin{enumerate}
-\item 関数と演算子は同じものである．
-\item 任意の二項演算子 $\mBinOp$ について $x\mBinOp y$ と
-$(\mBinOp)xy$ は全く同じ意味である．
-\item 任意の二項演算子 $\mBinOp$ について $(\mBinOp
-x)=\mAnonParam\mBinOp x$ であり，$(x\mBinOp)=x\mBinOp\mAnonParam$ で
-ある．これらの記法をセクション記法と呼ぶ．
-\item 関数 $f$ と関数 $g$ を合成した関数を $f\mComp g$ と書く．
-\item 式 $f\mApply gx$ は $f(gx)$ の意味である．
+\item 関数と演算子は同じものである．\item 任意の二項演算子 $\mBinOp$
+  について $x\mBinOp y$ と $(\mBinOp)xy$ は全く同じ意味である．\item
+  任意の二項演算子 $\mBinOp$ について $(\mBinOp x)=\mAnonParam\mBinOp
+  x$ であり，$(x\mBinOp)=x\mBinOp\mAnonParam$ である．これらの記法をセ
+  クション記法と呼ぶ．\item 関数 $f$ と関数 $g$ を合成した関数を
+  $f\mComp g$ と書く．\item 式 $f\mApply gx$ は $f(gx)$ の意味である．
 \item 関数を引数に取ったり，関数を返す関数のことを高階関数と呼ぶ．
 \item \haskell のラムダ式はいつもレキシカルクロージャである．
 \end{enumerate}
@@ -1391,15 +1364,12 @@ x\in\mBSet
 と書くところであるが，ここは\haskell の流儀に従おう．また型定義と値定
 義はよく一緒に行われるので，今後
 \begin{equation}
-\left\mBrace\begin{aligned}
-x&\mIn\mBoolType\\
-x&=\mTrue
+\left\mBrace\begin{aligned} x&\mIn\mBoolType\\ x&=\mTrue
 \end{aligned}\right.
 \end{equation}
 のようにまとめて書くことにしよう．\footnote{\haskell では
 \begin{verbatim}
-  x :: Bool
-  x = True
+  x :: Bool x = True
 \end{verbatim}
 と書く．}
 
@@ -1440,10 +1410,7 @@ f\mIn\mProj{\mIntType}{\mIntType}
 \end{equation}
 という型を持つ．上式は
 \begin{equation}
-f
-\mIn\underbrace{\mIntType}_{x}
-\mMapsTo
-\underbrace{\mIntType}_{fx}
+f \mIn\underbrace{\mIntType}_{x} \mMapsTo \underbrace{\mIntType}_{fx}
 \end{equation}
 のようにイメージすると良い．これは関数 $f$ が集合 $\mIntType$ から集合
 $\mIntType$ への\keyword{写像}であると読む．
@@ -1455,7 +1422,7 @@ $\mIntType$ への\keyword{写像}であると読む．
 関数，$x,y$ は変数である．関数適用は左結合であるから，これは
 $\left(gx\right)y$ である．ここに $\left(gx\right)$ は引数 $y$ をとる
 関数であると見ることができる．つまり，関数 $f$ とは引数 $x$ をとり「引
-数 $y$ をとって値を返す関数 $\left(gx\right)$ を返す」関数であると言
+  数 $y$ をとって値を返す関数 $\left(gx\right)$ を返す」関数であると言
 える．
 
 二項演算 $x+y$ は $(+)xy$ とも書けたことを思い出そう．これも左結合を思
@@ -1468,14 +1435,12 @@ $\left(gx\right)y$ である．ここに $\left(gx\right)$ は引数 $y$ をと�
 
 ラムダ式の場合は話はもっと単純で，形式的に
 \begin{equation}
-\mLambdaExp{xy}{x+y}
-=\mLambdaExp{x}{\left(\mLambdaExp{y}{x+y}\right)}
+\mLambdaExp{xy}{x+y} =\mLambdaExp{x}{\left(\mLambdaExp{y}{x+y}\right)}
 \end{equation}
 のように展開すれば1引数にできる．矢印$\mLambdaArrow$は\keyword{右結合}
 である．そこでこのラムダ式は括弧を省略して
 \begin{equation}
-\mLambdaExp{xy}{x+y}
-=\mLambdaExp{x}{\mLambdaExp{y}{x+y}}
+\mLambdaExp{xy}{x+y} =\mLambdaExp{x}{\mLambdaExp{y}{x+y}}
 \end{equation}
 とも書かれる．
 
@@ -1494,10 +1459,9 @@ g\mIn\mProj{\mIntType}{\left(\mProj{\mIntType}{\mIntType}\right)}
 \end{equation}
 と同じ意味である．上式は
 \begin{equation*}
-g\mIn
-\underbrace{\mIntType}_x
+g\mIn \underbrace{\mIntType}_x
 \mMapsTo\underbrace{\overbrace{\mIntType}^y
-\mMapsTo\overbrace{\mIntType}^{(gx)y}}_{gx}
+  \mMapsTo\overbrace{\mIntType}^{(gx)y}}_{gx}
 \end{equation*}
 のようにイメージすると良い．自然言語で考えると $\mIntType$ 型の引数を
 一つ取り，$\mIntType$ 型の引数を一つ取って $\mIntType$ 型の値を返す関
@@ -1541,7 +1505,7 @@ $\mType{a}$ として，等値演算子の型を
 (\equiv)\mIn\mProj{\mProj{\mType{a}}{\mType{a}}}{\mBoolType}
 \end{equation}
 と表現してみよう．このような型パラメタを用いた型を総称して\keyword{多
-相型}と呼ぶ．
+  相型}と呼ぶ．
 
 実は式\eqref{eq:equiv}は不完全なものである．このままでは型 $\mType{a}$
 に何の制約もないため，等値演算の定義されていない型が来るかもしれないか
@@ -1557,22 +1521,21 @@ $\mBoolType,\mIntType,\mIntegerType,\mFloatType,\mDoubleType$ は全て等
   \mSuperSet\mBoolType,\mIntType,\mIntegerType,\mFloatType,\mDoubleType
 \end{equation}
 と書く．ここに $\mEqTypeClass\mSuperSet\mType{a}$ と書いて「型
-$\mType{a}$ は型クラス $\mEqTypeClass$ の\keyword{インスタンス}であ
-る」と読む．
+  $\mType{a}$ は型クラス $\mEqTypeClass$ の\keyword{インスタンス}であ
+  る」と読む．
 
 式\eqref{eq:equiv}に型クラスの制約を加えてみよう．型 $\mType{a}$ は型
 クラス $\mEqTypeClass$ に属さなければならないから，新たな記号
 $\mSuperClass$ を使って
 \begin{equation}
-(\equiv)
-\mIn{}\mEqTypeClass\mSuperSet\mType{a}
-\mSuperClass\mProj{\mProj{\mType{a}}{\mType{a}}}{\mBoolType}
+(\equiv) \mIn{}\mEqTypeClass\mSuperSet\mType{a}
+  \mSuperClass\mProj{\mProj{\mType{a}}{\mType{a}}}{\mBoolType}
 \end{equation}
 と書くことにする．\footnote{\haskell では
   $(\equiv)\mIn{}\mEqTypeClass\mSuperSet\mType{a}
-  \mSuperClass\mProj{\mProj{\mType{a}}{\mType{a}}}{\mBoolType}$
-を \code{(==) :: Eq a => a -> a -> Bool} と書く．記号 $\mSuperSet$
-は省略する．}
+  \mSuperClass\mProj{\mProj{\mType{a}}{\mType{a}}}{\mBoolType}$ を
+  \code{(==) :: Eq a => a -> a -> Bool} と書く．記号 $\mSuperSet$ は省
+  略する．}
 
 型 $\mType{a}$ の変数同士の間で大小関係が定義されている場合，かつその
 型が型クラス $\mEqTypeClass$ に属する場合，その型は型クラス
@@ -1610,29 +1573,22 @@ $\mBoolType$ は $\mOrdTypeClass$, $\mEnumTypeClass$, $\mEqTypeClass$
 便利な型変換演算子をひとつだけ紹介しておこう．型変換演算子
 $\mFromIntegral$ は
 \begin{equation}
-\mFromIntegral
-\mIn{}\mIntegralTypeClass\mSuperSet\mType{a}
+\mFromIntegral \mIn{}\mIntegralTypeClass\mSuperSet\mType{a}
 \mSuperClass\mProj{\mType{a}}{\mType{b}}
 \end{equation}
 という型を持ち，$\mIntegralTypeClass$ 型クラスの型の変数を，任意の型へ
 変換する．例えば
 \begin{align}
-{}&\left\mBrace\begin{aligned}
-x&\mIn\mIntType\\
-x&=1
+{}&\left\mBrace\begin{aligned} x&\mIn\mIntType\\ x&=1
 \end{aligned}\right.\\
-{}&\left\mBrace\begin{aligned}
-y&\mIn\mDoubleType\\
-y&=\mFromIntegral x
+{}&\left\mBrace\begin{aligned} y&\mIn\mDoubleType\\ y&=\mFromIntegral
+x
 \end{aligned}\right.
 \end{align}
 とすることで，$\mIntType$ 型の変数 $x$ の値を $\mDoubleType$ 型の変数
 $y$ へ代入することができる．\footnote{\haskell では
 \begin{verbatim}
-  x :: Int
-  x = 1
-  y :: Double
-  y = fromIntegral x
+  x :: Int x = 1 y :: Double y = fromIntegral x
 \end{verbatim}
 と書く．}
 
@@ -1649,124 +1605,32 @@ $y$ へ代入することができる．\footnote{\haskell では
 \label{tab:type-and-typeclass}
 \begin{center}
 \begin{tabular}{||c||c|c|c|c|c|c|c|c|c|c|c|c||}
-\hline
-\multirow{4}{*}{型クラス}
-    &\multicolumn{12}{|c||}{$\mIntegralTypeClass$}\\
-\cline{2-13}
-\multirow{3}{*}{}
-    &\multicolumn{10}{|c|}{$\mRealTypeClass$}
-    &\multicolumn{2}{|c||}{$\mEnumTypeClass$}\\
-\cline{2-11}
-\multirow{2}{*}{}
-    &\multicolumn{5}{|c|}{$\mOrdTypeClass$}
-    &\multicolumn{5}{|c|}{$\mNumTypeClass$}
-    &\multicolumn{2}{|c||}{ }\\
-\cline{2-2}\cline{7-7}
-{ }
-    &$\mEqTypeClass$
-    &\multicolumn{4}{|c|}{ }
-    &$\mEqTypeClass$
-    &\multicolumn{4}{|c|}{ }
-    &\multicolumn{2}{|c||}{ }\\
-\hline
-インタフェース
-    &$\equiv$
-    &$<$
-    &$\le$
-    &$\ge$
-    &$>$
-    &$\equiv$
-    &$+$
-    &$-$
-    &$*$
-    &$/$
-    &$\mPred$
-    &$\mSucc$\\
-\hline\hline
-$\mCharType$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &
-    &
-    &
-    &
-    &$\checkmark$
-    &$\checkmark$\\
-\hline
-$\mBoolType$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &
-    &
-    &
-    &
-    &$\checkmark$
-    &$\checkmark$\\
-\hline
-$\mIntType$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$\\
-\hline
-$\mIntegerType$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$\\
-\hline
-$\mFloatType$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &
-    &\\
-\hline
-$\mDoubleType$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &$\checkmark$
-    &
-    &\\
-\hline
+\hline \multirow{4}{*}{型クラス}
+&\multicolumn{12}{|c||}{$\mIntegralTypeClass$}\\ \cline{2-13}
+\multirow{3}{*}{} &\multicolumn{10}{|c|}{$\mRealTypeClass$}
+&\multicolumn{2}{|c||}{$\mEnumTypeClass$}\\ \cline{2-11}
+\multirow{2}{*}{} &\multicolumn{5}{|c|}{$\mOrdTypeClass$}
+&\multicolumn{5}{|c|}{$\mNumTypeClass$} &\multicolumn{2}{|c||}{
+}\\ \cline{2-2}\cline{7-7} { } &$\mEqTypeClass$ &\multicolumn{4}{|c|}{
+} &$\mEqTypeClass$ &\multicolumn{4}{|c|}{ } &\multicolumn{2}{|c||}{
+}\\ \hline インタフェース&$\equiv$ &$<$ &$\le$ &$\ge$ &$>$ &$\equiv$
+&$+$ &$-$ &$*$ &$/$ &$\mPred$ &$\mSucc$\\ \hline\hline $\mCharType$
+&$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
+&$\checkmark$ & & & & &$\checkmark$ &$\checkmark$\\ \hline
+$\mBoolType$ &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
+&$\checkmark$ &$\checkmark$ & & & & &$\checkmark$
+&$\checkmark$\\ \hline $\mIntType$ &$\checkmark$ &$\checkmark$
+&$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
+&$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
+&$\checkmark$\\ \hline $\mIntegerType$ &$\checkmark$ &$\checkmark$
+&$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
+&$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
+&$\checkmark$\\ \hline $\mFloatType$ &$\checkmark$ &$\checkmark$
+&$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
+&$\checkmark$ &$\checkmark$ &$\checkmark$ & &\\ \hline $\mDoubleType$
+&$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
+&$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
+& &\\ \hline
 \end{tabular}
 \end{center}
 \end{table*}
@@ -1784,7 +1648,7 @@ z\mIn\mZSet
 と書く．
 
 二つの整数 $z_1,z_2\mIn\mZSet$ があるとしよう．両者の間には\keyword{足
-し算} $(+)$ が定義されており，その結果すなわち\keyword{和}もまた整数
+  し算} $(+)$ が定義されており，その結果すなわち\keyword{和}もまた整数
 である．ここで
 \begin{equation}
 z_1+z_2\mIn\mZSet
@@ -1807,7 +1671,7 @@ $\mTupleWith{\mZSet,*}$ もマグマの例である．
 他に\keyword{論理集合} $\mBSet=\mSetWith{\mTrue,\mFalse}$ に対して，
 \keyword{論理和} $(\mLogicalOr)$ は全域性を持つから，組み合わせ
 $\mTupleWith{\mBSet,\mLogicalOr}$ はマグマであるし，同様に\keyword{論
-理積} $(\mLogicalAnd)$ も全域性を持つから，組み合わせ
+  理積} $(\mLogicalAnd)$ も全域性を持つから，組み合わせ
 $\mTupleWith{\mBSet,\mLogicalAnd}$ もマグマである．論理集合 $\mBSet$
 とは論理型 $\mBoolType$ を数学風に言い換えたものである．
 
@@ -1832,7 +1696,7 @@ $\mTupleWith{\mBSet,\mLogicalOr}$, $\mTupleWith{\mBSet,\mLogicalOr}$
 \end{equation}
 という性質を持つ．この $0$ を演算 $+$ における\keyword{単位元}と呼ぶ．
 足し算のことを\keyword{加法}とも言うので $0$ のことは\keyword{加法単位
-元}と呼ぶこともあるし，文字通り\keyword{零元}と呼ぶこともある．
+  元}と呼ぶこともあるし，文字通り\keyword{零元}と呼ぶこともある．
 
 一般に，$a,\mZero_\mLeft,\mZero_\mRight\mIn\mSet{A}$ として
 \begin{equation}
@@ -1866,35 +1730,10 @@ $\mTupleWith{\mBSet,\mLogicalAnd,\mTrue}$ とも書く．
 \label{tab:monoids}
 \begin{center}
 \begin{tabular}{||c||c|c||}
-\hline
-型
-    &演算子
-    &単位元\\
-\hline\hline
-$\mBoolType$
-    &$\vee$
-    &$\mFalse$\\
-\hline
-$\mBoolType$
-    &$\wedge$
-    &$\mTrue$\\
-\hline
-$\mIntType$
-    &$+$
-    &$0$\\
-\hline
-$\mIntType$
-    &$*$
-    &$1$\\
-\hline
-$\mFloatType$
-    &$+$
-    &$0$\\
-\hline
-$\mFloatType$
-    &$*$
-    &$1$\\
-\hline
+\hline 型&演算子&単位元\\ \hline\hline $\mBoolType$ &$\vee$
+&$\mFalse$\\ \hline $\mBoolType$ &$\wedge$ &$\mTrue$\\ \hline
+$\mIntType$ &$+$ &$0$\\ \hline $\mIntType$ &$*$ &$1$\\ \hline
+$\mFloatType$ &$+$ &$0$\\ \hline $\mFloatType$ &$*$ &$1$\\ \hline
 \end{tabular}
 \end{center}
 \end{table}
@@ -1919,19 +1758,18 @@ $\mTupleWith{\mBoolType,\mLogicalAnd,\mTrue}$ もモノイドである．
 
 \begin{enumerate}
 \item 集合 $\mSet{A}$ の元 $a_1,a_2\mIn\mSet{A}$ について，二項演算子
-$\mBinOp$ があり $a_1\mBinOp a_2\mIn\mSet{A}$ であるとき，すなわち演
-算子が全域性を有する場合 $\mTupleWith{\mSet{A},\mBinOp}$ のことをマ
-グマと呼ぶ．
-\item マグマ $\mSet{A}$ の元 $a_1,a_2,a_3\mIn\mSet{A}$ について
-$(a_1\mBinOp a_2)\mBinOp a_3=a_1\mBinOp(a_2\mBinOp a_3)$ である場合，
-すなわち演算子が結合性を有する場合 $\mSet{A}$ を半群と呼ぶ．
+  $\mBinOp$ があり $a_1\mBinOp a_2\mIn\mSet{A}$ であるとき，すなわち演
+  算子が全域性を有する場合 $\mTupleWith{\mSet{A},\mBinOp}$ のことをマ
+  グマと呼ぶ．\item マグマ $\mSet{A}$ の元 $a_1,a_2,a_3\mIn\mSet{A}$
+  について $(a_1\mBinOp a_2)\mBinOp a_3=a_1\mBinOp(a_2\mBinOp a_3)$ で
+  ある場合，すなわち演算子が結合性を有する場合 $\mSet{A}$ を半群と呼ぶ．
 \item 半群のうち $\mZero\mIn\mSet{A}$ なる元 $\mZero$ があり，任意の
-$a\mIn\mSet{A}$ に対して $\mZero\mBinOp a=a\mBinOp\mZero=a$ である場
-合，すなわち単位元が存在する場合 $\mSet{A}$ をモノイドと呼ぶ．
-\item 関数は集合 $\mSet{A}$ から集合 $\mSet{B}$ への写像という型を持つ． % ***写像***
-\item 複数引数を取る関数はカリー化によって，1引数をとる複数の関数へ分
-解される．
-\item 型のインタフェースをまとめたものを型クラスと呼ぶ． % ***インタフェース***
+  $a\mIn\mSet{A}$ に対して $\mZero\mBinOp a=a\mBinOp\mZero=a$ である場
+  合，すなわち単位元が存在する場合 $\mSet{A}$ をモノイドと呼ぶ．\item
+  関数は集合 $\mSet{A}$ から集合 $\mSet{B}$ への写像という型を持つ． %
+  ***写像*** \item 複数引数を取る関数はカリー化によって，1引数をとる複
+  数の関数へ分解される．\item 型のインタフェースをまとめたものを型クラ
+  スと呼ぶ． % ***インタフェース***
 \end{enumerate}
 
 
@@ -1965,7 +1803,7 @@ $\mListWith{0,1,2,3,4,5,6,7,8,9}$ と書くことにしよう．ただし，こ�
 冗長なので\keyword{等差数列}に限って簡略化した書き方を許す．例えば $0$
 から $9$ までのリストは $\mListWith{0,1\dotsb9}$ と書いても良い．
 \footnote{\haskell では \code{[0, 1..9]} と書く．ピリオドの数に注意し
-よう．}
+  よう．}
 
 リストの中身の一つ一つの値のことを\keyword{要素}と呼ぶ．要素のことは元
 と呼んでも良いが，本書では要素と呼ぶことにする．要素も元も英語の
@@ -1999,8 +1837,8 @@ ls = [x*2 for x in range(0, 10)]
 \end{equation}
 のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代
 入する演算子$\mFrom$を用いた．\footnote{\haskell では
-$\mList{x}=\mListWith{x*2\mListComp{x\mFrom{\mListWith{0,1\dotsb9}}}}$
-を \code{xs = [x*2 | x<-[0,1..9]]} と書く．}
+  $\mList{x}=\mListWith{x*2\mListComp{x\mFrom{\mListWith{0,1\dotsb9}}}}$
+  を \code{xs = [x*2 | x<-[0,1..9]]} と書く．}
 
 ガードの中の式は複数あっても良い．例えば
 \begin{equation}
@@ -2011,12 +1849,11 @@ $\mList{x}=\mListWith{x*2\mListComp{x\mFrom{\mListWith{0,1\dotsb9}}}}$
 から $x+y$ を並べたリストである．これは\python でいう
 \begin{pythoncode}
 \begin{verbatim}
-ls = [x+y for x in range(0, 10) \
-  for y in range(0,6) if x+y > 3]
+ls = [x+y for x in range(0, 10) \ for y in range(0,6) if x+y > 3]
 \end{verbatim}
 \end{pythoncode}
 のことである．\footnote{\haskell では \code{xs = [x+y | x<-[0,1..9],
-y<-[0,1..5], x+y>3]} と書く．}
+      y<-[0,1..5], x+y>3]} と書く．}
 
 リストは\keyword{結合}できる．例えばリスト$\mList{x}$ とリスト
 $\mList{y}$ を結合したリストは
@@ -2028,7 +1865,7 @@ $\mList{y}$ を結合したリストは
 (\mAppend)\mIn{}\mProj{\mListType{a}}{\mProj{\mListType{a}}{\mListType{a}}}
 \end{equation}
 である．\footnote{\haskell では $\mList{x}\mAppend\mList{y}$ を
-\code{xs++ys} と書く．}
+  \code{xs++ys} と書く．}
 
 リストは\keyword{無限個}の要素を持っても良い．例えば自然数全体を表すリ
 スト $\mList{n}$ は
@@ -2036,10 +1873,10 @@ $\mList{y}$ を結合したリストは
 \mList{n}=\mListWith{1,2\dotsb}
 \end{equation}
 のように定義して良い．\footnote{\haskell では
-$\mList{n}=\mListWith{1,2\dotsb}$ を \code{ns = [1, 2..]} と書く．}
+  $\mList{n}=\mListWith{1,2\dotsb}$ を \code{ns = [1, 2..]} と書く．}
 
 \keyword{空リスト}は$\mEmptyList$で表す．\footnote{\haskell では空リス
-トを \code{[]} で表す．}
+  トを \code{[]} で表す．}
 
 任意の型を $\mType{a}$ とするとき，$\mType{a}$ 型のリスト型を
 $\mListType{a}$ と書く．型 $\mType{a}$ から型 $\mListType{a}$ を生成す
@@ -2051,9 +1888,9 @@ $\mListTypeConstructor$ と書き
 とする．この等式の両辺は変数ではなく型名であることに注意しよう．型コン
 ストラクタの概念は\python には無い（必要無い）が，静的型付け言語である
 \cxx の「クラステンプレート」が相当する．\footnote{\haskell では表記上
-コンテナ型 $\mListType{a}$ と型コンストラクタ式
-$\mListTypeConstructor\mType{a}$ を区別せず，両者とも \code{[a]} と
-書く．}
+  コンテナ型 $\mListType{a}$ と型コンストラクタ式
+  $\mListTypeConstructor\mType{a}$ を区別せず，両者とも \code{[a]} と
+  書く．}
 
 $\mType{a}$ 型の変数 $x$ を入れた $\mListType{a}$ 型の変数を作る演算子
 を\keyword{リスト値コンストラクタ}と呼ぶ．$\mListType{a}$ 型の変数のこ
@@ -2115,8 +1952,8 @@ $\mList{y}$ から最初の $x$ 個の要素からなるリストを返す．い
 $\mListWith{x_0,x_1\dotsb x_n}$ が与えられたとき，任意の二項演算子を
 $\mBinOp$ として
 \begin{equation}
-\mFold^{\mBinOp}_a\mListWith{x_0,x_1\dotsb x_n}
-=a\mBinOp x_0\mBinOp x_1\mBinOp\dotsb\mBinOp x_n
+\mFold^{\mBinOp}_a\mListWith{x_0,x_1\dotsb x_n} =a\mBinOp x_0\mBinOp
+x_1\mBinOp\dotsb\mBinOp x_n
 \end{equation}
 であると定義する．
 
@@ -2130,17 +1967,15 @@ $a$ は\keyword{アキュムレータ}と呼ぶ．アキュムレータは右側
 スト \code{ls} の総和 \code{s} を
 \begin{pythoncode}
 \begin{verbatim}
-# Python 2.7
-ls = [0, 1, 2, 3, 4, 5]
-s = reduce(lambda x, y: x+y, ls, 0)
+# Python 2.7 ls = [0, 1, 2, 3, 4, 5] s = reduce(lambda x, y: x+y, ls,
+ 0)
 \end{verbatim}
 \end{pythoncode}
 のように求めることができる．この \code{reduce} 関数は\python バージョ
 ン3では非推奨になっているが，\ruby には受け継がれていて，\ruby では
 \begin{rubycode}
 \begin{verbatim}
-ls = [0, 1, 2, 3, 4, 5]
-s = ls.inject(0) { |x, y| x+y }
+ls = [0, 1, 2, 3, 4, 5] s = ls.inject(0) { |x, y| x+y }
 \end{verbatim}
 \end{rubycode}
 と書ける．
@@ -2156,7 +1991,7 @@ s = ls.inject(0) { |x, y| x+y }
 とも書く．このように，ラムダ式を使わずに引数を省略してしまう書き方を
 \keyword{ポイントフリースタイル}と呼ぶ．ポイントフリースタイルは今後も
 頻出するので，是非慣れておいてもらいたい．\footnote{\haskell はポイン
-トフリースタイルをサポートする．}
+  トフリースタイルをサポートする．}
 
 リストの要素のすべての積をとる演算子 $\prod$ は
 \begin{equation}
@@ -2170,14 +2005,9 @@ $\mType{a}$ 型，第3（右）引数に $\mType{b}$ 型のリストすなわち
 $\mListType{b}$ 型を取り，$\mType{a}$ 型の値を返す．従って畳み込み演算
 子の型は
 \begin{equation}
-\mFold
-\mIn{}
-\mProj{
-  (\mProj{\mType{a}}{\mProj{\mType{b}}{\mType{a}}})
-}
-{
-  \mProj{\mType{a}}{\mProj{\mListType{b}}{\mType{a}}}
-}
+\mFold \mIn{} \mProj{
+  (\mProj{\mType{a}}{\mProj{\mType{b}}{\mType{a}}}) } {
+  \mProj{\mType{a}}{\mProj{\mListType{b}}{\mType{a}}} }
 \end{equation}
 である．
 
@@ -2187,7 +2017,7 @@ $\mListType{b}$ 型を取り，$\mType{a}$ 型の値を返す．従って畳み�
 =(x_0\mBinOp(x_1\mBinOp\dotsb\mBinOp(x_n\mBinOp a)))
 \end{equation}
 これは\keyword{右畳み込み}と呼ばれる演算子である．\footnote{\haskell
-では $\mFoldRight^{*}_a\mList{x}$ を \code{foldr (*) a xs} と書く．}
+  では $\mFoldRight^{*}_a\mList{x}$ を \code{foldr (*) a xs} と書く．}
 % ***CHECK***
 
 畳み込み演算子の面白い応用例を示そう．リストの結合演算子 $(\mAppend)$
@@ -2218,9 +2048,7 @@ map(f, ls)
 のように \code{map} 関数を用いる．例えば
 \begin{pythoncode}
 \begin{verbatim}
-f = lambda x: 100+x
-ls = [1, 2, 3, 4, 5]
-ms = map(f, ls)
+f = lambda x: 100+x ls = [1, 2, 3, 4, 5] ms = map(f, ls)
 \end{verbatim}
 \end{pythoncode}
 とすると，結果として \code{ms} には $\mListWith{101,102,103,104,105}$
@@ -2230,40 +2058,27 @@ ms = map(f, ls)
 を取り，戻り値として $\mListWith{fx_0,fx_1\dotsb fx_n}$ を返す演算子
 $\mMapList$ を考えよう．このとき
 \begin{equation}
-f\mMapList\mListWith{x_0,x_1\dotsb x_n}
-=\mListWith{fx_0,fx_1\dotsb fx_n}
+f\mMapList\mListWith{x_0,x_1\dotsb x_n} =\mListWith{fx_0,fx_1\dotsb
+  fx_n}
 \end{equation}
 であると定義する．この演算子 $\mMapList$ をリストの\keyword{マップ演算
-子}と呼ぶ．\footnote{\haskell では $f\mMapList\mList{x}$ を
-\code{map f xs} または \code{f <\$> xs} と書く．ただし演算子
-\code{<\$>} は \code{fmap} 演算子の中置バージョンである．}
+  子}と呼ぶ．\footnote{\haskell では $f\mMapList\mList{x}$ を
+  \code{map f xs} または \code{f <\$> xs} と書く．ただし演算子
+  \code{<\$>} は \code{fmap} 演算子の中置バージョンである．}
 
 リストのマップ演算子の型は
 \begin{equation}
-\mMapList
-\mIn{}
-\mProj{
-  (\mProj{\mType{a}}{\mType{b}})
-}
-{
-  \mProj{\mListType{a}}{\mListType{b}}
-}
+\mMapList \mIn{} \mProj{ (\mProj{\mType{a}}{\mType{b}}) } {
+  \mProj{\mListType{a}}{\mListType{b}} }
 \end{equation}
 である．矢印 $\mMapsTo$ は右結合なので，これは
 \begin{equation}
-\mMapList
-\mIn{}
-\mProj{
-  (\mProj{\mType{a}}{\mType{b}})
-}
-{
-  (\mProj{\mListType{a}}{\mListType{b}})
-}
+\mMapList \mIn{} \mProj{ (\mProj{\mType{a}}{\mType{b}}) } {
+  (\mProj{\mListType{a}}{\mListType{b}}) }
 \end{equation}
 の意味でもある．念のため上式に注釈を加えると
 \begin{equation}
-\mMapList\mIn
-\underbrace{\left(\mType{a}\mMapsTo\mType{b}\right)}_f
+\mMapList\mIn \underbrace{\left(\mType{a}\mMapsTo\mType{b}\right)}_f
 \mMapsTo\underbrace{\mListType{a}}_{\mListWith{x_0,x_1\dotsb x_n}}
 \mMapsTo\underbrace{\mListType{b}}_{\mListWith{fx_0,fx_1\dotsb fx_n}}
 \end{equation}
@@ -2271,16 +2086,13 @@ f\mMapList\mListWith{x_0,x_1\dotsb x_n}
 
 ここで $f$ と $f\mMapList$ の型を並べてみると
 \begin{align}
-f&\mIn\mProj{\mType{a}}{\mType{b}}\\
-f\mMapList&\mIn{}\mProj{\mListType{a}}{\mListType{b}}
+f&\mIn\mProj{\mType{a}}{\mType{b}}\\ f\mMapList&\mIn{}\mProj{\mListType{a}}{\mListType{b}}
 \end{align}
 となり，マップ演算子が何をしているのか一目瞭然になる．
 
 具体例を見てみよう．先程の\python コードの例にあわせて
 \begin{align}
-f&=\mLambdaExp{x}{100+x}\\
-\mList{x}&=\mListWith{1,2,3,4,5}\\
-\mList{y}&=f\mMap\mList{x}
+f&=\mLambdaExp{x}{100+x}\\ \mList{x}&=\mListWith{1,2,3,4,5}\\ \mList{y}&=f\mMap\mList{x}
 \end{align}
 とすると $\mList{y}$ の値は $\mListWith{101,102,103,104,105}$ となる．
 
@@ -2301,15 +2113,14 @@ $\mFirstVar$ がリストの要素を参照し，変数 $\mRestVar$ が次のペ
 を用い，リファレンス $\mFirstVar$ はリストが保持する型，リファレンス
 $\mRestVar$ はリスト型であるとする．演算子 $:$ を\keyword{cons演算子}
 と呼ぶ．\footnote{\haskell でも要素 \code{x} をリスト \code{xs} の先頭
-に追加することを \code{x:xs} と書く．}
+  に追加することを \code{x:xs} と書く．}
 
 要素 $\mRestVar$ はリストまたは空リストであるから，一般にリストは次の
 ように展開できることになる．
 \begin{align}
-\mListWith{x_0,x_1,x_2\dotsb x_n}
-  &=x_0:\mListWith{x_1,x_2\dotsb x_n}\\
-  &=x_0:x_1:\mListWith{x_2\dotsb x_n}\\
-  &=x_0:x_1:x_2:\dotsb:x_n:\mEmptyList
+\mListWith{x_0,x_1,x_2\dotsb x_n} &=x_0:\mListWith{x_1,x_2\dotsb
+  x_n}\\ &=x_0:x_1:\mListWith{x_2\dotsb
+  x_n}\\ &=x_0:x_1:x_2:\dotsb:x_n:\mEmptyList
 \end{align}
 cons演算子 $(:)$ は右結合する．すなわち $x_0:x_1:x_2=x_0:(x_1:x_2)$ で
 ある．
@@ -2320,9 +2131,7 @@ cons演算子 $(:)$ は右結合する．すなわち $x_0:x_1:x_2=x_0:(x_1:x_2)
 \left\{
 \begin{aligned}
 f\mMapList{}(x:\mList{x})
-  &=(fx):(f\mMapList\mList{x})\\
-f\mMapList\mEmptyList
-  &=\mEmptyList
+&=(fx):(f\mMapList\mList{x})\\ f\mMapList\mEmptyList &=\mEmptyList
 \end{aligned}
 \right.
 \end{equation}
@@ -2354,43 +2163,38 @@ f\mList{y}@(x:\mList{x})=\dotsb
 \end{equation}
 として，変数 $y$ でリスト全体を参照することも可能である．このような記
 法を\keyword{asパタン}と呼ぶ．\footnote{\haskell では
-$f\mList{y}@(x:\mList{x})$ を \code{f ys@(x:xs)} と書く．}
+  $f\mList{y}@(x:\mList{x})$ を \code{f ys@(x:xs)} と書く．}
 
 \section{この章のまとめ}
 
 \begin{enumerate}
 \item 配列はリストである．配列は $\mListWith{x_0,x_1,x_2}$ のように表
-記する．
-\item 等差数列の配列は $\mListWith{0,1\dotsb10}$ のように途中を
-$\dotsb$ で省略できる．
-\item 配列は無限長であってもよい．無限長配列は $\mListWith{0,1\dotsb}$
-のように表記する．
-\item 1要素のリストは $\mListWith{x}$ のように表記する．この括弧をリス
-ト値コンストラクタと呼ぶ．
-\item 空リストは $\mEmptyList$ と表す．
-\item $\mType{a}$ 型のリストを $\mListType{a}$ 型で表す．
-\item リスト型コンストラクタ $\mListTypeConstructor$ は型パラメタ
-$\mType{a}$ に作用して $\mListType{a}$ を生成する．
-\item リストは先頭要素と続くリストから定義される．先頭要素を $x$ とし，
-続くリストを $\mList{x}$ とすると $x:\mList{x}$ はリストである．ここ
-に演算子 $:$ は結合(cons)演算子である．
-\item リストはリスト結合(append)できる．リスト $\mList{y}$ とリスト
-$\mList{z}$ のリスト結合は $\mList{y}\mAppend\mList{z}$ である．
-\item 左畳み込み演算子 $\mFold^{\mBinOp}_a\mListWith{x_0,x_1\dotsb
-x_n}$ は $a\mBinOp x_0\mBinOp x_1\mBinOp\dotsb\mBinOp x_n$ を返す．
-\item 右畳み込み演算子
-$\mFoldRight^{\mBinOp}_{a}\mListWith{x_0,x_1\dotsb x_n}$ は
-$(x_0\mBinOp(x_1\mBinOp\dotsb\mBinOp(x_n\mBinOp a)))$ を返す．
-\item 平坦化演算子 $\mConcat=\mFold_\mEmptyList^{\mAppend}$ はリストを
-平坦化する．
-\item 関数 $f\mIn\mProj{\mType{a}}{\mType{a}}$ はマップ演算子
-$\mMapList$ を用いて $f\mMapList\mListWith{x_0,x_1\dotsb
-x_n}=\mListWith{fx_0,fx_1\dotsb fx_n}$ のようにリスト
-$\mListWith{x_0,x_1\dotsb x_n}$ に適用できる．
-\item マップ演算子 $\mMapList$ の型は
-$\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mType{a}}{\mType{b}}}$
-である．
-\item $\mHead(x:\mList{x})=x,\mTail(x:\mList{x})=\mList{x}$ である．
+  記する．\item 等差数列の配列は $\mListWith{0,1\dotsb10}$ のように途
+  中を $\dotsb$ で省略できる．\item 配列は無限長であってもよい．無限長
+  配列は $\mListWith{0,1\dotsb}$ のように表記する．\item 1要素のリスト
+  は $\mListWith{x}$ のように表記する．この括弧をリスト値コンストラク
+  タと呼ぶ．\item 空リストは $\mEmptyList$ と表す．\item $\mType{a}$
+  型のリストを $\mListType{a}$ 型で表す．\item リスト型コンストラクタ
+  $\mListTypeConstructor$ は型パラメタ $\mType{a}$ に作用して
+  $\mListType{a}$ を生成する．\item リストは先頭要素と続くリストから定
+  義される．先頭要素を $x$ とし，続くリストを $\mList{x}$ とすると
+  $x:\mList{x}$ はリストである．ここに演算子 $:$ は結合(cons)演算子で
+  ある．\item リストはリスト結合(append)できる．リスト $\mList{y}$ と
+  リスト $\mList{z}$ のリスト結合は $\mList{y}\mAppend\mList{z}$ であ
+  る．\item 左畳み込み演算子
+  $\mFold^{\mBinOp}_a\mListWith{x_0,x_1\dotsb x_n}$ は $a\mBinOp
+  x_0\mBinOp x_1\mBinOp\dotsb\mBinOp x_n$ を返す．\item 右畳み込み演算
+  子 $\mFoldRight^{\mBinOp}_{a}\mListWith{x_0,x_1\dotsb x_n}$ は
+  $(x_0\mBinOp(x_1\mBinOp\dotsb\mBinOp(x_n\mBinOp a)))$ を返す．\item
+  平坦化演算子 $\mConcat=\mFold_\mEmptyList^{\mAppend}$ はリストを平坦
+  化する．\item 関数 $f\mIn\mProj{\mType{a}}{\mType{a}}$ はマップ演算
+  子 $\mMapList$ を用いて $f\mMapList\mListWith{x_0,x_1\dotsb
+    x_n}=\mListWith{fx_0,fx_1\dotsb fx_n}$ のようにリスト
+  $\mListWith{x_0,x_1\dotsb x_n}$ に適用できる．\item マップ演算子
+  $\mMapList$ の型は
+  $\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mType{a}}{\mType{b}}}$
+  である．\item $\mHead(x:\mList{x})=x,\mTail(x:\mList{x})=\mList{x}$
+  である．
 \end{enumerate}
 
 % 型パラメタの話はどこが初出？
@@ -2412,9 +2216,7 @@ A...
 関数は内部で自分自身を適用しても良い．例えば $x$ の階乗 $(x!)$ を返す
 関数 $\mFact$ は
 \begin{equation}
-\mFact x=\begin{cases}
-1&\mIf x\equiv0\\
-x*\mFact(x-1)&\mOtherwise
+\mFact x=\begin{cases} 1&\mIf x\equiv0\\ x*\mFact(x-1)&\mOtherwise
 \end{cases}
 \end{equation}
 と定義できる．関数が自分自身を適用することを関数の\keyword{再帰適用}と
@@ -2432,8 +2234,7 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
 \begin{equation}
 \left\{
 \begin{aligned}
-\mSum\mEmptyList&=0\\
-\mSum(x:\mList{x})&=x+\mSum\mList{x}
+\mSum\mEmptyList&=0\\ \mSum(x:\mList{x})&=x+\mSum\mList{x}
 \end{aligned}
 \right.
 \end{equation}
@@ -2448,17 +2249,13 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
 む．末尾再帰とは，関数の再帰適用を関数定義の末尾にすることである．この
 章に出てきた階乗関数 $\mFact$ を例にとろう．階乗関数 $\mFact$ は
 \begin{equation}
-\mFact x=\begin{cases}
-1&\mIf x\equiv0\\
-x*\mFact(x-1)&\mOtherwise
+\mFact x=\begin{cases} 1&\mIf x\equiv0\\ x*\mFact(x-1)&\mOtherwise
 \end{cases}
 \end{equation}
 のような形をしていた．末尾の関数をよりはっきりさせるために演算子 $(*)$
 を前置にして
 \begin{equation}
-\mFact x=\begin{cases}
-1&\mIf x\equiv0\\
-(*)x(\mFact(x-1))&\mOtherwise
+\mFact x=\begin{cases} 1&\mIf x\equiv0\\ (*)x(\mFact(x-1))&\mOtherwise
 \end{cases}
 \end{equation}
 と書いてみよう．この定義の末尾の式は
@@ -2470,9 +2267,8 @@ x*\mFact(x-1)&\mOtherwise
 
 そこで，次のように形を変えた階乗関数 $\mFact'$ を考えてみる．
 \begin{equation}
-\mFact' a=\begin{cases}
-1&\mIf x\equiv0\\
-\mFact'(a*x)(x-1)&\mOtherwise
+\mFact' a=\begin{cases} 1&\mIf
+x\equiv0\\ \mFact'(a*x)(x-1)&\mOtherwise
 \end{cases}
 \end{equation}
 こうすれば末尾の関数がもとの $\mFact'$ と一致する．
@@ -2488,7 +2284,7 @@ x*\mFact(x-1)&\mOtherwise
 化とは，一言で言うと再帰を計算機が扱いやすいループに置き換えることであ
 る．では最初から我々もループで関数を表現しておけば，と思われるかもしれ
 ないが，再帰以外の方法でループを表現する場合には必ず変数（ループカウン
-タ）への破壊的代入が必要になるため，我々は末尾再帰に慎ましくループを
+  タ）への破壊的代入が必要になるため，我々は末尾再帰に慎ましくループを
 隠すのである．
 
 \section{遅延評価*}
@@ -2498,19 +2294,14 @@ $(\mFold)$ を使う場合に問題となる．いま
 $\mList{x}=\mListWith{x_0,x_1,x_2,x_3}$ とすると，左畳み込み演算
 $\mFold^+_0\mList{x}$ は
 \begin{align}
-\mFold^+_0\mList{x}&=\mFold^+_0{}(x_0:x_1:x_2:\mEmptyList)\\
-&=\mFold^+_{0+x_0}{}(x_1:x_2:x_3:\mEmptyList)\\
-&=\mFold^+_{(0+x_0)+x_1}{}(x_2:x_3:\mEmptyList)\\
-&=\mFold^+_{((0+x_0)+x_1)+x_2}{}(x_3:\mEmptyList)\\
-&=\mFold^+_{(((0+x_0)+x_1)+x_2)+x_3}{}\mEmptyList\\
-&=(((0+x_0)+x_1)+x_2)+x_3
+\mFold^+_0\mList{x}&=\mFold^+_0{}(x_0:x_1:x_2:\mEmptyList)\\ &=\mFold^+_{0+x_0}{}(x_1:x_2:x_3:\mEmptyList)\\ &=\mFold^+_{(0+x_0)+x_1}{}(x_2:x_3:\mEmptyList)\\ &=\mFold^+_{((0+x_0)+x_1)+x_2}{}(x_3:\mEmptyList)\\ &=\mFold^+_{(((0+x_0)+x_1)+x_2)+x_3}{}\mEmptyList\\ &=(((0+x_0)+x_1)+x_2)+x_3
 \end{align}
 と展開される．遅延評価のために，\haskell 処理系は値ではなく式をメモリ
 にストアしなければならないが，左畳み込み演算は大きなメモリを必要としが
 ちである．もし例えば予め $0+x_0$ を計算しておくなど左畳み込みだけ先に
 評価しておけば，大いにメモリの節約になる．そのために\haskell は「遅延
-評価無し」の左畳み込み演算子を用意している．\footnote{「遅延評価無し」
-の左畳み込み演算子を\haskell では \code{foldl'} と書く．}
+  評価無し」の左畳み込み演算子を用意している．\footnote{「遅延評価無し」
+  の左畳み込み演算子を\haskell では \code{foldl'} と書く．}
 
 
 % \haskell には言語拡張として，\keyword{アンボックス化タプル}という機能がある．
@@ -2521,11 +2312,10 @@ $\mFold^+_0\mList{x}$ は
 \section{余談：クロージャ}
 
 ラムダ式をサポートするほとんどのプログラミング言語は，\keyword{レキシ
-カルクロージャ}をサポートする．レキシカルクロージャとは，ラムダ式が定
-義された時点での，周囲の環境をラムダ式に埋め込む機構である．例えば
+  カルクロージャ}をサポートする．レキシカルクロージャとは，ラムダ式が
+定義された時点での，周囲の環境をラムダ式に埋め込む機構である．例えば
 \begin{align}
-a&=100\\
-h&=a+\mAnonParam
+a&=100\\ h&=a+\mAnonParam
 \end{align}
 というラムダ式があるとする．当然我々は関数 $h$ がいつも
 $h=100+\mAnonParam$ であることを期待するし，\haskell においてはいつも
@@ -2554,9 +2344,9 @@ $h=100+\mAnonParam$ であることを期待するし，\haskell においては
 \section{この章のまとめ}
 
 \begin{enumerate}
-\item 関数は再帰適用できる．ループは再帰適用によって実現する．
-\item 末尾再帰はスタックを消費しないように最適化される．
-\item 関数はいつも遅延評価される．そのため無限リストを扱うことも可能である．
+\item 関数は再帰適用できる．ループは再帰適用によって実現する．\item 末
+  尾再帰はスタックを消費しないように最適化される．\item 関数はいつも遅
+  延評価される．そのため無限リストを扱うことも可能である．
 \end{enumerate}
 
 \begin{note}{\haskell によるクイックソート}
@@ -2564,15 +2354,12 @@ $h=100+\mAnonParam$ であることを期待するし，\haskell においては
 \begin{equation*}
 \left\{
 \begin{aligned}
-\mSort\mEmptyList
-  &=\mEmptyList\\
-\mSort(x:\mList{x})
-  &=(\mSort\mList{a})\mAppend\mListWith{x}\mAppend{}(\mSort\mList{b})\\
-&\mWhere
+\mSort\mEmptyList &=\mEmptyList\\ \mSort(x:\mList{x})
+&=(\mSort\mList{a})\mAppend\mListWith{x}\mAppend{}(\mSort\mList{b})\\ &\mWhere
 \left\{
 \begin{aligned}
-\mList{a}&\mLetEq\mListWith{a\mListComp{a\mFrom\mList{x},a\le x}}\\
-\mList{b}&\mLetEq\mListWith{b\mListComp{b\mFrom\mList{x},b>x}}
+\mList{a}&\mLetEq\mListWith{a\mListComp{a\mFrom\mList{x},a\le
+    x}}\\ \mList{b}&\mLetEq\mListWith{b\mListComp{b\mFrom\mList{x},b>x}}
 \end{aligned}
 \right.
 \end{aligned}
@@ -2581,11 +2368,8 @@ $h=100+\mAnonParam$ であることを期待するし，\haskell においては
 \haskell では % Num a =>
 \begin{haskellcode}
 \begin{verbatim}
-srt[]     = []
-srt(x:xs) = srt as ++ [x] ++ srt bs
-              where
-                as = [a| a<-xs, a<=x]
-                bs = [b| b<-xs, b>x]
+srt[] = [] srt(x:xs) = srt as ++ [x] ++ srt bs where as = [a| a<-xs,
+ a<=x] bs = [b| b<-xs, b>x]
 \end{verbatim}
 \end{haskellcode}
 と書く．このコードはしばしば\haskell のパワーを示すために紹介される．
@@ -2611,10 +2395,10 @@ srt(x:xs) = srt as ++ [x] ++ srt bs
 プログラマが取れる手段は
 \begin{itemize}
 \item $x=y/z$ を計算した時点で\keyword{ゼロ除算例外}を発生させ，プログ
-ラムの制御を他の場所へ移す（大域ジャンプを行う）
-\item グローバル変数にゼロ除算エラーが起こったことを記録しておき，$x$
-にはとりあえずの数値，例えば $0$ を代入しておいて，計算を続行させる
-\item $x$ にエラー状態を示す印を新たにつけておいて，計算を続行させる
+  ラムの制御を他の場所へ移す（大域ジャンプを行う）\item グローバル変数
+  にゼロ除算エラーが起こったことを記録しておき，$x$ にはとりあえずの数
+  値，例えば $0$ を代入しておいて，計算を続行させる\item $x$ にエラー
+  状態を示す印を新たにつけておいて，計算を続行させる
 \end{itemize}
 といったところだろう．
 
@@ -2626,10 +2410,8 @@ srt(x:xs) = srt as ++ [x] ++ srt bs
 メンバ変数 \code{valid} がエラーの有無を表す．
 \begin{pythoncode}
 \begin{verbatim}
-class Possibly:
-  def __init__(self, a_valid, a_value = 0):
-    self.valid = a_valid
-    self.value = a_value
+class Possibly: def __init__(self, a_valid, a_value = 0): self.valid =
+ a_valid self.value = a_value
 \end{verbatim}
 \end{pythoncode}
 
@@ -2679,11 +2461,8 @@ q = map_over(f, p)
 ある．関数 \code{map\_over} の実装は次のようになる．
 \begin{pythoncode}
 \begin{verbatim}
-def map_over(f, p):
-  if p.valid == True:
-    return Possibly(True, f(p.value))
-  else:
-    return Possibly(False)
+def map_over(f, p): if p.valid == True: return Possibly(True,
+ f(p.value)) else: return Possibly(False)
 \end{verbatim}
 \end{pythoncode}
 
@@ -2713,8 +2492,8 @@ $\mMaybeTypeConstructor$ を用いて
 \mMaybeType{a}=\mMaybeTypeConstructor\mType{a}
 \end{equation}
 とする．\footnote{\haskell では表記上コンテナ型 $\mMaybeType{a}$ と型
-コンストラクタ式 $\mMaybeTypeConstructor\mType{a}$ を区別せず，両者
-とも \code{Maybe a} と書く．}
+  コンストラクタ式 $\mMaybeTypeConstructor\mType{a}$ を区別せず，両者
+  とも \code{Maybe a} と書く．}
 
 $\mType{a}$ 型の変数を $\mMaybeType{a}$ 型の変数に代入するには，次の値
 コンストラクタを用いて
@@ -2722,7 +2501,7 @@ $\mType{a}$ 型の変数を $\mMaybeType{a}$ 型の変数に代入するには�
 \mMaybe{u}=\mJustWith{x}
 \end{equation}
 と書く．\footnote{\haskell では $\mMaybe{u}=\mJustWith{x}$ を \code{u
-= Just x} と書く．Maybeを表す疑問符は省略する．}
+    = Just x} と書く．Maybeを表す疑問符は省略する．}
 
 変数 $x$ が一度ゼロ除算の危険性に「汚染」された場合，その後ずっとMaybe
 変数に入れ続けなければいけない．そこで，普通の変数を引数にとる関数 $f$
@@ -2741,16 +2520,14 @@ $\mMaybeType{\mFloatType}$ である．
 ら，Maybeバージョンのマップ演算子は
 \begin{equation}
 f\mMapMaybe\mMaybe{u}=\begin{cases}
-\mJustWith{fx}&\mIf\mMaybe{u}\equiv\mJustWith{x}\\
-\mNothing&\mOtherwise
+\mJustWith{fx}&\mIf\mMaybe{u}\equiv\mJustWith{x}\\ \mNothing&\mOtherwise
 \end{cases}
 \end{equation}
 でなければならない．このMaybeバージョンのマップ演算子 $\mMapMaybe$ は
 \begin{equation}
 \left\{
 \begin{aligned}
-f\mMapMaybe\mJustWith{x}&=\mJustWith{fx}\\
-f\mMapMaybe\mNothing&=\mNothing
+f\mMapMaybe\mJustWith{x}&=\mJustWith{fx}\\ f\mMapMaybe\mNothing&=\mNothing
 \end{aligned}
 \right.
 \end{equation}
@@ -2764,13 +2541,13 @@ f\mMapMaybe\mNothing&=\mNothing
 のようにMaybeバージョンのマップ演算子 $\mMapMaybe$ を用いることにする．
 これはプログラムの安全性のためである．変数が一旦ゼロ除算の可能性に汚染
 されたら，最後までMaybeに包んでおかねばならない．\footnote{\haskell で
-はMaybeバージョンのマップ演算子に特別な記号，関数名が与えられていな
-い．その代わり第\ref{ch:functor}章で述べる一般マップ演算子 $\mMap$
-に相当する \code{fmap} 関数を用い \code{v = fmap f u} または \code{v
-= f <\$> u} のように書く．\haskell は型推論を行なうため変数
-\code{u} がMaybeであればMaybeバージョンのマップ演算子（関数）が適用
-され，もし \code{u} がリストであれば通常のマップ関数である
-\code{map} が適用される．}
+  はMaybeバージョンのマップ演算子に特別な記号，関数名が与えられていな
+  い．その代わり第\ref{ch:functor}章で述べる一般マップ演算子 $\mMap$
+  に相当する \code{fmap} 関数を用い \code{v = fmap f u} または \code{v
+    = f <\$> u} のように書く．\haskell は型推論を行なうため変数
+  \code{u} がMaybeであればMaybeバージョンのマップ演算子（関数）が適用
+  され，もし \code{u} がリストであれば通常のマップ関数である
+  \code{map} が適用される．}
 
 \python でMaybeの概念を忠実になぞることは難しい．と言うのも\python は
 動的型付け言語であるため，型コンストラクタという概念が無いからだ．一方
@@ -2779,20 +2556,13 @@ f\mMapMaybe\mNothing&=\mNothing
 いたので\cxx プログラマも\java プログラマも参考にできるだろう．
 
 Maybeは次の\code{maybe}クラステンプレートで表現できる．（\java プログ
-ラマへの注意：これは\code{maybe<a>}クラスの定義と同じ意味である．）
+  ラマへの注意：これは\code{maybe<a>}クラスの定義と同じ意味である．）
 \begin{cxxcode}
 \begin{verbatim}
-template <class a> class maybe {
-  private:
-    a value;
-    bool valid;
-  public:
-    maybe(): value(0), valid(false) { }
-    maybe(a a_value):
-      value(a_value), valid(true) { }
-    a get_value() const { return value; }
-    bool is_valid() const { return valid; }
-}
+template <class a> class maybe { private: a value; bool valid; public:
+ maybe(): value(0), valid(false) { } maybe(a a_value): value(a_value),
+ valid(true) { } a get_value() const { return value; } bool is_valid()
+ const { return valid; } }
 \end{verbatim}
 \end{cxxcode}
 デフォルトコンストラクタは例外的な状況を表す $\mNothing$ を生成し，1引
@@ -2804,19 +2574,13 @@ template <class a> class maybe {
 
 当然我々にはMaybeバージョンのマップ演算子が必要である．ここでは関数
 \code{map\_over} として書いてみよう．（\java プログラマへの注意：関数
-\code{map\_over}はどのクラスにも属していないが，それで正解なのであ
-る．）
+  \code{map\_over}はどのクラスにも属していないが，それで正解なのであ
+  る．）
 \begin{cxxcode}
 \begin{verbatim}
-template <class a, class b, class fn>
-maybe<b> map_over(fn f, maybe<a> u) {
-  if (u.is_valid()) {
-    return maybe<a>(f(u.get_value()));
-  }
-  else {
-    return maybe<b>();
-  }
-}
+template <class a, class b, class fn> maybe<b> map_over(fn f, maybe<a>
+ u) { if (u.is_valid()) { return maybe<a>(f(u.get_value())); } else {
+ return maybe<b>(); } }
 \end{verbatim}
 \end{cxxcode}
 テンプレートの2番目の引数\code{fn}は関数\code{f}を受け取るために必要で
@@ -2825,7 +2589,8 @@ maybe<b> map_over(fn f, maybe<a> u) {
 いため，このようにテンプレートにしている．
 % こうすることで，Cスタイルの関数ポインタも，\cxx03スタイルの関数オブジェクトも，
 % \cxx11スタイルのラムダ式も受け取ることができる．
-（\cxxzerothree プログラマへの注意：関数 \code{f} の代わりに関数オブジェクトを渡しても良い．）
+（\cxxzerothree プログラマへの注意：関数 \code{f} の代わりに関数オブジェ
+  クトを渡しても良い．）
 
 整数 $x$ からMaybe値 $\mMaybe{u}=\mJustWith{x}$ を作り，関数 $gx=1+x$
 をMaybe値 $\mMaybe{u}$ に食わせてMaybe値 $\mMaybe{v}$ ただし
@@ -2835,18 +2600,16 @@ maybe<b> map_over(fn f, maybe<a> u) {
 を得ることを\cxx では次のように書くことになる．
 \begin{cxxcode}
 \begin{verbatim}
-int x = 123;
-maybe<int> u(x);
-auto g = [](int x) -> int { return 1+x; };
-maybe<int> v = map_over(g, u);
+int x = 123; maybe<int> u(x); auto g = [](int x) -> int { return 1+x;
+ }; maybe<int> v = map_over(g, u);
 \end{verbatim}
 \end{cxxcode}
 注意してほしいのは \code{g(x)} も \code{map\_over(g, u)} も正当なコー
 ドだが \code{g(u)} は型エラーであることだ．また
 \code{g(u.get\_value())} は正当なコードだが，わざわざ \code{u} が持つ
 文脈を捨てることになる．（\cxx プログラマへの注意：\code{int} 型の使用
-は現在では非推奨である．本書ではコードの読みやすさのためにあえて
-\code{int} を使用している．）
+  は現在では非推奨である．本書ではコードの読みやすさのためにあえて
+  \code{int} を使用している．）
 
 % ところで，関数\code{f}の実装は，ラムダ式の使えない\cxx03ではファンク
 % ター (functor) という機構を使うことになる．このファンクターは第
@@ -2866,73 +2629,75 @@ maybe<int> v = map_over(g, u);
 のようなリストバージョンのマップ演算子 $(\mMapList)$ を使った．
 
 リストバージョンのマップ演算子($\mMapList$)をもし\cxx で書くとしたら，
-次のようなコードになる．
-ここでリスト型として\cxx の標準テンプレートライブラリ(STL)の
-\code{list}クラスを流用した．
+次のようなコードになる．ここでリスト型として\cxx の標準テンプレートラ
+イブラリ(STL)の\code{list}クラスを流用した．
 \begin{cxxcode}
 \begin{verbatim}
-using namespace std;
-template <class a, class b, class fn>
-list<b> map_over(fn f, list<a> xs) {
-  list<b> ys(xs.size());
-  auto i = xs.cbegin();
-  auto j = ys.begin();
-  while (i != xs.cend()) {
-    *j = f(*i);
-    ++i; ++j;
-  }
-  return list<b>(ys);
-}
+using namespace std; template <class a, class b, class fn> list<b>
+ map_over(fn f, list<a> xs) { list<b> ys(xs.size()); auto i =
+ xs.cbegin(); auto j = ys.begin(); while (i != xs.cend()) { *j =
+ f(*i); ++i; ++j; } return list<b>(ys); }
 \end{verbatim}
 \end{cxxcode}
-この関数\code{map\_over}の中身部分はどうでもよろしい．それよりも，リストバージョンのマップ演算子の\cxx 関数のインタフェースと，Maybeバージョンのマップ演算子の\cxx 関数のインタフェースを見比べてみよう．
+この関数\code{map\_over}の中身部分はどうでもよろしい．それよりも，リス
+トバージョンのマップ演算子の\cxx 関数のインタフェースと，Maybeバージョ
+ンのマップ演算子の\cxx 関数のインタフェースを見比べてみよう．
 \begin{cxxcode}
 \begin{verbatim}
-// List
-template <class a, class b, class fn>
-list<b> map_over(fn f, list<a> xs);
-// Maybe
-template <class a, class b, class fn>
-maybe<b> map_over(fn f, maybe<a> u);
+// List template <class a, class b, class fn> list<b> map_over(fn f,
+ list<a> xs); // Maybe template <class a, class b, class fn> maybe<b>
+ map_over(fn f, maybe<a> u);
 \end{verbatim}
 \end{cxxcode}
-やはりそっくりである．であるならば，うまく統一したい．\cxxfourteen 以降であれば次のような書き方が文法的には可能である．
+やはりそっくりである．であるならば，うまく統一したい．\cxxfourteen 以
+降であれば次のような書き方が文法的には可能である．
 \begin{cxxcode}
 \begin{verbatim}
-template <class a, class b,
-  template<class> X, class fn>
-X<b> map_over(fn f, X<a> x);
+template <class a, class b, template<class> X, class fn> X<b>
+ map_over(fn f, X<a> x);
 \end{verbatim}
 \end{cxxcode}
-これは一見上手く行きそうに見えるが，このコードは \code{map\_over} のインスタンス化で躓くため，次のように \code{b} 型のダミー変数が必要になる．
+これは一見上手く行きそうに見えるが，このコードは \code{map\_over} のイ
+ンスタンス化で躓くため，次のように \code{b} 型のダミー変数が必要になる．
 \begin{cxxcode}
 \begin{verbatim}
-template <class a, class b,
-  template<class> X, class fn>
-X<b> map_over(fn f, X<a> x, b dummy);
+template <class a, class b, template<class> X, class fn> X<b>
+ map_over(fn f, X<a> x, b dummy);
 \end{verbatim}
 \end{cxxcode}
-残念なことに，いずれのコードにしてもリストとMaybeの本質的な抽象化にはなってない．型 \code{X} がマップ可能なコンテナであることをテンプレート機構を使って保証することができないためである．この問題は\cxxtwelve で導入予定の「コンセプト」機能によって解決する見込みである．
+残念なことに，いずれのコードにしてもリストとMaybeの本質的な抽象化には
+なってない．型 \code{X} がマップ可能なコンテナであることをテンプレート
+機構を使って保証することができないためである．この問題は\cxxtwelve で
+導入予定の「コンセプト」機能によって解決する見込みである．
 
 % https://stackoverflow.com/questions/213761/what-are-some-uses-of-template-template-parameters-in-c
 % https://stackoverflow.com/questions/2565097/higher-kinded-types-with-c
 
-一方で，数学者たちが見つけた圏という代数的構造が，リストもMaybeも統一的に扱うことを可能にしている．これを発見したのは Eugenio Moggi を始めとする計算機科学者たちである．この人類の英知は第\ref{ch:functor}章から見ていくことにしよう．
-
+一方で，数学者たちが見つけた圏という代数的構造が，リストもMaybeも統一
+的に扱うことを可能にしている．これを発見したのは Eugenio Moggi を始め
+とする計算機科学者たちである．この人類の英知は第\ref{ch:functor}章から
+見ていくことにしよう．
 
 \section{余談: Either}
 
-Maybeとよく似た型にEitherがある．Maybeが $\mType{a}$ 型または $\mNothing$ のいずれかの値をとったように，Eitherは $\mType{a}$ 型または $\mType{b}$ 型のいずれかの値を取る．$\mType{a}$ 型または $\mType{b}$ 型を取るEither型の変数 $\mEither{e}$ があるとすると，
+Maybeとよく似た型にEitherがある．Maybeが $\mType{a}$ 型または
+$\mNothing$ のいずれかの値をとったように，Eitherは $\mType{a}$ 型また
+は $\mType{b}$ 型のいずれかの値を取る．$\mType{a}$ 型または
+$\mType{b}$ 型を取るEither型の変数 $\mEither{e}$ があるとすると，
 \begin{equation}
 \mEither{e}\mIn{}\mEitherType{a}{b}
 \end{equation}
-と書く．Either型は型 $\mType{a}$ および $\mType{b}$ から型コンストラクタを用いて
+と書く．Either型は型 $\mType{a}$ および $\mType{b}$ から型コンストラク
+タを用いて
 \begin{equation}
 \mEitherType{a}{b}=\mEitherTypeConstructor\mType{a}\mType{b}
 \end{equation}
-のように作られる．\footnote{\haskell では $\mEitherType{a}{b}$ も $\mEitherTypeConstructor\mType{a}\mType{b}$ も区別せずに \code{Either a b} と書く．}
+のように作られる．\footnote{\haskell では $\mEitherType{a}{b}$ も
+  $\mEitherTypeConstructor\mType{a}\mType{b}$ も区別せずに
+  \code{Either a b} と書く．}
 
-Etherには値コンストラクタが2種類あり，それぞれ $\mRightWith{x}$ と $\mLeftWith{x}$ である．値コンストラクタは
+Etherには値コンストラクタが2種類あり，それぞれ $\mRightWith{x}$ と
+$\mLeftWith{x}$ である．値コンストラクタは
 \begin{equation}
 \mEither{e}=\mRightWith{x}
 \end{equation}
@@ -2940,20 +2705,34 @@ Etherには値コンストラクタが2種類あり，それぞれ $\mRightWith{
 \begin{equation}
 \mEither{e}=\mLeftWith{x}
 \end{equation}
-のように使う．\footnote{\haskell ではそれぞれ \code{e = Right x} および \code{e = Left x} と書く．}
+のように使う．\footnote{\haskell ではそれぞれ \code{e = Right x} およ
+  び \code{e = Left x} と書く．}
 
-Eitherはより複雑な計算エラーが発生する場合に用いる．Maybeが単に失敗を表す $\mNothing$ しか表現できなかったのに対し，Eitherは任意の型の変数で表現できる．習慣的に，正しい (right) 計算結果は $\mRightWith{x}$ 値コンストラクタで格納し，エラーの情報は $\mLeftWith{x}$ 値コンストラクタで格納する．
+Eitherはより複雑な計算エラーが発生する場合に用いる．Maybeが単に失敗を
+表す $\mNothing$ しか表現できなかったのに対し，Eitherは任意の型の変数
+で表現できる．習慣的に，正しい (right) 計算結果は $\mRightWith{x}$ 値
+コンストラクタで格納し，エラーの情報は $\mLeftWith{x}$ 値コンストラク
+タで格納する．
 
-Either型は\clang の共有型 (\code{union}) や\cxxseventeen のバリアント型 (\code{std::variant}) に近い．
+Either型は\clang の共有型 (\code{union}) や\cxxseventeen のバリアント
+型 (\code{std::variant}) に近い．
 
 \section{この章のまとめ}
 
 \begin{enumerate}
-\item ある型 $\mType{a}$ からそのMaybe型 $\mMaybeType{a}$ を作ることを $\mMaybeType{a}=\mMaybeTypeConstructor\mType{a}$ と書く．ここに $\mMaybeTypeConstructor$ はMaybe型コンストラクタである．
-\item ある変数 $x$ からMaybe変数 $\mMaybe{u}$ を作るには $\mMaybe{u}=\mJustWith{x}$ とする．ここに $\mJustWith{\dotsb}$ はMaybe値コンストラクタである．
-\item Maybe変数は $\mJustWith{x}$ のような値か，かまたは $\mNothing$ なる「ナッシング」値のかどちらかを持つことができる．
-\item 普通の関数 $f\mIn\mProj{\mType{a}}{\mType{b}}$ をMaybe値に適用することはできない．関数 $f$ をMaybe値に適用するには $f\mMapMaybe\mMaybe{u}$ のようにMaybeマップ演算子が必要であり，この関数適用の結果は $\mMaybeType{b}$ 型である．
-\item Either変数は二つの型のいずれかを持つことができ，$\mEither{e}=\mRightWith{x}$ または $\mEither{e}=\mLeftWith{x}$ のように生成する．
+\item ある型 $\mType{a}$ からそのMaybe型 $\mMaybeType{a}$ を作ることを
+  $\mMaybeType{a}=\mMaybeTypeConstructor\mType{a}$ と書く．ここに
+  $\mMaybeTypeConstructor$ はMaybe型コンストラクタである．\item ある変
+  数 $x$ からMaybe変数 $\mMaybe{u}$ を作るには
+  $\mMaybe{u}=\mJustWith{x}$ とする．ここに $\mJustWith{\dotsb}$ は
+  Maybe値コンストラクタである．\item Maybe変数は $\mJustWith{x}$ のよ
+  うな値か，かまたは $\mNothing$ なる「ナッシング」値のかどちらかを持
+  つことができる．\item 普通の関数 $f\mIn\mProj{\mType{a}}{\mType{b}}$
+  をMaybe値に適用することはできない．関数 $f$ をMaybe値に適用するには
+  $f\mMapMaybe\mMaybe{u}$ のようにMaybeマップ演算子が必要であり，この
+  関数適用の結果は $\mMaybeType{b}$ 型である．\item Either変数は二つの
+  型のいずれかを持つことができ，$\mEither{e}=\mRightWith{x}$ または
+  $\mEither{e}=\mLeftWith{x}$ のように生成する．
 \end{enumerate}
 
 \begin{note}{...}
@@ -2970,26 +2749,36 @@ A...
 
 \section{圏と関手}
 
-型 $\mType{a}$ の変数 $x,y\mIn\mType{a}$ について，関数 $f\mIn\mProj{\mType{a}}{\mType{a}}$ があり
+型 $\mType{a}$ の変数 $x,y\mIn\mType{a}$ について，関数
+$f\mIn\mProj{\mType{a}}{\mType{a}}$ があり
 \begin{equation}
 y=fx
 \end{equation}
-であるとしよう．このように型 $\mType{a}$ で閉じた世界を仮に $\mType{a}$ 世界と呼ぶことにする．
+であるとしよう．このように型 $\mType{a}$ で閉じた世界を仮に
+$\mType{a}$ 世界と呼ぶことにする．
 
-型 $\mMaybeType{a}$ の変数 $\mMaybe{u},\mMaybe{v}\mIn\mMaybeType{a}$ について，関数 $g\mIn\mProj{\mMaybeType{a}}{\mMaybeType{a}}$ があり
+型 $\mMaybeType{a}$ の変数 $\mMaybe{u},\mMaybe{v}\mIn\mMaybeType{a}$
+について，関数 $g\mIn\mProj{\mMaybeType{a}}{\mMaybeType{a}}$ があり
 \begin{equation}
 \mMaybe{v}=g\mMaybe{u}
 \end{equation}
-であるとしよう．このように $\mMaybeType{a}$ で閉じた世界を仮に $\mMaybeType{a}$ 世界と呼ぶことにする．
+であるとしよう．このように $\mMaybeType{a}$ で閉じた世界を仮に
+$\mMaybeType{a}$ 世界と呼ぶことにする．
 
-ここで，変数 $x,y$ とMaybe変数 $\mMaybe{u},\mMaybe{v}$ はMaybe値コンストラクタによって
+ここで，変数 $x,y$ とMaybe変数 $\mMaybe{u},\mMaybe{v}$ はMaybe値コンス
+トラクタによって
 \begin{align}
 \mMaybe{u}&=\mJustWith{x}\\
 \mMaybe{v}&=\mJustWith{y}
 \end{align}
-の関係にあるとしよう．値コンストラクタは値を $\mType{a}$ 世界から $\mMaybeType{a}$ 世界へとジャンプさせる機能を持っている．
+の関係にあるとしよう．値コンストラクタは値を $\mType{a}$ 世界から
+$\mMaybeType{a}$ 世界へとジャンプさせる機能を持っている．
 
-他に $\mType{a}$ 世界から $\mMaybeType{a}$ 世界へジャンプさせるものがあるだろうか．よく考えてみると，マップ演算子もそうである．いま $\mMaybe{u}=\mJustWith{x},\mMaybe{v}=\mJustWith{y}$ なのだから，$\mType{a}$ 世界の関数 $f$ と $\mMaybeType{a}$ 世界の関数 $g$ は無関係ではなく
+他に $\mType{a}$ 世界から $\mMaybeType{a}$ 世界へジャンプさせるものが
+あるだろうか．よく考えてみると，マップ演算子もそうである．いま
+$\mMaybe{u}=\mJustWith{x},\mMaybe{v}=\mJustWith{y}$ なのだから，
+$\mType{a}$ 世界の関数 $f$ と $\mMaybeType{a}$ 世界の関数 $g$ は無関係
+ではなく
 \begin{equation}
 \mMaybe{v}=g\mMaybe{u}=f\mMapMaybe\mMaybe{u}
 \end{equation}
@@ -2997,35 +2786,73 @@ y=fx
 \begin{equation}
 g=f\mMapMaybe
 \end{equation}
-である．つまりマップ演算子 $\mMapMaybe$ が関数 $f$ を $\mType{a}$ 世界から $\mMaybeType{a}$ 世界へとジャンプさせているのである．
+である．つまりマップ演算子 $\mMapMaybe$ が関数 $f$ を $\mType{a}$ 世界
+から $\mMaybeType{a}$ 世界へとジャンプさせているのである．
 
-いま「世界」と呼んだものを，数学者は\keyword{圏}と呼ぶ．圏とは\keyword{対象}と\keyword{射}の組み合わせである．本書では「対象」とは型のことであり，射とは関数だと思えば良い．コンテナに入れられた関数も射に含まれる．そして，圏から圏へとジャンプさせるものを\keyword{関手}と呼ぶ．この例で言えば値コンストラクタ $\mJustWith{x}$ とマップ演算子 $\mMapMaybe$ が関手である．値コンストラクタ $\mJustWith{x}$ は $\mProj{\mType{a}}{\mMaybeType{a}}$ という型を持ち，マップ演算子 $\mMapMaybe$ は $\mProj{(\mProj{\mType{a}}{\mType{b}})}{(\mProj{\mMaybeType{a}}{\mMaybeType{b}})}$ という型を持つ．\footnote{関手は英語でファンクター(functor)と言うが，\cxx の関数オブジェクト (function object) もかつてはファンクター(functor)と呼ばれていた．\cxx のファンクターとはクロージャの粗末な代用品のことで，本書で述べる関手とは異なる概念である．混同しないように注意しよう．}
+いま「世界」と呼んだものを，数学者は\keyword{圏}と呼ぶ．圏とは
+\keyword{対象}と\keyword{射}の組み合わせである．本書では「対象」とは型
+のことであり，射とは関数だと思えば良い．コンテナに入れられた関数も射に
+含まれる．そして，圏から圏へとジャンプさせるものを\keyword{関手}と呼ぶ．
+この例で言えば値コンストラクタ $\mJustWith{x}$ とマップ演算子
+$\mMapMaybe$ が関手である．値コンストラクタ $\mJustWith{x}$ は
+$\mProj{\mType{a}}{\mMaybeType{a}}$ という型を持ち，マップ演算子
+$\mMapMaybe$ は
+$\mProj{(\mProj{\mType{a}}{\mType{b}})}{(\mProj{\mMaybeType{a}}{\mMaybeType{b}})}$
+という型を持つ．\footnote{関手は英語でファンクター(functor)と言うが，
+\cxx の関数オブジェクト (function object) もかつてはファンクター
+(functor)と呼ばれていた．\cxx のファンクターとはクロージャの粗末な代
+用品のことで，本書で述べる関手とは異なる概念である．混同しないように
+注意しよう．}
 
-同じことはリストにも言える．値コンストラクタ $\mListWith{x}$ とマップ演算子 $\mMapList$ もまた関手である．この場合値コンストラクタは $\mProj{\mType{a}}{\mListType{a}}$ という型を持ち，マップ演算子も同じく $\mProj{(\mProj{\mType{a}}{\mType{b}})}{(\mProj{\mListType{a}}{\mListType{b}})}$ という型を持つ．
+同じことはリストにも言える．値コンストラクタ $\mListWith{x}$ とマップ
+演算子 $\mMapList$ もまた関手である．この場合値コンストラクタは
+$\mProj{\mType{a}}{\mListType{a}}$ という型を持ち，マップ演算子も同じ
+く
+$\mProj{(\mProj{\mType{a}}{\mType{b}})}{(\mProj{\mListType{a}}{\mListType{b}})}$
+という型を持つ．
 
 \separator
 
-\haskell ではマップ演算子が定義された型を関手と呼ぶ．具体的には，マップ演算子が定義された全ての型は $\mFunctorTypeClass$ 型クラスのインスタンスであるとする．つまり，$\mFunctorTypeClass$ 型クラスには一般化されたマップ演算子が定義されており，そのインスタンスであるリストやMaybeは独自のマップ演算子を定義しなければならないということである．
+\haskell ではマップ演算子が定義された型を関手と呼ぶ．具体的には，マッ
+プ演算子が定義された全ての型は $\mFunctorTypeClass$ 型クラスのインスタ
+ンスであるとする．つまり，$\mFunctorTypeClass$ 型クラスには一般化され
+たマップ演算子が定義されており，そのインスタンスであるリストやMaybeは
+独自のマップ演算子を定義しなければならないということである．
 
 一般化されたマップ演算子を $\mMap$ で表そう．この $\mMap$ 演算子は
 \begin{equation}
 (\mMap)
 \mIn{}\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn}
-\mSuperClass\mProj{\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mGenericTypeAssemble{fn}{a}}}{\mGenericTypeAssemble{fn}{b}}
+\mSuperClass\mProj{
+  \mProj{(\mProj{\mType{a}}{\mType{b}})}
+        {\mGenericTypeAssemble{fn}{a}}}
+                  {\mGenericTypeAssemble{fn}{b}}
 \end{equation}
-という型を持つ．ここに $(\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn})\mSuperClass$ は，続く式に対して $\mTypeConstructor{fn}$ が $\mFunctorTypeClass$ 型クラスに属すという制約を表している．また $\mTypeConstructor{fn}$ は型コンストラクタであり，$\mGenericTypeAssemble{fn}{a}$ は $\mTypeConstructor{fn}$ によって作られた型である．
+という型を持つ．ここに
+$(\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn})\mSuperClass$ は，
+続く式に対して $\mTypeConstructor{fn}$ が $\mFunctorTypeClass$ 型クラ
+スに属すという制約を表している．また $\mTypeConstructor{fn}$ は型コン
+ストラクタであり，$\mGenericTypeAssemble{fn}{a}$ は
+$\mTypeConstructor{fn}$ によって作られた型である．
 
-もし型コンストラクタがリスト型コンストラクタであれば，つまり $\mTypeConstructor{fn}=\mListTypeConstructor$ であれば
+もし型コンストラクタがリスト型コンストラクタであれば，つまり
+$\mTypeConstructor{fn}=\mListTypeConstructor$ であれば
 \begin{equation}
-(\mMapList)\mIn{}\mProj{\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mListType{a}}}{\mListType{b}}
+  (\mMapList)\mIn{}\mProj{\mProj{(\mProj{\mType{a}}
+      {\mType{b}})}{\mListType{a}}}{\mListType{b}}
 \end{equation}
-であるし，もし型コンストラクタがMaybe型コンストラクタであれば，つまり $\mTypeConstructor{fn}=\mMaybeTypeConstructor$ であれば
+であるし，もし型コンストラクタがMaybe型コンストラクタであれば，つまり
+$\mTypeConstructor{fn}=\mMaybeTypeConstructor$ であれば
 \begin{equation}
-(\mMapMaybe)\mIn{}\mProj{\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mMaybeType{a}}}{\mMaybeType{b}}
+  (\mMapMaybe)\mIn{}\mProj{\mProj{(\mProj{\mType{a}}{\mType{b}})}
+    {\mMaybeType{a}}}{\mMaybeType{b}}
 \end{equation}
 である．
 
-リストとMaybeは両者ともマップ演算子（と値コンストラクタ）を持つ．両者の関係をまとてみたのが表\ref{tab:list-and-maybe}である．オブジェクト指向プログラマなら，リストとMaybeに共通のスーパークラスを設計したくなるであろう．それが型クラス $\mFunctorTypeClass$ である．
+リストとMaybeは両者ともマップ演算子（と値コンストラクタ）を持つ．両者
+の関係をまとてみたのが表\ref{tab:list-and-maybe}である．オブジェクト指
+向プログラマなら，リストとMaybeに共通のスーパークラスを設計したくなる
+であろう．それが型クラス $\mFunctorTypeClass$ である．
 
 \begin{table*}
 \label{tab:list-and-maybe}
@@ -3041,27 +2868,49 @@ Maybe&$\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mJustWith{x},\mNo
 
 % \section{$\mFunctorTypeClass$ 型クラス}
 
-% 我々はオブジェクト指向プログラミングよりもエレガントな方法で，リストとMaybeの共通項をくくりだすことにする．いよいよ型クラスの出番である．
+% 我々はオブジェクト指向プログラミングよりもエレガントな方法で，リスト
+% とMaybeの共通項をくくりだすことにする．いよいよ型クラスの出番である．
 
-% リスト型 $\mListType{a}$ もMaybe型 $\mMaybeType{a}$ も $\mFunctorTypeClass$ 型クラスに属すのであった．そこで $\mFunctorTypeClass$ 型クラスは\keyword{一般マップ演算子} $(\mMap)$ を持つものとする．一般マップ演算子は，リスト型であれば $\mMapList$ 演算子に，Maybe型であれば $\mMapMaybe$ 演算子にオーバーライドされる．
+% リスト型 $\mListType{a}$ もMaybe型 $\mMaybeType{a}$ も
+% $\mFunctorTypeClass$ 型クラスに属すのであった．そこで
+% $\mFunctorTypeClass$ 型クラスは\keyword{一般マップ演算子} $(\mMap)$
+% を持つものとする．一般マップ演算子は，リスト型であれば $\mMapList$
+% 演算子に，Maybe型であれば $\mMapMaybe$ 演算子にオーバーライドされる．
 
 % ---
 
-% 一般マップ演算子 $(\mMap)$ は\keyword{多様的}である．この意味は，もし $f\mMap\mList{x}$ と書いてあれば $f\mMapList\mList{x}$ のことであるし，もし $f\mMap\mMaybe{u}$ と書いてあれば $f\mMapMaybe\mMaybe{u}$ のことであると自動的に解釈することである．そして，何の飾りもつけられていない変数 $x$ がふらっと現れ，目の前に $f\mMap x$という式が登場しても，落ち着いて変数 $x$ の型を調べ，変数 $x$ がリストならば $\mMap$ の部分に $\mMapList$ を，変数 $x$ がMaybeならば $\mMap$ の部分に $\mMapMaybe$ をはめ込むのだ．\footnote{\haskell では一般マップ演算子 $(\mMap)$ は \code{fmap} である．ただしその実装は与えられず，対象とする型に応じて定義されるものとする．例えばリストに対しては \code{fmap = map} と定義されている．}
+% 一般マップ演算子 $(\mMap)$ は\keyword{多様的}である．この意味は，も
+% し $f\mMap\mList{x}$ と書いてあれば $f\mMapList\mList{x}$ のことであ
+% るし，もし $f\mMap\mMaybe{u}$ と書いてあれば $f\mMapMaybe\mMaybe{u}$
+% のことであると自動的に解釈することである．そして，何の飾りもつけられ
+% ていない変数 $x$ がふらっと現れ，目の前に $f\mMap x$という式が登場し
+% ても，落ち着いて変数 $x$ の型を調べ，変数 $x$ がリストならば $\mMap$
+% の部分に $\mMapList$ を，変数 $x$ がMaybeならば $\mMap$ の部分に
+% $\mMapMaybe$ をはめ込むのだ．\footnote{\haskell では一般マップ演算子
+% $(\mMap)$ は \code{fmap} である．ただしその実装は与えられず，対象と
+% する型に応じて定義されるものとする．例えばリストに対しては
+% \code{fmap = map} と定義されている．}
 
 
 \section{アプリカティブ関手}
 
-マップ演算子をさらに汎用性のあるものにするために，\keyword{アプリカティブマップ演算子}という演算子を考えてみる．
+マップ演算子をさらに汎用性のあるものにするために，\keyword{アプリカティ
+  ブマップ演算子}という演算子を考えてみる．
 
-いま関数のリスト $\mListWith{f,g,h}$ と変数のリスト $\mListWith{x,y,z}$ があるとする．リストバージョンのアプリカティブマップ演算子 $\mAppMapList$ を次のように定義する．
+いま関数のリスト $\mListWith{f,g,h}$ と変数のリスト
+$\mListWith{x,y,z}$ があるとする．リストバージョンのアプリカティブマッ
+プ演算子 $\mAppMapList$ を次のように定義する．
 \begin{equation}
 \mListWith{f,g,h}\mAppMapList\mListWith{x,y,z}
 =\mListWith{fx,fy,fz,gx,gy,gz,hx,hy,hz}
 \end{equation}
-リストバージョンのアプリカティブマップ演算子はこのように，左引数のリスト内のすべての関数を順番に右引数のリスト内の変数に適用し，その結果をリストとして返す．
+リストバージョンのアプリカティブマップ演算子はこのように，左引数のリス
+ト内のすべての関数を順番に右引数のリスト内の変数に適用し，その結果をリ
+ストとして返す．
 
-リストバージョンのアプリ化ティブマップ演算子 $\mAppMapList$ の型は $\mProj{\mListType{\mProj{\mType{a}}{\mType{b}}}}{\mProj{\mListType{\mType{a}}}{\mListType{\mType{b}}}}$ である．これは
+リストバージョンのアプリ化ティブマップ演算子 $\mAppMapList$ の型は
+$\mProj{\mListType{\mProj{\mType{a}}{\mType{b}}}}{\mProj{\mListType{\mType{a}}}{\mListType{\mType{b}}}}$
+である．これは
 \begin{multline}
 \mAppMapList\mIn
 \underbrace{\mListWith{\mType{a}\mapsto\mType{b}}}_{\mListWith{f_0,f_1\dotsb f_n}}
@@ -3072,7 +2921,8 @@ Maybe&$\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mJustWith{x},\mNo
 \end{multline}
 と解釈すれば良い．
 
-リストバージョンのアプリカティブマップ演算子 $(\mAppMapList)$ の特別な場合として，左引数のリストの要素数が $1$ の場合を考えると
+リストバージョンのアプリカティブマップ演算子 $(\mAppMapList)$ の特別な
+場合として，左引数のリストの要素数が $1$ の場合を考えると
 \begin{equation}
 \mListWith{f}\mAppMapList\mListWith{x,y,z}
 =\mListWith{fx,fy,fz}
@@ -3082,14 +2932,18 @@ Maybe&$\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mJustWith{x},\mNo
 f\mMapList\mListWith{x,y,z}
 =\mListWith{fx,fy,fz}
 \end{equation}
-と右辺が一致する．つまり，マップ演算子はアプリカティブマップ演算子の特別な場合と考えることができる．実際，リストバージョンのアプリカティブマップ演算子は
+と右辺が一致する．つまり，マップ演算子はアプリカティブマップ演算子の特
+別な場合と考えることができる．実際，リストバージョンのアプリカティブマッ
+プ演算子は
 \begin{equation}
 f\mMapList\mList{x}
 =\mListWith{f}\mAppMapList\mList{x}
 \end{equation}
 と定義できる．
 
-Maybeバージョンについても考えてみよう．Maybeに包まれた関数 $\mMaybe{i}$ をMaybeな変数 $\mMaybe{u}$ にマップするアプリカティブマップ演算子 $\mAppMapMaybe$ を
+Maybeバージョンについても考えてみよう．Maybeに包まれた関数
+$\mMaybe{i}$ をMaybeな変数 $\mMaybe{u}$ にマップするアプリカティブマッ
+プ演算子 $\mAppMapMaybe$ を
 \begin{equation}
 \mMaybe{i}\mAppMapMaybe\mMaybe{u}
 =\begin{cases}
@@ -3107,7 +2961,8 @@ j\mMapMaybe\mMaybe{u}&\mIf i\equiv\mJustWith{j}\\
 % \mNothing&\mOtherwise
 % \end{cases}
 % \end{equation}
-で定義する．このMaybeバージョンのアプリカティブマップ演算子 $(\mAppMapMaybe)$ からMaybeバージョンのマップ演算子 $(\mMapMaybe)$ は
+で定義する．このMaybeバージョンのアプリカティブマップ演算子
+$(\mAppMapMaybe)$ からMaybeバージョンのマップ演算子 $(\mMapMaybe)$ は
 \begin{equation}
 f\mMapMaybe\mMaybe{u}
 =\mJustWith{f}\mAppMapMaybe\mMaybe{u}
@@ -3119,88 +2974,110 @@ f\mMapMaybe\mMaybe{u}
 \label{eq:general-applicative-map}
 f\mMap w=\mPureWith{f}\mAppMap w
 \end{equation}
-となるような\keyword{一般アプリカティブマップ演算子} $(\mAppMap)$ を考える．ここに $f$ は関数，$w$ はリストやMaybeといったコンテナ型の変数すなわち\keyword{コンテナ変数}である．一般アプリカティブマップ演算子 $(\mAppMap)$ から一般マップ演算子 $(\mMap)$ を導き出すには，式 \eqref{eq:general-applicative-map} のように値コンストラクタが必要である．この一般化された値コンストラクタを\keyword{ピュア演算子}と呼ぶ．アプリカティブマップ演算子とピュア演算子を持つ型クラスを\keyword{アプリカティブ関手}と呼び，$\mApplicativeTypeClass$ 型クラスと定義する．\footnote{\haskell では一般アプリカティブマップ演算子を \code{<*>} と書く．}
+となるような\keyword{一般アプリカティブマップ演算子} $(\mAppMap)$ を考
+える．ここに $f$ は関数，$w$ はリストやMaybeといったコンテナ型の変数す
+なわち\keyword{コンテナ変数}である．一般アプリカティブマップ演算子
+$(\mAppMap)$ から一般マップ演算子 $(\mMap)$ を導き出すには，式
+\eqref{eq:general-applicative-map} のように値コンストラクタが必要であ
+る．この一般化された値コンストラクタを\keyword{ピュア演算子}と呼ぶ．ア
+プリカティブマップ演算子とピュア演算子を持つ型クラスを\keyword{アプリ
+  カティブ関手}と呼び，$\mApplicativeTypeClass$ 型クラスと定義する．
+\footnote{\haskell では一般アプリカティブマップ演算子を \code{<*>} と
+  書く．}
 
-ピュア演算子をピュア値コンストラクタと呼ばないのは，単純に「ピュア値」というものがないからである．$\mFunctorTypeClass$ 型クラスはリスト型やMaybe型を抽象化したものであって，直接変数を生成できない．型クラスは，\cxx の用語で言えば純粋仮想クラスのようなものであるし，\objectivec の用語で言えばメタクラスであるからである．もちろんリストのピュア演算子は $\mListWith{x}$ であるし，Maybeのピュア演算子は $\mJustWith{x}$ であり，それぞれ具体的な変数を生成する．しかし変数 $x$ にピュア演算子を適用した $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在しない．\footnote{\haskell は一般のピュア演算子の実装を与えていない．変数の型に応じて対応する関数が適用される．}
+ピュア演算子をピュア値コンストラクタと呼ばないのは，単純に「ピュア値」
+というものがないからである．$\mFunctorTypeClass$ 型クラスはリスト型や
+Maybe型を抽象化したものであって，直接変数を生成できない．型クラスは，
+\cxx の用語で言えば純粋仮想クラスのようなものであるし，\objectivec の
+用語で言えばメタクラスであるからである．もちろんリストのピュア演算子は
+$\mListWith{x}$ であるし，Maybeのピュア演算子は $\mJustWith{x}$ であり，
+それぞれ具体的な変数を生成する．しかし変数 $x$ にピュア演算子を適用し
+た $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在しない．
+\footnote{\haskell は一般のピュア演算子の実装を与えていない．変数の型
+  に応じて対応する関数が適用される．}
 
-一般アプリカティブマップ演算子 $(\mAppMap)$ は多様性によってそれぞれリストバージョンのアプリカティブマップ演算子 $(\mAppMapList)$ やMaybeバージョンのアプリカティブマップ演算子 $(\mAppMapMaybe)$ にオーバーライドされ，それぞれリスト値コンストラクタ $(\mListWith{x})$, Maybe値コンストラクタ $(\mJustWith{x})$ を用いることでリストバージョンのマップ演算子 $(\mMapList)$, Maybeバージョンのマップ演算子 $(\mMapMaybe)$ を生成することができる．リスト値コンストラクタ，Maybe値コンストラクタはそれぞれピュア演算子 $(\mPureWith{x})$ をオーバーライドしたものであるから，結局，一般アプリカティブマップ演算子とピュア演算子のふたつがあれば，任意のクラスのマップ演算子を生成することができる．
+一般アプリカティブマップ演算子 $(\mAppMap)$ は多様性によってそれぞれリ
+ストバージョンのアプリカティブマップ演算子 $(\mAppMapList)$ やMaybeバー
+ジョンのアプリカティブマップ演算子 $(\mAppMapMaybe)$ にオーバーライド
+され，それぞれリスト値コンストラクタ $(\mListWith{x})$, Maybe値コンス
+トラクタ $(\mJustWith{x})$ を用いることでリストバージョンのマップ演算
+子 $(\mMapList)$, Maybeバージョンのマップ演算子 $(\mMapMaybe)$ を生成
+することができる．リスト値コンストラクタ，Maybe値コンストラクタはそれ
+ぞれピュア演算子 $(\mPureWith{x})$ をオーバーライドしたものであるから，
+結局，一般アプリカティブマップ演算子とピュア演算子のふたつがあれば，任
+意のクラスのマップ演算子を生成することができる．
 
 \separator
 
-この節の最後に\keyword{アプリカティブスタイル}という記法を紹介しておこう．アプリカティブマップ演算子は連続して
+この節の最後に\keyword{アプリカティブスタイル}という記法を紹介しておこ
+う．アプリカティブマップ演算子は連続して
 \begin{equation}
 \label{eq:applicative-style}
 \mPureWith{f}\mAppMap u\mAppMap v
 \end{equation}
-のように使える．もし $u\equiv\mPureNothing$ もしくは $v\equiv\mPureNothing$ であれば式の値は $\mPureNothing$ になる．式\eqref{eq:applicative-style}からピュア演算子を消すには，最初のアプリカティブマップ演算子をマップ演算子に置き換えて
+のように使える．もし $u\equiv\mPureNothing$ もしくは
+$v\equiv\mPureNothing$ であれば式の値は $\mPureNothing$ になる．式
+\eqref{eq:applicative-style}からピュア演算子を消すには，最初のアプリカ
+ティブマップ演算子をマップ演算子に置き換えて
 \begin{equation}
 w=f\mMap u\mAppMap v
 \end{equation}
-とすれば良い．このようにアプリカティブマップ演算子を並べる書き方をアプリカティブスタイルと呼ぶ．
+とすれば良い．このようにアプリカティブマップ演算子を並べる書き方をアプ
+リカティブスタイルと呼ぶ．
 
 \section{関手としての関数}
 
-関数は関手である．関手とはマップ演算子を持つ型クラスのことであった．そこで，関数がどのようなマップ演算子を持つのか考えてみる．
+関数は関手である．関手とはマップ演算子を持つ型クラスのことであった．そ
+こで，関数がどのようなマップ演算子を持つのか考えてみる．
 
 いま関数 $f$ が
 \begin{equation}
 f\mIn\mProj{\mType{r}}{\mType{a}}
 \end{equation}
-という型を持っているとする．全く形式的に，$\mFuncTypeConstructor{r}$ なる型コンストラクタがあるとして
+という型を持っているとする．全く形式的に，$\mFuncTypeConstructor{r}$
+なる型コンストラクタがあるとして
 \begin{equation}
 \mProj{\mType{r}}{\mType{a}}=\mFuncTypeConstructor{r}\mType{a}
 \end{equation}
-であると考えてみる．型 $\mType{a}$ から型コンストラクタ $\mFuncTypeConstructor{r}$ によって型 $(\mProj{\mType{r}}{\mType{a}})$ が作られると考えるのだ．
+であると考えてみる．型 $\mType{a}$ から型コンストラクタ
+$\mFuncTypeConstructor{r}$ によって型 $(\mProj{\mType{r}}{\mType{a}})$
+が作られると考えるのだ．
 
 マップ演算子の型は
 \begin{equation}
-(\mMap)
-\mIn{}\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn}
-\mSuperClass\mProj{\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mGenericTypeAssemble{fn}{a}}}{\mGenericTypeAssemble{fn}{b}}
+(\mMap)\mIn{}\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn}
+  \mSuperClass\mProj{\mProj{(\mProj{\mType{a}}{\mType{b}})}
+    {\mGenericTypeAssemble{fn}{a}}}{\mGenericTypeAssemble{fn}{b}}
 \end{equation}
-であって，いま $\mTypeConstructor{fn}=\mFuncTypeConstructor{r}$ を考えているから，関数のマップ演算子を $\mMapFunc$ とすると
+であって，いま $\mTypeConstructor{fn}=\mFuncTypeConstructor{r}$ を考え
+ているから，関数のマップ演算子を $\mMapFunc$ とすると
 \begin{equation}
-(\mMapFunc)\mIn{}\mProj{\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mFuncTypeConstructor{r}\mType{a}}}{\mFuncTypeConstructor{r}\mType{b}}
+  (\mMapFunc)\mIn{}\mProj{\mProj{(\mProj{\mType{a}}{\mType{b}})}
+    {\mFuncTypeConstructor{r}\mType{a}}}{\mFuncTypeConstructor{r}\mType{b}}
 \end{equation}
 であり，これはすなわち
 \begin{equation}
-(\mMapFunc)
-\mIn{}\mProj{
-  \mProj{
-    (\mProj{\mType{a}}{\mType{b}})
-  }
-  {
-    (\mProj{\mType{r}}{\mType{a}})
-  }
-}
-{
-  (\mProj{\mType{r}}{\mType{b}})
-}
+(\mMapFunc) \mIn{}\mProj{\mProj{(\mProj{\mType{a}}{\mType{b}})}
+    {(\mProj{\mType{r}}{\mType{a}})}} {(\mProj{\mType{r}}{\mType{b}})}
 \end{equation}
 のことである．
 
-いま関数 $f\mIn\mProj{\mType{r}}{\mType{a}}$ とは別な関数 $g\mIn\mProj{\mType{a}}{\mType{b}}$ があったとしよう．関数 $f$ と関数 $g$ の合成 $g\mComp f$ の型は
+いま関数 $f\mIn\mProj{\mType{r}}{\mType{a}}$ とは別な関数
+$g\mIn\mProj{\mType{a}}{\mType{b}}$ があったとしよう．関数 $f$ と関数
+$g$ の合成 $g\mComp f$ の型は
 \begin{equation}
 g\mComp f\mIn\mProj{\mType{r}}{\mType{b}}
 \end{equation}
 であるから，
 \begin{equation}
-(\mComp)
-\mIn{}\mProj{
-  \mProj{
-    (\mProj{\mType{a}}{\mType{b}})
-  }
-  {
-    (\mProj{\mType{r}}{\mType{a}})
-  }
-}
-{
-  (\mProj{\mType{r}}{\mType{b}})
-}
+  (\mComp)\mIn{}\mProj{\mProj{(\mProj{\mType{a}}{\mType{b}})}{(\mProj{\mType{r}}{\mType{a}})}}
+  {(\mProj{\mType{r}}{\mType{b}})}
 \end{equation}
-である．つまり関数のマップ演算子 $(\mMapFunc)$ と関数の合成演算子 $(\mComp)$ は同じ型を持つ．
+である．つまり関数のマップ演算子 $(\mMapFunc)$ と関数の合成演算子
+$(\mComp)$ は同じ型を持つ．
 
-幸い，我々は関数のマップ演算子の実装に関しては，型さえ守っていれば自由に選べる．そこで
+幸い，我々は関数のマップ演算子の実装に関しては，型さえ守っていれば自由
+に選べる．そこで
 \begin{equation}
 g\mMapFunc f=g\mComp f
 \end{equation}
@@ -3208,13 +3085,19 @@ g\mMapFunc f=g\mComp f
 \begin{equation}
 g\mMapFunc f=\mLambdaExp{x}{g(fx)}
 \end{equation}
-と書いても同じことである．これが \haskell における関数のマップ演算子の定義である．
+と書いても同じことである．これが \haskell における関数のマップ演算子の
+定義である．
 
 \separator
 
-関数はアプリカティブ関手でもある．アプリカティブ関手には，アプリカティブマップ演算子とピュア演算子が定義されるのであった．そこで，関数版のアプリカティブマップ演算子を $\mAppMapFunc$ とし，関数版のピュア演算子を $\mFuncWith{x}$ と書くことにしよう．
+関数はアプリカティブ関手でもある．アプリカティブ関手には，アプリカティ
+ブマップ演算子とピュア演算子が定義されるのであった．そこで，関数版のア
+プリカティブマップ演算子を $\mAppMapFunc$ とし，関数版のピュア演算子を
+$\mFuncWith{x}$ と書くことにしよう．
 
-ピュア演算子は $\mProj{\mType{a}}{(\mProj{\mType{r}}{\mType{a}})}$ 型を持たなければならない．従って関数版のピュア演算子は変数から関数を作るとも考えられる．我々は関数版のピュア演算子として
+ピュア演算子は $\mProj{\mType{a}}{(\mProj{\mType{r}}{\mType{a}})}$ 型
+を持たなければならない．従って関数版のピュア演算子は変数から関数を作る
+とも考えられる．我々は関数版のピュア演算子として
 \begin{equation}
 \mFuncWith{x}=\mLambdaExp{\mAnyParam}{x}
 \end{equation}
@@ -3258,7 +3141,9 @@ g\mMapFunc f=\mLambdaExp{x}{g(fx)}
 \begin{equation}
 g\mAppMapFunc f=\mLambdaExp{x}{gx(fx)}
 \end{equation}
-とする．これは，関数版のピュア演算子の定義と，一般マップ演算子と一般アプリカティブマップ演算子の関係 $f\mMap w=\mPureWith{f}\mAppMap w$ から導かれる．すなわち
+とする．これは，関数版のピュア演算子の定義と，一般マップ演算子と一般ア
+プリカティブマップ演算子の関係 $f\mMap w=\mPureWith{f}\mAppMap w$ から
+導かれる．すなわち
 \begin{align}
 \mFuncWith{g}\mAppMapFunc f
 &=\mLambdaExp{x}{\mFuncWith{g}x(fx)}\\
@@ -3270,7 +3155,9 @@ g\mAppMapFunc f=\mLambdaExp{x}{gx(fx)}
 
 \section{余談：アプリカティブマップ演算子の実装}
 
-リストとMaybeのアプリカティブマップ演算子は，それぞれのマップ演算子から定義することができる．リストのアプリカティブマップ演算子の定義は次の通り．
+リストとMaybeのアプリカティブマップ演算子は，それぞれのマップ演算子か
+ら定義することができる．リストのアプリカティブマップ演算子の定義は次の
+通り．
 \begin{equation}
 \left\{
 \begin{aligned}
@@ -3322,8 +3209,6 @@ h\mMapMaybe\mMaybe{u}&\mIf\mMaybe{g}\equiv\mJustWith{h}\\
 % 
 \end{note}
 
-
-
 \chapter{モナド}
 \label{ch:monad}
 
@@ -3331,44 +3216,73 @@ h\mMapMaybe\mMaybe{u}&\mIf\mMaybe{g}\equiv\mJustWith{h}\\
 A...
 \end{leader}
 
-
 \section{バインド演算子}
 
-
-一般マップ演算子をピュア演算子と一般アプリカティブマップ演算子に分解することで，式の見通しを良くすることができるアプリカティブスタイルという記法を採用できた．アプリカティブスタイルでは
+一般マップ演算子をピュア演算子と一般アプリカティブマップ演算子に分解す
+ることで，式の見通しを良くすることができるアプリカティブスタイルという
+記法を採用できた．アプリカティブスタイルでは
 \begin{equation}
 f\mMap u\mAppMap v\mAppMap w
 \end{equation}
-という風にコンテナ変数 $u,v,w$ に関数 $f$ を適用させることができる．コンテナ変数 $u,v,w$ のいずれかが $\mPureNothing$ であれば式全体の値が $\mPureNothing$ になる．これは3個の計算を並列に行って，その結果をそれぞれ $u,v,w$ に入れておき，最後に関数 $f$ に投げるという\keyword{計算構造}を具現化したものである．（関数 $f$ は\clang で言えば \code{main} 関数に相当するであろう．）
+という風にコンテナ変数 $u,v,w$ に関数 $f$ を適用させることができる．コ
+ンテナ変数 $u,v,w$ のいずれかが $\mPureNothing$ であれば式全体の値が
+$\mPureNothing$ になる．これは3個の計算を並列に行って，その結果をそれ
+ぞれ $u,v,w$ に入れておき，最後に関数 $f$ に投げるという\keyword{計算
+構造}を具現化したものである．（関数 $f$ は\clang で言えば
+\code{main} 関数に相当するであろう．）
 
-しかしながら，アプリカティブスタイルでは変数に文脈を与えるタイミングがコンテナ変数を作るときのそれぞれ1回に限られている．そこで，任意のタイミングで変数に文脈を与えられるように，別な方法で一般マップ演算子を分解してみよう．
+しかしながら，アプリカティブスタイルでは変数に文脈を与えるタイミングが
+コンテナ変数を作るときのそれぞれ1回に限られている．そこで，任意のタイ
+ミングで変数に文脈を与えられるように，別な方法で一般マップ演算子を分解
+してみよう．
 
-Maybeの例を思い出そう．Maybe型の変数 $\mMaybe{u}$ はラップされた値 $\mJustWith{x}$ を持つのか，エラーを表す $\mNothing$ を持つのかを選べる．そこで，引数 $x$ をとり何らかの計算をする関数 $g$ を考えよう．この関数 $g$ は引数 $x$ の値次第ではエラーを表す $\mNothing$ を返す．例えば
+Maybeの例を思い出そう．Maybe型の変数 $\mMaybe{u}$ はラップされた値
+$\mJustWith{x}$ を持つのか，エラーを表す $\mNothing$ を持つのかを選べ
+る．そこで，引数 $x$ をとり何らかの計算をする関数 $g$ を考えよう．この
+関数 $g$ は引数 $x$ の値次第ではエラーを表す $\mNothing$ を返す．例えば
 \begin{equation}
 gx=\begin{cases}
 \mJustWith{1/x}&\mIf x\neq0\\
 \mNothing&\mOtherwise
 \end{cases}
 \end{equation}
-といった関数が考えられる．変数 $x$ は文脈を持っていないが，関数 $g$ を適用した結果である $gx$ は文脈を持っていることに注意しよう．いま $gx$ はMaybeという文脈を持っているから，我々は
+といった関数が考えられる．変数 $x$ は文脈を持っていないが，関数 $g$ を
+適用した結果である $gx$ は文脈を持っていることに注意しよう．いま $gx$
+はMaybeという文脈を持っているから，我々は
 \begin{equation}
 \mMaybe{v}=gx
 \end{equation}
-という風に結果をMaybe変数に保存しなければならない．今まで見てきた $y=fx$ や $\mMaybe{v}=f\mMapMaybe\mMaybe{u}$ の関係とは異なることに注意しよう．
+という風に結果をMaybe変数に保存しなければならない．今まで見てきた
+$y=fx$ や $\mMaybe{v}=f\mMapMaybe\mMaybe{u}$ の関係とは異なることに注
+意しよう．
 
 関数 $g$ の型は
 \begin{equation}
 g\mIn\mProj{\mType{a}}{\mMaybeType{a}}
 \end{equation}
-である．ということは，関数 $g$ をMaybe変数に適用させるようと思っても，我々が既に知っているマップ演算子 $\mMapMaybe$ やアプリカティブマップ演算子 $\mAppMapMaybe$ が使えないということである．前者は第1引数に $\mProj{\mType{a}}{\mType{b}}$ 型の関数を取るし，後者は第1引数に $\mJustWith{(\mProj{\mType{a}}{\mType{b}})}$ 型の関数（Maybe関数）を取るからである． % ***CHECK***
+である．ということは，関数 $g$ をMaybe変数に適q用させるようと思っても，
+我々が既に知っているマップ演算子 $\mMapMaybe$ やアプリカティブマップ演
+算子 $\mAppMapMaybe$ が使えないということである．前者は第1引数に
+$\mProj{\mType{a}}{\mType{b}}$ 型の関数を取るし，後者は第1引数に
+$\mJustWith{(\mProj{\mType{a}}{\mType{b}})}$ 型の関数（Maybe関数）を取
+るからである．
 
-そこで，新しいマップ演算子を発明する．いまMaybe変数 $\mMaybe{u}$ を $\mMaybe{u}=\mJustWith{x}$ としよう．新しいマップ演算子 $\mBindMaybe$ を使って
+% ***CHECK***
+
+そこで，新しいマップ演算子を発明する．いまMaybe変数 $\mMaybe{u}$ を
+$\mMaybe{u}=\mJustWith{x}$ としよう．新しいマップ演算子 $\mBindMaybe$
+を使って
 \begin{equation}
 \mMaybe{v}=g\mBindMaybe\mMaybe{u}
 \end{equation}
-とする．この新しいマップ演算子 $\mBindMaybe$ のことをMaybeの\keyword{バインド演算子}と呼ぶ．ここで，もし計算が成功していたら $\mMaybe{v}=\mJustWith{gx}$ であり，失敗していたら $\mMaybe{v}=\mNothing$ である．
+とする．この新しいマップ演算子 $\mBindMaybe$ のことをMaybeの
+\keyword{バインド演算子}と呼ぶ．ここで，もし計算が成功していたら
+$\mMaybe{v}=\mJustWith{gx}$ であり，失敗していたら
+$\mMaybe{v}=\mNothing$ である．
 
-演算 $(g\mBindMaybe\mMaybe{u})$ の結果はMaybe値であるから，バインド演算子は連続して用いることができる．通常の引数を取ってMaybe値を返すもう一つの関数 $h$ があるとすると
+演算 $(g\mBindMaybe\mMaybe{u})$ の結果はMaybe値であるから，バインド演
+算子は連続して用いることができる．通常の引数を取ってMaybe値を返すもう
+一つの関数 $h$ があるとすると
 \begin{equation}
 \mMaybe{v}=h\mBindMaybe{}(g\mBindMaybe\mMaybe{u})
 \end{equation}
@@ -3377,7 +3291,9 @@ g\mIn\mProj{\mType{a}}{\mMaybeType{a}}
 \label{eq:maybe-z-bind-style}
 \mMaybe{v}=h\mBindMaybe g\mBindMaybe\mMaybe{u}
 \end{equation}
-のように簡潔に書ける．このスタイルなら演算子もすべて統一できていて，かつどの関数でも戻り値を $\mNothing$ に切り替えられるので，アプリカティブスタイルよりも強力と言える．
+のように簡潔に書ける．このスタイルなら演算子もすべて統一できていて，か
+つどの関数でも戻り値を $\mNothing$ に切り替えられるので，アプリカティ
+ブスタイルよりも強力と言える．
 
 具体例で考えてみよう．関数 $g$ を
 \begin{equation}
@@ -3397,19 +3313,42 @@ hy=\begin{cases}
 \begin{equation}
 \mMaybe{v}=h\mBindMaybe g\mBindMaybe\mMaybe{u}
 \end{equation}
-の計算結果として $\mMaybe{v}=\mJustWith{1}$ を得る．一方で $\mMaybe{u}=\mJustWith{0},\mMaybe{u}=\mJustWith{1/\pi},u=\mNothing$ などの場合は $\mMaybe{v}=\mNothing$ となり，計算できなかったという結果を得る．
+の計算結果として $\mMaybe{v}=\mJustWith{1}$ を得る．一方で
+$\mMaybe{u}=\mJustWith{0},\mMaybe{u}=\mJustWith{1/\pi},u=\mNothing$ な
+どの場合は $\mMaybe{v}=\mNothing$ となり，計算できなかったという結果を
+得る．
 
-% バインド演算子は向きを反転させても良い．式\eqref{eq:maybe-z-bind-style}は
-% \begin{equation}
-% \mMaybe{z}=\mMaybe{x}\mBindMaybe\phi\mBindMaybe\psi
-% \end{equation}
-% と書いてもよく，矢印の向きを考慮する場合は $\mBindLeftMaybe$ を\keyword{左バインド演算子}，$\mBindRightMaybe$ を\keyword{右バインド演算子}と呼ぶ．
+% バインド演算子は向きを反転させても良い．式
+% \eqref{eq:maybe-z-bind-style}は\begin{equation}
+% \mMaybe{z}=\mMaybe{x}\mBindMaybe\phi\mBindMaybe\psi \end{equation}と
+% 書いてもよく，矢印の向きを考慮する場合は $\mBindLeftMaybe$ を
+% \keyword{左バインド演算子}，$\mBindRightMaybe$ を\keyword{右バインド
+% 演算子}と呼ぶ．
 
-というわけで，$\mApplicativeTypeClass$ 型クラスをさらに拡張して，一般のバインド演算子を持たせることを考えらてみよう．我々はこの新しい型クラスを\keyword{モナド}型クラスと呼び $\mMonadTypeClass$ で表す．
+というわけで，$\mApplicativeTypeClass$ 型クラスをさらに拡張して，一般
+のバインド演算子を持たせることを考えらてみよう．我々はこの新しい型クラ
+スを\keyword{モナド}型クラスと呼び $\mMonadTypeClass$ で表す．
 
 \section{モナド}
 
-$\mFunctorTypeClass$ 型クラスは一般マップ演算子 $(\mMap)$ を持っていた．$\mApplicativeTypeClass$ 型クラスはピュア演算子 $(\mPureWith{x})$ と一般アプリカティブマップ演算子 $(\mAppMap)$ を持っており，このふたつの演算子から一般マップ演算子を合成できた．新しい $\mMonadTypeClass$ 型クラスは，\keyword{一般バインド演算子} $(\mBind)$ とピュア演算子を持つものとしよう．後で見るように，一般マップ演算子はピュア演算子と一般バインド演算子から合成できるし，一般アプリカティブマップ演算子もまたピュア演算子と一般バインド演算子から合成できる．\footnote{\haskell には最初に関手が導入され，その次に関手を拡張する形でモナドが導入された．そしてその次に，関手を拡張しなおす形でアプリカティブ関手が導入された．それゆえ，モナドとアプリカティブ関手には概念的重複があるにもかかわらず，別々に定義されるという悲劇が暫くの間続いた．アプリカティブ関手のピュア演算子と，モナドのユニット演算子は概念的に同じものであるにもかかわらず，別々の演算子として定義されていたのである．この状態は GHC v7.10 以降で，モナドがアプリカティブ関手を拡張する形に改められたことで解消した．ただし，かつて「モナド版のピュア演算子」としてモナドに「ユニット演算子」が定義されていたことから，ピュア演算子のことをユニット演算子と呼ぶ場合がある．}
+$\mFunctorTypeClass$ 型クラスは一般マップ演算子 $(\mMap)$ を持っていた．
+$\mApplicativeTypeClass$ 型クラスはピュア演算子 $(\mPureWith{x})$ と一
+般アプリカティブマップ演算子 $(\mAppMap)$ を持っており，このふたつの演
+算子から一般マップ演算子を合成できた．新しい $\mMonadTypeClass$ 型クラ
+スは，\keyword{一般バインド演算子} $(\mBind)$ とピュア演算子を持つもの
+としよう．後で見るように，一般マップ演算子はピュア演算子と一般バインド
+演算子から合成できるし，一般アプリカティブマップ演算子もまたピュア演算
+子と一般バインド演算子から合成できる．\footnote{\haskell には最初に関
+手が導入され，その次に関手を拡張する形でモナドが導入された．そしてそ
+の次に，関手を拡張しなおす形でアプリカティブ関手が導入された．それゆ
+え，モナドとアプリカティブ関手には概念的重複があるにもかかわらず，別々
+に定義されるという悲劇が暫くの間続いた．アプリカティブ関手のピュア演
+算子と，モナドのユニット演算子は概念的に同じものであるにもかかわらず，
+別々の演算子として定義されていたのである．この状態は GHC v7.10 以降
+で，モナドがアプリカティブ関手を拡張する形に改められたことで解消した．
+ただし，かつて「モナド版のピュア演算子」としてモナドに「ユニット演算
+子」が定義されていたことから，ピュア演算子のことをユニット演算子と
+呼ぶ場合がある．}
 
 関数 $i$ が次の形をしているとする．
 \begin{equation}
@@ -3419,20 +3358,27 @@ ix=\begin{cases}
 \mPureNothing&\mOtherwise
 \end{cases}
 \end{equation}
-ここに $x$ は非コンテナ変数で，関数 $f$ も「普通の」（コンテナに入っていない）関数である．より厳密に言えば $x\mIn\mType{a}$ かつ $f\mIn\mProj{\mType{a}}{\mType{b}}$ である．従って，関数 $i$ の型は $\mProj{\mType{a}}{\mPureType{b}}$ である．
+ここに $x$ は非コンテナ変数で，関数 $f$ も「普通の」（コンテナに入って
+  いない）関数である．より厳密に言えば $x\mIn\mType{a}$ かつ
+$f\mIn\mProj{\mType{a}}{\mType{b}}$ である．従って，関数 $i$ の型は
+$\mProj{\mType{a}}{\mPureType{b}}$ である．
 
-関数 $i$ をコンテナに入った変数 $u=\mPureWith{x}$ に適用させるのが一般バインド演算子 $(\mBind)$ の役割である．計算結果をコンテナ変数 $a$ に格納するとすると，関数 $i$ のコンテナ変数 $u$ への適用は
+関数 $i$ をコンテナに入った変数 $u=\mPureWith{x}$ に適用させるのが一般
+バインド演算子 $(\mBind)$ の役割である．計算結果をコンテナ変数 $a$ に
+格納するとすると，関数 $i$ のコンテナ変数 $u$ への適用は
 \begin{equation}
 \label{eq:i-love-u}
 a=i\mBind u
 \end{equation}
-と書ける．うまく行けば $a=\mPureWith{fx}$ となるし，そうでなければ $a=\mPureNothing$ となる．
+と書ける．うまく行けば $a=\mPureWith{fx}$ となるし，そうでなければ
+$a=\mPureNothing$ となる．
 
 さて $u=\mPureWith{x},v=\mPureWith{y}$ として，かつ $y=fx$ であるとき
 \begin{equation}
 v=f\mMap u=\mPureWith{f}\mAppMap u
 \end{equation}
-であった．式\eqref{eq:def-of-i}から $ix=\mPureWith{fx}$ すなわち $i=\mPureWith{f\mAnonParam}$ の関係を抜き出すと式\eqref{eq:i-love-u}は
+であった．式\eqref{eq:def-of-i}から $ix=\mPureWith{fx}$ すなわち
+$i=\mPureWith{f\mAnonParam}$ の関係を抜き出すと式\eqref{eq:i-love-u}は
 \begin{equation}
 a=\mPureWith{f\mAnonParam}\mBind u
 \end{equation}
@@ -3440,22 +3386,27 @@ a=\mPureWith{f\mAnonParam}\mBind u
 \begin{equation}
 v=f\mMap u=\mPureWith{f}\mAppMap u=\mPureWith{f\mAnonParam}\mBind u
 \end{equation}
-を得る．これが一般バインド演算子と一般アプリカティブマップ演算子，一般マップ演算子の関係である．
+を得る．これが一般バインド演算子と一般アプリカティブマップ演算子，一般
+マップ演算子の関係である．
 
 
 \section{関手則・アプリカティブ関手則・モナド則}
 
-関手，アプリカティブ関手，モナドにはそれぞれ従う規則がある．これらは自然法則ではなく，定義である．
+関手，アプリカティブ関手，モナドにはそれぞれ従う規則がある．これらは自
+然法則ではなく，定義である．
 
 関手の一般マップ演算子 $(\mMap)$ は次の規則に従う．
 \begin{enumerate}
 \item 単位元の存在: $\mId\mMap u=u$
 \item 合成則: $(f\mComp g)\mMap=(f\mMap)\mComp{}(g\mMap)$%=f\mMap{}(g\mMap\mAnonParam)$
 \end{enumerate}
-ただし関数 $\mId$ は $\mId x=x$ で定義される．もちろん $\mId=\mAnonParam$ と定義しても同じである．
+ただし関数 $\mId$ は $\mId x=x$ で定義される．もちろん
+$\mId=\mAnonParam$ と定義しても同じである．
 % https://en.wikibooks.org/wiki/Haskell/The_Functor_class#The_functor_laws
 
-例えば $\mId\mMap\mList{x}$ は $\mId\mList{x}$ であり，結局は $\mList{x}$ である．単位元の存在とは，そのような関数 $\mId$ があるという規則である．
+例えば $\mId\mMap\mList{x}$ は $\mId\mList{x}$ であり，結局は
+$\mList{x}$ である．単位元の存在とは，そのような関数 $\mId$ があるとい
+う規則である．
 
 合成則のほうは $\mList{x}=\mListWith{x}$ を例に考えるとわかりやすく，
 \begin{align}
@@ -3471,7 +3422,8 @@ v=f\mMap u=\mPureWith{f}\mAppMap u=\mPureWith{f\mAnonParam}\mBind u
 
 \separator
 
-アプリカティブ関手の一般アプリカティブマップ演算子 $(\mAppMap)$ およびピュア演算子は次の規則に従う．
+アプリカティブ関手の一般アプリカティブマップ演算子 $(\mAppMap)$ および
+ピュア演算子は次の規則に従う．
 \begin{enumerate}
 \item 単位元の存在: $\mPureWith{\mId}\mAppMap u=u$
 \item 準同型則: $\mPureWith{f}\mAppMap\mPureWith{x}=\mPureWith{fx}$
@@ -3492,7 +3444,9 @@ f&\Big\downarrow&&\Big\downarrow&\mPureWith{f}\mAppMap\\
 \end{equation}
 のように $x$ からスタートして，どちらのルートを辿っても $w$ に行き着くという意味である．
 
-アプリカティブマップ演算子の合成則も注釈が必要であろう．仮に $\phi=\mPureWith{g},\psi=\mPureWith{h},v=\mPureWith{z}$ とすると，合成則の左辺は
+アプリカティブマップ演算子の合成則も注釈が必要であろう．仮に
+$\phi=\mPureWith{g},\psi=\mPureWith{h},v=\mPureWith{z}$ とすると，合成
+則の左辺は
 \begin{align}
 \mPureWith{(\mComp)}\mAppMap\phi\mAppMap\psi\mAppMap v
 &=\mPureWith{(\mComp)g}\mAppMap\psi\mAppMap v\\
@@ -3506,7 +3460,8 @@ f&\Big\downarrow&&\Big\downarrow&\mPureWith{f}\mAppMap\\
 &=\phi\mAppMap\mPureWith{hz}\\
 &=\mPureWith{g\mComp hz}
 \end{align}
-となり一致する．合成則とは，このような関係が満たされるように一般アプリカティブマップ演算子を定義しておきなさいという意味だ．
+となり一致する．合成則とは，このような関係が満たされるように一般アプリ
+カティブマップ演算子を定義しておきなさいという意味だ．
 
 \separator
 
@@ -3653,7 +3608,8 @@ Maybe
 
 \section{余談：モナドとしての関数}
 
-関数はアプリカティブ関手であった．関数のピュア演算子とアプリカティブマップ演算子はそれぞれ
+関数はアプリカティブ関手であった．関数のピュア演算子とアプリカティブマッ
+プ演算子はそれぞれ
 \begin{align}
 \mFuncWith{x}&=\mLambdaExp{\mAnyParam}{x}\\
 g\mAppMapFunc f&=\mLambdaExp{x}{gx(fx)}
@@ -3665,7 +3621,8 @@ g\mAppMapFunc f&=\mLambdaExp{x}{gx(fx)}
 % \end{equation}
 % と，ダミー変数 $y$ を使って中身の $x$ を取り出せる．
 
-関数のバインド演算子 $\mBindFunc$ を考えておこう．関数のバインド演算子は
+関数のバインド演算子 $\mBindFunc$ を考えておこう．関数のバインド演算子
+は
 \begin{equation}
 g\mBindFunc f=\mLambdaExp{x}{g(fx)x}
 \end{equation}
@@ -3696,15 +3653,20 @@ g\mBindFunc f&=\mLambdaExp{x}{g(fx)x}
 
 \separator
 
-関数はモノイドとしての性質も持つ．関数 $\mId=\mAnonParam$ とすると，任意の関数 $f$ に対して
+関数はモノイドとしての性質も持つ．関数 $\mId=\mAnonParam$ とすると，任
+意の関数 $f$ に対して
 \begin{equation}
 \mId\mComp f=f\mComp\mId=f
 \end{equation}
-であるから，関数全体の集合を $\mFSet$ で表すと，組み合わせ $\mTupleWith{\mFSet,\mComp,\mId}$ はモノイドである．
+であるから，関数全体の集合を $\mFSet$ で表すと，組み合わせ
+$\mTupleWith{\mFSet,\mComp,\mId}$ はモノイドである．
 
-モナドでありモノイドである型クラスを\keyword{モナドプラス}と呼ぶ．関数はモナドプラスである．
+モナドでありモノイドである型クラスを\keyword{モナドプラス}と呼ぶ．関数
+はモナドプラスである．
 
-今まで出てきた型と型クラスの関係を表\ref{tab:monadplus}に示す．Maybeに関しては $\mType{a}$ 型がモノイドである場合に限って $\mMaybeType{a}$ 型もモノイドである．
+今まで出てきた型と型クラスの関係を表\ref{tab:monadplus}に示す．Maybeに
+関しては $\mType{a}$ 型がモノイドである場合に限って $\mMaybeType{a}$
+型もモノイドである．
 
 \section{この章のまとめ*}
 
@@ -3726,25 +3688,48 @@ A...
 
 \section{アクション}
 
-計算機の状態を変えることを\keyword{副作用}と呼ぶ．副作用とは変数への破壊的代入に他ならない．例えば，計算機は画面やプリンタに何かを出力するが，それは画面やプリンタという「変数」を書き換えていることになる．また例えば擬似乱数の生成も副作用である．呼び出されるたびに異なる値を返す擬似乱数生成関数は，そのたびに計算機の内部状態を書き換えているのである．
+計算機の状態を変えることを\keyword{副作用}と呼ぶ．副作用とは変数への破
+壊的代入に他ならない．例えば，計算機は画面やプリンタに何かを出力するが，
+それは画面やプリンタという「変数」を書き換えていることになる．また例え
+ば擬似乱数の生成も副作用である．呼び出されるたびに異なる値を返す擬似乱
+数生成関数は，そのたびに計算機の内部状態を書き換えているのである．
 
-副作用を持つ関数を\keyword{アクション}と呼ぶ．アクションは値を持つが，その値は計算の実行時までわからない．例えば擬似乱数を生成するアクション $\mRand$ があるとしよう．これを変数 $\alpha$ に
+副作用を持つ関数を\keyword{アクション}と呼ぶ．アクションは値を持つが，
+その値は計算の実行時までわからない．例えば擬似乱数を生成するアクション
+$\mRand$ があるとしよう．これを変数 $\alpha$ に
 \begin{equation}
 \alpha=\mRand
 \end{equation}
-と代入しても，変数 $\alpha$ に擬似乱数が代入されるわけではない．「擬似乱数を生成する」というアクションが $\alpha$ に代入されたのだ．
+と代入しても，変数 $\alpha$ に擬似乱数が代入されるわけではない．「擬似
+  乱数を生成する」というアクションが $\alpha$ に代入されたのだ．
 
-では，いつ「擬似乱数を生成する」アクションが実行されるのだろうか．それは，プログラムがまさに計算機の状態を変えるタイミング，つまりプログラムが実行されるタイミングなのである．そのためには，プログラムそのものをアクションで表しておかないといけない．我々はプログラム全体を $\omega$ で表すことにしよう．
+では，いつ「擬似乱数を生成する」アクションが実行されるのだろうか．それ
+は，プログラムがまさに計算機の状態を変えるタイミング，つまりプログラム
+が実行されるタイミングなのである．そのためには，プログラムそのものをア
+クションで表しておかないといけない．我々はプログラム全体を $\omega$ で
+表すことにしよう．
 
-プログラムが計算機状態を変える一例として，画面に値を出力することを考える．画面に値を出力するアクションを $\mPutStr$ と名付けよう．例えば次のプログラム例は，画面に ``Hello, world.'' と書き出すものとする．
+プログラムが計算機状態を変える一例として，画面に値を出力することを考え
+る．画面に値を出力するアクションを $\mPutStr$ と名付けよう．例えば次の
+プログラム例は，画面に ``Hello, world.'' と書き出すものとする．
 \begin{equation}
 \omega=\mPutStr s\mWhereIs{s}{\mString{``Hello, world.''}}
 \end{equation}
-アクション $\mPutStr$ は変数を一つとり，その値を画面へ出力すなち破壊的代入を行う．では $\omega=\mPutStr\alpha$ とすればアクション $\alpha$ が実行されて，晴れて擬似乱数が生成され，その値が画面へ出力されるだろうか．もちろんそうはならないのである．
+アクション $\mPutStr$ は変数を一つとり，その値を画面へ出力すなち破壊的
+代入を行う．では $\omega=\mPutStr\alpha$ とすればアクション $\alpha$
+が実行されて，晴れて擬似乱数が生成され，その値が画面へ出力されるだろう
+か．もちろんそうはならないのである．
 
-ここに $\alpha$ はアクションであり，変数ではない．一方で，アクション $\mPutStr$ は変数を受け取る．つまり，アクションから何らかの方法で値を「安全に」抜き取らないといけない．ここで安全性にこだわるのは，アクション $\alpha$ が副作用を持つからである．副作用を参照透過な変数へ伝播させてはいけない．副作用を持つアクションは，副作用を持つアクションへのみ受け継がれなければならない．
+ここに $\alpha$ はアクションであり，変数ではない．一方で，アクション
+$\mPutStr$ は変数を受け取る．つまり，アクションから何らかの方法で値を
+「安全に」抜き取らないといけない．ここで安全性にこだわるのは，アクショ
+ン $\alpha$ が副作用を持つからである．副作用を参照透過な変数へ伝播させ
+てはいけない．副作用を持つアクションは，副作用を持つアクションへのみ受
+け継がれなければならない．
 
-この話は何かと似ていないだろうか．そう，Maybeである．一度ゼロ除算の可能性に汚染されたコンテナ変数は，コンテナから出すことが許されないのである．Maybeを返す関数$f$の戻り値
+この話は何かと似ていないだろうか．そう，Maybeである．一度ゼロ除算の可
+能性に汚染されたコンテナ変数は，コンテナから出すことが許されないのであ
+る．Maybeを返す関数$f$の戻り値
 \begin{equation}
 fx=\begin{cases}
 \mJustWith{1/x}&\mIf x\neq0\\
@@ -3765,27 +3750,59 @@ g\mBind fx
 \begin{equation}
 \omega=\mPutStr\mBind\alpha
 \end{equation}
-とする．これは第\ref{ch:monad}章で見たバインド演算子と同じものである．同じバインド演算子が使えるカラクリは，次節で見ていくことにする．
+とする．これは第\ref{ch:monad}章で見たバインド演算子と同じものである．
+同じバインド演算子が使えるカラクリは，次節で見ていくことにする．
 
 \section{IOモナド}
 
-ある関数 $c$ が引数を取らず，いつも決まった $\mDoubleType$ 型の数を返すとしよう．そうすると，関数 $c$ の型は単純に $\mDoubleType$ である．
+ある関数 $c$ が引数を取らず，いつも決まった $\mDoubleType$ 型の数を返
+すとしよう．そうすると，関数 $c$ の型は単純に $\mDoubleType$ である．
 
-呼び出すたびに異なる擬似乱数を返すアクション $\mRand$ もまた毎回 $\mDoubleType$ 型の数を返す．そこで $\mRand$ も $\mDoubleType$ 型としたいところだが，こちらは関数ではなくアクションである．そこを区別するために，$\mRand$ の型は $\mIODoubleType$ 型と $\mIOType{\dotsb}$ に入れて区別する．\footnote{\haskell では $\mIODoubleType$ のことを \code{IO Double} と書く．}
+呼び出すたびに異なる擬似乱数を返すアクション $\mRand$ もまた毎回
+$\mDoubleType$ 型の数を返す．そこで $\mRand$ も $\mDoubleType$ 型とし
+たいところだが，こちらは関数ではなくアクションである．そこを区別するた
+めに，$\mRand$ の型は $\mIODoubleType$ 型と $\mIOType{\dotsb}$ に入れ
+て区別する．\footnote{\haskell では $\mIODoubleType$ のことを \code{IO
+Double} と書く．}
 
-呼び出しても何も返さないアクションはどのような型を持つべきだろう．何も返さない関数というものは無意味だが，アクションは副作用を持つので，何も返さないものがあっても良いのである．何も返さないことを「空っぽ」を返すと読み替えて，何も返さないアクションの型を $\mIOUnitType$ 型としよう．ここに $\mUnitType$ は「空っぽ」の意味で，\keyword{ユニット型}と読む．$\mIOUnitType$ 型のアクションの例は，画面に値を出力する $\mPutStr$ アクションである．\footnote{\haskell では $\mIOUnitType$ のことを \code{IO ()} と書く．}
+呼び出しても何も返さないアクションはどのような型を持つべきだろう．何も
+返さない関数というものは無意味だが，アクションは副作用を持つので，何も
+返さないものがあっても良いのである．何も返さないことを「空っぽ」を返す
+と読み替えて，何も返さないアクションの型を $\mIOUnitType$ 型としよう．
+ここに $\mUnitType$ は「空っぽ」の意味で，\keyword{ユニット型}と読む．
+$\mIOUnitType$ 型のアクションの例は，画面に値を出力する $\mPutStr$ ア
+クションである．\footnote{\haskell では $\mIOUnitType$ のことを
+  \code{IO ()} と書く．}
 
-キーボードからの入力を受け取るアクションもある．そのアクションを $\mReadLn$ としよう．アクション $\mReadLn$ は文字列型を返すので，その型は $\mIOStringType$ である．\footnote{\haskell では $\mIOStringType$ のことを \code{IO String} と書く．}
+キーボードからの入力を受け取るアクションもある．そのアクションを
+$\mReadLn$ としよう．アクション $\mReadLn$ は文字列型を返すので，その
+型は $\mIOStringType$ である．\footnote{\haskell では $\mIOStringType$
+のことを \code{IO String} と書く．}
 
-アクション $\mPutStr,\mReadLn,\mRand$ は計算機の状態を変化させる．アクション $\mPutStr,\mReadLn$ はOSのシステムコールを発行して，前者ならビデオメモリの値を書き換えるし，後者ならシリアルインタフェースの入力バッファをフラッシュする．アクション $\mRand$ は呼ばれるたびに内部のカウンタ値を一つ進める．これらのアクションは参照透過性を破壊する．そのために，プログラムの他の部分から隔離されねばならない．その隔離のメカニズムを提供するのがモナドである．
+アクション $\mPutStr,\mReadLn,\mRand$ は計算機の状態を変化させる．アク
+ション $\mPutStr,\mReadLn$ はOSのシステムコールを発行して，前者ならビ
+デオメモリの値を書き換えるし，後者ならシリアルインタフェースの入力バッ
+ファをフラッシュする．アクション $\mRand$ は呼ばれるたびに内部のカウン
+タ値を一つ進める．これらのアクションは参照透過性を破壊する．そのために，
+プログラムの他の部分から隔離されねばならない．その隔離のメカニズムを提
+供するのがモナドである．
 
-$\mListType{a}$ 型が $\mType{a}$ 型のリストであるように，$\mIOType{a}$ 型は $\mType{a}$ 型の\keyword{IO}である．そしてリストがモナドであるように，IOもまたモナドである．モナドには，バインド演算子と，アプリカティブ関手から引き継いだピュア演算子の二つが必要であった．アプリカティブ関手から引き継いだアプリカティブマップ演算子はバインド演算子とピュア演算子の二つから合成できるし，関手から引き継いだマップ演算子もまたアプリカティブマップ演算子とピュア演算子から合成できるから，アプリカティブマップ演算子とマップ演算子は改めて実装しておく必要はない．
+$\mListType{a}$ 型が $\mType{a}$ 型のリストであるように，$\mIOType{a}$
+型は $\mType{a}$ 型の\keyword{IO}である．そしてリストがモナドであるよ
+うに，IOもまたモナドである．モナドには，バインド演算子と，アプリカティ
+ブ関手から引き継いだピュア演算子の二つが必要であった．アプリカティブ関
+手から引き継いだアプリカティブマップ演算子はバインド演算子とピュア演算
+子の二つから合成できるし，関手から引き継いだマップ演算子もまたアプリカ
+ティブマップ演算子とピュア演算子から合成できるから，アプリカティブマッ
+プ演算子とマップ演算子は改めて実装しておく必要はない．
 
 $\mIOUnitType$ 型の場合，ピュア演算子は何も返す必要がないから
 \begin{equation}
 \mPureWith{\mAnyParam}=\mTupleWith{}
 \end{equation}
-であるとする．ここに $\mTupleWith{}$ は空のタプルで，「ユニット」と呼ぶ．一方で $\mIOUnitType$ 型のバインド演算子は，処理系の奥深くに隠されている．
+であるとする．ここに $\mTupleWith{}$ は空のタプルで，「ユニット」と呼
+ぶ．一方で $\mIOUnitType$ 型のバインド演算子は，処理系の奥深くに隠され
+ている．
 
 % 実装依存である．
 
@@ -3809,14 +3826,19 @@ $\mIOUnitType$ 型の場合，ピュア演算子は何も返す必要がない�
 % \end{screen}
 % \end{table*}
 
-モナドを使った書き方が従来のプログラムの記法からあまりにもかけ離れていることに，\haskell の設計者は気づいていたようで，\haskell には次に述べる\keyword{do記法}という記法が用意されている．このdo記法はもちろんシンタックスシュガーで，新しいことは何もない．
+モナドを使った書き方が従来のプログラムの記法からあまりにもかけ離れてい
+ることに，\haskell の設計者は気づいていたようで，\haskell には次に述べ
+る\keyword{do記法}という記法が用意されている．このdo記法はもちろんシン
+タックスシュガーで，新しいことは何もない．
 
-例えば $\omega=\mPutStr\mBind\alpha\mWhereIs{\alpha}{\mRand}$ をdo記法を用いて書き直すと
+例えば $\omega=\mPutStr\mBind\alpha\mWhereIs{\alpha}{\mRand}$ をdo記法
+を用いて書き直すと
 \begin{equation}
 \label{eq:do-print-random}
 \omega=\mDo{a\mDoEq\mRand\mDoNext\mPutStr a}
 \end{equation}
-となる．\footnote{\haskell では \code{omega = do \{ a <- rand; putStr a \}} と書くか，または $\mDoNext$ を改行に置き換えて
+となる．\footnote{\haskell では \code{omega = do \{ a <- rand; putStr
+a \}} と書くか，または $\mDoNext$ を改行に置き換えて
 \begin{verbatim}
   omega = do
     a <- rand
@@ -3833,9 +3855,14 @@ define main:
   print(a)            # (2)
 \end{verbatim}
 \end{pythoncode}
-コード中の \code{(1)} の行で $a\mDoEq\mRand$ を実行し，\code{(2)} の行で $\mPutStr a$ を実行していると思えば，このコードと式\eqref{eq:do-print-random}の順序はそっくり同じである．もちろんこのdo記法はバインド演算子を使った式を切り貼りして，順序を入れ替えただけである．
+コード中の \code{(1)} の行で $a\mDoEq\mRand$ を実行し，\code{(2)} の行
+で $\mPutStr a$ を実行していると思えば，このコードと式
+\eqref{eq:do-print-random}の順序はそっくり同じである．もちろんこのdo記
+法はバインド演算子を使った式を切り貼りして，順序を入れ替えただけである．
 
-do記法には $\mDoEq$ の他に，我々の $\mLetKeyword$ とよく似た $\mDoLetKeyword$ という構文が用意されている．この $\mDoLetKeyword$ は局所変数の導入に用いられて，例えば
+do記法には $\mDoEq$ の他に，我々の $\mLetKeyword$ とよく似た
+$\mDoLetKeyword$ という構文が用意されている．この $\mDoLetKeyword$ は
+局所変数の導入に用いられて，例えば
 \begin{equation}
 \omega=\mDo{\mDoLet{y}{fx}\mDoNext\alpha y}
 \end{equation}
@@ -3870,7 +3897,6 @@ do記法には $\mDoEq$ の他に，我々の $\mLetKeyword$ とよく似た $\m
 % \end{equation}
 % と書ける．
 
-
 我々はバインド演算子を使った通常の記法とdo記法のいずれか読みやすい方を採用すれば良い．
 
 % main = 
@@ -3882,41 +3908,58 @@ do記法には $\mDoEq$ の他に，我々の $\mLetKeyword$ とよく似た $\m
 
 \separator
 
-バインド演算子には，左右の引数を入れ替えた\keyword{右バインド演算子}がある．右バインド演算子は $\mBindRight$ と書き，
+バインド演算子には，左右の引数を入れ替えた\keyword{右バインド演算子}が
+ある．右バインド演算子は $\mBindRight$ と書き，
 \begin{equation}
 \alpha x\mBindRight\beta=\beta\mBind\alpha x
 \end{equation}
 であるとする．\footnote{\haskell では $\alpha x\mBindRight\beta$ を \code{alpha x >>= beta} と書く．}
 
-
 \section{余談：関数であるということ*}
 
-IOモナドの変数は，たとえ値を読み出すだけであっても必ず関数適用が必要である．それは，IOモナドの変数が「自分が読み出されたこと」を知る必要があるからである．IOモナドの変数は，自分が読み出されたタイミングで副作用を発生させる．これは\objectivec や\swift に見られる getter メソッドと同じ考え方である．
+IOモナドの変数は，たとえ値を読み出すだけであっても必ず関数適用が必要で
+ある．それは，IOモナドの変数が「自分が読み出されたこと」を知る必要があ
+るからである．IOモナドの変数は，自分が読み出されたタイミングで副作用を
+発生させる．これは\objectivec や\swift に見られる getter メソッドと同
+じ考え方である．
 
-IOモナドの変数値を読み出すために行われる関数呼び出しはダミーである場合があり，戻り値はしばしば捨てられる．
+IOモナドの変数値を読み出すために行われる関数呼び出しはダミーである場合
+があり，戻り値はしばしば捨てられる．
 
-変数をダミーの関数で包み，それをさらにIOモナドで包んだのがIOモナド変数である．
+変数をダミーの関数で包み，それをさらにIOモナドで包んだのがIOモナド変数
+である．
 
-もうひとつ，アクションが関数でなければならない理由がある．\haskell はいつも遅延評価を行うことを思い出してもらいたい．\python であれば，式は書かれた順に評価される．しかし，例えば
+もうひとつ，アクションが関数でなければならない理由がある．\haskell は
+いつも遅延評価を行うことを思い出してもらいたい．\python であれば，式は
+書かれた順に評価される．しかし，例えば
 \begin{align}
 y_1&=f_1x_1\\
 y_2&=f_2x_2
 \end{align}
-という式があった場合，関数 $f_1$ と $f_2$ のどちらが先に評価されるか，あるいは同時に評価されるかは\haskell では未定義である．\haskell で唯一計算順序が保証されているのは，関数適用である．例えば
+という式があった場合，関数 $f_1$ と $f_2$ のどちらが先に評価されるか，
+あるいは同時に評価されるかは\haskell では未定義である．\haskell で唯一
+計算順序が保証されているのは，関数適用である．例えば
 \begin{equation}
 y=g_2(g_1x)
 \end{equation}
 であれば，確実に関数 $g_1$ が関数 $g_2$ よりも先に評価される．
 
-直列に評価したい関数の戻り値が，いつも次の関数の引数の型と一致しているとは限らないし，次の関数（アクション）が引数を取らない可能性もある．もし関数 $g_2$ が引数を取らなければ
+直列に評価したい関数の戻り値が，いつも次の関数の引数の型と一致している
+とは限らないし，次の関数（アクション）が引数を取らない可能性もある．も
+し関数 $g_2$ が引数を取らなければ
 \begin{equation}
 \mFuncWith{g_2}(g_1x)
 \end{equation}
-とする．この時，関数適用 $(g_1x)$ の結果は単純に捨てられる．\footnote{\clang では \code{void} 型を返す関数 \code{void g1(int);} を 引数を取らない関数 \code{int g2(void);} に「食わせる」ことが可能で， \code{g2(g1(x));} は正しいコードである．もっとも\clang プログラマは \code{g1(x), g2();} という書き方の方を好むであろう．}
+とする．この時，関数適用 $(g_1x)$ の結果は単純に捨てられる．
+\footnote{\clang では \code{void} 型を返す関数 \code{void g1(int);} を
+引数を取らない関数 \code{int g2(void);} に「食わせる」ことが可能で，
+\code{g2(g1(x));} は正しいコードである．もっとも\clang プログラマは
+\code{g1(x), g2();} という書き方の方を好むであろう．}
 
 \separator
 
-ふたつのアクション $\alpha_1,\alpha_2$ があり，アクション $\alpha_2$ が引数を取らない場合，その二つを合成するには
+ふたつのアクション $\alpha_1,\alpha_2$ があり，アクション $\alpha_2$
+が引数を取らない場合，その二つを合成するには
 \begin{equation}
 \label{eq:ignore-return}
 \mFuncWith{\alpha_2}\mBind\alpha_1 x
@@ -3929,7 +3972,9 @@ y=g_2(g_1x)
 \begin{equation}
 \alpha_1 x\mBindRightIgnore\alpha_2=\mFuncWith{\alpha_2}\mBind(\alpha_1x)
 \end{equation}
-なる演算子 $\mBindRightIgnore$ を用いて記述される．\footnote{\haskell では $\alpha_1x\mBindRightIgnore\alpha_2$ を \code{alpha1 x >> alpha2} と書く．}
+なる演算子 $\mBindRightIgnore$ を用いて記述される．\footnote{\haskell
+では $\alpha_1x\mBindRightIgnore\alpha_2$ を \code{alpha1 x >>
+alpha2} と書く．}
 
 \section{この章のまとめ*}
 
