@@ -1,5 +1,5 @@
 \documentclass[a5paper,twoside,fleqn,draft]{jsbook}
-% \usepackage{eulervm}
+\usepackage{eulervm}
 \usepackage{amsmath,amssymb,ascmac,bm,graphicx,latexsym,mathtools,multirow,okuverb}
 \makeindex
 
@@ -817,7 +817,7 @@ f(x)
 \end{pythoncode}
 と書くが，括弧は冗長なので今後は
 \begin{equation}
-fx
+  fx
 \end{equation}
 と書くことにする．\footnote{\haskell では関数 \code{f} に引数 \code{x}
   を適用させることを \code{f x} と書く．}
@@ -842,7 +842,7 @@ g(x, y)
 と書くが，これも括弧が冗長なので今後は $gxy$ と書く．この場合式 $gxy$
 は左を優先して結合する．つまり
 \begin{equation}
-gxy=(gx)y
+  gxy=(gx)y
 \end{equation}
 である．これは引数 $y$ に関数 $(gx)$ が左から作用していると解釈する．
 関数 $(gx)$ は引数 $x$ に関数 $g$ を作用させて作った関数である．引数に
@@ -865,7 +865,7 @@ lambda x: 1+x
 \end{pythoncode}
 と書くが，我々はより簡潔に
 \begin{equation}
-\mLambdaExp{x}{1+x}
+  \mLambdaExp{x}{1+x}
 \end{equation}
 と書くことにする．この式は多くの書物で $\lambda x\mathbin{.}1+x$ と記
 述されるところである．しかし我々はすべてのギリシア文字を変数名のために
@@ -881,13 +881,13 @@ $\cdot$ と紛らわしいため，上述の記法を用いる．\footnote{\hask
 ラムダ式は関数である．ラムダ式を適用するには，ラムダ式を括弧で包む必要
 がある．例を挙げる．
 \begin{equation}
-(\mLambdaExp{x}{1+x})2
+  (\mLambdaExp{x}{1+x})2
 \end{equation}
 この式は結果として $3$ を返す．
 
 複数引数をとるラムダ式は例えば
 \begin{equation}
-\mLambdaExp{xy}{x+y}
+  \mLambdaExp{xy}{x+y}
 \end{equation}
 のように引数を並べて書く．
 
@@ -896,7 +896,7 @@ $\cdot$ と紛らわしいため，上述の記法を用いる．\footnote{\hask
 の部分には引数が入る．第 $n$ 番目の $\mAnonParam$ には第 $n$ 番目の引
 数が入る．例えばラムダ式 $\mLambdaExp{xy}{x+y}$ は
 \begin{equation}
-\mAnonParam+\mAnonParam
+  \mAnonParam+\mAnonParam
 \end{equation}
 と書いても良い．式を左から読んで1番目の $\mAnonParam$ が元々の $x$ す
 なわち第1引数を，2番目の $\mAnonParam$ が元々の $y$ すなわち第2引数を
@@ -908,31 +908,16 @@ $\cdot$ と紛らわしいため，上述の記法を用いる．\footnote{\hask
 関数の定義は，基本的にはラムダ式の変数への代入である．引数 $x$ をとり
 値 $(\sin x)/x$ を返す関数 $f$ は
 \begin{equation}
-f=\mLambdaExp{x}{(\sin x)/x}
+  f=\mLambdaExp{x}{(\sin x)/x}
 \end{equation}
 と定義できる．ただし，この省略形として
 \begin{equation}
-fx=(\sin x)/x
+  fx=(\sin x)/x
 \end{equation}
 と書いても良い．この書き方は今後頻出するので，是非覚えておいてもらいた
 い．\footnote{\haskell では $f=\mLambdaExp{x}{(\sin x)/x}$ を \code{f
     = \textbackslash x -> (sin x)/x} と書き，一方 $fx=(\sin x)/x$ を
   \code{f x = (sin x)/x} と書く．}
-
-% 関数 $f$ を $fx=(\sin x)/x$ と定義したいときに，\python では
-% \begin{pythoncode}
-% \begin{verbatim}
-% def f(x):
-%   return sin(x)/x
-% \end{verbatim}
-% \end{pythoncode}
-% と書くことが普通である．これは，ある値をとってある値を返す関数の記述方法としてはオーバーキルである．事実，ラムダ式を用いた
-% \begin{pythoncode}
-% \begin{verbatim}
-% f = lambda x: sin(x)/x
-% \end{verbatim}
-% \end{pythoncode}
-% も全く同じ意味になるので，ラムダ式を使う方法を基本に据えよう．
 
 \separator
 
@@ -940,11 +925,12 @@ fx=(\sin x)/x
 ば引数が $0$ の場合は特別に戻り値が $1$ であり，その他の場合は関数 $f$
 と同じ振る舞いをする関数 $f'$ を考える．このとき $f'$ は
 \begin{equation}
-\left\{
-\begin{aligned}
-f'0&=1\\ f'x&=(\sin x)/x
-\end{aligned}
-\right.
+  \left\{
+  \begin{aligned}
+    f'0&=1\\
+    f'x&=(\sin x)/x
+  \end{aligned}
+  \right.
 \end{equation}
 ように定義する．これを関数の\keyword{パタンマッチ}と呼ぶ．
 \footnote{\haskell では
@@ -957,12 +943,12 @@ f'0&=1\\ f'x&=(\sin x)/x
 関数のパタンマッチは，関数の内部に書いても良い．関数内部にパタンマッチ
 を書きたい場合は
 \begin{equation}
-f'x=\mCaseOf{x}\left\{
-\begin{aligned}
-0&\mIfSo1\\
-\mAnyParam&\mIfSo(\sin x)/x
-\end{aligned}
-\right.
+  f'x=\mCaseOf{x}\left\{
+  \begin{aligned}
+    0&\mIfSo1\\
+    \mAnyParam&\mIfSo(\sin x)/x
+  \end{aligned}
+  \right.
 \end{equation}
 のように書く．ここに $\mAnyParam$ は任意の値の意味である．パタンマッチ
 は上から順番にマッチングしていくため，この場合は $0$ 以外を意味する．
@@ -982,20 +968,19 @@ f'x=\mCaseOf{x}\left\{
 \keyword{ガード}を用いる．例えば引数の値が負の場合は $-1$ を，$0$ の場
 合は $1$ を，それ以外の場合は関数 $f$ と同じ振る舞いをする関数 $f''$ は
 \begin{equation}
-\begin{aligned}
-f''x&\mGuard{x<0}=0\\ &\mGuard{x\equiv
-  0}=1\\ &\mGuard{\mOtherwise}=(\sin x)/x
-\end{aligned}
+  \begin{aligned}
+    f''x&\mGuard{x<0}=0\\
+    &\mGuard{x\equiv0}=1\\
+    &\mGuard{\mOtherwise}=(\sin x)/x
+  \end{aligned}
 \end{equation}
 という風に定義する．\footnote{\haskell では
 \begin{verbatim}
-  f'' x| x<0 = 0 | x==0 = 1 | otherwise = (sin x)/x
+  f'' x| x<0 = 0
+       | x==0 = 1
+       | otherwise = (sin x)/x
 \end{verbatim}
 と書く．}
-
-% 場合分けを関数の中に書きたい場合は後述の $\mIf$ 構文を用いる．
-
-% \python にはスペシャルバージョンやガードに相当する文法はない．
 
 \separator
 
@@ -1003,7 +988,11 @@ f''x&\mGuard{x<0}=0\\ &\mGuard{x\equiv
 件式の記法があるのは便利である．\python には
 \begin{pythoncode}
 \begin{verbatim}
-def f(x): if x==0: return 1 else: return sin(x)/x
+def f(x):
+  if x==0:
+    return 1
+  else:
+    return sin(x)/x
 \end{verbatim}
 \end{pythoncode}
 のような\keyword{制御構造}としての条件文があるが，我々は値を持つ
@@ -1011,31 +1000,33 @@ def f(x): if x==0: return 1 else: return sin(x)/x
 
 我々の条件式とは
 \begin{equation}
-fx=\mIfThenElse{x\equiv0}{1}{{}(\sin x)/x}
+  fx=\mIfThenElse{x\equiv0}{1}{{}(\sin x)/x}
 \end{equation}
 のように $\mIf$ 節，$\mThen$ 節，及び $\mElse$ 節からなるものであって，
 $\mThen$ 節も $\mElse$ 節も省略できないものとする．$\mIf$ 節の式の値が
-真 $(\mTrue)$ であれば $\mThen$ 節の式が評価され，偽 $(\mFalse)$ であ
-れば $\mElse$ 節の式が評価される．我々の条件式は\clang/\cxx における条
-件演算子（三項演算子）と等しく見えるが，\haskell の場合は遅延評価が行
-われるため，結果として条件式の\keyword{短絡評価}が行われる点が異なる．
+真 $(\mTrue)$ であれば $\mThen$ 節の式が評価され，偽 $(\mFalse)$ であれ
+ば $\mElse$ 節の式が評価される．我々の条件式は\clang/\cxx における条件
+演算子（三項演算子）と等しく見えるが，\haskell の場合は遅延評価が行われ
+るため，結果として条件式の\keyword{短絡評価}が行われる点が異なる．
 \footnote{\haskell では $fx=\mIfThenElse{x\equiv0}{1}{{}(\sin x)/x}$
 を \code{f x = if x==0 then 1 else (sin x)/x} と書く．}
 
 $\mIf$ 節の中身は真理値を返す関数であれば良いので，関数 $p$ を
 \begin{equation}
-p=(\equiv)0
+  p=(\equiv)0
 \end{equation}
 としておき，
 \begin{equation}
-fx=\mIfThenElse{px}{1}{{}(\sin x)/x}
+  fx=\mIfThenElse{px}{1}{{}(\sin x)/x}
 \end{equation}
 と書く方法もしばしば用いられる．
 
 条件式は紙面が許せば次のように書いても良い．
 \begin{equation}
-fx=\begin{cases} 1&\mIf x\equiv0\\ (\sin x)/x&\mOtherwise
-\end{cases}
+  fx=\begin{cases}
+  1&\mIf x\equiv0\\
+  (\sin x)/x&\mOtherwise
+  \end{cases}
 \end{equation}
 左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっ
 ていることに注目しよう．\footnote{\haskell ではいつも \code{if},
@@ -1046,13 +1037,13 @@ fx=\begin{cases} 1&\mIf x\equiv0\\ (\sin x)/x&\mOtherwise
 数式が長く続くとき，読みやすさのために局所変数を導入すると便利である．
 例えば
 \begin{equation}
-y=f(1+x)
+  y=f(1+x)
 \end{equation}
 という式のうち，先に $1+x$ の部分を計算して $x'$ のように名前をつけて
 おきたいこともあるであろう．そんなときは
 \begin{equation}
-\label{eq:letin}
-y=\mLetIn{x'}{1+x}{fx'}
+  \label{eq:letin}
+  y=\mLetIn{x'}{1+x}{fx'}
 \end{equation}
 と書くことにする．このようにして導入された $x'$ を\keyword{局所変数}と
 呼ぶ．\footnote{\haskell では $y=\mLetIn{x'}{1+x}{fx'}$ を \code{y =
@@ -1631,7 +1622,9 @@ x
 とすることで，$\mIntType$ 型の変数 $x$ の値を $\mDoubleType$ 型の変数
 $y$ へ代入することができる．\footnote{\haskell では
 \begin{verbatim}
-  x :: Int x = 1 y :: Double y = fromIntegral x
+  x :: Int x = 1
+  y :: Double
+  y = fromIntegral x
 \end{verbatim}
 と書く．}
 
@@ -1892,7 +1885,8 @@ ls = [x*2 for x in range(0, 10)]
 から $x+y$ を並べたリストである．これは\python でいう
 \begin{pythoncode}
 \begin{verbatim}
-ls = [x+y for x in range(0, 10) \ for y in range(0,6) if x+y > 3]
+ls = [x+y for x in range(0, 10) for y in range(0,6) \
+  if x+y > 3]
 \end{verbatim}
 \end{pythoncode}
 のことである．\footnote{\haskell では \code{xs = [x+y | x<-[0,1..9],
@@ -1935,10 +1929,11 @@ $\mListTypeConstructor$ と書き
   $\mListTypeConstructor\mType{a}$ を区別せず，両者とも \code{[a]} と
   書く．}
 
-$\mType{a}$ 型の変数 $x$ を入れた $\mListType{a}$ 型の変数を作る演算子
-を\keyword{リスト値コンストラクタ}と呼ぶ．$\mListType{a}$ 型の変数のこ
-とを\keyword{リスト変数}とも呼ぶ．$\mType{a}$ 型の変数 $x$ からリスト
-値コンストラクタを使ってリスト $\mList{x}$ を作ることは
+$\mListWith{x}$ のように $\mType{a}$ 型の変数 $x$ を入れた
+$\mListType{a}$ 型の変数を作る演算子を\keyword{リスト値コンストラクタ}
+と呼ぶ．$\mListType{a}$ 型の変数のことを\keyword{リスト変数}とも呼ぶ．
+$\mType{a}$ 型の変数 $x$ からリスト値コンストラクタを使ってリスト
+$\mList{x}$ を作ることは
 \begin{equation}
 \mList{x}=\mListWith{x}
 \end{equation}
@@ -2019,8 +2014,8 @@ $a$ は\keyword{アキュムレータ}と呼ぶ．アキュムレータは右側
 スト \code{ls} の総和 \code{s} を
 \begin{pythoncode}
 \begin{verbatim}
-# Python 2.7 ls = [0, 1, 2, 3, 4, 5] s = reduce(lambda x, y: x+y, ls,
- 0)
+# Python 2.7
+ls = [0, 1, 2, 3, 4, 5] s = reduce(lambda x, y: x+y, ls, 0)
 \end{verbatim}
 \end{pythoncode}
 のように求めることができる．この \code{reduce} 関数は\python バージョ
@@ -2100,7 +2095,9 @@ map(f, ls)
 のように \code{map} 関数を用いる．例えば
 \begin{pythoncode}
 \begin{verbatim}
-f = lambda x: 100+x ls = [1, 2, 3, 4, 5] ms = map(f, ls)
+f = lambda x: 100+x
+ls = [1, 2, 3, 4, 5]
+ms = map(f, ls)
 \end{verbatim}
 \end{pythoncode}
 とすると，結果として \code{ms} には $\mListWith{101,102,103,104,105}$
@@ -2110,8 +2107,8 @@ f = lambda x: 100+x ls = [1, 2, 3, 4, 5] ms = map(f, ls)
 を取り，戻り値として $\mListWith{fx_0,fx_1\dotsb fx_n}$ を返す演算子
 $\mMapList$ を考えよう．このとき
 \begin{equation}
-f\mMapList\mListWith{x_0,x_1\dotsb x_n} =\mListWith{fx_0,fx_1\dotsb
-  fx_n}
+  f\mMapList\mListWith{x_0,x_1\dotsb x_n}
+  =\mListWith{fx_0,fx_1\dotsb fx_n}
 \end{equation}
 であると定義する．この演算子 $\mMapList$ をリストの\keyword{マップ演算
   子}と呼ぶ．\footnote{\haskell では $f\mMapList\mList{x}$ を
@@ -2120,31 +2117,34 @@ f\mMapList\mListWith{x_0,x_1\dotsb x_n} =\mListWith{fx_0,fx_1\dotsb
 
 リストのマップ演算子の型は
 \begin{equation}
-\mMapList \mIn{} \mProj{ (\mProj{\mType{a}}{\mType{b}}) } {
-  \mProj{\mListType{a}}{\mListType{b}} }
+  \mMapList\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}
+               {\mProj{\mListType{a}}{\mListType{b}}}
 \end{equation}
 である．矢印 $\mMapsTo$ は右結合なので，これは
 \begin{equation}
-\mMapList \mIn{} \mProj{ (\mProj{\mType{a}}{\mType{b}}) } {
-  (\mProj{\mListType{a}}{\mListType{b}}) }
+  \mMapList\mIn{}\mProj{ (\mProj{\mType{a}}{\mType{b}}) } {
+    (\mProj{\mListType{a}}{\mListType{b}}) }
 \end{equation}
 の意味でもある．念のため上式に注釈を加えると
 \begin{equation}
-\mMapList\mIn \underbrace{\left(\mType{a}\mMapsTo\mType{b}\right)}_f
-\mMapsTo\underbrace{\mListType{a}}_{\mListWith{x_0,x_1\dotsb x_n}}
-\mMapsTo\underbrace{\mListType{b}}_{\mListWith{fx_0,fx_1\dotsb fx_n}}
+  \mMapList\mIn\underbrace{\left(\mType{a}\mMapsTo\mType{b}\right)}_f
+  \mMapsTo\underbrace{\mListType{a}}_{\mListWith{x_0,x_1\dotsb x_n}}
+  \mMapsTo\underbrace{\mListType{b}}_{\mListWith{fx_0,fx_1\dotsb fx_n}}
 \end{equation}
 である．
 
 ここで $f$ と $f\mMapList$ の型を並べてみると
 \begin{align}
-f&\mIn\mProj{\mType{a}}{\mType{b}}\\ f\mMapList&\mIn{}\mProj{\mListType{a}}{\mListType{b}}
+  f&\mIn\mProj{\mType{a}}{\mType{b}}\\
+  f\mMapList&\mIn{}\mProj{\mListType{a}}{\mListType{b}}
 \end{align}
 となり，マップ演算子が何をしているのか一目瞭然になる．
 
 具体例を見てみよう．先程の\python コードの例にあわせて
 \begin{align}
-f&=\mLambdaExp{x}{100+x}\\ \mList{x}&=\mListWith{1,2,3,4,5}\\ \mList{y}&=f\mMap\mList{x}
+  f&=\mLambdaExp{x}{100+x}\\
+  \mList{x}&=\mListWith{1,2,3,4,5}\\
+  \mList{y}&=f\mMapList\mList{x}
 \end{align}
 とすると $\mList{y}$ の値は $\mListWith{101,102,103,104,105}$ となる．
 
