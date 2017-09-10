@@ -165,6 +165,7 @@
 \newcommand{\mSpecialFuncSmall}[1]{\mathrm{#1}}
 
 \DeclareMathOperator{\mConjugate}{\mSpecialFunc{conjugate}}
+\DeclareMathOperator{\mCurry}{\mSpecialFunc{curry}}
 \DeclareMathOperator{\mGetList}{\mFunc{getList}}
 \DeclareMathOperator{\mFact}{\mSpecialFunc{fact}}
 \DeclareMathOperator{\mFirst}{\mSpecialFunc{fst}}
@@ -851,7 +852,11 @@ gxy=(gx)y
 
 \section{ラムダ式}
 
-引数 $x$ をとり値 $1+x$ を返す\keyword{ラムダ式}を\python では
+関数の正体は\keyword{ラムダ式}である．ラムダ式とは，仮の引数をとり，そ
+の値をもとになにがしかの演算を行い，その結果を返す式である．ラムダ式は
+名前のない関数のようなものだ．それゆえ，無名関数と呼ばれることもある．
+
+例えば引数 $x$ をとり値 $1+x$ を返すラムダ式を\python では
 \begin{pythoncode}
 \begin{verbatim}
 lambda x: 1+x
@@ -865,12 +870,12 @@ lambda x: 1+x
 述されるところである．しかし我々はすべてのギリシア文字を変数名のために
 予約しておきたいのと，ピリオド記号 $(.)$ が今後登場する二項演算子
 $\cdot$ と紛らわしいため，上述の記法を用いる．\footnote{\haskell では
-  ラムダ式 $\mLambdaExp{x}{1+x}$ を \code{\textbackslash x -> 1+x} と
-  書く．ラムダ式は元々は $\Hat x\mathbin{.}x+1$ のように書かれていた．
-  これが次第に $\mathop{\texttt{\textasciicircum}}x\mathbin{.}x+1$ と
-  なり，$\lambda x\mathbin{.}x+1$ に変化していったと言われている．
-  \haskell が $\lambda$ の代わりに $\mLambda$ 記号を使うのは，その形が
-  似ているからである．}
+ラムダ式 $\mLambdaExp{x}{1+x}$ を \code{\textbackslash x -> 1+x} と
+書く．ラムダ式は元々は $\Hat x\mathbin{.}x+1$ のように書かれていた．
+これが次第に $\mathop{\texttt{\textasciicircum}}x\mathbin{.}x+1$ と
+なり，$\lambda x\mathbin{.}x+1$ に変化していったと言われている．
+\haskell が $\lambda$ の代わりに $\mLambda$ 記号を使うのは，その形が
+似ているからである．}
 
 ラムダ式は関数である．ラムダ式を適用するには，ラムダ式を括弧で包む必要
 がある．例を挙げる．
@@ -964,6 +969,10 @@ f'x=\mCaseOf{x}\left\{
   f' x = case x of 0 -> 1 _ -> (sin x)/x
 \end{verbatim}
 または \code{f' x = case x of \{0 -> 1; \_ -> (sin x)/x\}} と書く．}
+
+一部のプログラミング言語では\keyword{デフォルト引数}という，引数を省略
+できるメカニズムがあるが，我々は引数をいつも省略しないことにする．
+\footnote{\haskell にもデフォルト引数はない．}
 
 \separator
 
@@ -1067,21 +1076,21 @@ y=fx'\mWhereIs{x'}{1+x}
 
 \begin{enumerate}
 \item 変数 $x$ に関数 $f$ を適用することを $fx$ と書く．\item 変数
-  $x,y$ に関数 $g$ を適用することを $gxy$ と書く．関数適用は左結合する
-  ので $gxy=(gx)y$ である．この関数 $(gx)$ は部分適用された関数と呼ぶ．
+$x,y$ に関数 $g$ を適用することを $gxy$ と書く．関数適用は左結合する
+ので $gxy=(gx)y$ である．この関数 $(gx)$ は部分適用された関数と呼ぶ．
 \item 関数はラムダ式で定義する．ラムダ式は $\mLambdaExp{x}{(\sin
-  x)/x}$ のように表記する．\item ラムダ式は $f\mAnonParam$ のように無
-  名パラメタ $\mAnonParam$ を用いて表記しても良い．\item 関数定義
-  $f=\mLambdaExp{x}{(\sin x)/x}$ は $fx=(\sin x)/x$ と省略表記できる．
+x)/x}$ のように表記する．\item ラムダ式は $f\mAnonParam$ のように無
+名パラメタ $\mAnonParam$ を用いて表記しても良い．\item 関数定義
+$f=\mLambdaExp{x}{(\sin x)/x}$ は $fx=(\sin x)/x$ と省略表記できる．
 \item 関数定義にはパタンマッチが使える．例えば $f'0=1;f'x=(\sin x)/x$
-  と定義できる．\item パタンマッチは関数本体に書いても良い．関数 $f'$
-  の例で言えば $f'=\mCaseOf{x}0\mIfSo1;\mAnyParam\mIfSo(\sin x)/x$ と
-  定義できる．\item 関数定義にはガードが使える．例えば
-  $f''\mGuard{x<0}=0;f''\mGuard{x\equiv0}=1;f''\mGuard{\mOtherwise}=(\sin
-  x)/x$ と定義できる．\item 条件分岐は $\mIfThenElse{x}{y}{z}$ と書き，
-  $x\equiv\mTrue$ の時には $y$ が，$x\equiv\mFalse$ のときには $z$ が
-  式の値になる．\item 局所変数は $y=\mLetIn{x'}{\dotsb}{fx'}$ または
-  $y=fx'\mWhereIs{x'}{\dotsb}$ という書き方で導入できる．
+と定義できる．\item パタンマッチは関数本体に書いても良い．関数 $f'$
+の例で言えば $f'=\mCaseOf{x}0\mIfSo1;\mAnyParam\mIfSo(\sin x)/x$ と
+定義できる．\item 関数定義にはガードが使える．例えば
+$f''\mGuard{x<0}=0;f''\mGuard{x\equiv0}=1;f''\mGuard{\mOtherwise}=(\sin
+x)/x$ と定義できる．\item 条件分岐は $\mIfThenElse{x}{y}{z}$ と書き，
+$x\equiv\mTrue$ の時には $y$ が，$x\equiv\mFalse$ のときには $z$ が
+式の値になる．\item 局所変数は $y=\mLetIn{x'}{\dotsb}{fx'}$ または
+$y=fx'\mWhereIs{x'}{\dotsb}$ という書き方で導入できる．
 \end{enumerate}
 
 
@@ -1139,9 +1148,9 @@ $(>)$，小なり $(<)$ 等である．二項演算子はたとえ積記号で�
 \end{equation}
 である．従って，二項演算子と2引数関数に本質的な差はない．本書では演算
 子と関数という用語は全く同じ意味で用いる．\footnote{\haskell では任意
-  の二項演算子を括弧で包むことで前置演算子として使うことができる．例え
-  ば \code{x+y}と \code{(+)x y} は同じ結果を返す．逆に任意の2引数関数
-  \code{f}は \code{x `f` y} と書くことで中置することができる．}
+の二項演算子を括弧で包むことで前置演算子として使うことができる．例え
+ば \code{x+y}と \code{(+)x y} は同じ結果を返す．逆に任意の2引数関数
+\code{f}は \code{x `f` y} と書くことで中置することができる．}
 
 一般の関数が左結合であることを思い出すと，二項演算子を関数に見立てた
 $(\mBinOp)$ も
@@ -1152,7 +1161,9 @@ $(\mBinOp)$ も
 であるから，部分適用が可能である．式\eqref{eq:star-x-y}から第2引数 $y$
 を取り除いて $(\mBinOp)x$ という「餓えた」1引数関数を取り出せる．例え
 ば関数 $((+)1)$ は引数に $1$ を加える関数である．\footnote{\haskell で
-  は $((+)1)$ を \code{((+)1)} と書く．}
+は $((+)1)$ を \code{((+)1)} と書く．}
+
+\separator
 
 二項演算子の部分適用に限って\keyword{セクション}と言う記法も用いられる．
 二項演算子 $\mBinOp$ に対して $(\mBinOp x)$ および $(x\mBinOp)$ はそれ
@@ -1164,10 +1175,10 @@ $(\mBinOp)$ も
 である．例えば $(1+)$ は $((+)1)$ と等価である．ただし，マイナス演算子
 $(-)$ だけは例外で，$(-1)$ はマイナス $1$ を表す．負の数をいつも括弧で
 包んでおくのは良いアイディアである．\footnote{\haskell では $(1+)$ を
-  \code{(1+)} と書く．また \code{(-1)} はセクションではなくマイナス
-  $1$ を表す（\code{-1} というリテラルとみなされる）．ただし \code{(-
-    1)} のように空白を挟んでも同じくマイナス $1$ とみなされる
-       （\code{1} というリテラルに単項マイナス演算子が適用される）．}
+\code{(1+)} と書く．また \code{(-1)} はセクションではなくマイナス
+$1$ を表す（\code{-1} というリテラルとみなされる）．ただし \code{(-
+1)} のように空白を挟んでも同じくマイナス $1$ とみなされる
+（\code{1} というリテラルに単項マイナス演算子が適用される）．}
 
 なお，二項演算子の結合性，すなわち左結合か右結合かは，演算子によって異
 なる．また演算の優先順位を明示的に与えるために括弧が用いられる．
@@ -1369,7 +1380,8 @@ x\in\mBSet
 \end{equation}
 のようにまとめて書くことにしよう．\footnote{\haskell では
 \begin{verbatim}
-  x :: Bool x = True
+  x :: Bool
+  x = True
 \end{verbatim}
 と書く．}
 
@@ -1403,6 +1415,10 @@ UTF8文字エンコードを用いている場合，アルファベットは8ビ
 理由の第三は，文字が数値にエンコードされる方式が可変長である場合に備え
 て，整数と区別しておくためである．例えばUTF8文字エンコードは可変長エン
 コーディングを行う．
+
+このような基本的な型を\keyword{データ型}と呼ぶ．
+
+\separator
 
 関数にも型がある．例えば整数引数を一つ取り，整数を返す関数 $f$ は
 \begin{equation}
@@ -1469,13 +1485,38 @@ g\mIn \underbrace{\mIntType}_x
 
 \separator
 
-タプル．
+\haskell には\keyword{タプル}という型がある．タプルとは，複数の変数を組
+み合わせたもので，例えば変数 $x,y$ をひとまとめにした
+\begin{equation}
+(x,y)
+\end{equation}
+はタプルである．変数 $x,y$ の型は同じでも良いし，異なっても良い．
 
-curry.
+いまタプルを引数に取る関数
+\begin{equation}
+f(x,y)=x+y
+\end{equation}
+があったとしよう．関数 $\mCurry$ はタプルを引数に取る関数をカリー化する
+ので，
+\begin{equation}
+(\mCurry f)xy
+\end{equation}
+は $f(x,y)$ と同じ結果すなわち $x+y$ になる．
 
-uncurry.
+逆に，カリー化された関数
+\begin{equation}
+f'xy=x+y
+\end{equation}
+に関しては
+\begin{equation}
+(\mUncurry f')(x,y)
+\end{equation}
+のように\keyword{アンカリー化}することで，タプルに適用することができる．
 
-()
+\separator
+
+タプルの中身の個数に制限はないが，中身が0個のタプルすなわち $()$ は特別
+に\keyword{ユニット}と呼ぶ．
 
 
 \section{多相型と型クラス}
