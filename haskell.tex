@@ -2523,8 +2523,11 @@ q = map_over(f, p)
 ある．関数 \code{map\_over} の実装は次のようになる．
 \begin{pythoncode}
 \begin{verbatim}
-def map_over(f, p): if p.valid == True: return Possibly(True,
- f(p.value)) else: return Possibly(False)
+def map_over(f, p):
+  if p.valid == True:
+    return Possibly(True, f(p.value))
+  else:
+    return Possibly(False)
 \end{verbatim}
 \end{pythoncode}
 
