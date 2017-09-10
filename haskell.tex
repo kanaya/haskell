@@ -459,8 +459,8 @@ do記法中のキーワード&タイプライタ&$\mDoLetKeyword$\\
 % リストの構造&サンセリフ，大文字&$\mathFirst$, $\mathRest$\\
 \hline
 リスト&ブラケットで包む&$\mListWith{x,y,z}$\\
-集合&ブレースで包む&$\mSetWith{x,y,z}$\\
-タプル&丸括弧で包む&$\mTupleWith{x,y,z}$\\
+集合&ブレースで包む&$\{x,y,z\}$\\
+タプル&丸括弧で包む&$(x,y,z)$\\
 % アンボックス化タプル&丸括弧とシャープ記号で包む&$\mTupleUnboxedWith{x,y,z}$\\
 \hline
 \end{tabular}
@@ -1704,7 +1704,7 @@ a_1\mBinOp a_2\mIn\mSet{A}
 $\mTupleWith{\mZSet,*}$ もマグマの例である．
 % マグマはかつて亜群と呼ばれていたが，現在は亜群は別の意味(groupoid)の訳語に使われている．
 
-他に\keyword{論理集合} $\mBSet=\mSetWith{\mTrue,\mFalse}$ に対して，
+他に\keyword{論理集合} $\mBSet=\{\mTrue,\mFalse\}$ に対して，
 \keyword{論理和} $(\mLogicalOr)$ は全域性を持つから，組み合わせ
 $\mTupleWith{\mBSet,\mLogicalOr}$ はマグマであるし，同様に\keyword{論
   理積} $(\mLogicalAnd)$ も全域性を持つから，組み合わせ
@@ -1736,8 +1736,8 @@ $\mTupleWith{\mBSet,\mLogicalOr}$, $\mTupleWith{\mBSet,\mLogicalOr}$
 
 一般に，$a,\mZero_\mLeft,\mZero_\mRight\mIn\mSet{A}$ として
 \begin{equation}
-\label{eq:identity}
-\mZero_\mLeft\mPlus a=a\mPlus\mZero_\mRight=a
+  \label{eq:identity}
+  \mZero_\mLeft\mPlus a=a\mPlus\mZero_\mRight=a
 \end{equation}
 であるとき，元 $\mZero_\mLeft,\mZero_\mRight$ を単位元と呼ぶ．我々は多
 くの場合 $\mZero_\mLeft=\mZero_\mRight$ であるケースを扱うので，二つの
@@ -1774,11 +1774,10 @@ $\mFloatType$ &$+$ &$0$\\ \hline $\mFloatType$ &$*$ &$1$\\ \hline
 \end{center}
 \end{table}
 
-組み合わせ $\mTupleWith{\mIntType,+,0}$ はモノイドである．同様に
-$\mTupleWith{\mIntType,*,1}$, $\mTupleWith{\mFloatType,+,0}$,
-$\mTupleWith{\mFloatType,*,1}$,
-$\mTupleWith{\mBoolType,\mLogicalOr,\mFalse}$,
-$\mTupleWith{\mBoolType,\mLogicalAnd,\mTrue}$ もモノイドである．
+組み合わせ $(\mIntType,+,0)$ はモノイドである．同様に
+$(\mIntType,*,1)$, $(\mFloatType,+,0)$, $(\mFloatType,*,1)$,
+$(\mBoolType,\mLogicalOr,\mFalse)$, $(\mBoolType,\mLogicalAnd,\mTrue)$
+もモノイドである．
 
 % そこで，任意の型 $\mType{a}$ について，組み合わせ $\mTupleWith{\mType{a},\mPlus,\mZero}$ がモノイドである場合には
 % \begin{equation}
@@ -1794,11 +1793,11 @@ $\mTupleWith{\mBoolType,\mLogicalAnd,\mTrue}$ もモノイドである．
 
 \begin{enumerate}
 \item 集合 $\mSet{A}$ の元 $a_1,a_2\mIn\mSet{A}$ について，二項演算子
-$\mBinOp$ があり $a_1\mBinOp a_2\mIn\mSet{A}$ であるとき，すなわち演
-算子が全域性を有する場合 $\mTupleWith{\mSet{A},\mBinOp}$ のことをマ
-グマと呼ぶ．\item マグマ $\mSet{A}$ の元 $a_1,a_2,a_3\mIn\mSet{A}$
-について $(a_1\mBinOp a_2)\mBinOp a_3=a_1\mBinOp(a_2\mBinOp a_3)$ で
-ある場合，すなわち演算子が結合性を有する場合 $\mSet{A}$ を半群と呼ぶ．
+  $\mBinOp$ があり $a_1\mBinOp a_2\mIn\mSet{A}$ であるとき，すなわち演
+  算子が全域性を有する場合 $(\mSet{A},\mBinOp)$ のことをマグマと呼ぶ．
+\item マグマ $\mSet{A}$ の元 $a_1,a_2,a_3\mIn\mSet{A}$ について
+  $(a_1\mBinOp a_2)\mBinOp a_3=a_1\mBinOp(a_2\mBinOp a_3)$ である場合，
+  すなわち演算子が結合性を有する場合 $\mSet{A}$ を半群と呼ぶ．
 \item 半群のうち $\mZero\mIn\mSet{A}$ なる元 $\mZero$ があり，任意の
 $a\mIn\mSet{A}$ に対して $\mZero\mBinOp a=a\mBinOp\mZero=a$ である場
 合，すなわち単位元が存在する場合 $\mSet{A}$ をモノイドと呼ぶ．\item
@@ -3750,7 +3749,7 @@ g\mBindFunc f&=\mLambdaExp{x}{g(fx)x}
 \mId\mComp f=f\mComp\mId=f
 \end{equation}
 であるから，関数全体の集合を $\mFSet$ で表すと，組み合わせ
-$\mTupleWith{\mFSet,\mComp,\mId}$ はモノイドである．
+$(\mFSet,\mComp,\mId)$ はモノイドである．
 
 モナドでありモノイドである型クラスを\keyword{モナドプラス}と呼ぶ．関数
 はモナドプラスである．
@@ -3889,7 +3888,7 @@ $\mListType{a}$ 型が $\mType{a}$ 型のリストであるように，$\mIOType
 
 $\mIOUnitType$ 型の場合，ピュア演算子は何も返す必要がないから
 \begin{equation}
-\mPureWith{\mAnyParam}=\mTupleWith{}
+\mPureWith{\mAnyParam}=()
 \end{equation}
 であるとする．
 
@@ -4088,7 +4087,7 @@ y=g_2(g_1x)
 我々はしばしば新しい集合を考える必要に迫られる．例えば，イチ，ニ，サン，
 タクサンからなる集合
 \begin{equation}
-\mSet{Num}\mDefEq\mSetWith{\mNumOne,\mNumTwo,\mNumThree,\mNumMany}
+\mSet{Num}\mDefEq\{\mNumOne,\mNumTwo,\mNumThree,\mNumMany\}
 \end{equation}
 を考えることがあるだろう．集合 $\mSet{Num}$ の元 $n\mIn\mSet{Num}$ は
 $\mNumOne$, $\mNumTwo$, $\mNumThree$, $\mNumMany$ のいずれかの値を取る
@@ -4716,8 +4715,8 @@ $\mType{\mZipList}$ に対する最適化の機会を得る．
   \begin{aligned}
     {}&\mZipFunc\mIn{}\mProj{\mListType{a}}
     {\mProj{\mListType{b}}
-      {\mTupleWith{\mListType{a},\mListType{b}}}}\\
-    {}&\mZipFunc xy=\mTupleWith{x,y}
+      {(\mListType{a},\mListType{b})}}\\
+    {}&\mZipFunc xy=(x,y)
   \end{aligned}
   \right.
 \end{equation}
@@ -4727,8 +4726,8 @@ $\mType{\mZipList}$ に対する最適化の機会を得る．
   \begin{aligned}
     {}&\mUncurry\mIn{}
     \mProj{(\mProj{\mType{a}}{\mProj{\mType{b}}{\mType{c}}})}
-          {\mProj{\mTupleWith{\mType{a},\mType{b}}}{\mType{c}}}\\
-          {}&\mUncurry fxy=f\mTupleWith{x,y}
+          {\mProj{(\mType{a},\mType{b})}{\mType{c}}}\\
+          {}&\mUncurry fxy=f(x,y)
   \end{aligned}
   \right.
 \end{equation}
@@ -4880,7 +4879,6 @@ int main(void) {
 ムとは，コマンドラインから引数 $x$ を受け取り，なんらかの処理を行い，
 OSに終了値を返すだけのプログラムである．このようなプログラムは普通役に
 立たないが，議論が簡単になるので少し見てみよう．
-% 例えば標準入力から文字列を読み取り，標準出力へ文字列を書き出すUNIXのフィルタプログラムのようなものである．例えば \code{wc} というUNIXプログラムは，標準入力に与えられた文字列から行数，単語数，文字数を数えて，その数値を標準出力へ書き出す副作用のないプログラムである．
 
 副作用のない関数を合成するのはわけのないことだ．もし\python ならば
 \begin{pythoncode}
@@ -4920,7 +4918,7 @@ y2 = f2(y1)
 x :: Double
 x = {- Value -}
 f :: Double -> Double
-f x = {- Function -}
+f = {- Function -}
 main :: IO Int
 main = print (f x) >> pure 0
 \end{verbatim}
@@ -5017,11 +5015,13 @@ $\mMain$ の値は $0$ になることを示している．
 \code{..}&等差数列\\
 \code{=}&定義 $(=)$\\
 \code{=>}&インスタンス定義 $(\mSuperClass)$\\
-\code{->}&関数型コンストラクタ $(\mapsto)$，ラムダ式の矢印 $(\rightarrow)$，case式の矢印 $(\mIfSo)$\\
+\code{->}&関数型コンストラクタ $(\mapsto)$，ラムダ式の矢印 $(\rightarrow)$，\\
+&case式の矢印 $(\mIfSo)$\\
 \code{<-}&リスト内包表記 $(\mFrom)$，do記法中の代入 $(\mDoEq)$\\
 \code{@}&asパタン $(@)$\\
 \code{|}&ガード $(\mGuard{})$，リスト内包 $(\mListComp)$，データ型の和演算 $(\mValueOr)$\\
-\code{,}&リストの値の区切り，リスト内包表記の区切り，タプルの値の区切り\\
+\code{,}&リストの値の区切り，リスト内包表記の区切り，\\
+&タプルの値の区切り\\
 % \code{-<}&（アロー表記用）\\
 % \code{-<<}&（アロー表記用）\\
 % \code{[|}, \code{|]}&（テンプレート）\\
@@ -5046,7 +5046,8 @@ $\mMain$ の値は $0$ になることを示している．
 \hline
 分岐 (1)&\code{case}, \code{of}\\
 分岐 (2)&\code{if}, \code{then}, \code{else}\\
-型定義&\code{class}, \code{data}, \code{deriving}, \code{instance}, \code{newtype}, \code{type}\\
+型定義&\code{class}, \code{data}, \code{deriving}, \code{instance},\\
+&\code{newtype}, \code{type}\\
 do記法&\code{do}\\
 局所変数 (1)&\code{let}, \code{in}\\
 局所変数 (2)&\code{where}\\
@@ -5116,52 +5117,51 @@ a*x^2+b*x+c=0
 \code{x**2} と書く．
 
 2次方程式の解法は知られており，
-\begin{equation}
-\begin{aligned}
-\mTupleWith{x_0,x_1}&=\mTupleWith{q/a,c/q}\\
-&\quad\mWhere\\
-&\qquad q\mLetEq\frac{\left(b+(\sgn b)*\sqrt{\mSq b-4*a*c}\right)}{2}
-\end{aligned}
-\end{equation}
+\begin{multline}
+  (x_0,x_1)=(q/a,c/q)\\
+  \mWhere q\mLetEq\frac{\left(b+(\sgn b)*\sqrt{\mSq b-4*a*c}\right)}{2}
+\end{multline}
 である．ここに関数 $\mSq$ は
 \begin{equation}
-\mSq x=x^2
+  \mSq x=x^2
 \end{equation}
 である．わざわざ関数にしたのは，単純な \code{x**2} よりも高速な実装
 \begin{equation}
-\left\mBrace
-\begin{aligned}
-&\mSq\mIn\mRealTypeClass\mSuperSet\mType{a}\mSuperClass\mProj{\mType{a}}{\mType{a}}\\
-&\mSq x=x*x
-\end{aligned}
-\right.
+  \left\mBrace
+  \begin{aligned}
+    &\mSq\mIn\mRealTypeClass\mSuperSet\mType{a}
+    \mSuperClass\mProj{\mType{a}}{\mType{a}}\\
+    &\mSq x=x*x
+  \end{aligned}
+  \right.
 \end{equation}
 を後で与えるためである．平方根 $\sqrt{x}$ は\haskell では \code{sqrt
   x} と書く．
 
 また関数 $\sgn$ は
 \begin{equation}
-\left\mBrace
-\begin{aligned}
-{}&\sgn\mIn{}\mRealTypeClass\mSuperSet\mType{a}\mSuperClass\mProj{\mType{a}}{\mType{a}}\\
-{}&
-\begin{aligned}
-\sgn x&\mGuard{x<0}=-1\\
-&\mGuard{\mOtherwise}=1
-\end{aligned}
-\end{aligned}
-\right.
+  \left\mBrace
+  \begin{aligned}
+    {}&\sgn\mIn{}\mRealTypeClass\mSuperSet\mType{a}
+    \mSuperClass\mProj{\mType{a}}{\mType{a}}\\
+    {}&
+    \begin{aligned}
+      \sgn x&\mGuard{x<0}=-1\\
+      &\mGuard{\mOtherwise}=1
+    \end{aligned}
+  \end{aligned}
+  \right.
 \end{equation}
 である．
 
-最後にタプル $\mTupleWith{x_0,x_1}$ を画面に表示すれば完了なので
+最後にタプル $(x_0,x_1)$ を画面に表示すれば完了なので
 \begin{equation}
-\left\mBrace
-\begin{aligned}
-{}&\mMain\mIn\mIOIntType\\
-{}&\mMain=\mPrint\mTupleWith{x_0,x_1}\mBindRightIgnore\mPureWith{0}
-\end{aligned}
-\right.
+  \left\mBrace
+  \begin{aligned}
+    {}&\mMain\mIn\mIOIntType\\
+    {}&\mMain=\mPrint(x_0,x_1)\mBindRightIgnore\mPureWith{0}
+  \end{aligned}
+  \right.
 \end{equation}
 とする．
 
@@ -5185,11 +5185,10 @@ main = print (x0, x1) >> pure 0
 \end{haskellcode}
 
 なお，2次方程式のよく知られた解法，すなわち
-\begin{multline}
-\mTupleWith{x_0,x_1}
-=\mTupleWith{\frac{-b+d}{2*a},\frac{-b-d}{2*a}}\\
-\mWhereIs{d}{\sqrt{b^2-4*a*c}}
-\end{multline}
+\begin{equation}
+  (x_0,x_1)=\left(\frac{-b+d}{2*a},\frac{-b-d}{2*a}\right)
+  \mWhereIs{d}{\sqrt{b^2-4*a*c}}
+\end{equation}
 は定数 $a$ または $c$ の値が小さい場合には計算誤差が大きくなるため，推
 奨されない．
 
@@ -5216,7 +5215,7 @@ a = ar :+ ai
 
 このように\haskell では複素数を
 \begin{equation}
-\mComplexType{a}=\mathop{\mTypeConstructor{Complex}}\mType{a}
+  \mComplexType{a}=\mathop{\mTypeConstructor{Complex}}\mType{a}
 \end{equation}
 の型パラメタ $\mType{a}$ に $\mFloatType$ 型または $\mDoubleType$ 型を
 当てはめて構築した型を用いる．$\mFloatType$ 型および $\mDoubleType$ 型
@@ -5224,64 +5223,64 @@ a = ar :+ ai
 
 複素数の場合の2次方程式の解は，実数の場合とほぼ同じで
 \begin{equation}
-\begin{aligned}
-\mTupleWith{x_0,x_1}&=\mTupleWith{q/a,c/q}\\
-&\quad\mWhere\\
-&\qquad q\mLetEq\left(b+\sgn'abc*r\right)/2\\
-&\qquad r\mLetEq\mSqrtFunc'{(\mSq'b-4*a*c)}
-\end{aligned}
+  (x_0,x_1)=(q/a,c/q)\mWhere\left\{
+  \begin{aligned}
+    &q\mLetEq\left(b+\sgn'abc*r\right)/2\\
+    &r\mLetEq\mSqrtFunc'{(\mSq'b-4*a*c)}
+  \end{aligned}
+  \right.
 \end{equation}
 である．実数の場合との違いは $\mSq$ 関数と $\sgn$ 関数をそれぞれ
 $\mSq'$ 関数と $\sgn'$ 関数に置き換えたことで，
 \begin{equation}
-\left\mBrace
-\begin{aligned}
-&\mSq'\mIn\mRealFloatTypeClass\mSuperSet\mType{a}\mSuperClass\mProj{\mComplexType{a}}{\mComplexType{a}}\\
-&\mSq'x=x*x
-\end{aligned}
-\right.
+  \left\mBrace
+  \begin{aligned}
+    &\mSq'\mIn\mRealFloatTypeClass\mSuperSet\mType{a}\mSuperClass\mProj{\mComplexType{a}}{\mComplexType{a}}\\
+    &\mSq'x=x*x
+  \end{aligned}
+  \right.
 \end{equation}
 および
 \begin{equation}
-\left\mBrace
-\begin{aligned}
-&\begin{aligned}
-\sgn'&\mIn\mRealFloatTypeClass\mSuperSet\mType{a}\mSuperClass\\
-&\quad\mProj{\mComplexType{a}}{\mProj{\mComplexType{a}}{\mProj{\mComplexType{a}}{\mType{a}}}}
-\end{aligned}\\
-&\begin{aligned}
-\sgn'abc&\mGuard{\mRealPart((\mConjugate b)*\mSqrtFunc'{(\mSq' b-4\mComplexTimes a*c)})<0}=-1\\
-&\mGuard{\mOtherwise}=1
-\end{aligned}
-\end{aligned}
-\right.
+  \left\mBrace
+  \begin{aligned}
+    &\begin{aligned}
+       \sgn'&\mIn\mRealFloatTypeClass\mSuperSet\mType{a}\mSuperClass\\
+       &\quad\mProj{\mComplexType{a}}{\mProj{\mComplexType{a}}{\mProj{\mComplexType{a}}{\mType{a}}}}
+     \end{aligned}\\
+    &\begin{aligned}
+       \sgn'abc&\mGuard{\mRealPart((\mConjugate b)*\mSqrtFunc'{(\mSq' b-4\mComplexTimes a*c)})<0}=-1\\
+       &\mGuard{\mOtherwise}=1
+     \end{aligned}
+  \end{aligned}
+  \right.
 \end{equation}
 である．
 
 この $\sgn'$ 関数の中で複素数の平方根および複素数の実数倍を計算する必
 要がある．そこで，複素数の平方根を
 \begin{equation}
-\left\mBrace
-\begin{aligned}
-&\mSqrtFunc'\mIn\mRealFloatTypeClass\mSuperSet\mType{a}
-\mSuperClass\mProj{\mType{a}}{\mType{a}}\\
-&\begin{aligned}
-\mSqrtFunc'(x\mComplexPlus y)
-&=\frac{\sqrt{2}}{2}*\left(\sqrt{d+x}\mComplexPlus(\sgn y)*\sqrt{d-x}\right)\\
-&\quad\mWhereIs{d}{\sqrt{\mSq x+\mSq y}}
-\end{aligned}
-\end{aligned}
-\right.
+  \left\mBrace
+  \begin{aligned}
+    &\mSqrtFunc'\mIn\mRealFloatTypeClass\mSuperSet\mType{a}
+    \mSuperClass\mProj{\mType{a}}{\mType{a}}\\
+    &\begin{aligned}
+       \mSqrtFunc'(x\mComplexPlus y)
+       &=\frac{\sqrt{2}}{2}*\left(\sqrt{d+x}\mComplexPlus(\sgn y)*\sqrt{d-x}\right)\\
+       &\quad\mWhereIs{d}{\sqrt{\mSq x+\mSq y}}
+     \end{aligned}
+  \end{aligned}
+  \right.
 \end{equation}
 と定義し，複素数の実数倍は演算子 $\mComplexTimes$ で表すとして
 \begin{equation}
-\left\mBrace
-\begin{aligned}
-&(\mComplexTimes)\mIn\mRealFloatTypeClass\mSuperSet\mType{a}\mSuperClass\\
-&\quad\mProj{\mType{a}}{\mProj{\mComplexType{a}}{\mComplexType{a}}}\\
-&(\mComplexTimes)a(x\mComplexPlus y)=a*x\mComplexPlus a*y
-\end{aligned}
-\right.
+  \left\mBrace
+  \begin{aligned}
+    &(\mComplexTimes)\mIn\mRealFloatTypeClass\mSuperSet\mType{a}\mSuperClass
+    \mProj{\mType{a}}{\mProj{\mComplexType{a}}{\mComplexType{a}}}\\
+    &(\mComplexTimes)a(x\mComplexPlus y)=a*x\mComplexPlus a*y
+  \end{aligned}
+  \right.
 \end{equation}
 とした．（演算子 $\mComplexTimes$ は \code{*.} と書くことにする．）
 
@@ -5324,23 +5323,18 @@ sgn :: Real a => a -> a
 sgn x | x < 0     = (-1)
       | otherwise = 1
 
-sqrt' :: RealFloat a =>
-  Complex a -> Complex a
-sqrt' (x:+y) = (sqrt 2)/2*((sqrt(d+x))
-  :+sgn(y)*(sqrt(d-x)))
+sqrt' :: RealFloat a => Complex a -> Complex a
+sqrt' (x:+y) = (sqrt 2)/2*((sqrt(d+x)):+sgn(y)*(sqrt(d-x)))
     where d = sqrt(sq x + sq y)
 
 sgn' :: RealFloat a =>
-  Complex a -> Complex a -> Complex a
-    -> Complex a
-sgn' a b c | realPart((conjugate b)
-               *sqrt'(sq' b - 4*.(a*c)))<0
-                 = (-1):+0
-           | otherwise = 1:+0
+  Complex a -> Complex a -> Complex a -> Complex a
+sgn' a b c
+  | realPart((conjugate b)*sqrt'(sq' b-4*.(a*c)))<0 = (-1):+0
+  | otherwise                                       = 1:+0
 
-(x0, x1) = (q/a, c/q)
-  where q = (b + sgn' a b c * r) / 2
-        r = sqrt'(sq' b - 4*.(a*c))
+(x0, x1) = (q/a, c/q) where q = (b + sgn' a b c * r) / 2
+                            r = sqrt'(sq' b - 4*.(a*c))
 
 main :: IO Int
 main = print a >> pure 0
@@ -6144,8 +6138,8 @@ I_\mSet{Z}\mCompProj g=g\mCompProj I_\mSet{Y}
 \keyword{恒等写像}と呼ぶ．
 
 集合 $\mSet{X}$，集合 $\mSet{Y}$，集合 $\mSet{Z}$ の集合
-$\mSet{C}=\mSetWith{\mSet{X},\mSet{Y},\mSet{Z}}$ と，写像 $f$ と写像
-$g$ の集合 $\mSet{P}=\mSetWith{f,g}$ と，写像合成演算子 $\mCompProj$
+$\mSet{C}=\{\mSet{X},\mSet{Y},\mSet{Z}\}$ と，写像 $f$ と写像
+$g$ の集合 $\mSet{P}=\{f,g\}$ と，写像合成演算子 $\mCompProj$
 と，恒等写像の集合 $\mSet{I}$ の組み合わせ
 $\mTupleWith{\mSet{C},\mSet{P},\mCompProj,\mSet{I}}$ を\keyword{圏}と
 呼ぶ．写像合成演算子 $(\mCompProj)$ と恒等写像の集合 $(\mSet{I})$ は自
@@ -6158,11 +6152,11 @@ $\mTupleWith{\mSet{C},\mSet{P}}$ を圏とする書き方もよくされる．
 合 $\mSet{C}$ を $\mSet{M}$ 及び $\mSet{M}\mSetTimes\mSet{M}$ を元とす
 る集合すなわち
 \begin{equation}
-\mSet{C}=\mSetWith{\mSet{M},\mSet{M}\mSetTimes\mSet{M}}
+\mSet{C}=\{\mSet{M},\mSet{M}\mSetTimes\mSet{M}\}
 \end{equation}
 とし，集合 $\mSet{P}$ を $\mBinOp$ のみを元とする集合すなわち
 \begin{equation}
-\mSet{P}=\mSetWith{\mBinOp}
+\mSet{P}=\{\mBinOp\}
 \end{equation}
 とすると，組み合わせ $\mTupleWith{\mSet{C},\mSet{P}}$ は圏になっている．
 
