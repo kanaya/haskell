@@ -2470,8 +2470,10 @@ srt(x:xs) = srt as ++ [x] ++ srt bs
 メンバ変数 \code{valid} がエラーの有無を表す．
 \begin{pythoncode}
 \begin{verbatim}
-class Possibly: def __init__(self, a_valid, a_value = 0): self.valid =
- a_valid self.value = a_value
+class Possibly:
+  def __init__(self, a_valid, a_value = 0):
+    self.valid = a_valid
+    self.value = a_value
 \end{verbatim}
 \end{pythoncode}
 
