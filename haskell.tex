@@ -239,6 +239,7 @@
 \DeclareMathOperator{\mLambda}{\backslash}
 \DeclareMathOperator{\mLambdaArrow}{\rightarrow}
 \DeclareMathOperator{\mLetEq}{\triangleq}
+\DeclareMathOperator{\mListAt}{!!}
 \DeclareMathOperator{\mLogicalAnd}{\wedge}
 \DeclareMathOperator{\mLogicalOr}{\vee}
 \DeclareMathOperator{\mMap}{\bullet}
@@ -1980,6 +1981,15 @@ $\mList{y}$ から最初の $x$ 個の要素からなるリストを返す．い
 \mTake\mIn{}\mProj{\mIntType}{\mProj{\mListType{a}}{\mListType{a}}}
 \end{equation}
 である．
+
+\separator
+
+リスト $\mList{x}$ の $n$ 番目の要素には
+\begin{equation}
+\mList{x}\mListAt n
+\end{equation}
+とすることでアクセスできる．\footnote{\haskell では $\mList{x}\mListAt
+n$ を \code{xs!!n} と書く．}
 
 \section{畳み込み}
 \label{sec:convolution}
