@@ -1,4 +1,4 @@
-\documentclass[a5paper,twoside,fleqn]{jsbook}
+\documentclass[a5paper,twoside,fleqn,draft]{jsbook}
 % \usepackage{eulervm}
 \usepackage{amsmath,amssymb,ascmac,bm,graphicx,latexsym,mathtools,multirow,okuverb}
 \makeindex
@@ -272,7 +272,7 @@
 \newcommand{\mZSet}{\mSpecialSet{Z}}
 
 % Internal type names
-\newcommand{\mZipList}{Z}
+\newcommand{\mZipList}{ZipList}
 
 % Type names
 \newcommand{\mType}[1]{\mathbf{#1}}
@@ -2810,18 +2810,18 @@ Either型は\clang の共有型 (\code{union}) や\cxxseventeen のバリアン�
 
 \begin{enumerate}
 \item ある型 $\mType{a}$ からそのMaybe型 $\mMaybeType{a}$ を作ることを
-  $\mMaybeType{a}=\mMaybeTypeConstructor\mType{a}$ と書く．ここに
-  $\mMaybeTypeConstructor$ はMaybe型コンストラクタである．\item ある変
-  数 $x$ からMaybe変数 $\mMaybe{u}$ を作るには
-  $\mMaybe{u}=\mJustWith{x}$ とする．ここに $\mJustWith{\dotsb}$ は
-  Maybe値コンストラクタである．\item Maybe変数は $\mJustWith{x}$ のよ
-  うな値か，かまたは $\mNothing$ なる「ナッシング」値のかどちらかを持
-  つことができる．\item 普通の関数 $f\mIn\mProj{\mType{a}}{\mType{b}}$
-  をMaybe値に適用することはできない．関数 $f$ をMaybe値に適用するには
-  $f\mMapMaybe\mMaybe{u}$ のようにMaybeマップ演算子が必要であり，この
-  関数適用の結果は $\mMaybeType{b}$ 型である．\item Either変数は二つの
-  型のいずれかを持つことができ，$\mEither{e}=\mRightWith{x}$ または
-  $\mEither{e}=\mLeftWith{x}$ のように生成する．
+$\mMaybeType{a}=\mMaybeTypeConstructor\mType{a}$ と書く．ここに
+$\mMaybeTypeConstructor$ はMaybe型コンストラクタである．\item ある変
+数 $x$ からMaybe変数 $\mMaybe{u}$ を作るには
+$\mMaybe{u}=\mJustWith{x}$ とする．ここに $\mJustWith{\dotsb}$ は
+Maybe値コンストラクタである．\item Maybe変数は $\mJustWith{x}$ のよ
+うな値か，かまたは $\mNothing$ なる「ナッシング」値のかどちらかを持
+つことができる．\item 普通の関数 $f\mIn\mProj{\mType{a}}{\mType{b}}$
+をMaybe値に適用することはできない．関数 $f$ をMaybe値に適用するには
+$f\mMapMaybe\mMaybe{u}$ のようにMaybeマップ演算子が必要であり，この
+関数適用の結果は $\mMaybeType{b}$ 型である．\item Either変数は二つの
+型のいずれかを持つことができ，$\mEither{e}=\mRightWith{x}$ または
+$\mEither{e}=\mLeftWith{x}$ のように生成する．
 \end{enumerate}
 
 \begin{note}{...}
@@ -2838,7 +2838,7 @@ A...
 
 \section{圏と関手}
 
-型 $\mType{a}$ の変数 $x,y\mIn\mType{a}$ について，関数
+$\mType{a}$ 型の変数 $x,y\mIn\mType{a}$ について，関数
 $f\mIn\mProj{\mType{a}}{\mType{a}}$ があり
 \begin{equation}
 y=fx
@@ -2880,12 +2880,12 @@ g=f\mMapMaybe
 
 いま「世界」と呼んだものを，数学者は\keyword{圏}と呼ぶ．圏とは
 \keyword{対象}と\keyword{射}の組み合わせである．本書では「対象」とは型
-のことであり，射とは関数だと思えば良い．コンテナに入れられた関数も射に
-含まれる．そして，圏から圏へとジャンプさせるものを\keyword{関手}と呼ぶ．
-この例で言えば値コンストラクタ $\mJustWith{x}$ とマップ演算子
-$\mMapMaybe$ が関手である．値コンストラクタ $\mJustWith{x}$ は
-$\mProj{\mType{a}}{\mMaybeType{a}}$ という型を持ち，マップ演算子
-$\mMapMaybe$ は
+のことであり，射とは関数だと思えば良い．（厳密にはコンテナに入れられた
+関数も射に含まれる．）そして，圏から圏へとジャンプさせるものを
+\keyword{関手}と呼ぶ．この例で言えば値コンストラクタ $\mJustWith{x}$ と
+マップ演算子$\mMapMaybe$ が関手である．値コンストラクタ
+$\mJustWith{x}$ は$\mProj{\mType{a}}{\mMaybeType{a}}$ という型を持ち，
+マップ演算子$\mMapMaybe$ は
 $\mProj{(\mProj{\mType{a}}{\mType{b}})}{(\mProj{\mMaybeType{a}}{\mMaybeType{b}})}$
 という型を持つ．\footnote{関手は英語でファンクター(functor)と言うが，
 \cxx の関数オブジェクト (function object) もかつてはファンクター
@@ -2918,11 +2918,11 @@ $\mProj{(\mProj{\mType{a}}{\mType{b}})}{(\mProj{\mListType{a}}{\mListType{b}})}$
                   {\mGenericTypeAssemble{fn}{b}}
 \end{equation}
 という型を持つ．ここに
-$(\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn})\mSuperClass$ は，
-続く式に対して $\mTypeConstructor{fn}$ が $\mFunctorTypeClass$ 型クラ
-スに属すという制約を表している．また $\mTypeConstructor{fn}$ は型コン
-ストラクタであり，$\mGenericTypeAssemble{fn}{a}$ は
-$\mTypeConstructor{fn}$ によって作られた型である．
+$\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn}\mSuperClass$ は，続
+く式に対して $\mTypeConstructor{fn}$ が $\mFunctorTypeClass$ 型クラスに
+属すという制約を表している．また $\mTypeConstructor{fn}$ は型コンストラ
+クタであり，$\mGenericTypeAssemble{fn}{a}$ は$\mTypeConstructor{fn}$ に
+よって作られた型である．
 
 もし型コンストラクタがリスト型コンストラクタであれば，つまり
 $\mTypeConstructor{fn}=\mListTypeConstructor$ であれば
@@ -3000,14 +3000,12 @@ $\mListWith{x,y,z}$ があるとする．リストバージョンのアプリカ
 リストバージョンのアプリ化ティブマップ演算子 $\mAppMapList$ の型は
 $\mProj{\mListType{\mProj{\mType{a}}{\mType{b}}}}{\mProj{\mListType{\mType{a}}}{\mListType{\mType{b}}}}$
 である．これは
-\begin{multline}
-\mAppMapList\mIn
-\underbrace{\mListWith{\mType{a}\mapsto\mType{b}}}_{\mListWith{f_0,f_1\dotsb f_n}}
-\mapsto
-\underbrace{\mListType{a}}_{\mListWith{x_0,x_1\dotsb x_n}}\\
-\mapsto
-\underbrace{\mListType{\mType{b}}}_{\mListWith{f_0x_0,f_0x_1\dotsb f_0x_n,f_1x_0,f_1x_1\dotsb f_nx_n}}
-\end{multline}
+\begin{equation}
+  \mAppMapList
+  \mIn\underbrace{\mListWith{\mType{a}\mapsto\mType{b}}}_{\mListWith{f_0,f_1\dotsb f_n}}
+  \mapsto\underbrace{\mListType{a}}_{\mListWith{x_0,x_1\dotsb x_n}}
+  \mapsto\underbrace{\mListType{\mType{b}}}_{\mListWith{f_0x_0,f_0x_1\dotsb f_0x_n,f_1x_0,f_1x_1\dotsb f_nx_n}}
+\end{equation}
 と解釈すれば良い．
 
 リストバージョンのアプリカティブマップ演算子 $(\mAppMapList)$ の特別な
@@ -3096,6 +3094,10 @@ $\mListWith{x}$ であるし，Maybeのピュア演算子は $\mJustWith{x}$ で
 結局，一般アプリカティブマップ演算子とピュア演算子のふたつがあれば，任
 意のクラスのマップ演算子を生成することができる．
 
+アプリカティブマップ演算子，ピュア演算子に一般化されたバージョンがある
+ように，リストの $\mEmptyList$ やMaybeの $\mNothing$ を一般化した値が必
+要である．それを $\mPureNothing$ とする．
+
 \separator
 
 この節の最後に\keyword{アプリカティブスタイル}という記法を紹介しておこ
@@ -3165,8 +3167,8 @@ g\mComp f\mIn\mProj{\mType{r}}{\mType{b}}
 である．つまり関数のマップ演算子 $(\mMapFunc)$ と関数の合成演算子
 $(\mComp)$ は同じ型を持つ．
 
-幸い，我々は関数のマップ演算子の実装に関しては，型さえ守っていれば自由
-に選べる．そこで
+幸い，我々は関数のマップ演算子の実装に関しては，型さえ守っていれば（そ
+  して第XYZ章で述べる関手則さえ守って入れば）自由に選べる．そこで
 \begin{equation}
 g\mMapFunc f=g\mComp f
 \end{equation}
@@ -3349,7 +3351,7 @@ $y=fx$ や $\mMaybe{v}=f\mMapMaybe\mMaybe{u}$ の関係とは異なることに�
 \begin{equation}
 g\mIn\mProj{\mType{a}}{\mMaybeType{a}}
 \end{equation}
-である．ということは，関数 $g$ をMaybe変数に適q用させるようと思っても，
+である．ということは，関数 $g$ をMaybe変数に適用させるようと思っても，
 我々が既に知っているマップ演算子 $\mMapMaybe$ やアプリカティブマップ演
 算子 $\mAppMapMaybe$ が使えないということである．前者は第1引数に
 $\mProj{\mType{a}}{\mType{b}}$ 型の関数を取るし，後者は第1引数に
@@ -3889,9 +3891,10 @@ $\mIOUnitType$ 型の場合，ピュア演算子は何も返す必要がない�
 \begin{equation}
 \mPureWith{\mAnyParam}=\mTupleWith{}
 \end{equation}
-であるとする．ここに $\mTupleWith{}$ は空のタプルで，「ユニット」と呼
-ぶ．一方で $\mIOUnitType$ 型のバインド演算子は，処理系の奥深くに隠され
-ている．
+であるとする．
+
+% ここに $\mTupleWith{}$ は空のタプルで，「ユニット」と呼ぶ．一方で
+% $\mIOUnitType$ 型のバインド演算子は，処理系の奥深くに隠されている．
 
 % 実装依存である．
 
@@ -4040,10 +4043,10 @@ y=g_2(g_1x)
 \mFuncWith{g_2}(g_1x)
 \end{equation}
 とする．この時，関数適用 $(g_1x)$ の結果は単純に捨てられる．
-\footnote{\clang では \code{void} 型を返す関数 \code{void g1(int);} を
-引数を取らない関数 \code{int g2(void);} に「食わせる」ことが可能で，
-\code{g2(g1(x));} は正しいコードである．もっとも\clang プログラマは
-\code{g1(x), g2();} という書き方の方を好むであろう．}
+\footnote{\clang では \code{void} 型を返す関数 \code{void g1(int)} を引
+  数を取らない関数 \code{int g2(void)} に「食わせる」ことが可能で，
+  \code{g2(g1(x))} は正しいコードである．もっとも\clang プログラマは
+  \code{g1(x), g2()} という書き方の方を好むであろう．}
 
 \separator
 
@@ -4051,7 +4054,7 @@ y=g_2(g_1x)
 が引数を取らない場合，その二つを合成するには
 \begin{equation}
 \label{eq:ignore-return}
-\mFuncWith{\alpha_2}\mBind\alpha_1 x
+\alpha_1 x\mBindRight\mFuncWith{\alpha_2}
 \end{equation}
 とする．式\eqref{eq:ignore-return}はしばしば
 % \begin{equation}
@@ -4059,11 +4062,11 @@ y=g_2(g_1x)
 % \end{equation}
 % または
 \begin{equation}
-\alpha_1 x\mBindRightIgnore\alpha_2=\mFuncWith{\alpha_2}\mBind(\alpha_1x)
+\alpha_1 x\mBindRightIgnore\alpha_2=\alpha_1x\mBindRight\mFuncWith{\alpha_2}
 \end{equation}
 なる演算子 $\mBindRightIgnore$ を用いて記述される．\footnote{\haskell
-では $\alpha_1x\mBindRightIgnore\alpha_2$ を \code{alpha1 x >>
-alpha2} と書く．}
+  では $\alpha_1x\mBindRightIgnore\alpha_2$ を \code{alpha1 x >>
+    alpha2} と書く．}
 
 \section{この章のまとめ*}
 
@@ -4088,28 +4091,27 @@ alpha2} と書く．}
 \mSet{Num}\mDefEq\mSetWith{\mNumOne,\mNumTwo,\mNumThree,\mNumMany}
 \end{equation}
 を考えることがあるだろう．集合 $\mSet{Num}$ の元 $n\mIn\mSet{Num}$ は
-$\mNumOne,\mNumTwo,\mNumThree,\mNumMany$ のいずれかの値を取ることにな
-る．
+$\mNumOne$, $\mNumTwo$, $\mNumThree$, $\mNumMany$ のいずれかの値を取る
+ことになる．
 
-数学者は新しい集合を定義するが，\haskell プログラマは新しい\keyword{デー
-  タ型}を定義する．データ型というのは，型の上品な言い方に過ぎない．集
-合 $\mSet{Num}$ の定義の代わりに，我々はデータ型 $\mType{Num}$ を
+数学者は新しい集合を定義するが，\haskell プログラマは新しいデータ型を定
+義する．集合 $\mSet{Num}$ の定義の代わりに，我々はデータ型
+$\mType{Num}$ を
 \begin{equation}
-\mDataType\;\mType{Num}
-=\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany
+  \mDataType\;\mType{Num}
+  =\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany
 \end{equation}
 のように書いて定義するものとする．式の先頭にある $\mDataType$ は，この
 式がデータ型の定義であることを示すタグである．部分的にアンダーラインが
 引かれているのは，\haskell が $\mDataType$ を \code{data} と省略してし
 まうからである．これは不本意なことだが，文字数節約のために仕方ない．こ
-こに $\mSet{Num}$ は型コンストラクタ，
-$\mNumOne,\mNumTwo,\mNumThree,\mNumMany$ は値コンストラクタである．
-\footnote{\haskell では $\mDataType$ を \code{data} と書く．式
-$\mDataType\;\mType{Num}
-=\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany$ は
-\code{data Num = One | Two | Three | Many} と書く．}
+こに $\mSet{Num}$ は型コンストラクタ，$\mNumOne$, $\mNumTwo$,
+$\mNumThree$, $\mNumMany$ は値コンストラクタである．
+\footnote{\haskell では \code{data Num = One | Two | Three | Many} と書
+  く．}
 
 % 値コンストラクタを列挙したデータ型を\keyword{代数型}と呼ぶ．
+
 この節で紹介したデータ型の定義は\clang で言う \code{enum} に近い．他に
 \clang で言う \code{struct} や \code{union} すなわち構造体や共用体もこ
 の $\mDataType$ 文で定義できるが，これは次節で見ることにする．
@@ -4119,11 +4121,12 @@ $\mDataType\;\mType{Num}
 新しいデータ型がある型クラスに属すとき，$\mDataType$ 文でそれを同時に
 宣言できる．例えば $\mType{Num}$ 型は同値演算子 $(\equiv)$ を持つこと
 が自然である．型 $\mType{Num}$ が $\mEqTypeClass$ 型クラスに属すとき，
-\begin{multline}
-\mDataType\;\mType{Num}\\
-=\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany\\
-\mDeriving\mEqTypeClass
-\end{multline}
+\begin{equation}
+  \mDataType\;
+  \mType{Num}
+  =\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany
+  \mDeriving\mEqTypeClass
+\end{equation}
 のように書く．\footnote{\haskell では \code{data Num = One | Two |
 Three | Many deriving Eq} と書く．}
 
@@ -4137,11 +4140,12 @@ Three | Many deriving Eq} と書く．}
 と幅，高さで合計4個の $\mFloatType$ のパラメタを取るものとする．このと
 き
 \begin{multline}
-\label{eq:rectangle}
-\mDataType\;\mType{Rectangle}\\
-=\mGenericWith{Rectangle}{\mFloatType\,\mFloatType\,
-  \mFloatType\,\mFloatType}\\
-\mDeriving\mEqTypeClass
+  \label{eq:rectangle}
+  \mDataType\;
+  \mType{Rectangle}\\
+  =\mGenericWith{Rectangle}
+  {\mFloatType\,\mFloatType\,\mFloatType\,\mFloatType}
+  \mDeriving\mEqTypeClass
 \end{multline}
 という風にデータ型の定義を行う．\footnote{\haskell では \code{data
 Rectangle = Rectangle Float Float Float Float} と書く．}
@@ -4185,29 +4189,15 @@ $\mType{Rectangle}$ 型から中身を取り出すには，次のような関数
 あると便利である．そこで利用できるのが\keyword{レコード構文}である．レ
 コード構文を使うと，式\eqref{eq:rectangle}は
 \begin{multline}
-\mDataType\;
-\mType{Rectangle}
-=\mGenericRecordBeginWith{Rectangle}
-\mFunc{x}\mIn\mFloatType,\\
-\mFunc{y}\mIn\mFloatType,
-\mFunc{width}\mIn\mFloatType,
-\mFunc{height}\mIn\mFloatType
-\mGenericRecordEnd\\
-\mDeriving\mEqTypeClass
+  \mDataType\;\mType{Rectangle}\\
+  =\mGenericRecordBeginWith{Rectangle}
+  \mFunc{x}\mIn\mFloatType,
+  \mFunc{y}\mIn\mFloatType,
+  \mFunc{width}\mIn\mFloatType,
+  \mFunc{height}\mIn\mFloatType
+  \mGenericRecordEnd\\
+  \mDeriving\mEqTypeClass
 \end{multline}
-% \begin{equation}
-% \begin{aligned}
-% \mDataType\;
-% &\mType{Rectangle}
-% =\mGenericRecordBeginWith{Rectangle}\\
-% &\quad\mFunc{x}\mIn\mFloatType,\\
-% &\quad\mFunc{y}\mIn\mFloatType,\\
-% &\quad\mFunc{width}\mIn\mFloatType,\\
-% &\quad\mFunc{height}\mIn\mFloatType\\
-% &\mGenericRecordEnd\\
-% &\mDeriving\mEqTypeClass
-% \end{aligned}
-% \end{equation}
 のように書き直すことができる．\footnote{\haskell では
 \begin{verbatim}
   data Rectangle = Rectangle {
@@ -4255,20 +4245,31 @@ $\mGenericValueConstructor{Triangle}$ によって初期化され，それぞれ
 いま $\mType{a}$ で表すこととして，型 $\mType{a}$ が型クラス
 $\mEqTypeClass$ に属すとしよう．型クラス $\mEqTypeClass$ は等号
 $(\equiv)$ と不等号 $(\neq)$ をインタフェースとして持つ．このことを
-\begin{align}
-\mTypeClass\mathop{\mEqTypeClass}\mSuperSet\mType{a}\mWhere{}
-&(\equiv)\mIn\mProj{\mType{a}}{\mProj{\mType{a}}{\mBoolType}}\\
-&(\neq)\mIn\mProj{\mType{a}}{\mProj{\mType{a}}{\mBoolType}}\\
-&x\equiv y=\neg(x\neq y)\\
-&x\neq y=\neg(x\equiv y)
-\end{align}
-と書く．最初の2行は型クラス $\mEqTypeClass$ が等号と不等号を持つことを
-宣言しており，続く2行がその性質を宣言している．\footnote{\haskell では
-$\mTypeClass$ を \code{class} と書く．また $\mSuperSet$ を省略して，
+\begin{equation}
+  \mTypeClass\mathop{\mEqTypeClass}\mSuperSet\mType{a}\mWhere{}
+  \left\{
+  \begin{aligned}
+    \left\mBrace
+    \begin{aligned}
+      &(\equiv)\mIn\mProj{\mType{a}}{\mProj{\mType{a}}{\mBoolType}}\\
+      &x\equiv y=\neg(x\neq y)
+    \end{aligned}
+    \right.\\
+    \left\mBrace
+    \begin{aligned}
+      &(\neq)\mIn\mProj{\mType{a}}{\mProj{\mType{a}}{\mBoolType}}\\
+      &x\neq y=\neg(x\equiv y)
+    \end{aligned}
+    \right.
+  \end{aligned}
+  \right.
+\end{equation}
+と書く．\footnote{\haskell では$\mTypeClass$ を \code{class} と書く．ま
+  た $\mSuperSet$ を省略して，
 \begin{verbatim}
   class Eq a where (==) :: a -> a -> Bool
-                   (/=) :: a -> a -> Bool
                    x==y = not(x/=y)
+                   (/=) :: a -> a -> Bool
                    x/=y = not(x==y)
 \end{verbatim}
 と書く．}
@@ -4280,20 +4281,19 @@ $\mInstance$ 文を使う．
 型クラス $\mEqTypeClass$ に属す型 $\mType{a}$ は等号と不等号を持つ．我々
 の型 $\mType{Num}$ が型クラス $\mEqTypeClass$ に属すことを宣言し，型ク
 ラス $\mEqTypeClass$ が備えるべき等号，不等号を実装するには
-\begin{multline}
-\mInstance\;
-\mEqTypeClass\mSuperSet\mType{Num}\\
-\mWhere{}
-\left\{
-\begin{aligned}
-\mConstant{One}\equiv\mConstant{One}&=\mTrue\\
-\mConstant{Two}\equiv\mConstant{Two}&=\mTrue\\
-\mConstant{Three}\equiv\mConstant{Three}&=\mTrue\\
-\mConstant{Many}\equiv\mConstant{Many}&=\mTrue\\
-\mAnyParam\equiv\mAnyParam&=\mFalse
-\end{aligned}
-\right.
-\end{multline}
+\begin{equation}
+  \mInstance\;\mEqTypeClass\mSuperSet\mType{Num}
+  \mWhere{}
+  \left\{
+  \begin{aligned}
+    \mConstant{One}\equiv\mConstant{One}&=\mTrue\\
+    \mConstant{Two}\equiv\mConstant{Two}&=\mTrue\\
+    \mConstant{Three}\equiv\mConstant{Three}&=\mTrue\\
+    \mConstant{Many}\equiv\mConstant{Many}&=\mTrue\\
+    \mAnyParam\equiv\mAnyParam&=\mFalse
+  \end{aligned}
+  \right.
+\end{equation}
 とする．これを\keyword{型クラスのインスタンス化}と呼ぶ．
 \footnote{\haskell では
 \begin{verbatim}
@@ -4309,13 +4309,11 @@ $\mInstance$ 文を使う．
 型クラスは\keyword{継承関係}を持てる．型クラス $\mOrdTypeClass$ は型ク
 ラス $\mEqTypeClass$ から等号，不等号を継承し「小なりイコール」
 $(\le)$ を追加する．
-\begin{multline}
-\mTypeClass\,
-\mEqTypeClass\mSuperSet\mType{a}
-\mSuperClass\mathop{\mOrdTypeClass}\mType{a}\\
-\mWhere{}
-(\le)\mIn\mProj{\mType{a}}{\mProj{\mType{a}}{\mBoolType}}
-\end{multline}
+\begin{equation}
+  \mTypeClass\;\mEqTypeClass\mSuperSet\mType{a}
+  \mSuperClass\mathop{\mOrdTypeClass}\mType{a}
+  \mWhere{}(\le)\mIn\mProj{\mType{a}}{\mProj{\mType{a}}{\mBoolType}}
+\end{equation}
 型クラス $\mOrdTypeClass$ に属する型は，等号，不等号，小なりイコールと，
 それらから派生させることのできる大なり $(>)$，大なりイコール $(\ge)$，
 小なり $(<)$，および最大値をとる関数 $\max$ と最小値をとる関数 $\min$
@@ -4331,11 +4329,11 @@ $(\le)$ を追加する．
 型は複数の型クラスに同時に属すことができる．例えば型 $\mType{Num}$ は
 型クラス $\mEqTypeClass$ と同時に型クラス $\mOrdTypeClass$ に属すこと
 もできる．それには
-\begin{multline}
-\mDataType\;\mType{Num}\\
-=\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany\\
+\begin{equation}
+\mDataType\;\mType{Num}
+=\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany
 \mDeriving{}(\mEqTypeClass,\mOrdTypeClass)
-\end{multline}
+\end{equation}
 とする．\footnote{\haskell では
 \begin{verbatim}
   data Num = One | Two | Three | Many
@@ -4345,26 +4343,25 @@ $(\le)$ を追加する．
 
 型クラス $\mOrdTypeClass$ のインスタンスは小なりイコール演算子 $(\le)$
 が定義されていなければならない．我々は
-\begin{multline}
-\mInstance\;
-\mOrdTypeClass\mSuperSet\mType{Num}\\
-\mWhere{}
-\left\{
-\begin{aligned}
-\mConstant{One}\le\mConstant{One}&=\mTrue\\
-\mConstant{One}\le\mConstant{Two}&=\mTrue\\
-\mConstant{One}\le\mConstant{Three}&=\mTrue\\
-\mConstant{One}\le\mConstant{Many}&=\mTrue\\
-\mConstant{Two}\le\mConstant{Two}&=\mTrue\\
-\mConstant{Two}\le\mConstant{Three}&=\mTrue\\
-\mConstant{Two}\le\mConstant{Many}&=\mTrue\\
-\mConstant{Three}\le\mConstant{Three}&=\mTrue\\
-\mConstant{Three}\le\mConstant{Many}&=\mTrue\\
-\mConstant{Many}\le\mConstant{Many}&=\mTrue\\
-\mAnyParam\equiv\mAnyParam&=\mFalse
-\end{aligned}
-\right.
-\end{multline}
+\begin{equation}
+  \mInstance\;\mOrdTypeClass\mSuperSet\mType{Num}
+  \mWhere{}
+  \left\{
+  \begin{aligned}
+    \mConstant{One}\le\mConstant{One}&=\mTrue\\
+    \mConstant{One}\le\mConstant{Two}&=\mTrue\\
+    \mConstant{One}\le\mConstant{Three}&=\mTrue\\
+    \mConstant{One}\le\mConstant{Many}&=\mTrue\\
+    \mConstant{Two}\le\mConstant{Two}&=\mTrue\\
+    \mConstant{Two}\le\mConstant{Three}&=\mTrue\\
+    \mConstant{Two}\le\mConstant{Many}&=\mTrue\\
+    \mConstant{Three}\le\mConstant{Three}&=\mTrue\\
+    \mConstant{Three}\le\mConstant{Many}&=\mTrue\\
+    \mConstant{Many}\le\mConstant{Many}&=\mTrue\\
+    \mAnyParam\equiv\mAnyParam&=\mFalse
+  \end{aligned}
+  \right.
+\end{equation}
 のように $\mType{Num}$ の $\le$ 演算子を定義することができる．
 
 \section{余談：型シノニム}
@@ -4493,43 +4490,41 @@ Eitherは次のように定義できる．
 型クラス $\mFunctorTypeClass$ はマップ演算子 $(\mMap)$ を提供する．リ
 スト型は $\mFunctorTypeClass$ 型クラスのインスタンスなので，
 \begin{align}
-\mTypeClassParametric\;
-&\mFunctorTypeClass\mSuperSet\mListTypeConstructor\nonumber\\
-&\quad\mWhere{}
-\mMap\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mListType{a}}{\mListType{b}}}\\
-\mInstanceParametric\;
-&\mFunctorTypeClass\mSuperSet\mListTypeConstructor{}\mWhereIs{\mMap}{\mMapList}
+  \mTypeClassParametric\;
+  &\mFunctorTypeClass\mSuperSet\mListTypeConstructor{}
+  \mWhere{}
+  \mMap\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}
+           {\mProj{\mListType{a}}{\mListType{b}}}\\
+           \mInstanceParametric\;
+           &\mFunctorTypeClass\mSuperSet\mListTypeConstructor{}
+           \mWhereIs{\mMap}{\mMapList}
 \end{align}
 と定義する．\footnote{\haskell では
 \begin{verbatim}
-  class Functor []
-    where fmap :: (a -> b) -> [a] -> [b]
-  instance Functor []
-    where fmap = map
+  class Functor [] where fmap :: (a -> b) -> [a] -> [b]
+  instance Functor [] where fmap = map
 \end{verbatim}
 と書く．}
 
 Maybe型の場合は
 \begin{align}
-\mTypeClassParametric\;
-&\mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor\nonumber\\
-&\quad\mWhere{}\mMap\mIn{}\nonumber\\
-&\qquad\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mMaybeType{a}}{\mMaybeType{b}}}\\
-\mInstanceParametric\;
-&\mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor\nonumber\\
-&\quad\mWhere
-\left\{
-\begin{aligned}
-f\mMap\mJustWith{x}&=\mJustWith{fx}\\
-f\mMap\mNothing&=\mNothing
-\end{aligned}
-\right.
+  \mTypeClassParametric\;
+  &\mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor\nonumber\\
+  &\quad\mWhere{}\mMap\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mMaybeType{a}}{\mMaybeType{b}}}\\
+  \mInstanceParametric\;
+  &\mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor\nonumber\\
+  &\quad\mWhere
+  \left\{
+  \begin{aligned}
+    f\mMap\mJustWith{x}&=\mJustWith{fx}\\
+    f\mMap\mNothing&=\mNothing
+  \end{aligned}
+  \right.
 \end{align}
 となる．\footnote{\haskell では
 \begin{verbatim}
   class Functor Maybe
-    where fmap :: (a -> b) -> Maybe a
-      -> Maybe b
+    where fmap :: (a -> b) -> Maybe a -> Maybe b
   instance Functor Maybe
     where fmap f (Maybe x) = Maybe (f x)
           fmap f Nothing = Nothing
@@ -4538,20 +4533,18 @@ f\mMap\mNothing&=\mNothing
 
 Either型の場合は
 \begin{align}
-\mTypeClassParametric\;
-&\mFunctorTypeClass\mSuperSet{}(\mathop{\mEitherTypeConstructor}\mType{a})\nonumber\\
-&\quad\mWhere{}
-\mMap\mIn{}\nonumber\\
-&\qquad\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mEitherType{a}{a}}{\mEitherType{a}{b}}}\\
-\mInstanceParametric\;
-&\mFunctorTypeClass\mSuperSet{}(\mathop{\mEitherTypeConstructor}\mType{a})\nonumber\\
-&\quad\mWhere
-\left\{
-\begin{aligned}
-f\mMap{}\mRightWith{x}&=\mRightWith{fx}\\
-f\mMap{}\mLeftWith{x}&=\mLeftWith{x}
-\end{aligned}
-\right.
+  \mTypeClassParametric\;
+  &\mFunctorTypeClass\mSuperSet{}(\mathop{\mEitherTypeConstructor}\mType{a})\nonumber\\
+  &\quad\mWhere{}\mMap\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mEitherType{a}{a}}{\mEitherType{a}{b}}}\\
+  \mInstanceParametric\;
+  &\mFunctorTypeClass\mSuperSet{}(\mathop{\mEitherTypeConstructor}\mType{a})\nonumber\\
+  &\quad\mWhere{}
+  \left\{
+  \begin{aligned}
+    f\mMap{}\mRightWith{x}&=\mRightWith{fx}\\
+    f\mMap{}\mLeftWith{x}&=\mLeftWith{x}
+  \end{aligned}
+  \right.
 \end{align}
 となる．\footnote{\haskell では
 \begin{verbatim}
@@ -4566,23 +4559,22 @@ f\mMap{}\mLeftWith{x}&=\mLeftWith{x}
 
 型に関して一般化すると
 \begin{multline}
-\label{eq:fn}
-\mTypeClassParametric\;\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn}\\
-\mWhere{}
-\mMap\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mGenericTypeAssemble{fn}{a}}{\mGenericTypeAssemble{fn}{b}}}
+  \label{eq:fn}
+  \mTypeClassParametric\;\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn}\\
+  \mWhere{}
+  \mMap\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mGenericTypeAssemble{fn}{a}}{\mGenericTypeAssemble{fn}{b}}}
 \end{multline}
 のように書ける．ここで，型 $\mGenericTypeAssemble{fn}{a}$ は型
 $\mType{a}$ と型コンストラクタ $\mTypeConstructor{fn}$ から
 \begin{equation}
-\mGenericTypeAssemble{fn}{a}=\mathop{\mTypeConstructor{fn}}\mType{a}
+  \mGenericTypeAssemble{fn}{a}=\mathop{\mTypeConstructor{fn}}\mType{a}
 \end{equation}
 のように作られる．\footnote{\haskell では
-$\mGenericTypeAssemble{fn}{a}$ も
-$\mathop{\mTypeConstructor{fn}}\mType{a}$ も同様に \code{fn a} と書
-く．そこで式\eqref{eq:fn}は
+  $\mGenericTypeAssemble{fn}{a}$ も
+  $\mathop{\mTypeConstructor{fn}}\mType{a}$ も同様に \code{fn a} と書く．
+  そこで式\eqref{eq:fn}は
 \begin{verbatim}
-  class functor fn
-    where fmap :: (a -> b) -> fn a -> fn b
+  class functor fn where fmap :: (a -> b) -> fn a -> fn b
 \end{verbatim}
 と書く．}
 
@@ -4609,9 +4601,9 @@ $\mZip$ は
 そこで $\mDataTypeParametric$ を使ってリスト型をラップした新しい型を作
 る．例えば新しい型を $\mZipListType{a}$ とすると
 \begin{equation}
-\label{eq:data-type-ziplist}
-\mDataTypeParametric\;\mZipListTypeConstructor\mType{a}
-=\mGenericRecordWith{\mZipList}{\mGetList\mIn{}\mListType{a}}
+  \label{eq:data-type-ziplist}
+  \mDataTypeParametric\;\mathop{\mZipListTypeConstructor}\mType{a}
+  =\mGenericRecordWith{\mZipList}{\mGetList\mIn{}\mListType{a}}
 \end{equation}
 のように定義することになる．念のため，左辺の
 $\mZipListTypeConstructor$ は型コンストラクタ，右辺の
@@ -4637,25 +4629,26 @@ $\mGenericValueConstructor{\mZipList}$ は値コンストラクタである．�
 \end{multline}
 と定義する．ここで
 \begin{equation}
-\label{eq:zip}
-\left\{
-\begin{aligned}
-(\mZip)\mAnyParam\mEmptyList&=\mEmptyList\\
-(\mZip)\mEmptyList\mAnyParam&=\mEmptyList\\
-(\mZip)(x:\mList{x})(y:\mList{y})&=x\mApply y:\mList{x}\mZip\mList{y}
-\end{aligned}
-\right.
+  \label{eq:zip}
+  \left\{
+  \begin{aligned}
+    (\mZip)\mAnyParam\mEmptyList&=\mEmptyList\\
+    (\mZip)\mEmptyList\mAnyParam&=\mEmptyList\\
+    (\mZip)(x:\mList{x})(y:\mList{y})&=(x\mApply y):\mList{x}\mZip\mList{y}
+  \end{aligned}
+  \right.
 \end{equation}
 であると定義する．
 
 関数 $\mRepeat$ は引数を無限回繰り返すリストを返す関数である．念のため
 関数 $\mRepeat$ の実装方法を書いておくと
 \begin{equation}
-\mRepeat x=x:\mRepeat x
-\end{equation}
-である．関数 $\mRepeat$ の型は
-\begin{equation}
-\mRepeat\mIn{}\mProj{\mListType{a}}{\mListType{a}}
+  \left\mBrace
+  \begin{aligned}
+    &\mRepeat\mIn{}\mProj{\mListType{a}}{\mListType{a}}\\
+    &\mRepeat x=x:\mRepeat x
+  \end{aligned}
+  \right.
 \end{equation}
 である．
 
@@ -4685,7 +4678,7 @@ $\mType{\mZipList}$ に対する最適化の機会を得る．
 
 \separator
 
-式\eqref{eq:zip}にもう一段抽の象化をしておこう．関数 $\mZipWith$ を
+式\eqref{eq:zip}にもう一段の抽象化をしておこう．関数 $\mZipWith$ を
 \begin{equation}
   \left\mBrace
   \begin{aligned}
@@ -4741,8 +4734,7 @@ $\mType{\mZipList}$ に対する最適化の機会を得る．
 \end{equation}
 である．\footnote{\haskell では $\mZipWith$ 関数を
 \begin{verbatim}
-  zipWith :: (a -> b -> c)
-    -> [a] -> [b] -> [c]
+  zipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
   zipWith f (x:xs) (y:ys) = f' `map` zs
     where f' = uncurry f
           zs = zip xs ys
