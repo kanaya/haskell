@@ -376,7 +376,7 @@
 \newcommand{\mGuard}[1]{\mathop{\mid_{#1}}}
 
 % List comprehension
-\newcommand{\mListComp}[1]{\shortmid#1}
+\DeclareMathOperator{\mListComp}{\shortmid}
 
 % Syntaxes
 \newcommand{\mCaseOf}[1]{\mCaseKW#1\mOfKW}
@@ -1856,6 +1856,8 @@ elementの和訳である．
 なる変数であるとする．\footnote{\haskell では星印のかわりに \code{s}
   を変数名にくっつけて \code{xs = [0, 1..9]} のように書く習慣がある．}
 
+\separator
+
 \python ではリスト内包表記が使える．例えば $0$ から $9$ までの倍数のリ
 ストは次のように作った．
 \begin{pythoncode}
@@ -1866,19 +1868,20 @@ ls = [x*2 for x in range(0, 10)]
 ここに \code{range(a, b)} は \code{a} から増加する方向に連続する
 \code{b} 個の整数からなるリストを返す\python の関数である．
 
-我々は内包表記のかわりにガードを使って
+我々も内包表記を
 \begin{equation}
-\mList{x}=\mListWith{x*2\mListComp{x\mFrom{\mListWith{0,1\dotsb9}}}}
+  \mList{x}=\mListWith{x*2\mListComp x\mFrom{\mListWith{0,1\dotsb9}}}
 \end{equation}
 のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代
 入する演算子$\mFrom$を用いた．\footnote{\haskell では
-  $\mList{x}=\mListWith{x*2\mListComp{x\mFrom{\mListWith{0,1\dotsb9}}}}$
+  $\mList{x}=\mListWith{x*2\mListComp x\mFrom{\mListWith{0,1\dotsb9}}}$
   を \code{xs = [x*2 | x<-[0,1..9]]} と書く．}
 
-ガードの中の式は複数あっても良い．例えば
+内包表記の式は複数あっても良い．例えば
 \begin{equation}
-\mList{x}
-=\mListWith{x+y\mListComp{x\mFrom\mListWith{0,1\dotsb9},\,y\mFrom\mListWith{0,1\dotsb5},\,x+y>3}}
+  \mList{x}
+  =\mListWith{x+y\mListComp x\mFrom\mListWith{0,1\dotsb9},\,
+      y\mFrom\mListWith{0,1\dotsb5},\,x+y>3}
 \end{equation}
 は $0\le x\le9$ かつ $0\le y\le5$ の範囲で $x+y>3$となる $x$ 及び $y$
 から $x+y$ を並べたリストである．これは\python でいう
@@ -1890,6 +1893,10 @@ ls = [x+y for x in range(0, 10) for y in range(0,6) \
 \end{pythoncode}
 のことである．\footnote{\haskell では \code{xs = [x+y | x<-[0,1..9],
       y<-[0,1..5], x+y>3]} と書く．}
+
+% ...もっと内包表記．
+
+\separator
 
 リストは\keyword{結合}できる．例えばリスト$\mList{x}$ とリスト
 $\mList{y}$ を結合したリストは
@@ -2415,8 +2422,8 @@ $h=100+\mAnonParam$ であることを期待するし，\haskell においては
     \mSort(x:\mList{x})
     &=(\mSort\mList{a})\mAppend\mListWith{x}\mAppend{}(\mSort\mList{b})\\
     &\quad\mWhere\left\{\begin{aligned}
-    \mList{a}&\mLetEq\mListWith{a\mListComp{a\mFrom\mList{x},a\le x}}\\
-    \mList{b}&\mLetEq\mListWith{b\mListComp{b\mFrom\mList{x},b>x}}
+    \mList{a}&\mLetEq\mListWith{a\mListComp a\mFrom\mList{x},a\le x}\\
+    \mList{b}&\mLetEq\mListWith{b\mListComp b\mFrom\mList{x},b>x}
     \end{aligned}
     \right.
   \end{aligned}
@@ -5393,7 +5400,7 @@ fx&\mGuard{x\equiv0}=1\\
 \left\mBrace
 \begin{aligned}
 \mList{x}&\mIn{}\mListType{\mDoubleType}\\
-\mList{x}&=\mListWith{i/n*\pi\mListComp{i\mFrom\mListWith{0\dotsb n}}}
+\mList{x}&=\mListWith{i/n*\pi\mListComp i\mFrom\mListWith{0\dotsb n}}
 \end{aligned}
 \right.
 \end{equation*}
@@ -5405,7 +5412,7 @@ fx&\mGuard{x\equiv0}=1\\
 \left\mBrace
 \begin{aligned}
 \mList{x}&\mIn{}\mListType{\mDoubleType}\\
-\mList{x}&=\mListWith{(\mFromIntegral i)/(\mFromIntegral n)*\pi\mListComp{i\mFrom\mListWith{0\dotsb n}}}
+\mList{x}&=\mListWith{(\mFromIntegral i)/(\mFromIntegral n)*\pi\mListComp i\mFrom\mListWith{0\dotsb n}}
 \end{aligned}
 \right.
 \end{equation}
