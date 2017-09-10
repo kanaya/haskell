@@ -395,10 +395,9 @@
 \author{金谷一朗}
 
 \begin{document}
-\setlength{\baselineskip}{17pt}
+% \setlength{\baselineskip}{17pt}
 \maketitle
 \tableofcontents
-
 
 \begin{table*}[p]
 \caption{凡例 (1)}
@@ -2064,6 +2063,8 @@ $\mListType{b}$ 型を取り，$\mType{a}$ 型の値を返す．従って畳み�
 \end{equation}
 である．
 
+\separator
+
 畳み込み演算子には次のようなもう一つのバリエーションがある．
 \begin{equation}
 \mFoldRight^{\mBinOp}_{a}\mListWith{x_0,x_1\dotsb x_n}
@@ -2072,6 +2073,8 @@ $\mListType{b}$ 型を取り，$\mType{a}$ 型の値を返す．従って畳み�
 これは\keyword{右畳み込み}と呼ばれる演算子である．\footnote{\haskell
   では $\mFoldRight^{*}_a\mList{x}$ を \code{foldr (*) a xs} と書く．}
 % ***CHECK***
+
+\separator
 
 畳み込み演算子の面白い応用例を示そう．リストの結合演算子 $(\mAppend)$
 を使うと
@@ -2853,7 +2856,11 @@ y=fx
 $\mType{a}$ 世界と呼ぶことにする．
 
 型 $\mMaybeType{a}$ の変数 $\mMaybe{u},\mMaybe{v}\mIn\mMaybeType{a}$
-について，関数 $g\mIn\mProj{\mMaybeType{a}}{\mMaybeType{a}}$ があり
+について，関数
+\begin{equation}
+g\mIn\mProj{\mMaybeType{a}}{\mMaybeType{a}}
+\end{equation}
+があり
 \begin{equation}
 \mMaybe{v}=g\mMaybe{u}
 \end{equation}
@@ -4255,18 +4262,10 @@ $(\equiv)$ と不等号 $(\neq)$ をインタフェースとして持つ．こ�
   \mTypeClass\mathop{\mEqTypeClass}\mSuperSet\mType{a}\mWhere{}
   \left\{
   \begin{aligned}
-    \left\mBrace
-    \begin{aligned}
-      &(\equiv)\mIn\mProj{\mType{a}}{\mProj{\mType{a}}{\mBoolType}}\\
-      &x\equiv y=\neg(x\neq y)
-    \end{aligned}
-    \right.\\
-    \left\mBrace
-    \begin{aligned}
-      &(\neq)\mIn\mProj{\mType{a}}{\mProj{\mType{a}}{\mBoolType}}\\
-      &x\neq y=\neg(x\equiv y)
-    \end{aligned}
-    \right.
+    &(\equiv)\mIn\mProj{\mType{a}}{\mProj{\mType{a}}{\mBoolType}}\\
+    &(\neq)\mIn\mProj{\mType{a}}{\mProj{\mType{a}}{\mBoolType}}\\
+    &x\equiv y=\neg(x\neq y)\\
+    &x\neq y=\neg(x\equiv y)
   \end{aligned}
   \right.
 \end{equation}
@@ -4503,7 +4502,7 @@ Eitherは次のように定義できる．
            {\mProj{\mListType{a}}{\mListType{b}}}\\
            \mInstanceParametric\;
            &\mFunctorTypeClass\mSuperSet\mListTypeConstructor{}
-           \mWhereIs{\mMap}{\mMapList}
+           \mWhere{}\mMap=\mMapList
 \end{align}
 と定義する．\footnote{\haskell では
 \begin{verbatim}
@@ -4555,8 +4554,7 @@ Either型の場合は
 となる．\footnote{\haskell では
 \begin{verbatim}
   class Functor (Either a)
-    where fmap :: (a -> b) -> Either a a
-      -> Either a b
+    where fmap :: (a -> b) -> Either a a -> Either a b
   instance Functor (Either a)
     where fmap f (Right x) = Right (f x)
           fmap f (Left x)  = Left x
