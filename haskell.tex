@@ -581,7 +581,7 @@ Spectrum の ``The 2015 Top Ten Programming Languages'' という記事によ
 ると「ビッグ5」として \java, \clang, \cxx, \python, \csharp\ が挙げら
 れている．このうち\clang は「多くのプログラマが読める」以外にメリット
 が無く，その唯一のメリットさえ最近は怪しくなっているため，登山口候補か
-ら外す．残るは \java, \cxx, \csharp\ グループと\python ということにな
+ら外す．残るは\java, \cxx, \csharp\ グループと\python ということにな
 るが，シンプルであり，かつ\haskell と対極にある言語である\python（バー
   ジョン3）を登山口に選ぶことにした．
 
@@ -1021,14 +1021,14 @@ fx=\mIfThenElse{px}{1}{{}(\sin x)/x}
 \end{equation}
 と書く方法もしばしば用いられる．
 
-条件式は紙面が許せば次のように書いても良い．
-\begin{equation}
-fx=\begin{cases} 1&\mIf x\equiv0\\ (\sin x)/x&\mOtherwise
-\end{cases}
-\end{equation}
-左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっ
-ていることに注目しよう．\footnote{\haskell ではいつも \code{if},
-  \code{then}, \code{else} を使った式にする．}
+% 条件式は紙面が許せば次のように書いても良い．
+% \begin{equation}
+% fx=\begin{cases} 1&\mIf x\equiv0\\ (\sin x)/x&\mOtherwise
+% \end{cases}
+% \end{equation}
+% 左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっ
+% ていることに注目しよう．\footnote{\haskell ではいつも \code{if},
+% \code{then}, \code{else} を使った式にする．}
 
 \section{余談：局所変数}
 
@@ -2294,7 +2294,12 @@ $(\mFold)$ を使う場合に問題となる．いま
 $\mList{x}=\mListWith{x_0,x_1,x_2,x_3}$ とすると，左畳み込み演算
 $\mFold^+_0\mList{x}$ は
 \begin{align}
-\mFold^+_0\mList{x}&=\mFold^+_0{}(x_0:x_1:x_2:\mEmptyList)\\ &=\mFold^+_{0+x_0}{}(x_1:x_2:x_3:\mEmptyList)\\ &=\mFold^+_{(0+x_0)+x_1}{}(x_2:x_3:\mEmptyList)\\ &=\mFold^+_{((0+x_0)+x_1)+x_2}{}(x_3:\mEmptyList)\\ &=\mFold^+_{(((0+x_0)+x_1)+x_2)+x_3}{}\mEmptyList\\ &=(((0+x_0)+x_1)+x_2)+x_3
+  \mFold^+_0\mList{x}&=\mFold^+_0{}(x_0:x_1:x_2:\mEmptyList)\\
+  &=\mFold^+_{0+x_0}{}(x_1:x_2:x_3:\mEmptyList)\\
+  &=\mFold^+_{(0+x_0)+x_1}{}(x_2:x_3:\mEmptyList)\\
+  &=\mFold^+_{((0+x_0)+x_1)+x_2}{}(x_3:\mEmptyList)\\
+  &=\mFold^+_{(((0+x_0)+x_1)+x_2)+x_3}{}\mEmptyList\\
+  &=(((0+x_0)+x_1)+x_2)+x_3
 \end{align}
 と展開される．遅延評価のために，\haskell 処理系は値ではなく式をメモリ
 にストアしなければならないが，左畳み込み演算は大きなメモリを必要としが
@@ -2305,7 +2310,7 @@ $\mFold^+_0\mList{x}$ は
 
 
 % \haskell には言語拡張として，\keyword{アンボックス化タプル}という機能がある．
-% 
+%
 % http://qiita.com/7shi/items/d3d3492ddd90d47160f2
 % https://downloads.haskell.org/~ghc/7.0.1/docs/html/users_guide/primitives.html
 
@@ -3206,7 +3211,7 @@ h\mMapMaybe\mMaybe{u}&\mIf\mMaybe{g}\equiv\mJustWith{h}\\
 
 \begin{note}{...}
 ...
-% 
+%
 \end{note}
 
 \chapter{モナド}
@@ -3593,7 +3598,7 @@ Maybe
   &
   &$0$
   &$+$\\
-\hline  
+\hline
 整数
   &
   &
@@ -3601,7 +3606,7 @@ Maybe
   &
   &$1$
   &$*$\\
-\hline  
+\hline
 \end{tabular}
 \end{center}
 \end{table*}
@@ -3899,7 +3904,7 @@ $\mDoLetKeyword$ という構文が用意されている．この $\mDoLetKeywor
 
 我々はバインド演算子を使った通常の記法とdo記法のいずれか読みやすい方を採用すれば良い．
 
-% main = 
+% main =
 % do
 %   r <- rand
 %   print r
@@ -3993,38 +3998,60 @@ alpha2} と書く．}
 
 \section{データ型}
 
-我々はしばしば新しい集合を考える必要に迫られる．例えば，イチ，ニ，サン，タクサンからなる集合
+我々はしばしば新しい集合を考える必要に迫られる．例えば，イチ，ニ，サン，
+タクサンからなる集合
 \begin{equation}
 \mSet{Num}\mDefEq\mSetWith{\mNumOne,\mNumTwo,\mNumThree,\mNumMany}
 \end{equation}
-を考えることがあるだろう．集合 $\mSet{Num}$ の元 $n\mIn\mSet{Num}$ は $\mNumOne,\mNumTwo,\mNumThree,\mNumMany$ のいずれかの値を取ることになる．
+を考えることがあるだろう．集合 $\mSet{Num}$ の元 $n\mIn\mSet{Num}$ は
+$\mNumOne,\mNumTwo,\mNumThree,\mNumMany$ のいずれかの値を取ることにな
+る．
 
-数学者は新しい集合を定義するが，\haskell プログラマは新しい\keyword{データ型}を定義する．データ型というのは，型の上品な言い方に過ぎない．集合 $\mSet{Num}$ の定義の代わりに，我々はデータ型 $\mType{Num}$ を
+数学者は新しい集合を定義するが，\haskell プログラマは新しい\keyword{デー
+  タ型}を定義する．データ型というのは，型の上品な言い方に過ぎない．集
+合 $\mSet{Num}$ の定義の代わりに，我々はデータ型 $\mType{Num}$ を
 \begin{equation}
 \mDataType\;\mType{Num}
 =\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany
 \end{equation}
-のように書いて定義するものとする．式の先頭にある $\mDataType$ は，この式がデータ型の定義であることを示すタグである．部分的にアンダーラインが引かれているのは，\haskell が $\mDataType$ を \code{data} と省略してしまうからである．これは不本意なことだが，文字数節約のために仕方ない．ここに $\mSet{Num}$ は型コンストラクタ，$\mNumOne,\mNumTwo,\mNumThree,\mNumMany$ は値コンストラクタである．\footnote{\haskell では $\mDataType$ を \code{data} と書く．式 $\mDataType\;\mType{Num}
-=\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany$ は \code{data Num = One | Two | Three | Many} と書く．}
+のように書いて定義するものとする．式の先頭にある $\mDataType$ は，この
+式がデータ型の定義であることを示すタグである．部分的にアンダーラインが
+引かれているのは，\haskell が $\mDataType$ を \code{data} と省略してし
+まうからである．これは不本意なことだが，文字数節約のために仕方ない．こ
+こに $\mSet{Num}$ は型コンストラクタ，
+$\mNumOne,\mNumTwo,\mNumThree,\mNumMany$ は値コンストラクタである．
+\footnote{\haskell では $\mDataType$ を \code{data} と書く．式
+$\mDataType\;\mType{Num}
+=\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany$ は
+\code{data Num = One | Two | Three | Many} と書く．}
 
 % 値コンストラクタを列挙したデータ型を\keyword{代数型}と呼ぶ．
-この節で紹介したデータ型の定義は\clang で言う \code{enum} に近い．他に\clang で言う \code{struct} や \code{union} すなわち構造体や共用体もこの $\mDataType$ 文で定義できるが，これは次節で見ることにする．
+この節で紹介したデータ型の定義は\clang で言う \code{enum} に近い．他に
+\clang で言う \code{struct} や \code{union} すなわち構造体や共用体もこ
+の $\mDataType$ 文で定義できるが，これは次節で見ることにする．
 
 \separator
 
-新しいデータ型がある型クラスに属すとき，$\mDataType$ 文でそれを同時に宣言できる．例えば $\mType{Num}$ 型は同値演算子 $(\equiv)$ を持つことが自然である．型 $\mType{Num}$ が $\mEqTypeClass$ 型クラスに属すとき，
+新しいデータ型がある型クラスに属すとき，$\mDataType$ 文でそれを同時に
+宣言できる．例えば $\mType{Num}$ 型は同値演算子 $(\equiv)$ を持つこと
+が自然である．型 $\mType{Num}$ が $\mEqTypeClass$ 型クラスに属すとき，
 \begin{multline}
 \mDataType\;\mType{Num}\\
 =\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany\\
 \mDeriving\mEqTypeClass
 \end{multline}
-のように書く．\footnote{\haskell では \code{data Num = One | Two | Three | Many deriving Eq} と書く．}
+のように書く．\footnote{\haskell では \code{data Num = One | Two |
+Three | Many deriving Eq} と書く．}
 
-型 $\mType{Num}$ の同値演算子 $(\equiv)$ の実装は\ref{sec:type-class-and-instance}節で見ることにする．
+型 $\mType{Num}$ の同値演算子 $(\equiv)$ の実装は
+\ref{sec:type-class-and-instance}節で見ることにする．
 
 \section{レコード構文}
 
-データ型の定義では，値コンストラクタにパラメタを与えることもできる．例えば $\mType{Rectangle}$ という型を考えよう．この型は，始点の平面座標と幅，高さで合計4個の $\mFloatType$ のパラメタを取るものとする．このとき
+データ型の定義では，値コンストラクタにパラメタを与えることもできる．例
+えば $\mType{Rectangle}$ という型を考えよう．この型は，始点の平面座標
+と幅，高さで合計4個の $\mFloatType$ のパラメタを取るものとする．このと
+き
 \begin{multline}
 \label{eq:rectangle}
 \mDataType\;\mType{Rectangle}\\
@@ -4032,7 +4059,8 @@ alpha2} と書く．}
   \mFloatType\,\mFloatType}\\
 \mDeriving\mEqTypeClass
 \end{multline}
-という風にデータ型の定義を行う．\footnote{\haskell では \code{data Rectangle = Rectangle Float Float Float Float} と書く．}
+という風にデータ型の定義を行う．\footnote{\haskell では \code{data
+Rectangle = Rectangle Float Float Float Float} と書く．}
 
 $\mType{Rencatngle}$ 型の変数は次のように初期化する．
 \begin{equation}
@@ -4043,22 +4071,24 @@ r&=\mGenericWith{Rectangle}{1\,2\,3\,4}
 \end{aligned}
 \right.
 \end{equation}
-これは\clang で言う \code{struct} と似た用法である．\footnote{\haskell では
+これは\clang で言う \code{struct} と似た用法である．\footnote{\haskell
+では
 \begin{verbatim}
   r :: Rectangle
   r = Rectangle 1 2 3 4
 \end{verbatim}
-と書く．
-}
+と書く．}
 
-$\mType{Rectangle}$ 型から中身を取り出すには，次のような関数を用意しておかねばならない．
+$\mType{Rectangle}$ 型から中身を取り出すには，次のような関数を用意して
+おかねばならない．
 \begin{align}
 \mFunc{x}\mGenericWith{Rectangle}{x\,\mAnyParam\,\mAnyParam\,\mAnyParam}&=x\\
 \mFunc{y}\mGenericWith{Rectangle}{\mAnyParam\,y\,\mAnyParam\,\mAnyParam}&=y\\
 \mFunc{width}\mGenericWith{Rectangle}{\mAnyParam\,\mAnyParam\,w\,\mAnyParam}&=w\\
 \mFunc{height}\mGenericWith{Rectangle}{\mAnyParam\,\mAnyParam\,\mAnyParam\,h}&=h
 \end{align}
-この面倒は，次のシンタックスシュガーを使うことで軽減される．\footnote{\haskell では
+この面倒は，次のシンタックスシュガーを使うことで軽減される．
+\footnote{\haskell では
 \begin{verbatim}
   x      Rectangle x _ _ _ = x
   y      Rectangle _ y _ _ = y
@@ -4067,7 +4097,9 @@ $\mType{Rectangle}$ 型から中身を取り出すには，次のような関数
 \end{verbatim}
 と書く．}
 
-型 $\mType{Rectangle}$ のようにパラメタが多いときは，パラメタに名前があると便利である．そこで利用できるのが\keyword{レコード構文}である．レコード構文を使うと，式\eqref{eq:rectangle}は
+型 $\mType{Rectangle}$ のようにパラメタが多いときは，パラメタに名前が
+あると便利である．そこで利用できるのが\keyword{レコード構文}である．レ
+コード構文を使うと，式\eqref{eq:rectangle}は
 \begin{multline}
 \mDataType\;
 \mType{Rectangle}
@@ -4104,14 +4136,17 @@ $\mType{Rectangle}$ 型から中身を取り出すには，次のような関数
 \end{verbatim}
 と書く．}
 
-レコード構文を用いると，型から中身を取り出す関数は自動的に定義される．また
+レコード構文を用いると，型から中身を取り出す関数は自動的に定義される．
+また
 \begin{equation}
 r=\mGenericRecordWith{Rectangle}{\mFunc{x}=1,
   \mFunc{y}=2,
   \mFunc{width}=3,
   \mFunc{height}=4}
 \end{equation}
-のようなレコード構文専用の初期化が行える．\footnote{\haskell では \code{r = Rectangle \{ x = 1, y = 2, width = 3, height = 4 \}} と書く．}
+のようなレコード構文専用の初期化が行える．\footnote{\haskell では
+\code{r = Rectangle \{ x = 1, y = 2, width = 3, height = 4 \}} と書
+く．}
 
 \separator
 
@@ -4122,12 +4157,20 @@ r=\mGenericRecordWith{Rectangle}{\mFunc{x}=1,
 \mValueOr
 \mGenericWith{Triangle}{\mFloatType\,\mFloatType\,\mFloatType}
 \end{multline}
-のようなデータ型の定義も可能である．この例では型 $\mType{Shape}$ は値コンストラクタ $\mGenericValueConstructor{Circle}$ または $\mGenericValueConstructor{Triangle}$ によって初期化され，それぞれ2個または3個の $\mFloatType$ 型のパラメタを取る．\footnote{\haskell では \code{data Shape = Circle Float Float | Triangle Float Float Float} と書く．}
+のようなデータ型の定義も可能である．この例では型 $\mType{Shape}$ は値
+コンストラクタ $\mGenericValueConstructor{Circle}$ または
+$\mGenericValueConstructor{Triangle}$ によって初期化され，それぞれ2個
+または3個の $\mFloatType$ 型のパラメタを取る．\footnote{\haskell では
+\code{data Shape = Circle Float Float | Triangle Float Float Float}
+と書く．}
 
 \section{型クラスとインスタンス化}
 \label{sec:type-class-and-instance}
 
-型クラスとは，複数の型が持つ共通のインタフェースである．その複数の型をいま $\mType{a}$ で表すこととして，型 $\mType{a}$ が型クラス $\mEqTypeClass$ に属すとしよう．型クラス $\mEqTypeClass$ は等号 $(\equiv)$ と不等号 $(\neq)$ をインタフェースとして持つ．このことを
+型クラスとは，複数の型が持つ共通のインタフェースである．その複数の型を
+いま $\mType{a}$ で表すこととして，型 $\mType{a}$ が型クラス
+$\mEqTypeClass$ に属すとしよう．型クラス $\mEqTypeClass$ は等号
+$(\equiv)$ と不等号 $(\neq)$ をインタフェースとして持つ．このことを
 \begin{align}
 \mTypeClass\mathop{\mEqTypeClass}\mSuperSet\mType{a}\mWhere{}
 &(\equiv)\mIn\mProj{\mType{a}}{\mProj{\mType{a}}{\mBoolType}}\\
@@ -4135,7 +4178,9 @@ r=\mGenericRecordWith{Rectangle}{\mFunc{x}=1,
 &x\equiv y=\neg(x\neq y)\\
 &x\neq y=\neg(x\equiv y)
 \end{align}
-と書く．最初の2行は型クラス $\mEqTypeClass$ が等号と不等号を持つことを宣言しており，続く2行がその性質を宣言している．\footnote{\haskell では $\mTypeClass$ を \code{class} と書く．また $\mSuperSet$ を省略して，
+と書く．最初の2行は型クラス $\mEqTypeClass$ が等号と不等号を持つことを
+宣言しており，続く2行がその性質を宣言している．\footnote{\haskell では
+$\mTypeClass$ を \code{class} と書く．また $\mSuperSet$ を省略して，
 \begin{verbatim}
   class Eq a where (==) :: a -> a -> Bool
                    (/=) :: a -> a -> Bool
@@ -4144,10 +4189,13 @@ r=\mGenericRecordWith{Rectangle}{\mFunc{x}=1,
 \end{verbatim}
 と書く．}
 
-ここで宣言したのは等号，不等号というインタフェースが「ある」という事だけで，その実装は未定義である．等号，不等号の実装は次に述べる $\mInstance$ 文を使う．
+ここで宣言したのは等号，不等号というインタフェースが「ある」という事だ
+けで，その実装は未定義である．等号，不等号の実装は次に述べる
+$\mInstance$ 文を使う．
 
-
-型クラス $\mEqTypeClass$ に属す型 $\mType{a}$ は等号と不等号を持つ．我々の型 $\mType{Num}$ が型クラス $\mEqTypeClass$ に属すことを宣言し，型クラス $\mEqTypeClass$ が備えるべき等号，不等号を実装するには
+型クラス $\mEqTypeClass$ に属す型 $\mType{a}$ は等号と不等号を持つ．我々
+の型 $\mType{Num}$ が型クラス $\mEqTypeClass$ に属すことを宣言し，型ク
+ラス $\mEqTypeClass$ が備えるべき等号，不等号を実装するには
 \begin{multline}
 \mInstance\;
 \mEqTypeClass\mSuperSet\mType{Num}\\
@@ -4162,7 +4210,8 @@ r=\mGenericRecordWith{Rectangle}{\mFunc{x}=1,
 \end{aligned}
 \right.
 \end{multline}
-とする．これを\keyword{型クラスのインスタンス化}と呼ぶ．\footnote{\haskell では
+とする．これを\keyword{型クラスのインスタンス化}と呼ぶ．
+\footnote{\haskell では
 \begin{verbatim}
   instance Eq Num
     where One==One     = True
@@ -4173,7 +4222,9 @@ r=\mGenericRecordWith{Rectangle}{\mFunc{x}=1,
 \end{verbatim}
 と書く．}
 
-型クラスは\keyword{継承関係}を持てる．型クラス $\mOrdTypeClass$ は型クラス $\mEqTypeClass$ から等号，不等号を継承し「小なりイコール」 $(\le)$ を追加する．
+型クラスは\keyword{継承関係}を持てる．型クラス $\mOrdTypeClass$ は型ク
+ラス $\mEqTypeClass$ から等号，不等号を継承し「小なりイコール」
+$(\le)$ を追加する．
 \begin{multline}
 \mTypeClass\,
 \mEqTypeClass\mSuperSet\mType{a}
@@ -4181,7 +4232,10 @@ r=\mGenericRecordWith{Rectangle}{\mFunc{x}=1,
 \mWhere{}
 (\le)\mIn\mProj{\mType{a}}{\mProj{\mType{a}}{\mBoolType}}
 \end{multline}
-型クラス $\mOrdTypeClass$ に属する型は，等号，不等号，小なりイコールと，それらから派生させることのできる大なり $(>)$，大なりイコール $(\ge)$，小なり $(<)$，および最大値をとる関数 $\max$ と最小値をとる関数 $\min$ を持つ．\footnote{\haskell では
+型クラス $\mOrdTypeClass$ に属する型は，等号，不等号，小なりイコールと，
+それらから派生させることのできる大なり $(>)$，大なりイコール $(\ge)$，
+小なり $(<)$，および最大値をとる関数 $\max$ と最小値をとる関数 $\min$
+を持つ．\footnote{\haskell では
 \begin{verbatim}
   class (Eq a) => Ord a
     where (<=) :: a -> a -> Bool
@@ -4190,7 +4244,9 @@ r=\mGenericRecordWith{Rectangle}{\mFunc{x}=1,
 
 \separator
 
-型は複数の型クラスに同時に属すことができる．例えば型 $\mType{Num}$ は型クラス $\mEqTypeClass$ と同時に型クラス $\mOrdTypeClass$ に属すこともできる．それには
+型は複数の型クラスに同時に属すことができる．例えば型 $\mType{Num}$ は
+型クラス $\mEqTypeClass$ と同時に型クラス $\mOrdTypeClass$ に属すこと
+もできる．それには
 \begin{multline}
 \mDataType\;\mType{Num}\\
 =\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany\\
@@ -4203,7 +4259,8 @@ r=\mGenericRecordWith{Rectangle}{\mFunc{x}=1,
 \end{verbatim}
 と書く．}
 
-型クラス $\mOrdTypeClass$ のインスタンスは小なりイコール演算子 $(\le)$ が定義されていなければならない．我々は
+型クラス $\mOrdTypeClass$ のインスタンスは小なりイコール演算子 $(\le)$
+が定義されていなければならない．我々は
 \begin{multline}
 \mInstance\;
 \mOrdTypeClass\mSuperSet\mType{Num}\\
@@ -4228,11 +4285,17 @@ r=\mGenericRecordWith{Rectangle}{\mFunc{x}=1,
 
 \section{余談：型シノニム}
 
-データ型には\keyword{シノニム}（別名）がつけられる．例えば $\mCharType$ のリスト $\mListType{\mCharType}$ は
+データ型には\keyword{シノニム}（別名）がつけられる．例えば
+$\mCharType$ のリスト $\mListType{\mCharType}$ は
 \begin{equation}
 \mTypeSynonym\;\mStringType=\mListType{\mCharType}
 \end{equation}
-とすることで，別名 $\mStringType$ を与えることができる．\haskell では $\mTypeSynonym$ を \code{type} と省略してしまう．これは残念なことだが，\clang の \code{typedef} のようなものだと思って割り切るしかない．\footnote{\haskell では $\mTypeSynonym\;\mStringType=\mListType{\mCharType}$ を \code{type String = [Char]} と書く．}
+とすることで，別名 $\mStringType$ を与えることができる．\haskell では
+$\mTypeSynonym$ を \code{type} と省略してしまう．これは残念なことだが，
+\clang の \code{typedef} のようなものだと思って割り切るしかない．
+\footnote{\haskell では
+$\mTypeSynonym\;\mStringType=\mListType{\mCharType}$ を \code{type
+String = [Char]} と書く．}
 
 \section{この章のまとめ*}
 
@@ -4255,16 +4318,23 @@ r=\mGenericRecordWith{Rectangle}{\mFunc{x}=1,
 
 \section{多相型}
 
-Maybeのように型パラメタを取る型を\keyword{多相型}と呼ぶ．多相型はどのように定義されるかと言うと，
+Maybeのように型パラメタを取る型を\keyword{多相型}と呼ぶ．多相型はどの
+ように定義されるかと言うと，
 \begin{equation}
 \mDataTypeParametric\;\mMaybeTypeConstructor\mType{a}
 =\mJustWith{\mType{a}}\mValueOr\mNothing
 \end{equation}
-のように，やはり $\mDataType$ を使って定義される．念のため型パラメタを取る場合は $\mDataTypeParametric$ と区別しておこう．\footnote{\haskell は $\mDataType$ と $\mDataTypeParametric$ を区別せず，$\mDataTypeParametric\;\mMaybeTypeConstructor\mType{a}
-=\mJustWith{\mType{a}}\mValueOr\mNothing$ を \code{data Maybe a = Just a | Nothing} と書く．}
+のように，やはり $\mDataType$ を使って定義される．念のため型パラメタを
+取る場合は $\mDataTypeParametric$ と区別しておこう．\footnote{\haskell
+は $\mDataType$ と $\mDataTypeParametric$ を区別せず，
+$\mDataTypeParametric\;\mMaybeTypeConstructor\mType{a}
+=\mJustWith{\mType{a}}\mValueOr\mNothing$ を \code{data Maybe a =
+Just a | Nothing} と書く．}
 % この $\mJustWith{\mType{a}}$ は $\mType{a}$ のMaybe型 $(\mMaybeType{a})$ という意味ではなく，$\mType{a}$ 型の変数を型コンストラクタ $\mJustWith{\dotsb}$ に入れなさいという意味．
 
-Maybeが型クラス $\mEqTypeClass$ に属すものとして，$\mEqTypeClass$ からのインスタンス化をしておこう．ここでも型パラメタ付きの $\mInstance$ を仮に $\mInstanceParametric$ とすると次のように書けそうである．
+Maybeが型クラス $\mEqTypeClass$ に属すものとして，$\mEqTypeClass$ から
+のインスタンス化をしておこう．ここでも型パラメタ付きの $\mInstance$ を
+仮に $\mInstanceParametric$ とすると次のように書けそうである．
 \begin{multline}
 \mInstanceParametric\;
 \mEqTypeClass\mSuperSet{}(\mMaybeTypeConstructor\mType{a})\\
@@ -4277,7 +4347,10 @@ Maybeが型クラス $\mEqTypeClass$ に属すものとして，$\mEqTypeClass$ 
 \end{aligned}
 \right.
 \end{multline}
-残念ながら，この式は $\mType{a}$ 型の変数 $x,y$ の間に等号 $(\equiv)$ が定義されていることが隠れた前提になっているため，正しくない．我々は $\mType{a}$ が型クラス $\mEqTypeClass$ に属すことを要求するので，次のように言い換える．
+残念ながら，この式は $\mType{a}$ 型の変数 $x,y$ の間に等号 $(\equiv)$
+が定義されていることが隠れた前提になっているため，正しくない．我々は
+$\mType{a}$ が型クラス $\mEqTypeClass$ に属すことを要求するので，次の
+ように言い換える．
 \begin{multline}
 \mInstanceParametric\;
 \mEqTypeClass\mSuperSet\mType{a}
@@ -4292,7 +4365,9 @@ Maybeが型クラス $\mEqTypeClass$ に属すものとして，$\mEqTypeClass$ 
 \end{aligned}
 \right.
 \end{multline}
-この $\mEqTypeClass\mSuperSet\mType{a}\mSuperClass$ の部分が「以下 $\mType{a}$ 型は $\mEqTypeClass$ 型クラスに属すものとして」という意味になる．\footnote{\haskell では
+この $\mEqTypeClass\mSuperSet\mType{a}\mSuperClass$ の部分が「以下
+$\mType{a}$ 型は $\mEqTypeClass$ 型クラスに属すものとして」という意
+味になる．\footnote{\haskell では
 \begin{verbatim}
   instance Eq a => Eq (Maybe a)
     where Just x == Just y = x==y
@@ -4311,7 +4386,8 @@ Maybeの間に新たに定義された等号 $(\equiv)$ は次の型を持つ．
 
 \separator
 
-多相型を定義するとき，型パラメタは2個以上与えられても良い．例えばEitherは次のように定義できる．
+多相型を定義するとき，型パラメタは2個以上与えられても良い．例えば
+Eitherは次のように定義できる．
 \begin{equation}
 \mDataTypeParametric\;\mEitherTypeConstructor\mType{a}\mType{b}
 =\mLeftWith{\mType{a}}
@@ -4321,17 +4397,17 @@ Maybeの間に新たに定義された等号 $(\equiv)$ は次の型を持つ．
 
 \section{自己参照型}
 
-型の定義中に自分自身を参照する型を\keyword{自己参照型}または\keyword{再帰型}と呼ぶ．例えばリストは
+型の定義中に自分自身を参照する型を\keyword{自己参照型}または
+\keyword{再帰型}と呼ぶ．例えばリストは
 \begin{equation}
 \mDataTypeParametric\;\mListTypeConstructor\mType{a}=\mEmptyList\mValueOr\mType{a}:\mListTypeConstructor\mType{a}
 \end{equation}
 のように定義できる．
 
-
-
 \section{関手の拡張}
 
-型クラス $\mFunctorTypeClass$ はマップ演算子 $(\mMap)$ を提供する．リスト型は $\mFunctorTypeClass$ 型クラスのインスタンスなので，
+型クラス $\mFunctorTypeClass$ はマップ演算子 $(\mMap)$ を提供する．リ
+スト型は $\mFunctorTypeClass$ 型クラスのインスタンスなので，
 \begin{align}
 \mTypeClassParametric\;
 &\mFunctorTypeClass\mSuperSet\mListTypeConstructor\nonumber\\
@@ -4411,11 +4487,15 @@ f\mMap{}\mLeftWith{x}&=\mLeftWith{x}
 \mWhere{}
 \mMap\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mGenericTypeAssemble{fn}{a}}{\mGenericTypeAssemble{fn}{b}}}
 \end{multline}
-のように書ける．ここで，型 $\mGenericTypeAssemble{fn}{a}$ は型 $\mType{a}$ と型コンストラクタ $\mTypeConstructor{fn}$ から
+のように書ける．ここで，型 $\mGenericTypeAssemble{fn}{a}$ は型
+$\mType{a}$ と型コンストラクタ $\mTypeConstructor{fn}$ から
 \begin{equation}
 \mGenericTypeAssemble{fn}{a}=\mathop{\mTypeConstructor{fn}}\mType{a}
 \end{equation}
-のように作られる．\footnote{\haskell では $\mGenericTypeAssemble{fn}{a}$ も $\mathop{\mTypeConstructor{fn}}\mType{a}$ も同様に \code{fn a} と書く．そこで式\eqref{eq:fn}は
+のように作られる．\footnote{\haskell では
+$\mGenericTypeAssemble{fn}{a}$ も
+$\mathop{\mTypeConstructor{fn}}\mType{a}$ も同様に \code{fn a} と書
+く．そこで式\eqref{eq:fn}は
 \begin{verbatim}
   class functor fn
     where fmap :: (a -> b) -> fn a -> fn b
@@ -4424,24 +4504,35 @@ f\mMap{}\mLeftWith{x}&=\mLeftWith{x}
 
 \section{余談: \code{newtype}*}
 
-リストに新しいマップ演算子 $\mZip$ を定義したいとしよう．この演算子 $\mZip$ は
+リストに新しいマップ演算子 $\mZip$ を定義したいとしよう．この演算子
+$\mZip$ は
 \begin{equation}
 \mListWith{f,g,h}\mZip\mListWith{x,y,z}=\mListWith{fx,gy,hz}
 \end{equation}
-のように働くとする．新しいマップ演算子 $\mZip$ のことを我々は\keyword{ジップ演算子}と呼ぶことにする．
+のように働くとする．新しいマップ演算子 $\mZip$ のことを我々は
+\keyword{ジップ演算子}と呼ぶことにする．
 
-ジップ演算子を定義するにはどうしたら良いだろうか．汎用性を考えると，ジップ演算子もまたリストのアプリカティブマップ演算子であって欲しい．ところが，リストには既に $\mAppMapList$ というアプリカティブマップ演算子が定義されている．念のためにアプリカティブマップ演算子を用いると
+ジップ演算子を定義するにはどうしたら良いだろうか．汎用性を考えると，ジッ
+プ演算子もまたリストのアプリカティブマップ演算子であって欲しい．ところ
+が，リストには既に $\mAppMapList$ というアプリカティブマップ演算子が定
+義されている．念のためにアプリカティブマップ演算子を用いると
 \begin{equation}
 \mListWith{f,g,h}\mAppMapList\mListWith{x,y,z}=\mListWith{fx,fy,fz,gx,gy,gz,hx,hy,hz}
 \end{equation}
-である．ある型のインスタンス化は一種類しか行えないので，リスト型に新しいアプリカティブマップ演算子を追加することは出来ない．
+である．ある型のインスタンス化は一種類しか行えないので，リスト型に新し
+いアプリカティブマップ演算子を追加することは出来ない．
 
-そこで $\mDataTypeParametric$ を使ってリスト型をラップした新しい型を作る．例えば新しい型を $\mZipListType{a}$ とすると
+そこで $\mDataTypeParametric$ を使ってリスト型をラップした新しい型を作
+る．例えば新しい型を $\mZipListType{a}$ とすると
 \begin{equation}
 \label{eq:data-type-ziplist}
-\mDataTypeParametric\;\mZipListTypeConstructor\mType{a}=\mGenericRecordWith{\mZipList}{\mGetList\mIn{}\mListType{a}}
+\mDataTypeParametric\;\mZipListTypeConstructor\mType{a}
+=\mGenericRecordWith{\mZipList}{\mGetList\mIn{}\mListType{a}}
 \end{equation}
-のように定義することになる．念のため，左辺の $\mZipListTypeConstructor$ は型コンストラクタ，右辺の $\mGenericValueConstructor{\mZipList}$ は値コンストラクタである．すなわち
+のように定義することになる．念のため，左辺の
+$\mZipListTypeConstructor$ は型コンストラクタ，右辺の
+$\mGenericValueConstructor{\mZipList}$ は値コンストラクタである．すな
+わち
 \begin{equation}
 \mZipListType{a}=\mZipListTypeConstructor\mType{a}
 \end{equation}
@@ -4473,7 +4564,8 @@ f\mMap{}\mLeftWith{x}&=\mLeftWith{x}
 \end{equation}
 であると定義する．
 
-関数 $\mRepeat$ は引数を無限回繰り返すリストを返す関数である．念のため関数 $\mRepeat$ の実装方法を書いておくと
+関数 $\mRepeat$ は引数を無限回繰り返すリストを返す関数である．念のため
+関数 $\mRepeat$ の実装方法を書いておくと
 \begin{equation}
 \mRepeat x=x:\mRepeat x
 \end{equation}
@@ -4488,40 +4580,45 @@ f\mMap{}\mLeftWith{x}&=\mLeftWith{x}
 \mList{x}&=\mListWith{x_0,x_1,\dotsb}\\
 \mList{f}&=\mListWith{f_0,f_1,\dotsb}
 \end{align}
-の両方をそれぞれ値コンストラクタで包んでアプリカティブマップ演算子を適用すると
+の両方をそれぞれ値コンストラクタで包んでアプリカティブマップ演算子を適
+用すると
 \begin{equation}
 \mZipListWith{\mList{f}}\mAppMap\mZipListWith{\mList{x}}
 =\mListWith{f_0x_0,f_1x_1,\dotsb}
 \end{equation}
 のようにジップ演算子を適用できる．
 
-このままでも問題はないのだが，式\eqref{eq:data-type-ziplist}を次のように書き換えることがより好ましい．
+このままでも問題はないのだが，式\eqref{eq:data-type-ziplist}を次のよう
+に書き換えることがより好ましい．
 \begin{equation}
 \mNewDataTypeParametric\;\mZipListTypeConstructor\mType{a}=\mZipListRecordWith{\mGetList\mIn{}\mListType{a}}
 \end{equation}
-やったことはキーワード $\mDataTypeParametric$ を $\mNewDataTypeParametric$ に置き換えたことである．これは，字面に反して，型 $\mType{\mZipList}$ が何一つ「新しくない」ことを\haskell コンパイラに伝えるためである．その結果\haskell コンパイラは型 $\mType{\mZipList}$ に対する最適化の機会を得る．
+やったことはキーワード $\mDataTypeParametric$ を
+$\mNewDataTypeParametric$ に置き換えたことである．これは，字面に反して，
+型 $\mType{\mZipList}$ が何一つ「新しくない」ことを\haskell コンパイラ
+に伝えるためである．その結果\haskell コンパイラは型
+$\mType{\mZipList}$ に対する最適化の機会を得る．
 
 \separator
 
 式\eqref{eq:zip}にもう一段抽の象化をしておこう．関数 $\mZipWith$ を
 \begin{equation}
-\left\mBrace
-\begin{aligned}
-{}&
-\mZipWith\mIn{}\mProj{\mProj{\mProj{(\mProj{\mType{a}}{\mProj{\mType{b}}{\mType{c}}})}{\mListType{a}}}{\mListType{b}}}{\mListType{c}}\\
-{}&
-\left\{
-\begin{aligned}
-\mZipWith\mAnyParam\mEmptyList\mAnyParam
-&=\mEmptyList\\
-\mZipWith\mAnyParam\mAnyParam\mEmptyList
-&=\mEmptyList\\
-\mZipWith f(x:\mList{x})(y:\mList{y})
-&=fxy:\mZipWith f\mList{x}\mList{y}
-\end{aligned}
-\right.
-\end{aligned}
-\right.
+  \left\mBrace
+  \begin{aligned}
+    {}&\mZipWith\mIn{}\mProj{\mProj{\mProj{(\mProj{\mType{a}}
+          {\mProj{\mType{b}}{\mType{c}}})}
+        {\mListType{a}}}{\mListType{b}}}{\mListType{c}}\\
+    {}&\left\{\begin{aligned}
+    \mZipWith\mAnyParam\mEmptyList\mAnyParam
+    &=\mEmptyList\\
+    \mZipWith\mAnyParam\mAnyParam\mEmptyList
+    &=\mEmptyList\\
+    \mZipWith f(x:\mList{x})(y:\mList{y})
+    &=fxy:\mZipWith f\mList{x}\mList{y}
+    \end{aligned}
+    \right.
+  \end{aligned}
+  \right.
 \end{equation}
 と定義する．こうすれば，演算子 $\mZip$ は
 \begin{equation}
@@ -4529,34 +4626,34 @@ f\mMap{}\mLeftWith{x}&=\mLeftWith{x}
 \end{equation}
 と関数 $\mZipWith$ から定義できる．
 
-関数 $\mZipWith$ を再帰的に定義したが，再帰をリストのマップ演算子に押し込むこともできる．それには
+関数 $\mZipWith$ を再帰的に定義したが，再帰をリストのマップ演算子に押
+し込むこともできる．それには
 \begin{multline}
 \mZipWith f(x:\mList{x})(y:\mList{y})=f'\mMapList\mList{z}\\
 \mWhereIsII{f'}{\mUncurry f}{\mList{z}}{\mZipFunc\mList{x}\mList{y}}
 \end{multline}
-と，先に $\mZipFunc$ 関数を定義しておいて，その後 $\mZipWith$ 関数を定義する．ここに $\mZipFunc$ 関数は
+と，先に $\mZipFunc$ 関数を定義しておいて，その後 $\mZipWith$ 関数を定
+義する．ここに $\mZipFunc$ 関数は
 \begin{equation}
-\left\mBrace
-\begin{aligned}
-{}&\mZipFunc\mIn{}\mProj{\mListType{a}}{\mProj{\mListType{b}}{\mTupleWith{\mListType{a},\mListType{b}}}}\\
-{}&\mZipFunc xy=\mTupleWith{x,y}
-\end{aligned}
-\right.
+  \left\mBrace
+  \begin{aligned}
+    {}&\mZipFunc\mIn{}\mProj{\mListType{a}}
+    {\mProj{\mListType{b}}
+      {\mTupleWith{\mListType{a},\mListType{b}}}}\\
+    {}&\mZipFunc xy=\mTupleWith{x,y}
+  \end{aligned}
+  \right.
 \end{equation}
 であり，$\mUncurry$ 関数は
 \begin{equation}
-\left\mBrace
-\begin{aligned}
-{}&\mUncurry\mIn{}
-\mProj{
-  (\mProj{\mType{a}}{\mProj{\mType{b}}{\mType{c}}})
-}
-{
-  \mProj{\mTupleWith{\mType{a},\mType{b}}}{\mType{c}}
-}\\
-{}&\mUncurry fxy=f\mTupleWith{x,y}
-\end{aligned}
-\right.
+  \left\mBrace
+  \begin{aligned}
+    {}&\mUncurry\mIn{}
+    \mProj{(\mProj{\mType{a}}{\mProj{\mType{b}}{\mType{c}}})}
+          {\mProj{\mTupleWith{\mType{a},\mType{b}}}{\mType{c}}}\\
+          {}&\mUncurry fxy=f\mTupleWith{x,y}
+  \end{aligned}
+  \right.
 \end{equation}
 である．\footnote{\haskell では $\mZipWith$ 関数を
 \begin{verbatim}
@@ -4592,39 +4689,69 @@ A...
 
 \section{文字セットとコメント}
 
-\haskell コンパイラを含む多くのコンパイラがUnicode文字セットに対応しているものの，従来からの習慣や英語圏での使いやすさを考慮してか，ASCII文字セットだけでプログラムを書けるようにしているし，またそれを推奨している．
+\haskell コンパイラを含む多くのコンパイラがUnicode文字セットに対応して
+いるものの，従来からの習慣や英語圏での使いやすさを考慮してか，ASCII文
+字セットだけでプログラムを書けるようにしているし，またそれを推奨してい
+る．
 
-\haskell プログラムもまた，文字定数を除いてはASCII文字セットの範囲で書くことが普通である．そこで我々もその習慣に従うことにしよう．例えば円周率を代入する変数を $\pi$ と書きたいところだが，我々は \code{pi} と書く．
+\haskell プログラムもまた，文字定数を除いてはASCII文字セットの範囲で書
+くことが普通である．そこで我々もその習慣に従うことにしよう．例えば円周
+率を代入する変数を $\pi$ と書きたいところだが，我々は \code{pi} と書く．
 
-数学記号のほとんども，ASCII文字セットの中から記号を組み合わせるか，さもなくば言葉で表現する．例えば\haskell では $\mFrom$ の代わりに \code{<-} を使うし，$\neg$ の代わりに \code{not} を使う．
+数学記号のほとんども，ASCII文字セットの中から記号を組み合わせるか，さ
+もなくば言葉で表現する．例えば\haskell では $\mFrom$ の代わりに
+\code{<-} を使うし，$\neg$ の代わりに \code{not} を使う．
 
-また計算機科学者たちの絶えざる努力にもかかわらず，プログラム中の文字の装飾はこれまでほとんど受け入れられていない．我々は本書で $\textrm{f},\textsl{f},\textbf{f},\textsf{f},f$ を使い分けてきたが，\haskell プログラム中では全て \code{f} と書く．
+また計算機科学者たちの絶えざる努力にもかかわらず，プログラム中の文字の
+装飾はこれまでほとんど受け入れられていない．我々は本書で
+$\textrm{f},\textsl{f},\textbf{f},\textsf{f},f$ を使い分けてきたが，
+\haskell プログラム中では全て \code{f} と書く．
 
-以上のような制約にもかかわらず，\haskell プログラムと我々が見えきた「カリー風の」数学記法は本質的に差がない．本書を読み進めてきた読者なら，\haskell プログラムを読むのに苦労はいらないだろう．
+以上のような制約にもかかわらず，\haskell プログラムと我々が見えきた
+「カリー風の」数学記法は本質的に差がない．本書を読み進めてきた読者なら，
+\haskell プログラムを読むのに苦労はいらないだろう．
 
-\haskell では \code{--} から行の終わりまでがコメントとして扱われる．また \code{\{-} で始まり \code{-\}} で終わる文字列もコメントとして扱われる．
+\haskell では \code{--} から行の終わりまでがコメントとして扱われる．ま
+た \code{\{-} で始まり \code{-\}} で終わる文字列もコメントとして扱われ
+る．
 
 \separator
 
-習慣的に\haskell プログラムのファイルには拡張子 \filename{.hs} を付ける．
+習慣的に\haskell プログラムのファイルには拡張子 \filename{.hs} を付け
+る．
 
 \section{main関数と一般の関数定義}
 
-\python インタプリタはプログラムを頭から実行していくので，main関数は書かなくてもよいが，アプリケーションプログラマにとっての一番の関心事はmain関数（\haskell では $\mMain$ アクション）の書き方だろう．iOSアプリケーション開発のように，基本的にはmain関数をプログラマが触れないというスタイルもあるが，それでもデバッグの時にはmain関数から辿ることになるので，main関数のありかを知っておくことはいつでも重要だ．
+\python インタプリタはプログラムを頭から実行していくので，main関数は書
+かなくてもよいが，アプリケーションプログラマにとっての一番の関心事は
+main関数（\haskell では $\mMain$ アクション）の書き方だろう．iOSアプリ
+ケーション開発のように，基本的にはmain関数をプログラマが触れないという
+スタイルもあるが，それでもデバッグの時にはmain関数から辿ることになるの
+で，main関数のありかを知っておくことはいつでも重要だ．
 
-\haskell コンパイラも $\mMain$ アクションをアプリケーションプログラムのエントリポイントとして認識する．というよりも，\haskell プログラムとは $\mMain$ という一つのアクションである．$\mMain$ を含む一般の関数やアクションはこれまで通り
+\haskell コンパイラも $\mMain$ アクションをアプリケーションプログラム
+のエントリポイントとして認識する．というよりも，\haskell プログラムと
+は $\mMain$ という一つのアクションである．$\mMain$ を含む一般の関数や
+アクションはこれまで通り
 \begin{equation}
 \mMain=\dots
 \end{equation}
 のように関数名のあとに等号 $(=)$ を置いて定義する．
 
-\clang でmain関数の型がOSの都合で \code{int main(void)} または \code{int main(int, const char *const *)} と決められているように，\haskell でも $\mMain$ アクションの型はあらかじめ決められている．その型は $\mIOIntType$ である． 
+\clang でmain関数の型がOSの都合で \code{int main(void)} または
+\code{int main(int, const char *const *)} と決められているように，
+\haskell でも $\mMain$ アクションの型はあらかじめ決められている．その
+型は $\mIOIntType$ である．
 
-UNIXおよびUNIXに影響を受けたOSでは，プログラムは終了時に整数値をOSへ返すことになっている．プログラムが $0$ を返せば，そのプログラムは正常終了したとみなされる．例えばUNIXシェル（\filename{sh} や \filename{csh} のこと）で，
+UNIXおよびUNIXに影響を受けたOSでは，プログラムは終了時に整数値をOSへ返
+すことになっている．プログラムが $0$ を返せば，そのプログラムは正常終
+了したとみなされる．例えばUNIXシェル（\filename{sh} や \filename{csh}
+  のこと）で，
 \begin{verbatim}
 $ program1 && program2
 \end{verbatim}
-としたとき，\filename{program1} の戻り値が $0$ のときに限って \filename{program2} が実行される．
+としたとき，\filename{program1} の戻り値が $0$ のときに限って
+\filename{program2} が実行される．
 
 何もせずにOSに $0$ を返すプログラムすなわち
 \begin{equation}
@@ -4651,7 +4778,9 @@ main :: IO Int
 main = return 0
 \end{verbatim}
 \end{haskellcode}
-のようになる．ここに \code{return} はモナドのピュア演算子の別名で，特別に\keyword{ユニット演算子}と呼ぶ．\footnote{GHC v7.8 以前はモナドにピュア演算子が定義されず，モナド独自のユニット演算子が定義されていた．}
+のようになる．ここに \code{return} はモナドのピュア演算子の別名で，特
+別に\keyword{ユニット演算子}と呼ぶ．\footnote{GHC v7.8 以前はモナドに
+  ピュア演算子が定義されず，モナド独自のユニット演算子が定義されていた．}
 
 このプログラムは\clang の
 \begin{ccode}
@@ -4666,11 +4795,15 @@ int main(void) {
 
 \section{プログラムの本質}
 
-副作用のないプログラムはひとつの関数で書ける．その関数を $\mMainFunc$ と呼ぶことにすると，この $\mMainFunc$ 関数を
+副作用のないプログラムはひとつの関数で書ける．その関数を $\mMainFunc$
+と呼ぶことにすると，この $\mMainFunc$ 関数を
 \begin{equation}
 \mMainFunc=f_n\mComp f_{n-1}\mComp\dotsb\mComp f_1
 \end{equation}
-と部分関数に分解することがプログラマの能力である．副作用のないプログラムとは，コマンドラインから引数 $x$ を受け取り，なんらかの処理を行い，OSに終了値を返すだけのプログラムである．このようなプログラムは普通役に立たないが，議論が簡単になるので少し見てみよう．
+と部分関数に分解することがプログラマの能力である．副作用のないプログラ
+ムとは，コマンドラインから引数 $x$ を受け取り，なんらかの処理を行い，
+OSに終了値を返すだけのプログラムである．このようなプログラムは普通役に
+立たないが，議論が簡単になるので少し見てみよう．
 % 例えば標準入力から文字列を読み取り，標準出力へ文字列を書き出すUNIXのフィルタプログラムのようなものである．例えば \code{wc} というUNIXプログラムは，標準入力に与えられた文字列から行数，単語数，文字数を数えて，その数値を標準出力へ書き出す副作用のないプログラムである．
 
 副作用のない関数を合成するのはわけのないことだ．もし\python ならば
@@ -4679,7 +4812,8 @@ int main(void) {
 y = f2(f1(x))
 \end{verbatim}
 \end{pythoncode}
-のように関数を入れ子にしても良いし，読みづらければ途中経過を一時変数にして
+のように関数を入れ子にしても良いし，読みづらければ途中経過を一時変数に
+して
 \begin{pythoncode}
 \begin{verbatim}
 y1 = f1(x)
@@ -4688,7 +4822,10 @@ y2 = f2(y1)
 \end{pythoncode}
 としてもよい．副作用のない関数の場合，これが関数合成の規則である．
 
-プログラムが副作用を持つ場合は，プログラム自身がIOモナドであるため，関数へと分解できないのであった．副作用を持つプログラムはアクションであり，そのアクションを $\mMain$ アクションと名付けると，その $\mMain$ アクションを
+プログラムが副作用を持つ場合は，プログラム自身がIOモナドであるため，関
+数へと分解できないのであった．副作用を持つプログラムはアクションであり，
+そのアクションを $\mMain$ アクションと名付けると，その $\mMain$ アクショ
+ンを
 \begin{equation}
 \mMain=\alpha_n\mBind\alpha_{n-1}\mBind\dotsb\mBind\alpha_0
 \end{equation}
@@ -4698,7 +4835,9 @@ y2 = f2(y1)
 
 \separator
 
-ここで，プログラマの「サバイバルキット」を用意しておこう．次のプログラムで定数 \code{x} と関数 \code{f} の部分を埋めれば，関数適用の結果つまり \code{f x} の値を画面に出力する．
+ここで，プログラマの「サバイバルキット」を用意しておこう．次のプログラ
+ムで定数 \code{x} と関数 \code{f} の部分を埋めれば，関数適用の結果つま
+り \code{f x} の値を画面に出力する．
 \begin{haskellcode}
 \begin{verbatim}
 -- survivalkit.hs
@@ -4710,7 +4849,8 @@ main :: IO Int
 main = print (f x) >> pure 0
 \end{verbatim}
 \end{haskellcode}
-ファイル名を \filename{survivalkit.hs} とすると，コンパイルと実行は次のようにする．
+ファイル名を \filename{survivalkit.hs} とすると，コンパイルと実行は次
+のようにする．
 \begin{verbatim}
 $ ghc survivalkit.hs
 $ ./sample
@@ -4737,12 +4877,10 @@ $ ./sample
     \end{aligned}
     \right.
 \end{align}
-である．この式は $\mPrint(fx)$ がいかなる値を返そうとも，アクション $\mMain$ の値は $0$ になることを示している．
-
+である．この式は $\mPrint(fx)$ がいかなる値を返そうとも，アクション
+$\mMain$ の値は $0$ になることを示している．
 
 \section{余談：インタープリタ*}
-
-
 
 \section{この章のまとめ*}
 
@@ -4758,9 +4896,17 @@ $ ./sample
 
 
 \section{名前と予約語*}
-表\ref{tab:reserved-symbols}および表\ref{tab:reserved-keywords}に\haskell で予約されている記号と名前を掲げる．これらの記号，名前は演算子，関数，定数として使うことが出来ない．
 
-もちろんこれら以外に \code{+} や \code{map} など慣例的に使われている語の再定義は避けるべきである．特に \filename{Prelude} モジュールは特段の事情がない限り必ず読み込まれるモジュールなので，\filename{Prelude} で定義される記号と名前の再定義は避けるべきであろう．\filename{Prelude} で定義される記号と名前は膨大な数になるので，リファレンスを参考にしてもらいたい．
+表\ref{tab:reserved-symbols}および表\ref{tab:reserved-keywords}に
+\haskell で予約されている記号と名前を掲げる．これらの記号，名前は演算
+子，関数，定数として使うことが出来ない．
+
+もちろんこれら以外に \code{+} や \code{map} など慣例的に使われている語
+の再定義は避けるべきである．特に \filename{Prelude} モジュールは特段の
+事情がない限り必ず読み込まれるモジュールなので，\filename{Prelude} で
+定義される記号と名前の再定義は避けるべきであろう．\filename{Prelude}
+で定義される記号と名前は膨大な数になるので，リファレンスを参考にしても
+らいたい．
 
 \haskell で演算子に使える記号は
 \begin{verbatim}
@@ -4884,14 +5030,14 @@ do記法&\code{do}\\
 % \end{center}
 % \end{table*}
 
-
 \section{2次方程式の解*}
 
 2次方程式の解とは，定数 $a,b,c$ が既知の式
 \begin{equation}
 a*x^2+b*x+c=0
 \end{equation}
-において定数 $x$ が取り得る値のことである．なお $x^2$ は\haskell では \code{x**2} と書く．
+において定数 $x$ が取り得る値のことである．なお $x^2$ は\haskell では
+\code{x**2} と書く．
 
 2次方程式の解法は知られており，
 \begin{equation}
@@ -4914,7 +5060,8 @@ a*x^2+b*x+c=0
 \end{aligned}
 \right.
 \end{equation}
-を後で与えるためである．平方根 $\sqrt{x}$ は\haskell では \code{sqrt x} と書く．
+を後で与えるためである．平方根 $\sqrt{x}$ は\haskell では \code{sqrt
+  x} と書く．
 
 また関数 $\sgn$ は
 \begin{equation}
@@ -4967,17 +5114,21 @@ main = print (x0, x1) >> pure 0
 =\mTupleWith{\frac{-b+d}{2*a},\frac{-b-d}{2*a}}\\
 \mWhereIs{d}{\sqrt{b^2-4*a*c}}
 \end{multline}
-は定数 $a$ または $c$ の値が小さい場合には計算誤差が大きくなるため，推奨されない．
+は定数 $a$ または $c$ の値が小さい場合には計算誤差が大きくなるため，推
+奨されない．
 
 \section{複素数*}
 
-2次方程式の定数 $a,b,c$ が複素数だとしよう．それぞれの実部を添え字 $r$ で，虚部を添え字 $i$ で区別することにすると
+2次方程式の定数 $a,b,c$ が複素数だとしよう．それぞれの実部を添え字 $r$
+で，虚部を添え字 $i$ で区別することにすると
 \begin{align}
 a&=a_r\mComplexPlus a_i\\
 b&=b_r\mComplexPlus b_i\\
 c&=c_r\mComplexPlus c_i
 \end{align}
-となる．ここに $\mComplexPlus$ は複素数を合成する演算子で，第1引数（左引数）が実部，第2引数（右引数）が虚部からなる複素数を合成するものとする．\haskell では
+となる．ここに $\mComplexPlus$ は複素数を合成する演算子で，第1引数（左
+  引数）が実部，第2引数（右引数）が虚部からなる複素数を合成するものと
+する．\haskell では
 \begin{haskellcode}
 \begin{verbatim}
 import Data.Complex
@@ -4987,11 +5138,13 @@ a = ar :+ ai
 \end{haskellcode}
 のように \code{:+} 演算子を使って複素数をコンストラクトする．
 
-このように\haskell では複素数を 
+このように\haskell では複素数を
 \begin{equation}
 \mComplexType{a}=\mathop{\mTypeConstructor{Complex}}\mType{a}
 \end{equation}
-の型パラメタ $\mType{a}$ に $\mFloatType$ 型または $\mDoubleType$ 型を当てはめて構築した型を用いる．$\mFloatType$ 型および $\mDoubleType$ 型は $\mRealFloatTypeClass$ 型クラスに属する．
+の型パラメタ $\mType{a}$ に $\mFloatType$ 型または $\mDoubleType$ 型を
+当てはめて構築した型を用いる．$\mFloatType$ 型および $\mDoubleType$ 型
+は $\mRealFloatTypeClass$ 型クラスに属する．
 
 複素数の場合の2次方程式の解は，実数の場合とほぼ同じで
 \begin{equation}
@@ -5002,7 +5155,8 @@ a = ar :+ ai
 &\qquad r\mLetEq\mSqrtFunc'{(\mSq'b-4*a*c)}
 \end{aligned}
 \end{equation}
-である．実数の場合との違いは $\mSq$ 関数と $\sgn$ 関数をそれぞれ $\mSq'$ 関数と $\sgn'$ 関数に置き換えたことで，
+である．実数の場合との違いは $\mSq$ 関数と $\sgn$ 関数をそれぞれ
+$\mSq'$ 関数と $\sgn'$ 関数に置き換えたことで，
 \begin{equation}
 \left\mBrace
 \begin{aligned}
@@ -5028,7 +5182,8 @@ a = ar :+ ai
 \end{equation}
 である．
 
-この $\sgn'$ 関数の中で複素数の平方根および複素数の実数倍を計算する必要がある．そこで，複素数の平方根を
+この $\sgn'$ 関数の中で複素数の平方根および複素数の実数倍を計算する必
+要がある．そこで，複素数の平方根を
 \begin{equation}
 \left\mBrace
 \begin{aligned}
@@ -5054,7 +5209,10 @@ a = ar :+ ai
 \end{equation}
 とした．（演算子 $\mComplexTimes$ は \code{*.} と書くことにする．）
 
-\haskell は複素数の実数倍のための演算子を標準では用意していないため，このように独自の演算子を定義するか，あるいは複素数掛ける複素数の形にして演算を行うかのいずれかが必要である．効率を考えなければ，次のような型変換関数を作ることも手である．
+\haskell は複素数の実数倍のための演算子を標準では用意していないため，
+このように独自の演算子を定義するか，あるいは複素数掛ける複素数の形にし
+て演算を行うかのいずれかが必要である．効率を考えなければ，次のような型
+変換関数を作ることも手である．
 \begin{haskellcode}
 \begin{verbatim}
 toComplex :: RealFloat a => a -> Complex a
@@ -5062,8 +5220,8 @@ toComplex x = x :+ 0
 \end{verbatim}
 \end{haskellcode}
 
-
-なお，$\mConjugate$ は共役複素数を求める関数，$\Re$ は実部を求める関数である．$\Re$ は\haskell では \code{realPart} と書く．
+なお，$\mConjugate$ は共役複素数を求める関数，$\Re$ は実部を求める関数
+である．$\Re$ は\haskell では \code{realPart} と書く．
 
 まとめると次のようになる．
 
@@ -5127,8 +5285,6 @@ main = print a >> pure 0
 
 \section{演算子の優先順位*}
 
-
-
 \section{数学関数の演算*}
 
 $y=fx$ ただし
@@ -5138,7 +5294,8 @@ fx&\mGuard{x\equiv0}=1\\
 &\mGuard{\mOtherwise}=(\sin x)/x
 \end{aligned}
 \end{equation}
-とする．ここで $0\le x\le\pi$ の範囲で $y$ の値を求めたいとしよう．$x$ の範囲を $n+1$ 分割するとする．
+とする．ここで $0\le x\le\pi$ の範囲で $y$ の値を求めたいとしよう．$x$
+の範囲を $n+1$ 分割するとする．
 
 まず $n$ に具体的な型と値を与えておこう．これは次のようにする．
 \begin{equation}
@@ -5170,7 +5327,10 @@ fx&\mGuard{x\equiv0}=1\\
 \end{aligned}
 \right.
 \end{equation*}
-実はこのままではまずい．変数 $i$ も変数 $n$ も $\mIntType$ 型なので，割り算が出来ないのだ．そこで型変換のための関数 $\mFromIntegral$ を使おう．関数 $\mFromIntegral$ は $\mIntegralTypeClass$ 型クラスの型の変数を，任意の型へと変換する．関数 $\mFromIntegral$ を使って書き直すと
+実はこのままではまずい．変数 $i$ も変数 $n$ も $\mIntType$ 型なので，
+割り算が出来ないのだ．そこで型変換のための関数 $\mFromIntegral$ を使お
+う．関数 $\mFromIntegral$ は $\mIntegralTypeClass$ 型クラスの型の変数
+を，任意の型へと変換する．関数 $\mFromIntegral$ を使って書き直すと
 \begin{equation}
 \left\mBrace
 \begin{aligned}
@@ -5211,7 +5371,7 @@ f :: Double -> Double
 f x | x == 0    = 1
     | otherwise = (sin x)/x
 xs :: [Double]
-xs = [(fromIntegral i) / (fromIntegral n) 
+xs = [(fromIntegral i) / (fromIntegral n)
   * pi | i <- [0..n]]
 ys :: [Double]
 ys = f `map` xs
@@ -5219,11 +5379,13 @@ main = print ys >> pure 0
 \end{verbatim}
 \end{haskellcode}
 
-なお，円周率 $\pi$ はそのまま定数 \code{pi} として \filename{Prelude} で定義されている．
+なお，円周率 $\pi$ はそのまま定数 \code{pi} として \filename{Prelude}
+で定義されている．
 
 \separator
 
-\haskell は\cxx の \code{std::vector} や \code{std::valarray} のような効率的な数値配列を表す型を持っていない．
+\haskell は\cxx の \code{std::vector} や \code{std::valarray} のような
+効率的な数値配列を表す型を持っていない．
 
 \begin{table}
 \caption{\filename{Prelude} のデータ型}
@@ -5263,6 +5425,7 @@ main = print ys >> pure 0
 \end{table}
 
 % \section{コンボリューション演算*}
+
 ---
 
 \begin{equation}
@@ -5313,12 +5476,16 @@ y=\sum_xfx*g(\mAnonParam-x)
 $$
 
 \section{行列演算*}
+
 % http://qiita.com/lotz/items/2c932b45f78f6fc70e9c
 % http://itpro.nikkeibp.co.jp/article/COLUMN/20120605/400424/
 
 \section{余談：イメージ演算*}
 
-\haskell だけでイメージ（画像）を効率的に扱おうとすると非常な困難に出会う．これは\haskell がイメージデータを効率的に保存するデータ構造を持たないからである．一つの解決策は OpenCV というイメージ演算ライブラリの\haskell バインディングを用いることである．
+\haskell だけでイメージ（画像）を効率的に扱おうとすると非常な困難に出
+会う．これは\haskell がイメージデータを効率的に保存するデータ構造を持
+たないからである．一つの解決策は OpenCV というイメージ演算ライブラリの
+\haskell バインディングを用いることである．
 
 % http://qiita.com/ma-oshita/items/2a66d8818664f2936afe
 % http://nebuta.hatenablog.com/entry/2013/06/15/154259
@@ -5339,8 +5506,6 @@ z = !x :+ !y
 \end{verbatim}
 \end{haskellcode}
 
-
-
 % ベクトル
 
 \section{この章のまとめ*}
@@ -5353,7 +5518,8 @@ z = !x :+ !y
 
 \section{余談：コマンドライン引数*}
 
-コマンドライン引数はアクション \code{getArgs} で読み出すことができる．例えば
+コマンドライン引数はアクション \code{getArgs} で読み出すことができる．
+例えば
 \begin{haskellcode}
 \begin{verbatim}
 -- args.hs
@@ -5365,12 +5531,12 @@ main = do
   return 0
 \end{verbatim}
 \end{haskellcode}
-とすると，リスト \code{args} にコマンドライン引数が渡される．アクション \code{getArgs} の戻り値の型は \code{[String]} である．
+とすると，リスト \code{args} にコマンドライン引数が渡される．アクショ
+ン \code{getArgs} の戻り値の型は \code{[String]} である．
 
 \begin{equation}
 \mMain=(\dotsb\mWhere{}\mList{a}=\mAction{getArgs})\mBindRightIgnore\mPureWith{0}
 \end{equation}
-
 
 \section{この章のまとめ*}
 
@@ -5412,7 +5578,6 @@ main = do
 \section{余談：モナド変換子を使う*}
 \section{この章のまとめ*}
 
-
 % http://syocy.hatenablog.com/entry/2016/07/02/174426
 
 \chapter{道具箱*}
@@ -5423,8 +5588,6 @@ main = do
 \section{この章のまとめ*}
 
 % http://itchyny.hatenablog.com/entry/2015/12/27/150000
-
-
 
 \chapter{Freeモナド*}
 \section{ドメイン特化言語*}
@@ -5464,8 +5627,6 @@ instance Functor f => Monad (Free f) where
 % http://tune.hateblo.jp/entry/2014/09/28/185233
 % http://konn-san.com/prog/haskell/extensible-effects.html
 
-
-
 \chapter{アローと継続*}
 \section{アロー*}
 $\mArrow,\mArrowAnd,\mArrowOr$
@@ -5488,26 +5649,38 @@ $\mArrow,\mArrowAnd,\mArrowOr$
 
 \part{補講}
 
-
 \chapter{代数的構造}
 
 \begin{leader}
-この章では「代数的構造」を見ていくことにする．代数的構造とは，四則演算のような数に関する基本的な性質を抽象化していくことで，数の背後にある基本的なメカニズムを抽出したものである．代数的構造はあらゆるプログラミング言語に明示的，あるいは非明示的に見られる要素である．
+この章では「代数的構造」を見ていくことにする．代数的構造とは，四則演算
+のような数に関する基本的な性質を抽象化していくことで，数の背後にある基
+本的なメカニズムを抽出したものである．代数的構造はあらゆるプログラミン
+グ言語に明示的，あるいは非明示的に見られる要素である．
 \end{leader}
 
 \section{数}
 
-これから各種の\keyword{代数的構造}を見ていくことにする．代数的構造と言っても，身構える必要はない．それは，我々プログラマが日々接している概念に，共通した名前を与えたにすぎない．
+これから各種の\keyword{代数的構造}を見ていくことにする．代数的構造と言っ
+ても，身構える必要はない．それは，我々プログラマが日々接している概念に，
+共通した名前を与えたにすぎない．
 
-まず最初に，我々にとって一番身近な代数的構造である\keyword{数}を見てみよう．数の代表例は\keyword{実数}であるから，実数を例にとって考えてみよう．実数全体の集合を $\mRSet$ で表すことにする．また任意の実数を $x,y,z$ で表すこととする．このことを数学者は $x,y,z\in\mRSet$ と書くが，本書ではこれまで通り
+まず最初に，我々にとって一番身近な代数的構造である\keyword{数}を見てみ
+よう．数の代表例は\keyword{実数}であるから，実数を例にとって考えてみよ
+う．実数全体の集合を $\mRSet$ で表すことにする．また任意の実数を
+$x,y,z$ で表すこととする．このことを数学者は $x,y,z\in\mRSet$ と書くが，
+本書ではこれまで通り
 \begin{equation}
 x,y,z\mIn\mRSet
 \end{equation}
 と表すことにする．
 
-以下に実数の備える代数的性質を列挙する．どれも当たり前のことに見えるが，ひとつひとつ見ていこう．ここで $x,y,z\mIn\mRSet$ とする．
+以下に実数の備える代数的性質を列挙する．どれも当たり前のことに見えるが，
+ひとつひとつ見ていこう．ここで $x,y,z\mIn\mRSet$ とする．
 \begin{description}
-\item[実数の性質1. 加法の全域性] 任意の $x$ と任意の $y$ の\keyword{加法}（足し算）の結果すなわち\keyword{和} $x+y$ は $\mRSet$ の元すなわち実数である．演算の結果が同じ集合の元になることを\keyword{全域性}と呼ぶ．
+\item[実数の性質1. 加法の全域性] 任意の $x$ と任意の $y$ の\keyword{加
+法}（足し算）の結果すなわち\keyword{和} $x+y$ は $\mRSet$ の元すなわ
+ち実数である．演算の結果が同じ集合の元になることを\keyword{全域性}と
+呼ぶ．
 \item[実数の性質2. 加法の結合性] 任意の $x,y,z$ について
 \begin{equation}
 (x+y)+z=x+(y+z)
@@ -5517,18 +5690,25 @@ x,y,z\mIn\mRSet
 \begin{equation}
 0+x=x+0=x
 \end{equation}
-である．この $0$ は足し算の\keyword{単位元}である．\keyword{零元}または\keyword{加法単位元}と呼ぶこともある．単位元が存在することを単位律と呼ぶこともある．
-\item[実数の性質4. 負元（加法逆元）の存在] 任意の $x$ に対して $-x\mIn\mRSet$ があり
+である．この $0$ は足し算の\keyword{単位元}である．\keyword{零元}また
+は\keyword{加法単位元}と呼ぶこともある．単位元が存在することを単位律と
+呼ぶこともある．
+\item[実数の性質4. 負元（加法逆元）の存在] 任意の $x$ に対して
+$-x\mIn\mRSet$ があり
 \begin{equation}
 -x+x=0
 \end{equation}
-である．この $-x$ は $x$ の加法の\keyword{逆元}である．\keyword{負元}または\keyword{加法逆元}と呼ぶこともある．逆元が存在することを消約律と呼ぶこともある．
+である．この $-x$ は $x$ の加法の\keyword{逆元}である．\keyword{負元}
+または\keyword{加法逆元}と呼ぶこともある．逆元が存在することを消約律と
+呼ぶこともある．
 \item[実数の性質5. 加法の可換性] 任意の $x,y$ について
 \begin{equation}
 x+y=y+x
 \end{equation}
 である．このことを加法の\keyword{可換性}（可換律）と呼ぶ．
-\item[実数の性質6. 乗法] 任意の $x$ と任意の $y$ の\keyword{乗法}（掛け算）の結果すなわち\keyword{積} $x*y$ は $\mRSet$ の元すなわち実数である．
+\item[実数の性質6. 乗法] 任意の $x$ と任意の $y$ の\keyword{乗法}（掛
+け算）の結果すなわち\keyword{積} $x*y$ は $\mRSet$ の元すなわち実数
+である．
 \item[実数の性質7. 乗法の結合性] 任意の $x,y,z$ について
 \begin{equation}
 (x*y)*z=x*(y*z)
@@ -5539,34 +5719,45 @@ x+y=y+x
 1*x=x*1=x
 \end{equation}
 である．この $1$ を乗法の単位元または\keyword{乗法単位元}と呼ぶ．
-\item[実数の性質9. 逆元の存在] 任意の $x$ に対して $x^{-1}\mIn\mRSet$ があり
+\item[実数の性質9. 逆元の存在] 任意の $x$ に対して $x^{-1}\mIn\mRSet$
+があり
 \begin{equation}
 x^{-1}*x=1
 \end{equation}
-である．この $x^{-1}$ は $x$ の乗法の逆元である．\keyword{乗法逆元}と呼ぶこともある．ただし性質11で述べる通り，加法単位元については逆元がなくても良い．
+である．この $x^{-1}$ は $x$ の乗法の逆元である．\keyword{乗法逆元}と
+呼ぶこともある．ただし性質11で述べる通り，加法単位元については逆元がな
+くても良い．
 \item[実数の性質10. 乗法の可換性] 任意の $x,y$ について
 \begin{equation}
 x*y=y*x
 \end{equation}
 である．このことを乗法の可換性と呼ぶ．
-\item[実数の性質11. 加法単位元の乗法逆元] 加法単位元に対する乗法の逆元は存在しなくても良い．（つまり $0^{-1}$ のことは考えなくて良い．）
+\item[実数の性質11. 加法単位元の乗法逆元] 加法単位元に対する乗法の逆元
+は存在しなくても良い．（つまり $0^{-1}$ のことは考えなくて良い．）
 \item[実数の性質12. 分配律] 加法と乗法が混在する場合
 \begin{equation}
 (x+y)*z=(x*z)+(y*z)
 \end{equation}
 と乗法を\keyword{分配}する．
 \end{description}
-以上が実数の代数的性質の全てである．我々がよく使う引き算，割り算は数学上はシンタックスシュガーである．
+以上が実数の代数的性質の全てである．我々がよく使う引き算，割り算は数学
+上はシンタックスシュガーである．
 
-上述の12個の条件が当てはまる数には\keyword{有理数}や\keyword{複素数}がある．この12個の性質をまとめて，数学では\keyword{体}と呼ぶ．
+上述の12個の条件が当てはまる数には\keyword{有理数}や\keyword{複素数}が
+ある．この12個の性質をまとめて，数学では\keyword{体}と呼ぶ．
 
-体の要素は，集合 $\mKSet$，二項演算子 $+$，二項演算子 $+$ の単位元 $0$，二項演算子 $+$ の逆元生成演算子 $-$，もう一つの二項演算子 $*$，二項演算子 $*$ の単位元 $1$，二項演算子 $*$ の逆元生成演算子 ${}^{-1}$ であるから，体はそれらを列挙して $\mTupleWith{\mKSet,+,0,-,*,1,{}^{-1}}$ と表現する．
+体の要素は，集合 $\mKSet$，二項演算子 $+$，二項演算子 $+$ の単位元 $0$，
+二項演算子 $+$ の逆元生成演算子 $-$，もう一つの二項演算子 $*$，二項演
+算子 $*$ の単位元 $1$，二項演算子 $*$ の逆元生成演算子 ${}^{-1}$ であ
+るから，体はそれらを列挙して $\mTupleWith{\mKSet,+,0,-,*,1,{}^{-1}}$
+と表現する．
 
 体の性質から言えることを一つ紹介しよう．これから
 \begin{equation}
 z\uparrow n=\underbrace{z*\dotsb*z}_n
 \end{equation}
-なる二項演算子 $\uparrow$（\keyword{クヌースの矢印}）を使う．ここに $z$ を体の元，$n$ を自然数とした．さて $z\uparrow2$ は
+なる二項演算子 $\uparrow$（\keyword{クヌースの矢印}）を使う．ここに
+$z$ を体の元，$n$ を自然数とした．さて $z\uparrow2$ は
 \begin{equation}
 z\uparrow2=z*z
 \end{equation}
@@ -5584,7 +5775,11 @@ z\uparrow2&=z*z\\
 \label{eq:xysq}
 (x+y)\uparrow2=x\uparrow2+x*y+y*x+y\uparrow2
 \end{equation}
-を得る．式\eqref{eq:xysq}は体の性質だけを使って導いた関係なので，実数だけでなく有理数や複素数にもそのまま使える．実際には式\eqref{eq:xysq}は体の性質のうち分配律だけを使っているので，体以外にも応用が利く式でもある．\footnote{Knuthの矢印 $(\uparrow)$ は\haskell では演算子 \code{\^} として提供されている．}
+を得る．式\eqref{eq:xysq}は体の性質だけを使って導いた関係なので，実数
+だけでなく有理数や複素数にもそのまま使える．実際には式\eqref{eq:xysq}
+は体の性質のうち分配律だけを使っているので，体以外にも応用が利く式でも
+ある．\footnote{Knuthの矢印 $(\uparrow)$ は\haskell では演算子
+\code{\^} として提供されている．}
 
 \begin{table*}
 \caption{代表的な代数的構造の性質(1)}
@@ -5603,17 +5798,36 @@ z\uparrow2&=z*z\\
 
 \section{群}
 
-体の性質を若干緩めたい場合がある．さもなければ，\keyword{整数}，\keyword{正方行列}，\keyword{クォータニオン}（四元数），\keyword{論理値}，\keyword{ベクトル}，ベクトルの\keyword{変換}，集合から集合への\keyword{写像}と言った重要な概念が数の概念からこぼれてしまうからである．例えば整数の掛け算の逆元は（単位元の逆元を除いて）整数の中には存在しないし，正則行列やクォータニオンの場合は掛け算が可換ではない．
+体の性質を若干緩めたい場合がある．さもなければ，\keyword{整数}，
+\keyword{正方行列}，\keyword{クォータニオン}（四元数），\keyword{論理
+値}，\keyword{ベクトル}，ベクトルの\keyword{変換}，集合から集合への
+\keyword{写像}と言った重要な概念が数の概念からこぼれてしまうからである．
+例えば整数の掛け算の逆元は（単位元の逆元を除いて）整数の中には存在しな
+いし，正則行列やクォータニオンの場合は掛け算が可換ではない．
 
-だいたいどの辺まで制約を緩めたものを数の仲間に入れるかというのは見解の分かれるところでもあるが，体から性質9（乗法の逆元），性質10（乗法の可換性），性質11（加法単位元の乗法逆元）を取り除いたものを\keyword{環}と呼び，環の性質を持つものを数の仲間に入れることが一般的である．環の性質を持つものは，体である実数，有理数，複素数に加えて，整数，正方行列，クォータニオン，論理値などがある．
+だいたいどの辺まで制約を緩めたものを数の仲間に入れるかというのは見解の
+分かれるところでもあるが，体から性質9（乗法の逆元），性質10（乗法の可
+換性），性質11（加法単位元の乗法逆元）を取り除いたものを\keyword{環}
+と呼び，環の性質を持つものを数の仲間に入れることが一般的である．環の性
+質を持つものは，体である実数，有理数，複素数に加えて，整数，正方行列，
+クォータニオン，論理値などがある．
 
-制約を少しずつ緩める代わりに，制約をその構成要素に分解するほうがさらなる応用が利きそうである．体には二つの二項演算子 $+$ と $*$ が登場した．その片方にのみ注目してみたらどうなるだろう．それがこの節で取り上げる\keyword{群}である．
+制約を少しずつ緩める代わりに，制約をその構成要素に分解するほうがさらな
+る応用が利きそうである．体には二つの二項演算子 $+$ と $*$ が登場した．
+その片方にのみ注目してみたらどうなるだろう．それがこの節で取り上げる
+\keyword{群}である．
 
-形式的に体と環の性質を並べたものが表\ref{tab:field-and-ring}である．これを見ると，各演算子について「可換・単位元あり・逆元あり」の組み合わせが二つペアになったもの（体）か，「可換・単位元あり・逆元あり」の組み合わせと「非可換・単位元あり・逆元なし」の組み合わせがペアになったもの（環）があることがわかる．
+形式的に体と環の性質を並べたものが表\ref{tab:field-and-ring}である．こ
+れを見ると，各演算子について「可換・単位元あり・逆元あり」の組み合わせ
+が二つペアになったもの（体）か，「可換・単位元あり・逆元あり」の組み合
+わせと「非可換・単位元あり・逆元なし」の組み合わせがペアになったもの
+（環）があることがわかる．
 
-いま集合 $\mSet{G}$ があり，$x,y,z\mIn\mSet{G}$ であるとし，二項演算子を $\mBinOp$ と書くことにして，体の性質の前半分を書き下してみよう．
+いま集合 $\mSet{G}$ があり，$x,y,z\mIn\mSet{G}$ であるとし，二項演算子
+を $\mBinOp$ と書くことにして，体の性質の前半分を書き下してみよう．
 \begin{description}
-\item[性質1.] 任意の $x$ と任意の $y$ の演算の結果 $x\mBinOp y$ は $\mSet{G}$ の元である．
+\item[性質1.] 任意の $x$ と任意の $y$ の演算の結果 $x\mBinOp y$ は
+$\mSet{G}$ の元である．
 \item[性質2.] 任意の $x,y,z$ について
 \begin{equation}
 (x\mBinOp y)\mBinOp z=x\mBinOp(y\mBinOp z)
@@ -5635,28 +5849,43 @@ x\mBinOp y=y\mBinOp x
 \end{equation}
 である．
 \end{description}
-このような性質が満たされる時，組み合わせ $\mTupleWith{\mSet{G},\mBinOp,\mZero,\mMinus}$ を\keyword{可換群}または\keyword{加群}と呼ぶ．この可換群が最初の構成要素「可換・単位元あり・逆元あり」の正体である．
+このような性質が満たされる時，組み合わせ
+$\mTupleWith{\mSet{G},\mBinOp,\mZero,\mMinus}$ を\keyword{可換群}また
+は\keyword{加群}と呼ぶ．この可換群が最初の構成要素「可換・単位元あり・
+逆元あり」の正体である．
 
-例えば $\mTupleWith{\mRSet,+,0,-}$ は可換群である．整数全体の集合を $\mZSet$ とすると $\mTupleWith{\mZSet,+,0,-}$ も可換群である．また，集合 $\mRSet$ から $0$ だけを取り除いた集合を $\mRSet\setminus0$ とするとき $\mTupleWith{\mRSet\setminus0,*,1,{}^{-1}}$ も可換群である．
+例えば $\mTupleWith{\mRSet,+,0,-}$ は可換群である．整数全体の集合を
+$\mZSet$ とすると $\mTupleWith{\mZSet,+,0,-}$ も可換群である．また，集
+合 $\mRSet$ から $0$ だけを取り除いた集合を $\mRSet\setminus0$ とする
+とき $\mTupleWith{\mRSet\setminus0,*,1,{}^{-1}}$ も可換群である．
 
-可換群は代表的な代数的構造のひとつであり，他にも数学のあちこちに顔を出している．例えば回転角を $t$ とする二次元の回転変換を $R_t$ として，回転変換 $R_t$ すべてからなる集合 $\mSet{R}$ を考えてみよう．回転の合成を $\mCompRot$ で表すとすると
+可換群は代表的な代数的構造のひとつであり，他にも数学のあちこちに顔を出
+している．例えば回転角を $t$ とする二次元の回転変換を $R_t$ として，回
+転変換 $R_t$ すべてからなる集合 $\mSet{R}$ を考えてみよう．回転の合成
+を $\mCompRot$ で表すとすると
 \begin{equation}
 \label{eq:rotation}
 R_{t_1}\mCompRot R_{t_2}=R_{(t_1+t_2)}
 \end{equation}
-であるから，回転を合成した結果も回転である．また式\eqref{eq:rotation}から
+であるから，回転を合成した結果も回転である．また式\eqref{eq:rotation}
+から
 \begin{equation}
-R_{t_1}\mCompRot\left(R_{t_2}\mCompRot R_{t_3}\right)=\left(R_{t_1}\mCompRot R_{t_2}\right)\mCompRot R_{t_3}
+  R_{t_1}\mCompRot\left(R_{t_2}\mCompRot R_{t_3}\right)
+  =\left(R_{t_1}\mCompRot R_{t_2}\right)\mCompRot R_{t_3}
 \end{equation}
 であるから，回転変換は結合性も満たしている．
 
-次にに回転変換に単位元があるかどうか調べてみよう．回転しない変換は\keyword{恒等変換}とも言い，しばしば $I$ で表す．何もしない回転変換は $0$ 度の回転であるから $I=R_0$ である．このとき式\eqref{eq:rotation}から
+次にに回転変換に単位元があるかどうか調べてみよう．回転しない変換は
+\keyword{恒等変換}とも言い，しばしば $I$ で表す．何もしない回転変換は
+$0$ 度の回転であるから $I=R_0$ である．このとき式\eqref{eq:rotation}か
+ら
 \begin{equation}
 I\mCompRot R_t=R_t\mCompRot I=R_t
 \end{equation}
 であるから，$I$ は回転変換の単位元であると言える．
 
-最後に回転変換に逆元があるかも調べてみよう．$t$ 回転の逆は明らかに $-t$ であるから
+最後に回転変換に逆元があるかも調べてみよう．$t$ 回転の逆は明らかに
+$-t$ であるから
 \begin{equation}
 R_{-t}\mCompRot R_t=R_t\mCompRot R_{-t}=I
 \end{equation}
@@ -5666,13 +5895,20 @@ R_{-t}\mCompRot R_t=R_t\mCompRot R_{-t}=I
 \end{equation}
 として $R_t$ の逆元 ${R_t}^{-1}$ を定義することができる．
 
-このように，組み合わせ $\mTupleWith{\mRSet,\mCompRot,I,{}^{-1}}$ も可換群である．（回転 $R_t$ 全体の集合 $\mSet{R}$ が群を形成することは，パラメタ $t$ が所属する実数全体の集合 $\mRSet$ が群を形成することに大いに頼っている．この部分を詳細に調べるとリー群という美しい代数的構造が見つかる．）
+このように，組み合わせ $\mTupleWith{\mRSet,\mCompRot,I,{}^{-1}}$ も可
+換群である．（回転 $R_t$ 全体の集合 $\mSet{R}$ が群を形成することは，
+パラメタ $t$ が所属する実数全体の集合 $\mRSet$ が群を形成することに
+大いに頼っている．この部分を詳細に調べるとリー群という美しい代数的構
+造が見つかる．）
 
-回転されるものをベクトルと呼ぶ．ベクトルや回転変換の実装方法はいくつかあり，例えば第1座標値を $u$，第2座標値を $v$ としたときにベクトル $\mVec{p}$ を
+回転されるものをベクトルと呼ぶ．ベクトルや回転変換の実装方法はいくつか
+あり，例えば第1座標値を $u$，第2座標値を $v$ としたときにベクトル
+$\mVec{p}$ を
 \begin{equation}
 \mVec{p}=\begin{bmatrix}u\\v\end{bmatrix}
 \end{equation}
-と表すことにしよう．矢印は変数 $p$ がベクトルであることを忘れないようにするための飾りである．このとき，回転変換は
+と表すことにしよう．矢印は変数 $p$ がベクトルであることを忘れないよう
+にするための飾りである．このとき，回転変換は
 \begin{equation}
 R_t=\begin{bmatrix}\cos t&-\sin t\\\sin t&\cos t\end{bmatrix}
 \end{equation}
@@ -5680,7 +5916,8 @@ R_t=\begin{bmatrix}\cos t&-\sin t\\\sin t&\cos t\end{bmatrix}
 \begin{equation}
 \mVec{p'}=R_t*\mVec{p}
 \end{equation}
-となる．ここに演算子 $*$ は行列の積である．また，この場合変換の合成 $\mCompRot$ は行列積 $*$ となる．
+となる．ここに演算子 $*$ は行列の積である．また，この場合変換の合成
+$\mCompRot$ は行列積 $*$ となる．
 
 他にもベクトルを複素数で表現する方法もある．いま $\mVec{p}$ を
 \begin{equation}
@@ -5694,13 +5931,25 @@ R_t=\cos t+I\sin t
 \begin{equation}
 \mVec{p'}=R_t*\mVec{p}
 \end{equation}
-と書ける．ここに演算子 $*$ は複素数の積である．また，この場合変換の合成 $\mCompRot$ も複素数積 $*$ となる．
+と書ける．ここに演算子 $*$ は複素数の積である．また，この場合変換の合
+成 $\mCompRot$ も複素数積 $*$ となる．
 
-任意次元のベクトル全体からなる集合を $\mSet{V}$ として，零ベクトルを $\mVec{0}$ で表すことにしよう．ここでも矢印はベクトルであることを忘れないようにするための飾りである．ベクトル同士の加算を二項演算子 $+$ で表し，向きを反転させた逆ベクトル作る演算子を $-$ とすると，組み合わせ $\mTupleWith{\mSet{V},+,\mVec{0},-}$ もまた可換群である．
+任意次元のベクトル全体からなる集合を $\mSet{V}$ として，零ベクトルを
+$\mVec{0}$ で表すことにしよう．ここでも矢印はベクトルであることを忘れ
+ないようにするための飾りである．ベクトル同士の加算を二項演算子 $+$ で
+表し，向きを反転させた逆ベクトル作る演算子を $-$ とすると，組み合わせ
+$\mTupleWith{\mSet{V},+,\mVec{0},-}$ もまた可換群である．
 
-可換群の性質のうち最初の4項目だけを満たすものを群と呼ぶ．可換群は群の特別な場合である．現代の数学では $x\mBinOp y\neq y\mBinOp x$ のように演算子の前後を入れ替えると結果が異なるような演算をよく取り扱うので，一般の群は可換群よりもよく取り上げられ，それ故より短い名前が付けられている．
+可換群の性質のうち最初の4項目だけを満たすものを群と呼ぶ．可換群は群の
+特別な場合である．現代の数学では $x\mBinOp y\neq y\mBinOp x$ のように
+演算子の前後を入れ替えると結果が異なるような演算をよく取り扱うので，一
+般の群は可換群よりもよく取り上げられ，それ故より短い名前が付けられてい
+る．
 
-もう一度組み合わせ $\mTupleWith{\mSet{G},\mBinOp,O,\mMinus}$ が群である条件を少し緩め，逆元が存在しなくても良い「緩やかな群」を考えてみる．この「緩やかな群」のことを\keyword{単位的半群}または\keyword{モノイド}と呼ぶ．これが構成要素「非可換・単位元あり・逆元なし」の正体である．
+もう一度組み合わせ $\mTupleWith{\mSet{G},\mBinOp,O,\mMinus}$ が群であ
+る条件を少し緩め，逆元が存在しなくても良い「緩やかな群」を考えてみる．
+この「緩やかな群」のことを\keyword{単位的半群}または\keyword{モノイド}
+と呼ぶ．これが構成要素「非可換・単位元あり・逆元なし」の正体である．
 
 \begin{table}
 \caption{代表的な代数的構造の性質 (2)}
@@ -5719,9 +5968,11 @@ R_t=\cos t+I\sin t
 \end{center}
 \end{table}
 
-単位的半群の性質は次の三つである．ただし $x,y,z$ が集合 $\mSet{M}$ の元であるとする．
+単位的半群の性質は次の三つである．ただし $x,y,z$ が集合 $\mSet{M}$ の
+元であるとする．
 \begin{description}
-\item[単位的半群の性質1.] 任意の $x$ と任意の $y$ の演算の結果 $x\mBinOp y$ は $\mSet{M}$ の元である．
+\item[単位的半群の性質1.] 任意の $x$ と任意の $y$ の演算の結果
+$x\mBinOp y$ は $\mSet{M}$ の元である．
 \item[単位的半群の性質2. 結合性] 任意の $x,y,z$ について
 \begin{equation}
 (x\mBinOp y)\mBinOp z=x\mBinOp(y\mBinOp z)
@@ -5733,7 +5984,9 @@ R_t=\cos t+I\sin t
 \end{equation}
 である．
 \end{description}
-このとき，組み合わせ $\mTupleWith{\mSet{M},\mBinOp,\mZero}$ が単位的半群である．可換群とこの単位的半群を組み合わせたのが環，可換群二つを組み合わせたのが体であった．
+このとき，組み合わせ $\mTupleWith{\mSet{M},\mBinOp,\mZero}$ が単位的半
+群である．可換群とこの単位的半群を組み合わせたのが環，可換群二つを組み
+合わせたのが体であった．
 
 なお，これまで単位元の定義として
 \begin{equation}
@@ -5745,34 +5998,52 @@ R_t=\cos t+I\sin t
 \end{equation}
 のように，\keyword{左単位元}と\keyword{右単位元}を区別しても良い．
 
-単位的半群の性質からさらに性質3を消したものを\keyword{半群}と呼ぶ．可換群，群，単位的半群，半群を一覧にしたものを表\ref{tab:group-and-monoid}に掲げる．
+単位的半群の性質からさらに性質3を消したものを\keyword{半群}と呼ぶ．可
+換群，群，単位的半群，半群を一覧にしたものを表
+\ref{tab:group-and-monoid}に掲げる．
 
 \section{圏}
 
-これまでは集合の元同士に対する二項演算を考えてきた．集合$\mSet{M}$が単位的半群であるとき，集合$\mSet{M}$の元$x,y\mIn\mSet{M}$に対して$x\mBinOp y\mIn\mSet{M}$であった．見方を変えると，演算子$\mBinOp$とは集合$\mSet{M}$の元2個から出発して，集合$\mSet{M}$の元1個へとジャンプさせる\keyword{写像}であると言える．これを
+これまでは集合の元同士に対する二項演算を考えてきた．集合$\mSet{M}$が単
+位的半群であるとき，集合$\mSet{M}$の元$x,y\mIn\mSet{M}$に対して
+$x\mBinOp y\mIn\mSet{M}$であった．見方を変えると，演算子$\mBinOp$とは
+集合$\mSet{M}$の元2個から出発して，集合$\mSet{M}$の元1個へとジャンプさ
+せる\keyword{写像}であると言える．これを
 \begin{equation}
 \mBinOp\mIn{}\mMorph{(\mSet{M}\mSetTimes\mSet{M})}{\mSet{M}}
 \end{equation}
-と書く．ここに $\mSet{X}\mSetTimes\mSet{Y}$ は集合 $\mSet{X}$ と集合 $\mSet{Y}$ の\keyword{直積集合}である．直積集合と元の集合はもはや別な集合であることに注意しよう．
+と書く．ここに $\mSet{X}\mSetTimes\mSet{Y}$ は集合 $\mSet{X}$ と集合
+$\mSet{Y}$ の\keyword{直積集合}である．直積集合と元の集合はもはや別な
+集合であることに注意しよう．
 
-写像は $\mMorph{\mSet{M}\mSetTimes\mSet{M}}{\mSet{M}}$ に限ったもの出はなく，集合 $\mSet{M}$ から集合 $\mSet{M}$ への写像 $\mUnOp$ ただし
+写像は $\mMorph{\mSet{M}\mSetTimes\mSet{M}}{\mSet{M}}$ に限ったもの出
+はなく，集合 $\mSet{M}$ から集合 $\mSet{M}$ への写像 $\mUnOp$ ただし
 \begin{equation}
 \mUnOp\mIn\mMorph{\mSet{M}}{\mSet{M}}
 \end{equation}
-があっても良い．実はこれまでにも登場した逆元を作る演算子はまさに $\mMorph{\mSet{M}}{\mSet{M}}$ という写像である．
+があっても良い．実はこれまでにも登場した逆元を作る演算子はまさに
+$\mMorph{\mSet{M}}{\mSet{M}}$ という写像である．
 
-またベクトルには，実数倍や回転といった写像がある．これらは実数のパラメタを一つとるので，ベクトル全体の集合を $\mSet{V}$，実数全体の集合を $\mRSet$ として，実数のパラメタを $r$ としたときに
+またベクトルには，実数倍や回転といった写像がある．これらは実数のパラメ
+タを一つとるので，ベクトル全体の集合を $\mSet{V}$，実数全体の集合を
+$\mRSet$ として，実数のパラメタを $r$ としたときに
 \begin{equation}
 \mUnOp_r\mIn{}\mMorph{(\mRSet\mSetTimes\mSet{V})}{\mSet{V}}
 \end{equation}
 と書ける．例えば回転の場合は $\mUnOp_r=R_r$ である．
 
-このようにとある集合（例えば $\mSet{M}\mSetTimes\mSet{M}$ や $\mRSet\mSetTimes\mSet{V}$）から異なる別な集合（例えば $\mSet{M}$ や $\mSet{V}$）へという写像を一般化するとどうなるだろうか．いま，集合 $\mSet{X}$ から集合 $\mSet{Y}$ への写像 $f$ があり，集合 $\mSet{Y}$ から集合 $\mSet{Z}$ への写像 $g$ があるとする．すなわち
+このようにとある集合（例えば $\mSet{M}\mSetTimes\mSet{M}$ や
+$\mRSet\mSetTimes\mSet{V}$）から異なる別な集合（例えば $\mSet{M}$ や
+$\mSet{V}$）へという写像を一般化するとどうなるだろうか．いま，集合
+$\mSet{X}$ から集合 $\mSet{Y}$ への写像 $f$ があり，集合 $\mSet{Y}$ か
+ら集合 $\mSet{Z}$ への写像 $g$ があるとする．すなわち
 \begin{align}
 f&\mIn\mMorph{\mSet{X}}{\mSet{Y}}\\
 g&\mIn\mMorph{\mSet{Y}}{\mSet{Z}}
 \end{align}
-があるとする．また写像同士を二項演算子 $\mCompProj$ で\keyword{合成}できるものとする．例えば $f$ と $g$ の合成写像は $\mSet{X}$ を出発点に $\mSet{Y}$ を経由して $\mSet{Z}$ へと行くので
+があるとする．また写像同士を二項演算子 $\mCompProj$ で\keyword{合成}で
+きるものとする．例えば $f$ と $g$ の合成写像は $\mSet{X}$ を出発点に
+$\mSet{Y}$ を経由して $\mSet{Z}$ へと行くので
 \begin{equation}
 f\mCompProj g\mIn\mMorph{\mSet{X}}{\mSet{Z}}
 \end{equation}
@@ -5788,17 +6059,28 @@ I_\mSet{Z}\mIn\mMorph{\mSet{Z}}{\mSet{Z}}
 \begin{equation}
 I_\mSet{Y}\mCompProj f=f\mCompProj I_\mSet{X}
 \end{equation}
-とすると，写像 $I_\mSet{X}$ と写像 $I_\mSet{Y}$ はそれぞれ写像の合成演算子 $\mCompProj$ に対して単位元のように振る舞う．写像 $g$ については
+とすると，写像 $I_\mSet{X}$ と写像 $I_\mSet{Y}$ はそれぞれ写像の合成演
+算子 $\mCompProj$ に対して単位元のように振る舞う．写像 $g$ については
 \begin{equation}
 I_\mSet{Z}\mCompProj g=g\mCompProj I_\mSet{Y}
 \end{equation}
-であるとする．このような写像 $I_\mSet{X},I_\mSet{Y},I_\mSet{Z}$ を\keyword{恒等写像}と呼ぶ．
+であるとする．このような写像 $I_\mSet{X},I_\mSet{Y},I_\mSet{Z}$ を
+\keyword{恒等写像}と呼ぶ．
 
-集合 $\mSet{X}$，集合 $\mSet{Y}$，集合 $\mSet{Z}$ の集合 $\mSet{C}=\mSetWith{\mSet{X},\mSet{Y},\mSet{Z}}$ と，写像 $f$ と写像 $g$ の集合 $\mSet{P}=\mSetWith{f,g}$ と，写像合成演算子 $\mCompProj$ と，恒等写像の集合 $\mSet{I}$ の組み合わせ $\mTupleWith{\mSet{C},\mSet{P},\mCompProj,\mSet{I}}$ を\keyword{圏}と呼ぶ．写像合成演算子 $(\mCompProj)$ と恒等写像の集合 $(\mSet{I})$ は自明であるためしばしば省略され，組み合わせ $\mTupleWith{\mSet{C},\mSet{P}}$ を圏とする書き方もよくされる．
+集合 $\mSet{X}$，集合 $\mSet{Y}$，集合 $\mSet{Z}$ の集合
+$\mSet{C}=\mSetWith{\mSet{X},\mSet{Y},\mSet{Z}}$ と，写像 $f$ と写像
+$g$ の集合 $\mSet{P}=\mSetWith{f,g}$ と，写像合成演算子 $\mCompProj$
+と，恒等写像の集合 $\mSet{I}$ の組み合わせ
+$\mTupleWith{\mSet{C},\mSet{P},\mCompProj,\mSet{I}}$ を\keyword{圏}と
+呼ぶ．写像合成演算子 $(\mCompProj)$ と恒等写像の集合 $(\mSet{I})$ は自
+明であるためしばしば省略され，組み合わせ
+$\mTupleWith{\mSet{C},\mSet{P}}$ を圏とする書き方もよくされる．
 
 圏を考えるとき，変換や写像は全て\keyword{射}と呼ぶ決まりである．
 
-いまある単位的半群 $\mTupleWith{\mSet{M},\mBinOp,O}$ があるとする．集合 $\mSet{C}$ を $\mSet{M}$ 及び $\mSet{M}\mSetTimes\mSet{M}$ を元とする集合すなわち
+いまある単位的半群 $\mTupleWith{\mSet{M},\mBinOp,O}$ があるとする．集
+合 $\mSet{C}$ を $\mSet{M}$ 及び $\mSet{M}\mSetTimes\mSet{M}$ を元とす
+る集合すなわち
 \begin{equation}
 \mSet{C}=\mSetWith{\mSet{M},\mSet{M}\mSetTimes\mSet{M}}
 \end{equation}
@@ -5830,10 +6112,7 @@ I_\mSet{Z}\mCompProj g=g\mCompProj I_\mSet{Y}
 
 関手．カリー化した圏から中置演算子への圏への写像．
 
-
 % http://bitterharvest.hatenablog.com/entry/2015/02/12/155738
-
-
 
 \section{余談：束*}
 
@@ -5904,7 +6183,8 @@ $\mu$再帰関数
 
 \section{条件式}
 
-条件式は一種のシンタックスシュガーである．次のように関数 $t,f,\mIfFunc$ を定義すると，それぞれ真，偽，条件分岐のように振る舞う．
+条件式は一種のシンタックスシュガーである．次のように関数
+$t,f,\mIfFunc$ を定義すると，それぞれ真，偽，条件分岐のように振る舞う．
 \begin{align}
 t&=\mLambdaExp{xy}{x}\\
 f&=\mLambdaExp{xy}{y}\\
@@ -5919,7 +6199,8 @@ f&=\mLambdaExp{xy}{y}\\
 &=(\mLambdaExp{xy}{y})xy\\
 &=y
 \end{align}
-確かに $\mIfFunc t$ は1番目の引数だけを，$\mIfFunc f$ は2番目の引数だけを残す．これは条件分岐そのものである．
+確かに $\mIfFunc t$ は1番目の引数だけを，$\mIfFunc f$ は2番目の引数だ
+けを残す．これは条件分岐そのものである．
 
 \section{整数*}
 \section{Yコンビネータ*}
@@ -5931,14 +6212,16 @@ f&=\mLambdaExp{xy}{y}\\
 
 \section{この章のまとめ*}
 
-
 \chapter{型付きラムダ*}
 \section{型付きラムダ*}
 \section{カリー＝ハワード同型対応*}
 \section{*}
 \section{*}
 
-\clang は公式にはラムダ式を採用していない．しかし\clang にラムダ式を持たせる拡張はいくつか提案されている．その一つがApple社が自社OSの Grand Central Dispatch 機能のために行った「ブロック拡張」である．このブロック拡張を用いたクロージャの例を見てみよう．
+\clang は公式にはラムダ式を採用していない．しかし\clang にラムダ式を持
+たせる拡張はいくつか提案されている．その一つがApple社が自社OSの Grand
+Central Dispatch 機能のために行った「ブロック拡張」である．このブロッ
+ク拡張を用いたクロージャの例を見てみよう．
 \begin{ccode}
 \begin{verbatim}
 #include <Block.h>
@@ -5958,7 +6241,9 @@ int main(void) {
 }
 \end{verbatim}
 \end{ccode}
-コード中の \code{\textasciicircum(int x) \{ return n+x; \}} がブロック（クロージャ）である．\clang のブロック拡張はオープンソースコミュニティに還元されているため，GCCやclangで使用可能である．
+コード中の \code{\textasciicircum(int x) \{ return n+x; \}} がブロック
+（クロージャ）である．\clang のブロック拡張はオープンソースコミュニティ
+に還元されているため，GCCやclangで使用可能である．
 
 \section{この章のまとめ*}
 
@@ -5999,9 +6284,11 @@ auto lambda_exp = [u = 1] { return u; };
 
 複雑な構造に対する単純な操作について考える．
 
-オブジェクト指向（クラス指向と呼ぶべきだが歴史はそうはならなかった）は，複雑な構造に対する単純な操作をうまく抽象化する．
+オブジェクト指向（クラス指向と呼ぶべきだが歴史はそうはならなかった）は，
+複雑な構造に対する単純な操作をうまく抽象化する．
 
-例えば，複素数（実数に比べれば複雑だ）の足し算（単純だ）は，C89/90ならば以下のようになる．
+例えば，複素数（実数に比べれば複雑だ）の足し算（単純だ）は，C89/90なら
+ば以下のようになる．
 
 %\begin{verbatim}
 %double x_re = 1.0;
@@ -6013,7 +6300,9 @@ auto lambda_exp = [u = 1] { return u; };
 %printf(“%f, %fn”, z_re, z_im);
 %\end{verbatim}
 
-優秀なCプログラマならすぐに構造体と関数を導入するだろう．しかし，よりよい方法がある．C++を使うことだ．（C99ならば複素数を扱えるが，言語の抽象度がC89/90よりも高いわけではない．）C++98ならば次のようにする．
+優秀なCプログラマならすぐに構造体と関数を導入するだろう．しかし，より
+よい方法がある．C++を使うことだ．（C99ならば複素数を扱えるが，言語の抽
+  象度がC89/90よりも高いわけではない．）C++98ならば次のようにする．
 
 %\begin{verbatim}
 %std::complex<double> x(1.0, 2.0), y(3.0, 4.0);
@@ -6021,27 +6310,38 @@ auto lambda_exp = [u = 1] { return u; };
 %std::cout << z << std::endl;
 %\end{verbatim}
 
-複素数はあらかじめ用意されていたが，プログラマは独自の複雑な構造（行列だとか）を自前で作っておくことができる．複雑な構造に対する単純な操作を陽に扱えることは，特にGUIの設計，実装にとっては決定的となる．近代的なGUIは，複雑な構造（ビュー，コントローラ，モデルのそれぞれに当てはまる）の間をメッセージが単純に行き交うモデルであるからである．
+複素数はあらかじめ用意されていたが，プログラマは独自の複雑な構造（行列
+だとか）を自前で作っておくことができる．複雑な構造に対する単純な操作
+を陽に扱えることは，特にGUIの設計，実装にとっては決定的となる．近代的
+なGUIは，複雑な構造（ビュー，コントローラ，モデルのそれぞれに当てはま
+る）の間をメッセージが単純に行き交うモデルであるからである．
 
-（いま述べたのはオブジェクト指向のうちカプセル化についてだけである．オブジェクト指向の本当の力はポリモーフィズムにある．それについては後半で触れる．）
+（いま述べたのはオブジェクト指向のうちカプセル化についてだけである．オ
+ブジェクト指向の本当の力はポリモーフィズムにある．それについては後半
+で触れる．）
 
 次は，単純な構造に対する複雑な操作について考える．
 
-C++のような素朴なオブジェクト指向機能だけでは，単純な構造に対する複雑な操作をうまく抽象化できない．次のSchemeのコードを見てもらいたい．
+C++のような素朴なオブジェクト指向機能だけでは，単純な構造に対する複雑
+な操作をうまく抽象化できない．次のSchemeのコードを見てもらいたい．
 
 %\begin{verbatim}
 %(define (make-plus-n n)
 % (lambda (x) (+ n x)))
 %\end{verbatim}
 
-関数（Schemeでは手続きと呼ぶ）make-plus-nは「引数にnを足す」という操作を作る．
+関数（Schemeでは手続きと呼ぶ）make-plus-nは「引数にnを足す」という操作
+を作る．
 
 %\begin{verbatim}
 %(define plus2 (make-plus-n 2))
 %(print (plus2 3))
 %\end{verbatim}
 
-とすると5が印刷される．数値（単純だ）に対する，飢えた足し算演算子（複雑な気分になる）を作ったのだ．C++98でmake-plus-nを作ることは可能であるが，簡潔とは言い難い．準備段階として標準関数オブジェクトクラステンプレートstd::plusを使ってみる．
+とすると5が印刷される．数値（単純だ）に対する，飢えた足し算演算子（複
+  雑な気分になる）を作ったのだ．C++98でmake-plus-nを作ることは可能であ
+るが，簡潔とは言い難い．準備段階として標準関数オブジェクトクラステンプ
+レートstd::plusを使ってみる．
 
 %\begin{verbatim}
 %std::binder1st<std::plus<double>>
@@ -6070,9 +6370,12 @@ C++のような素朴なオブジェクト指向機能だけでは，単純な�
 %std::cout << plus2(3) << std::endl;
 %\end{verbatim}
 
-は5を印字する．驚くべきことに，優れたC++プログラマは上のコードをさらさらと書く．
+は5を印字する．驚くべきことに，優れたC++プログラマは上のコードをさらさ
+らと書く．
 
-C++0xやアップルの Grand Central Dispatch (GCD) 対応版C言語では不格好ながらラムダ抽象が導入される．例えばC++0xではmake\_plus\_nは次のように書けるようになるはずである．
+C++0xやアップルの Grand Central Dispatch (GCD) 対応版C言語では不格好な
+がらラムダ抽象が導入される．例えばC++0xではmake\_plus\_nは次のように書
+けるようになるはずである．
 
 %\begin{verbatim}
 %template <typename T> auto make_plus_n(T n) {
@@ -6088,9 +6391,18 @@ GCDでは同様のラムダ式をこう書く．
 
 さて，もう一度複雑な構造に対する単純な操作を振り返ってみよう．
 
-オブジェクト指向の本質は関数のディスパッチである．メジャーなオブジェクト指向言語（C++を含む）は単一ディスパッチ（第1引数が指す型ポインタによって実際の呼び出し先関数が決定される）であるが，LISP用オブジェクトシステムCLOS（これはLISP上に構築されている）は複数ディスパッチをサポートする．Clojureにおける例は「Closer to Clojure: ポリモーフィズム」から見てもらいたい．
+オブジェクト指向の本質は関数のディスパッチである．メジャーなオブジェク
+ト指向言語（C++を含む）は単一ディスパッチ（第1引数が指す型ポインタによっ
+て実際の呼び出し先関数が決定される）であるが，LISP用オブジェクトシス
+テムCLOS（これはLISP上に構築されている）は複数ディスパッチをサポートす
+る．Clojureにおける例は「Closer to Clojure: ポリモーフィズム」から見て
+もらいたい．
 
-もし，オブジェクト指向かクロージャ指向かのどちらかの言語を選べと言われたら，クロージャ指向を取ろう．どちらの言語でも，その言語の上にもう一方のパラダイムを築くことはできる．ただし，オブジェクト指向言語でクロージャ指向をサポートするのは骨の折れることだ．それに対し，クロージャ指向の言語でオブジェクト指向をサポートするのはたやすい．
+もし，オブジェクト指向かクロージャ指向かのどちらかの言語を選べと言われ
+たら，クロージャ指向を取ろう．どちらの言語でも，その言語の上にもう一方
+のパラダイムを築くことはできる．ただし，オブジェクト指向言語でクロージャ
+指向をサポートするのは骨の折れることだ．それに対し，クロージャ指向の言
+語でオブジェクト指向をサポートするのはたやすい．
 
 ---
 
@@ -6117,7 +6429,8 @@ Lens
 
 \section*{余談：\clang によるクロージャの実装*}
 
-簡単なクロージャの例として，引数に $n$ を足す関数を生成する関数を\clang 言語で考える．
+簡単なクロージャの例として，引数に $n$ を足す関数を生成する関数を
+\clang 言語で考える．
 %まずはお約束の\#includeから．
 %\begin{verbatim}
 %#include <stdio.h>
@@ -6129,7 +6442,8 @@ Lens
 (define (make-plus-n n) (lambda (x) (+ n x)))
 \end{verbatim}
 \end{schemecode}
-なのだが，レキシカルクロージャを持たない\clang 言語では自前で変数をラップする必要がある．そこで，こんな構造体を作ってみる．
+なのだが，レキシカルクロージャを持たない\clang 言語では自前で変数をラッ
+プする必要がある．そこで，こんな構造体を作ってみる．
 \begin{ccode}
 \begin{verbatim}
 struct make_plus_n_context_t {
@@ -6167,7 +6481,9 @@ MAKE_PLUS_N_CONTEXT_T *make_plus_n(int n) {
 }
 \end{verbatim}
 \end{ccode}
-この関数は \code{make\_plus\_n\_context\_t} 構造体をメモリを新たに確保して返す．この構造体から \code{\_func} を呼んでやるのは，次のようなマクロを用意すると便利である．
+この関数は \code{make\_plus\_n\_context\_t} 構造体をメモリを新たに確保
+して返す．この構造体から \code{\_func} を呼んでやるのは，次のようなマ
+クロを用意すると便利である．
 \begin{ccode}
 \begin{verbatim}
 #define FUNC_CALL(context, param)
@@ -6204,15 +6520,11 @@ int main(void) {
 %\end{verbatim}
 %ならもっとたやすく書ける．（ウィザードじゃなくても書けるでしょ？）
 
-
-
 \section{この章のまとめ*}
 
 \begin{note}{オブジェクト指向とクロージャ}
 ...
 \end{note}
-
-
 
 \chapter{もっと勉強したい人へ*}
 
@@ -6226,17 +6538,28 @@ int main(void) {
 % \chapter{\cxx}
 
 \begin{thebibliography}{99}
-\bibitem{haskellplatform} Haskell.org; \texttt{https://www.haskell.org/}, as of 2016.
+\bibitem{haskellplatform} Haskell.org;
+  \texttt{https://www.haskell.org/}, as of 2016.
 \bibitem{linux} 大角祐介: 新しいLinuxの教科書; SBクリエイティブ, 2015.
-\bibitem{osx} 金谷一朗: 「新しいLinuxの教科書」をMacで実践する; \texttt{http://bit.ly/brew-on-mac}, 2016.
-\bibitem{fap} 金谷一朗: ファンクション+アクション=プログラム; 工学社, 2011.
-\bibitem{greatgood}Miran Lipovaca: ``Learn You a Haskell for Great Good: A Beginner's Guide''; No Starch Press, 2011.
-\bibitem{types} Benjamin C.~Pierce: Types and Programming Languages; The MIT Press, 2002.
-\bibitem{patterns} Ryan Lemmer: Haskell Design Patterns; Packt Publishing, 2015.
-\bibitem{realworld} Bryan O'Sullivan: ``Real World Haskell: Code You Can Believe In''; O'Reilly Media, 2008.
-\bibitem{programming} Graham Hutton: Programming in Haskell; Cambridge University Press; 2007.
-\bibitem{functionally} Richard Bird: Thinking Functionally with Haskell; Cambridge University Press, 2014.
-\bibitem{gentle} Paul Hudak, John Peterson, Joseph Fasel: A Gentle Guide to Haskell; \texttt{https://www.haskell.org/tutorial/index.html}, 1999.
+\bibitem{osx} 金谷一朗: 「新しいLinuxの教科書」をMacで実践する;
+  \texttt{http://bit.ly/brew-on-mac}, 2016.
+\bibitem{fap} 金谷一朗: ファンクション+アクション=プログラム; 工学社,
+  2011.
+\bibitem{greatgood}Miran Lipovaca: ``Learn You a Haskell for Great
+  Good: A Beginner's Guide''; No Starch Press, 2011.
+\bibitem{types} Benjamin C.~Pierce: Types and Programming Languages;
+  The MIT Press, 2002.
+\bibitem{patterns} Ryan Lemmer: Haskell Design Patterns; Packt
+  Publishing, 2015.
+\bibitem{realworld} Bryan O'Sullivan: ``Real World Haskell: Code You
+  Can Believe In''; O'Reilly Media, 2008.
+\bibitem{programming} Graham Hutton: Programming in Haskell; Cambridge
+  University Press; 2007.
+\bibitem{functionally} Richard Bird: Thinking Functionally with
+  Haskell; Cambridge University Press, 2014.
+\bibitem{gentle} Paul Hudak, John Peterson, Joseph Fasel: A Gentle
+  Guide to Haskell;
+  \texttt{https://www.haskell.org/tutorial/index.html}, 1999.
 \end{thebibliography}
 
 
