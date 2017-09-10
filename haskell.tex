@@ -2624,10 +2624,16 @@ Maybeは次の\code{maybe}クラステンプレートで表現できる．（\ja
   ラマへの注意：これは\code{maybe<a>}クラスの定義と同じ意味である．）
 \begin{cxxcode}
 \begin{verbatim}
-template <class a> class maybe { private: a value; bool valid; public:
- maybe(): value(0), valid(false) { } maybe(a a_value): value(a_value),
- valid(true) { } a get_value() const { return value; } bool is_valid()
- const { return valid; } }
+template <class a> class maybe {
+  private:
+    a value;
+    bool valid;
+  public:
+    maybe(): value(0), valid(false) { }
+    maybe(a a_value): value(a_value), valid(true) { }
+    a get_value() const { return value; }
+    bool is_valid() const { return valid; }
+};
 \end{verbatim}
 \end{cxxcode}
 デフォルトコンストラクタは例外的な状況を表す $\mNothing$ を生成し，1引
@@ -2643,9 +2649,15 @@ template <class a> class maybe { private: a value; bool valid; public:
   る．）
 \begin{cxxcode}
 \begin{verbatim}
-template <class a, class b, class fn> maybe<b> map_over(fn f, maybe<a>
- u) { if (u.is_valid()) { return maybe<a>(f(u.get_value())); } else {
- return maybe<b>(); } }
+template <class a, class b, class fn>
+maybe<b> map_over(fn f, maybe<a> u) {
+  if (u.is_valid()) {
+    return maybe<a>(f(u.get_value()));
+  }
+  else {
+    return maybe<b>();
+  }
+}
 \end{verbatim}
 \end{cxxcode}
 テンプレートの2番目の引数\code{fn}は関数\code{f}を受け取るために必要で
@@ -2665,16 +2677,18 @@ template <class a, class b, class fn> maybe<b> map_over(fn f, maybe<a>
 を得ることを\cxx では次のように書くことになる．
 \begin{cxxcode}
 \begin{verbatim}
-int x = 123; maybe<int> u(x); auto g = [](int x) -> int { return 1+x;
- }; maybe<int> v = map_over(g, u);
+int x = 123;
+maybe<int> u(x);
+auto g = [](int x) -> int { return 1+x; };
+maybe<int> v = map_over(g, u);
 \end{verbatim}
 \end{cxxcode}
 注意してほしいのは \code{g(x)} も \code{map\_over(g, u)} も正当なコー
 ドだが \code{g(u)} は型エラーであることだ．また
 \code{g(u.get\_value())} は正当なコードだが，わざわざ \code{u} が持つ
 文脈を捨てることになる．（\cxx プログラマへの注意：\code{int} 型の使用
-  は現在では非推奨である．本書ではコードの読みやすさのためにあえて
-  \code{int} を使用している．）
+は現在では非推奨である．本書ではコードの読みやすさのためにあえて
+\code{int} を使用している．）
 
 % ところで，関数\code{f}の実装は，ラムダ式の使えない\cxx03ではファンク
 % ター (functor) という機構を使うことになる．このファンクターは第
@@ -2698,10 +2712,17 @@ int x = 123; maybe<int> u(x); auto g = [](int x) -> int { return 1+x;
 イブラリ(STL)の\code{list}クラスを流用した．
 \begin{cxxcode}
 \begin{verbatim}
-using namespace std; template <class a, class b, class fn> list<b>
- map_over(fn f, list<a> xs) { list<b> ys(xs.size()); auto i =
- xs.cbegin(); auto j = ys.begin(); while (i != xs.cend()) { *j =
- f(*i); ++i; ++j; } return list<b>(ys); }
+using namespace std;
+template <class a, class b, class fn>
+list<b> map_over(fn f, list<a> xs) {
+  list<b> ys(xs.size());
+  auto i = xs.cbegin();
+  auto j = ys.begin();
+  while (i != xs.cend()) {
+    *j = f(*i); ++i; ++j;
+  }
+  return list<b>(ys);
+}
 \end{verbatim}
 \end{cxxcode}
 この関数\code{map\_over}の中身部分はどうでもよろしい．それよりも，リス
@@ -2709,25 +2730,28 @@ using namespace std; template <class a, class b, class fn> list<b>
 ンのマップ演算子の\cxx 関数のインタフェースを見比べてみよう．
 \begin{cxxcode}
 \begin{verbatim}
-// List template <class a, class b, class fn> list<b> map_over(fn f,
- list<a> xs); // Maybe template <class a, class b, class fn> maybe<b>
- map_over(fn f, maybe<a> u);
+// List
+template <class a, class b, class fn>
+list<b> map_over(fn f, list<a> xs);
+// Maybe
+template <class a, class b, class fn>
+maybe<b> map_over(fn f, maybe<a> u);
 \end{verbatim}
 \end{cxxcode}
 やはりそっくりである．であるならば，うまく統一したい．\cxxfourteen 以
 降であれば次のような書き方が文法的には可能である．
 \begin{cxxcode}
 \begin{verbatim}
-template <class a, class b, template<class> X, class fn> X<b>
- map_over(fn f, X<a> x);
+template <class a, class b, template<class> X, class fn>
+X<b> map_over(fn f, X<a> x);
 \end{verbatim}
 \end{cxxcode}
 これは一見上手く行きそうに見えるが，このコードは \code{map\_over} のイ
 ンスタンス化で躓くため，次のように \code{b} 型のダミー変数が必要になる．
 \begin{cxxcode}
 \begin{verbatim}
-template <class a, class b, template<class> X, class fn> X<b>
- map_over(fn f, X<a> x, b dummy);
+template <class a, class b, template<class> X, class fn>
+X<b> map_over(fn f, X<a> x, b dummy);
 \end{verbatim}
 \end{cxxcode}
 残念なことに，いずれのコードにしてもリストとMaybeの本質的な抽象化には
@@ -2758,8 +2782,8 @@ $\mType{b}$ 型を取るEither型の変数 $\mEither{e}$ があるとすると�
 \mEitherType{a}{b}=\mEitherTypeConstructor\mType{a}\mType{b}
 \end{equation}
 のように作られる．\footnote{\haskell では $\mEitherType{a}{b}$ も
-  $\mEitherTypeConstructor\mType{a}\mType{b}$ も区別せずに
-  \code{Either a b} と書く．}
+$\mEitherTypeConstructor\mType{a}\mType{b}$ も区別せずに
+\code{Either a b} と書く．}
 
 Etherには値コンストラクタが2種類あり，それぞれ $\mRightWith{x}$ と
 $\mLeftWith{x}$ である．値コンストラクタは
