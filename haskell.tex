@@ -959,7 +959,8 @@ f'0&=1\\ f'x&=(\sin x)/x
 \begin{equation}
 f'x=\mCaseOf{x}\left\{
 \begin{aligned}
-0&\mIfSo1\\ \mAnyParam&\mIfSo(\sin x)/x
+0&\mIfSo1\\
+\mAnyParam&\mIfSo(\sin x)/x
 \end{aligned}
 \right.
 \end{equation}
@@ -1019,7 +1020,7 @@ $\mThen$ 節も $\mElse$ 節も省略できないものとする．$\mIf$ 節の
 件演算子（三項演算子）と等しく見えるが，\haskell の場合は遅延評価が行
 われるため，結果として条件式の\keyword{短絡評価}が行われる点が異なる．
 \footnote{\haskell では $fx=\mIfThenElse{x\equiv0}{1}{{}(\sin x)/x}$
-  を \code{f x = if x==0 then 1 else (sin x)/x} と書く．}
+を \code{f x = if x==0 then 1 else (sin x)/x} と書く．}
 
 $\mIf$ 節の中身は真理値を返す関数であれば良いので，関数 $p$ を
 \begin{equation}
@@ -1031,14 +1032,14 @@ fx=\mIfThenElse{px}{1}{{}(\sin x)/x}
 \end{equation}
 と書く方法もしばしば用いられる．
 
-% 条件式は紙面が許せば次のように書いても良い．
-% \begin{equation}
-% fx=\begin{cases} 1&\mIf x\equiv0\\ (\sin x)/x&\mOtherwise
-% \end{cases}
-% \end{equation}
-% 左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっ
-% ていることに注目しよう．\footnote{\haskell ではいつも \code{if},
-% \code{then}, \code{else} を使った式にする．}
+条件式は紙面が許せば次のように書いても良い．
+\begin{equation}
+fx=\begin{cases} 1&\mIf x\equiv0\\ (\sin x)/x&\mOtherwise
+\end{cases}
+\end{equation}
+左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっ
+ていることに注目しよう．\footnote{\haskell ではいつも \code{if},
+\code{then}, \code{else} を使った式にする．}
 
 \section{余談：局所変数}
 
@@ -1800,18 +1801,18 @@ $\mTupleWith{\mBoolType,\mLogicalAnd,\mTrue}$ もモノイドである．
 
 \begin{enumerate}
 \item 集合 $\mSet{A}$ の元 $a_1,a_2\mIn\mSet{A}$ について，二項演算子
-  $\mBinOp$ があり $a_1\mBinOp a_2\mIn\mSet{A}$ であるとき，すなわち演
-  算子が全域性を有する場合 $\mTupleWith{\mSet{A},\mBinOp}$ のことをマ
-  グマと呼ぶ．\item マグマ $\mSet{A}$ の元 $a_1,a_2,a_3\mIn\mSet{A}$
-  について $(a_1\mBinOp a_2)\mBinOp a_3=a_1\mBinOp(a_2\mBinOp a_3)$ で
-  ある場合，すなわち演算子が結合性を有する場合 $\mSet{A}$ を半群と呼ぶ．
+$\mBinOp$ があり $a_1\mBinOp a_2\mIn\mSet{A}$ であるとき，すなわち演
+算子が全域性を有する場合 $\mTupleWith{\mSet{A},\mBinOp}$ のことをマ
+グマと呼ぶ．\item マグマ $\mSet{A}$ の元 $a_1,a_2,a_3\mIn\mSet{A}$
+について $(a_1\mBinOp a_2)\mBinOp a_3=a_1\mBinOp(a_2\mBinOp a_3)$ で
+ある場合，すなわち演算子が結合性を有する場合 $\mSet{A}$ を半群と呼ぶ．
 \item 半群のうち $\mZero\mIn\mSet{A}$ なる元 $\mZero$ があり，任意の
-  $a\mIn\mSet{A}$ に対して $\mZero\mBinOp a=a\mBinOp\mZero=a$ である場
-  合，すなわち単位元が存在する場合 $\mSet{A}$ をモノイドと呼ぶ．\item
-  関数は集合 $\mSet{A}$ から集合 $\mSet{B}$ への写像という型を持つ． %
-  ***写像*** \item 複数引数を取る関数はカリー化によって，1引数をとる複
-  数の関数へ分解される．\item 型のインタフェースをまとめたものを型クラ
-  スと呼ぶ． % ***インタフェース***
+$a\mIn\mSet{A}$ に対して $\mZero\mBinOp a=a\mBinOp\mZero=a$ である場
+合，すなわち単位元が存在する場合 $\mSet{A}$ をモノイドと呼ぶ．\item
+関数は集合 $\mSet{A}$ から集合 $\mSet{B}$ への写像という型を持つ． %
+***写像*** \item 複数引数を取る関数はカリー化によって，1引数をとる複
+数の関数へ分解される．\item 型のインタフェースをまとめたものを型クラ
+スと呼ぶ． % ***インタフェース***
 \end{enumerate}
 
 
@@ -2408,24 +2409,27 @@ $h=100+\mAnonParam$ であることを期待するし，\haskell においては
 \begin{note}{\haskell によるクイックソート}
 我々の記法を使うと，クイックソートは次のように定義できる．
 \begin{equation*}
-\left\{
-\begin{aligned}
-\mSort\mEmptyList &=\mEmptyList\\ \mSort(x:\mList{x})
-&=(\mSort\mList{a})\mAppend\mListWith{x}\mAppend{}(\mSort\mList{b})\\ &\mWhere
-\left\{
-\begin{aligned}
-\mList{a}&\mLetEq\mListWith{a\mListComp{a\mFrom\mList{x},a\le
-    x}}\\ \mList{b}&\mLetEq\mListWith{b\mListComp{b\mFrom\mList{x},b>x}}
-\end{aligned}
-\right.
-\end{aligned}
-\right.
+  \left\{
+  \begin{aligned}
+    \mSort\mEmptyList
+    &=\mEmptyList\\
+    \mSort(x:\mList{x})
+    &=(\mSort\mList{a})\mAppend\mListWith{x}\mAppend{}(\mSort\mList{b})\\
+    &\quad\mWhere\left\{\begin{aligned}
+    \mList{a}&\mLetEq\mListWith{a\mListComp{a\mFrom\mList{x},a\le x}}\\
+    \mList{b}&\mLetEq\mListWith{b\mListComp{b\mFrom\mList{x},b>x}}
+    \end{aligned}
+    \right.
+  \end{aligned}
+  \right.
 \end{equation*}
 \haskell では % Num a =>
 \begin{haskellcode}
 \begin{verbatim}
-srt[] = [] srt(x:xs) = srt as ++ [x] ++ srt bs where as = [a| a<-xs,
- a<=x] bs = [b| b<-xs, b>x]
+srt[] = []
+srt(x:xs) = srt as ++ [x] ++ srt bs
+  where as = [a| a<-xs, a<=x]
+        bs = [b| b<-xs, b>x]
 \end{verbatim}
 \end{haskellcode}
 と書く．このコードはしばしば\haskell のパワーを示すために紹介される．
