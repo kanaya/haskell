@@ -2591,7 +2591,7 @@ $\mNothing$ は「ナッシング」と呼ぶ．
 $\mMaybeType{a}$ を生成するこには\keyword{型コンストラクタ}
 $\mMaybeTypeConstructor$ を用いて
 \begin{equation}
-\mMaybeType{a}=\mMaybeTypeConstructor\mType{a}
+  \mMaybeType{a}=\mMaybeTypeConstructor\mType{a}
 \end{equation}
 とする．\footnote{\haskell では表記上コンテナ型 $\mMaybeType{a}$ と型
   コンストラクタ式 $\mMaybeTypeConstructor\mType{a}$ を区別せず，両者
@@ -2611,7 +2611,7 @@ $\mType{a}$ 型の変数を $\mMaybeType{a}$ 型の変数に代入するには�
 演算子が必要になる．具体的には，変数 $x$ が $\mType{Int}$ 型として，
 Maybe変数 $\mMaybe{u}=\mJustWith{x}$ が与えられたとき
 \begin{equation}
-f\mMapMaybe\mMaybe{u}=\mJustWith{fx}
+  f\mMapMaybe\mMaybe{u}=\mJustWith{fx}
 \end{equation}
 となるようなMaybeバージョンのマップ演算子 $\mMapMaybe$ を用いる．ここ
 に $f\mMapMaybe\mMaybe{u}$ の型は，もし
@@ -2621,24 +2621,25 @@ $\mMaybeType{\mFloatType}$ である．
 実際には $\mMaybe{u}\equiv\mNothing$ の可能性も考えなければならないか
 ら，Maybeバージョンのマップ演算子は
 \begin{equation}
-f\mMapMaybe\mMaybe{u}=\begin{cases}
-\mJustWith{fx}&\mIf\mMaybe{u}\equiv\mJustWith{x}\\ \mNothing&\mOtherwise
-\end{cases}
+  f\mMapMaybe\mMaybe{u}=\mCaseOf{\mMaybe{u}}\begin{cases}
+    \mJustWith{x}&\mIfSo\mJustWith{fx}\\
+    \mOtherwise&\mNothing
+  \end{cases}
 \end{equation}
 でなければならない．このMaybeバージョンのマップ演算子 $\mMapMaybe$ は
 \begin{equation}
-\left\{
-\begin{aligned}
-f\mMapMaybe\mJustWith{x}&=\mJustWith{fx}\\ f\mMapMaybe\mNothing&=\mNothing
-\end{aligned}
-\right.
+  \left\{
+  \begin{aligned}
+    f\mMapMaybe\mJustWith{x}&=\mJustWith{fx}\\ f\mMapMaybe\mNothing&=\mNothing
+  \end{aligned}
+  \right.
 \end{equation}
 と定義すれば得られる．
 
 今後，普通の（引数にMaybeが来ることを想定していない）関数 $f$ をMaybe
 型である変数 $\mMaybe{u}$ に適用させるときには，必ず
 \begin{equation}
-\mMaybe{v}=f\mMapMaybe\mMaybe{u}
+  \mMaybe{v}=f\mMapMaybe\mMaybe{u}
 \end{equation}
 のようにMaybeバージョンのマップ演算子 $\mMapMaybe$ を用いることにする．
 これはプログラムの安全性のためである．変数が一旦ゼロ除算の可能性に汚染
@@ -3354,7 +3355,7 @@ A...
 ることで，式の見通しを良くすることができるアプリカティブスタイルという
 記法を採用できた．アプリカティブスタイルでは
 \begin{equation}
-f\mMap u\mAppMap v\mAppMap w
+  f\mMap u\mAppMap v\mAppMap w
 \end{equation}
 という風にコンテナ変数 $u,v,w$ に関数 $f$ を適用させることができる．コ
 ンテナ変数 $u,v,w$ のいずれかが $\mPureNothing$ であれば式全体の値が
@@ -3373,10 +3374,10 @@ $\mJustWith{x}$ を持つのか，エラーを表す $\mNothing$ を持つのか
 る．そこで，引数 $x$ をとり何らかの計算をする関数 $g$ を考えよう．この
 関数 $g$ は引数 $x$ の値次第ではエラーを表す $\mNothing$ を返す．例えば
 \begin{equation}
-gx=\begin{cases}
-\mJustWith{1/x}&\mIf x\neq0\\
-\mNothing&\mOtherwise
-\end{cases}
+  \begin{aligned}
+    gx&\mGuard{x\neq0}=\mJustWith{1/x}\\
+    &\mGuard{\mOtherwise}=\mNothing
+  \end{aligned}
 \end{equation}
 といった関数が考えられる．変数 $x$ は文脈を持っていないが，関数 $g$ を
 適用した結果である $gx$ は文脈を持っていることに注意しよう．いま $gx$
@@ -3390,7 +3391,7 @@ $y=fx$ や $\mMaybe{v}=f\mMapMaybe\mMaybe{u}$ の関係とは異なることに�
 
 関数 $g$ の型は
 \begin{equation}
-g\mIn\mProj{\mType{a}}{\mMaybeType{a}}
+  g\mIn\mProj{\mType{a}}{\mMaybeType{a}}
 \end{equation}
 である．ということは，関数 $g$ をMaybe変数に適用させるようと思っても，
 我々が既に知っているマップ演算子 $\mMapMaybe$ やアプリカティブマップ演
@@ -3405,7 +3406,7 @@ $\mJustWith{(\mProj{\mType{a}}{\mType{b}})}$ 型の関数（Maybe関数）を取
 $\mMaybe{u}=\mJustWith{x}$ としよう．新しいマップ演算子 $\mBindMaybe$
 を使って
 \begin{equation}
-\mMaybe{v}=g\mBindMaybe\mMaybe{u}
+  \mMaybe{v}=g\mBindMaybe\mMaybe{u}
 \end{equation}
 とする．この新しいマップ演算子 $\mBindMaybe$ のことをMaybeの
 \keyword{バインド演算子}と呼ぶ．ここで，もし計算が成功していたら
@@ -3416,12 +3417,12 @@ $\mMaybe{v}=\mNothing$ である．
 算子は連続して用いることができる．通常の引数を取ってMaybe値を返すもう
 一つの関数 $h$ があるとすると
 \begin{equation}
-\mMaybe{v}=h\mBindMaybe{}(g\mBindMaybe\mMaybe{u})
+  \mMaybe{v}=h\mBindMaybe{}(g\mBindMaybe\mMaybe{u})
 \end{equation}
 のように連続して関数を適用できる．バインド演算子は右結合するので，上式は
 \begin{equation}
-\label{eq:maybe-z-bind-style}
-\mMaybe{v}=h\mBindMaybe g\mBindMaybe\mMaybe{u}
+  \label{eq:maybe-z-bind-style}
+  \mMaybe{v}=h\mBindMaybe g\mBindMaybe\mMaybe{u}
 \end{equation}
 のように簡潔に書ける．このスタイルなら演算子もすべて統一できていて，か
 つどの関数でも戻り値を $\mNothing$ に切り替えられるので，アプリカティ
@@ -3429,17 +3430,17 @@ $\mMaybe{v}=\mNothing$ である．
 
 具体例で考えてみよう．関数 $g$ を
 \begin{equation}
-gx=\begin{cases}
-\mJustWith{1/x}&\mIf x\neq0\\
-\mPureNothing&\mOtherwise
-\end{cases}
+  \begin{aligned}
+    gx&\mGuard{x\neq0}=\mJustWith{1/x}\\
+    &\mGuard{\mOtherwise}=\mNothing
+  \end{aligned}
 \end{equation}
 とする．また，関数 $h$ を
 \begin{equation}
-hy=\begin{cases}
-\mJustWith{\tan y}&\mIf -\frac{\pi}{2}<y<\frac{\pi}{2}\\
-\mPureNothing&\mOtherwise
-\end{cases}
+  \begin{aligned}
+    hy&\mGuard{-\frac{\pi}{2}<y<\frac{\pi}{2}}=\mJustWith{\tan y}\\
+    &\mGuard{\mOtherwise}=\mNothing
+  \end{aligned}
 \end{equation}
 とする．このとき $\mMaybe{u}=\mJustWith{4/\pi}$ とすると
 \begin{equation}
@@ -3484,16 +3485,17 @@ $\mApplicativeTypeClass$ 型クラスはピュア演算子 $(\mPureWith{x})$ と
 
 関数 $i$ が次の形をしているとする．
 \begin{equation}
-\label{eq:def-of-i}
-ix=\begin{cases}
-\mPureWith{fx}&\text{嬉しいとき}\\
-\mPureNothing&\mOtherwise
-\end{cases}
+  \label{eq:def-of-i}
+  ix=\mCaseOf{x}\begin{cases}
+    \textit{lovely}&\mIfSo\mPureWith{fx}\\
+    \mOtherwise&\mIfSo\mPureNothing
+  \end{cases}
 \end{equation}
 ここに $x$ は非コンテナ変数で，関数 $f$ も「普通の」（コンテナに入って
   いない）関数である．より厳密に言えば $x\mIn\mType{a}$ かつ
 $f\mIn\mProj{\mType{a}}{\mType{b}}$ である．従って，関数 $i$ の型は
-$\mProj{\mType{a}}{\mPureType{b}}$ である．
+$\mProj{\mType{a}}{\mPureType{b}}$ である．条件 \textit{lovely} には任
+意の値を入れてよい．
 
 関数 $i$ をコンテナに入った変数 $u=\mPureWith{x}$ に適用させるのが一般
 バインド演算子 $(\mBind)$ の役割である．計算結果をコンテナ変数 $a$ に
@@ -3649,10 +3651,7 @@ i\mBind{}(j\mBind v)=(i\mBind{}(j\mAnonParam))\mBind v
 \label{fig:functor}
 \end{figure*}
 
-
 % \section{IOモナド*}
-
-
 
 \begin{table*}
 \label{tab:monadplus}
@@ -3863,24 +3862,24 @@ $\mPutStr$ は変数を受け取る．つまり，アクションから何らか
 能性に汚染されたコンテナ変数は，コンテナから出すことが許されないのであ
 る．Maybeを返す関数$f$の戻り値
 \begin{equation}
-fx=\begin{cases}
-\mJustWith{1/x}&\mIf x\neq0\\
-\mNothing&\mOtherwise
-\end{cases}
+  \begin{aligned}
+    fx&\mGuard{x\neq0}=\mJustWith{1/x}\\
+    &\mGuard{\mOtherwise}=\mNothing
+  \end{aligned}
 \end{equation}
 を，別の関数
 \begin{equation}
-gy=1+y
+  gy=1+y
 \end{equation}
 に渡そうと思ったら，
 \begin{equation}
-g\mBind fx
+  g\mBind fx
 \end{equation}
 のようにバインド演算子で合成しなければならなかった．
 
 我々はアクションにもバインド演算子を拡張して，
 \begin{equation}
-\omega=\mPutStr\mBind\alpha
+  \omega=\mPutStr\mBind\alpha
 \end{equation}
 とする．これは第\ref{ch:monad}章で見たバインド演算子と同じものである．
 同じバインド演算子が使えるカラクリは，次節で見ていくことにする．
