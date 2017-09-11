@@ -957,12 +957,10 @@ $\cdot$ と紛らわしいため，上述の記法を用いる．\footnote{\hask
 関数のパタンマッチは，関数の内部に書いても良い．関数内部にパタンマッチ
 を書きたい場合は
 \begin{equation}
-  f'x=\mCaseOf{x}\left\{
-  \begin{aligned}
+  f'x=\mCaseOf{x}\begin{cases}
     0&\mIfSo1\\
     \mAnyParam&\mIfSo(\sin x)/x
-  \end{aligned}
-  \right.
+  \end{cases}
 \end{equation}
 のように書く．ここに $\mAnyParam$ は任意の値の意味である．パタンマッチ
 は上から順番にマッチングしていくため，この場合は $0$ 以外を意味する．
@@ -1035,16 +1033,16 @@ $\mIf$ 節の中身は真理値を返す関数であれば良いので，関数 
 \end{equation}
 と書く方法もしばしば用いられる．
 
-条件式は紙面が許せば次のように書いても良い．
-\begin{equation}
-  fx=\begin{cases}
-  1&\mIf x\equiv0\\
-  (\sin x)/x&\mOtherwise
-  \end{cases}
-\end{equation}
-左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっ
-ていることに注目しよう．\footnote{\haskell ではいつも \code{if},
-\code{then}, \code{else} を使った式にする．}
+% 条件式は紙面が許せば次のように書いても良い．
+% \begin{equation}
+%   fx=\begin{cases}
+%   1&\mIf x\equiv0\\
+%   (\sin x)/x&\mOtherwise
+%   \end{cases}
+% \end{equation}
+% 左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっ
+% ていることに注目しよう．\footnote{\haskell ではいつも \code{if},
+% \code{then}, \code{else} を使った式にする．}
 
 \section{余談：局所変数}
 
@@ -2300,8 +2298,10 @@ A...
 関数は内部で自分自身を適用しても良い．例えば $x$ の階乗 $(x!)$ を返す
 関数 $\mFact$ は
 \begin{equation}
-\mFact x=\begin{cases} 1&\mIf x\equiv0\\ x*\mFact(x-1)&\mOtherwise
-\end{cases}
+  \mFact x=\mCaseOf{x}\begin{cases}
+    0&\mIfSo1\\
+    \mOtherwise&\mIfSo x*\mFact(x-1)
+  \end{cases}
 \end{equation}
 と定義できる．関数が自分自身を適用することを関数の\keyword{再帰適用}と
 呼ぶ．
@@ -2333,27 +2333,32 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
 む．末尾再帰とは，関数の再帰適用を関数定義の末尾にすることである．この
 章に出てきた階乗関数 $\mFact$ を例にとろう．階乗関数 $\mFact$ は
 \begin{equation}
-\mFact x=\begin{cases} 1&\mIf x\equiv0\\ x*\mFact(x-1)&\mOtherwise
-\end{cases}
+  \mFact x=\mCaseOf{x}\begin{cases}
+    0&\mIfSo1\\
+    \mOtherwise&\mIfSo x*\mFact(x-1)
+  \end{cases}
 \end{equation}
 のような形をしていた．末尾の関数をよりはっきりさせるために演算子 $(*)$
 を前置にして
 \begin{equation}
-\mFact x=\begin{cases} 1&\mIf x\equiv0\\ (*)x(\mFact(x-1))&\mOtherwise
-\end{cases}
+  \mFact x=\mCaseOf{x}\begin{cases}
+    0&\mIfSo1\\
+    \mOtherwise&\mIfSo(*)x(\mFact(x-1))
+  \end{cases}
 \end{equation}
 と書いてみよう．この定義の末尾の式は
 \begin{equation}
-(*)x(\mFact(x-1))
+  (*)x(\mFact(x-1))
 \end{equation}
 である．これだと末尾の関数は $\mFact$ ではなく演算子 $(*)$ なので，末
 尾に再帰適用を行ったことにはならない．
 
 そこで，次のように形を変えた階乗関数 $\mFact'$ を考えてみる．
 \begin{equation}
-\mFact' a=\begin{cases} 1&\mIf
-x\equiv0\\ \mFact'(a*x)(x-1)&\mOtherwise
-\end{cases}
+  \mFact' a=\mCaseOf{x}\begin{cases}
+    0&\mIfSo1\\
+    \mOtherwise&\mIfSo\mFact'(a*x)(x-1)
+  \end{cases}
 \end{equation}
 こうすれば末尾の関数がもとの $\mFact'$ と一致する．
 
