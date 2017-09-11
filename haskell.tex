@@ -171,6 +171,8 @@
 \DeclareMathOperator{\mFirst}{\mSpecialFunc{fst}}
 \DeclareMathOperator{\mHead}{\mSpecialFunc{head}}
 \DeclareMathOperator{\mMainFunc}{\mSpecialFunc{main}}
+\DeclareMathOperator{\mMax}{\mSpecialFunc{max}}
+\DeclareMathOperator{\mNull}{\mSpecialFunc{null}}
 \DeclareMathOperator{\mPred}{\mSpecialFunc{pred}}
 \DeclareMathOperator{\mRealPart}{\Re}
 \DeclareMathOperator{\mRepeat}{\mSpecialFunc{repeat}}
@@ -850,6 +852,19 @@ g(x, y)
 このように式の左側を優先的に演算していくことを\keyword{左結合}と呼ぶ．
 \haskell の場合，関数適用はいつも左結合である．
 
+部分適用の例を見てみよう．例えばふたつの引数のうち大きい方を返す関数
+$\mMax$ は
+\begin{equation}
+  \mMax xy
+\end{equation}
+として使われるが，関数適用は左結合であるから
+\begin{equation}
+  (\mMax x)y
+\end{equation}
+としても同じである．そこで $(\mMax x)$ だけ取り出すと，これは「引数が
+  $x$ よりも小さければ $x$ を，そうでなければ引数を返す関数」とみなすこ
+とができる．
+
 \section{ラムダ式}
 
 関数の正体は\keyword{ラムダ式}である．ラムダ式とは，仮の引数をとり，そ
@@ -1180,7 +1195,8 @@ $1$ を表す（\code{-1} というリテラルとみなされる）．ただし
 ある変数に複数の関数を順に適用することはよくあることである．例えば
 \begin{pythoncode}
 \begin{verbatim}
-y = f1(x) z = f2(y)
+y = f1(x)
+z = f2(y)
 \end{verbatim}
 \end{pythoncode}
 あるいは，同じことであるが
@@ -1191,8 +1207,8 @@ z = f2(f1(x))
 \end{pythoncode}
 とすることがある．本書の記法で書けば
 \begin{equation}
-\label{eq:ffx}
-z=f_2(f_1x)
+  \label{eq:ffx}
+  z=f_2(f_1x)
 \end{equation}
 である．式\eqref{eq:ffx}から括弧を省略して $z=f_2f_1x$ としてしまうと，
 関数適用は左結合するから $z=(f_2f_1)x$ の意味になってしまう．関数
@@ -1203,7 +1219,7 @@ $f_2$ が引数に関数を取るのでない限り $(f_2f_1)$ は無意味な�
   成}しておきたいとしよう．その合成を $f_2\mComp f_1$ と書く．演算子
 $\mComp$ は\keyword{関数合成演算子}と呼ぶ．合成はラムダ式を使って
 \begin{equation}
-f_2\mComp f_1=f_2(f_1\mAnonParam)
+  f_2\mComp f_1=f_2(f_1\mAnonParam)
 \end{equation}
 と定義できる．関数合成演算子 $\mComp$ は関数適用よりも優先順位が高く，
 $\left(f_2\mComp f_1\right)x$ は単に $f_2\mComp f_1x$ と書いても良い．
@@ -1919,6 +1935,13 @@ $\mList{y}$ を結合したリストは
 
 \keyword{空リスト}は$\mEmptyList$で表す．\footnote{\haskell では空リス
   トを \code{[]} で表す．}
+
+関数 $\mNull$ はリストが空リストかどうかを判定する．リスト $\mList{x}$
+が空リストの場合
+\begin{equation}
+\mNull\mList{x}
+\end{equation}
+は $\mTrue$ を，そうでなければ $\mFalse$ を返す．
 
 任意の型を $\mType{a}$ とするとき，$\mType{a}$ 型のリスト型を
 $\mListType{a}$ と書く．型 $\mType{a}$ から型 $\mListType{a}$ を生成す
