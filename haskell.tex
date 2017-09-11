@@ -5335,16 +5335,13 @@ $\mSq'$ 関数と $\sgn'$ 関数に置き換えたことで，
 
 \begin{haskellcode}
 \begin{verbatim}
--- complextest.hs
+-- complex.hs
 import Data.Complex
 
 a, b, c :: Complex Double
 a = {- ... -} :+ {- ... -}
 b = {- ... -} :+ {- ... -}
 c = {- ... -} :+ {- ... -}
-
-(*.) :: Real a => a -> Complex a -> Complex a
-(*.) a (x:+y) = a*x:+a*y
 
 sq :: Real a => a -> a
 sq x = x*x
@@ -5356,15 +5353,18 @@ sgn :: Real a => a -> a
 sgn x | x < 0     = (-1)
       | otherwise = 1
 
-sqrt' :: RealFloat a => Complex a -> Complex a
-sqrt' (x:+y) = (sqrt 2)/2*((sqrt(d+x)):+sgn(y)*(sqrt(d-x)))
-    where d = sqrt(sq x + sq y)
-
 sgn' :: RealFloat a =>
   Complex a -> Complex a -> Complex a -> Complex a
 sgn' a b c
   | realPart((conjugate b)*sqrt'(sq' b-4*.(a*c)))<0 = (-1):+0
   | otherwise                                       = 1:+0
+
+sqrt' :: RealFloat a => Complex a -> Complex a
+sqrt' (x:+y) = (sqrt 2)/2*((sqrt(d+x)):+sgn(y)*(sqrt(d-x)))
+    where d = sqrt(sq x + sq y)
+
+(*.) :: Real a => a -> Complex a -> Complex a
+(*.) a (x:+y) = a*x:+a*y
 
 (x0, x1) = (q/a, c/q) where q = (b + sgn' a b c * r) / 2
                             r = sqrt'(sq' b - 4*.(a*c))
