@@ -4900,7 +4900,7 @@ int main(void) {
 \end{ccode}
 と等しい．
 
-\section{プログラムの本質}
+\section{プログラミングの本質}
 
 副作用のないプログラムはひとつの関数で書ける．その関数を $\mMainFunc$
 と呼ぶことにすると，この $\mMainFunc$ 関数を
@@ -5318,14 +5318,15 @@ $\mSq'$ 関数と $\sgn'$ 関数に置き換えたことで，
 
 \haskell は複素数の実数倍のための演算子を標準では用意していないため，
 このように独自の演算子を定義するか，あるいは複素数掛ける複素数の形にし
-て演算を行うかのいずれかが必要である．効率を考えなければ，次のような型
-変換関数を作ることも手である．
-\begin{haskellcode}
-\begin{verbatim}
-toComplex :: RealFloat a => a -> Complex a
-toComplex x = x :+ 0
-\end{verbatim}
-\end{haskellcode}
+て演算を行うかのいずれかが必要である．
+
+% 効率を考えなければ，次のような型変換関数を作ることも手である．
+% \begin{haskellcode}
+% \begin{verbatim}
+% toComplex :: RealFloat a => a -> Complex a
+% toComplex x = x :+ 0
+% \end{verbatim}
+% \end{haskellcode}
 
 なお，$\mConjugate$ は共役複素数を求める関数，$\Re$ は実部を求める関数
 である．$\Re$ は\haskell では \code{realPart} と書く．
