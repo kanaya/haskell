@@ -4181,12 +4181,12 @@ Rectangle = Rectangle Float Float Float Float} と書く．}
 
 $\mType{Rencatngle}$ 型の変数は次のように初期化する．
 \begin{equation}
-\left\mBrace
-\begin{aligned}
-r&\mIn\mType{Rectangle}\\
-r&=\mGenericValueAssemble{Rectangle}{1\,2\,3\,4}
-\end{aligned}
-\right.
+  \left\mBrace
+  \begin{aligned}
+    r&\mIn\mType{Rectangle}\\
+    r&=\mGenericValueAssemble{Rectangle}{1\,2\,3\,4}
+  \end{aligned}
+  \right.
 \end{equation}
 これは\clang で言う \code{struct} と似た用法である．\footnote{\haskell
 では
@@ -4199,10 +4199,14 @@ r&=\mGenericValueAssemble{Rectangle}{1\,2\,3\,4}
 $\mType{Rectangle}$ 型から中身を取り出すには，次のような関数を用意して
 おかねばならない．
 \begin{align}
-\mFunc{x}\mGenericValueAssemble{Rectangle}{x\,\mAnyParam\,\mAnyParam\,\mAnyParam}&=x\\
-\mFunc{y}\mGenericValueAssemble{Rectangle}{\mAnyParam\,y\,\mAnyParam\,\mAnyParam}&=y\\
-\mFunc{width}\mGenericValueAssemble{Rectangle}{\mAnyParam\,\mAnyParam\,w\,\mAnyParam}&=w\\
-\mFunc{height}\mGenericValueAssemble{Rectangle}{\mAnyParam\,\mAnyParam\,\mAnyParam\,h}&=h
+  \mFunc{x}\mGenericValueAssemble{Rectangle}{x\,\mAnyParam\,\mAnyParam\,\mAnyParam}
+  &=x\\
+  \mFunc{y}\mGenericValueAssemble{Rectangle}{\mAnyParam\,y\,\mAnyParam\,\mAnyParam}
+  &=y\\
+  \mFunc{width}\mGenericValueAssemble{Rectangle}{\mAnyParam\,\mAnyParam\,w\,\mAnyParam}
+  &=w\\
+  \mFunc{height}\mGenericValueAssemble{Rectangle}{\mAnyParam\,\mAnyParam\,\mAnyParam\,h}
+  &=h
 \end{align}
 この面倒は，次のシンタックスシュガーを使うことで軽減される．
 \footnote{\haskell では
@@ -4247,9 +4251,9 @@ r=\mGenericRecordWith{Rectangle}{\mFunc{x}=1,
   \mFunc{width}=3,
   \mFunc{height}=4}
 \end{equation}
-のようなレコード構文専用の初期化が行える．\footnote{\haskell では
-\code{r = Rectangle \{ x = 1, y = 2, width = 3, height = 4 \}} と書
-く．}
+のようなレコード構文専用の初期化を行っても良いし，従来の初期化方法を用
+いても良い．\footnote{\haskell では\code{r = Rectangle \{ x = 1, y =
+    2, width = 3, height = 4 \}} と書く．}
 
 \separator
 
@@ -5737,30 +5741,30 @@ $\mSqrts$ を考えてみる．
 は型シノニムを定義する方法と，$\mNewDataType$ を用いる方法とがあるが，
 後者を選択することにして
 % \begin{equation}
-% \mTypeSynonym\;\mType{MV}\,\mType{a}\,\mType{b}=\mType{a}\mMapsTo[\mType{b}]
+% \mTypeSynonym\;\mType{NonDet}\,\mType{a}\,\mType{b}=\mType{a}\mMapsTo[\mType{b}]
 % \end{equation}
 \begin{equation}
   \mNewDataType\;
-  \mTypeConstructor{MV}\,\mA\,\mB
-  =\mGenericRecordWith{MV}{\mRun\mIn\mA\mMapsTo[\mB]}
+  \mTypeConstructor{NonDet}\,\mA\,\mB
+  =\mGenericRecordWith{NonDet}{\mRun\mIn\mA\mMapsTo[\mB]}
 \end{equation}
 とする．
 
-型コンストラクタ $\mTypeConstructor{MV}$ によって作られる型
-$\mGenericTypeAssemble{MV}{\mA\,\mB}$ は型 $\mA\mMapsTo[\mA]$ とは異な
+型コンストラクタ $\mTypeConstructor{NonDet}$ によって作られる型
+$\mGenericTypeAssemble{NonDet}{\mA\,\mB}$ は型 $\mA\mMapsTo[\mA]$ とは異な
 る型であるため，関数 $\mSqrts$ の新しいバージョンが必要になる．そこで
 \begin{equation}
   \left\mBrace
   \begin{aligned}
     &\mSqrts'\mIn\mRealTypeClass\mSuperSet\mType{a}\mSuperClass
-    \mGenericTypeAssemble{MV}{\mA\,\mA}\\
-    &\mSqrts'=\mGenericValueAssemble{MV}{\mRun=\mSqrts}
+    \mGenericTypeAssemble{NonDet}{\mA\,\mA}\\
+    &\mSqrts'=\mGenericValueAssemble{NonDet}{\mRun=\mSqrts}
   \end{aligned}
   \right.
 \end{equation}
 のように定義しよう．
 
-関数 $\mSqrts'$ はコンテナ $\mGenericValueAssemble{MV}{\dotsb}$ に包まれ
+関数 $\mSqrts'$ はコンテナ $\mGenericValueAssemble{NonDet}{\dotsb}$ に包まれ
 ているので，
 \begin{equation}
   y=\mRun\mSqrts' x
@@ -5776,22 +5780,28 @@ $\mGenericTypeAssemble{MV}{\mA\,\mB}$ は型 $\mA\mMapsTo[\mA]$ とは異な
 
 非決定的な関数 $\mDuplicate$ と $\mTriplicate$ を
 \begin{align}
-\mDuplicate x&=[x,x]\\
-\mTriplicate x&=[x,x,x]
+  \mDuplicate x&=[x,x]\\
+  \mTriplicate x&=[x,x,x]
 \end{align}
 のように定義しよう．このふたつの関数をもし合成できるとしたら，合成され
 た関数は，$x$ を引数に取り $[x,x,x,x,x,x]$ を返すものと考えるのが自然で
 あろう．しかし，どのように合成したら良いだろうか．
 
-関数合成演算子 $(\mComp)$ が使えないことは明らかである．
-
-少し検討すると，このふたつの関数は
+いま欲しいのは，
 \begin{equation}
-  \mConcat(\mTriplicate\mMapList(\mDuplicate x))
+  y=\mTriplicate\square\mDuplicate x
+\end{equation}
+としたときに $y=[x,x,x,x,x,x]$ となるような合成演算子 $\square$ である．
+
+関数合成演算子 $(\mComp)$ が使えないことは明らかである．少し検討すると，
+このふたつの関数は
+\begin{equation}
+  y=\mConcat(\mTriplicate\mMapList(\mDuplicate x))
 \end{equation}
 のように合成できることがわかる．これを関数合成演算子を使って分解すると
 \begin{equation}
-\mConcat\mComp(\mTriplicate\mMapList)\mComp\mDuplicate\mApply x
+  \label{eq:triplicate-duplicate}
+  y=\mConcat\mComp(\mTriplicate\mMapList)\mComp\mDuplicate\mApply x
 \end{equation}
 となり，少しは読みやすくなる．しかし，合成のたびに平坦化演算子
 $(\mConcat)$ やマップ演算子 $(\mMapList)$ を書くのは煩雑であるし，3段以
@@ -5814,50 +5824,128 @@ $\mCategoryTypeClass$ 型クラスは次のように定義されている．
   \right.
 \end{equation}
 型パラメタ $\mType{cat}$ が $\mType{cat}=(\mMapsTo)$ のとき
-$\mIdCat=\mId$ かつ $\mCompCat=\mComp$ になる．
+$\mIdCat=\mId$ かつ $\mCompCat=\mComp$ になるので，カテゴリは関数を何や
+ら拡張したものであることがわかる．
 
-さて，我々の型コンストラクタ $\mTypeConstructor{MV}$ を
-$\mCategoryTypeClass$ 型クラスのインスタンスにしておこう．
+我々は $\mDuplicate$ や $\mTriplicate$ の型を考えて
 \begin{equation}
+  \mType{cat}\,\mType{x}\,\mType{y}=\mType{x}\mMapsTo[\mType{y}]
+\end{equation}
+と考えてみよう．つまり
+$\mType{cat}=((\mMapsTo)\mAnonParam[\mAnonParam])$ と考えるわけである．
+
+そうすると，まず $\mIdCat$ は $\mA\mMapsTo[\mA]$ 型でなければならないか
+ら
+\begin{equation}
+  \label{eq:id-category}
+  \mIdCat=\mLambda x\mLambdaArrow[x]
+\end{equation}
+となる．
+
+次に $(\mCompCat)$ であるが，$\mA=\mB=\mC$ とすると
+$(\mA\mMapsTo[\mA])\mMapsTo(\mA\mMapsTo[\mA])\mMapsTo(\mA\mMapsTo[\mA])$
+であるから，式\eqref{eq:triplicate-duplicate}がそのまま使える．
+
+これで，我々の型コンストラクタ $\mTypeConstructor{NonDet}$ を
+$\mCategoryTypeClass$ 型クラスのインスタンスにできる．ただし，式
+\eqref{eq:id-category} ならびに式 \eqref{eq:triplicate-duplicate} は型
+$\mGenericTypeAssemble{NonDet}{\mA\,\mB}$ に対応していないので，次のように
+値コンストラクタで包んだ上でインスタンス化を行う．
+\begin{multline}
   \mInstance\;
-  \mGenericTypeClass{Category}\mSuperSet\mTypeConstructor{MV}
+  \mGenericTypeClass{Category}\mSuperSet\mTypeConstructor{NonDet}\\
   \mWhere\left\{
   \begin{aligned}
     \mIdCat
-    &=\mGenericValueAssemble{MV}{\mLambdaExp{x}{[x]}}\\
-    \mGenericValueAssemble{MV}{f}\mCompCat\mGenericValueAssemble{MV}{g}
-    &=\mConcat\mComp(f\mMapList)\mComp g
+    &=\mGenericValueAssemble{NonDet}{\mLambdaExp{x}{[x]}}\\
+    \mGenericValueAssemble{NonDet}{f}\mCompCat\mGenericValueAssemble{NonDet}{g}
+    &=\mGenericValueAssemble{NonDet}{\mConcat\mComp(f\mMapList)\mComp g}
   \end{aligned}
   \right.
-\end{equation}
-続けて，$\mGenericTypeAssemble{MV}{\mA\,\mB}$ 型バージョンの
+\end{multline}
+続けて，$\mGenericTypeAssemble{NonDet}{\mA\,\mB}$ 型バージョンの
 $\mDuplicate$ と $\mTriplicate$ を定義しておこう．
 \begin{align}
   &\left\mBrace
   \begin{aligned}
     &\mDuplicate'
-    \mIn\mIntType\mMapsTo\mGenericTypeAssemble{MV}{\mIntType\,\mIntType}\\
+    \mIn\mGenericTypeAssemble{NonDet}{\mIntType\,\mIntType}\\
     &\mDuplicate'
-    =\mGenericValueAssemble{MV}{\mDuplicate}
+    =\mGenericValueAssemble{NonDet}{\mDuplicate}
   \end{aligned}
   \right.\\
   &\left\mBrace
   \begin{aligned}
     &\mTriplicate'
-    \mIn\mIntType\mMapsTo\mGenericTypeAssemble{MV}{\mIntType\,\mIntType}\\
+    \mIn\mGenericTypeAssemble{NonDet}{\mIntType\,\mIntType}\\
     &\mTriplicate'
-    =\mGenericValueAssemble{MV}{\mTriplicate}
+    =\mGenericValueAssemble{NonDet}{\mTriplicate}
   \end{aligned}
   \right.
 \end{align}
 
+これで，式\eqref{eq:triplicate-duplicate}は
 \begin{equation}
-(\mRun\mTriplicate'\mCompCat\mRun\mDuplicate')x
+  y=\mRun(\mTriplicate'\mCompCat\mDuplicate')x
 \end{equation}
-% run?
+のようにシンプルに書き下すことができる．念のため右辺の括弧の中身を展開
+しておくと
+\begin{align}
+  \mTriplicate'\mCompCat\mDuplicate'
+  &=\mGenericValueAssemble{NonDet}{\mTriplicate}\mCompCat\mGenericValueAssemble{NonDet}{\mDuplicate}\\
+  &=\mGenericValueAssemble{NonDet}{\mConcat\mComp(\mTriplicate\mMapList)\mComp\mDuplicate}
+\end{align}
+である．
 
----
+\separator
 
+$\mCategoryTypeClass$ 型クラスは \filename{Control.Category}で
+\begin{haskellcode}
+\begin{verbatim}
+class Category cat
+  where id  :: cat a a
+        (.) :: cat b c -> cat a b -> cat a c
+\end{verbatim}
+\end{haskellcode}
+と定義されており，\filename{Prelude} の \code{id} および \code{.} と名
+前が衝突している．従って \code{Category} 型クラスの \code{id} および
+\code{.} を使用する際は
+\begin{haskellcode}
+\begin{verbatim}
+import Control.Category as Cat
+\end{verbatim}
+\end{haskellcode}
+としておき，\code{Cat.id} および \code{Cat..} として使用する．
+
+インスタンス化のことまで考えると，次のようにインポートしインスタンス化
+するのが良いだろう．
+\begin{haskellcode}
+\begin{verbatim}
+-- duplicate-triplicate.hs
+import qualified Control.Category as Cat
+
+newtype NonDet a b = NonDet { run :: a -> [b] }
+
+instance Cat.Category NonDet where
+  id                      = NonDet (\x -> [x])
+  (NonDet f) . (NonDet g) = NonDet (concat . map f . g)
+
+duplicate :: a -> [a]
+duplicate x = [x, x]
+
+triplicate :: a -> [a]
+triplicate x = [x, x, x]
+
+duplicate' :: NonDet a a
+duplicate' = NonDet duplicate
+
+triplicate' :: NonDet a a
+triplicate' = NonDet triplicate
+
+x = "Hello."
+y = run (triplicate' Cat.. duplicate') x
+\end{verbatim}
+\end{haskellcode}
 
 \section{カテゴリ則*}
 
