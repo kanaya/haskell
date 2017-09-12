@@ -294,8 +294,8 @@
 \newcommand{\mPureType}[1]{\langle\mType{#1}\rangle}
 
 % General type assemblers
-\newcommand{\mGenericTypeAssemble}[2]{{}^{\mTypeConstructor{#1}}\[\mType{#2}\]}
-\newcommand{\mGenericTypeAssembleII}[3]{{}^{\mTypeConstructor{#1}}\[\mType{#2},\mType{#3}\]}
+\newcommand{\mGenericTypeAssemble}[2]{{}^{\mType{#1}}\[\mType{#2}\]}
+\newcommand{\mGenericTypeAssembleII}[3]{{}^{\mType{#1}}\[\mType{#2},\mType{#3}\]}
 
 \newcommand{\mComplexType}[1]{\mGenericTypeAssemble{Complex}{#1}}
 \newcommand{\mEitherType}[2]{\mGenericTypeAssembleII{Either}{#1}{#2}}
@@ -318,7 +318,7 @@
 \DeclareMathOperator{\mMaybeTypeConstructor}{\mTypeConstructor{Maybe}}
 \DeclareMathOperator{\mZipListTypeConstructor}{\mTypeConstructor{\mZipList}}
 
-\newcommand{\mFuncTypeConstructor}[1]{\mathop{\mTypeConstructor{Func}_\mType{#1}}}
+\newcommand{\mFuncTypeConstructor}[1]{\mathop{\mTypeConstructor{Func}_{(\mType{#1})}}}
 
 % General value constructors
 \newcommand{\mGenericValueConstructor}[1]{\mathrm{#1}}
@@ -5732,9 +5732,53 @@ instance Functor f => Monad (Free f) where
 
 \chapter{アローと継続*}
 \section{アロー*}
+
+\begin{equation}
+\mTypeClassParametric\mGenericTypeClass{Arrow}{}\mType{a}
+\mWhere\left\{
+\begin{aligned}
+  \mathrm{arr}&\mIn{}\mProj{(\mProj{\mType{b}}{\mType{c}})}{\mType{a}\mType{b}\mType{c}}\\
+  \ggg&\mIn\mProj{\mType{a}\mType{b}\mType{c}}{\mProj{\mType{a}\mType{c}\mType{d}}{\mType{a}\mType{b}\mType{d}}}\\
+  \mathrm{first}&\mIn\mProj{\mType{a}\mType{b}\mType{c}}{\mType{a}(\mType{b},\mType{d})(\mType{c},\mType{d})}\\
+  \mathrm{second}&\mIn\mProj{\mType{a}\mType{b}\mType{c}}{\mType{a}(\mType{d},\mType{b})(\mType{d},\mType{c})}
+\end{aligned}
+\right.
+\end{equation}
+
+\begin{equation}
+\mNewDataType\mathit{Fn}\mType{a}\mType{b}={}^\mathit{Fn}\{\mathit{run}\mIn\mProj{\mType{a}}{\mType{b}}\}
+\end{equation}
+
+\begin{multline}
+  \mInstance\mGenericTypeClass{Arrow}{}\mathit{Fn}\\
+  \mWhere\left\{
+  \begin{aligned}
+    \mathop{\mathrm{arr}} f&=\mathit{Fn} f\\
+    \mathop{\mathrm{first}} (\mathit{Fn} f)&=\mathit{Fn}(\mathop{\mathrm{mapFst}} f)\\
+      &\quad\mWhere\mathop{\mathrm{mapFst}}g(a,b)=(ga,b)\\
+    \mathop{\mathrm{second}} (\mathit{Fn} f)&=\mathit{Fn}(\mathop{\mathrm{mapSnd}} f)\\
+      &\quad\mWhere\mathop{\mathrm{mapSnd}} g(a,b)=(a,gb)
+  \end{aligned}
+  \right.
+\end{multline}
+
+\begin{equation}
+  \mInstance\mGenericTypeClass{Category}\mathit{Fn}\mWhere
+  \left\{
+  \begin{aligned}
+    (\mathit{Fn} g)\mComp(\mathit{Fn} f)&=\mathit{Fn}(g\mComp f)\\
+    \mId&=\mathop{\mathrm{arr}}\mId
+  \end{aligned}
+  \right.
+\end{equation}
+
+---
+
 $\mArrow,\mArrowAnd,\mArrowOr$
 % http://qiita.com/CyLomw/items/688942f19a5bc3a25037
 % http://d.hatena.ne.jp/r-west/20070720/1184946510
+% https://www.haskell.org/arrows/
+% https://wiki.haskell.org/Arrow_tutorial
 \section{\scheme の継続*}
 \section{継続モナド*}
 \section{余談：チューリング＝チャーチのテーゼ*}
