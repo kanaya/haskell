@@ -1366,6 +1366,8 @@ n&\mGuard{n\le0}=1\\ &\mGuard{\mOtherwise}=x\uparrow(x\uparrow\uparrow(n-1))
 3次元ベクトルの間に足し算は定義されていないため，例えば $m+v$という表
 記を見たときに，両者の型を知っていれば直ちにエラーであることがわかる．
 
+\haskell はコンパイラが型推論を行うことで，型が自明の場合は型を省略することが出来る．
+
 \separator
 
 \haskell にはよく使う型が予め用意されている．例えば\keyword{論理型} は
@@ -1391,13 +1393,16 @@ x\in\mBSet
 \end{verbatim}
 と書く．}
 
+この場合変数 $x$ が $\mBoolType$ 型であることは自明であるため $x\mIn\mBoolType$ は省略できるが，
+可能な限り型を明記しておくことは良い習慣である．
+
 他に整数を表す\keyword{整数型}がある．整数型には2種類あって，その一つ
 は $\mIntType$ である．この $\mIntType$ は\clang の \code{int} と似た
 「計算機にとって都合の良い整数」である．計算機にとって都合の良い整数と
 は，例えば64ビット計算機の場合 $-2^{63}$ から $2^{63}-1$ の間の整数と
 いう意味である．
 
-もう一つの整数型は $\mIntegerType$ である．この $\mIntegerType$ は計算
+整数型には $\mIntegerType$ もある．この $\mIntegerType$ は計算
 機にとっては非常識なぐらい大きな，あるいは小さな値を表すことができる．
 
 計算機は残念ながら無限精度の実数を扱えない．そこで標準精度（単精度）の
@@ -1521,9 +1526,9 @@ f'xy=x+y
 
 \separator
 
-タプルの中身の個数に制限はないが，中身が0個のタプルすなわち $()$ は特別
-に\keyword{ユニット}と呼ぶ．
-
+タプルの中身の個数は0個または2個以上でなければならず，上限は処理系によって定められている．
+2個の変数からなるタプルを特別にペア，3個の変数からなるタプルを特別にトリプルと呼ぶ．
+中身が0個のタプルすなわち $()$ は特別に\keyword{ユニット}と呼ぶ．
 
 \section{多相型と型クラス}
 
@@ -1557,7 +1562,6 @@ $\mType{a}$ として，等値演算子の型を
 実は式\eqref{eq:equiv}は不完全なものである．このままでは型 $\mType{a}$
 に何の制約もないため，等値演算の定義されていない型が来るかもしれないか
 らである．
-
 そこで，型自身が所属する，より大きな型があるとしよう．そのような型を我々
 は\keyword{型クラス}と呼ぶ．例えば型
 $\mBoolType,\mIntType,\mIntegerType,\mFloatType,\mDoubleType$ は全て等
@@ -1608,16 +1612,16 @@ $\mNumTypeClass$ に属しているとき，かつそのときに限り，型 $\
 $\mEnumTypeClass$ に属しているとき，かつそのときに限り，型 $\mType{a}$
 は型クラス $\mIntegralTypeClass$ にも属する．
 
-これらの関係を表にまとめたものが表\ref{tab:type-and-typeclass}である．
-この表から，型 $\mIntType$ は型クラス $\mIntegralTypeClass$,
-$\mRealTypeClass$, $\mOrdTypeClass$, $\mNumTypeClass$,
-$\mEnumTypeClass$, $\mEqTypeClass$ に属しているのに対し，型
-$\mBoolType$ は $\mOrdTypeClass$, $\mEnumTypeClass$, $\mEqTypeClass$
-にのみ属しているのがわかる．
+% これらの関係を表にまとめたものが表\ref{tab:type-and-typeclass}である．
+% この表から，型 $\mIntType$ は型クラス $\mIntegralTypeClass$,
+% $\mRealTypeClass$, $\mOrdTypeClass$, $\mNumTypeClass$,
+% $\mEnumTypeClass$, $\mEqTypeClass$ に属しているのに対し，型
+% $\mBoolType$ は $\mOrdTypeClass$, $\mEnumTypeClass$, $\mEqTypeClass$
+% にのみ属しているのがわかる．
 
 \separator
 
-便利な型変換演算子をひとつだけ紹介しておこう．型変換演算子
+便利な型変換演算子をひとつ紹介しておこう．型変換演算子
 $\mFromIntegral$ は
 \begin{equation}
 \mFromIntegral \mIn{}\mIntegralTypeClass\mSuperSet\mType{a}
@@ -1635,7 +1639,8 @@ x
 とすることで，$\mIntType$ 型の変数 $x$ の値を $\mDoubleType$ 型の変数
 $y$ へ代入することができる．\footnote{\haskell では
 \begin{verbatim}
-  x :: Int x = 1
+  x :: Int
+  x = 1
   y :: Double
   y = fromIntegral x
 \end{verbatim}
@@ -1649,40 +1654,40 @@ $y$ へ代入することができる．\footnote{\haskell では
 \mProj{\star}{\star}
 \end{equation*}
 
-\begin{table*}
-\caption{型と型クラス}
-\label{tab:type-and-typeclass}
-\begin{center}
-\begin{tabular}{||c||c|c|c|c|c|c|c|c|c|c|c|c||}
-\hline \multirow{4}{*}{型クラス}
-&\multicolumn{12}{|c||}{$\mIntegralTypeClass$}\\ \cline{2-13}
-\multirow{3}{*}{} &\multicolumn{10}{|c|}{$\mRealTypeClass$}
-&\multicolumn{2}{|c||}{$\mEnumTypeClass$}\\ \cline{2-11}
-\multirow{2}{*}{} &\multicolumn{5}{|c|}{$\mOrdTypeClass$}
-&\multicolumn{5}{|c|}{$\mNumTypeClass$} &\multicolumn{2}{|c||}{
-}\\ \cline{2-2}\cline{7-7} { } &$\mEqTypeClass$ &\multicolumn{4}{|c|}{
-} &$\mEqTypeClass$ &\multicolumn{4}{|c|}{ } &\multicolumn{2}{|c||}{
-}\\ \hline インタフェース&$\equiv$ &$<$ &$\le$ &$\ge$ &$>$ &$\equiv$
-&$+$ &$-$ &$*$ &$/$ &$\mPred$ &$\mSucc$\\ \hline\hline $\mCharType$
-&$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
-&$\checkmark$ & & & & &$\checkmark$ &$\checkmark$\\ \hline
-$\mBoolType$ &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
-&$\checkmark$ &$\checkmark$ & & & & &$\checkmark$
-&$\checkmark$\\ \hline $\mIntType$ &$\checkmark$ &$\checkmark$
-&$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
-&$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
-&$\checkmark$\\ \hline $\mIntegerType$ &$\checkmark$ &$\checkmark$
-&$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
-&$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
-&$\checkmark$\\ \hline $\mFloatType$ &$\checkmark$ &$\checkmark$
-&$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
-&$\checkmark$ &$\checkmark$ &$\checkmark$ & &\\ \hline $\mDoubleType$
-&$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
-&$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
-& &\\ \hline
-\end{tabular}
-\end{center}
-\end{table*}
+% \begin{table*}
+% \caption{型と型クラス}
+% \label{tab:type-and-typeclass}
+% \begin{center}
+% \begin{tabular}{||c||c|c|c|c|c|c|c|c|c|c|c|c||}
+% \hline \multirow{4}{*}{型クラス}
+% &\multicolumn{12}{|c||}{$\mIntegralTypeClass$}\\ \cline{2-13}
+% \multirow{3}{*}{} &\multicolumn{10}{|c|}{$\mRealTypeClass$}
+% &\multicolumn{2}{|c||}{$\mEnumTypeClass$}\\ \cline{2-11}
+% \multirow{2}{*}{} &\multicolumn{5}{|c|}{$\mOrdTypeClass$}
+% &\multicolumn{5}{|c|}{$\mNumTypeClass$} &\multicolumn{2}{|c||}{
+% }\\ \cline{2-2}\cline{7-7} { } &$\mEqTypeClass$ &\multicolumn{4}{|c|}{
+% } &$\mEqTypeClass$ &\multicolumn{4}{|c|}{ } &\multicolumn{2}{|c||}{
+% }\\ \hline インタフェース&$\equiv$ &$<$ &$\le$ &$\ge$ &$>$ &$\equiv$
+% &$+$ &$-$ &$*$ &$/$ &$\mPred$ &$\mSucc$\\ \hline\hline $\mCharType$
+% &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
+% &$\checkmark$ & & & & &$\checkmark$ &$\checkmark$\\ \hline
+% $\mBoolType$ &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
+% &$\checkmark$ &$\checkmark$ & & & & &$\checkmark$
+% &$\checkmark$\\ \hline $\mIntType$ &$\checkmark$ &$\checkmark$
+% &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
+% &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
+% &$\checkmark$\\ \hline $\mIntegerType$ &$\checkmark$ &$\checkmark$
+% &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
+% &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
+% &$\checkmark$\\ \hline $\mFloatType$ &$\checkmark$ &$\checkmark$
+% &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
+% &$\checkmark$ &$\checkmark$ &$\checkmark$ & &\\ \hline $\mDoubleType$
+% &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
+% &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
+% & &\\ \hline
+% \end{tabular}
+% \end{center}
+% \end{table*}
 
 \section{余談：モノイド}
 
@@ -2949,9 +2954,7 @@ $\mProj{(\mProj{\mType{a}}{\mType{b}})}{(\mProj{\mListType{a}}{\mListType{b}})}$
                   {\mGenericTypeAssemble{fn}{b}}
 \end{equation}
 という型を持つ．ここに
-$\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn}\mSuperClass$ は，続
-く式に対して $\mTypeConstructor{fn}$ が $\mFunctorTypeClass$ 型クラスに
-属すという制約を表している．また $\mTypeConstructor{fn}$ は型コンストラ
+$\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn}$ は，$\mTypeConstructor{fn}$ が $\mFunctorTypeClass$ 型クラスに属すという制約を表している．また $\mTypeConstructor{fn}$ は型コンストラ
 クタであり，$\mGenericTypeAssemble{fn}{a}$ は$\mTypeConstructor{fn}$ に
 よって作られた型である．
 
@@ -3014,21 +3017,21 @@ Maybe&$\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mJustWith{x},\mNo
 
 \section{アプリカティブ関手}
 
-マップ演算子をさらに汎用性のあるものにするために，\keyword{アプリカティ
-  ブマップ演算子}という演算子を考えてみる．
+マップ演算子をさらに汎用性のあるものにするために新しく考え出された演算子が
+\keyword{アプリカティブマップ演算子}である．
 
 いま関数のリスト $\mListWith{f,g,h}$ と変数のリスト
-$\mListWith{x,y,z}$ があるとする．リストバージョンのアプリカティブマッ
+$\mListWith{x,y,z}$ があるとする．リストのアプリカティブマッ
 プ演算子 $\mAppMapList$ を次のように定義する．
 \begin{equation}
 \mListWith{f,g,h}\mAppMapList\mListWith{x,y,z}
 =\mListWith{fx,fy,fz,gx,gy,gz,hx,hy,hz}
 \end{equation}
-リストバージョンのアプリカティブマップ演算子はこのように，左引数のリス
+リストのアプリカティブマップ演算子はこのように，左引数のリス
 ト内のすべての関数を順番に右引数のリスト内の変数に適用し，その結果をリ
 ストとして返す．
 
-リストバージョンのアプリ化ティブマップ演算子 $\mAppMapList$ の型は
+リストのアプリカティブマップ演算子 $\mAppMapList$ の型は
 $\mProj{\mListType{\mProj{\mType{a}}{\mType{b}}}}{\mProj{\mListType{\mType{a}}}{\mListType{\mType{b}}}}$
 である．これは
 \begin{equation}
@@ -3051,8 +3054,7 @@ f\mMapList\mListWith{x,y,z}
 =\mListWith{fx,fy,fz}
 \end{equation}
 と右辺が一致する．つまり，マップ演算子はアプリカティブマップ演算子の特
-別な場合と考えることができる．実際，リストバージョンのアプリカティブマッ
-プ演算子は
+別な場合と考えることができる．実際，リストマップ演算子はアプリカティブマップ演算子から
 \begin{equation}
 f\mMapList\mList{x}
 =\mListWith{f}\mAppMapList\mList{x}
@@ -3064,9 +3066,9 @@ $\mMaybe{i}$ をMaybeな変数 $\mMaybe{u}$ にマップするアプリカティ
 プ演算子 $\mAppMapMaybe$ を
 \begin{equation}
 \mMaybe{i}\mAppMapMaybe\mMaybe{u}
-=\begin{cases}
-j\mMapMaybe\mMaybe{u}&\mIf i\equiv\mJustWith{j}\\
-\mNothing&\mOtherwise
+=\mCaseOf{\mMaybe{i}}\begin{cases}
+\mJustWith{j}&\mIfSo j\mMapMaybe\mMaybe{u}\\
+\mOtherwise&\mIfSo\mNothing
 \end{cases}
 \end{equation}
 % \begin{equation}
@@ -3192,7 +3194,7 @@ g\mComp f\mIn\mProj{\mType{r}}{\mType{b}}
 \end{equation}
 であるから，
 \begin{equation}
-  (\mComp)\mIn{}\mProj{\mProj{(\mProj{\mType{a}}{\mType{b}})}{(\mProj{\mType{r}}{\mType{a}})}}
+(\mComp)\mIn{}\mProj{\mProj{(\mProj{\mType{a}}{\mType{b}})}{(\mProj{\mType{r}}{\mType{a}})}}
   {(\mProj{\mType{r}}{\mType{b}})}
 \end{equation}
 である．つまり関数のマップ演算子 $(\mMapFunc)$ と関数の合成演算子
@@ -3223,7 +3225,7 @@ $\mFuncWith{x}$ と書くことにしよう．
 \begin{equation}
 \mFuncWith{x}=\mLambdaExp{\mAnyParam}{x}
 \end{equation}
-を採用する．
+を採用する．\footnote{\haskell では $\mFuncWith{x}$ を \code{const x} と書く．}
 
 関数版のアプリカティブマップ演算子を $\mAppMapFunc$ とすると，その型は
 \begin{equation}
@@ -3294,9 +3296,10 @@ Maybeのアプリカティブマップ演算子の定義は次の通り．
 \begin{equation}
 \label{eq:maybe-applicative-map-by-maybe-map}
 \mMaybe{g}\mAppMapMaybe\mMaybe{u}
-=\begin{cases}
-h\mMapMaybe\mMaybe{u}&\mIf\mMaybe{g}\equiv\mJustWith{h}\\
-\mNothing&\mOtherwise
+=\mCaseOf{\mMaybe{g}}
+\begin{cases}
+\mJustWith{h}&\mIfSo h\mMapMaybe\mMaybe{u}\\
+\mOtherwise&\mIfSo\mNothing
 \end{cases}
 \end{equation}
 ここに $\mMaybe{g}$ はMaybeコンテナに入れられた関数，$\mMaybe{u}$ はMaybe変数である．
@@ -3634,7 +3637,7 @@ i\mBind{}(j\mBind v)=(i\mBind{}(j\mAnonParam))\mBind v
 
 \begin{figure*}
 \begin{center}
-\includegraphics[width=150mm]{fig/functor.eps}
+\includegraphics[width=100mm]{fig/functor.eps}
 \end{center}
 \caption{...}
 \label{fig:functor}
@@ -3696,7 +3699,7 @@ Maybe
   &$\mAppMapMaybe$
   &$\mMapMaybe$
   &$\mNothing$
-  &（$x$ の型に依存する）\\
+  &（$x$ の型に依存）\\
 \hline
 関数
   &$\mBindFunc$
@@ -3889,7 +3892,7 @@ Double} と書く．}
 返さない関数というものは無意味だが，アクションは副作用を持つので，何も
 返さないものがあっても良いのである．何も返さないことを「空っぽ」を返す
 と読み替えて，何も返さないアクションの型を $\mIOUnitType$ 型としよう．
-ここに $\mUnitType$ は「空っぽ」の意味で，\keyword{ユニット型}と読む．
+ここに $\mUnitType$ は「空っぽ」の意味で，ユニット型と読む．
 $\mIOUnitType$ 型のアクションの例は，画面に値を出力する $\mPutStr$ ア
 クションである．\footnote{\haskell では $\mIOUnitType$ のことを
   \code{IO ()} と書く．}
@@ -3932,21 +3935,6 @@ $\mIOUnitType$ 型の場合，ピュア演算子は何も返す必要がない�
 
 \section{do記法}
 
-% \begin{table*}[tp]
-% \label{tab:do-alpha-alpha}
-% \caption{do記法中に変数を2回以上使いまわす例}
-% \begin{screen}
-% \begin{multline*}
-% \mDo{y\mDoEq\alpha x\mDoNext y'\mDoEq\alpha'x'\mDoNext\mDoLet{z}{fyy'}\mDoNext\beta z\mDoNext\mDoLet{z'}{f'yy'}\mDoNext\beta'z'}\\
-% =
-% (\mLambdaExp{yy'}{(
-% (\mLambdaExp{\mAnyParam}{\mLetIn{z}{fyy'}{\beta z}})
-% \mBind{}(\mLetIn{z'}{f'yy'}{\beta'z'}))})
-% (\alpha x)(\alpha'x')
-% \end{multline*}
-% \end{screen}
-% \end{table*}
-
 モナドを使った書き方が従来のプログラムの記法からあまりにもかけ離れてい
 ることに，\haskell の設計者は気づいていたようで，\haskell には次に述べ
 る\keyword{do記法}という記法が用意されている．このdo記法はもちろんシン
@@ -3958,7 +3946,7 @@ $\mIOUnitType$ 型の場合，ピュア演算子は何も返す必要がない�
 \label{eq:do-print-random}
 \omega=\mDo{a\mDoEq\mRand\mDoNext\mPutStr a}
 \end{equation}
-となる．\footnote{\haskell では \code{omega = do \{ a <- rand; putStr
+となる．ここで変数 $a$ は $\{\dotsb\}$ の中でだけ参照できる変数である．バインド演算子が副作用やゼロ除算汚染を中に閉じ込めたように，do記法の括弧は副作用や汚染を閉じ込める役割を果たす．\footnote{\haskell では \code{omega = do \{ a <- rand; putStr
 a \}} と書くか，または $\mDoNext$ を改行に置き換えて
 \begin{verbatim}
   omega = do
@@ -4255,7 +4243,7 @@ r=\mGenericRecordWith{Rectangle}{\mFunc{x}=1,
 
 データ型の定義には，複数の値コンストラクタを指定できる．そのため
 \begin{multline}
-\mDataTypeParametric\;\mType{Shape}
+\mDataType\;\mType{Shape}
 =\mGenericWith{Circle}{\mFloatType\,\mFloatType}\\
 \mValueOr
 \mGenericWith{Triangle}{\mFloatType\,\mFloatType\,\mFloatType}
@@ -4289,8 +4277,8 @@ $(\equiv)$ と不等号 $(\neq)$ をインタフェースとして持つ．こ�
   た $\mSuperSet$ を省略して，
 \begin{verbatim}
   class Eq a where (==) :: a -> a -> Bool
-                   x==y = not(x/=y)
                    (/=) :: a -> a -> Bool
+                   x==y = not(x/=y)
                    x/=y = not(x==y)
 \end{verbatim}
 と書く．}
@@ -4318,12 +4306,11 @@ $\mInstance$ 文を使う．
 とする．これを\keyword{型クラスのインスタンス化}と呼ぶ．
 \footnote{\haskell では
 \begin{verbatim}
-  instance Eq Num
-    where One==One     = True
-          Two==Two     = True
-          Three==Three = True
-          Many==Many   = True
-          _==_         = False
+  instance Eq Num where One==One     = True
+                        Two==Two     = True
+                        Three==Three = True
+                        Many==Many   = True
+                        _==_         = False
 \end{verbatim}
 と書く．}
 
@@ -4340,8 +4327,7 @@ $(\le)$ を追加する．
 小なり $(<)$，および最大値をとる関数 $\max$ と最小値をとる関数 $\min$
 を持つ．\footnote{\haskell では
 \begin{verbatim}
-  class (Eq a) => Ord a
-    where (<=) :: a -> a -> Bool
+  class (Eq a) => Ord a where (<=) :: a -> a -> Bool
 \end{verbatim}
 と書く．}
 
@@ -4357,8 +4343,7 @@ $(\le)$ を追加する．
 \end{equation}
 とする．\footnote{\haskell では
 \begin{verbatim}
-  data Num = One | Two | Three | Many
-    deriving (Eq, Ord)
+  data Num = One | Two | Three | Many deriving (Eq, Ord)
 \end{verbatim}
 と書く．}
 
@@ -4423,7 +4408,7 @@ String = [Char]} と書く．}
 Maybeのように型パラメタを取る型を\keyword{多相型}と呼ぶ．多相型はどの
 ように定義されるかと言うと，
 \begin{equation}
-\mDataTypeParametric\;\mMaybeTypeConstructor\mType{a}
+\mDataTypeParametric\;\mMaybeTypeConstructor\,\mType{a}
 =\mJustWith{\mType{a}}\mValueOr\mNothing
 \end{equation}
 のように，やはり $\mDataType$ を使って定義される．念のため型パラメタを
@@ -4439,7 +4424,7 @@ Maybeが型クラス $\mEqTypeClass$ に属すものとして，$\mEqTypeClass$ 
 仮に $\mInstanceParametric$ とすると次のように書けそうである．
 \begin{multline}
 \mInstanceParametric\;
-\mEqTypeClass\mSuperSet{}(\mMaybeTypeConstructor\mType{a})\\
+\mEqTypeClass\mSuperSet{}(\mMaybeTypeConstructor\,\mType{a})\\
 \mWhere
 \left\{
 \begin{aligned}
@@ -4457,7 +4442,7 @@ $\mType{a}$ が型クラス $\mEqTypeClass$ に属すことを要求するので
 \mInstanceParametric\;
 \mEqTypeClass\mSuperSet\mType{a}
 \mSuperClass
-\mEqTypeClass\mSuperSet{}(\mMaybeTypeConstructor\mType{a})\\
+\mEqTypeClass\mSuperSet{}(\mMaybeTypeConstructor\,\mType{a})\\
 \mWhere
 \left\{
 \begin{aligned}
@@ -4491,7 +4476,7 @@ Maybeの間に新たに定義された等号 $(\equiv)$ は次の型を持つ．
 多相型を定義するとき，型パラメタは2個以上与えられても良い．例えば
 Eitherは次のように定義できる．
 \begin{equation}
-\mDataTypeParametric\;\mEitherTypeConstructor\mType{a}\mType{b}
+\mDataTypeParametric\;\mEitherTypeConstructor\,\mType{a}\,\mType{b}
 =\mLeftWith{\mType{a}}
 \mValueOr
 \mRightWith{\mType{b}}
@@ -4502,7 +4487,7 @@ Eitherは次のように定義できる．
 型の定義中に自分自身を参照する型を\keyword{自己参照型}または
 \keyword{再帰型}と呼ぶ．例えばリストは
 \begin{equation}
-\mDataTypeParametric\;\mListTypeConstructor\mType{a}=\mEmptyList\mValueOr\mType{a}:\mListTypeConstructor\mType{a}
+\mDataTypeParametric\;\mListTypeConstructor\,\mType{a}=\mEmptyList\mValueOr\mType{a}:\mListTypeConstructor\,\mType{a}
 \end{equation}
 のように定義できる．
 
@@ -4531,7 +4516,7 @@ Maybe型の場合は
 \begin{align}
   \mTypeClassParametric\;
   &\mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor\nonumber\\
-  &\quad\mWhere{}\mMap\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mMaybeType{a}}{\mMaybeType{b}}}\\
+&\quad\mWhere{}\mMap\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mMaybeType{a}}{\mMaybeType{b}}}\\
   \mInstanceParametric\;
   &\mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor\nonumber\\
   &\quad\mWhere
@@ -4555,10 +4540,10 @@ Maybe型の場合は
 Either型の場合は
 \begin{align}
   \mTypeClassParametric\;
-  &\mFunctorTypeClass\mSuperSet{}(\mathop{\mEitherTypeConstructor}\mType{a})\nonumber\\
-  &\quad\mWhere{}\mMap\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mEitherType{a}{a}}{\mEitherType{a}{b}}}\\
+&\mFunctorTypeClass\mSuperSet{}(\mathop{\mEitherTypeConstructor}\,\mType{a})\nonumber\\
+&\quad\mWhere{}\mMap\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mEitherType{a}{a}}{\mEitherType{a}{b}}}\\
   \mInstanceParametric\;
-  &\mFunctorTypeClass\mSuperSet{}(\mathop{\mEitherTypeConstructor}\mType{a})\nonumber\\
+&\mFunctorTypeClass\mSuperSet{}(\mathop{\mEitherTypeConstructor}\,\mType{a})\nonumber\\
   &\quad\mWhere{}
   \left\{
   \begin{aligned}
@@ -4582,7 +4567,7 @@ Either型の場合は
   \label{eq:fn}
   \mTypeClassParametric\;\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn}\\
   \mWhere{}
-  \mMap\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mGenericTypeAssemble{fn}{a}}{\mGenericTypeAssemble{fn}{b}}}
+\mMap\mIn{}\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mGenericTypeAssemble{fn}{a}}{\mGenericTypeAssemble{fn}{b}}}
 \end{multline}
 のように書ける．ここで，型 $\mGenericTypeAssemble{fn}{a}$ は型
 $\mType{a}$ と型コンストラクタ $\mTypeConstructor{fn}$ から
