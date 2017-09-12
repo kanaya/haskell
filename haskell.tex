@@ -2473,9 +2473,9 @@ $h=100+\mAnonParam$ であることを期待するし，\haskell においては
 \begin{haskellcode}
 \begin{verbatim}
 srt[] = []
-srt(x:xs) = srt as ++ [x] ++ srt bs
-  where as = [a| a<-xs, a<=x]
-        bs = [b| b<-xs, b>x]
+srt(x:xs) = srt as ++ [x] ++ srt bs where
+  as = [a| a<-xs, a<=x]
+  bs = [b| b<-xs, b>x]
 \end{verbatim}
 \end{haskellcode}
 と書く．このコードはしばしば\haskell のパワーを示すために紹介される．
@@ -4292,10 +4292,11 @@ $(\equiv)$ と不等号 $(\neq)$ をインタフェースとして持つ．こ�
 と書く．\footnote{\haskell では$\mTypeClass$ を \code{class} と書く．ま
   た $\mSuperSet$ を省略して，
 \begin{verbatim}
-  class Eq a where (==) :: a -> a -> Bool
-                   (/=) :: a -> a -> Bool
-                   x==y = not(x/=y)
-                   x/=y = not(x==y)
+  class Eq a where
+    (==) :: a -> a -> Bool
+    (/=) :: a -> a -> Bool
+    x==y = not(x/=y)
+    x/=y = not(x==y)
 \end{verbatim}
 と書く．}
 
@@ -4322,11 +4323,12 @@ $\mInstance$ 文を使う．
 とする．これを\keyword{型クラスのインスタンス化}と呼ぶ．
 \footnote{\haskell では
 \begin{verbatim}
-  instance Eq Num where One==One     = True
-                        Two==Two     = True
-                        Three==Three = True
-                        Many==Many   = True
-                        _==_         = False
+  instance Eq Num where
+    One==One     = True
+    Two==Two     = True
+    Three==Three = True
+    Many==Many   = True
+    _==_         = False
 \end{verbatim}
 と書く．}
 
@@ -4472,10 +4474,10 @@ $\mType{a}$ が型クラス $\mEqTypeClass$ に属すことを要求するので
 $\mType{a}$ 型は $\mEqTypeClass$ 型クラスに属すものとして」という意
 味になる．\footnote{\haskell では
 \begin{verbatim}
-  instance Eq a => Eq (Maybe a)
-    where Just x == Just y = x==y
-          Nothing==Nothing = True
-          _==_             = False
+  instance Eq a => Eq (Maybe a) where
+    Just x == Just y = x==y
+    Nothing==Nothing = True
+    _==_             = False
 \end{verbatim}
 と書く．
 }
@@ -4523,7 +4525,7 @@ Eitherは次のように定義できる．
 \end{align}
 と定義する．\footnote{\haskell では
 \begin{verbatim}
-  class Functor [] where fmap :: (a -> b) -> [a] -> [b]
+  class    Functor [] where fmap :: (a -> b) -> [a] -> [b]
   instance Functor [] where fmap = map
 \end{verbatim}
 と書く．}
@@ -4545,11 +4547,11 @@ Maybe型の場合は
 \end{align}
 となる．\footnote{\haskell では
 \begin{verbatim}
-  class Functor Maybe
-    where fmap :: (a -> b) -> Maybe a -> Maybe b
-  instance Functor Maybe
-    where fmap f (Maybe x) = Maybe (f x)
-          fmap f Nothing = Nothing
+  class Functor Maybe where
+    fmap :: (a -> b) -> Maybe a -> Maybe b
+  instance Functor Maybe where
+    fmap f (Maybe x) = Maybe (f x)
+    fmap f Nothing = Nothing
 \end{verbatim}
 と書く．}
 
@@ -4570,11 +4572,11 @@ Either型の場合は
 \end{align}
 となる．\footnote{\haskell では
 \begin{verbatim}
-  class Functor (Either a)
-    where fmap :: (a -> b) -> Either a a -> Either a b
-  instance Functor (Either a)
-    where fmap f (Right x) = Right (f x)
-          fmap f (Left x)  = Left x
+  class Functor (Either a) where
+    fmap :: (a -> b) -> Either a a -> Either a b
+  instance Functor (Either a) where
+    fmap f (Right x) = Right (f x)
+    fmap f (Left x)  = Left x
 \end{verbatim}
 と書く．}
 
@@ -5199,8 +5201,8 @@ sgn x | x<0       = -1
       | otherwise = 1
 sq :: Real a => a -> a
 sq x = x*x
-(x0, x1) = (q/a, c/q)
-  where q = (b+sgn(b)*sqrt(sq b - 4*a*c))/2.0
+(x0, x1) = (q/a, c/q) where
+  q = (b+sgn(b)*sqrt(sq b - 4*a*c))/2.0
 main :: IO Int
 main = print (x0, x1) >> pure 0
 \end{verbatim}
@@ -5351,13 +5353,14 @@ sgn' a b c
 
 sqrt' :: RealFloat a => Complex a -> Complex a
 sqrt' (x:+y) = (sqrt 2)/2*((sqrt(d+x)):+sgn(y)*(sqrt(d-x)))
-    where d = sqrt(sq x + sq y)
+  where d = sqrt(sq x + sq y)
 
 (*.) :: Real a => a -> Complex a -> Complex a
 (*.) a (x:+y) = a*x:+a*y
 
-(x0, x1) = (q/a, c/q) where q = (b + sgn' a b c * r) / 2
-                            r = sqrt'(sq' b - 4*.(a*c))
+(x0, x1) = (q/a, c/q) where
+  q = (b + sgn' a b c * r) / 2
+  r = sqrt'(sq' b - 4*.(a*c))
 
 main :: IO Int
 main = print a >> pure 0
@@ -5844,13 +5847,19 @@ $\mType{cat}=((\mMapsTo)\mAnonParam[\mAnonParam])$ と考えるわけである�
 
 次に $(\mCompCat)$ であるが，$\mA=\mB=\mC$ とすると
 $(\mA\mMapsTo[\mA])\mMapsTo(\mA\mMapsTo[\mA])\mMapsTo(\mA\mMapsTo[\mA])$
-であるから，式\eqref{eq:triplicate-duplicate}がそのまま使える．
+であるから，式\eqref{eq:triplicate-duplicate}から
+\begin{equation}
+  \label{eq:triplicate-duplicate-comp}
+  \mTriplicate\mCompCat\mDuplicate
+  =\mConcat\mComp(\mTriplicate\mMapList)\mComp\mDuplicate
+\end{equation}
+とすれば，そのまま使えそうである．
 
 これで，我々の型コンストラクタ $\mTypeConstructor{NonDet}$ を
 $\mCategoryTypeClass$ 型クラスのインスタンスにできる．ただし，式
-\eqref{eq:id-category} ならびに式 \eqref{eq:triplicate-duplicate} は型
-$\mGenericTypeAssemble{NonDet}{\mA\,\mB}$ に対応していないので，次のように
-値コンストラクタで包んだ上でインスタンス化を行う．
+\eqref{eq:id-category} ならびに式 \eqref{eq:triplicate-duplicate-comp}
+は型 $\mGenericTypeAssemble{NonDet}{\mA\,\mB}$ に対応していないので，次
+のように値コンストラクタで包んだ上でインスタンス化を行う．
 \begin{multline}
   \mInstance\;
   \mGenericTypeClass{Category}\mSuperSet\mTypeConstructor{NonDet}\\
