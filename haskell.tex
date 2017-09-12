@@ -166,6 +166,7 @@
 
 \DeclareMathOperator{\mConjugate}{\mSpecialFunc{conjugate}}
 \DeclareMathOperator{\mCurry}{\mSpecialFunc{curry}}
+\DeclareMathOperator{\mDuplicate}{\mSpecialFunc{duplicate}}
 \DeclareMathOperator{\mGetList}{\mFunc{getList}}
 \DeclareMathOperator{\mFact}{\mSpecialFunc{fact}}
 \DeclareMathOperator{\mFirst}{\mSpecialFunc{fst}}
@@ -179,11 +180,13 @@
 \DeclareMathOperator{\mSecond}{\mSpecialFunc{snd}}
 \DeclareMathOperator{\mSq}{\mSpecialFunc{sq}}
 \DeclareMathOperator{\mSqrtFunc}{\mSpecialFunc{sqrt}}
+\DeclareMathOperator{\mSqrts}{\mSpecialFunc{sqrts}}
 \DeclareMathOperator{\mSort}{\mSpecialFunc{srt}}
 \DeclareMathOperator{\mSucc}{\mSpecialFunc{succ}}
 \DeclareMathOperator{\mSum}{\mSpecialFunc{sum}}
 \DeclareMathOperator{\mTail}{\mSpecialFunc{tail}}
 \DeclareMathOperator{\mTake}{\mSpecialFunc{take}}
+\DeclareMathOperator{\mTriplicate}{\mSpecialFunc{triplicate}}
 \DeclareMathOperator{\mUncurry}{\mSpecialFunc{uncurry}}
 \DeclareMathOperator{\mZipFunc}{\mSpecialFunc{zip}}
 \DeclareMathOperator{\mZipWith}{\mSpecialFunc{zipWith}}
@@ -191,6 +194,7 @@
 % Famous functions
 \DeclareMathOperator{\mConst}{const}
 \DeclareMathOperator{\mId}{id}
+\DeclareMathOperator{\mIdCat}{\mathfrak{id}}
 \DeclareMathOperator{\mIfFunc}{if}
 
 % Actions
@@ -220,9 +224,10 @@
 \DeclareMathOperator{\mBindRight}{\ooalign{$\longrightarrow$\crcr\hss$\mBind$\hss}}
 \DeclareMathOperator{\mBindRightIgnore}{\twoheadrightarrow}
 \DeclareMathOperator{\mBinOp}{\bigstar}
-\DeclareMathOperator{\mComp}{\centerdot}
+\DeclareMathOperator{\mComp}{\bullet} % \centerdot
+\DeclareMathOperator{\mCompCat}{\centerdot}
 \DeclareMathOperator{\mCompProj}{\circledcirc}
-\DeclareMathOperator{\mCompRot}{\cdot}
+\DeclareMathOperator{\mCompRot}{\cdot} % !!! conflict
 \DeclareMathOperator{\mComplexPlus}{\dotplus}
 \DeclareMathOperator{\mComplexTimes}{\Dot\ast}
 \DeclareMathOperator{\mConcat}{\flat}
@@ -244,7 +249,7 @@
 \DeclareMathOperator{\mListAt}{!!}
 \DeclareMathOperator{\mLogicalAnd}{\wedge}
 \DeclareMathOperator{\mLogicalOr}{\vee}
-\DeclareMathOperator{\mMap}{\bullet}
+\DeclareMathOperator{\mMap}{\cdot} % \bullet
 \DeclareMathOperator{\mMapFunc}{\circ}
 \DeclareMathOperator{\mMapList}{\odot}
 \DeclareMathOperator{\mMapMaybe}{\boxdot}
@@ -322,18 +327,19 @@
 
 % General value constructors
 \newcommand{\mGenericValueConstructor}[1]{\mathrm{#1}}
-\newcommand{\mGenericWith}[2]{{}^\mGenericValueConstructor{#1}\[#2\]}
+\newcommand{\mGenericValueAssemble}[2]{{}^\mGenericValueConstructor{#1}\[#2\]}
 \newcommand{\mGenericRecordWith}[2]{{}^\mGenericValueConstructor{#1}\{#2\}}
 \newcommand{\mGenericRecordBeginWith}[1]{{}^\mGenericValueConstructor{#1}\{}
 \newcommand{\mGenericRecordEnd}{\}}
 
-\newcommand{\mLeftWith}[1]{\mGenericWith{\mLeft}{#1}}
-\newcommand{\mRightWith}[1]{\mGenericWith{\mRight}{#1}}
-\newcommand{\mJustWith}[1]{\mGenericWith{Just}{#1}}
-\newcommand{\mZipListWith}[1]{\mGenericWith{\mZipList}{#1}}
+\newcommand{\mLeftWith}[1]{\mGenericValueAssemble{\mLeft}{#1}}
+\newcommand{\mRightWith}[1]{\mGenericValueAssemble{\mRight}{#1}}
+\newcommand{\mJustWith}[1]{\mGenericValueAssemble{Just}{#1}}
+\newcommand{\mZipListWith}[1]{\mGenericValueAssemble{\mZipList}{#1}}
 \newcommand{\mZipListRecordWith}[1]{\mGenericRecordWith{\mZipList}{#1}}
 
 % Special value constructors
+\newcommand{\mArrowWith}[1]{\langle\!\langle\!\langle#1\rangle\!\rangle\!\rangle}
 \newcommand{\mFuncWith}[1]{\Langle#1\Rangle}
 \newcommand{\mListWith}[1]{\left[#1\right]}
 \newcommand{\mPureWith}[1]{\langle#1\rangle}
@@ -453,7 +459,7 @@ Ether変数&肩に!をつける&$\mEither{u}$\\
 有名な値コンストラクタ&特別な括弧で包む&$\mListWith{x},\mFuncWith{x}$\\
 \hline
 型コンストラクタ&イタリック，大文字&$\mListTypeConstructor$, $\mMaybeTypeConstructor$\\
-関手&ボールドイタリック，大文字&$\mFunctor{List},\mFunctor{Maybe}$\\
+% 関手&ボールドイタリック，大文字&$\mFunctor{List},\mFunctor{Maybe}$\\
 有名な関手&カリグラフィ，大文字&$\mIFunctor$\\
 キーワード&サンセリフ，小文字&$\mIf,\mOtherwise$\\
 do記法中のキーワード&タイプライタ&$\mDoLetKeyword$\\
@@ -4160,7 +4166,7 @@ Three | Many deriving Eq} と書く．}
   \label{eq:rectangle}
   \mDataType\;
   \mType{Rectangle}\\
-  =\mGenericWith{Rectangle}
+  =\mGenericValueAssemble{Rectangle}
   {\mFloatType\,\mFloatType\,\mFloatType\,\mFloatType}
   \mDeriving\mEqTypeClass
 \end{multline}
@@ -4172,7 +4178,7 @@ $\mType{Rencatngle}$ 型の変数は次のように初期化する．
 \left\mBrace
 \begin{aligned}
 r&\mIn\mType{Rectangle}\\
-r&=\mGenericWith{Rectangle}{1\,2\,3\,4}
+r&=\mGenericValueAssemble{Rectangle}{1\,2\,3\,4}
 \end{aligned}
 \right.
 \end{equation}
@@ -4187,10 +4193,10 @@ r&=\mGenericWith{Rectangle}{1\,2\,3\,4}
 $\mType{Rectangle}$ 型から中身を取り出すには，次のような関数を用意して
 おかねばならない．
 \begin{align}
-\mFunc{x}\mGenericWith{Rectangle}{x\,\mAnyParam\,\mAnyParam\,\mAnyParam}&=x\\
-\mFunc{y}\mGenericWith{Rectangle}{\mAnyParam\,y\,\mAnyParam\,\mAnyParam}&=y\\
-\mFunc{width}\mGenericWith{Rectangle}{\mAnyParam\,\mAnyParam\,w\,\mAnyParam}&=w\\
-\mFunc{height}\mGenericWith{Rectangle}{\mAnyParam\,\mAnyParam\,\mAnyParam\,h}&=h
+\mFunc{x}\mGenericValueAssemble{Rectangle}{x\,\mAnyParam\,\mAnyParam\,\mAnyParam}&=x\\
+\mFunc{y}\mGenericValueAssemble{Rectangle}{\mAnyParam\,y\,\mAnyParam\,\mAnyParam}&=y\\
+\mFunc{width}\mGenericValueAssemble{Rectangle}{\mAnyParam\,\mAnyParam\,w\,\mAnyParam}&=w\\
+\mFunc{height}\mGenericValueAssemble{Rectangle}{\mAnyParam\,\mAnyParam\,\mAnyParam\,h}&=h
 \end{align}
 この面倒は，次のシンタックスシュガーを使うことで軽減される．
 \footnote{\haskell では
@@ -4244,9 +4250,9 @@ r=\mGenericRecordWith{Rectangle}{\mFunc{x}=1,
 データ型の定義には，複数の値コンストラクタを指定できる．そのため
 \begin{multline}
 \mDataType\;\mType{Shape}
-=\mGenericWith{Circle}{\mFloatType\,\mFloatType}\\
+=\mGenericValueAssemble{Circle}{\mFloatType\,\mFloatType}\\
 \mValueOr
-\mGenericWith{Triangle}{\mFloatType\,\mFloatType\,\mFloatType}
+\mGenericValueAssemble{Triangle}{\mFloatType\,\mFloatType\,\mFloatType}
 \end{multline}
 のようなデータ型の定義も可能である．この例では型 $\mType{Shape}$ は値
 コンストラクタ $\mGenericValueConstructor{Circle}$ または
@@ -5617,13 +5623,6 @@ main = do
 
 \section{この章のまとめ*}
 
-% \chapter{データ構造とアルゴリズム*}
-% \section{条件分岐*}
-% \section{再帰関数*}
-% \section{逐次実行*}
-% \section{余談：木構造*}
-% \section{この章のまとめ*}
-
 \chapter{文字列処理*}
 \section{文字列型*}
 \section{構文解析 (1)*}
@@ -5657,12 +5656,12 @@ main = do
 
 % http://syocy.hatenablog.com/entry/2016/07/02/174426
 
-\chapter{道具箱*}
-\section{リストの操作*}
-\section{非決定性*}
-\section{並列処理*}
-\section{余談：チューニング*}
-\section{この章のまとめ*}
+% \chapter{道具箱*}
+% \section{リストの操作*}
+% \section{非決定性*}
+% \section{並列処理*}
+% \section{余談：チューニング*}
+% \section{この章のまとめ*}
 
 % http://itchyny.hatenablog.com/entry/2015/12/27/150000
 
@@ -5674,9 +5673,9 @@ main = do
 \mInstance\;&\mFunctorTypeClass\mSuperSet\mType{f}\mSuperClass\mTypeConstructor{Monad}(\mathop{\mTypeConstructor{Free}}\mType{f})\nonumber\\
 &\quad\mWhere\left\{
 \begin{aligned}
-\mPureWith{x}&=\mGenericWith{Pure}{x}\\
-k\mBind\mGenericWith{Pure}{a}&=ka\\
-k\mBind\mGenericWith{Free}{f}&=\mGenericWith{Free}{(k\mBind\mAnonParam)\mMap f}
+\mPureWith{x}&=\mGenericValueAssemble{Pure}{x}\\
+k\mBind\mGenericValueAssemble{Pure}{a}&=ka\\
+k\mBind\mGenericValueAssemble{Free}{f}&=\mGenericValueAssemble{Free}{(k\mBind\mAnonParam)\mMap f}
 \end{aligned}
 \right.
 \end{align}
@@ -5704,8 +5703,123 @@ instance Functor f => Monad (Free f) where
 % http://tune.hateblo.jp/entry/2014/09/28/185233
 % http://konn-san.com/prog/haskell/extensible-effects.html
 
+
+
+\chapter{カテゴリ*}
+
+\section{多値*}
+
+\scheme は多値を返す関数（手続き）をネイティブにサポートする．
+
+\haskell の関数の引数はつねにひとつであり，戻り値もつねにひとつである．
+しかし，複数の戻り値を返したい場合もある．
+例えば実数 $x$ の平方根は $\sqrt{x}$ および $-\sqrt{x}$ のふたつである．
+そこで次のような関数 $\mSqrts$ を考えてみる．
+\begin{equation}
+\left\mBrace
+\begin{aligned}
+&\mSqrts\mIn{}\mRealTypeClass\mSuperSet\mType{a}\mSuperClass\mProj{\mType{a}}{\mListType{\mType{a}}}\\
+&\mSqrts x=[\mSqrtFunc x,(-\mSqrtFunc x)]
+\end{aligned}
+\right.
+\end{equation}
+
+% \begin{equation}
+% \mTypeSynonym\;\mType{MV}\,\mType{a}\,\mType{b}=\mType{a}\mMapsTo[\mType{b}]
+% \end{equation}
+
+\begin{equation}
+\mNewDataType\;\mType{MV}\,\mType{a}\,\mType{b}={}^{\mType{MV}}\{\mathrm{run}\mIn\mType{a}\mMapsTo[\mType{a}]\}
+\end{equation}
+
+\begin{equation}
+\mSqrts'\mIn\mRealTypeClass\mSuperSet\mType{a}\mSuperClass\mType{MV}\,\mType{a}\,\mType{a}
+\end{equation}
+
+\begin{equation}
+\mathop{\mathrm{run}}\mSqrts' x
+\end{equation}
+
+\begin{equation}
+\mDuplicate x=[x,x]
+\end{equation}
+
+\begin{equation}
+\mTriplicate x=[x,x,x]
+\end{equation}
+
+\section{カテゴリ*}
+
+\begin{equation}
+\mConcat(\mTriplicate\mMapList(\mDuplicate x))
+\end{equation}
+
+\begin{equation}
+\mConcat\mComp(\mTriplicate\mMapList)\mComp\mDuplicate\mApply x
+\end{equation}
+
+
+\begin{equation}
+\mTypeClass\;
+\mGenericTypeClass{Category}\,\mType{cat}
+\mWhere\left\{
+\begin{aligned}
+\mIdCat&\mIn\mType{cat}\,\mType{a}\,\mType{a}\\
+(\mCompCat)&\mIn\mType{cat}\,\mType{b}\,\mType{c}\mMapsTo\mType{cat}\,\mType{a}\,\mType{b}\mMapsTo\mType{cat}\,\mType{a}\,\mType{c}
+\end{aligned}
+\right.
+\end{equation}
+
+$\mType{cat}=(\mMapsTo)$ のとき $\mIdCat=\mId$ かつ $\mCompCat=\mComp$ になる．
+
+\begin{equation}
+\mInstance\;
+\mGenericTypeClass{Category}\mSuperSet\mType{MV}
+\mWhere\left\{
+\begin{aligned}
+\mIdCat&=\mGenericValueAssemble{MV}{\mLambdaExp{x}{[x]}}\\
+\mGenericValueAssemble{MV}{f}\mCompCat\mGenericValueAssemble{MV}{g}&=\mConcat\mComp(f\mMapList)\mComp g
+\end{aligned}
+\right.
+\end{equation}
+
+\begin{equation}
+\left\mBrace
+\begin{aligned}
+&\mDuplicate'\mIn\mIntType\mMapsTo\mGenericTypeAssemble{MV}{\mIntType\,\mIntType}\\
+&\mDuplicate' x=\mGenericValueAssemble{MV}{\mDuplicate x}
+\end{aligned}
+\right.
+\end{equation}
+
+\begin{equation}
+\mTriplicate'=...
+\end{equation}
+
+\begin{equation}
+\mathop{\mathrm{run}} (\mTriplicate'\mCompCat\mDuplicate')x
+\end{equation}
+
+---
+
+
+\section{カテゴリ則*}
+
+
+\section{余談: Kleisliカテゴリ*}
+
+---
+
 \chapter{アローと継続*}
 \section{アロー*}
+
+$$
+\mArrowWith{f}
+$$
+
+$$
+\Rrightarrow
+$$
 
 \begin{equation}
 \mTypeClassParametric\mGenericTypeClass{Arrow}{}\mType{a}
