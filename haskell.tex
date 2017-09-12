@@ -295,7 +295,7 @@
 
 % General type assemblers
 \newcommand{\mGenericTypeAssemble}[2]{{}^{\mType{#1}}\[\mType{#2}\]}
-\newcommand{\mGenericTypeAssembleII}[3]{{}^{\mType{#1}}\[\mType{#2},\mType{#3}\]}
+\newcommand{\mGenericTypeAssembleII}[3]{{}^{\mType{#1}}\[\mType{#2}\,\mType{#3}\]}
 
 \newcommand{\mComplexType}[1]{\mGenericTypeAssemble{Complex}{#1}}
 \newcommand{\mEitherType}[2]{\mGenericTypeAssembleII{Either}{#1}{#2}}
@@ -348,7 +348,7 @@
 \newcommand{\mSpecialFunctor}[1]{\mathcal{#1}} % Internal use
 
 \DeclareMathOperator{\mIFunctor}{\mSpecialFunctor{I}}
-\DeclareMathOperator{\mFunctionFunctor}{{(\mapsto)\mType{r}}}
+\DeclareMathOperator{\mFunctionFunctor}{{(\mMapsTo)\mType{r}}}
 \DeclareMathOperator{\mListFunctor}{\mFunctor{List}}
 \DeclareMathOperator{\mMaybeFunctor}{\mFunctor{Maybe}}
 
@@ -1820,9 +1820,9 @@ $a\mIn\mSet{A}$ に対して $\mZero\mBinOp a=a\mBinOp\mZero=a$ である場
 スと呼ぶ． % ***インタフェース***
 \end{enumerate}
 
-
-\begin{note}{...}
-...
+\begin{note}{$\mMapsTo$ の本当の意味}
+関数の型に出てくる $\mMapsTo$ は，2引数をとる型コンストラクタである．型コンストラクタに関しては第XYZ章で詳しく述べる．
+例えば $\mProj{\mType{a}}{\mType{b}}$ という型は $(\mMapsTo)\mType{a}\mType{b}$ の別名であり，型コンストラクタ $(\mMapsTo)$ に引数 $\mType{a}$ と $\mType{b}$ を与えたものと読む．
 \end{note}
 
 \chapter{リスト}
@@ -1946,13 +1946,13 @@ $\mListType{a}$ と書く．型 $\mType{a}$ から型 $\mListType{a}$ を生成�
 る演算子を\keyword{リスト型コンストラクタ}と呼んで
 $\mListTypeConstructor$ と書き
 \begin{equation}
-\mListType{a}=\mListTypeConstructor\mType{a}
+\mListType{a}=\mListTypeConstructor\,\mType{a}
 \end{equation}
 とする．この等式の両辺は変数ではなく型名であることに注意しよう．型コン
 ストラクタの概念は\python には無い（必要無い）が，静的型付け言語である
 \cxx の「クラステンプレート」が相当する．\footnote{\haskell では表記上
   コンテナ型 $\mListType{a}$ と型コンストラクタ式
-  $\mListTypeConstructor\mType{a}$ を区別せず，両者とも \code{[a]} と
+  $\mListTypeConstructor\,\mType{a}$ を区別せず，両者とも \code{[a]} と
   書く．}
 
 $\mListWith{x}$ のように $\mType{a}$ 型の変数 $x$ を入れた
@@ -2427,14 +2427,6 @@ $h=100+\mAnonParam$ であることを期待するし，\haskell においては
 いてきたら，「ええ，\haskell には破壊的代入すらありませんから」と答え
 ておこう．
 
-% \section{余談：アルゴリズムの本質*}
-
-% 逐次実行，条件分岐，繰り返し．
-
-% ...
-
-
-
 \section{この章のまとめ}
 
 \begin{enumerate}
@@ -2473,7 +2465,6 @@ srt(x:xs) = srt as ++ [x] ++ srt bs
 しかし，クイックソートのピボットとして常にリストの先頭要素を用いている
 ため，必ずしも良いコードではない．
 \end{note}
-
 
 \chapter{Maybe}
 
@@ -2591,7 +2582,7 @@ $\mNothing$ は「ナッシング」と呼ぶ．
 $\mMaybeType{a}$ を生成するこには\keyword{型コンストラクタ}
 $\mMaybeTypeConstructor$ を用いて
 \begin{equation}
-  \mMaybeType{a}=\mMaybeTypeConstructor\mType{a}
+  \mMaybeType{a}=\mMaybeTypeConstructor\,\mType{a}
 \end{equation}
 とする．\footnote{\haskell では表記上コンテナ型 $\mMaybeType{a}$ と型
   コンストラクタ式 $\mMaybeTypeConstructor\mType{a}$ を区別せず，両者
@@ -2674,8 +2665,8 @@ template <class a> class maybe {
 };
 \end{verbatim}
 \end{cxxcode}
-デフォルトコンストラクタは例外的な状況を表す $\mNothing$ を生成し，1引
-数コンストラクタは\code{maybe}で包んだ引数値を生成する．
+デフォルトコンストラクタ \code{maybe()} は例外的な状況を表す $\mNothing$ を生成し，1引
+数コンストラクタ \code{maybe(a)} は \code{maybe<a>} で包んだ引数値を生成する．
 
 \cxx プログラムで良く見かけるクラス設計と違い，この \code{maybe} クラ
 スはコンストラクタ以外に中身を書き換える手段が提供されていない．これが
@@ -2704,8 +2695,8 @@ maybe<b> map_over(fn f, maybe<a> u) {
 いため，このようにテンプレートにしている．
 % こうすることで，Cスタイルの関数ポインタも，\cxx03スタイルの関数オブジェクトも，
 % \cxx11スタイルのラムダ式も受け取ることができる．
-（\cxxzerothree プログラマへの注意：関数 \code{f} の代わりに関数オブジェ
-  クトを渡しても良い．）
+% （\cxxzerothree プログラマへの注意：関数 \code{f} の代わりに関数オブジェ
+%   クトを渡しても良い．）
 
 整数 $x$ からMaybe値 $\mMaybe{u}=\mJustWith{x}$ を作り，関数 $gx=1+x$
 をMaybe値 $\mMaybe{u}$ に食わせてMaybe値 $\mMaybe{v}$ ただし
@@ -2745,39 +2736,37 @@ maybe<int> v = map_over(g, u);
 \end{equation}
 のようなリストバージョンのマップ演算子 $(\mMapList)$ を使った．
 
-リストバージョンのマップ演算子($\mMapList$)をもし\cxx で書くとしたら，
+リストバージョンのマップ演算子 $(\mMapList)$ をもし\cxx で書くとしたら，
 次のようなコードになる．ここでリスト型として\cxx の標準テンプレートラ
-イブラリ(STL)の\code{list}クラスを流用した．
+イブラリ(STL)の \code{std::list} クラスを流用した．
 \begin{cxxcode}
 \begin{verbatim}
-using namespace std;
 template <class a, class b, class fn>
-list<b> map_over(fn f, list<a> xs) {
-  list<b> ys(xs.size());
+std::list<b> map_over(fn f, std::list<a> xs) {
+  std::list<b> ys(xs.size());
   auto i = xs.cbegin();
   auto j = ys.begin();
   while (i != xs.cend()) {
     *j = f(*i); ++i; ++j;
   }
-  return list<b>(ys);
+  return std::list<b>(ys);
 }
 \end{verbatim}
 \end{cxxcode}
-この関数\code{map\_over}の中身部分はどうでもよろしい．それよりも，リス
+この関数 \code{map\_over} の中身部分はどうでもよろしい．それよりも，リス
 トバージョンのマップ演算子の\cxx 関数のインタフェースと，Maybeバージョ
 ンのマップ演算子の\cxx 関数のインタフェースを見比べてみよう．
 \begin{cxxcode}
 \begin{verbatim}
 // List
 template <class a, class b, class fn>
-list<b> map_over(fn f, list<a> xs);
+std::list<b> map_over(fn f, std::list<a> xs);
 // Maybe
 template <class a, class b, class fn>
 maybe<b> map_over(fn f, maybe<a> u);
 \end{verbatim}
 \end{cxxcode}
-やはりそっくりである．であるならば，うまく統一したい．\cxxfourteen 以
-降であれば次のような書き方が文法的には可能である．
+やはりそっくりである．であるならば，うまく統一したい．\cxx では次のような書き方が文法的には可能である．
 \begin{cxxcode}
 \begin{verbatim}
 template <class a, class b, template<class> X, class fn>
@@ -2817,7 +2806,7 @@ $\mType{b}$ 型を取るEither型の変数 $\mEither{e}$ があるとすると�
 と書く．Either型は型 $\mType{a}$ および $\mType{b}$ から型コンストラク
 タを用いて
 \begin{equation}
-\mEitherType{a}{b}=\mEitherTypeConstructor\mType{a}\mType{b}
+\mEitherType{a}{b}=\mEitherTypeConstructor\,\mType{a}\,\mType{b}
 \end{equation}
 のように作られる．\footnote{\haskell では $\mEitherType{a}{b}$ も
 $\mEitherTypeConstructor\mType{a}\mType{b}$ も区別せずに
@@ -2841,7 +2830,7 @@ Eitherはより複雑な計算エラーが発生する場合に用いる．Maybe
 コンストラクタで格納し，エラーの情報は $\mLeftWith{x}$ 値コンストラク
 タで格納する．
 
-Either型は\clang の共有型 (\code{union}) や\cxxseventeen のバリアント
+Either型は\clang の共有型 (\code{union}) や\cxx のバリアント
 型 (\code{std::variant}) に近い．
 
 \section{この章のまとめ}
