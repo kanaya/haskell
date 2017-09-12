@@ -331,10 +331,10 @@
 \newcommand{\mFuncTypeConstructor}[1]{\mathop{\mTypeConstructor{Func}_{(\mType{#1})}}}
 
 % General value constructors
-\newcommand{\mGenericValueConstructor}[1]{\mathrm{#1}}
-\newcommand{\mGenericValueAssemble}[2]{{}^\mGenericValueConstructor{#1}\[#2\]}
-\newcommand{\mGenericRecordWith}[2]{{}^\mGenericValueConstructor{#1}\{#2\}}
-\newcommand{\mGenericRecordBeginWith}[1]{{}^\mGenericValueConstructor{#1}\{}
+\newcommand{\mValueConstructor}[1]{\mathrm{#1}}
+\newcommand{\mGenericValueAssemble}[2]{{}^\mValueConstructor{#1}\[#2\]}
+\newcommand{\mGenericRecordWith}[2]{{}^\mValueConstructor{#1}\{#2\}}
+\newcommand{\mGenericRecordBeginWith}[1]{{}^\mValueConstructor{#1}\{}
 \newcommand{\mGenericRecordEnd}{\}}
 
 \newcommand{\mLeftWith}[1]{\mGenericValueAssemble{\mLeft}{#1}}
@@ -3527,6 +3527,17 @@ v=f\mMap u=\mPureWith{f}\mAppMap u=\mPureWith{f\mAnonParam}\mBind u
 を得る．これが一般バインド演算子と一般アプリカティブマップ演算子，一般
 マップ演算子の関係である．
 
+\separator
+
+リストモナド
+
+\begin{equation}
+  \mPureWith{x}=[x]
+\end{equation}
+
+\begin{equation}
+  f\mBind\mList{x}=\mConcat(f\mMapList\mList{x})
+\end{equation}
 
 \section{関手則・アプリカティブ関手則・モナド則}
 
@@ -4265,8 +4276,8 @@ r=\mGenericRecordWith{Rectangle}{\mFunc{x}=1,
 \mGenericValueAssemble{Triangle}{\mFloatType\,\mFloatType\,\mFloatType}
 \end{multline}
 のようなデータ型の定義も可能である．この例では型 $\mType{Shape}$ は値
-コンストラクタ $\mGenericValueConstructor{Circle}$ または
-$\mGenericValueConstructor{Triangle}$ によって初期化され，それぞれ2個
+コンストラクタ $\mValueConstructor{Circle}$ または
+$\mValueConstructor{Triangle}$ によって初期化され，それぞれ2個
 または3個の $\mFloatType$ 型のパラメタを取る．\footnote{\haskell では
 \code{data Shape = Circle Float Float | Triangle Float Float Float}
 と書く．}
@@ -4630,7 +4641,7 @@ $\mZip$ は
 \end{equation}
 のように定義することになる．念のため，左辺の
 $\mZipListTypeConstructor$ は型コンストラクタ，右辺の
-$\mGenericValueConstructor{\mZipList}$ は値コンストラクタである．すな
+$\mValueConstructor{\mZipList}$ は値コンストラクタである．すな
 わち
 \begin{equation}
 \mZipListType{a}=\mZipListTypeConstructor\mType{a}
@@ -5682,7 +5693,7 @@ main = do
 \section{ドメイン特化言語*}
 \section{Freeモナド*}
 \begin{align}
-\mDataType\;&\mathop{\mTypeConstructor{Free}}\mType{f}\mType{a}=\mathop{\mGenericValueConstructor{Pure}}\mType{a}\mValueOr\mathop{\mGenericValueConstructor{Free}(\mType{f}(\mathop{\mGenericValueConstructor{Free}}\mType{f}\mType{a}))}\\
+\mDataType\;&\mathop{\mTypeConstructor{Free}}\mType{f}\mType{a}=\mathop{\mValueConstructor{Pure}}\mType{a}\mValueOr\mathop{\mValueConstructor{Free}(\mType{f}(\mathop{\mValueConstructor{Free}}\mType{f}\mType{a}))}\\
 \mInstance\;&\mFunctorTypeClass\mSuperSet\mType{f}\mSuperClass\mTypeConstructor{Monad}(\mathop{\mTypeConstructor{Free}}\mType{f})\nonumber\\
 &\quad\mWhere\left\{
 \begin{aligned}
@@ -5956,10 +5967,53 @@ y = run (triplicate' Cat.. duplicate') x
 \end{verbatim}
 \end{haskellcode}
 
+ところで\haskell は次のふたつの演算子
+\begin{align}
+  f\leftleftarrows g&=\mLambda x\mLambdaArrow f\mBind gx\\
+  f\rightrightarrows g&=\mLambda x\mLambdaArrow f\mBindRight gx
+\end{align}
+を定義している．\footnote{\haskell では $\leftleftarrows$ を
+  \code{<=<} と書き，$\rightrightarrows$ を \code{>=>} と書く．}
+
+またリストのバインド演算子 $(\mBindList)$ は
+\begin{equation}
+  f\mBindList\mList{x}=\mConcat(f\mMapList\mList{x})
+\end{equation}
+であった．そこで $\leftleftarrows$ 演算子とリストのバインド演算子を用い
+ると
+\begin{align}
+  \mConcat\mComp(f\mMapList)\mComp g
+  &=\mLambda x\mLambdaArrow\mConcat(f\mMapList(gx))\\
+  &=\mLambda x\mLambdaArrow f\mBindList(gx)\\
+  &=f\leftleftarrows g
+\end{align}
+であるから，
+\begin{equation}
+  \mGenericValueAssemble{NonDet}{f}\mComp\mGenericValueAssemble{NonDet}{g}
+  =\mGenericValueAssemble{NonDet}{f\leftleftarrows g}
+\end{equation}
+とも書ける．
+
 \section{カテゴリ則*}
 
+\begin{align}
+\mIdCat\mCompCat f&=f\mCompCat\mIdCat=f\\
+(f\mCompCat g)\mCompCat h&=f\mCompCat(g\mCompCat h)
+\end{align}
 
 \section{余談: Kleisliカテゴリ*}
+
+\begin{equation}
+  \mNewDataType\;
+  \mTypeConstructor{NonDet}\,\mA\,\mB
+  =\mGenericValueAssemble{NonDet}{\mA\mMapsTo[\mB]}
+\end{equation}
+
+\begin{equation}
+  \mNewDataType\;
+  \mTypeConstructor{Kleisli}\,\mTypeConstructor{mn}\,\mA\,\mB
+  =\mGenericValueAssemble{NonDet}{\mA\mMapsTo\mGenericTypeAssemble{mn}{\mB}}
+\end{equation}
 
 ---
 
