@@ -3539,6 +3539,19 @@ v=f\mMap u=\mPureWith{f}\mAppMap u=\mPureWith{f\mAnonParam}\mBind u
   f\mBind\mList{x}=\mConcat(f\mMapList\mList{x})
 \end{equation}
 
+Maybeモナド
+
+\begin{equation}
+  \mPureWith{x}=\mJustWith{x}
+\end{equation}
+
+\begin{equation}
+  f\mBind\mMaybe{u}=\mCaseOf{\mMaybe{u}}\begin{cases}
+    \mJustWith{x}&\mIfSo\mJustWith{fx}\\
+    \mOtherwise&\mIfSo\mNothing
+  \end{cases}
+\end{equation}
+
 \section{関手則・アプリカティブ関手則・モナド則}
 
 関手，アプリカティブ関手，モナドにはそれぞれ従う規則がある．これらは自
@@ -5889,7 +5902,7 @@ $\mDuplicate$ と $\mTriplicate$ を定義しておこう．
   &\left\mBrace
   \begin{aligned}
     &\mDuplicate'
-    \mIn\mGenericTypeAssemble{NonDet}{\mIntType\,\mIntType}\\
+    \mIn\mGenericTypeAssemble{NonDet}{\mA\,\mA}\\
     &\mDuplicate'
     =\mGenericValueAssemble{NonDet}{\mDuplicate}
   \end{aligned}
@@ -5897,7 +5910,7 @@ $\mDuplicate$ と $\mTriplicate$ を定義しておこう．
   &\left\mBrace
   \begin{aligned}
     &\mTriplicate'
-    \mIn\mGenericTypeAssemble{NonDet}{\mIntType\,\mIntType}\\
+    \mIn\mGenericTypeAssemble{NonDet}{\mA\,\mA}\\
     &\mTriplicate'
     =\mGenericValueAssemble{NonDet}{\mTriplicate}
   \end{aligned}
