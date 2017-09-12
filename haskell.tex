@@ -5746,10 +5746,6 @@ instance Functor f => Monad (Free f) where
 
 \section{多値*}
 
-\scheme は多値を返す関数（手続き）をネイティブにサポートする．
-
----
-
 \haskell の関数の引数は常にひとつであり，戻り値も常にひとつである．しか
 し，複数の戻り値を返したい場合もある．例えば実数 $x$ の平方根は
 $\sqrt{x}$ および $-\sqrt{x}$ のふたつである．そこで次のような関数
@@ -5765,8 +5761,12 @@ $\mSqrts$ を考えてみる．
 \end{equation}
 
 ここで型 $\mA\mMapsTo\mListType{\mA}$ に別名を与えよう．別名を与えるに
-は型シノニムを定義する方法と，$\mNewDataType$ を用いる方法とがあるが，
-後者を選択することにして
+は型シノニムを定義する方法と，$\mNewDataType$ を用いる方法とがある．前
+者は単に読みやすさの向上のためだけであるが，後者は第
+\ref{ch:polymorphic-types}章で見たように特定の型クラスの新しいインスタ
+ンスとしてその型を定義するためである．
+
+我々は後者を選択することにして
 % \begin{equation}
 % \mTypeSynonym\;\mType{NonDet}\,\mType{a}\,\mType{b}=\mType{a}\mMapsTo[\mType{b}]
 % \end{equation}
@@ -5873,9 +5873,13 @@ $\mType{cat}=((\mMapsTo)\mAnonParam[\mAnonParam])$ と考えるわけである�
 $(\mA\mMapsTo[\mA])\mMapsTo(\mA\mMapsTo[\mA])\mMapsTo(\mA\mMapsTo[\mA])$
 であるから，式\eqref{eq:triplicate-duplicate}から
 \begin{equation}
-  \label{eq:triplicate-duplicate-comp}
   \mTriplicate\mCompCat\mDuplicate
   =\mConcat\mComp(\mTriplicate\mMapList)\mComp\mDuplicate
+\end{equation}
+をそのまま抽象化して
+\begin{equation}
+  \label{eq:triplicate-duplicate-comp}
+  f\mCompCat g=\mConcat\mComp(f\mMapList)\mComp g
 \end{equation}
 とすれば，そのまま使えそうである．
 
@@ -5885,6 +5889,7 @@ $\mCategoryTypeClass$ 型クラスのインスタンスにできる．ただし�
 は型 $\mGenericTypeAssemble{NonDet}{\mA\,\mB}$ に対応していないので，次
 のように値コンストラクタで包んだ上でインスタンス化を行う．
 \begin{multline}
+  \label{eq:nondet-instance}
   \mInstance\;
   \mGenericTypeClass{Category}\mSuperSet\mTypeConstructor{NonDet}\\
   \mWhere\left\{
@@ -5985,8 +5990,8 @@ y = run (triplicate' Cat.. duplicate') x
   f\leftleftarrows g&=\mLambda x\mLambdaArrow f\mBind gx\\
   f\rightrightarrows g&=\mLambda x\mLambdaArrow f\mBindRight gx
 \end{align}
-を定義している．\footnote{\haskell では $\leftleftarrows$ を
-  \code{<=<} と書き，$\rightrightarrows$ を \code{>=>} と書く．}
+を定義している．\haskell では $\leftleftarrows$ を \code{<=<} と書き，
+$\rightrightarrows$ を \code{>=>} と書く．
 
 またリストのバインド演算子 $(\mBindList)$ は
 \begin{equation}
@@ -6000,12 +6005,18 @@ y = run (triplicate' Cat.. duplicate') x
   &=\mLambda x\mLambdaArrow f\mBindList(gx)\\
   &=f\leftleftarrows g
 \end{align}
-であるから，
+であるから，式\eqref{eq:nondet-instance}の2行目は
 \begin{equation}
   \mGenericValueAssemble{NonDet}{f}\mComp\mGenericValueAssemble{NonDet}{g}
   =\mGenericValueAssemble{NonDet}{f\leftleftarrows g}
 \end{equation}
-とも書ける．
+とも書ける．\haskell で書けば
+\begin{haskellcode}
+\begin{verbatim}
+(NonDet f) . (NonDet g) = NonDet (f <=< g)
+\end{verbatim}
+\end{haskellcode}
+である．
 
 \section{カテゴリ則*}
 
