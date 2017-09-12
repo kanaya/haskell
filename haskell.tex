@@ -177,9 +177,10 @@
 \DeclareMathOperator{\mPred}{\mSpecialFunc{pred}}
 \DeclareMathOperator{\mRealPart}{\Re}
 \DeclareMathOperator{\mRepeat}{\mSpecialFunc{repeat}}
+\DeclareMathOperator{\mRun}{\mSpecialFunc{run}}
 \DeclareMathOperator{\mSecond}{\mSpecialFunc{snd}}
 \DeclareMathOperator{\mSq}{\mSpecialFunc{sq}}
-\DeclareMathOperator{\mSqrtFunc}{\mSpecialFunc{sqrt}}
+\DeclareMathOperator{\mSqrt}{\mSpecialFunc{sqrt}}
 \DeclareMathOperator{\mSqrts}{\mSpecialFunc{sqrts}}
 \DeclareMathOperator{\mSort}{\mSpecialFunc{srt}}
 \DeclareMathOperator{\mSucc}{\mSpecialFunc{succ}}
@@ -284,6 +285,10 @@
 % Type names
 \newcommand{\mType}[1]{\mathbf{#1}}
 
+\newcommand{\mA}{\mType{a}}
+\newcommand{\mB}{\mType{b}}
+\newcommand{\mC}{\mType{c}}
+
 \newcommand{\mBoolType}{\mType{Bool}}
 \newcommand{\mCharType}{\mType{Char}}
 \newcommand{\mFloatType}{\mType{Float}}
@@ -362,6 +367,7 @@
 \newcommand{\mGenericTypeClass}[1]{\textsc{#1}} % Inetrnal use
 
 \newcommand{\mApplicativeTypeClass}{\mGenericTypeClass{Applicative}}
+\newcommand{\mCategoryTypeClass}{\mGenericTypeClass{Category}}
 \newcommand{\mEnumTypeClass}{\mGenericTypeClass{Enum}}
 \newcommand{\mEqTypeClass}{\mGenericTypeClass{Eq}}
 \newcommand{\mFunctorTypeClass}{\mGenericTypeClass{Functor}}
@@ -5238,7 +5244,7 @@ a = ar :+ ai
   (x_0,x_1)=(q/a,c/q)\mWhere\left\{
   \begin{aligned}
     &q\mLetEq\left(b+\sgn'abc*r\right)/2\\
-    &r\mLetEq\mSqrtFunc'{(\mSq'b-4*a*c)}
+    &r\mLetEq\mSqrt'{(\mSq'b-4*a*c)}
   \end{aligned}
   \right.
 \end{equation}
@@ -5261,7 +5267,7 @@ $\mSq'$ 関数と $\sgn'$ 関数に置き換えたことで，
        &\quad\mProj{\mComplexType{a}}{\mProj{\mComplexType{a}}{\mProj{\mComplexType{a}}{\mType{a}}}}
      \end{aligned}\\
     &\begin{aligned}
-       \sgn'abc&\mGuard{\mRealPart((\mConjugate b)*\mSqrtFunc'{(\mSq' b-4\mComplexTimes a*c)})<0}=-1\\
+       \sgn'abc&\mGuard{\mRealPart((\mConjugate b)*\mSqrt'{(\mSq' b-4\mComplexTimes a*c)})<0}=-1\\
        &\mGuard{\mOtherwise}=1
      \end{aligned}
   \end{aligned}
@@ -5274,10 +5280,10 @@ $\mSq'$ 関数と $\sgn'$ 関数に置き換えたことで，
 \begin{equation}
   \left\mBrace
   \begin{aligned}
-    &\mSqrtFunc'\mIn\mRealFloatTypeClass\mSuperSet\mType{a}
+    &\mSqrt'\mIn\mRealFloatTypeClass\mSuperSet\mType{a}
     \mSuperClass\mProj{\mType{a}}{\mType{a}}\\
     &\begin{aligned}
-       \mSqrtFunc'(x\mComplexPlus y)
+       \mSqrt'(x\mComplexPlus y)
        &=\frac{\sqrt{2}}{2}*\left(\sqrt{d+x}\mComplexPlus(\sgn y)*\sqrt{d-x}\right)\\
        &\quad\mWhereIs{d}{\sqrt{\mSq x+\mSq y}}
      \end{aligned}
@@ -5711,94 +5717,141 @@ instance Functor f => Monad (Free f) where
 
 \scheme は多値を返す関数（手続き）をネイティブにサポートする．
 
-\haskell の関数の引数はつねにひとつであり，戻り値もつねにひとつである．
-しかし，複数の戻り値を返したい場合もある．
-例えば実数 $x$ の平方根は $\sqrt{x}$ および $-\sqrt{x}$ のふたつである．
-そこで次のような関数 $\mSqrts$ を考えてみる．
+---
+
+\haskell の関数の引数は常にひとつであり，戻り値も常にひとつである．しか
+し，複数の戻り値を返したい場合もある．例えば実数 $x$ の平方根は
+$\sqrt{x}$ および $-\sqrt{x}$ のふたつである．そこで次のような関数
+$\mSqrts$ を考えてみる．
 \begin{equation}
-\left\mBrace
-\begin{aligned}
-&\mSqrts\mIn{}\mRealTypeClass\mSuperSet\mType{a}\mSuperClass\mProj{\mType{a}}{\mListType{\mType{a}}}\\
-&\mSqrts x=[\mSqrtFunc x,(-\mSqrtFunc x)]
-\end{aligned}
-\right.
+  \left\mBrace
+  \begin{aligned}
+    &\mSqrts\mIn{}\mRealTypeClass\mSuperSet\mType{a}\mSuperClass
+    \mA\mMapsTo\mListType{\mA}\\
+    &\mSqrts x=[\mSqrt x,(-\mSqrt x)]
+  \end{aligned}
+  \right.
 \end{equation}
 
+ここで型 $\mA\mMapsTo\mListType{\mA}$ に別名を与えよう．別名を与えるに
+は型シノニムを定義する方法と，$\mNewDataType$ を用いる方法とがあるが，
+後者を選択することにして
 % \begin{equation}
 % \mTypeSynonym\;\mType{MV}\,\mType{a}\,\mType{b}=\mType{a}\mMapsTo[\mType{b}]
 % \end{equation}
-
 \begin{equation}
-\mNewDataType\;\mType{MV}\,\mType{a}\,\mType{b}={}^{\mType{MV}}\{\mathrm{run}\mIn\mType{a}\mMapsTo[\mType{a}]\}
+  \mNewDataType\;
+  \mTypeConstructor{MV}\,\mA\,\mB
+  =\mGenericRecordWith{MV}{\mRun\mIn\mA\mMapsTo[\mB]}
 \end{equation}
+とする．
 
+型コンストラクタ $\mTypeConstructor{MV}$ によって作られる型
+$\mGenericTypeAssemble{MV}{\mA\,\mB}$ は型 $\mA\mMapsTo[\mA]$ とは異な
+る型であるため，関数 $\mSqrts$ の新しいバージョンが必要になる．そこで
 \begin{equation}
-\mSqrts'\mIn\mRealTypeClass\mSuperSet\mType{a}\mSuperClass\mType{MV}\,\mType{a}\,\mType{a}
+  \left\mBrace
+  \begin{aligned}
+    &\mSqrts'\mIn\mRealTypeClass\mSuperSet\mType{a}\mSuperClass
+    \mGenericTypeAssemble{MV}{\mA\,\mA}\\
+    &\mSqrts'=\mGenericValueAssemble{MV}{\mRun=\mSqrts}
+  \end{aligned}
+  \right.
 \end{equation}
+のように定義しよう．
 
+関数 $\mSqrts'$ はコンテナ $\mGenericValueAssemble{MV}{\dotsb}$ に包まれ
+ているので，
 \begin{equation}
-\mathop{\mathrm{run}}\mSqrts' x
+  y=\mRun\mSqrts' x
 \end{equation}
+のようにして呼び出さねばならない．
 
-\begin{equation}
-\mDuplicate x=[x,x]
-\end{equation}
-
-\begin{equation}
-\mTriplicate x=[x,x,x]
-\end{equation}
+次節から，多値を返す関数の適用と合成を一般化する．
 
 \section{カテゴリ*}
 
-\begin{equation}
-\mConcat(\mTriplicate\mMapList(\mDuplicate x))
-\end{equation}
+非決定的な関数 $\mDuplicate$ と $\mTriplicate$ を
+\begin{align}
+\mDuplicate x&=[x,x]\\
+\mTriplicate x&=[x,x,x]
+\end{align}
+のように定義しよう．このふたつの関数をもし合成できるとしたら，合成され
+た関数は，$x$ を引数に取り $[x,x,x,x,x,x]$ を返すものと考えるのが自然で
+あろう．しかし，どのように合成したら良いだろうか．
 
+関数合成演算子 $(\mComp)$ が使えないことは明らかである．
+
+少し検討すると，このふたつの関数は
+\begin{equation}
+  \mConcat(\mTriplicate\mMapList(\mDuplicate x))
+\end{equation}
+のように合成できることがわかる．これを関数合成演算子を使って分解すると
 \begin{equation}
 \mConcat\mComp(\mTriplicate\mMapList)\mComp\mDuplicate\mApply x
 \end{equation}
+となり，少しは読みやすくなる．しかし，合成のたびに平坦化演算子
+$(\mConcat)$ やマップ演算子 $(\mMapList)$ を書くのは煩雑であるし，3段以
+上の合成になると手に負えなくなる．
 
+このような問題を解決するのが\keyword{カテゴリ}すなわち
+$\mCategoryTypeClass$ 型クラスである．
+
+$\mCategoryTypeClass$ 型クラスは次のように定義されている．
+\begin{equation}
+  \mTypeClass\;
+  \mCategoryTypeClass\,\mType{cat}
+  \mWhere\left\{
+  \begin{aligned}
+    \mIdCat&\mIn\mType{cat}\,\mA\,\mA\\
+    (\mCompCat)&\mIn\mType{cat}\,\mB\,\mC
+    \mMapsTo\mType{cat}\,\mA\,\mB
+    \mMapsTo\mType{cat}\,\mA\,\mC
+  \end{aligned}
+  \right.
+\end{equation}
+型パラメタ $\mType{cat}$ が $\mType{cat}=(\mMapsTo)$ のとき
+$\mIdCat=\mId$ かつ $\mCompCat=\mComp$ になる．
+
+さて，我々の型コンストラクタ $\mTypeConstructor{MV}$ を
+$\mCategoryTypeClass$ 型クラスのインスタンスにしておこう．
+\begin{equation}
+  \mInstance\;
+  \mGenericTypeClass{Category}\mSuperSet\mTypeConstructor{MV}
+  \mWhere\left\{
+  \begin{aligned}
+    \mIdCat
+    &=\mGenericValueAssemble{MV}{\mLambdaExp{x}{[x]}}\\
+    \mGenericValueAssemble{MV}{f}\mCompCat\mGenericValueAssemble{MV}{g}
+    &=\mConcat\mComp(f\mMapList)\mComp g
+  \end{aligned}
+  \right.
+\end{equation}
+続けて，$\mGenericTypeAssemble{MV}{\mA\,\mB}$ 型バージョンの
+$\mDuplicate$ と $\mTriplicate$ を定義しておこう．
+\begin{align}
+  &\left\mBrace
+  \begin{aligned}
+    &\mDuplicate'
+    \mIn\mIntType\mMapsTo\mGenericTypeAssemble{MV}{\mIntType\,\mIntType}\\
+    &\mDuplicate'
+    =\mGenericValueAssemble{MV}{\mDuplicate}
+  \end{aligned}
+  \right.\\
+  &\left\mBrace
+  \begin{aligned}
+    &\mTriplicate'
+    \mIn\mIntType\mMapsTo\mGenericTypeAssemble{MV}{\mIntType\,\mIntType}\\
+    &\mTriplicate'
+    =\mGenericValueAssemble{MV}{\mTriplicate}
+  \end{aligned}
+  \right.
+\end{align}
 
 \begin{equation}
-\mTypeClass\;
-\mGenericTypeClass{Category}\,\mType{cat}
-\mWhere\left\{
-\begin{aligned}
-\mIdCat&\mIn\mType{cat}\,\mType{a}\,\mType{a}\\
-(\mCompCat)&\mIn\mType{cat}\,\mType{b}\,\mType{c}\mMapsTo\mType{cat}\,\mType{a}\,\mType{b}\mMapsTo\mType{cat}\,\mType{a}\,\mType{c}
-\end{aligned}
-\right.
+(\mRun\mTriplicate'\mCompCat\mRun\mDuplicate')x
 \end{equation}
-
-$\mType{cat}=(\mMapsTo)$ のとき $\mIdCat=\mId$ かつ $\mCompCat=\mComp$ になる．
-
-\begin{equation}
-\mInstance\;
-\mGenericTypeClass{Category}\mSuperSet\mType{MV}
-\mWhere\left\{
-\begin{aligned}
-\mIdCat&=\mGenericValueAssemble{MV}{\mLambdaExp{x}{[x]}}\\
-\mGenericValueAssemble{MV}{f}\mCompCat\mGenericValueAssemble{MV}{g}&=\mConcat\mComp(f\mMapList)\mComp g
-\end{aligned}
-\right.
-\end{equation}
-
-\begin{equation}
-\left\mBrace
-\begin{aligned}
-&\mDuplicate'\mIn\mIntType\mMapsTo\mGenericTypeAssemble{MV}{\mIntType\,\mIntType}\\
-&\mDuplicate' x=\mGenericValueAssemble{MV}{\mDuplicate x}
-\end{aligned}
-\right.
-\end{equation}
-
-\begin{equation}
-\mTriplicate'=...
-\end{equation}
-
-\begin{equation}
-\mathop{\mathrm{run}} (\mTriplicate'\mCompCat\mDuplicate')x
-\end{equation}
+% run?
 
 ---
 
