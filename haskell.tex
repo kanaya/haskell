@@ -307,7 +307,7 @@
 \newcommand{\mComplexType}[1]{\mTypeAssemble{Complex}{#1}}
 \newcommand{\mEitherType}[2]{\mTypeAssembleII{Either}{#1}{#2}}
 \newcommand{\mIOType}[1]{\mTypeAssemble{IO}{#1}}
-\newcommand{\mMaybeType}[1]{\mTypeAssemble{Maybe}{#1}}
+\newcommand{\mMaybeType}[1]{\[\mType{#1}\]}%{\mTypeAssemble{Maybe}{#1}}
 \newcommand{\mZipListType}[1]{\mTypeAssemble{ZipList}{#1}}
 
 % Polymorphic types with specific data types
@@ -337,7 +337,7 @@
 
 \newcommand{\mLeftWith}[1]{\mValueWith{Left}{#1}}
 \newcommand{\mRightWith}[1]{\mValueWith{Right}{#1}}
-\newcommand{\mJustWith}[1]{\mValueWith{Just}{#1}}
+\newcommand{\mJustWith}[1]{\[#1\]}%{\mValueWith{Just}{#1}}
 \newcommand{\mZipListWith}[1]{\mValueWith{ZipList}{#1}}
 \newcommand{\mZipListRecordWith}[1]{\mValueRecordWith{ZipList}{#1}}
 
@@ -445,8 +445,8 @@ Ether変数&肩に!をつける&$\mEither{u}$\\
 型&ボールドローマン・大文字&$\mBoolType,\mIntType,\mFloatType$\\
 型パラメタ&ボールドローマン・小文字&$\mA,\mB,\mC$\\
 多相型パラメタ&ボールドイタリック・小文字&$\mPolymorphicTypeParameter{f},\mPolymorphicTypeParameter{m}$\\
-コンテナ型&左肩にコンテナ名をつける&$\mMaybeType{a},\mIOType{a}$\\
-有名なコンテナ型&特別な括弧で包む&$[\mA],\mFuncType{a}{r}$\\
+コンテナ型&左肩にコンテナ名をつける&$\mIOType{a}$\\
+有名なコンテナ型&特別な括弧で包む&$[\mA],\mMaybeType{a},\mFuncType{a}{r}$\\
 型クラス&スモールキャピタル&$\mEqTypeClass,\mOrdTypeClass,\mNumTypeClass$\\
 \hline
 \end{tabular}
@@ -460,8 +460,8 @@ Ether変数&肩に!をつける&$\mEither{u}$\\
 \hline
 種類&字体・表記法&例\\
 \hline\hline
-値コンストラクタ&肩書付き括弧で包む&$\mJustWith{x},\mRightWith{x}$\\
-有名な値コンストラクタ&特別な括弧で包む&$[x],\mFuncWith{x}$\\
+値コンストラクタ&肩書付き括弧で包む&$\mRightWith{x},\mLeftWith{x}$\\
+有名な値コンストラクタ&特別な括弧で包む&$[x],\mJustWith{x},\mFuncWith{x}$\\
 \hline
 型コンストラクタ&スラント，大文字&$\mListTypeConstructor$, $\mMaybeTypeConstructor$\\
 % \hline
@@ -494,11 +494,12 @@ $\mIn$&型集合の元&\code{::}\\
 $\in$&値集合の元&\code{<-}\\
 $\mMapsTo$&写像&\code{->}\\
 \hline
-$\mUnOp$&任意の単項演算子&\\
+% $\mUnOp$&任意の単項演算子&\\
 $\mBinOp$&任意の二項演算子&\\
 $\mPlus$&一般加法演算子&\\
 \hline
 $\mFromIntegral$&型変換演算子&\code{fromIntegral}\\
+$\star$&種&\code{*}\\
 \hline
 $\mComp$&関数合成&\code{.}\\
 $\mApply$&関数適用&\code{\$}\\
@@ -537,15 +538,15 @@ $\mLeftWith{x},\mRightWith{x}$&Either値コンストラクタ&\code{Left x}, \co
 $\mFuncWith{x}$&関数値コンストラクタ&\code{r->x}\\
 $\mPureWith{x}$&ピュア演算子&\code{pure x}\\
 \hline
-$\mMap$&一般マップ&\code{<*>}\\
-$\mMapList$&リストのマップ&\code{<*>}\\
-$\mMapMaybe$&Maybeのマップ&\code{<*>}\\
-$\mMapFunc$&関数のマップ&\code{<*>}\\
+$\mMap$&一般マップ&\code{<\$>}\\
+$\mMapList$&リストのマップ&\code{<\$>}\\
+$\mMapMaybe$&Maybeのマップ&\code{<\$>}\\
+$\mMapFunc$&関数のマップ&\code{<\$>}\\
 \hline
-$\mAppMap$&一般アプリカティブマップ&\code{<\$>}\\
-$\mAppMapList$&リストのアプリカティブマップ&\code{<\$>}\\
-$\mAppMapMaybe$&Maybeのアプリカティブマップ&\code{<\$>}\\
-$\mAppMapFunc$&関数のアプリカティブマップ&\code{<\$>}\\
+$\mAppMap$&一般アプリカティブマップ&\code{<*>}\\
+$\mAppMapList$&リストのアプリカティブマップ&\code{<*>}\\
+$\mAppMapMaybe$&Maybeのアプリカティブマップ&\code{<*>}\\
+$\mAppMapFunc$&関数のアプリカティブマップ&\code{<*>}\\
 \hline
 $\mBind$&一般バインド演算子&\code{=<<}\\
 $\mBindList$&リストのバインド演算子&\code{=<<}\\
@@ -554,7 +555,7 @@ $\mBindFunc$&関数のバインド演算子&\code{=<<}\\
 \hline
 $\mBindRight$&右バインド演算子&\code{>>=}\\
 $\mBindRightIgnore$&右バインド演算子（戻値無視）&\code{>>}\\
-$\rightrightarrows$&右バインド演算子（平坦化）&\code{>=>}\\
+$\rightrightarrows$&右バインド演算子（ラムダ版）&\code{>=>}\\
 \hline
 \end{tabular}
 \end{center}
@@ -2726,11 +2727,11 @@ $\mMaybeTypeConstructor$ を用いて
   =\mMaybeTypeConstructor\,\mA 
 \end{equation}
 とする．\footnote{\haskell では表記上コンテナ型 $\mMaybeType{a}$ と型
-  コンストラクタ式 $\mMaybeTypeConstructor\mA $ を区別せず，両者
+  コンストラクタ式 $\mMaybeTypeConstructor\mA$ を区別せず，両者
   とも \code{Maybe a} と書く．}
 
 $\mA $ 型の変数を $\mMaybeType{a}$ 型の変数に代入するには，次の値
-コンストラクタを用いて
+コンストラクタ $\mJustWith{\dotsb}$ を用いて
 \begin{equation}
   \mMaybe{u}
   =\mJustWith{x}
@@ -2966,8 +2967,8 @@ $\mB $ 型を取るEither型の変数 $\mEither{e}$ があるとすると，
   =\mEitherTypeConstructor\,\mA \,\mB 
 \end{equation}
 のように作られる．\footnote{\haskell では $\mEitherType{a}{b}$ も
-  $\mEitherTypeConstructor\mA \mB $ も区別せずに\code{Either a b} と書
-  く．}
+  $\mEitherTypeConstructor\,\mA\,\mB $ も区別せずに\code{Either a b} と
+  書く．}
 
 Etherには値コンストラクタが2種類あり，それぞれ $\mRightWith{x}$ と
 $\mLeftWith{x}$ である．値コンストラクタは
