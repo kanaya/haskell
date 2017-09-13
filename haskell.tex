@@ -428,7 +428,7 @@ Ether変数&肩に!をつける&$\mEither{u}$\\
 \hline
 関数&オイラー・小文字&$f,g,h,i,j,k$\\
 有名な関数&ローマン・小文字&$\mId,\sin,\cos$\\
-特別な関数&フラクチュール・小文字&$\mIdCat$\\
+圏の関数&フラクチュール・小文字&$\mIdCat$\\
 % リスト関数&肩に星印をつける&$\mList{f}$\\
 % Maybe関数&肩に?をつける&$\mMaybe{g}$\\
 コンテナ関数&ギリシア文字&$\phi,\psi$\\
@@ -502,8 +502,9 @@ $\mFromIntegral$&型変換演算子&\code{fromIntegral}\\
 $\star$&種&\code{*}\\
 \hline
 $\mComp$&関数合成&\code{.}\\
+$\mCompCat$&圏の関数合成&\code{.}\\
 $\mApply$&関数適用&\code{\$}\\
-$\mApplyRight$&関数の右適用&\\
+$\mApplyRight$&右関数右適用&\\
 \hline
 $\mFold$&左畳み込み&\code{foldl}\\
 $\mFoldRight$&右畳み込み&\code{foldr}\\
@@ -2608,6 +2609,7 @@ srt(x:xs) = srt as ++ [x] ++ srt bs where
 \end{note}
 
 \chapter{Maybe}
+\label{ch:maybe}
 
 \begin{leader}
 この章では計算結果が正しいかもしれないし，正しくないかもしれないという
@@ -4290,6 +4292,7 @@ y=g_2(g_1x)
 
 
 \chapter{データ型の定義*}
+\label{ch:data-type}
 
 ...
 
@@ -4602,7 +4605,7 @@ $\mTypeSynonym$ を \code{type} と省略してしまう．これは残念なこ
 
 
 \chapter{多相型の定義}
-\label{ch:parametric-data-type}
+\label{ch:polymorphic-data-type}
 ...
 
 \section{多相型}
@@ -5184,6 +5187,7 @@ $\mMain$ の値は $0$ になることを示している．
 \end{note}
 
 \chapter{演算*}
+\label{ch:arithmetic}
 
 \begin{leader}
 演算の例を挙げる．
@@ -5575,6 +5579,7 @@ main = print a >> pure 0
 \end{note}
 
 \chapter{より複雑な演算}
+\label{ch:more-arithmetic}
 
 \section{演算子の優先順位*}
 
@@ -5811,6 +5816,8 @@ z = !x :+ !y
 \section{この章のまとめ*}
 
 \chapter{IO*}
+\label{ch:more-io}
+
 \section{書き出し*}
 \section{読み込み*}
 \section{IOモナド*}
@@ -5922,7 +5929,8 @@ instance Functor f => Monad (Free f) where
 
 
 
-\chapter{カテゴリ*}
+\chapter{圏*}
+\label{ch:category}
 
 \section{多値*}
 
@@ -5982,7 +5990,7 @@ $\mTypeAssemble{NonDet}{\mA\,\mB}$ は型 $\mA\mMapsTo[\mA]$ とは異な
 
 % https://practical-scheme.net/wiliki/wiliki.cgi?Scheme%3A多値
 
-\section{カテゴリ*}
+\section{圏*}
 
 非決定的な関数 $\mDuplicate$ と $\mTriplicate$ を
 \begin{align}
@@ -6018,8 +6026,8 @@ $\mTypeAssemble{NonDet}{\mA\,\mB}$ は型 $\mA\mMapsTo[\mA]$ とは異な
 $(\mJoinList)$ やマップ演算子 $(\mMapList)$ を書くのは煩雑であるし，3段以
 上の合成になると手に負えなくなる．
 
-このような問題を解決するのが\keyword{カテゴリ}すなわち
-$\mCategoryTypeClass$ 型クラスである．
+このような問題を解決するのが\keyword{圏}すなわち $\mCategoryTypeClass$
+型クラスである．
 
 $\mCategoryTypeClass$ 型クラスは次のように定義されている．
 \begin{equation}
@@ -6036,8 +6044,8 @@ $\mCategoryTypeClass$ 型クラスは次のように定義されている．
   \right.
 \end{equation}
 型パラメタ $\mType{cat}$ が $\mType{cat}=(\mMapsTo)$ のとき
-$\mIdCat=\mId$ かつ $\mCompCat=\mComp$ になるので，カテゴリは関数を何や
-ら拡張したものであることがわかる．
+$\mIdCat=\mId$ かつ $\mCompCat=\mComp$ になるので，圏は関数を何やら拡張
+したものであることがわかる．
 
 我々は $\mDuplicate$ や $\mTriplicate$ の型を考えて
 \begin{equation}
