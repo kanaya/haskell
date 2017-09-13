@@ -143,7 +143,7 @@
 \newcommand{\mString}[1]{\text{#1}}
 
 % Special variables
-\newcommand{\mSpecialVar}[1]{\mathrm{#1}} % Internal use
+\newcommand{\mSpecialVar}[1]{\mathrm{#1}}
 
 \newcommand{\mAnyParam}{\_}
 \newcommand{\mAnonParam}{\diamond}
@@ -154,22 +154,25 @@
 
 \newcommand{\mUpCast}{\bigtriangleup}
 
-%\DeclareMathOperator{\mFromIntegral}{\widetilde{\text{integral}}}
-%\DeclareMathOperator{\mFromIntegral}{\xleftarrow{integral}}
 \DeclareMathOperator{\mFromIntegral}{\mUpCast_\text{Integral}}
 
 % Functions
-\newcommand{\mFunc}[1]{\mathop{\mathit{#1}}}
-\newcommand{\mSpecialFunc}[1]{\mathrm{#1}}
-\newcommand{\mSpecialFuncSmall}[1]{\mathrm{#1}}
+%%% \newcommand{\mFunc}[1]{\mathop{\mathit{#1}}}
+\newcommand{\mSpecialFunc}[1]{#1}
+\newcommand{\mSpecialFuncSmall}[1]{#1}
+\newcommand{\mVarSpecialFunc}[1]{\mathfrak{#1}}
 
 \DeclareMathOperator{\mConjugate}{\mSpecialFunc{conjugate}}
+\DeclareMathOperator{\mConst}{\mSpecialFunc{const}}
 \DeclareMathOperator{\mCurry}{\mSpecialFunc{curry}}
 \DeclareMathOperator{\mDuplicate}{\mSpecialFunc{duplicate}}
-\DeclareMathOperator{\mGetList}{\mFunc{getList}}
+\DeclareMathOperator{\mGetList}{\mSpecialFunc{getList}}
 \DeclareMathOperator{\mFact}{\mSpecialFunc{fact}}
 \DeclareMathOperator{\mFirst}{\mSpecialFunc{fst}}
 \DeclareMathOperator{\mHead}{\mSpecialFunc{head}}
+\DeclareMathOperator{\mId}{\mSpecialFunc{id}}
+\DeclareMathOperator{\mIdCat}{\mVarSpecialFunc{id}}
+\DeclareMathOperator{\mIfFunc}{\mSpecialFunc{if}}
 \DeclareMathOperator{\mMainFunc}{\mSpecialFunc{main}}
 \DeclareMathOperator{\mMax}{\mSpecialFunc{max}}
 \DeclareMathOperator{\mNull}{\mSpecialFunc{null}}
@@ -191,12 +194,6 @@
 \DeclareMathOperator{\mZipFunc}{\mSpecialFunc{zip}}
 \DeclareMathOperator{\mZipWith}{\mSpecialFunc{zipWith}}
 
-% Famous functions
-\DeclareMathOperator{\mConst}{const}
-\DeclareMathOperator{\mId}{id}
-\DeclareMathOperator{\mIdCat}{\mathfrak{id}}
-\DeclareMathOperator{\mIfFunc}{if}
-
 % Actions
 \newcommand{\mAction}[1]{\textsl{#1}}
 
@@ -217,6 +214,7 @@
 \DeclareMathOperator{\mArrow}{\Rrightarrow}
 \DeclareMathOperator{\mArrowAnd}{\bigwedge}%{\&\&\&}
 \DeclareMathOperator{\mArrowOr}{\bigvee}%{\mid\mid\mid}
+\DeclareMathOperator{\mArrowTimes}{***}
 \DeclareMathOperator{\mBind}{\heartsuit}
 \DeclareMathOperator{\mBindFunc}{\diamondsuit}
 \DeclareMathOperator{\mBindList}{\clubsuit}
@@ -224,40 +222,41 @@
 \DeclareMathOperator{\mBindRight}{\ooalign{$\longrightarrow$\crcr\hss$\mBind$\hss}}
 \DeclareMathOperator{\mBindRightIgnore}{\twoheadrightarrow}
 \DeclareMathOperator{\mBinOp}{\bigstar}
-\DeclareMathOperator{\mComp}{\bullet} % \centerdot
+\DeclareMathOperator{\mComp}{\bullet}
 \DeclareMathOperator{\mCompCat}{\centerdot}
 \DeclareMathOperator{\mCompProj}{\circledcirc}
 \DeclareMathOperator{\mCompRot}{\cdot} % !!! conflict
 \DeclareMathOperator{\mComplexPlus}{\dotplus}
 \DeclareMathOperator{\mComplexTimes}{\Dot\ast}
-\DeclareMathOperator{\mConcat}{\flat}
-\DeclareMathOperator{\mCons}{:}
 \DeclareMathOperator{\mDefEq}{\stackrel{\mathrm{def}}{=}}
 \DeclareMathOperator{\mDoEq}{\leftarrow}
 \DeclareMathOperator{\mDoLetEq}{\mVarKeyword{=}}
-\DeclareMathOperator{\mDoNext}{;\;}%{\Rrightarrow}
+\DeclareMathOperator{\mDoNext}{;\;}
 \DeclareMathOperator*{\mFold}{\bigcup}
 \DeclareMathOperator*{\mFoldStrict}{\bigcup{}_\text{Strict}}
 \DeclareMathOperator*{\mFoldRight}{\bigsqcup}
 \DeclareMathOperator{\mFrom}{\in}
 \DeclareMathOperator{\mIfSo}{\dashrightarrow}
 \DeclareMathOperator{\mIn}{{:\!:}}
-\DeclareMathOperator{\mJoin}{\sharp}
+\DeclareMathOperator{\mJoin}{\natural}
+\DeclareMathOperator{\mJoinList}{\flat} % also called concat
+\DeclareMathOperator{\mJoinMaybe}{\sharp}
 \DeclareMathOperator{\mLambda}{\backslash}
 \DeclareMathOperator{\mLambdaArrow}{\rightarrow}
 \DeclareMathOperator{\mLetEq}{\triangleq}
 \DeclareMathOperator{\mListAt}{!!}
 \DeclareMathOperator{\mLogicalAnd}{\wedge}
+\DeclareMathOperator{\mLogicalNot}{\neg}
 \DeclareMathOperator{\mLogicalOr}{\vee}
-\DeclareMathOperator{\mMap}{\cdot} % \bullet
+\DeclareMathOperator{\mMap}{\cdot}
 \DeclareMathOperator{\mMapFunc}{\circ}
 \DeclareMathOperator{\mMapList}{\odot}
 \DeclareMathOperator{\mMapMaybe}{\boxdot}
 \DeclareMathOperator{\mMapsTo}{\mapsto}
 \DeclareMathOperator{\mMinus}{\ominus}
-\DeclareMathOperator{\mMorphTo}{\rightarrowtail}
+\DeclareMathOperator{\mMorphTo}{\rightarrowtail} % used?
 \DeclareMathOperator{\mPlus}{\maltese}
-\DeclareMathOperator{\mSetTimes}{\boldmath{\times}}
+\DeclareMathOperator{\mSetTimes}{\boldmath{\times}} % better one?
 \DeclareMathOperator{\mUnOp}{\star}
 \DeclareMathOperator{\mValueOr}{\curlyvee}
 \DeclareMathOperator{\mWhereEq}{\mLetEq}
@@ -271,7 +270,7 @@
 
 % Sets
 \newcommand{\mSet}[1]{\mathbf{#1}}
-\newcommand{\mSpecialSet}[1]{\mathbb{#1}} % Internal use
+\newcommand{\mSpecialSet}[1]{\mathbb{#1}}
 
 \newcommand{\mBSet}{\mSpecialSet{B}}
 \newcommand{\mFSet}{\mSpecialSet{F}}
@@ -279,11 +278,8 @@
 \newcommand{\mRSet}{\mSpecialSet{R}}
 \newcommand{\mZSet}{\mSpecialSet{Z}}
 
-% Internal type names
-\newcommand{\mZipList}{ZipList}
-
 % Type names
-\newcommand{\mType}[1]{\mathbf{#1}}
+\newcommand{\mType}[1]{\mathbf{#1}} % TypeParameter
 \newcommand{\mPolymorphicTypeParameter}[1]{\textbf{\textit{#1}}}
 
 \newcommand{\mA}{\mType{a}}
@@ -312,7 +308,7 @@
 \newcommand{\mEitherType}[2]{\mTypeAssembleII{Either}{#1}{#2}}
 \newcommand{\mIOType}[1]{\mTypeAssemble{IO}{#1}}
 \newcommand{\mMaybeType}[1]{\mTypeAssemble{Maybe}{#1}}
-\newcommand{\mZipListType}[1]{\mTypeAssemble{\mZipList}{#1}}
+\newcommand{\mZipListType}[1]{\mTypeAssemble{ZipList}{#1}}
 
 % General polymorphic type names with type parameter
 \newcommand{\mComplexDoubleType}{\mComplexType{\mDoubleType}}
@@ -327,7 +323,7 @@
 \DeclareMathOperator{\mEitherTypeConstructor}{\mTypeConstructor{Either}}
 \DeclareMathOperator{\mListTypeConstructor}{\mTypeConstructor{List}}
 \DeclareMathOperator{\mMaybeTypeConstructor}{\mTypeConstructor{Maybe}}
-\DeclareMathOperator{\mZipListTypeConstructor}{\mTypeConstructor{\mZipList}}
+\DeclareMathOperator{\mZipListTypeConstructor}{\mTypeConstructor{ZipList}}
 
 \newcommand{\mFuncTypeConstructor}[1]{\mathop{\mTypeConstructor{Func}_{(\mType{#1})}}}
 
@@ -341,8 +337,8 @@
 \newcommand{\mLeftWith}[1]{\mGenericWith{\mLeft}{#1}}
 \newcommand{\mRightWith}[1]{\mGenericWith{\mRight}{#1}}
 \newcommand{\mJustWith}[1]{\mGenericWith{Just}{#1}}
-\newcommand{\mZipListWith}[1]{\mGenericWith{\mZipList}{#1}}
-\newcommand{\mZipListRecordWith}[1]{\mGenericRecordWith{\mZipList}{#1}}
+\newcommand{\mZipListWith}[1]{\mGenericWith{ZipList}{#1}}
+\newcommand{\mZipListRecordWith}[1]{\mGenericRecordWith{ZipList}{#1}}
 
 % Special value constructors
 \newcommand{\mArrowWith}[1]{\langle\!\langle\!\langle#1\rangle\!\rangle\!\rangle}
@@ -450,7 +446,7 @@ Ether変数&肩に!をつける&$\mEither{u}$\\
 型パラメタ&ボールドローマン・小文字&$\mA,\mB,\mC$\\
 多相型パラメタ&ボールドイタリック・小文字&$\mPolymorphicTypeParameter{f},\mPolymorphicTypeParameter{m}$\\
 コンテナ型&左肩にコンテナ名をつける&$\mMaybeType{a},\mIOType{a}$\\
-有名なコンテナ型&特別な括弧で包む&$\mListType{a},\mFuncType{a}{r}$\\
+有名なコンテナ型&特別な括弧で包む&$[\mA],\mFuncType{a}{r}$\\
 型クラス&スモールキャピタル&$\mEqTypeClass,\mOrdTypeClass,\mNumTypeClass$\\
 \hline
 \end{tabular}
@@ -509,10 +505,10 @@ $\mApplyRight$&関数の右適用\\
 $\mFold$&左畳み込み\\
 $\mFoldRight$&右畳み込み\\
 \hline
-$\mCons$&cons演算子\\
+$:$&cons演算子\\
 $\mAppend$&結合演算子\\
 $\mZip$&ジップ演算子\\
-$\mConcat$&平坦化演算子\\
+$\mJoinList$&平坦化演算子\\
 $\mJoin$&ジョイン演算子\\
 % $\mathMaybeAppend$&Maybe結合\\
 \hline
@@ -2037,9 +2033,9 @@ $\mList{y}$ を結合したリストは
 \end{equation}
 は $\mTrue$ を，そうでなければ $\mFalse$ を返す．
 
-任意の型を $\mA$ とするとき，$\mA$ 型のリスト型を$\mListType{a}$ と書
-く．型 $\mA$ から型 $\mListType{a}$ を生成する演算子を\keyword{リスト
-  型コンストラクタ}と呼んで$\mListTypeConstructor$ と書き
+任意の型を $\mA$ とするとき，$\mA$ 型のリスト型を$[\mA]$ と書く．型
+$\mA$ から型 $[\mA]$ を生成する演算子を\keyword{リスト型コンストラクタ}と
+呼んで$\mListTypeConstructor$ と書き
 \begin{equation}
   [\mA]
   =\mListTypeConstructor\,\mA 
@@ -2047,9 +2043,8 @@ $\mList{y}$ を結合したリストは
 とする．この等式の両辺は変数ではなく型名であることに注意しよう．型コン
 ストラクタの概念は\python には無い（必要無い）が，静的型付け言語である
 \cxx の「クラステンプレート」が相当する．\footnote{\haskell では表記上
-  コンテナ型 $\mListType{a}$ と型コンストラクタ式
-  $\mListTypeConstructor\,\mA $ を区別せず，両者とも \code{[a]} と
-  書く．}
+  コンテナ型 $[\mA]$ と型コンストラクタ式$\mListTypeConstructor\,\mA $
+  を区別せず，両者とも \code{[a]} と書く．}
 
 $[x]$ のように $\mA$ 型の変数 $x$ を入れた$[\mA]$ 型の変数を作る演算子
 を\keyword{リスト値コンストラクタ}と呼ぶ．$[\mA]$ 型の変数のことを
@@ -2175,11 +2170,10 @@ ls = [0, 1, 2, 3, 4, 5] s = ls.inject(0) { |x, y| x+y }
 \end{equation}
 とすれば得られる．
 
-畳み込み演算子は第1（上）引数に $\mA $ 型と $\mB $ 型の引数
-を取り $\mA $ 型の戻り値を返す二項演算子，第2（下）引数に
-$\mA $ 型，第3（右）引数に $\mB $ 型のリストすなわち
-$\mListType{b}$ 型を取り，$\mA $ 型の値を返す．従って畳み込み演算
-子の型は
+畳み込み演算子は第1（上）引数に $\mA$ 型と $\mB$ 型の引数を取り $\mA$
+型の戻り値を返す二項演算子，第2（下）引数に$\mA$ 型，第3（右）引数に
+$\mB$ 型のリストすなわち$[\mB]$ 型を取り，$\mA$ 型の値を返す．従って畳
+み込み演算子の型は
 \begin{equation}
   \mFold
   \mIn(\mA\mMapsTo\mB\mMapsTo\mA)
@@ -2212,10 +2206,10 @@ $\mListType{b}$ 型を取り，$\mA $ 型の値を返す．従って畳み込み
 る\keyword{平坦化演算子}である．平坦化演算子はconcat演算子とも呼ばれる
 こともあるが，基本的な演算子であるため特別な記号をつけておこう．我々は
 \begin{equation}
-  \mConcat
+  \mJoinList
   =\mFold_\mEmptyList^{\mAppend}
 \end{equation}
-と定義することにする．\footnote{\haskell では演算子 $\mConcat$ の代わ
+と定義することにする．\footnote{\haskell では演算子 $\mJoinList$ の代わ
   りに \code{concat} 関数を使う．}
 % ***CHECK***
 
@@ -2389,7 +2383,7 @@ $(x:\mList{x})$ を参照したい場合もあるであろう．そのような�
   $a\mBinOp x_0\mBinOp x_1\mBinOp\dotsb\mBinOp x_n$ を返す．
 \item 右畳み込み演算子 $\mFoldRight^{\mBinOp}_{a}[x_0,x_1\dotsb x_n]$
   は$(x_0\mBinOp(x_1\mBinOp\dotsb\mBinOp(x_n\mBinOp a)))$ を返す．
-\item 平坦化演算子 $\mConcat=\mFold_\mEmptyList^{\mAppend}$ はリストを
+\item 平坦化演算子 $\mJoinList=\mFold_\mEmptyList^{\mAppend}$ はリストを
   平坦化する．
 \item 関数 $f\mIn\mProjEXP{\mA }{\mA }$ はマップ演算子 $\mMapList$ を
   用いて $f\mMapList\mListWith{x_0,x_1\dotsb x_n}=[fx_0,fx_1\dotsb
@@ -3453,7 +3447,7 @@ g\mAppMapFunc f=\mLambdaEXP{x}{gx(fx)}
 \begin{equation}
 \left\{
 \begin{aligned}
-(f:\mList{f})\mAppMapList\mList{x}&=\mConcat{}((f\mMapList\mList{x}):(\mList{f}\mAppMapList\mList{x}))\\
+(f:\mList{f})\mAppMapList\mList{x}&=\mJoinList{}((f\mMapList\mList{x}):(\mList{f}\mAppMapList\mList{x}))\\
 \mEmptyList\mAppMapList\mList{x}&=\mEmptyList
 \end{aligned}
 \right.
@@ -3692,7 +3686,7 @@ v=f\mMap u=\mPureWith{f}\mAppMap u=\mPureWith{f\mAnonParam}\mBind u
 \end{equation}
 
 \begin{equation}
-  f\mBind\mList{x}=\mConcat(f\mMapList\mList{x})
+  f\mBind\mList{x}=\mJoinList(f\mMapList\mList{x})
 \end{equation}
 
 Maybeモナド
@@ -4379,13 +4373,13 @@ $\mType{Rencatngle}$ 型の変数は次のように初期化する．
 $\mType{Rectangle}$ 型から中身を取り出すには，次のような関数を用意して
 おかねばならない．
 \begin{align}
-  \mFunc{x}\mGenericWith{Rectangle}{x\,\mAnyParam\,\mAnyParam\,\mAnyParam}
+  x\mGenericWith{Rectangle}{x\,\mAnyParam\,\mAnyParam\,\mAnyParam}
   &=x\\
-  \mFunc{y}\mGenericWith{Rectangle}{\mAnyParam\,y\,\mAnyParam\,\mAnyParam}
+  y\mGenericWith{Rectangle}{\mAnyParam\,y\,\mAnyParam\,\mAnyParam}
   &=y\\
-  \mFunc{width}\mGenericWith{Rectangle}{\mAnyParam\,\mAnyParam\,w\,\mAnyParam}
+  width\mGenericWith{Rectangle}{\mAnyParam\,\mAnyParam\,w\,\mAnyParam}
   &=w\\
-  \mFunc{height}\mGenericWith{Rectangle}{\mAnyParam\,\mAnyParam\,\mAnyParam\,h}
+  height\mGenericWith{Rectangle}{\mAnyParam\,\mAnyParam\,\mAnyParam\,h}
   &=h
 \end{align}
 この面倒は，次のシンタックスシュガーを使うことで軽減される．
@@ -4404,10 +4398,10 @@ $\mType{Rectangle}$ 型から中身を取り出すには，次のような関数
 \begin{multline}
   \mDataType\;\mType{Rectangle}\\
   =\mGenericRecordBeginWith{Rectangle}
-  \mFunc{x}\mIn\mFloatType,
-  \mFunc{y}\mIn\mFloatType,
-  \mFunc{width}\mIn\mFloatType,
-  \mFunc{height}\mIn\mFloatType
+  x\mIn\mFloatType,
+  y\mIn\mFloatType,
+  width\mIn\mFloatType,
+  height\mIn\mFloatType
   \mGenericRecordEnd\\
   \mDeriving\mEqTypeClass
 \end{multline}
@@ -4426,10 +4420,13 @@ $\mType{Rectangle}$ 型から中身を取り出すには，次のような関数
 レコード構文を用いると，型から中身を取り出す関数は自動的に定義される．
 また
 \begin{equation}
-r=\mGenericRecordWith{Rectangle}{\mFunc{x}=1,
-  \mFunc{y}=2,
-  \mFunc{width}=3,
-  \mFunc{height}=4}
+  r=
+  \mGenericRecordWith{Rectangle}{
+    x=1,
+    y=2,
+    width=3,
+    height=4
+  }
 \end{equation}
 のようなレコード構文専用の初期化を行っても良いし，従来の初期化方法を用
 いても良い．\footnote{\haskell では\code{r = Rectangle \{ x = 1, y =
@@ -4571,16 +4568,16 @@ $(\le)$ を追加する．
 \section{余談：型シノニム}
 
 データ型には\keyword{シノニム}（別名）がつけられる．例えば
-$\mCharType$ のリスト $\mListType{\mCharType}$ は
+$\mCharType$ のリスト $[\mCharType]$ は
 \begin{equation}
-\mTypeSynonym\;\mStringType=\mListType{\mCharType}
+  \mTypeSynonym\;
+  \mStringType
+  =[\mCharType]
 \end{equation}
 とすることで，別名 $\mStringType$ を与えることができる．\haskell では
 $\mTypeSynonym$ を \code{type} と省略してしまう．これは残念なことだが，
 \clang の \code{typedef} のようなものだと思って割り切るしかない．
-\footnote{\haskell では
-$\mTypeSynonym\;\mStringType=\mListType{\mCharType}$ を \code{type
-String = [Char]} と書く．}
+\footnote{\haskell では \code{type String = [Char]} と書く．}
 
 \section{この章のまとめ*}
 
@@ -4698,7 +4695,7 @@ Eitherは次のように定義できる．
   &\mFunctorTypeClass\mSuperSet\mListTypeConstructor{}
   \mWhere{}
   \mMap\mIn{}\mProjEXP{(\mProjEXP{\mA }{\mB })}
-           {\mProjEXP{[\mA]}{\mListType{b}}}\\
+           {\mProjEXP{[\mA]}{[\mB]}}\\
            \mInstancePolymorphic\;
            &\mFunctorTypeClass\mSuperSet\mListTypeConstructor{}
            \mWhere{}\mMap=\mMapList
@@ -4812,30 +4809,33 @@ $\mZip$ は
 る．例えば新しい型を $\mZipListType{a}$ とすると
 \begin{equation}
   \label{eq:data-type-ziplist}
-  \mDataTypePolymorphic\;\mathop{\mZipListTypeConstructor}\mA 
-  =\mGenericRecordWith{\mZipList}{\mGetList\mIn{}[\mA]}
+  \mDataTypePolymorphic\;
+  \mathop{\mZipListTypeConstructor}\mA 
+  =\mGenericRecordWith{ZipList}{\mGetList\mIn{}[\mA]}
 \end{equation}
 のように定義することになる．念のため，左辺の
 $\mZipListTypeConstructor$ は型コンストラクタ，右辺の
-$\mValueConstructor{\mZipList}$ は値コンストラクタである．すな
+$\mValueConstructor{ZipList}$ は値コンストラクタである．すな
 わち
 \begin{equation}
-\mZipListType{a}=\mZipListTypeConstructor\mA 
+  \mZipListType{a}
+  =\mZipListTypeConstructor\mA 
 \end{equation}
 である．
 
 こうしておいて，あとは
 \begin{multline}
-\mInstancePolymorphic\;
-\mApplicativeTypeClass\mSuperSet\mZipListTypeConstructor\mA \\
-\mWhere
-\left\{
-\begin{aligned}
-\mPureWith{x}&=\mZipListWith{\mRepeat x}\\
-\mZipListWith{\mList{f}}\mAppMap\mZipListWith{\mList{x}}
-&=\mZipListWith{\mList{f}\mZip\mList{x}}
-\end{aligned}
-\right.
+  \mInstancePolymorphic\;
+  \mApplicativeTypeClass\mSuperSet\mZipListTypeConstructor\mA\\
+  \mWhere
+  \left\{
+  \begin{aligned}
+    \mPureWith{x}
+    &=\mZipListWith{\mRepeat x}\\
+    \mZipListWith{\mList{f}}\mAppMap\mZipListWith{\mList{x}}
+    &=\mZipListWith{\mList{f}\mZip\mList{x}}
+  \end{aligned}
+  \right.
 \end{multline}
 と定義する．ここで
 \begin{equation}
@@ -4870,21 +4870,23 @@ $\mValueConstructor{\mZipList}$ は値コンストラクタである．すな
 の両方をそれぞれ値コンストラクタで包んでアプリカティブマップ演算子を適
 用すると
 \begin{equation}
-\mZipListWith{\mList{f}}\mAppMap\mZipListWith{\mList{x}}
-=[f_0x_0,f_1x_1,\dotsb]
+  \mZipListWith{\mList{f}}\mAppMap\mZipListWith{\mList{x}}
+  =[f_0x_0,f_1x_1,\dotsb]
 \end{equation}
 のようにジップ演算子を適用できる．
 
 このままでも問題はないのだが，式\eqref{eq:data-type-ziplist}を次のよう
 に書き換えることがより好ましい．
 \begin{equation}
-\mNewDataTypePolymorphic\;\mZipListTypeConstructor\mA =\mZipListRecordWith{\mGetList\mIn{}[\mA]}
+  \mNewDataTypePolymorphic\;
+  \mZipListTypeConstructor\mA
+  =\mZipListRecordWith{\mGetList\mIn{}[\mA]}
 \end{equation}
 やったことはキーワード $\mDataTypePolymorphic$ を
 $\mNewDataTypePolymorphic$ に置き換えたことである．これは，字面に反して，
-型 $\mType{\mZipList}$ が何一つ「新しくない」ことを\haskell コンパイラ
+型 $\mType{ZipList}$ が何一つ「新しくない」ことを\haskell コンパイラ
 に伝えるためである．その結果\haskell コンパイラは型
-$\mType{\mZipList}$ に対する最適化の機会を得る．
+$\mType{ZipList}$ に対する最適化の機会を得る．
 
 \separator
 
@@ -4894,7 +4896,7 @@ $\mType{\mZipList}$ に対する最適化の機会を得る．
   \begin{aligned}
     {}&\mZipWith\mIn{}\mProjEXP{\mProjEXP{\mProjEXP{(\mProjEXP{\mA }
           {\mProjEXP{\mB }{\mC }})}
-        {[\mA]}}{\mListType{b}}}{\mListType{c}}\\
+        {[\mA]}}{[\mB]}}{[\mC]}\\
     {}&\left\{\begin{aligned}
     \mZipWith\mAnyParam\mEmptyList\mAnyParam
     &=\mEmptyList\\
@@ -5604,39 +5606,46 @@ fx&\mGuard{x\equiv0}=1\\
 
 関数 $f$ に与える引数 $x$ のリストを定義する．
 \begin{equation*}
-\left\mBrace
-\begin{aligned}
-\mList{x}&\mIn{}\mListType{\mDoubleType}\\
-\mList{x}&=[i/n*\pi\mListComp i\mFrom\mListWith{0\dotsb n}]
-\end{aligned}
-\right.
+  \left\mBrace
+  \begin{aligned}
+    \mList{x}
+    &\mIn{}[\mDoubleType]\\
+    \mList{x}
+    &=[i/n*\pi\mListComp i\mFrom\mListWith{0\dotsb n}]
+  \end{aligned}
+  \right.
 \end{equation*}
 実はこのままではまずい．変数 $i$ も変数 $n$ も $\mIntType$ 型なので，
 割り算が出来ないのだ．そこで型変換のための関数 $\mFromIntegral$ を使お
 う．関数 $\mFromIntegral$ は $\mIntegralTypeClass$ 型クラスの型の変数
 を，任意の型へと変換する．関数 $\mFromIntegral$ を使って書き直すと
 \begin{equation}
-\left\mBrace
-\begin{aligned}
-\mList{x}&\mIn{}\mListType{\mDoubleType}\\
-\mList{x}&=[(\mFromIntegral i)/(\mFromIntegral n)*\pi\mListComp i\mFrom\mListWith{0\dotsb n}]
-\end{aligned}
-\right.
+  \left\mBrace
+  \begin{aligned}
+    \mList{x}
+    &\mIn{}[\mDoubleType]\\
+    \mList{x}
+    &=[(\mFromIntegral i)/(\mFromIntegral n)*\pi\mListComp i\mFrom[0\dotsb n]]
+  \end{aligned}
+  \right.
 \end{equation}
 となる．この結果，リスト $\mList{x}$ は
 \begin{equation}
-\mList{x}=[0,(1/n)*\pi,(2/n)*\pi,\dotsb,\pi]
+  \mList{x}
+  =[0,(1/n)*\pi,(2/n)*\pi,\dotsb,\pi]
 \end{equation}
 となる．
 
 最後に，関数 $f$ をリスト $\mList{x}$ に適用して結果を得る．
 \begin{equation}
-\left\mBrace
-\begin{aligned}
-y&\mIn{}\mListType{\mDoubleType}\\
-y&=f\mMapList\mList{x}
-\end{aligned}
-\right.
+  \left\mBrace
+  \begin{aligned}
+    y
+    &\mIn{}[\mDoubleType]\\
+    y
+    &=f\mMapList\mList{x}
+  \end{aligned}
+  \right.
 \end{equation}
 
 結果 $\mList{y}$ はプログラム
@@ -5918,17 +5927,17 @@ $\mSqrts$ を考えてみる．
   \left\mBrace
   \begin{aligned}
     &\mSqrts\mIn{}\mRealTypeClass\mSuperSet\mA \mSuperClass
-    \mA\mMapsTo\mListType{\mA}\\
+    \mA\mMapsTo[\mA]\\
     &\mSqrts x=[\mSqrt x,(-\mSqrt x)]
   \end{aligned}
   \right.
 \end{equation}
 
-ここで型 $\mA\mMapsTo\mListType{\mA}$ に別名を与えよう．別名を与えるに
-は型シノニムを定義する方法と，$\mNewDataType$ を用いる方法とがある．前
-者は単に読みやすさの向上のためだけであるが，後者は第
-\ref{ch:polymorphic-types}章で見たように特定の型クラスの新しいインスタ
-ンスとしてその型を定義するためである．
+ここで型 $\mA\mMapsTo[\mA]$ に別名を与えよう．別名を与えるには型シノニ
+ムを定義する方法と，$\mNewDataType$ を用いる方法とがある．前者は単に読
+みやすさの向上のためだけであるが，後者は第\ref{ch:polymorphic-types}章
+で見たように特定の型クラスの新しいインスタンスとしてその型を定義するた
+めである．
 
 我々は後者を選択することにして
 \begin{equation}
@@ -5990,16 +5999,16 @@ $\mTypeAssemble{NonDet}{\mA\,\mB}$ は型 $\mA\mMapsTo[\mA]$ とは異な
 このふたつの関数は
 \begin{equation}
   y
-  =\mConcat(\mTriplicate\mMapList(\mDuplicate x))
+  =\mJoinList(\mTriplicate\mMapList(\mDuplicate x))
 \end{equation}
 のように合成できることがわかる．これを関数合成演算子を使って分解すると
 \begin{equation}
   \label{eq:triplicate-duplicate}
   y
-  =\mConcat\mComp(\mTriplicate\mMapList)\mComp\mDuplicate\mApply x
+  =\mJoinList\mComp(\mTriplicate\mMapList)\mComp\mDuplicate\mApply x
 \end{equation}
 となり，少しは読みやすくなる．しかし，合成のたびに平坦化演算子
-$(\mConcat)$ やマップ演算子 $(\mMapList)$ を書くのは煩雑であるし，3段以
+$(\mJoinList)$ やマップ演算子 $(\mMapList)$ を書くのは煩雑であるし，3段以
 上の合成になると手に負えなくなる．
 
 このような問題を解決するのが\keyword{カテゴリ}すなわち
@@ -6043,12 +6052,12 @@ $(\mA\mMapsTo[\mA])\mMapsTo(\mA\mMapsTo[\mA])\mMapsTo(\mA\mMapsTo[\mA])$
 であるから，式\eqref{eq:triplicate-duplicate}から
 \begin{equation}
   \mTriplicate\mCompCat\mDuplicate
-  =\mConcat\mComp(\mTriplicate\mMapList)\mComp\mDuplicate
+  =\mJoinList\mComp(\mTriplicate\mMapList)\mComp\mDuplicate
 \end{equation}
 をそのまま抽象化して
 \begin{equation}
   \label{eq:triplicate-duplicate-comp}
-  f\mCompCat g=\mConcat\mComp(f\mMapList)\mComp g
+  f\mCompCat g=\mJoinList\mComp(f\mMapList)\mComp g
 \end{equation}
 とすれば，そのまま使えそうである．
 
@@ -6066,7 +6075,7 @@ $\mCategoryTypeClass$ 型クラスのインスタンスにできる．ただし�
     \mIdCat
     &=\mGenericWith{NonDet}{\mLambdaEXP{x}{[x]}}\\
     \mGenericWith{NonDet}{f}\mCompCat\mGenericWith{NonDet}{g}
-    &=\mGenericWith{NonDet}{\mConcat\mComp(f\mMapList)\mComp g}
+    &=\mGenericWith{NonDet}{\mJoinList\mComp(f\mMapList)\mComp g}
   \end{aligned}
   \right.
 \end{multline}
@@ -6100,7 +6109,7 @@ $\mDuplicate$ と $\mTriplicate$ を定義しておこう．
 \begin{align}
   \mTriplicate'\mCompCat\mDuplicate'
   &=\mGenericWith{NonDet}{\mTriplicate}\mCompCat\mGenericWith{NonDet}{\mDuplicate}\\
-  &=\mGenericWith{NonDet}{\mConcat\mComp(\mTriplicate\mMapList)\mComp\mDuplicate}
+  &=\mGenericWith{NonDet}{\mJoinList\mComp(\mTriplicate\mMapList)\mComp\mDuplicate}
 \end{align}
 である．
 
@@ -6168,7 +6177,7 @@ $\rightrightarrows$ を \code{>=>} と書く．
 またリストのバインド演算子 $(\mBindList)$ は
 \begin{equation}
   f\mBindList\mList{x}
-  =\mConcat(f\mMapList\mList{x})
+  =\mJoinList(f\mMapList\mList{x})
 \end{equation}
 であった．
 
@@ -6181,8 +6190,8 @@ $\mGenericWith{NonDet}{g}$ として与えられることを考えると，関
 そこで $\leftleftarrows$ 演算子とリストのバインド演算子を用い
 ると
 \begin{align}
-  \mConcat\mComp(f\mMapList)\mComp g
-  &=\mLambda x\mLambdaArrow\mConcat(f\mMapList(gx))\\
+  \mJoinList\mComp(f\mMapList)\mComp g
+  &=\mLambda x\mLambdaArrow\mJoinList(f\mMapList(gx))\\
   &=\mLambda x\mLambdaArrow f\mBindList(gx)\\
   &=f\leftleftarrows g
 \end{align}
