@@ -94,7 +94,7 @@
 \newcommand{\mOfKeyword}{\mKeyword{of}}
 \newcommand{\mOtherwiseKeyword}{\mKeyword{otherwise}}
 \newcommand{\mThenKeyword}{\mKeyword{then}}
-\newcommand{\mTypeClassKeyword}{\mKeyword{type}\mKeywordUnderline{class}}
+\newcommand{\mTypeClassDeclKeyword}{\mKeyword{type}\mKeywordUnderline{class}}
 \newcommand{\mTypeSynonymKeyword}{\mKeywordUnderline{type}\mKeyword{synonym}}
 \newcommand{\mWhereKeyword}{\mKeyword{where}}
 
@@ -119,8 +119,8 @@
 \DeclareMathOperator{\mSuperClass}{\Rightarrow}
 \DeclareMathOperator{\mSuperSet}{\supset}
 \DeclareMathOperator{\mThen}{\mThenKeyword}
-\DeclareMathOperator{\mTypeClass}{\mTypeClassKeyword}
-\DeclareMathOperator{\mTypeClassPolymorphic}{\mTypeClassKeyword^\dagger}
+\DeclareMathOperator{\mTypeClassDecl}{\mTypeClassDeclKeyword}
+\DeclareMathOperator{\mTypeClassDeclPolymorphic}{\mTypeClassDeclKeyword^\dagger}
 \DeclareMathOperator{\mTypeSynonym}{\mTypeSynonymKeyword}
 \DeclareMathOperator{\mWhere}{\mWhereKeyword}
 
@@ -360,21 +360,22 @@
 \DeclareMathOperator{\mIFunctor}{\mSpecialFunctor{I}}
 
 % Type classes
-\newcommand{\mGenericTypeClass}[1]{\textsc{#1}} % Inetrnal use
+\newcommand{\mTypeClass}[1]{\textsc{#1}} % Inetrnal use
 
-\newcommand{\mApplicativeTypeClass}{\mGenericTypeClass{Applicative}}
-\newcommand{\mCategoryTypeClass}{\mGenericTypeClass{Category}}
-\newcommand{\mEnumTypeClass}{\mGenericTypeClass{Enum}}
-\newcommand{\mEqTypeClass}{\mGenericTypeClass{Eq}}
-\newcommand{\mFunctorTypeClass}{\mGenericTypeClass{Functor}}
-\newcommand{\mIntegralTypeClass}{\mGenericTypeClass{Integral}}
-\newcommand{\mMonadTypeClass}{\mGenericTypeClass{Monad}}
-\newcommand{\mMonadPlusTypeClass}{\mGenericTypeClass{MonadPlus}}
-\newcommand{\mMonoidTypeClass}{\mGenericTypeClass{Monoid}}
-\newcommand{\mNumTypeClass}{\mGenericTypeClass{Num}}
-\newcommand{\mOrdTypeClass}{\mGenericTypeClass{Ord}}
-\newcommand{\mRealTypeClass}{\mGenericTypeClass{Real}}
-\newcommand{\mRealFloatTypeClass}{\mGenericTypeClass{RealFloat}}
+\newcommand{\mApplicativeTypeClass}{\mTypeClass{Applicative}}
+\newcommand{\mArrowTypeClass}{\mTypeClass{Arrow}}
+\newcommand{\mCategoryTypeClass}{\mTypeClass{Category}}
+\newcommand{\mEnumTypeClass}{\mTypeClass{Enum}}
+\newcommand{\mEqTypeClass}{\mTypeClass{Eq}}
+\newcommand{\mFunctorTypeClass}{\mTypeClass{Functor}}
+\newcommand{\mIntegralTypeClass}{\mTypeClass{Integral}}
+\newcommand{\mMonadTypeClass}{\mTypeClass{Monad}}
+\newcommand{\mMonadPlusTypeClass}{\mTypeClass{MonadPlus}}
+\newcommand{\mMonoidTypeClass}{\mTypeClass{Monoid}}
+\newcommand{\mNumTypeClass}{\mTypeClass{Num}}
+\newcommand{\mOrdTypeClass}{\mTypeClass{Ord}}
+\newcommand{\mRealTypeClass}{\mTypeClass{Real}}
+\newcommand{\mRealFloatTypeClass}{\mTypeClass{RealFloat}}
 
 % Decolations
 \newcommand{\mEither}[1]{{#1}^!}
@@ -393,14 +394,13 @@
 \newcommand{\mDo}[1]{\mDoKW\left\{#1\right\}}
 \newcommand{\mDoLet}[2]{\mathop{\mDoLetKeyword}#1\mDoLetEq#2}
 
-\newcommand{\mIfThenElseEXP}[3]{\mIf{#1}\mThen{#2}\mElse{#3}}
-\newcommand{\mLambdaEXP}[2]{\mLambda{#1}\mLambdaArrow{#2}}
-\newcommand{\mLetInEXP}[3]{\mLet#1\mLetEq#2\mLetIn{#3}}
-\newcommand{\mMorph}[2]{#1\mMorphTo#2}
-\newcommand{\mProjEXP}[2]{#1\mMapsTo#2}
-\newcommand{\mWhereIsEXP}[2]{\mathbin{\mWhereKeyword}#1\mLetEq#2}
-\newcommand{\mWhereIsIIEXP}[4]{\mathbin{\mWhereKeyword}#1\mLetEq#2,#3\mLetEq#4}
-
+\newcommand{\mIfThenElseEXP}[3]{\mIf{#1}\mThen{#2}\mElse{#3}} %%% TO BE REMOVED
+\newcommand{\mLambdaEXP}[2]{\mLambda{#1}\mLambdaArrow{#2}} %%% TO BE REMOVED
+\newcommand{\mLetInEXP}[3]{\mLet#1\mLetEq#2\mLetIn{#3}} %%% TO BE REMOVED
+\newcommand{\mMorph}[2]{#1\mMorphTo#2} %%% TO BE REMOVED
+\newcommand{\mProjEXP}[2]{#1\mMapsTo#2} %%% TO BE REMOVED
+\newcommand{\mWhereIsEXP}[2]{\mathbin{\mWhereKeyword}#1\mLetEq#2} %%% TO BE REMOVED
+\newcommand{\mWhereIsIIEXP}[4]{\mathbin{\mWhereKeyword}#1\mLetEq#2,#3\mLetEq#4} %%% TO BE REMOVED
 
 \title{関数型プログラミングと代数構造}
 \author{金谷一朗}
@@ -4455,7 +4455,7 @@ $\mValueConstructor{Triangle}$ によって初期化され，それぞれ2個
 $\mEqTypeClass$ に属すとしよう．型クラス $\mEqTypeClass$ は等号
 $(\equiv)$ と不等号 $(\neq)$ をインタフェースとして持つ．このことを
 \begin{equation}
-  \mTypeClass\mathop{\mEqTypeClass}\mSuperSet\mA \mWhere{}
+  \mTypeClassDecl\mathop{\mEqTypeClass}\mSuperSet\mA\mWhere{}
   \left\{
   \begin{aligned}
     &(\equiv)\mIn\mProjEXP{\mA }{\mProjEXP{\mA }{\mBoolType}}\\
@@ -4465,7 +4465,7 @@ $(\equiv)$ と不等号 $(\neq)$ をインタフェースとして持つ．こ�
   \end{aligned}
   \right.
 \end{equation}
-と書く．\footnote{\haskell では$\mTypeClass$ を \code{class} と書く．ま
+と書く．\footnote{\haskell では$\mTypeClassDecl$ を \code{class} と書く．ま
   た $\mSuperSet$ を省略して，
 \begin{verbatim}
   class Eq a where
@@ -4512,7 +4512,7 @@ $\mInstance$ 文を使う．
 ラス $\mEqTypeClass$ から等号，不等号を継承し「小なりイコール」
 $(\le)$ を追加する．
 \begin{equation}
-  \mTypeClass\;\mEqTypeClass\mSuperSet\mA 
+  \mTypeClassDecl\;\mEqTypeClass\mSuperSet\mA 
   \mSuperClass\mathop{\mOrdTypeClass}\mA 
   \mWhere{}(\le)\mIn\mProjEXP{\mA }{\mProjEXP{\mA }{\mBoolType}}
 \end{equation}
@@ -4690,7 +4690,7 @@ Eitherは次のように定義できる．
 型クラス $\mFunctorTypeClass$ はマップ演算子 $(\mMap)$ を提供する．リ
 スト型は $\mFunctorTypeClass$ 型クラスのインスタンスなので，
 \begin{align}
-  \mTypeClassPolymorphic\;
+  \mTypeClassDeclPolymorphic\;
   &\mFunctorTypeClass\mSuperSet\mListTypeConstructor{}
   \mWhere{}
   \mMap\mIn{}\mProjEXP{(\mProjEXP{\mA }{\mB })}
@@ -4708,7 +4708,7 @@ Eitherは次のように定義できる．
 
 Maybe型の場合は
 \begin{align}
-  \mTypeClassPolymorphic\;
+  \mTypeClassDeclPolymorphic\;
   &\mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor\nonumber\\
 &\quad\mWhere{}\mMap\mIn{}\mProjEXP{(\mProjEXP{\mA }{\mB })}{\mProjEXP{\mMaybeType{a}}{\mMaybeType{b}}}\\
   \mInstancePolymorphic\;
@@ -4733,7 +4733,7 @@ Maybe型の場合は
 
 Either型の場合は
 \begin{align}
-  \mTypeClassPolymorphic\;
+  \mTypeClassDeclPolymorphic\;
 &\mFunctorTypeClass\mSuperSet{}(\mathop{\mEitherTypeConstructor}\,\mA )\nonumber\\
 &\quad\mWhere{}\mMap\mIn{}\mProjEXP{(\mProjEXP{\mA }{\mB })}{\mProjEXP{\mEitherType{a}{a}}{\mEitherType{a}{b}}}\\
   \mInstancePolymorphic\;
@@ -4759,7 +4759,7 @@ Either型の場合は
 型に関して一般化すると
 \begin{multline}
   \label{eq:fn}
-  \mTypeClassPolymorphic\;
+  \mTypeClassDeclPolymorphic\;
   \mFunctorTypeClass\mSuperSet\mTypeConstructor{f}\\
   \mWhere{}
   \mMap
@@ -6015,7 +6015,7 @@ $\mCategoryTypeClass$ 型クラスである．
 
 $\mCategoryTypeClass$ 型クラスは次のように定義されている．
 \begin{equation}
-  \mTypeClass\;
+  \mTypeClassDecl\;
   \mCategoryTypeClass\,\mType{cat}
   \mWhere\left\{
   \begin{aligned}
@@ -6068,7 +6068,7 @@ $\mCategoryTypeClass$ 型クラスのインスタンスにできる．ただし�
 \begin{multline}
   \label{eq:nondet-instance}
   \mInstance\;
-  \mGenericTypeClass{Category}\mSuperSet\mTypeConstructor{NonDet}\\
+  \mTypeClass{Category}\mSuperSet\mTypeConstructor{NonDet}\\
   \mWhere\left\{
   \begin{aligned}
     \mIdCat
@@ -6298,7 +6298,7 @@ $$
 $$
 
 \begin{equation}
-\mTypeClassPolymorphic\mGenericTypeClass{Arrow}{}\mA 
+\mTypeClassDeclPolymorphic\mTypeClass{Arrow}{}\mA 
 \mWhere\left\{
 \begin{aligned}
   \mathrm{arr}&\mIn{}\mProjEXP{(\mProjEXP{\mB }{\mC })}{\mA \mB \mC }\\
@@ -6314,7 +6314,7 @@ $$
 \end{equation}
 
 \begin{multline}
-  \mInstance\mGenericTypeClass{Arrow}{}\textit{Fn}\\
+  \mInstance\mTypeClass{Arrow}{}\textit{Fn}\\
   \mWhere\left\{
   \begin{aligned}
     \mathop{\mathrm{arr}} f&=\mathit{Fn} f\\
@@ -6327,7 +6327,7 @@ $$
 \end{multline}
 
 \begin{equation}
-  \mInstance\mGenericTypeClass{Category}\mathit{Fn}\mWhere
+  \mInstance\mTypeClass{Category}\mathit{Fn}\mWhere
   \left\{
   \begin{aligned}
     (\mathit{Fn} g)\mComp(\mathit{Fn} f)&=\mathit{Fn}(g\mComp f)\\
