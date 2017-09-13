@@ -297,10 +297,10 @@
 
 % Special polymorphic types
 \newcommand{\mFuncType}[2]{\Langle\mType{#1}\Rangle}%_\mType{#2}}
-\newcommand{\mListType}[1]{[\mType{#1}]}
+\newcommand{\mListType}[1]{[\mType{#1}]} %%% TO BE REMOVED
 \newcommand{\mPureType}[1]{\langle\mType{#1}\rangle}
 
-% General type assemblers
+% Polymorphic types
 \newcommand{\mTypeAssemble}[2]{{}^{\mType{#1}}\[\mType{#2}\]}
 \newcommand{\mTypeAssembleII}[3]{{}^{\mType{#1}}\[\mType{#2}\,\mType{#3}\]}
 
@@ -310,7 +310,7 @@
 \newcommand{\mMaybeType}[1]{\mTypeAssemble{Maybe}{#1}}
 \newcommand{\mZipListType}[1]{\mTypeAssemble{ZipList}{#1}}
 
-% General polymorphic type names with type parameter
+% Polymorphic types with specific data types
 \newcommand{\mComplexDoubleType}{\mComplexType{\mDoubleType}}
 \newcommand{\mIODoubleType}{\mIOType{\mDoubleType}}
 \newcommand{\mIOIntType}{\mIOType{\mIntType}}
@@ -327,38 +327,37 @@
 
 \newcommand{\mFuncTypeConstructor}[1]{\mathop{\mTypeConstructor{Func}_{(\mType{#1})}}}
 
-% General value constructors
+% Value constructors
 \newcommand{\mValueConstructor}[1]{\mathrm{#1}}
-\newcommand{\mGenericWith}[2]{{}^\mType{#1}\[#2\]}
-\newcommand{\mGenericRecordWith}[2]{{}^\mValueConstructor{#1}\{#2\}}
-\newcommand{\mGenericRecordBeginWith}[1]{{}^\mValueConstructor{#1}\{}
-\newcommand{\mGenericRecordEnd}{\}}
 
-\newcommand{\mLeftWith}[1]{\mGenericWith{\mLeft}{#1}}
-\newcommand{\mRightWith}[1]{\mGenericWith{\mRight}{#1}}
-\newcommand{\mJustWith}[1]{\mGenericWith{Just}{#1}}
-\newcommand{\mZipListWith}[1]{\mGenericWith{ZipList}{#1}}
-\newcommand{\mZipListRecordWith}[1]{\mGenericRecordWith{ZipList}{#1}}
+\newcommand{\mValueWith}[2]{{}^\mValueConstructor{#1}\[#2\]}
+\newcommand{\mValueRecordWith}[2]{{}^\mValueConstructor{#1}\{#2\}}
+\newcommand{\mValueRecordBeginWith}[1]{{}^\mValueConstructor{#1}\{}
+\newcommand{\mValueRecordEnd}{\}}
 
-% Special value constructors
+\newcommand{\mLeftWith}[1]{\mValueWith{Left}{#1}}
+\newcommand{\mRightWith}[1]{\mValueWith{Right}{#1}}
+\newcommand{\mJustWith}[1]{\mValueWith{Just}{#1}}
+\newcommand{\mZipListWith}[1]{\mValueWith{ZipList}{#1}}
+\newcommand{\mZipListRecordWith}[1]{\mValueRecordWith{ZipList}{#1}}
+
+% Famous value constructors
 \newcommand{\mArrowWith}[1]{\langle\!\langle\!\langle#1\rangle\!\rangle\!\rangle}
 \newcommand{\mFuncWith}[1]{\Langle#1\Rangle}
-\newcommand{\mListWith}[1]{\left[#1\right]}
+\newcommand{\mListWith}[1]{\left[#1\right]} %%% TO BE REMOVED
 \newcommand{\mPureWith}[1]{\langle#1\rangle}
 
 % Built-in value constructors
-\newcommand{\mSetWith}[1]{\left\{#1\right\}}
-\newcommand{\mTupleWith}[1]{\left(#1\right)}
+\newcommand{\mSetWith}[1]{\left\{#1\right\}} %%% TO BE REMOVED
+\newcommand{\mTupleWith}[1]{\left(#1\right)} %%% TO BE REMOVED
+
+% Unboxed tupple
 \newcommand{\mTupleUnboxedWith}[1]{\texttt{(\#}#1\texttt{\#)}}
 
 % Functors
-\newcommand{\mFunctor}[1]{\textit{\textbf{#1}}}
 \newcommand{\mSpecialFunctor}[1]{\mathcal{#1}} % Internal use
 
 \DeclareMathOperator{\mIFunctor}{\mSpecialFunctor{I}}
-\DeclareMathOperator{\mFunctionFunctor}{{(\mMapsTo)\mType{r}}}
-\DeclareMathOperator{\mListFunctor}{\mFunctor{List}}
-\DeclareMathOperator{\mMaybeFunctor}{\mFunctor{Maybe}}
 
 % Type classes
 \newcommand{\mGenericTypeClass}[1]{\textsc{#1}} % Inetrnal use
@@ -4346,7 +4345,7 @@ Three | Many deriving Eq} と書く．}
   \label{eq:rectangle}
   \mDataType\;
   \mType{Rectangle}\\
-  =\mGenericWith{Rectangle}
+  =\mValueWith{Rectangle}
   {\mFloatType\,\mFloatType\,\mFloatType\,\mFloatType}
   \mDeriving\mEqTypeClass
 \end{multline}
@@ -4358,7 +4357,7 @@ $\mType{Rencatngle}$ 型の変数は次のように初期化する．
   \left\mBrace
   \begin{aligned}
     r&\mIn\mType{Rectangle}\\
-    r&=\mGenericWith{Rectangle}{1\,2\,3\,4}
+    r&=\mValueWith{Rectangle}{1\,2\,3\,4}
   \end{aligned}
   \right.
 \end{equation}
@@ -4373,13 +4372,13 @@ $\mType{Rencatngle}$ 型の変数は次のように初期化する．
 $\mType{Rectangle}$ 型から中身を取り出すには，次のような関数を用意して
 おかねばならない．
 \begin{align}
-  x\mGenericWith{Rectangle}{x\,\mAnyParam\,\mAnyParam\,\mAnyParam}
+  x\mValueWith{Rectangle}{x\,\mAnyParam\,\mAnyParam\,\mAnyParam}
   &=x\\
-  y\mGenericWith{Rectangle}{\mAnyParam\,y\,\mAnyParam\,\mAnyParam}
+  y\mValueWith{Rectangle}{\mAnyParam\,y\,\mAnyParam\,\mAnyParam}
   &=y\\
-  width\mGenericWith{Rectangle}{\mAnyParam\,\mAnyParam\,w\,\mAnyParam}
+  width\mValueWith{Rectangle}{\mAnyParam\,\mAnyParam\,w\,\mAnyParam}
   &=w\\
-  height\mGenericWith{Rectangle}{\mAnyParam\,\mAnyParam\,\mAnyParam\,h}
+  height\mValueWith{Rectangle}{\mAnyParam\,\mAnyParam\,\mAnyParam\,h}
   &=h
 \end{align}
 この面倒は，次のシンタックスシュガーを使うことで軽減される．
@@ -4397,12 +4396,12 @@ $\mType{Rectangle}$ 型から中身を取り出すには，次のような関数
 コード構文を使うと，式\eqref{eq:rectangle}は
 \begin{multline}
   \mDataType\;\mType{Rectangle}\\
-  =\mGenericRecordBeginWith{Rectangle}
+  =\mValueRecordBeginWith{Rectangle}
   x\mIn\mFloatType,
   y\mIn\mFloatType,
   width\mIn\mFloatType,
   height\mIn\mFloatType
-  \mGenericRecordEnd\\
+  \mValueRecordEnd\\
   \mDeriving\mEqTypeClass
 \end{multline}
 のように書き直すことができる．\footnote{\haskell では
@@ -4421,7 +4420,7 @@ $\mType{Rectangle}$ 型から中身を取り出すには，次のような関数
 また
 \begin{equation}
   r=
-  \mGenericRecordWith{Rectangle}{
+  \mValueRecordWith{Rectangle}{
     x=1,
     y=2,
     width=3,
@@ -4437,9 +4436,9 @@ $\mType{Rectangle}$ 型から中身を取り出すには，次のような関数
 データ型の定義には，複数の値コンストラクタを指定できる．そのため
 \begin{multline}
 \mDataType\;\mType{Shape}
-=\mGenericWith{Circle}{\mFloatType\,\mFloatType}\\
+=\mValueWith{Circle}{\mFloatType\,\mFloatType}\\
 \mValueOr
-\mGenericWith{Triangle}{\mFloatType\,\mFloatType\,\mFloatType}
+\mValueWith{Triangle}{\mFloatType\,\mFloatType\,\mFloatType}
 \end{multline}
 のようなデータ型の定義も可能である．この例では型 $\mType{Shape}$ は値
 コンストラクタ $\mValueConstructor{Circle}$ または
@@ -4811,7 +4810,7 @@ $\mZip$ は
   \label{eq:data-type-ziplist}
   \mDataTypePolymorphic\;
   \mathop{\mZipListTypeConstructor}\mA 
-  =\mGenericRecordWith{ZipList}{\mGetList\mIn{}[\mA]}
+  =\mValueRecordWith{ZipList}{\mGetList\mIn{}[\mA]}
 \end{equation}
 のように定義することになる．念のため，左辺の
 $\mZipListTypeConstructor$ は型コンストラクタ，右辺の
@@ -5883,9 +5882,9 @@ main = do
 \mInstance\;&\mFunctorTypeClass\mSuperSet\mType{f}\mSuperClass\mTypeConstructor{Monad}(\mathop{\mTypeConstructor{Free}}\mType{f})\nonumber\\
 &\quad\mWhere\left\{
 \begin{aligned}
-\mPureWith{x}&=\mGenericWith{Pure}{x}\\
-k\mBind\mGenericWith{Pure}{a}&=ka\\
-k\mBind\mGenericWith{Free}{f}&=\mGenericWith{Free}{(k\mBind\mAnonParam)\mMap f}
+\mPureWith{x}&=\mValueWith{Pure}{x}\\
+k\mBind\mValueWith{Pure}{a}&=ka\\
+k\mBind\mValueWith{Free}{f}&=\mValueWith{Free}{(k\mBind\mAnonParam)\mMap f}
 \end{aligned}
 \right.
 \end{align}
@@ -5943,7 +5942,7 @@ $\mSqrts$ を考えてみる．
 \begin{equation}
   \mNewDataType\;
   \mTypeConstructor{NonDet}\,\mA\,\mB
-  =\mGenericRecordWith{NonDet}{\mRun\mIn\mA\mMapsTo[\mB]}
+  =\mValueRecordWith{NonDet}{\mRun\mIn\mA\mMapsTo[\mB]}
 \end{equation}
 とする．
 
@@ -5955,13 +5954,13 @@ $\mTypeAssemble{NonDet}{\mA\,\mB}$ は型 $\mA\mMapsTo[\mA]$ とは異な
   \begin{aligned}
     &\mSqrts'\mIn\mRealTypeClass\mSuperSet\mA \mSuperClass
     \mTypeAssemble{NonDet}{\mA\,\mA}\\
-    &\mSqrts'=\mGenericWith{NonDet}{\mRun=\mSqrts}
+    &\mSqrts'=\mValueWith{NonDet}{\mRun=\mSqrts}
   \end{aligned}
   \right.
 \end{equation}
 のように定義しよう．
 
-関数 $\mSqrts'$ はコンテナ $\mGenericWith{NonDet}{\dotsb}$ に包まれ
+関数 $\mSqrts'$ はコンテナ $\mValueWith{NonDet}{\dotsb}$ に包まれ
 ているので，
 \begin{equation}
   y=\mRun\mSqrts'x
@@ -6073,9 +6072,9 @@ $\mCategoryTypeClass$ 型クラスのインスタンスにできる．ただし�
   \mWhere\left\{
   \begin{aligned}
     \mIdCat
-    &=\mGenericWith{NonDet}{\mLambdaEXP{x}{[x]}}\\
-    \mGenericWith{NonDet}{f}\mCompCat\mGenericWith{NonDet}{g}
-    &=\mGenericWith{NonDet}{\mJoinList\mComp(f\mMapList)\mComp g}
+    &=\mValueWith{NonDet}{\mLambdaEXP{x}{[x]}}\\
+    \mValueWith{NonDet}{f}\mCompCat\mValueWith{NonDet}{g}
+    &=\mValueWith{NonDet}{\mJoinList\mComp(f\mMapList)\mComp g}
   \end{aligned}
   \right.
 \end{multline}
@@ -6087,7 +6086,7 @@ $\mDuplicate$ と $\mTriplicate$ を定義しておこう．
     &\mDuplicate'
     \mIn\mTypeAssemble{NonDet}{\mA\,\mA}\\
     &\mDuplicate'
-    =\mGenericWith{NonDet}{\mDuplicate}
+    =\mValueWith{NonDet}{\mDuplicate}
   \end{aligned}
   \right.\\
   &\left\mBrace
@@ -6095,7 +6094,7 @@ $\mDuplicate$ と $\mTriplicate$ を定義しておこう．
     &\mTriplicate'
     \mIn\mTypeAssemble{NonDet}{\mA\,\mA}\\
     &\mTriplicate'
-    =\mGenericWith{NonDet}{\mTriplicate}
+    =\mValueWith{NonDet}{\mTriplicate}
   \end{aligned}
   \right.
 \end{align}
@@ -6108,8 +6107,8 @@ $\mDuplicate$ と $\mTriplicate$ を定義しておこう．
 しておくと
 \begin{align}
   \mTriplicate'\mCompCat\mDuplicate'
-  &=\mGenericWith{NonDet}{\mTriplicate}\mCompCat\mGenericWith{NonDet}{\mDuplicate}\\
-  &=\mGenericWith{NonDet}{\mJoinList\mComp(\mTriplicate\mMapList)\mComp\mDuplicate}
+  &=\mValueWith{NonDet}{\mTriplicate}\mCompCat\mValueWith{NonDet}{\mDuplicate}\\
+  &=\mValueWith{NonDet}{\mJoinList\mComp(\mTriplicate\mMapList)\mComp\mDuplicate}
 \end{align}
 である．
 
@@ -6181,8 +6180,8 @@ $\rightrightarrows$ を \code{>=>} と書く．
 \end{equation}
 であった．
 
-関数 $f$, $g$ が $\mGenericWith{NonDet}{f}$,
-$\mGenericWith{NonDet}{g}$ として与えられることを考えると，関
+関数 $f$, $g$ が $\mValueWith{NonDet}{f}$,
+$\mValueWith{NonDet}{g}$ として与えられることを考えると，関
 数 $f$, $g$ の型は $\mA\mMapsTo[\mA]$ で確定するので，式
 \eqref{eq:leftleftarrows}の中のバインド演算子 $(\mBind)$ はリストのバ
 インド演算子 $(\mBindList)$ で確定する．
@@ -6197,8 +6196,8 @@ $\mGenericWith{NonDet}{g}$ として与えられることを考えると，関
 \end{align}
 であるから，式\eqref{eq:nondet-instance}の2行目は
 \begin{equation}
-  \mGenericWith{NonDet}{f}\mComp\mGenericWith{NonDet}{g}
-  =\mGenericWith{NonDet}{f\leftleftarrows g}
+  \mValueWith{NonDet}{f}\mComp\mValueWith{NonDet}{g}
+  =\mValueWith{NonDet}{f\leftleftarrows g}
 \end{equation}
 とも書ける．改めて式\eqref{eq:nondet-instance}を書き直すと
 % pureも説明!!
@@ -6208,9 +6207,9 @@ $\mGenericWith{NonDet}{g}$ として与えられることを考えると，関
   \mWhere\left\{
   \begin{aligned}
     \mIdCat
-    &=\mGenericWith{NonDet}{\mPureWith{x}}\\
-    \mGenericWith{NonDet}{f}\mCompCat\mGenericWith{NonDet}{g}
-    &=\mGenericWith{NonDet}{f\leftleftarrows g}
+    &=\mValueWith{NonDet}{\mPureWith{x}}\\
+    \mValueWith{NonDet}{f}\mCompCat\mValueWith{NonDet}{g}
+    &=\mValueWith{NonDet}{f\leftleftarrows g}
   \end{aligned}
   \right.
 \end{multline}
@@ -6236,7 +6235,7 @@ instance Cat.Category NonDet where
 \begin{equation}
   \mNewDataType\;
   \mTypeConstructor{ItCouldBe}\,\mA\,\mB
-  =\mGenericRecordWith{ItCouldBe}{\mathrm{runIt}\mIn\mA\mMapsTo\mMaybeType{b}}
+  =\mValueRecordWith{ItCouldBe}{\mathrm{runIt}\mIn\mA\mMapsTo\mMaybeType{b}}
 \end{equation}
 
 \begin{equation}
@@ -6263,7 +6262,7 @@ instance Cat.Category NonDet where
 
 \begin{equation}
   \mathrm{rec}'
-  =\mGenericWith{ItCouldBe}{\mathrm{rec}}
+  =\mValueWith{ItCouldBe}{\mathrm{rec}}
 \end{equation}
 
 ---
@@ -6271,10 +6270,10 @@ instance Cat.Category NonDet where
 \begin{align}
   \mNewDataType\;
   &\mTypeConstructor{NonDet}\,\mA\,\mB
-  =\mGenericWith{NonDet}{\mA\mMapsTo[\mB]}\\
+  =\mValueWith{NonDet}{\mA\mMapsTo[\mB]}\\
   \mNewDataType\;
   &\mTypeConstructor{ItCouldBe}\,\mA\,\mB
-  =\mGenericWith{ItCouldBe}{\mA\mMapsTo\mMaybeType{b}}
+  =\mValueWith{ItCouldBe}{\mA\mMapsTo\mMaybeType{b}}
 \end{align}
 
 
@@ -6282,7 +6281,7 @@ instance Cat.Category NonDet where
 \begin{equation}
   \mNewDataType\;
   \mTypeConstructor{Kleisli}\,\mPolymorphicTypeParameter{m}\,\mA\,\mB
-  =\mGenericWith{NonDet}{\mA\mMapsTo\mTypeAssemble{m}{\mB}}
+  =\mValueWith{NonDet}{\mA\mMapsTo\mTypeAssemble{m}{\mB}}
 \end{equation}
 
 ---
