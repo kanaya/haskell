@@ -301,7 +301,7 @@
 \newcommand{\mUnitType}{\mType{()}}
 
 % Special polymorphic types
-\newcommand{\mFuncType}[2]{\Langle\mType{#1}\Rangle_\mType{#2}}
+\newcommand{\mFuncType}[2]{\Langle\mType{#1}\Rangle}%_\mType{#2}}
 \newcommand{\mListType}[1]{[\mType{#1}]}
 \newcommand{\mPureType}[1]{\langle\mType{#1}\rangle}
 
@@ -423,32 +423,33 @@
 \hline
 種類&字体・表記法&例\\
 \hline\hline
-定数&イタリック，大文字&$A,B,C$\\
-有名な定数&ローマン，大文字&$\mTrue,\mFalse$\\
+定数&オイラー・大文字&$A,B,C$\\
+有名な定数&ローマン・大文字&$\mTrue,\mFalse$\\
 \hline
-変数&イタリック，小文字&$u,v,w,x,y,z$\\
-有名な変数&ローマン，小文字&$\mFirstVar,\mRestVar$\\
+変数&オイラー・小文字&$u,v,w,x,y,z$\\
+有名な変数&ローマン・小文字&$\mFirstVar,\mRestVar$\\
 リスト変数&肩に星印をつける&$\mList{x}$\\
 Maybe変数&肩に?をつける&$\mMaybe{u}$\\
 Ether変数&肩に!をつける&$\mEither{u}$\\
 \hline
-関数&イタリック，小文字&$f,g,h,i,j,k$\\
-有名な関数&ローマン，小文字&$\sin,\cos$\\
+関数&オイラー・小文字&$f,g,h,i,j,k$\\
+有名な関数&ローマン・小文字&$\sin,\cos$\\
 % リスト関数&肩に星印をつける&$\mList{f}$\\
 % Maybe関数&肩に?をつける&$\mMaybe{g}$\\
 コンテナ関数&ギリシア文字&$\phi,\psi$\\
 \hline
 アクション&ギリシア文字&$\alpha,\omega$\\
 有名なアクション&スラント・小文字&$\mPutStr,\mReadLn$\\
+% \hline
+% 添字&ローマン・大文字&$x_\mLeft,x_\mRight$\\
 \hline
-添字&ローマン，大文字&$x_\mLeft,x_\mRight$\\
+集合&ボールドローマン・大文字&$\mSet{A},\mSet{B},\mSet{C}$\\
+有名な集合&ブラックボード・大文字&$\mBSet,\mZSet,\mRSet$\\
+単位元&ローマンに斜線・大文字&$\mZero$\\
 \hline
-集合&ボールドローマン，大文字&$\mSet{A},\mSet{B},\mSet{C}$\\
-有名な集合&ブラックボード，大文字&$\mBSet,\mZSet,\mRSet$\\
-単位元&ローマンに斜線，大文字&$\mZero$\\
-\hline
-型パラメタ&ボールドローマン，小文字&$\mA,\mB,\mC$\\
-型&ボールドローマン，大文字&$\mBoolType,\mIntType,\mFloatType$\\
+型&ボールドローマン・大文字&$\mBoolType,\mIntType,\mFloatType$\\
+型パラメタ&ボールドローマン・小文字&$\mA,\mB,\mC$\\
+多相型パラメタ&ボールドイタリック・小文字&$\mPolymorphicTypeParameter{f},\mPolymorphicTypeParameter{m}$\\
 コンテナ型&左肩にコンテナ名をつける&$\mMaybeType{a},\mIOType{a}$\\
 有名なコンテナ型&特別な括弧で包む&$\mListType{a},\mFuncType{a}{r}$\\
 型クラス&スモールキャピタル&$\mEqTypeClass,\mOrdTypeClass,\mNumTypeClass$\\
