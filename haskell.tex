@@ -3,8 +3,8 @@
 \usepackage{amsmath,amssymb,ascmac,bm,graphicx,latexsym,mathtools,multirow,okuverb}
 \makeindex
 
-\def\[{\left[\!\left[}
-\def\]{\right]\!\right]}
+\def\[{[\![}
+\def\]{]\!]}
 \def\({\left(\!\left(}
 \def\){\right)\!\right)}
 
@@ -285,6 +285,7 @@
 
 % Type names
 \newcommand{\mType}[1]{\mathbf{#1}}
+\newcommand{\mPolymorphicTypeParameter}[1]{\textbf{\textit{#1}}}
 
 \newcommand{\mA}{\mType{a}}
 \newcommand{\mB}{\mType{b}}
@@ -322,7 +323,7 @@
 \newcommand{\mIOUnitType}{\mIOType{\mUnitType}}
 
 % Type constructors
-\newcommand{\mTypeConstructor}[1]{\textit{#1}}
+\newcommand{\mTypeConstructor}[1]{\textsl{#1}}
 
 \DeclareMathOperator{\mEitherTypeConstructor}{\mTypeConstructor{Either}}
 \DeclareMathOperator{\mListTypeConstructor}{\mTypeConstructor{List}}
@@ -333,15 +334,15 @@
 
 % General value constructors
 \newcommand{\mValueConstructor}[1]{\mathrm{#1}}
-\newcommand{\mGenericValueAssemble}[2]{{}^\mValueConstructor{#1}\[#2\]}
+\newcommand{\mGenericWith}[2]{{}^\mType{#1}\[#2\]}
 \newcommand{\mGenericRecordWith}[2]{{}^\mValueConstructor{#1}\{#2\}}
 \newcommand{\mGenericRecordBeginWith}[1]{{}^\mValueConstructor{#1}\{}
 \newcommand{\mGenericRecordEnd}{\}}
 
-\newcommand{\mLeftWith}[1]{\mGenericValueAssemble{\mLeft}{#1}}
-\newcommand{\mRightWith}[1]{\mGenericValueAssemble{\mRight}{#1}}
-\newcommand{\mJustWith}[1]{\mGenericValueAssemble{Just}{#1}}
-\newcommand{\mZipListWith}[1]{\mGenericValueAssemble{\mZipList}{#1}}
+\newcommand{\mLeftWith}[1]{\mGenericWith{\mLeft}{#1}}
+\newcommand{\mRightWith}[1]{\mGenericWith{\mRight}{#1}}
+\newcommand{\mJustWith}[1]{\mGenericWith{Just}{#1}}
+\newcommand{\mZipListWith}[1]{\mGenericWith{\mZipList}{#1}}
 \newcommand{\mZipListRecordWith}[1]{\mGenericRecordWith{\mZipList}{#1}}
 
 % Special value constructors
@@ -3105,24 +3106,25 @@ $(\mA\mMapsTo\mB)\mMapsTo([\mA]\mMapsTo[\mB])$ という型を持つ．
 一般化されたマップ演算子を $\mMap$ で表そう．この $\mMap$ 演算子は
 \begin{equation}
   (\mMap)
-  \mIn{}\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn}
+  \mIn{}\mFunctorTypeClass\mSuperSet\mPolymorphicTypeParameter{fn}
   \mSuperClass(\mA\mMapsTo\mB)\mMapsTo\mTypeAssemble{fn}{a}\mMapsTo\mTypeAssemble{fn}{b}
 \end{equation}
 という型を持つ．ここに
-$\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn}$ は，
-$\mTypeConstructor{fn}$ が $\mFunctorTypeClass$ 型クラスに属すという制
-約を表している．また $\mTypeConstructor{fn}$ は型コンストラクタであり，
-$\mTypeAssemble{fn}{a}$ は$\mTypeConstructor{fn}$ 型コンストラクタと
-$\mA$ 型によって作られたコンテナ型である．
+$\mFunctorTypeClass\mSuperSet\mPolymorphicTypeParameter{fn}$ は，
+$\mPolymorphicTypeParameter{fn}$ が $\mFunctorTypeClass$ 型クラスに属
+すという制約を表している．また $\mPolymorphicTypeParameter{fn}$ は型コ
+ンストラクタであり，$\mTypeAssemble{fn}{a}$ は
+$\mPolymorphicTypeParameter{fn}$ 型コンストラクタと$\mA$ 型によって作
+られたコンテナ型である．
 
 もし型コンストラクタがリスト型コンストラクタであれば，つまり
-$\mTypeConstructor{fn}=\mListTypeConstructor$ であれば
+$\mPolymorphicTypeParameter{fn}=\mListTypeConstructor$ であれば
 \begin{equation}
   (\mMapList)
   \mIn{}(\mA\mMapsTo\mB)\mMapsTo[\mA]\mMapsTo[\mB]
 \end{equation}
 であるし，もし型コンストラクタがMaybe型コンストラクタであれば，つまり
-$\mTypeConstructor{fn}=\mMaybeTypeConstructor$ であれば
+$\mPolymorphicTypeParameter{fn}=\mMaybeTypeConstructor$ であれば
 \begin{equation}
   (\mMapMaybe)
   \mIn{}(\mA\mMapsTo\mB)\mMapsTo\mMaybeType{a}\mMapsTo\mMaybeType{b}
@@ -3330,12 +3332,12 @@ $\mFuncTypeConstructor{r}$ によって型 $(\mProjEXP{\mType{r}}{\mA})$ が
 マップ演算子の型は
 \begin{equation}
   (\mMap)
-  \mIn{}\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn}
+  \mIn{}\mFunctorTypeClass\mSuperSet\mTypeConstructor{f}
   \mSuperClass(\mA\mMapsTo\mB)
-  \mMapsTo\mTypeAssemble{fn}{a}
-  \mMapsTo\mTypeAssemble{fn}{b}
+  \mMapsTo\mTypeAssemble{f}{a}
+  \mMapsTo\mTypeAssemble{f}{b}
 \end{equation}
-であって，いま $\mTypeConstructor{fn}=\mFuncTypeConstructor{r}$ を考え
+であって，いま $\mTypeConstructor{f}=\mFuncTypeConstructor{r}$ を考え
 ているから，関数のマップ演算子を $\mMapFunc$ とすると
 \begin{equation}
   (\mMapFunc)
@@ -4350,7 +4352,7 @@ Three | Many deriving Eq} と書く．}
   \label{eq:rectangle}
   \mDataType\;
   \mType{Rectangle}\\
-  =\mGenericValueAssemble{Rectangle}
+  =\mGenericWith{Rectangle}
   {\mFloatType\,\mFloatType\,\mFloatType\,\mFloatType}
   \mDeriving\mEqTypeClass
 \end{multline}
@@ -4362,7 +4364,7 @@ $\mType{Rencatngle}$ 型の変数は次のように初期化する．
   \left\mBrace
   \begin{aligned}
     r&\mIn\mType{Rectangle}\\
-    r&=\mGenericValueAssemble{Rectangle}{1\,2\,3\,4}
+    r&=\mGenericWith{Rectangle}{1\,2\,3\,4}
   \end{aligned}
   \right.
 \end{equation}
@@ -4377,13 +4379,13 @@ $\mType{Rencatngle}$ 型の変数は次のように初期化する．
 $\mType{Rectangle}$ 型から中身を取り出すには，次のような関数を用意して
 おかねばならない．
 \begin{align}
-  \mFunc{x}\mGenericValueAssemble{Rectangle}{x\,\mAnyParam\,\mAnyParam\,\mAnyParam}
+  \mFunc{x}\mGenericWith{Rectangle}{x\,\mAnyParam\,\mAnyParam\,\mAnyParam}
   &=x\\
-  \mFunc{y}\mGenericValueAssemble{Rectangle}{\mAnyParam\,y\,\mAnyParam\,\mAnyParam}
+  \mFunc{y}\mGenericWith{Rectangle}{\mAnyParam\,y\,\mAnyParam\,\mAnyParam}
   &=y\\
-  \mFunc{width}\mGenericValueAssemble{Rectangle}{\mAnyParam\,\mAnyParam\,w\,\mAnyParam}
+  \mFunc{width}\mGenericWith{Rectangle}{\mAnyParam\,\mAnyParam\,w\,\mAnyParam}
   &=w\\
-  \mFunc{height}\mGenericValueAssemble{Rectangle}{\mAnyParam\,\mAnyParam\,\mAnyParam\,h}
+  \mFunc{height}\mGenericWith{Rectangle}{\mAnyParam\,\mAnyParam\,\mAnyParam\,h}
   &=h
 \end{align}
 この面倒は，次のシンタックスシュガーを使うことで軽減される．
@@ -4438,9 +4440,9 @@ r=\mGenericRecordWith{Rectangle}{\mFunc{x}=1,
 データ型の定義には，複数の値コンストラクタを指定できる．そのため
 \begin{multline}
 \mDataType\;\mType{Shape}
-=\mGenericValueAssemble{Circle}{\mFloatType\,\mFloatType}\\
+=\mGenericWith{Circle}{\mFloatType\,\mFloatType}\\
 \mValueOr
-\mGenericValueAssemble{Triangle}{\mFloatType\,\mFloatType\,\mFloatType}
+\mGenericWith{Triangle}{\mFloatType\,\mFloatType\,\mFloatType}
 \end{multline}
 のようなデータ型の定義も可能である．この例では型 $\mType{Shape}$ は値
 コンストラクタ $\mValueConstructor{Circle}$ または
@@ -4761,21 +4763,26 @@ Either型の場合は
 型に関して一般化すると
 \begin{multline}
   \label{eq:fn}
-  \mTypeClassParametric\;\mFunctorTypeClass\mSuperSet\mTypeConstructor{fn}\\
+  \mTypeClassParametric\;
+  \mFunctorTypeClass\mSuperSet\mTypeConstructor{f}\\
   \mWhere{}
-\mMap\mIn{}\mProjEXP{(\mProjEXP{\mA }{\mB })}{\mProjEXP{\mTypeAssemble{fn}{a}}{\mTypeAssemble{fn}{b}}}
+  \mMap
+  \mIn{}(\mA\mMapsTo\mB)
+  \mMapsTo\mTypeAssemble{f}{a}
+  \mMapsTo\mTypeAssemble{f}{b}
 \end{multline}
-のように書ける．ここで，型 $\mTypeAssemble{fn}{a}$ は型
-$\mA $ と型コンストラクタ $\mTypeConstructor{fn}$ から
+のように書ける．ここで，型 $\mTypeAssemble{f}{a}$ は型
+$\mA$ と型コンストラクタ $\mPolymorphicTypeParameter{f}$ から
 \begin{equation}
-  \mTypeAssemble{fn}{a}=\mathop{\mTypeConstructor{fn}}\mA 
+  \mTypeAssemble{f}{a}
+  =\mathop{\mTypeConstructor{f}}\mA
 \end{equation}
 のように作られる．\footnote{\haskell では
-  $\mTypeAssemble{fn}{a}$ も
-  $\mathop{\mTypeConstructor{fn}}\mA $ も同様に \code{fn a} と書く．
+  $\mTypeAssemble{f}{a}$ も
+  $\mathop{\mTypeConstructor{f}}\mA $ も同様に \code{f a} と書く．
   そこで式\eqref{eq:fn}は
 \begin{verbatim}
-  class functor fn where fmap :: (a -> b) -> fn a -> fn b
+  class functor f where fmap :: (a -> b) -> f a -> f b
 \end{verbatim}
 と書く．}
 
@@ -4960,11 +4967,11 @@ $\mType{\mZipList}$ に対する最適化の機会を得る．
 \part{\haskell プログラミング}
 
 \chapter{プログラム}
+\label{ch:program}
 
 \begin{leader}
 A...
 \end{leader}
-
 
 \section{文字セットとコメント}
 
@@ -4982,9 +4989,10 @@ A...
 \code{<-} を使うし，$\neg$ の代わりに \code{not} を使う．
 
 また計算機科学者たちの絶えざる努力にもかかわらず，プログラム中の文字の
-装飾はこれまでほとんど受け入れられていない．我々は本書で
-$\textrm{f},\textsl{f},\textbf{f},\textsf{f},f$ を使い分けてきたが，
-\haskell プログラム中では全て \code{f} と書く．
+装飾はこれまでほとんど受け入れられていない．我々は本書で \textrm{f},
+\textit{f}, \textsl{f}, \textbf{f}, \textbf{\textit{f}}, $f$,
+$\mathfrak{f}$ を使い分けてきたが，\haskell プログラム中では全て
+\code{f} と書く．
 
 以上のような制約にもかかわらず，\haskell プログラムと我々が見えきた
 「カリー風の」数学記法は本質的に差がない．本書を読み進めてきた読者なら，
@@ -5866,9 +5874,9 @@ main = do
 \mInstance\;&\mFunctorTypeClass\mSuperSet\mType{f}\mSuperClass\mTypeConstructor{Monad}(\mathop{\mTypeConstructor{Free}}\mType{f})\nonumber\\
 &\quad\mWhere\left\{
 \begin{aligned}
-\mPureWith{x}&=\mGenericValueAssemble{Pure}{x}\\
-k\mBind\mGenericValueAssemble{Pure}{a}&=ka\\
-k\mBind\mGenericValueAssemble{Free}{f}&=\mGenericValueAssemble{Free}{(k\mBind\mAnonParam)\mMap f}
+\mPureWith{x}&=\mGenericWith{Pure}{x}\\
+k\mBind\mGenericWith{Pure}{a}&=ka\\
+k\mBind\mGenericWith{Free}{f}&=\mGenericWith{Free}{(k\mBind\mAnonParam)\mMap f}
 \end{aligned}
 \right.
 \end{align}
@@ -5923,9 +5931,6 @@ $\mSqrts$ を考えてみる．
 ンスとしてその型を定義するためである．
 
 我々は後者を選択することにして
-% \begin{equation}
-% \mTypeSynonym\;\mType{NonDet}\,\mA \,\mB =\mA \mMapsTo[\mB ]
-% \end{equation}
 \begin{equation}
   \mNewDataType\;
   \mTypeConstructor{NonDet}\,\mA\,\mB
@@ -5941,16 +5946,16 @@ $\mTypeAssemble{NonDet}{\mA\,\mB}$ は型 $\mA\mMapsTo[\mA]$ とは異な
   \begin{aligned}
     &\mSqrts'\mIn\mRealTypeClass\mSuperSet\mA \mSuperClass
     \mTypeAssemble{NonDet}{\mA\,\mA}\\
-    &\mSqrts'=\mGenericValueAssemble{NonDet}{\mRun=\mSqrts}
+    &\mSqrts'=\mGenericWith{NonDet}{\mRun=\mSqrts}
   \end{aligned}
   \right.
 \end{equation}
 のように定義しよう．
 
-関数 $\mSqrts'$ はコンテナ $\mGenericValueAssemble{NonDet}{\dotsb}$ に包まれ
+関数 $\mSqrts'$ はコンテナ $\mGenericWith{NonDet}{\dotsb}$ に包まれ
 ているので，
 \begin{equation}
-  y=\mRun\mSqrts' x
+  y=\mRun\mSqrts'x
 \end{equation}
 のようにして呼び出さねばならない．
 
@@ -5965,8 +5970,10 @@ $\mTypeAssemble{NonDet}{\mA\,\mB}$ は型 $\mA\mMapsTo[\mA]$ とは異な
 
 非決定的な関数 $\mDuplicate$ と $\mTriplicate$ を
 \begin{align}
-  \mDuplicate x&=[x,x]\\
-  \mTriplicate x&=[x,x,x]
+  \mDuplicate x
+  &=[x,x]\\
+  \mTriplicate x
+  &=[x,x,x]
 \end{align}
 のように定義しよう．このふたつの関数をもし合成できるとしたら，合成され
 た関数は，$x$ を引数に取り $[x,x,x,x,x,x]$ を返すものと考えるのが自然で
@@ -5974,19 +5981,22 @@ $\mTypeAssemble{NonDet}{\mA\,\mB}$ は型 $\mA\mMapsTo[\mA]$ とは異な
 
 いま欲しいのは，
 \begin{equation}
-  y=\mTriplicate\square\mDuplicate x
+  y
+  =\mTriplicate\square\mDuplicate x
 \end{equation}
 としたときに $y=[x,x,x,x,x,x]$ となるような合成演算子 $\square$ である．
 
 関数合成演算子 $(\mComp)$ が使えないことは明らかである．少し検討すると，
 このふたつの関数は
 \begin{equation}
-  y=\mConcat(\mTriplicate\mMapList(\mDuplicate x))
+  y
+  =\mConcat(\mTriplicate\mMapList(\mDuplicate x))
 \end{equation}
 のように合成できることがわかる．これを関数合成演算子を使って分解すると
 \begin{equation}
   \label{eq:triplicate-duplicate}
-  y=\mConcat\mComp(\mTriplicate\mMapList)\mComp\mDuplicate\mApply x
+  y
+  =\mConcat\mComp(\mTriplicate\mMapList)\mComp\mDuplicate\mApply x
 \end{equation}
 となり，少しは読みやすくなる．しかし，合成のたびに平坦化演算子
 $(\mConcat)$ やマップ演算子 $(\mMapList)$ を書くのは煩雑であるし，3段以
@@ -6002,7 +6012,8 @@ $\mCategoryTypeClass$ 型クラスは次のように定義されている．
   \mWhere\left\{
   \begin{aligned}
     \mIdCat&\mIn\mType{cat}\,\mA\,\mA\\
-    (\mCompCat)&\mIn\mType{cat}\,\mB\,\mC
+    (\mCompCat)
+    &\mIn\mType{cat}\,\mB\,\mC
     \mMapsTo\mType{cat}\,\mA\,\mB
     \mMapsTo\mType{cat}\,\mA\,\mC
   \end{aligned}
@@ -6053,9 +6064,9 @@ $\mCategoryTypeClass$ 型クラスのインスタンスにできる．ただし�
   \mWhere\left\{
   \begin{aligned}
     \mIdCat
-    &=\mGenericValueAssemble{NonDet}{\mLambdaEXP{x}{[x]}}\\
-    \mGenericValueAssemble{NonDet}{f}\mCompCat\mGenericValueAssemble{NonDet}{g}
-    &=\mGenericValueAssemble{NonDet}{\mConcat\mComp(f\mMapList)\mComp g}
+    &=\mGenericWith{NonDet}{\mLambdaEXP{x}{[x]}}\\
+    \mGenericWith{NonDet}{f}\mCompCat\mGenericWith{NonDet}{g}
+    &=\mGenericWith{NonDet}{\mConcat\mComp(f\mMapList)\mComp g}
   \end{aligned}
   \right.
 \end{multline}
@@ -6067,7 +6078,7 @@ $\mDuplicate$ と $\mTriplicate$ を定義しておこう．
     &\mDuplicate'
     \mIn\mTypeAssemble{NonDet}{\mA\,\mA}\\
     &\mDuplicate'
-    =\mGenericValueAssemble{NonDet}{\mDuplicate}
+    =\mGenericWith{NonDet}{\mDuplicate}
   \end{aligned}
   \right.\\
   &\left\mBrace
@@ -6075,7 +6086,7 @@ $\mDuplicate$ と $\mTriplicate$ を定義しておこう．
     &\mTriplicate'
     \mIn\mTypeAssemble{NonDet}{\mA\,\mA}\\
     &\mTriplicate'
-    =\mGenericValueAssemble{NonDet}{\mTriplicate}
+    =\mGenericWith{NonDet}{\mTriplicate}
   \end{aligned}
   \right.
 \end{align}
@@ -6088,8 +6099,8 @@ $\mDuplicate$ と $\mTriplicate$ を定義しておこう．
 しておくと
 \begin{align}
   \mTriplicate'\mCompCat\mDuplicate'
-  &=\mGenericValueAssemble{NonDet}{\mTriplicate}\mCompCat\mGenericValueAssemble{NonDet}{\mDuplicate}\\
-  &=\mGenericValueAssemble{NonDet}{\mConcat\mComp(\mTriplicate\mMapList)\mComp\mDuplicate}
+  &=\mGenericWith{NonDet}{\mTriplicate}\mCompCat\mGenericWith{NonDet}{\mDuplicate}\\
+  &=\mGenericWith{NonDet}{\mConcat\mComp(\mTriplicate\mMapList)\mComp\mDuplicate}
 \end{align}
 である．
 
@@ -6145,17 +6156,29 @@ y = run (triplicate' Cat.. duplicate') x
 
 ところで\haskell は次のふたつの演算子
 \begin{align}
-  f\leftleftarrows g&=\mLambda x\mLambdaArrow f\mBind gx\\
-  f\rightrightarrows g&=\mLambda x\mLambdaArrow f\mBindRight gx
+  \label{eq:leftleftarrows}
+  f\leftleftarrows g
+  &=\mLambda x\mLambdaArrow f\mBind gx\\
+  f\rightrightarrows g
+  &=\mLambda x\mLambdaArrow f\mBindRight gx
 \end{align}
 を定義している．\haskell では $\leftleftarrows$ を \code{<=<} と書き，
 $\rightrightarrows$ を \code{>=>} と書く．
 
 またリストのバインド演算子 $(\mBindList)$ は
 \begin{equation}
-  f\mBindList\mList{x}=\mConcat(f\mMapList\mList{x})
+  f\mBindList\mList{x}
+  =\mConcat(f\mMapList\mList{x})
 \end{equation}
-であった．そこで $\leftleftarrows$ 演算子とリストのバインド演算子を用い
+であった．
+
+関数 $f$, $g$ が $\mGenericWith{NonDet}{f}$,
+$\mGenericWith{NonDet}{g}$ として与えられることを考えると，関
+数 $f$, $g$ の型は $\mA\mMapsTo[\mA]$ で確定するので，式
+\eqref{eq:leftleftarrows}の中のバインド演算子 $(\mBind)$ はリストのバ
+インド演算子 $(\mBindList)$ で確定する．
+
+そこで $\leftleftarrows$ 演算子とリストのバインド演算子を用い
 ると
 \begin{align}
   \mConcat\mComp(f\mMapList)\mComp g
@@ -6165,13 +6188,29 @@ $\rightrightarrows$ を \code{>=>} と書く．
 \end{align}
 であるから，式\eqref{eq:nondet-instance}の2行目は
 \begin{equation}
-  \mGenericValueAssemble{NonDet}{f}\mComp\mGenericValueAssemble{NonDet}{g}
-  =\mGenericValueAssemble{NonDet}{f\leftleftarrows g}
+  \mGenericWith{NonDet}{f}\mComp\mGenericWith{NonDet}{g}
+  =\mGenericWith{NonDet}{f\leftleftarrows g}
 \end{equation}
-とも書ける．\haskell で書けば
+とも書ける．改めて式\eqref{eq:nondet-instance}を書き直すと
+% pureも説明!!
+\begin{multline}
+  \mInstanceParametric\;
+  \mCategoryTypeClass\mSuperSet\mTypeConstructor{NonDet}\\
+  \mWhere\left\{
+  \begin{aligned}
+    \mIdCat
+    &=\mGenericWith{NonDet}{\mPureWith{x}}\\
+    \mGenericWith{NonDet}{f}\mCompCat\mGenericWith{NonDet}{g}
+    &=\mGenericWith{NonDet}{f\leftleftarrows g}
+  \end{aligned}
+  \right.
+\end{multline}
+である．\haskell で書けば
 \begin{haskellcode}
 \begin{verbatim}
-(NonDet f) . (NonDet g) = NonDet (f <=< g)
+instance Cat.Category NonDet where
+  id                      = NonDet pure
+  (NonDet f) . (NonDet g) = NonDet (f <=< g)
 \end{verbatim}
 \end{haskellcode}
 である．
@@ -6187,14 +6226,54 @@ $\rightrightarrows$ を \code{>=>} と書く．
 
 \begin{equation}
   \mNewDataType\;
-  \mTypeConstructor{NonDet}\,\mA\,\mB
-  =\mGenericValueAssemble{NonDet}{\mA\mMapsTo[\mB]}
+  \mTypeConstructor{ItCouldBe}\,\mA\,\mB
+  =\mGenericRecordWith{ItCouldBe}{\mathrm{runIt}\mIn\mA\mMapsTo\mMaybeType{b}}
 \end{equation}
 
 \begin{equation}
+  \left\mBrace
+  \begin{aligned}
+    &\mathrm{rec}
+    \mIn{}(\mRealTypeClass\mSuperSet\mA)
+    \mSuperClass\mA\mMapsTo\mA\\
+    &
+    \begin{aligned}
+      \mathop{\mathrm{rec}}x&\mGuard{x\neq0}
+      =\mJustWith{1/x}\\
+      &\mGuard{\mOtherwise}
+      =\mNothing
+    \end{aligned}
+  \end{aligned}
+  \right.    
+\end{equation}
+
+\begin{equation}
+  y
+  =\sharp\mComp(f\mMapMaybe)\mComp g\mApply x
+\end{equation}
+
+\begin{equation}
+  \mathrm{rec}'
+  =\mGenericWith{ItCouldBe}{\mathrm{rec}}
+\end{equation}
+
+---
+
+\begin{align}
   \mNewDataType\;
-  \mTypeConstructor{Kleisli}\,\mTypeConstructor{mn}\,\mA\,\mB
-  =\mGenericValueAssemble{NonDet}{\mA\mMapsTo\mTypeAssemble{mn}{\mB}}
+  &\mTypeConstructor{NonDet}\,\mA\,\mB
+  =\mGenericWith{NonDet}{\mA\mMapsTo[\mB]}\\
+  \mNewDataType\;
+  &\mTypeConstructor{ItCouldBe}\,\mA\,\mB
+  =\mGenericWith{ItCouldBe}{\mA\mMapsTo\mMaybeType{b}}
+\end{align}
+
+
+
+\begin{equation}
+  \mNewDataType\;
+  \mTypeConstructor{Kleisli}\,\mPolymorphicTypeParameter{m}\,\mA\,\mB
+  =\mGenericWith{NonDet}{\mA\mMapsTo\mTypeAssemble{m}{\mB}}
 \end{equation}
 
 ---
@@ -6223,11 +6302,11 @@ $$
 \end{equation}
 
 \begin{equation}
-\mNewDataType\mathit{Fn}\mA \mB ={}^\mathit{Fn}\{\mathit{run}\mIn\mProjEXP{\mA }{\mB }\}
+\mNewDataType\textit{Fn}\mA \mB ={}^\textit{Fn}\{\mathit{run}\mIn\mProjEXP{\mA }{\mB }\}
 \end{equation}
 
 \begin{multline}
-  \mInstance\mGenericTypeClass{Arrow}{}\mathit{Fn}\\
+  \mInstance\mGenericTypeClass{Arrow}{}\textit{Fn}\\
   \mWhere\left\{
   \begin{aligned}
     \mathop{\mathrm{arr}} f&=\mathit{Fn} f\\
