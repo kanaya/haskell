@@ -73,9 +73,9 @@
 \newcommand{\mBrace}{\Vert}
 
 % Keywords
-\newcommand{\mKeyword}[1]{\mathsf{#1}} % Internal use
-\newcommand{\mKeywordUnderline}[1]{\text{\underline{\textsf{#1}}}} % Internal use
-\newcommand{\mVarKeyword}[1]{\texttt{#1}} % Internal use
+\newcommand{\mKeyword}[1]{\mathsf{#1}}
+\newcommand{\mKeywordUnderline}[1]{\text{\underline{\textsf{#1}}}}
+\newcommand{\mVarKeyword}[1]{\texttt{#1}}
 
 \newcommand{\mDataTypeKeyword}{\mKeywordUnderline{data}\mKeyword{type}}
 \newcommand{\mDerivingKeyword}{\mKeyword{deriving}}
@@ -98,9 +98,9 @@
 \newcommand{\mTypeSynonymKeyword}{\mKeywordUnderline{type}\mKeyword{synonym}}
 \newcommand{\mWhereKeyword}{\mKeyword{where}}
 
-\DeclareMathOperator{\mCaseKW}{\mCaseKeyword} % Internal use
+\DeclareMathOperator{\mCaseKW}{\mCaseKeyword}
 \DeclareMathOperator{\mDataType}{\mDataTypeKeyword}
-\DeclareMathOperator{\mDataTypeParametric}{\mDataTypeKeyword^\dagger}
+\DeclareMathOperator{\mDataTypePolymorphic}{\mDataTypeKeyword^\dagger}
 \DeclareMathOperator{\mDeriving}{\mDerivingKeyword}
 \DeclareMathOperator{\mDoKW}{\mDoKeyword}
 \DeclareMathOperator{\mElse}{\mElseKeyword}
@@ -109,24 +109,23 @@
 \DeclareMathOperator{\mInfixl}{\mInfixlKeyword}
 \DeclareMathOperator{\mInfixr}{\mInfixrKeyword}
 \DeclareMathOperator{\mInstance}{\mInstanceKeyword}
-\DeclareMathOperator{\mInstanceParametric}{\mInstanceKeyword^{\dagger}}
+\DeclareMathOperator{\mInstancePolymorphic}{\mInstanceKeyword^{\dagger}}
 \DeclareMathOperator{\mLet}{\mLetKeyword}
 \DeclareMathOperator{\mLetIn}{\mInKeyword}
 \DeclareMathOperator{\mNewDataType}{\mNewDataTypeKeyword}
-\DeclareMathOperator{\mNewDataTypeParametric}{\mNewDataTypeKeyword^\dagger}
-\DeclareMathOperator{\mOfKW}{\mOfKeyword} % Internal use
+\DeclareMathOperator{\mNewDataTypePolymorphic}{\mNewDataTypeKeyword^\dagger}
+\DeclareMathOperator{\mOfKW}{\mOfKeyword}
 \DeclareMathOperator{\mOtherwise}{\mOtherwiseKeyword}
 \DeclareMathOperator{\mSuperClass}{\Rightarrow}
 \DeclareMathOperator{\mSuperSet}{\supset}
 \DeclareMathOperator{\mThen}{\mThenKeyword}
 \DeclareMathOperator{\mTypeClass}{\mTypeClassKeyword}
-\DeclareMathOperator{\mTypeClassParametric}{\mTypeClassKeyword^\dagger}
+\DeclareMathOperator{\mTypeClassPolymorphic}{\mTypeClassKeyword^\dagger}
 \DeclareMathOperator{\mTypeSynonym}{\mTypeSynonymKeyword}
 \DeclareMathOperator{\mWhere}{\mWhereKeyword}
 
 % Constants
-\newcommand{\mConstant}[1]{\mathrm{#1}}
-\newcommand{\mSpecialConstant}[1]{\textrm{#1}} % Internal use
+\newcommand{\mSpecialConstant}[1]{\textrm{#1}}
 
 \newcommand{\mEmptyList}{{[\,]}}
 \newcommand{\mFalse}{\mSpecialConstant{False}}
@@ -4493,10 +4492,10 @@ $\mInstance$ 文を使う．
   \mWhere{}
   \left\{
   \begin{aligned}
-    \mConstant{One}\equiv\mConstant{One}&=\mTrue\\
-    \mConstant{Two}\equiv\mConstant{Two}&=\mTrue\\
-    \mConstant{Three}\equiv\mConstant{Three}&=\mTrue\\
-    \mConstant{Many}\equiv\mConstant{Many}&=\mTrue\\
+    \mNumOne\equiv\mNumOne&=\mTrue\\
+    \mNumTwo\equiv\mNumTwo&=\mTrue\\
+    \mNumThree\equiv\mNumThree&=\mTrue\\
+    \mNumMany\equiv\mNumMany&=\mTrue\\
     \mAnyParam\equiv\mAnyParam&=\mFalse
   \end{aligned}
   \right.
@@ -4553,16 +4552,16 @@ $(\le)$ を追加する．
   \mWhere{}
   \left\{
   \begin{aligned}
-    \mConstant{One}\le\mConstant{One}&=\mTrue\\
-    \mConstant{One}\le\mConstant{Two}&=\mTrue\\
-    \mConstant{One}\le\mConstant{Three}&=\mTrue\\
-    \mConstant{One}\le\mConstant{Many}&=\mTrue\\
-    \mConstant{Two}\le\mConstant{Two}&=\mTrue\\
-    \mConstant{Two}\le\mConstant{Three}&=\mTrue\\
-    \mConstant{Two}\le\mConstant{Many}&=\mTrue\\
-    \mConstant{Three}\le\mConstant{Three}&=\mTrue\\
-    \mConstant{Three}\le\mConstant{Many}&=\mTrue\\
-    \mConstant{Many}\le\mConstant{Many}&=\mTrue\\
+    \mNumOne\le\mNumOne&=\mTrue\\
+    \mNumOne\le\mNumTwo&=\mTrue\\
+    \mNumOne\le\mNumThree&=\mTrue\\
+    \mNumOne\le\mNumMany&=\mTrue\\
+    \mNumTwo\le\mNumTwo&=\mTrue\\
+    \mNumTwo\le\mNumThree&=\mTrue\\
+    \mNumTwo\le\mNumMany&=\mTrue\\
+    \mNumThree\le\mNumThree&=\mTrue\\
+    \mNumThree\le\mNumMany&=\mTrue\\
+    \mNumMany\le\mNumMany&=\mTrue\\
     \mAnyParam\equiv\mAnyParam&=\mFalse
   \end{aligned}
   \right.
@@ -4607,22 +4606,22 @@ String = [Char]} と書く．}
 Maybeのように型パラメタを取る型を\keyword{多相型}と呼ぶ．多相型はどの
 ように定義されるかと言うと，
 \begin{equation}
-\mDataTypeParametric\;\mMaybeTypeConstructor\,\mA 
+\mDataTypePolymorphic\;\mMaybeTypeConstructor\,\mA 
 =\mJustWith{\mA }\mValueOr\mNothing
 \end{equation}
 のように，やはり $\mDataType$ を使って定義される．念のため型パラメタを
-取る場合は $\mDataTypeParametric$ と区別しておこう．\footnote{\haskell
-は $\mDataType$ と $\mDataTypeParametric$ を区別せず，
-$\mDataTypeParametric\;\mMaybeTypeConstructor\mA 
+取る場合は $\mDataTypePolymorphic$ と区別しておこう．\footnote{\haskell
+は $\mDataType$ と $\mDataTypePolymorphic$ を区別せず，
+$\mDataTypePolymorphic\;\mMaybeTypeConstructor\mA 
 =\mJustWith{\mA }\mValueOr\mNothing$ を \code{data Maybe a =
 Just a | Nothing} と書く．}
 % この $\mJustWith{\mA }$ は $\mA $ のMaybe型 $(\mMaybeType{a})$ という意味ではなく，$\mA $ 型の変数を型コンストラクタ $\mJustWith{\dotsb}$ に入れなさいという意味．
 
 Maybeが型クラス $\mEqTypeClass$ に属すものとして，$\mEqTypeClass$ から
 のインスタンス化をしておこう．ここでも型パラメタ付きの $\mInstance$ を
-仮に $\mInstanceParametric$ とすると次のように書けそうである．
+仮に $\mInstancePolymorphic$ とすると次のように書けそうである．
 \begin{multline}
-\mInstanceParametric\;
+\mInstancePolymorphic\;
 \mEqTypeClass\mSuperSet{}(\mMaybeTypeConstructor\,\mA )\\
 \mWhere
 \left\{
@@ -4638,7 +4637,7 @@ Maybeが型クラス $\mEqTypeClass$ に属すものとして，$\mEqTypeClass$ 
 $\mA $ が型クラス $\mEqTypeClass$ に属すことを要求するので，次の
 ように言い換える．
 \begin{multline}
-\mInstanceParametric\;
+\mInstancePolymorphic\;
 \mEqTypeClass\mSuperSet\mA 
 \mSuperClass
 \mEqTypeClass\mSuperSet{}(\mMaybeTypeConstructor\,\mA )\\
@@ -4675,7 +4674,7 @@ Maybeの間に新たに定義された等号 $(\equiv)$ は次の型を持つ．
 多相型を定義するとき，型パラメタは2個以上与えられても良い．例えば
 Eitherは次のように定義できる．
 \begin{equation}
-\mDataTypeParametric\;\mEitherTypeConstructor\,\mA \,\mB 
+\mDataTypePolymorphic\;\mEitherTypeConstructor\,\mA \,\mB 
 =\mLeftWith{\mA }
 \mValueOr
 \mRightWith{\mB }
@@ -4686,7 +4685,7 @@ Eitherは次のように定義できる．
 型の定義中に自分自身を参照する型を\keyword{自己参照型}または
 \keyword{再帰型}と呼ぶ．例えばリストは
 \begin{equation}
-\mDataTypeParametric\;\mListTypeConstructor\,\mA =\mEmptyList\mValueOr\mA :\mListTypeConstructor\,\mA 
+\mDataTypePolymorphic\;\mListTypeConstructor\,\mA =\mEmptyList\mValueOr\mA :\mListTypeConstructor\,\mA 
 \end{equation}
 のように定義できる．
 
@@ -4695,12 +4694,12 @@ Eitherは次のように定義できる．
 型クラス $\mFunctorTypeClass$ はマップ演算子 $(\mMap)$ を提供する．リ
 スト型は $\mFunctorTypeClass$ 型クラスのインスタンスなので，
 \begin{align}
-  \mTypeClassParametric\;
+  \mTypeClassPolymorphic\;
   &\mFunctorTypeClass\mSuperSet\mListTypeConstructor{}
   \mWhere{}
   \mMap\mIn{}\mProjEXP{(\mProjEXP{\mA }{\mB })}
            {\mProjEXP{[\mA]}{\mListType{b}}}\\
-           \mInstanceParametric\;
+           \mInstancePolymorphic\;
            &\mFunctorTypeClass\mSuperSet\mListTypeConstructor{}
            \mWhere{}\mMap=\mMapList
 \end{align}
@@ -4713,10 +4712,10 @@ Eitherは次のように定義できる．
 
 Maybe型の場合は
 \begin{align}
-  \mTypeClassParametric\;
+  \mTypeClassPolymorphic\;
   &\mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor\nonumber\\
 &\quad\mWhere{}\mMap\mIn{}\mProjEXP{(\mProjEXP{\mA }{\mB })}{\mProjEXP{\mMaybeType{a}}{\mMaybeType{b}}}\\
-  \mInstanceParametric\;
+  \mInstancePolymorphic\;
   &\mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor\nonumber\\
   &\quad\mWhere
   \left\{
@@ -4738,10 +4737,10 @@ Maybe型の場合は
 
 Either型の場合は
 \begin{align}
-  \mTypeClassParametric\;
+  \mTypeClassPolymorphic\;
 &\mFunctorTypeClass\mSuperSet{}(\mathop{\mEitherTypeConstructor}\,\mA )\nonumber\\
 &\quad\mWhere{}\mMap\mIn{}\mProjEXP{(\mProjEXP{\mA }{\mB })}{\mProjEXP{\mEitherType{a}{a}}{\mEitherType{a}{b}}}\\
-  \mInstanceParametric\;
+  \mInstancePolymorphic\;
 &\mFunctorTypeClass\mSuperSet{}(\mathop{\mEitherTypeConstructor}\,\mA )\nonumber\\
   &\quad\mWhere{}
   \left\{
@@ -4764,7 +4763,7 @@ Either型の場合は
 型に関して一般化すると
 \begin{multline}
   \label{eq:fn}
-  \mTypeClassParametric\;
+  \mTypeClassPolymorphic\;
   \mFunctorTypeClass\mSuperSet\mTypeConstructor{f}\\
   \mWhere{}
   \mMap
@@ -4809,11 +4808,11 @@ $\mZip$ は
 である．ある型のインスタンス化は一種類しか行えないので，リスト型に新し
 いアプリカティブマップ演算子を追加することは出来ない．
 
-そこで $\mDataTypeParametric$ を使ってリスト型をラップした新しい型を作
+そこで $\mDataTypePolymorphic$ を使ってリスト型をラップした新しい型を作
 る．例えば新しい型を $\mZipListType{a}$ とすると
 \begin{equation}
   \label{eq:data-type-ziplist}
-  \mDataTypeParametric\;\mathop{\mZipListTypeConstructor}\mA 
+  \mDataTypePolymorphic\;\mathop{\mZipListTypeConstructor}\mA 
   =\mGenericRecordWith{\mZipList}{\mGetList\mIn{}[\mA]}
 \end{equation}
 のように定義することになる．念のため，左辺の
@@ -4827,7 +4826,7 @@ $\mValueConstructor{\mZipList}$ は値コンストラクタである．すな
 
 こうしておいて，あとは
 \begin{multline}
-\mInstanceParametric\;
+\mInstancePolymorphic\;
 \mApplicativeTypeClass\mSuperSet\mZipListTypeConstructor\mA \\
 \mWhere
 \left\{
@@ -4879,10 +4878,10 @@ $\mValueConstructor{\mZipList}$ は値コンストラクタである．すな
 このままでも問題はないのだが，式\eqref{eq:data-type-ziplist}を次のよう
 に書き換えることがより好ましい．
 \begin{equation}
-\mNewDataTypeParametric\;\mZipListTypeConstructor\mA =\mZipListRecordWith{\mGetList\mIn{}[\mA]}
+\mNewDataTypePolymorphic\;\mZipListTypeConstructor\mA =\mZipListRecordWith{\mGetList\mIn{}[\mA]}
 \end{equation}
-やったことはキーワード $\mDataTypeParametric$ を
-$\mNewDataTypeParametric$ に置き換えたことである．これは，字面に反して，
+やったことはキーワード $\mDataTypePolymorphic$ を
+$\mNewDataTypePolymorphic$ に置き換えたことである．これは，字面に反して，
 型 $\mType{\mZipList}$ が何一つ「新しくない」ことを\haskell コンパイラ
 に伝えるためである．その結果\haskell コンパイラは型
 $\mType{\mZipList}$ に対する最適化の機会を得る．
@@ -6195,7 +6194,7 @@ $\mGenericWith{NonDet}{g}$ として与えられることを考えると，関
 とも書ける．改めて式\eqref{eq:nondet-instance}を書き直すと
 % pureも説明!!
 \begin{multline}
-  \mInstanceParametric\;
+  \mInstancePolymorphic\;
   \mCategoryTypeClass\mSuperSet\mTypeConstructor{NonDet}\\
   \mWhere\left\{
   \begin{aligned}
@@ -6291,7 +6290,7 @@ $$
 $$
 
 \begin{equation}
-\mTypeClassParametric\mGenericTypeClass{Arrow}{}\mA 
+\mTypeClassPolymorphic\mGenericTypeClass{Arrow}{}\mA 
 \mWhere\left\{
 \begin{aligned}
   \mathrm{arr}&\mIn{}\mProjEXP{(\mProjEXP{\mB }{\mC })}{\mA \mB \mC }\\
