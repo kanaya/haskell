@@ -471,7 +471,7 @@ Ether変数&肩に!をつける&$\mEither{u}$\\
 do記法中のキーワード&タイプライタ&$\mDoLetKeyword$\\
 % リストの構造&サンセリフ，大文字&$\mathFirst$, $\mathRest$\\
 \hline
-リスト&ブラケットで包む&$\mListWith{x,y,z}$\\
+リスト&ブラケットで包む&$[x,y,z]$\\
 集合&ブレースで包む&$\{x,y,z\}$\\
 タプル&丸括弧で包む&$(x,y,z)$\\
 % アンボックス化タプル&丸括弧とシャープ記号で包む&$\mTupleUnboxedWith{x,y,z}$\\
@@ -528,7 +528,7 @@ $\mPureNothing$&空\\
 \hline
 記号&意味\\
 \hline\hline
-$\mListWith{x}$&リスト値コンストラクタ\\
+$[x]$&リスト値コンストラクタ\\
 $\mJustWith{x}$&Maybe値コンストラクタ\\
 $\mLeftWith{x},\mRightWith{x}$&Either値コンストラクタ\\
 $\mFuncWith{x}$&関数値コンストラクタ\\
@@ -630,8 +630,7 @@ print("Hello, world.")
 この \code{[a]} は \code{a} という変数1要素からなるリストのこともある
 し， \code{a} 型という仮の型から作ったリスト型の場合もあるが，字面から
 では判断できない．もし変数はイタリック体，型はボールド体と決まっていれ
-ば，それぞれ $\mListWith{a}$ および $\mListType{a}$ と区別出来たところ
-である．
+ば，それぞれ $[a]$ および $[\mA]$ と区別出来たところである．
 
 本書は，異なる性質のものには異なる書体を割り当てるようにしている．ただ
 し，どの表現もいつでも\haskell に翻訳できるように配慮している．実際，
@@ -1864,9 +1863,9 @@ ls = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 のように定義できる．
 
 我々も $0$ から始まり $9$ まで続く整数のリストを
-$\mListWith{0,1,2,3,4,5,6,7,8,9}$ と書くことにしよう．ただし，これでは
+$[0,1,2,3,4,5,6,7,8,9]$ と書くことにしよう．ただし，これでは
 冗長なので\keyword{等差数列}に限って簡略化した書き方を許す．例えば $0$
-から $9$ までのリストは $\mListWith{0,1\dotsb9}$ と書いても良い．
+から $9$ までのリストは $[0,1\dotsb9]$ と書いても良い．
 \footnote{\haskell では \code{[0, 1..9]} と書く．ピリオドの数に注意し
   よう．}
 
@@ -1880,7 +1879,7 @@ elementの和訳である．
 今後，リストを指す変数は，リストであることを忘れないように変数名の肩に
 星印をつけて
 \begin{equation}
-\mList{x}=\mListWith{0,1\dotsb9}
+\mList{x}=[0,1\dotsb9]
 \end{equation}
 のように書くことにしよう．なお，変数 $x$ とリスト変数 $\mList{x}$ は異
 なる変数であるとする．\footnote{\haskell では星印のかわりに \code{s}
@@ -1900,18 +1899,18 @@ ls = [x*2 for x in range(0, 10)]
 
 我々も内包表記を
 \begin{equation}
-  \mList{x}=\mListWith{x*2\mListComp x\mFrom{\mListWith{0,1\dotsb9}}}
+  \mList{x}=[x*2\mListComp x\mFrom{\mListWith{0,1\dotsb9}}]
 \end{equation}
 のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代
 入する演算子$\mFrom$を用いた．\footnote{\haskell では
-  $\mList{x}=\mListWith{x*2\mListComp x\mFrom{\mListWith{0,1\dotsb9}}}$
+  $\mList{x}=[x*2\mListComp x\mFrom{\mListWith{0,1\dotsb9}}]$
   を \code{xs = [x*2 | x<-[0,1..9]]} と書く．}
 
 内包表記の式は複数あっても良い．例えば
 \begin{equation}
   \mList{x}
-  =\mListWith{x+y\mListComp x\mFrom\mListWith{0,1\dotsb9},\,
-      y\mFrom\mListWith{0,1\dotsb5},\,x+y>3}
+  =[x+y\mListComp x\mFrom\mListWith{0,1\dotsb9],\,
+      y\mFrom[0,1\dotsb5},\,x+y>3]
 \end{equation}
 は $0\le x\le9$ かつ $0\le y\le5$ の範囲で $x+y>3$となる $x$ 及び $y$
 から $x+y$ を並べたリストである．これは\python でいう
@@ -1943,10 +1942,10 @@ $\mList{y}$ を結合したリストは
 リストは\keyword{無限個}の要素を持っても良い．例えば自然数全体を表すリ
 スト $\mList{n}$ は
 \begin{equation}
-\mList{n}=\mListWith{1,2\dotsb}
+\mList{n}=[1,2\dotsb]
 \end{equation}
 のように定義して良い．\footnote{\haskell では
-  $\mList{n}=\mListWith{1,2\dotsb}$ を \code{ns = [1, 2..]} と書く．}
+  $\mList{n}=[1,2\dotsb]$ を \code{ns = [1, 2..]} と書く．}
 
 \keyword{空リスト}は$\mEmptyList$で表す．\footnote{\haskell では空リス
   トを \code{[]} で表す．}
@@ -1972,17 +1971,16 @@ $\mListTypeConstructor$ と書き
   $\mListTypeConstructor\,\mType{a}$ を区別せず，両者とも \code{[a]} と
   書く．}
 
-$\mListWith{x}$ のように $\mType{a}$ 型の変数 $x$ を入れた
-$\mListType{a}$ 型の変数を作る演算子を\keyword{リスト値コンストラクタ}
-と呼ぶ．$\mListType{a}$ 型の変数のことを\keyword{リスト変数}とも呼ぶ．
-$\mType{a}$ 型の変数 $x$ からリスト値コンストラクタを使ってリスト
-$\mList{x}$ を作ることは
+$[x]$ のように $\mA$ 型の変数 $x$ を入れた$\mListType{a}$ 型の変数を作
+る演算子を\keyword{リスト値コンストラクタ}と呼ぶ．$\mListType{a}$ 型の
+変数のことを\keyword{リスト変数}とも呼ぶ．$\mType{a}$ 型の変数 $x$ か
+らリスト値コンストラクタを使ってリスト$\mList{x}$ を作ることは
 \begin{equation}
-\mList{x}=\mListWith{x}
+\mList{x}=[x]
 \end{equation}
 と書く．\footnote{\haskell では \code{xs = [x]} と書く．}
 
-リスト型を表す $\mListType{a}$ と，1要素のリストである $\mListWith{x}$
+リスト型を表す $\mListType{a}$ と，1要素のリストである $[x]$
 の違いにはいつも気をつけておこう．本書では中身がボールドローマン体なら
 ばリスト型，中身がイタリック体ならリスト値である．またリストを保持する
 変数にも，本書では $\mList{x}$ のように星印をつけておくことにする．
@@ -1998,7 +1996,7 @@ $\mList{x}$ を作ることは
 我々は無限リストを持つことができる．例えば自然数を表すリスト
 $\mList{n}$ は
 \begin{equation*}
-\mList{n}=\mListWith{1,2\dotsb}
+\mList{n}=[1,2\dotsb]
 \end{equation*}
 と書くことができる．無限リストを扱えるのは，我々がいつも遅延評価を行う
 からである．遅延評価とは，本当の計算は必要になるまで行わないという方式
@@ -2012,7 +2010,7 @@ $\mList{y}$ から最初の $x$ 個の要素からなるリストを返す．い
 \begin{equation*}
 \mList{z}=\mTake5\,\mList{n}
 \end{equation*}
-とすると，リスト $\mList{z}$ は $\mList{z}=\mListWith{1,2\dotsb5}$ と
+とすると，リスト $\mList{z}$ は $\mList{z}=[1,2\dotsb5]$ と
 いう値を持つ．
 
 関数 $\mTake$ の型は
@@ -2034,15 +2032,15 @@ n$ を \code{xs!!n} と書く．}
 \label{sec:convolution}
 
 我々はよくリストの総和を表現するために総和演算子 $(\sum)$ を使う．総和
-演算子とはリスト $\mListWith{x_0,x_1\dotsb x_n}$ に対して
+演算子とはリスト $[x_0,x_1\dotsb x_n]$ に対して
 \begin{equation}
-\sum\mListWith{x_0,x_1\dotsb x_n}=x_0+x_1+\dotsb+x_n
+\sum[x_0,x_1\dotsb x_n]=x_0+x_1+\dotsb+x_n
 \end{equation}
 で定義される演算子である．この表現を一般化してみよう．リスト
-$\mListWith{x_0,x_1\dotsb x_n}$ が与えられたとき，任意の二項演算子を
+$[x_0,x_1\dotsb x_n]$ が与えられたとき，任意の二項演算子を
 $\mBinOp$ として
 \begin{equation}
-\mFold^{\mBinOp}_a\mListWith{x_0,x_1\dotsb x_n} =a\mBinOp x_0\mBinOp
+\mFold^{\mBinOp}_a[x_0,x_1\dotsb x_n] =a\mBinOp x_0\mBinOp
 x_1\mBinOp\dotsb\mBinOp x_n
 \end{equation}
 であると定義する．
@@ -2105,7 +2103,7 @@ $\mListType{b}$ 型を取り，$\mType{a}$ 型の値を返す．従って畳み�
 
 畳み込み演算子には次のようなもう一つのバリエーションがある．
 \begin{equation}
-\mFoldRight^{\mBinOp}_{a}\mListWith{x_0,x_1\dotsb x_n}
+\mFoldRight^{\mBinOp}_{a}[x_0,x_1\dotsb x_n]
 =(x_0\mBinOp(x_1\mBinOp\dotsb\mBinOp(x_n\mBinOp a)))
 \end{equation}
 これは\keyword{右畳み込み}と呼ばれる演算子である．\footnote{\haskell
@@ -2117,8 +2115,8 @@ $\mListType{b}$ 型を取り，$\mType{a}$ 型の値を返す．従って畳み�
 畳み込み演算子の面白い応用例を示そう．リストの結合演算子 $(\mAppend)$
 を使うと
 \begin{equation}
-  \mFold_\mEmptyList^{\mAppend}\mListWith{\mListWith{0,1,2},\mListWith{3,4,5},\dotsb}
-  =\mListWith{0,1,2,3,4,5,\dotsb}
+  \mFold_\mEmptyList^{\mAppend}[\mListWith{0,1,2},\mListWith{3,4,5},\dotsb]
+  =[0,1,2,3,4,5,\dotsb]
 \end{equation}
 であるから，演算子 $\mFold_\mEmptyList^{\mAppend}$ はリストを平坦化す
 る\keyword{平坦化演算子}である．平坦化演算子はconcat演算子とも呼ばれる
@@ -2147,15 +2145,15 @@ ls = [1, 2, 3, 4, 5]
 ms = map(f, ls)
 \end{verbatim}
 \end{pythoncode}
-とすると，結果として \code{ms} には $\mListWith{101,102,103,104,105}$
+とすると，結果として \code{ms} には $[101,102,103,104,105]$
 が入る．
 
-このように引数として関数 $f$ とリスト $\mListWith{x_0,x_1\dotsb x_n}$
-を取り，戻り値として $\mListWith{fx_0,fx_1\dotsb fx_n}$ を返す演算子
+このように引数として関数 $f$ とリスト $[x_0,x_1\dotsb x_n]$
+を取り，戻り値として $[fx_0,fx_1\dotsb fx_n]$ を返す演算子
 $\mMapList$ を考えよう．このとき
 \begin{equation}
-  f\mMapList\mListWith{x_0,x_1\dotsb x_n}
-  =\mListWith{fx_0,fx_1\dotsb fx_n}
+  f\mMapList[x_0,x_1\dotsb x_n]
+  =[fx_0,fx_1\dotsb fx_n]
 \end{equation}
 であると定義する．この演算子 $\mMapList$ をリストの\keyword{マップ演算
   子}と呼ぶ．\footnote{\haskell では $f\mMapList\mList{x}$ を
@@ -2175,8 +2173,8 @@ $\mMapList$ を考えよう．このとき
 の意味でもある．念のため上式に注釈を加えると
 \begin{equation}
   \mMapList\mIn\underbrace{\left(\mType{a}\mMapsTo\mType{b}\right)}_f
-  \mMapsTo\underbrace{\mListType{a}}_{\mListWith{x_0,x_1\dotsb x_n}}
-  \mMapsTo\underbrace{\mListType{b}}_{\mListWith{fx_0,fx_1\dotsb fx_n}}
+  \mMapsTo\underbrace{\mListType{a}}_{[x_0,x_1\dotsb x_n}]
+  \mMapsTo\underbrace{\mListType{b}}_{[fx_0,fx_1\dotsb fx_n}]
 \end{equation}
 である．
 
@@ -2190,10 +2188,10 @@ $\mMapList$ を考えよう．このとき
 具体例を見てみよう．先程の\python コードの例にあわせて
 \begin{align}
   f&=\mLambdaExp{x}{100+x}\\
-  \mList{x}&=\mListWith{1,2,3,4,5}\\
+  \mList{x}&=[1,2,3,4,5]\\
   \mList{y}&=f\mMapList\mList{x}
 \end{align}
-とすると $\mList{y}$ の値は $\mListWith{101,102,103,104,105}$ となる．
+とすると $\mList{y}$ の値は $[101,102,103,104,105]$ となる．
 
 \section{余談：リストの実装}
 
@@ -2217,7 +2215,7 @@ $\mRestVar$ はリスト型であるとする．演算子 $:$ を\keyword{cons�
 要素 $\mRestVar$ はリストまたは空リストであるから，一般にリストは次の
 ように展開できることになる．
 \begin{align}
-\mListWith{x_0,x_1,x_2\dotsb x_n} &=x_0:\mListWith{x_1,x_2\dotsb
+[x_0,x_1,x_2\dotsb x_n] &=x_0:\mListWith{x_1,x_2\dotsb
   x_n}\\ &=x_0:x_1:\mListWith{x_2\dotsb
   x_n}\\ &=x_0:x_1:x_2:\dotsb:x_n:\mEmptyList
 \end{align}
@@ -2267,11 +2265,11 @@ f\mList{y}@(x:\mList{x})=\dotsb
 \section{この章のまとめ}
 
 \begin{enumerate}
-\item 配列はリストである．配列は $\mListWith{x_0,x_1,x_2}$ のように表
-  記する．\item 等差数列の配列は $\mListWith{0,1\dotsb10}$ のように途
+\item 配列はリストである．配列は $[x_0,x_1,x_2]$ のように表
+  記する．\item 等差数列の配列は $[0,1\dotsb10]$ のように途
   中を $\dotsb$ で省略できる．\item 配列は無限長であってもよい．無限長
-  配列は $\mListWith{0,1\dotsb}$ のように表記する．\item 1要素のリスト
-  は $\mListWith{x}$ のように表記する．この括弧をリスト値コンストラク
+  配列は $[0,1\dotsb]$ のように表記する．\item 1要素のリスト
+  は $[x]$ のように表記する．この括弧をリスト値コンストラク
   タと呼ぶ．\item 空リストは $\mEmptyList$ と表す．\item $\mType{a}$
   型のリストを $\mListType{a}$ 型で表す．\item リスト型コンストラクタ
   $\mListTypeConstructor$ は型パラメタ $\mType{a}$ に作用して
@@ -2281,15 +2279,15 @@ f\mList{y}@(x:\mList{x})=\dotsb
   ある．\item リストはリスト結合(append)できる．リスト $\mList{y}$ と
   リスト $\mList{z}$ のリスト結合は $\mList{y}\mAppend\mList{z}$ であ
   る．\item 左畳み込み演算子
-  $\mFold^{\mBinOp}_a\mListWith{x_0,x_1\dotsb x_n}$ は $a\mBinOp
+  $\mFold^{\mBinOp}_a[x_0,x_1\dotsb x_n]$ は $a\mBinOp
   x_0\mBinOp x_1\mBinOp\dotsb\mBinOp x_n$ を返す．\item 右畳み込み演算
-  子 $\mFoldRight^{\mBinOp}_{a}\mListWith{x_0,x_1\dotsb x_n}$ は
+  子 $\mFoldRight^{\mBinOp}_{a}[x_0,x_1\dotsb x_n]$ は
   $(x_0\mBinOp(x_1\mBinOp\dotsb\mBinOp(x_n\mBinOp a)))$ を返す．\item
   平坦化演算子 $\mConcat=\mFold_\mEmptyList^{\mAppend}$ はリストを平坦
   化する．\item 関数 $f\mIn\mProj{\mType{a}}{\mType{a}}$ はマップ演算
   子 $\mMapList$ を用いて $f\mMapList\mListWith{x_0,x_1\dotsb
-    x_n}=\mListWith{fx_0,fx_1\dotsb fx_n}$ のようにリスト
-  $\mListWith{x_0,x_1\dotsb x_n}$ に適用できる．\item マップ演算子
+    x_n}=[fx_0,fx_1\dotsb fx_n]$ のようにリスト
+  $[x_0,x_1\dotsb x_n]$ に適用できる．\item マップ演算子
   $\mMapList$ の型は
   $\mProj{(\mProj{\mType{a}}{\mType{b}})}{\mProj{\mType{a}}{\mType{b}}}$
   である．\item $\mHead(x:\mList{x})=x,\mTail(x:\mList{x})=\mList{x}$
@@ -2397,7 +2395,7 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
 
 \haskell は，意図しない限り遅延評価を行う．これは特に左畳み込み演算子
 $(\mFold)$ を使う場合に問題となる．いま
-$\mList{x}=\mListWith{x_0,x_1,x_2,x_3}$ とすると，左畳み込み演算
+$\mList{x}=[x_0,x_1,x_2,x_3]$ とすると，左畳み込み演算
 $\mFold^+_0\mList{x}$ は
 \begin{align}
   \mFold^+_0\mList{x}&=\mFold^+_0{}(x_0:x_1:x_2:\mEmptyList)\\
@@ -2460,10 +2458,10 @@ $h=100+\mAnonParam$ であることを期待するし，\haskell においては
     \mSort\mEmptyList
     &=\mEmptyList\\
     \mSort(x:\mList{x})
-    &=(\mSort\mList{a})\mAppend\mListWith{x}\mAppend{}(\mSort\mList{b})\\
+    &=(\mSort\mList{a})\mAppend[x]\mAppend{}(\mSort\mList{b})\\
     &\quad\mWhere\left\{\begin{aligned}
-    \mList{a}&\mLetEq\mListWith{a\mListComp a\mFrom\mList{x},a\le x}\\
-    \mList{b}&\mLetEq\mListWith{b\mListComp b\mFrom\mList{x},b>x}
+    \mList{a}&\mLetEq[a\mListComp a\mFrom\mList{x},a\le x]\\
+    \mList{b}&\mLetEq[b\mListComp b\mFrom\mList{x},b>x]
     \end{aligned}
     \right.
   \end{aligned}
@@ -2941,7 +2939,7 @@ $\mProj{(\mProj{\mType{a}}{\mType{b}})}{(\mProj{\mMaybeType{a}}{\mMaybeType{b}})
 用品のことで，本書で述べる関手とは異なる概念である．混同しないように
 注意しよう．}
 
-同じことはリストにも言える．値コンストラクタ $\mListWith{x}$ とマップ
+同じことはリストにも言える．値コンストラクタ $[x]$ とマップ
 演算子 $\mMapList$ もまた関手である．この場合値コンストラクタは
 $\mProj{\mType{a}}{\mListType{a}}$ という型を持ち，マップ演算子も同じ
 く
@@ -2995,7 +2993,7 @@ $\mTypeConstructor{fn}=\mMaybeTypeConstructor$ であれば
 \begin{center}
 \begin{tabular}{||c|c|c|c|c||}\hline
 型の名前&型&型コンストラクタ&マップ&値コンストラクタ\\\hline\hline
-リスト&$\mListType{a}$&$\mListTypeConstructor$&$\mMapList$&$\mListWith{x}$\\
+リスト&$\mListType{a}$&$\mListTypeConstructor$&$\mMapList$&$[x]$\\
 Maybe&$\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mJustWith{x},\mNothing$\\\hline
 \end{tabular}
 \end{center}
@@ -3032,12 +3030,12 @@ Maybe&$\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mJustWith{x},\mNo
 マップ演算子をさらに汎用性のあるものにするために新しく考え出された演算子が
 \keyword{アプリカティブマップ演算子}である．
 
-いま関数のリスト $\mListWith{f,g,h}$ と変数のリスト
-$\mListWith{x,y,z}$ があるとする．リストのアプリカティブマッ
+いま関数のリスト $[f,g,h]$ と変数のリスト
+$[x,y,z]$ があるとする．リストのアプリカティブマッ
 プ演算子 $\mAppMapList$ を次のように定義する．
 \begin{equation}
-\mListWith{f,g,h}\mAppMapList\mListWith{x,y,z}
-=\mListWith{fx,fy,fz,gx,gy,gz,hx,hy,hz}
+  [f,g,h]\mAppMapList[x,y,z]
+  =[fx,fy,fz,gx,gy,gz,hx,hy,hz]
 \end{equation}
 リストのアプリカティブマップ演算子はこのように，左引数のリス
 ト内のすべての関数を順番に右引数のリスト内の変数に適用し，その結果をリ
@@ -3048,28 +3046,28 @@ $\mProj{\mListType{\mProj{\mType{a}}{\mType{b}}}}{\mProj{\mListType{\mType{a}}}{
 である．これは
 \begin{equation}
   \mAppMapList
-  \mIn\underbrace{\mListWith{\mType{a}\mapsto\mType{b}}}_{\mListWith{f_0,f_1\dotsb f_n}}
-  \mapsto\underbrace{\mListType{a}}_{\mListWith{x_0,x_1\dotsb x_n}}
-  \mapsto\underbrace{\mListType{\mType{b}}}_{\mListWith{f_0x_0,f_0x_1\dotsb f_0x_n,f_1x_0,f_1x_1\dotsb f_nx_n}}
+  \mIn\underbrace{\mType{a}\mapsto\mType{b}}_{[f_0,f_1\dotsb f_n]}
+  \mapsto\underbrace{\mListType{a}_{[x_0,x_1\dotsb x_n]}}
+  \mapsto\underbrace{\mListType{\mType{b}}_{[f_0x_0,f_0x_1\dotsb f_0x_n,f_1x_0,f_1x_1\dotsb f_nx_n]}}
 \end{equation}
 と解釈すれば良い．
 
 リストバージョンのアプリカティブマップ演算子 $(\mAppMapList)$ の特別な
 場合として，左引数のリストの要素数が $1$ の場合を考えると
 \begin{equation}
-\mListWith{f}\mAppMapList\mListWith{x,y,z}
-=\mListWith{fx,fy,fz}
+  [f]\mAppMapList[x,y,z]
+  =[fx,fy,fz]
 \end{equation}
 であり，通常のマップ演算子 $(\mMapList)$ を使ったマップすなわち
 \begin{equation}
-f\mMapList\mListWith{x,y,z}
-=\mListWith{fx,fy,fz}
+  f\mMapList[x,y,z]
+  =[fx,fy,fz]
 \end{equation}
 と右辺が一致する．つまり，マップ演算子はアプリカティブマップ演算子の特
 別な場合と考えることができる．実際，リストマップ演算子はアプリカティブマップ演算子から
 \begin{equation}
-f\mMapList\mList{x}
-=\mListWith{f}\mAppMapList\mList{x}
+  f\mMapList\mList{x}
+  =[f]\mAppMapList[x]
 \end{equation}
 と定義できる．
 
@@ -3122,16 +3120,16 @@ $(\mAppMap)$ から一般マップ演算子 $(\mMap)$ を導き出すには，�
 Maybe型を抽象化したものであって，直接変数を生成できない．型クラスは，
 \cxx の用語で言えば純粋仮想クラスのようなものであるし，\objectivec の
 用語で言えばメタクラスであるからである．もちろんリストのピュア演算子は
-$\mListWith{x}$ であるし，Maybeのピュア演算子は $\mJustWith{x}$ であり，
-それぞれ具体的な変数を生成する．しかし変数 $x$ にピュア演算子を適用し
-た $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在しない．
+$[x]$ であるし，Maybeのピュア演算子は $\mJustWith{x}$ であり，それぞれ
+具体的な変数を生成する．しかし変数 $x$ にピュア演算子を適用した
+$\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在しない．
 \footnote{\haskell は一般のピュア演算子の実装を与えていない．変数の型
   に応じて対応する関数が適用される．}
 
 一般アプリカティブマップ演算子 $(\mAppMap)$ は多様性によってそれぞれリ
 ストバージョンのアプリカティブマップ演算子 $(\mAppMapList)$ やMaybeバー
 ジョンのアプリカティブマップ演算子 $(\mAppMapMaybe)$ にオーバーライド
-され，それぞれリスト値コンストラクタ $(\mListWith{x})$, Maybe値コンス
+され，それぞれリスト値コンストラクタ $([x])$, Maybe値コンス
 トラクタ $(\mJustWith{x})$ を用いることでリストバージョンのマップ演算
 子 $(\mMapList)$, Maybeバージョンのマップ演算子 $(\mMapMaybe)$ を生成
 することができる．リスト値コンストラクタ，Maybe値コンストラクタはそれ
@@ -3570,14 +3568,14 @@ $\mId=\mAnonParam$ と定義しても同じである．
 $\mList{x}$ である．単位元の存在とは，そのような関数 $\mId$ があるとい
 う規則である．
 
-合成則のほうは $\mList{x}=\mListWith{x}$ を例に考えるとわかりやすく，
+合成則のほうは $\mList{x}=[x]$ を例に考えるとわかりやすく，
 \begin{align}
 (f\mMap)\mComp(g\mMap)\mList{x}
 &=(f\mMap{}(g\mMap\mAnonParam))\mList{x}\\
 &=f\mMap{}(g\mMap\mList{x})\\
-&=f\mMap{}\mListWith{gx}\\
-&=\mListWith{(f\mComp g)x}\\
-&=(f\mComp g)\mMap{}\mListWith{x}\\
+&=f\mMap{}[gx]\\
+&=[(f\mComp g)x]\\
+&=(f\mComp g)\mMap{}[x]\\
 &=(f\mComp g)\mMap\mList{x}
 \end{align}
 のような関係を一般化したものだと考えれば良い．
@@ -3723,7 +3721,7 @@ i\mBind{}(j\mBind v)=(i\mBind{}(j\mAnonParam))\mBind v
 \hline
 リスト
   &$\mBindList$
-  &$\mListWith{x}$
+  &$[x]$
   &$\mAppMapList$
   &$\mMapList$
   &$\mEmptyList$
@@ -4630,7 +4628,8 @@ $\mType{a}$ と型コンストラクタ $\mTypeConstructor{fn}$ から
 リストに新しいマップ演算子 $\mZip$ を定義したいとしよう．この演算子
 $\mZip$ は
 \begin{equation}
-\mListWith{f,g,h}\mZip\mListWith{x,y,z}=\mListWith{fx,gy,hz}
+  [f,g,h]\mZip\mListWith{x,y,z}
+  =[fx,gy,hz]
 \end{equation}
 のように働くとする．新しいマップ演算子 $\mZip$ のことを我々は
 \keyword{ジップ演算子}と呼ぶことにする．
@@ -4640,7 +4639,8 @@ $\mZip$ は
 が，リストには既に $\mAppMapList$ というアプリカティブマップ演算子が定
 義されている．念のためにアプリカティブマップ演算子を用いると
 \begin{equation}
-\mListWith{f,g,h}\mAppMapList\mListWith{x,y,z}=\mListWith{fx,fy,fz,gx,gy,gz,hx,hy,hz}
+  [f,g,h]\mAppMapList[x,y,z]
+  =[fx,fy,fz,gx,gy,gz,hx,hy,hz]
 \end{equation}
 である．ある型のインスタンス化は一種類しか行えないので，リスト型に新し
 いアプリカティブマップ演算子を追加することは出来ない．
@@ -4701,14 +4701,14 @@ $\mValueConstructor{\mZipList}$ は値コンストラクタである．すな
 
 任意のリスト $\mList{x}$ と任意の関数リスト $\mList{f}$ ただし
 \begin{align}
-\mList{x}&=\mListWith{x_0,x_1,\dotsb}\\
-\mList{f}&=\mListWith{f_0,f_1,\dotsb}
+\mList{x}&=[x_0,x_1,\dotsb]\\
+\mList{f}&=[f_0,f_1,\dotsb]
 \end{align}
 の両方をそれぞれ値コンストラクタで包んでアプリカティブマップ演算子を適
 用すると
 \begin{equation}
 \mZipListWith{\mList{f}}\mAppMap\mZipListWith{\mList{x}}
-=\mListWith{f_0x_0,f_1x_1,\dotsb}
+=[f_0x_0,f_1x_1,\dotsb]
 \end{equation}
 のようにジップ演算子を適用できる．
 
@@ -5443,7 +5443,7 @@ fx&\mGuard{x\equiv0}=1\\
 \left\mBrace
 \begin{aligned}
 \mList{x}&\mIn{}\mListType{\mDoubleType}\\
-\mList{x}&=\mListWith{i/n*\pi\mListComp i\mFrom\mListWith{0\dotsb n}}
+\mList{x}&=[i/n*\pi\mListComp i\mFrom\mListWith{0\dotsb n}]
 \end{aligned}
 \right.
 \end{equation*}
@@ -5455,13 +5455,13 @@ fx&\mGuard{x\equiv0}=1\\
 \left\mBrace
 \begin{aligned}
 \mList{x}&\mIn{}\mListType{\mDoubleType}\\
-\mList{x}&=\mListWith{(\mFromIntegral i)/(\mFromIntegral n)*\pi\mListComp i\mFrom\mListWith{0\dotsb n}}
+\mList{x}&=[(\mFromIntegral i)/(\mFromIntegral n)*\pi\mListComp i\mFrom\mListWith{0\dotsb n}]
 \end{aligned}
 \right.
 \end{equation}
 となる．この結果，リスト $\mList{x}$ は
 \begin{equation}
-\mList{x}=\mListWith{0,(1/n)*\pi,(2/n)*\pi,\dotsb,\pi}
+\mList{x}=[0,(1/n)*\pi,(2/n)*\pi,\dotsb,\pi]
 \end{equation}
 となる．
 
@@ -5557,8 +5557,8 @@ main = print ys >> pure 0
 yt&=\sum(\mLambdaExp{x}{\mFirst x*\mSecond x})\mMapList\mList{h}\\
 &\quad\mWhere\\
 &\qquad\mList{h}\mLetEq{}\mZipFunc\mList{f}\mList{g}\\
-&\qquad\mList{f}\mLetEq\mListWith{fx\mListComp x\mFrom\mListWith{0,1\dotsb n}}\\
-&\qquad\mList{g}\mLetEq\mListWith{g(t-x)\mListComp x\mFrom\mListWith{0,1\dotsb n}}
+&\qquad\mList{f}\mLetEq[fx\mListComp x\mFrom\mListWith{0,1\dotsb n}]\\
+&\qquad\mList{g}\mLetEq[g(t-x)\mListComp x\mFrom\mListWith{0,1\dotsb n}]
 \end{aligned}
 \end{equation}
 
