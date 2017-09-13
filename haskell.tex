@@ -357,7 +357,7 @@
 % Functors
 \newcommand{\mSpecialFunctor}[1]{\mathcal{#1}} % Internal use
 
-\DeclareMathOperator{\mIFunctor}{\mSpecialFunctor{I}}
+\DeclareMathOperator{\mIdFunctor}{\mSpecialFunctor{ID}}
 
 % Type classes
 \newcommand{\mTypeClass}[1]{\textsc{#1}} % Inetrnal use
@@ -427,7 +427,8 @@ Maybe変数&肩に?をつける&$\mMaybe{u}$\\
 Ether変数&肩に!をつける&$\mEither{u}$\\
 \hline
 関数&オイラー・小文字&$f,g,h,i,j,k$\\
-有名な関数&ローマン・小文字&$\sin,\cos$\\
+有名な関数&ローマン・小文字&$\mId,\sin,\cos$\\
+特別な関数&フラクチュール・小文字&$\mIdCat$\\
 % リスト関数&肩に星印をつける&$\mList{f}$\\
 % Maybe関数&肩に?をつける&$\mMaybe{g}$\\
 コンテナ関数&ギリシア文字&$\phi,\psi$\\
@@ -462,9 +463,10 @@ Ether変数&肩に!をつける&$\mEither{u}$\\
 値コンストラクタ&肩書付き括弧で包む&$\mJustWith{x},\mRightWith{x}$\\
 有名な値コンストラクタ&特別な括弧で包む&$[x],\mFuncWith{x}$\\
 \hline
-型コンストラクタ&イタリック，大文字&$\mListTypeConstructor$, $\mMaybeTypeConstructor$\\
-% 関手&ボールドイタリック，大文字&$\mFunctor{List},\mFunctor{Maybe}$\\
-有名な関手&カリグラフィ，大文字&$\mIFunctor$\\
+型コンストラクタ&スラント，大文字&$\mListTypeConstructor$, $\mMaybeTypeConstructor$\\
+% \hline
+% 有名な関手&カリグラフィ，大文字&$\mIdFunctor$\\
+\hline
 キーワード&サンセリフ，小文字&$\mIf,\mOtherwise$\\
 do記法中のキーワード&タイプライタ&$\mDoLetKeyword$\\
 % リストの構造&サンセリフ，大文字&$\mathFirst$, $\mathRest$\\
@@ -481,39 +483,42 @@ do記法中のキーワード&タイプライタ&$\mDoLetKeyword$\\
 \begin{table*}[p]
 \caption{記号一覧 (1)}
 \begin{center}
-\begin{tabular}{||c|c||}
+\begin{tabular}{||c|c|c||}
 \hline
-記号&意味\\
+記号&意味&\haskell 記号\\
 \hline\hline
-$\mLambda, \mLambdaArrow$&ラムダ式\\
-$\mAnonParam$&無名パラメタ\\
+$\mLambda, \mLambdaArrow$&ラムダ式&\code{\textbackslash},\code{->}\\
+$\mAnonParam$&無名パラメタ&\\
 \hline
-$\mIn$&型集合の元\\
-$\in$&値集合の元\\
-$\mMapsTo$&写像\\
+$\mIn$&型集合の元&\code{::}\\
+$\in$&値集合の元&\code{<-}\\
+$\mMapsTo$&写像&\code{->}\\
 \hline
-$\mBinOp$&任意の二項演算子\\
-$\mPlus$&一般加法演算子\\
+$\mUnOp$&任意の単項演算子&\\
+$\mBinOp$&任意の二項演算子&\\
+$\mPlus$&一般加法演算子&\\
 \hline
-$\mFromIntegral$&型変換演算子\\
+$\mFromIntegral$&型変換演算子&\code{fromIntegral}\\
 \hline
-$\mComp$&関数合成\\
-$\mApply$&関数適用\\
-$\mApplyRight$&関数の右適用\\
+$\mComp$&関数合成&\code{.}\\
+$\mApply$&関数適用&\code{\$}\\
+$\mApplyRight$&関数の右適用&\\
 \hline
-$\mFold$&左畳み込み\\
-$\mFoldRight$&右畳み込み\\
+$\mFold$&左畳み込み&\code{foldl}\\
+$\mFoldRight$&右畳み込み&\code{foldr}\\
 \hline
-$:$&cons演算子\\
-$\mAppend$&結合演算子\\
-$\mZip$&ジップ演算子\\
-$\mJoinList$&平坦化演算子\\
-$\mJoin$&ジョイン演算子\\
+$:$&cons演算子&\code{:}\\
+$\mAppend$&結合演算子&\code{++}\\
+$\mZip$&ジップ演算子&\code{zip}\\
+\hline
+$\mJoinList$&リスト平坦化演算子&\code{concat}\\
+$\mJoinMaybe$&Maybe平坦化演算子&\code{join}\\
+$\mJoin$&ジョイン演算子&\code{join}\\
 % $\mathMaybeAppend$&Maybe結合\\
 \hline
-$\mEmptyList$&空リスト\\
-$\mNothing$&空Maybe（ナッシング）\\
-$\mPureNothing$&空\\
+$\mEmptyList$&空リスト&\code{[]}\\
+$\mNothing$&空Maybe（ナッシング）&\code{Nothing}\\
+$\mPureNothing$&空&\\
 \hline
 \end{tabular}
 \end{center}
@@ -522,32 +527,34 @@ $\mPureNothing$&空\\
 \begin{table*}[p]
 \caption{記号一覧 (2)}
 \begin{center}
-\begin{tabular}{||c|c||}
+\begin{tabular}{||c|c|c||}
 \hline
-記号&意味\\
+記号&意味&\haskell 記号\\
 \hline\hline
-$[x]$&リスト値コンストラクタ\\
-$\mJustWith{x}$&Maybe値コンストラクタ\\
-$\mLeftWith{x},\mRightWith{x}$&Either値コンストラクタ\\
-$\mFuncWith{x}$&関数値コンストラクタ\\
-$\mPureWith{x}$&ピュア演算子\\
+$[x]$&リスト値コンストラクタ&\code{[x]}\\
+$\mJustWith{x}$&Maybe値コンストラクタ&\code{Just x}\\
+$\mLeftWith{x},\mRightWith{x}$&Either値コンストラクタ&\code{Left x}, \code{Right x}\\
+$\mFuncWith{x}$&関数値コンストラクタ&\code{r->x}\\
+$\mPureWith{x}$&ピュア演算子&\code{pure x}\\
 \hline
-$\mMap$&一般マップ\\
-$\mMapList$&リストのマップ\\
-$\mMapMaybe$&Maybeのマップ\\
-$\mMapFunc$&関数のマップ\\
+$\mMap$&一般マップ&\code{<*>}\\
+$\mMapList$&リストのマップ&\code{<*>}\\
+$\mMapMaybe$&Maybeのマップ&\code{<*>}\\
+$\mMapFunc$&関数のマップ&\code{<*>}\\
 \hline
-$\mAppMap$&一般アプリカティブマップ\\
-$\mAppMapList$&リストのアプリカティブマップ\\
-$\mAppMapMaybe$&Maybeのアプリカティブマップ\\
-$\mAppMapFunc$&関数のアプリカティブマップ\\
+$\mAppMap$&一般アプリカティブマップ&\code{<\$>}\\
+$\mAppMapList$&リストのアプリカティブマップ&\code{<\$>}\\
+$\mAppMapMaybe$&Maybeのアプリカティブマップ&\code{<\$>}\\
+$\mAppMapFunc$&関数のアプリカティブマップ&\code{<\$>}\\
 \hline
-$\mBind$&一般バインド演算子\\
-$\mBindRight$&一般右バインド演算子\\
-% $\mBindRightIgnore$&一般右バインド演算子\\
-$\mBindList$&リストのバインド演算子\\
-$\mBindMaybe$&Maybeのバインド演算子\\
-$\mBindFunc$&関数のバインド演算子\\
+$\mBind$&一般バインド演算子&\code{=<<}\\
+$\mBindList$&リストのバインド演算子&\code{=<<}\\
+$\mBindMaybe$&Maybeのバインド演算子&\code{=<<}\\
+$\mBindFunc$&関数のバインド演算子&\code{=<<}\\
+\hline
+$\mBindRight$&右バインド演算子&\code{>>=}\\
+$\mBindRightIgnore$&右バインド演算子（戻値無視）&\code{>>}\\
+$\rightrightarrows$&右バインド演算子（平坦化）&\code{>=>}\\
 \hline
 \end{tabular}
 \end{center}
