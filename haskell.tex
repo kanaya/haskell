@@ -4613,32 +4613,38 @@ $\mTypeSynonym$ を \code{type} と省略してしまう．これは残念なこ
 Maybeのように型パラメタを取る型を\keyword{多相型}と呼ぶ．多相型はどの
 ように定義されるかと言うと，
 \begin{equation}
-\mDataTypePolymorphic\;\mMaybeTypeConstructor\,\mA 
-=\mJustWith{\mA }\mValueOr\mNothing
+  \mDataTypePolymorphic\;
+  \mMaybeTypeConstructor\,\mA
+  =\mJustWith{\mA}\mValueOr\mNothing
 \end{equation}
 のように，やはり $\mDataType$ を使って定義される．念のため型パラメタを
-取る場合は $\mDataTypePolymorphic$ と区別しておこう．\footnote{\haskell
-は $\mDataType$ と $\mDataTypePolymorphic$ を区別せず，
-$\mDataTypePolymorphic\;\mMaybeTypeConstructor\mA 
-=\mJustWith{\mA }\mValueOr\mNothing$ を \code{data Maybe a =
-Just a | Nothing} と書く．}
-% この $\mJustWith{\mA }$ は $\mA $ のMaybe型 $(\mMaybeType{a})$ という意味ではなく，$\mA $ 型の変数を型コンストラクタ $\mJustWith{\dotsb}$ に入れなさいという意味．
+取る場合は $\mDataTypePolymorphic$ と区別しておこう．
+\footnote{\haskell は $\mDataType$ と $\mDataTypePolymorphic$ を区別せ
+  ず，$\mDataTypePolymorphic\;\mMaybeTypeConstructor\mA
+  =\mJustWith{\mA }\mValueOr\mNothing$ を \code{data Maybe a = Just a
+    | Nothing} と書く．}
+% この $\mJustWith{\mA}$ は $\mA $ のMaybe型 $(\mMaybeType{a})$ という
+% 意味ではなく，$\mA$ 型の変数を型コンストラクタ $\mJustWith{\dotsb}$
+% に入れなさいという意味．
 
 Maybeが型クラス $\mEqTypeClass$ に属すものとして，$\mEqTypeClass$ から
 のインスタンス化をしておこう．ここでも型パラメタ付きの $\mInstance$ を
 仮に $\mInstancePolymorphic$ とすると次のように書けそうである．
-\begin{multline}
-\mInstancePolymorphic\;
-\mEqTypeClass\mSuperSet{}(\mMaybeTypeConstructor\,\mA )\\
-\mWhere
-\left\{
-\begin{aligned}
-\mJustWith{x}\equiv\mJustWith{y}&=x\equiv y\\
-\mNothing\equiv\mNothing&=\mTrue\\
-\mAnyParam\equiv\mAnyParam&=\mFalse
-\end{aligned}
-\right.
-\end{multline}
+\begin{equation}
+  \mInstancePolymorphic\;
+  \mEqTypeClass\mSuperSet{}(\mMaybeTypeConstructor\,\mA)
+  \mWhere
+  \left\{
+  \begin{aligned}
+    \mJustWith{x}\equiv\mJustWith{y}
+    &=x\equiv y\\
+    \mNothing\equiv\mNothing
+    &=\mTrue\\
+    \mAnyParam\equiv\mAnyParam
+    &=\mFalse
+  \end{aligned}
+  \right.
+\end{equation}
 残念ながら，この式は $\mA $ 型の変数 $x,y$ の間に等号 $(\equiv)$
 が定義されていることが隠れた前提になっているため，正しくない．我々は
 $\mA $ が型クラス $\mEqTypeClass$ に属すことを要求するので，次の
@@ -4704,11 +4710,15 @@ Eitherは次のように定義できる．
   \mTypeClassDeclPolymorphic\;
   &\mFunctorTypeClass\mSuperSet\mListTypeConstructor{}
   \mWhere{}
-  \mMap\mIn{}\mProjEXP{(\mProjEXP{\mA }{\mB })}
-           {\mProjEXP{[\mA]}{[\mB]}}\\
-           \mInstancePolymorphic\;
-           &\mFunctorTypeClass\mSuperSet\mListTypeConstructor{}
-           \mWhere{}\mMap=\mMapList
+  (\mMap)
+  \mIn{}(\mA\mMapsTo\mB)
+  \mMapsTo[\mA]
+  \mMapsTo[\mB]\\
+  \mInstancePolymorphic\;
+  &\mFunctorTypeClass\mSuperSet\mListTypeConstructor{}
+  \mWhere{}
+  (\mMap)
+  =(\mMapList)
 \end{align}
 と定義する．\footnote{\haskell では
 \begin{verbatim}
@@ -4720,12 +4730,15 @@ Eitherは次のように定義できる．
 Maybe型の場合は
 \begin{align}
   \mTypeClassDeclPolymorphic\;
-  &\mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor\nonumber\\
-&\quad\mWhere{}\mMap\mIn{}\mProjEXP{(\mProjEXP{\mA }{\mB })}{\mProjEXP{\mMaybeType{a}}{\mMaybeType{b}}}\\
+  &\mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor
+  \mWhere{}
+  (\mMap)
+  \mIn{}(\mA\mMapsTo\mB)
+  \mMapsTo\mMaybeType{a}
+  \mMapsTo\mMaybeType{b}\\
   \mInstancePolymorphic\;
-  &\mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor\nonumber\\
-  &\quad\mWhere
-  \left\{
+  &\mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor
+  \mWhere\left\{
   \begin{aligned}
     f\mMap\mJustWith{x}&=\mJustWith{fx}\\
     f\mMap\mNothing&=\mNothing
@@ -4768,25 +4781,25 @@ Either型の場合は
 と書く．}
 
 型に関して一般化すると
-\begin{multline}
+\begin{equation}
   \label{eq:fn}
   \mTypeClassDeclPolymorphic\;
-  \mFunctorTypeClass\mSuperSet\mTypeConstructor{f}\\
+  \mFunctorTypeClass\mSuperSet\mPolymorphicTypeParameter{f}
   \mWhere{}
   \mMap
   \mIn{}(\mA\mMapsTo\mB)
   \mMapsTo\mTypeAssemble{f}{a}
   \mMapsTo\mTypeAssemble{f}{b}
-\end{multline}
+\end{equation}
 のように書ける．ここで，型 $\mTypeAssemble{f}{a}$ は型
 $\mA$ と型コンストラクタ $\mPolymorphicTypeParameter{f}$ から
 \begin{equation}
   \mTypeAssemble{f}{a}
-  =\mathop{\mTypeConstructor{f}}\mA
+  =\mathop{\mPolymorphicTypeParameter{f}}\mA
 \end{equation}
 のように作られる．\footnote{\haskell では
   $\mTypeAssemble{f}{a}$ も
-  $\mathop{\mTypeConstructor{f}}\mA $ も同様に \code{f a} と書く．
+  $\mathop{\mTypeConstructor{f}}\mA$ も同様に \code{f a} と書く．
   そこで式\eqref{eq:fn}は
 \begin{verbatim}
   class functor f where fmap :: (a -> b) -> f a -> f b
@@ -5355,7 +5368,7 @@ a*x^2+b*x+c=0
   \left\mBrace
   \begin{aligned}
     &\mSq\mIn\mRealTypeClass\mSuperSet\mA 
-    \mSuperClass\mProjEXP{\mA }{\mA }\\
+    \mSuperClass\mProjEXP{\mA}{\mA}\\
     &\mSq x=x*x
   \end{aligned}
   \right.
