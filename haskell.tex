@@ -1914,9 +1914,8 @@ ls = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 我々も $0$ から始まり $9$ まで続く整数のリストを
 $[0,1,2,3,4,5,6,7,8,9]$ と書くことにしよう．ただし，これでは冗長なので
 \keyword{等差数列}に限って簡略化した書き方を許す．例えば $0$ から $9$
-までのリストは $[0,1\dotsb9]$ と書いても良い．
-\footnote{\haskell では \code{[0, 1..9]} と書く．ピリオドの数に注意し
-  よう．}
+までのリストは $[0,1\dots9]$ と書いても良い．\footnote{\haskell では
+  \code{[0, 1..9]} と書く．ピリオドの数に注意しよう．}
 
 リストの中身の一つ一つの値のことを\keyword{要素}と呼ぶ．要素のことは元
 と呼んでも良いが，本書では要素と呼ぶことにする．要素も元も英語の
@@ -1929,7 +1928,7 @@ elementの和訳である．
 星印をつけて
 \begin{equation}
   \mList{x}
-  =[0,1\dotsb9]
+  =[0,1\dots9]
 \end{equation}
 のように書くことにしよう．なお，変数 $x$ とリスト変数 $\mList{x}$ は異
 なる変数であるとする．\footnote{\haskell では星印のかわりに \code{s}
@@ -1950,17 +1949,17 @@ ls = [x*2 for x in range(0, 10)]
 我々も内包表記を
 \begin{equation}
   \mList{x}
-  =[x*2\mListComp x\mFrom[0,1\dotsb9]]
+  =[x*2\mListComp x\mFrom[0,1\dots9]]
 \end{equation}
 のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代
 入する演算子$\mFrom$を用いた．\footnote{\haskell では
-  $\mList{x}=[x*2\mListComp x\mFrom[0,1\dotsb9]]$を \code{xs = [x*2 |
+  $\mList{x}=[x*2\mListComp x\mFrom[0,1\dots9]]$を \code{xs = [x*2 |
       x<-[0,1..9]]} と書く．}
 
 内包表記の式は複数あっても良い．例えば
 \begin{equation}
   \mList{x}
-  =[x+y\mListComp x\mFrom[0,1\dotsb9],\,y\mFrom[0,1\dotsb5],\,x+y>3]
+  =[x+y\mListComp x\mFrom[0,1\dots9],\,y\mFrom[0,1\dots5],\,x+y>3]
 \end{equation}
 は $0\le x\le9$ かつ $0\le y\le5$ の範囲で $x+y>3$となる $x$ 及び $y$
 から $x+y$ を並べたリストである．これは\python でいう
@@ -1974,6 +1973,10 @@ ls = [x+y for x in range(0, 10) for y in range(0,6) \
       y<-[0,1..5], x+y>3]} と書く．}
 
 % ...もっと内包表記．
+
+整数型 $(\mIntType)$ のリストは $[\mIntType]$ と書き，整数のリスト型と
+呼ぶ．一般に $\mA$ 型のリストを $[\mA]$ と書く．仮の型である $\mA$ の
+事を \keyword{型パラメタ}と呼ぶ．
 
 \separator
 
@@ -1993,13 +1996,15 @@ $\mList{y}$ を結合したリストは
 リストは\keyword{無限個}の要素を持っても良い．例えば自然数全体を表すリ
 スト $\mList{n}$ は
 \begin{equation}
-\mList{n}=[1,2\dotsb]
+\mList{n}=[1,2\dots]
 \end{equation}
-のように定義して良い．\footnote{\haskell では
-  $\mList{n}=[1,2\dotsb]$ を \code{ns = [1, 2..]} と書く．}
+のように定義して良い．\footnote{\haskell では$\mList{n}=[1,2\dots]$ を
+  \code{ns = [1, 2..]} と書く．}
 
-\keyword{空リスト}は$\mEmptyList$で表す．\footnote{\haskell では空リス
-  トを \code{[]} で表す．}
+\separator
+
+リストは空でもよい．\keyword{空リスト}は$\mEmptyList$で表す．
+\footnote{\haskell では空リストを \code{[]} で表す．}
 
 関数 $\mNull$ はリストが空リストかどうかを判定する．リスト $\mList{x}$
 が空リストの場合
@@ -2008,9 +2013,10 @@ $\mList{y}$ を結合したリストは
 \end{equation}
 は $\mTrue$ を，そうでなければ $\mFalse$ を返す．
 
-任意の型を $\mA$ とするとき，$\mA$ 型のリスト型を$[\mA]$ と書く．型
-$\mA$ から型 $[\mA]$ を生成する演算子を\keyword{リスト型コンストラクタ}と
-呼んで$\mListTypeConstructor$ と書き
+\separator
+
+型 $\mA$ から型 $[\mA]$ を生成する演算子を\keyword{リスト型コンストラ
+  クタ}と呼んで$\mListTypeConstructor$ と書き
 \begin{equation}
   [\mA]
   =\mListTypeConstructor\,\mA 
@@ -2064,7 +2070,7 @@ $\mList{y}$ から最初の $x$ 個の要素からなるリストを返す．い
   =\mTake5\,\mList{n}
 \end{equation*}
 とすると，リスト $\mList{z}$ は $\mList{z}=[1,2\dotsb5]$ と
-いう値を持つ．
+いう値を持つ．\footnote{\haskell では \code{zs = take 5 ns} と書く．}
 
 関数 $\mTake$ の型は
 \begin{equation}
@@ -2111,14 +2117,16 @@ $a$ は\keyword{アキュムレータ}と呼ぶ．アキュムレータは右側
 \begin{pythoncode}
 \begin{verbatim}
 # Python 2.7
-ls = [0, 1, 2, 3, 4, 5] s = reduce(lambda x, y: x+y, ls, 0)
+ls = [0, 1, 2, 3, 4, 5]
+s = reduce(lambda x, y: x+y, ls, 0)
 \end{verbatim}
 \end{pythoncode}
 のように求めることができる．この \code{reduce} 関数は\python バージョ
 ン3では非推奨になっているが，\ruby には受け継がれていて，\ruby では
 \begin{rubycode}
 \begin{verbatim}
-ls = [0, 1, 2, 3, 4, 5] s = ls.inject(0) { |x, y| x+y }
+ls = [0, 1, 2, 3, 4, 5]
+s = ls.inject(0) { |x, y| x+y }
 \end{verbatim}
 \end{rubycode}
 と書ける．
@@ -2185,7 +2193,7 @@ $\mB$ 型のリストすなわち$[\mB]$ 型を取り，$\mA$ 型の値を返す
   =\mFold_\mEmptyList^{\mAppend}
 \end{equation}
 と定義することにする．\footnote{\haskell では演算子 $\mJoinList$ の代わ
-  りに \code{concat} 関数を使う．}
+  りに \code{concat} 関数（または \code{join} 関数）を使う．}
 % ***CHECK***
 
 \section{マップ}
@@ -2216,9 +2224,9 @@ $\mMapList$ を考えよう．このとき
   =[fx_0,fx_1\dotsb fx_n]
 \end{equation}
 であると定義する．この演算子 $\mMapList$ をリストの\keyword{マップ演算
-  子}と呼ぶ．\footnote{\haskell では $f\mMapList\mList{x}$ を
-  \code{map f xs} または \code{f <\$> xs} と書く．ただし演算子
-  \code{<\$>} は \code{fmap} 演算子の中置バージョンである．}
+  子}と呼ぶ．\footnote{\haskell では $f\mMapList\mList{x}$ を\code{map
+    f xs} または \code{f <\$> xs} と書く．ただし演算子 \code{<\$>} は
+  \code{fmap} 演算子の中置バージョンである．}
 
 リストのマップ演算子の型は
 \begin{equation}
@@ -2248,6 +2256,8 @@ $\mMapList$ を考えよう．このとき
 \end{align}
 となり，マップ演算子が何をしているのか一目瞭然になる．
 
+\TK{liftM}
+
 具体例を見てみよう．先程の\python コードの例にあわせて
 \begin{align}
   f
@@ -2274,9 +2284,9 @@ $\mFirstVar$ がリストの要素を参照し，変数 $\mRestVar$ が次のペ
   \mFirstVar:\mRestVar
 \end{equation}
 を用い，リファレンス $\mFirstVar$ はリストが保持する型，リファレンス
-$\mRestVar$ はリスト型であるとする．演算子 $:$ を\keyword{cons演算子}
-と呼ぶ．\footnote{\haskell でも要素 \code{x} をリスト \code{xs} の先頭
-  に追加することを \code{x:xs} と書く．}
+$\mRestVar$ はリスト型であるとする．演算子 $:$ を\lisp に倣って
+\keyword{cons演算子}と呼ぶ．\footnote{\haskell でも要素 \code{x} をリ
+  スト \code{xs} の先頭に追加することを \code{x:xs} と書く．}
 
 要素 $\mRestVar$ はリストまたは空リストであるから，一般にリストは次の
 ように展開できることになる．
@@ -2294,10 +2304,10 @@ cons演算子 $(:)$ は右結合する．すなわち $x_0:x_1:x_2=x_0:(x_1:x_2)
 \begin{equation}
   \left\{
   \begin{aligned}
-    f\mMapList{}(x:\mList{x})
-    &=(fx):(f\mMapList\mList{x})\\
     f\mMapList\mEmptyList
-    &=\mEmptyList
+    &=\mEmptyList\\
+    f\mMapList{}(x:\mList{x})
+    &=(fx):(f\mMapList\mList{x})
   \end{aligned}
   \right.
 \end{equation}
