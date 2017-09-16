@@ -143,11 +143,11 @@
 \newcommand{\mString}[1]{\text{#1}}
 
 % Special variables
-\newcommand{\mSpecialVar}[1]{\mathrm{#1}}
+\newcommand{\mSpecialVar}[1]{\mathit{#1}}
 
-\newcommand{\mAnyParam}{\_}
 \newcommand{\mAnonParam}{\diamond}
 \newcommand{\mFirstVar}{\mSpecialVar{first}}
+\newcommand{\mLovelyVar}{\mSpecialVar{lovely}}
 \newcommand{\mRestVar}{\mSpecialVar{rest}}
 
 % Cast
@@ -977,14 +977,15 @@ $\cdot$ と紛らわしいため，上述の記法を用いる．\footnote{\hask
   f'x=\mCaseOf{x}
   \begin{cases}
     0&\mIfSo1\\
-    \mAnyParam&\mIfSo(\sin x)/x
+    \_&\mIfSo(\sin x)/x
   \end{cases}
 \end{equation}
-のように書く．ここに $\mAnyParam$ は任意の値の意味である．パタンマッチ
+のように書く．ここに $\_$ は任意の値の意味である．パタンマッチ
 は上から順番にマッチングしていくため，この場合は $0$ 以外を意味する．
 \footnote{\haskell では
 \begin{verbatim}
-  f' x = case x of 0 -> 1 _ -> (sin x)/x
+  f' x = case x of 0 -> 1
+                   _ -> (sin x)/x
 \end{verbatim}
 または \code{f' x = case x of \{0 -> 1; \_ -> (sin x)/x\}} と書く．}
 
@@ -1119,7 +1120,7 @@ $\mIf$ 節の中身は真理値を返す関数であれば良いので，関数 
   $f=\mLambdaEXP{x}{(\sin x)/x}$ は $fx=(\sin x)/x$ と省略表記できる．
 \item 関数定義にはパタンマッチが使える．例えば $f'0=1;f'x=(\sin x)/x$
   と定義できる．\item パタンマッチは関数本体に書いても良い．関数 $f'$
-  の例で言えば $f'=\mCaseOf{x}0\mIfSo1;\mAnyParam\mIfSo(\sin x)/x$ と
+  の例で言えば $f'=\mCaseOf{x}0\mIfSo1;\_\mIfSo(\sin x)/x$ と
   定義できる．\item 関数定義にはガードが使える．例えば
   $f''\mGuard{x<0}=0;f''\mGuard{x\equiv0}=1;f''\mGuard{\mOtherwise}=(\sin
   x)/x$ と定義できる．\item 条件分岐は $\mIfThenElseEXP{x}{y}{z}$ と書
@@ -2397,12 +2398,17 @@ A...
   \begin{cases}
     0
     &\mIfSo1\\
-    \mOtherwise
+    \_
     &\mIfSo x*\mFact(x-1)
   \end{cases}
 \end{equation}
 と定義できる．関数が自分自身を適用することを関数の\keyword{再帰適用}と
-呼ぶ．
+呼ぶ．\footnote{\haskell では
+\begin{verbatim}
+  fact x = case x of 0 -> 1
+                     _ -> x * fact (x - 1)
+\end{verbatim}
+と書く．}
 
 これで我々は関数の適用，変数の代入，ラムダ式，条件式，再帰の方法を学ん
 だわけである．これだけあれば，原理的にはどのようなアルゴリズムも書くこ
@@ -2423,7 +2429,12 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
   \end{aligned}
   \right.
 \end{equation}
-のようにも定義できるということである．
+のようにも定義できるということである．\footnote{\haskell では
+\begin{verbatim}
+  sum []     = 0
+  sum (x:xs) = x + sum xs
+\end{verbatim}
+と書く．}
 
 なお，関数は再帰させるたびに計算機のスタックメモリを消費する．これを回
 避するためのテクニックが，次節で述べる末尾再帰である．
@@ -2438,7 +2449,7 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
   =\mCaseOf{x}\begin{cases}
     0
     &\mIfSo1\\
-    \mOtherwise
+    \_
     &\mIfSo x*\mFact(x-1)
   \end{cases}
 \end{equation}
@@ -2450,7 +2461,7 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
   \begin{cases}
     0
     &\mIfSo1\\
-    \mOtherwise
+    \_
     &\mIfSo(*)x(\mFact(x-1))
   \end{cases}
 \end{equation}
@@ -2463,16 +2474,22 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
 
 そこで，次のように形を変えた階乗関数 $\mFact'$ を考えてみる．
 \begin{equation}
-  \mFact'a
+  \mFact'ax
   =\mCaseOf{x}
   \begin{cases}
     0
     &\mIfSo1\\
-    \mOtherwise
+    \_
     &\mIfSo\mFact'(a*x)(x-1)
   \end{cases}
 \end{equation}
-こうすれば末尾の関数がもとの $\mFact'$ と一致する．
+こうすれば末尾の関数がもとの $\mFact'$ と一致する．\footnote{\haskell
+  では
+\begin{verbatim}
+  fact a x = case x of 0 -> 1
+                       _ -> fact' (a*x) (x-1)
+\end{verbatim}
+と書く．}
 
 関数 $\mFact$ と違い関数 $\mFact'$ は引数を2個とる．関数 $\mFact'$ を
 使って $x$ の階乗を求める場合は $\mFact'1x$ と第1引数に $1$ を与えるこ
@@ -2505,10 +2522,10 @@ $\mFold^+_0\mList{x}$ は
 \end{align}
 と展開される．遅延評価のために，\haskell 処理系は値ではなく式をメモリ
 にストアしなければならないが，左畳み込み演算は大きなメモリを必要としが
-ちである．もし例えば予め $0+x_0$ を計算しておくなど左畳み込みだけ先に
-評価しておけば，大いにメモリの節約になる．そのために\haskell は「遅延
-  評価無し」の左畳み込み演算子を用意している．\footnote{「遅延評価無し」
-  の左畳み込み演算子を\haskell では \code{foldl'} と書く．}
+ちである．もし例えば予め $0+x_0$ を先に計算しておくなど左畳み込みだけ
+先に評価しておけば，大いにメモリの節約になる．そのために\haskell は
+「遅延評価無し」の左畳み込み演算子を用意している．\footnote{「遅延評価
+    無し」の左畳み込み演算子を\haskell では \code{oldl'} と書く．}
 
 % \haskell には言語拡張として，\keyword{アンボックス化タプル}という機能がある．
 %
@@ -2528,7 +2545,12 @@ $\mFold^+_0\mList{x}$ は
 \end{align}
 というラムダ式があるとする．当然我々は関数 $h$ がいつも
 $h=100+\mAnonParam$ であることを期待するし，\haskell においてはいつも
-保証される．
+保証される．\footnote{\haskell では
+\begin{verbatim}
+  a = 100
+  h = \x -> a+x
+\end{verbatim}
+と書く．}
 
 ところが，参照透過性のない言語，言い換えると変数への破壊的代入が許され
 ている言語では，変数 $a$ の値がいつ変わっても不思議ではない．そこで，
@@ -2560,8 +2582,8 @@ $h=100+\mAnonParam$ であることを期待するし，\haskell においては
     \mSort(x:\mList{x})
     &=(\mSort\mList{a})\mAppend[x]\mAppend{}(\mSort\mList{b})\\
     &\quad\mWhere\left\{\begin{aligned}
-    \mList{a}&\mLetEq[a\mListComp a\mFrom\mList{x},a\le x]\\
-    \mList{b}&\mLetEq[b\mListComp b\mFrom\mList{x},b>x]
+    \mList{a}&\mLetEq{}[a\mListComp a\mFrom\mList{x},a\le x]\\
+    \mList{b}&\mLetEq{}[b\mListComp b\mFrom\mList{x},b>x]
     \end{aligned}
     \right.
   \end{aligned}
@@ -2736,7 +2758,7 @@ $\mMaybeType{\mFloatType}$ である．
   \begin{cases}
     \mJustWith{x}
     &\mIfSo\mJustWith{fx}\\
-    \mOtherwise
+    \_
     &\mNothing
   \end{cases}
 \end{equation}
@@ -3202,7 +3224,7 @@ $\mAppMapMaybe$ を
   \begin{cases}
     \mJustWith{j}
     &\mIfSo j\mMapMaybe\mMaybe{u}\\
-    \mOtherwise
+    \_
     &\mIfSo\mNothing
   \end{cases}
 \end{equation}
@@ -3367,7 +3389,7 @@ $\mFuncWith{x}$ と書くことにしよう．
 を持たなければならない．従って関数版のピュア演算子は変数から関数を作る
 とも考えられる．我々は関数版のピュア演算子として
 \begin{equation}
-\mFuncWith{x}=\mLambdaEXP{\mAnyParam}{x}
+\mFuncWith{x}=\mLambdaEXP{\_}{x}
 \end{equation}
 を採用する．\footnote{\haskell では $\mFuncWith{x}$ を \code{const x} と書く．}
 
@@ -3415,7 +3437,7 @@ g\mAppMapFunc f=\mLambdaEXP{x}{gx(fx)}
 \begin{align}
 \mFuncWith{g}\mAppMapFunc f
 &=\mLambdaEXP{x}{\mFuncWith{g}x(fx)}\\
-&=\mLambdaEXP{x}{(\mLambdaEXP{\mAnyParam}{g})x(fx)}\\
+&=\mLambdaEXP{x}{(\mLambdaEXP{\_}{g})x(fx)}\\
 &=\mLambdaEXP{x}{g(fx)}\\
 &=g\mComp f
 \end{align}
@@ -3443,7 +3465,7 @@ Maybeのアプリカティブマップ演算子の定義は次の通り．
 =\mCaseOf{\mMaybe{g}}
 \begin{cases}
 \mJustWith{h}&\mIfSo h\mMapMaybe\mMaybe{u}\\
-\mOtherwise&\mIfSo\mNothing
+\_&\mIfSo\mNothing
 \end{cases}
 \end{equation}
 ここに $\mMaybe{g}$ はMaybeコンテナに入れられた関数，$\mMaybe{u}$ はMaybe変数である．
@@ -3623,8 +3645,10 @@ $\mApplicativeTypeClass$ 型クラスはピュア演算子 $(\mPureWith{x})$ と
 \begin{equation}
   \label{eq:def-of-i}
   ix=\mCaseOf{x}\begin{cases}
-    \textit{lovely}&\mIfSo\mPureWith{fx}\\
-    \mOtherwise&\mIfSo\mPureNothing
+    \mLovelyVar
+    &\mIfSo\mPureWith{fx}\\
+    \_
+    &\mIfSo\mPureNothing
   \end{cases}
 \end{equation}
 ここに $x$ は非コンテナ変数で，関数 $f$ も「普通の」（コンテナに入って
@@ -3680,7 +3704,7 @@ Maybeモナド
 \begin{equation}
   f\mBind\mMaybe{u}=\mCaseOf{\mMaybe{u}}\begin{cases}
     \mJustWith{x}&\mIfSo\mJustWith{fx}\\
-    \mOtherwise&\mIfSo\mNothing
+    \_&\mIfSo\mNothing
   \end{cases}
 \end{equation}
 
@@ -3902,7 +3926,7 @@ Maybe
 関数はアプリカティブ関手であった．関数のピュア演算子とアプリカティブマッ
 プ演算子はそれぞれ
 \begin{align}
-\mFuncWith{x}&=\mLambdaEXP{\mAnyParam}{x}\\
+\mFuncWith{x}&=\mLambdaEXP{\_}{x}\\
 g\mAppMapFunc f&=\mLambdaEXP{x}{gx(fx)}
 \end{align}
 であった．
@@ -3922,7 +3946,7 @@ g\mBindFunc f=\mLambdaEXP{x}{g(fx)x}
 \mFuncWith{g\mAnonParam}\mBindFunc f
 &=\mLambdaEXP{x}{\mFuncWith{g\mAnonParam}(fx)x}\\
 &=\mLambdaEXP{x}{\mFuncWith{g(fx)}x}\\
-&=\mLambdaEXP{x}{(\mLambdaEXP{\mAnyParam}{g(fx)})x}\\
+&=\mLambdaEXP{x}{(\mLambdaEXP{\_}{g(fx)})x}\\
 &=\mLambdaEXP{x}{g(fx)}\\
 &=g\mComp f\\
 &=g\mMapFunc f
@@ -3931,7 +3955,7 @@ g\mBindFunc f=\mLambdaEXP{x}{g(fx)x}
 
 まとめると
 \begin{align}
-\mFuncWith{x}&=\mLambdaEXP{\mAnyParam}{x}\\
+\mFuncWith{x}&=\mLambdaEXP{\_}{x}\\
 g\mMapFunc f&=\mLambdaEXP{x}{g(fx)}=g\mComp f\\
 g\mAppMapFunc f&=\mLambdaEXP{x}{gx(fx)}\\
 g\mBindFunc f&=\mLambdaEXP{x}{g(fx)x}
@@ -4089,7 +4113,7 @@ $[\mA]$ 型が $\mA $ 型のリストであるように，$\mIOType{a}$
 
 $\mIOUnitType$ 型の場合，ピュア演算子は何も返す必要がないから
 \begin{equation}
-\mPureWith{\mAnyParam}=()
+\mPureWith{\_}=()
 \end{equation}
 であるとする．
 
@@ -4149,7 +4173,7 @@ $\mDoLetKeyword$ という構文が用意されている．この $\mDoLetKeywor
 \begin{gather}
 \mDo{\alpha x}=\alpha x\\
 \mDo{y\mDoEq\alpha x\mDoNext\beta y}=\beta\mBind\alpha x\\
-\mDo{\alpha x\mDoNext\beta y}=(\mLambdaEXP{\mAnyParam}{\beta y})\mBind \alpha x\label{eq:do-alpha-beta}\\
+\mDo{\alpha x\mDoNext\beta y}=(\mLambdaEXP{\_}{\beta y})\mBind \alpha x\label{eq:do-alpha-beta}\\
 \mDo{\mDoLet{y}{fx}\mDoNext\alpha y}=\alpha y\mWhereIsEXP{y}{fx}\\
 \mDo{y\mDoEq\alpha x\mDoNext\mDoLet{z}{fy}\mDoNext\beta z}
 =\beta\mBind{}(f\mMap\alpha x)
@@ -4163,12 +4187,12 @@ $\mDoLetKeyword$ という構文が用意されている．この $\mDoLetKeywor
 最後にdo記法中に変数を2回以上使いまわす例を示す．
 \begin{multline}
 \mDo{y\mDoEq\alpha x\mDoNext y'\mDoEq\alpha'x'\mDoNext\mDoLet{z}{fyy'}\mDoNext\beta z\mDoNext\mDoLet{z'}{f'yy'}\mDoNext\beta'z'}\\
-=(\mLambda yy'\mLambdaArrow{}((\mLambdaEXP{\mAnyParam}{\mLetInEXP{z}{fyy'}{\beta z}})\\
+=(\mLambda yy'\mLambdaArrow{}((\mLambdaEXP{\_}{\mLetInEXP{z}{fyy'}{\beta z}})\\
 \mBind{}(\mLetInEXP{z'}{f'yy'}{\beta'z'}))) (\alpha x)(\alpha'x')
 \end{multline}
 この例では変数 $y,y'$ が2回使われている．
 
-% なお $\mFuncWith{f}=\mLambdaEXP{\mAnyParam}{f}$ の関係を用いると式\eqref{eq:do-alpha-beta}はより簡潔に
+% なお $\mFuncWith{f}=\mLambdaEXP{\_}{f}$ の関係を用いると式\eqref{eq:do-alpha-beta}はより簡潔に
 % \begin{equation}
 % \mDo{\alpha x\mDoNext\beta y}=\mFuncWith{\beta y}\mBind\alpha x
 % \end{equation}
@@ -4356,13 +4380,13 @@ $\mType{Rencatngle}$ 型の変数は次のように初期化する．
 $\mType{Rectangle}$ 型から中身を取り出すには，次のような関数を用意して
 おかねばならない．
 \begin{align}
-  x\mValueWith{Rectangle}{x\,\mAnyParam\,\mAnyParam\,\mAnyParam}
+  x\mValueWith{Rectangle}{x\,\_\,\_\,\_}
   &=x\\
-  y\mValueWith{Rectangle}{\mAnyParam\,y\,\mAnyParam\,\mAnyParam}
+  y\mValueWith{Rectangle}{\_\,y\,\_\,\_}
   &=y\\
-  width\mValueWith{Rectangle}{\mAnyParam\,\mAnyParam\,w\,\mAnyParam}
+  width\mValueWith{Rectangle}{\_\,\_\,w\,\_}
   &=w\\
-  height\mValueWith{Rectangle}{\mAnyParam\,\mAnyParam\,\mAnyParam\,h}
+  height\mValueWith{Rectangle}{\_\,\_\,\_\,h}
   &=h
 \end{align}
 この面倒は，次のシンタックスシュガーを使うことで軽減される．
@@ -4476,7 +4500,7 @@ $\mInstance$ 文を使う．
     \mNumTwo\equiv\mNumTwo&=\mTrue\\
     \mNumThree\equiv\mNumThree&=\mTrue\\
     \mNumMany\equiv\mNumMany&=\mTrue\\
-    \mAnyParam\equiv\mAnyParam&=\mFalse
+    \_\equiv\_&=\mFalse
   \end{aligned}
   \right.
 \end{equation}
@@ -4542,7 +4566,7 @@ $(\le)$ を追加する．
     \mNumThree\le\mNumThree&=\mTrue\\
     \mNumThree\le\mNumMany&=\mTrue\\
     \mNumMany\le\mNumMany&=\mTrue\\
-    \mAnyParam\equiv\mAnyParam&=\mFalse
+    \_\equiv\_&=\mFalse
   \end{aligned}
   \right.
 \end{equation}
@@ -4613,7 +4637,7 @@ Maybeが型クラス $\mEqTypeClass$ に属すものとして，$\mEqTypeClass$ 
     &=x\equiv y\\
     \mNothing\equiv\mNothing
     &=\mTrue\\
-    \mAnyParam\equiv\mAnyParam
+    \_\equiv\_
     &=\mFalse
   \end{aligned}
   \right.
@@ -4632,7 +4656,7 @@ $\mA $ が型クラス $\mEqTypeClass$ に属すことを要求するので，�
 \begin{aligned}
 \mJustWith{x}\equiv\mJustWith{y}&=x\equiv y\\
 \mNothing\equiv\mNothing&=\mTrue\\
-\mAnyParam\equiv\mAnyParam&=\mFalse
+\_\equiv\_&=\mFalse
 \end{aligned}
 \right.
 \end{multline}
@@ -4838,8 +4862,8 @@ $\mValueConstructor{ZipList}$ は値コンストラクタである．すな
   \label{eq:zip}
   \left\{
   \begin{aligned}
-    (\mZip)\mAnyParam\mEmptyList&=\mEmptyList\\
-    (\mZip)\mEmptyList\mAnyParam&=\mEmptyList\\
+    (\mZip)\_\mEmptyList&=\mEmptyList\\
+    (\mZip)\mEmptyList\_&=\mEmptyList\\
     (\mZip)(x:\mList{x})(y:\mList{y})&=(x\mApply y):\mList{x}\mZip\mList{y}
   \end{aligned}
   \right.
@@ -4894,9 +4918,9 @@ $\mType{ZipList}$ に対する最適化の機会を得る．
           {\mProjEXP{\mB }{\mC }})}
         {[\mA]}}{[\mB]}}{[\mC]}\\
     {}&\left\{\begin{aligned}
-    \mZipWith\mAnyParam\mEmptyList\mAnyParam
+    \mZipWith\_\mEmptyList\_
     &=\mEmptyList\\
-    \mZipWith\mAnyParam\mAnyParam\mEmptyList
+    \mZipWith\_\_\mEmptyList
     &=\mEmptyList\\
     \mZipWith f(x:\mList{x})(y:\mList{y})
     &=fxy:\mZipWith f\mList{x}\mList{y}
@@ -5241,7 +5265,7 @@ $\mMain$ の値は $0$ になることを示している．
 % \code{*}\\
 \hline
 \code{!}&正格評価\\
-\code{\textasciitilde}&遅延評価\\
+\code{\textasciitilde}&XYZ\\
 \hline
 \end{tabular}
 \end{center}
