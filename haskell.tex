@@ -6373,10 +6373,102 @@ instance Cat.Category NonDet where
   =\mValueWith{Kleisli}{\mA\mMapsTo\mTypeAssemble{m}{\mB}}
 \end{equation}
 
----
-
 \chapter{アローと継続*}
 \section{アロー*}
+
+% from haskell wiki
+
+\newcommand{\mUncircuit}{\mathop{\mathrm{uncircuit}}}
+\newcommand{\mCircuitType}{\mType{Circuit}}
+\newcommand{\mCircuitWith}[1]{\mValueWith{Circuit}{#1}}
+\newcommand{\mFirstFunc}{\mathop{\mathrm{first}}}
+
+\begin{equation}
+  \mNewDataType\;
+  \mCircuitType\,\mA\,\mB
+  =\mTypeAssemble{Circuit}{\mUncircuit\mIn\mA\mMapsTo(\mCircuitType\,\mA\,\mB,\mB)}
+\end{equation}
+
+\begin{multline}
+  \mInstance\;
+  \mTypeClass{Category}\mSuperSet\mCircuitType\\
+  \mWhere
+  \left\{
+  \begin{aligned}
+    \mIdCat
+    &=\mCircuitWith{\mLambda x\mLambdaArrow(\mIdCat,x)}\\
+    \mCircuitWith{c_2}\mCompCat\mCircuitWith{c_1}
+    &={}^{\textrm{Circuit}}\[\mLambda x\mLambdaArrow(c_2'\mComp c_1',z)\\
+    &\quad\mWhere{}\{
+    (c_1',y)\mLetEq c_1x;\\
+    &\qquad(c_2',z)\mLetEq c_2y
+    \}\]
+  \end{aligned}
+  \right.
+\end{multline}
+
+\begin{multline}
+  \mInstance\;
+  \mTypeClass{Arrow}\mSuperSet\mCircuitType\\
+  \mWhere\left\{
+  \begin{aligned}
+    \mArrowWith{f}
+    &=\mCircuitWith{\mLambda x\mLambdaArrow(\mArrowWith{f},fx)}\\
+    \mFirstFunc\mCircuitWith{c}
+    &={}^{\mathrm{Circuit}}\[\mLambda xy\mLambdaArrow(\mFirstFunc c',(z,y))\\
+    &\quad\mWhere{}(c',z)=cx\] % cz???
+  \end{aligned}
+  \right.
+\end{multline}
+
+\newcommand{\mRunCircuit}{\mathop{\mathrm{runCircuit}}}
+
+\begin{align}
+  \mRunCircuit&\mIn\mCircuitType\,\mA\,\mB\mMapsTo[\mA]\mMapsTo[\mB]\\
+  \mRunCircuit\_\mEmptyList&=\mEmptyList\\
+  \mRunCircuit c(x:\mList{x})&=x':\mRunCircuit c'\mList{x}\\
+  &\quad\mWhere{}(c',x')\mLetEq\mUncircuit cx
+\end{align}
+
+\newcommand{\mAccum}{\mathop{\mathrm{accum}}}
+
+\begin{align}
+  \mAccum a\mBinOp
+  &=\mCircuitWith{\mLambda x\mLambdaArrow(\mAccum a'\mBinOp,y)
+    \mWhere{}(y',a')\mLetEq x\mBinOp a}\\
+  {\mAccum}' a\mBinOp
+  &=\mAccum a(\mLambda xy\mLambdaArrow(y',y')
+  \mWhere y'\mLetEq x\mBinOp y)
+\end{align}
+
+\newcommand{\mTotal}{\mathop{\mathrm{total}}}
+
+\begin{align}
+  \mTotal&\mIn\mCircuitType\,\mA\,\mA\\
+  \mTotal&={\mAccum}'0(+)
+\end{align}
+
+\newcommand{\mMean}{\mathop{\mathrm{mean}}}
+
+\begin{align}
+  \mMean&\mIn\mCircuitType\,\mA\,\mA\\
+  \mMean&=(\mTotal\mathbin{\bigvee}\mArrowWith{\mConst1}\Rrightarrow\mTotal)\Rrightarrow\mArrowWith{\mUncurry(/)}\\
+  &=\mLambda x\mLambdaArrow(\mArrowWith{\mConst x}\Rrightarrow\mTotal\bigvee\mArrowWith{\mConst1}\Rrightarrow\mTotal)...?%\Rrightarrow\mArrowWith{\mUncurry(/)}
+\end{align}
+
+---
+
+\newcommand{\mKleisliType}{\mType{Kleisli}}
+\newcommand{\mKleisliWith}[1]{\mValueWith{Kleisli}{#1}}
+\newcommand{\mRunKleisli}{\mathop{\mathrm{runKleisli}}}
+
+\begin{equation}
+  \mNewDataType\;
+  \mKleisliType\,\mPolymorphicTypeParameter{m}\,\mA\,\mB
+  =\mKleisliWith{\mRunKleisli\mIn\mA\mMapsTo\mTypeAssemble{m}{b}}
+\end{equation}
+
+---
 
 $$
 \mArrowWith{f}
