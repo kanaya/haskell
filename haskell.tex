@@ -6468,6 +6468,26 @@ instance Cat.Category NonDet where
   =\mKleisliWith{\mRunKleisli\mIn\mA\mMapsTo\mTypeAssemble{m}{b}}
 \end{equation}
 
+\begin{equation}
+  \mLambda x\mLambdaArrow((\mLambda y\mLambdaArrow\mJustWith{y*2})\mBind{}\mJustWith{x*3}))
+  =(\mJustWith{\dotsb}\mComp(*2))\mBindComp(\mJustWith{\dotsb}\mComp(*3))
+\end{equation}
+
+\begin{multline}
+  \mLambda x\mLambdaArrow((\mLambda y\mLambdaArrow\mJustWith{y*x})\mBind{}\mJustWith{x*2})\\
+  =(\mJustWith{\dotsb}\mComp\mUncurry(*))\mBindComp(\mJustWith{\dotsb}\mComp{}((*2),\mId))
+\end{multline}
+
+---
+
+\begin{equation}
+  (f*\!*\!*g)\mPairWith{x}{y}=\mPairWith{fx}{gy}
+\end{equation}
+
+\begin{equation}
+  (f\&\&\&g)x=\mPairWith{fx}{gx}
+\end{equation}
+
 ---
 
 $$
