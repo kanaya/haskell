@@ -286,6 +286,7 @@
 \newcommand{\mA}{\mType{a}}
 \newcommand{\mB}{\mType{b}}
 \newcommand{\mC}{\mType{c}}
+\newcommand{\mR}{\mType{r}}
 
 \newcommand{\mBoolType}{\mType{Bool}}
 \newcommand{\mCharType}{\mType{Char}}
@@ -325,7 +326,7 @@
 \DeclareMathOperator{\mMaybeTypeConstructor}{\mTypeConstructor{Maybe}}
 \DeclareMathOperator{\mZipListTypeConstructor}{\mTypeConstructor{ZipList}}
 
-\newcommand{\mFuncTypeConstructor}[1]{\mathop{\mTypeConstructor{Func}_{(\mType{#1})}}}
+\newcommand{\mFuncTypeConstructor}[1]{\mathop{\mTypeConstructor{Func}}}%{\mathop{\mTypeConstructor{Func}_{(\mType{#1})}}}
 
 % Value constructors
 \newcommand{\mValueConstructor}[1]{\mathrm{#1}}
@@ -2712,7 +2713,8 @@ def map_over(f, p):
 ここで変数 $\mMaybe{u}$ が取り得る値は正しく計算された値 $x$ をラップ
 したものか，あるいはエラーを表す値 $\mNothing$ である．このように計算
 結果に「意味付け」をすることを\keyword{文脈}に入れると言う．定数
-$\mNothing$ は「ナッシング」と呼ぶ．
+$\mNothing$ は「ナッシング」と呼ぶ．\footnote{\haskell では
+  $\mNothing$ を \code{Nothing} と書く．}
 
 この変数 $\mMaybe{u}$ はもはや整数 $(\mIntType)$ 型とは言えない．そこ
 でこの $\mMaybe{u}$ の型を $\mMaybeType{\mIntType}$ と表して「Maybe整
@@ -2759,7 +2761,7 @@ $\mMaybeType{\mFloatType}$ である．
     \mJustWith{x}
     &\mIfSo\mJustWith{fx}\\
     \_
-    &\mNothing
+    &\mIfSo\mNothing
   \end{cases}
 \end{equation}
 でなければならない．このMaybeバージョンのマップ演算子 $\mMapMaybe$ は
@@ -2773,7 +2775,12 @@ $\mMaybeType{\mFloatType}$ である．
   \end{aligned}
   \right.
 \end{equation}
-と定義すれば得られる．
+と定義すれば得られる．\footnote{\haskell では
+\begin{verbatim}
+  f <$> Just x  = Just (f x)
+  f <$> Nothing = Nothing
+\end{verbatim}
+と書く．}
 
 今後，普通の（引数にMaybeが来ることを想定していない）関数 $f$ をMaybe
 型である変数 $\mMaybe{u}$ に適用させるときには，必ず
@@ -2947,6 +2954,18 @@ X<b> map_over(fn f, X<a> x, b dummy);
 とする計算機科学者たちである．この人類の英知は第\ref{ch:functor}章から
 見ていくことにしよう．
 
+\separator
+
+\TK{To be written.}
+
+\begin{equation}
+  \mJoinList[[x]]=[x]
+\end{equation}
+
+\begin{equation}
+  \mJoinMaybe\mJustWith{\mJustWith{x}}=\mJustWith{x}
+\end{equation}
+
 \section{余談: Either}
 
 Maybeとよく似た型にEitherがある．Maybeが $\mA $ 型または
@@ -2984,8 +3003,8 @@ $\mLeftWith{x}$ である．値コンストラクタは
 Eitherはより複雑な計算エラーが発生する場合に用いる．Maybeが単に失敗を
 表す $\mNothing$ しか表現できなかったのに対し，Eitherは任意の型の変数
 で表現できる．習慣的に，正しい (right) 計算結果は $\mRightWith{x}$ 値
-コンストラクタで格納し，エラーの情報は $\mLeftWith{x}$ 値コンストラク
-タで格納する．
+コンストラクタで格納し，残された (left) エラーの情報は $\mLeftWith{x}$
+値コンストラクタで格納する．
 
 Either型は\clang の共有型 (\code{union}) や\cxx のバリアント
 型 (\code{std::variant}) に近い．
@@ -3104,25 +3123,28 @@ $(\mA\mMapsTo\mB)\mMapsTo([\mA]\mMapsTo[\mB])$ という型を持つ．
 一般化されたマップ演算子を $\mMap$ で表そう．この $\mMap$ 演算子は
 \begin{equation}
   (\mMap)
-  \mIn{}\mFunctorTypeClass\mSuperSet\mPolymorphicTypeParameter{fn}
-  \mSuperClass(\mA\mMapsTo\mB)\mMapsTo\mTypeAssemble{fn}{a}\mMapsTo\mTypeAssemble{fn}{b}
+  \mIn{}\mFunctorTypeClass
+  \mSuperSet\mPolymorphicTypeParameter{f}
+  \mSuperClass(\mA\mMapsTo\mB)
+  \mMapsTo\mTypeAssemble{f}{a}
+  \mMapsTo\mTypeAssemble{f}{b}
 \end{equation}
 という型を持つ．ここに
-$\mFunctorTypeClass\mSuperSet\mPolymorphicTypeParameter{fn}$ は，
-$\mPolymorphicTypeParameter{fn}$ が $\mFunctorTypeClass$ 型クラスに属
-すという制約を表している．また $\mPolymorphicTypeParameter{fn}$ は型コ
-ンストラクタであり，$\mTypeAssemble{fn}{a}$ は
-$\mPolymorphicTypeParameter{fn}$ 型コンストラクタと$\mA$ 型によって作
-られたコンテナ型である．
+$\mFunctorTypeClass\mSuperSet\mPolymorphicTypeParameter{f}$ は，
+$\mPolymorphicTypeParameter{f}$ が $\mFunctorTypeClass$ 型クラスに属す
+という制約を表している．また $\mPolymorphicTypeParameter{f}$ は型コン
+ストラクタであり，$\mTypeAssemble{f}{a}$ は
+$\mPolymorphicTypeParameter{f}$ 型コンストラクタと$\mA$ 型によって作ら
+れたコンテナ型である．
 
 もし型コンストラクタがリスト型コンストラクタであれば，つまり
-$\mPolymorphicTypeParameter{fn}=\mListTypeConstructor$ であれば
+$\mPolymorphicTypeParameter{f}=\mListTypeConstructor$ であれば
 \begin{equation}
   (\mMapList)
   \mIn{}(\mA\mMapsTo\mB)\mMapsTo[\mA]\mMapsTo[\mB]
 \end{equation}
 であるし，もし型コンストラクタがMaybe型コンストラクタであれば，つまり
-$\mPolymorphicTypeParameter{fn}=\mMaybeTypeConstructor$ であれば
+$\mPolymorphicTypeParameter{f}=\mMaybeTypeConstructor$ であれば
 \begin{equation}
   (\mMapMaybe)
   \mIn{}(\mA\mMapsTo\mB)\mMapsTo\mMaybeType{a}\mMapsTo\mMaybeType{b}
@@ -3199,19 +3221,19 @@ $[\mA\mMapsTo\mB]\mMapsTo[\mA]\mMapsTo[\mB]$ である．これは
 リストバージョンのアプリカティブマップ演算子 $(\mAppMapList)$ の特別な
 場合として，左引数のリストの要素数が $1$ の場合を考えると
 \begin{equation}
-  [f]\mAppMapList[x,y,z]
+  [f]\mAppMapList{}[x,y,z]
   =[fx,fy,fz]
 \end{equation}
 であり，通常のマップ演算子 $(\mMapList)$ を使ったマップすなわち
 \begin{equation}
-  f\mMapList[x,y,z]
+  f\mMapList{}[x,y,z]
   =[fx,fy,fz]
 \end{equation}
 と右辺が一致する．つまり，マップ演算子はアプリカティブマップ演算子の特
 別な場合と考えることができる．実際，リストマップ演算子はアプリカティブマップ演算子から
 \begin{equation}
   f\mMapList\mList{x}
-  =[f]\mAppMapList[x]
+  =[f]\mAppMapList\mList{x}
 \end{equation}
 と定義できる．
 
@@ -3286,8 +3308,9 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
 意のクラスのマップ演算子を生成することができる．
 
 アプリカティブマップ演算子，ピュア演算子に一般化されたバージョンがある
-ように，リストの $\mEmptyList$ やMaybeの $\mNothing$ を一般化した値が必
-要である．それを $\mPureNothing$ とする．
+ように，リストの $\mEmptyList$ やMaybeの $\mNothing$ を一般化した値が
+必要である．それを $\mPureNothing$ とする．$\mPureNothing$ には特段名
+前が無いので，本書では単に「空」と呼ぶことにしよう．
 
 \separator
 
@@ -3316,18 +3339,20 @@ $v\equiv\mPureNothing$ であれば式の値は $\mPureNothing$ になる．式
 いま関数 $f$ が
 \begin{equation}
   f
-  \mIn\mType{r}\mMapsTo\mA
+  \mIn\mR\mMapsTo\mA
 \end{equation}
 という型を持っているとする．全く形式的に，$\mFuncTypeConstructor{r}$
 なる型コンストラクタがあるとして
 \begin{equation}
-  \mType{r}\mMapsTo\mA=\mFuncTypeConstructor{r}\mA
+  \mR\mMapsTo\mA=\mFuncTypeConstructor{r}\mA
 \end{equation}
 であると考えてみる．型 $\mA$ から型コンストラクタ
-$\mFuncTypeConstructor{r}$ によって型 $(\mProjEXP{\mType{r}}{\mA})$ が
-作られると考えるのだ．
+$\mFuncTypeConstructor{r}$ によって型 $(\mProjEXP{\mR}{\mA})$ が
+作られると考えるのだ．\footnote{\haskell では $\mFuncTypeConstructor{r}$
+  の代わりに \code{((->)r)} をそのまま使う．}
 
-マップ演算子の型は
+マップ演算子の型は，
+$\mFuncTypeConstructor{r}\mA=\mTypeAssemble{f}{\mA}$ とすると
 \begin{equation}
   (\mMap)
   \mIn{}\mFunctorTypeClass\mSuperSet\mTypeConstructor{f}
@@ -3340,40 +3365,43 @@ $\mFuncTypeConstructor{r}$ によって型 $(\mProjEXP{\mType{r}}{\mA})$ が
 \begin{equation}
   (\mMapFunc)
   \mIn{}(\mA\mMapsTo\mB)
-  \mMapsTo\mFuncTypeConstructor{r}\mA
-  \mMapsTo\mFuncTypeConstructor{r}\mB
+  \mMapsTo\mTypeAssemble{f}{\mA}
+  \mMapsTo\mTypeAssemble{f}\mB
 \end{equation}
 であり，これはすなわち
 \begin{equation}
   (\mMapFunc)
   \mIn{}(\mA\mMapsTo\mB)
-  \mMapsTo(\mType{r}\mMapsTo\mA)
-  \mMapsTo(\mType{r}\mMapsTo\mB)
+  \mMapsTo(\mR\mMapsTo\mA)
+  \mMapsTo(\mR\mMapsTo\mB)
 \end{equation}
 のことである．
 
-いま関数 $f\mIn\mProjEXP{\mType{r}}{\mA }$ とは別な関数
+いま関数 $f\mIn\mProjEXP{\mR}{\mA }$ とは別な関数
 $g\mIn\mProjEXP{\mA }{\mB }$ があったとしよう．関数 $f$ と関数
 $g$ の合成 $g\mComp f$ の型は
 \begin{equation}
-g\mComp f\mIn\mProjEXP{\mType{r}}{\mB }
+g\mComp f\mIn\mProjEXP{\mR}{\mB }
 \end{equation}
 であるから，
 \begin{equation}
-(\mComp)\mIn{}\mProjEXP{\mProjEXP{(\mProjEXP{\mA }{\mB })}{(\mProjEXP{\mType{r}}{\mA })}}
-  {(\mProjEXP{\mType{r}}{\mB })}
+(\mComp)\mIn{}\mProjEXP{\mProjEXP{(\mProjEXP{\mA }{\mB })}{(\mProjEXP{\mR}{\mA })}}
+  {(\mProjEXP{\mR}{\mB })}
 \end{equation}
 である．つまり関数のマップ演算子 $(\mMapFunc)$ と関数の合成演算子
 $(\mComp)$ は同じ型を持つ．
 
 幸い，我々は関数のマップ演算子の実装に関しては，型さえ守っていれば（そ
-  して第XYZ章で述べる関手則さえ守って入れば）自由に選べる．そこで
+  して第\ref{ch:monad}章で述べる関手則さえ守っていれば）自由に選べる．
+そこで
 \begin{equation}
-g\mMapFunc f=g\mComp f
+  g\mMapFunc f
+  =g\mComp f
 \end{equation}
 としておこう．これは
 \begin{equation}
-g\mMapFunc f=\mLambdaEXP{x}{g(fx)}
+  g\mMapFunc f
+  =\mLambdaEXP{x}{g(fx)}
 \end{equation}
 と書いても同じことである．これが \haskell における関数のマップ演算子の
 定義である．
@@ -3385,45 +3413,28 @@ g\mMapFunc f=\mLambdaEXP{x}{g(fx)}
 プリカティブマップ演算子を $\mAppMapFunc$ とし，関数版のピュア演算子を
 $\mFuncWith{x}$ と書くことにしよう．
 
-ピュア演算子は $\mProjEXP{\mA }{(\mProjEXP{\mType{r}}{\mA })}$ 型
+ピュア演算子は $\mProjEXP{\mA }{(\mProjEXP{\mR}{\mA })}$ 型
 を持たなければならない．従って関数版のピュア演算子は変数から関数を作る
 とも考えられる．我々は関数版のピュア演算子として
 \begin{equation}
-\mFuncWith{x}=\mLambdaEXP{\_}{x}
+  \mFuncWith{x}
+  =\mLambdaEXP{\_}{x}
 \end{equation}
 を採用する．\footnote{\haskell では $\mFuncWith{x}$ を \code{const x} と書く．}
 
 関数版のアプリカティブマップ演算子を $\mAppMapFunc$ とすると，その型は
 \begin{equation}
-\mAppMapFunc
-\mIn
-\mProjEXP{
-  \mProjEXP{
-    \mFuncTypeConstructor{r}(\mProjEXP{\mA }{\mB })
-  }
-  {
-    \mFuncTypeConstructor{r}\mA 
-  }
-}
-{
-  \mFuncTypeConstructor{r}\mB 
-}
+  (\mAppMapFunc)
+  \mIn\mTypeAssemble{f}{\mA\mMapsTo\mB}
+  \mMapsTo\mTypeAssemble{f}{\mA}
+  \mMapsTo\mTypeAssemble{f}{\mB}
 \end{equation}
 つまり
 \begin{equation}
-\mAppMapFunc
-\mIn{}
-\mProjEXP{
-  \mProjEXP{
-    (\mProjEXP{\mType{r}}{\mProjEXP{\mA }{\mB }})
-  }
-  {
-    (\mProjEXP{\mType{r}}{\mA })
-  }
-}
-{
-  (\mProjEXP{\mType{r}}{\mB })
-}
+  (\mAppMapFunc)
+  \mIn{}(\mR\mMapsTo\mA\mMapsTo\mB)
+  \mMapsTo(\mR\mMapsTo\mA)
+  \mMapsTo(\mR\mMapsTo\mB)
 \end{equation}
 である．
 
@@ -3449,12 +3460,14 @@ g\mAppMapFunc f=\mLambdaEXP{x}{gx(fx)}
 ら定義することができる．リストのアプリカティブマップ演算子の定義は次の
 通り．
 \begin{equation}
-\left\{
-\begin{aligned}
-(f:\mList{f})\mAppMapList\mList{x}&=\mJoinList{}((f\mMapList\mList{x}):(\mList{f}\mAppMapList\mList{x}))\\
-\mEmptyList\mAppMapList\mList{x}&=\mEmptyList
-\end{aligned}
-\right.
+  \left\{
+  \begin{aligned}
+    \mEmptyList\mAppMapList\mList{x}
+    &=\mEmptyList\\
+    (f:\mList{f})\mAppMapList\mList{x}
+    &=\mJoinList{}((f\mMapList\mList{x}):(\mList{f}\mAppMapList\mList{x}))
+  \end{aligned}
+  \right.
 \end{equation}
 ここに $(f:\mList{f})$ は関数のリストであり， $\mList{x}$ はリスト変数である．
 
