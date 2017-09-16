@@ -258,6 +258,7 @@
 \DeclareMathOperator{\mMorphTo}{\rightarrowtail} % used?
 \DeclareMathOperator{\mPlus}{\boldmath{+}} % Ok?
 \DeclareMathOperator{\mSetTimes}{\boldmath{\times}} % better one?
+\DeclareMathOperator{\mSomeOp}{\square}
 \DeclareMathOperator{\mUnOp}{\star}
 \DeclareMathOperator{\mValueOr}{\curlyvee}
 \DeclareMathOperator{\mWhereEq}{\mLetEq}
@@ -3560,6 +3561,8 @@ $\mJustWith{x}$ を持つのか，エラーを表す $\mNothing$ を持つのか
 $y=fx$ や $\mMaybe{v}=f\mMapMaybe\mMaybe{u}$ の関係とは異なることに注
 意しよう．
 
+\TK{Poor flow.}
+
 関数 $g$ の型は
 \begin{equation}
   g\mIn\mProjEXP{\mA }{\mMaybeType{a}}
@@ -3665,10 +3668,10 @@ $\mApplicativeTypeClass$ 型クラスはピュア演算子 $(\mPureWith{x})$ と
   \end{cases}
 \end{equation}
 ここに $x$ は非コンテナ変数で，関数 $f$ も「普通の」（コンテナに入って
-  いない）関数である．より厳密に言えば $x\mIn\mA $ かつ
-$f\mIn\mProjEXP{\mA }{\mB }$ である．従って，関数 $i$ の型は
-$\mProjEXP{\mA }{\mPureType{b}}$ である．条件 \textit{lovely} には任
-意の値を入れてよい．
+  いない）関数である．より厳密に言えば $x\mIn\mA$ かつ
+$f\mIn\mA\mMapsTo\mB$ である．従って，関数 $i$ の型は
+$\mA\mMapsTo\mPureType{b}$ である．条件 $\mLovelyVar$ には任意の値を
+  入れてよい．
 
 関数 $i$ をコンテナに入った変数 $u=\mPureWith{x}$ に適用させるのが一般
 バインド演算子 $(\mBind)$ の役割である．計算結果をコンテナ変数 $a$ に
@@ -3698,26 +3701,53 @@ v=f\mMap u=\mPureWith{f}\mAppMap u=\mPureWith{f\mAnonParam}\mBind u
 
 \separator
 
+\TK{To be written.}
+
+\begin{equation}
+  f\mBindComp g=f\mBind(g\mAnonParam)
+\end{equation}
+
+\separator
+
+\TK{To be written.}
+
 リストモナド
 
 \begin{equation}
-  \mPureWith{x}=[x]
+  \mPureWith{x}
+  =[x]
 \end{equation}
 
 \begin{equation}
-  f\mBind\mList{x}=\mJoinList(f\mMapList\mList{x})
+  f
+  \mIn{}\mA\mMapsTo[\mA]
+\end{equation}
+
+\begin{equation}
+  f\mBind\mList{x}
+  =\mJoinList(f\mMapList\mList{x})
 \end{equation}
 
 Maybeモナド
 
 \begin{equation}
-  \mPureWith{x}=\mJustWith{x}
+  \mPureWith{x}
+  =\mJustWith{x}
 \end{equation}
 
 \begin{equation}
-  f\mBind\mMaybe{u}=\mCaseOf{\mMaybe{u}}\begin{cases}
-    \mJustWith{x}&\mIfSo\mJustWith{fx}\\
-    \_&\mIfSo\mNothing
+  f
+  \mIn\mA\mMapsTo\mMaybeType{a}
+\end{equation}
+
+\begin{equation}
+  f\mBind\mMaybe{u}
+  =\mCaseOf{\mMaybe{u}}
+  \begin{cases}
+    \mJustWith{x}
+    &\mIfSo\mJustWith{fx}\\
+    \_
+    &\mIfSo\mNothing
   \end{cases}
 \end{equation}
 
@@ -3733,6 +3763,7 @@ Maybeモナド
 \end{enumerate}
 ただし関数 $\mId$ は $\mId x=x$ で定義される．もちろん
 $\mId=\mAnonParam$ と定義しても同じである．
+
 % https://en.wikibooks.org/wiki/Haskell/The_Functor_class#The_functor_laws
 
 例えば $\mId\mMap\mList{x}$ は $\mId\mList{x}$ であり，結局は
@@ -3741,15 +3772,17 @@ $\mList{x}$ である．単位元の存在とは，そのような関数 $\mId$ 
 
 合成則のほうは $\mList{x}=[x]$ を例に考えるとわかりやすく，
 \begin{align}
-(f\mMap)\mComp(g\mMap)\mList{x}
-&=(f\mMap{}(g\mMap\mAnonParam))\mList{x}\\
-&=f\mMap{}(g\mMap\mList{x})\\
-&=f\mMap{}[gx]\\
-&=[(f\mComp g)x]\\
-&=(f\mComp g)\mMap{}[x]\\
-&=(f\mComp g)\mMap\mList{x}
+  ((f\mMap)\mComp(g\mMap))\mList{x}
+  &=(f\mMap{}(g\mMap\mAnonParam))\mList{x}\\
+  &=f\mMap{}(g\mMap\mList{x})\\
+  &=f\mMap{}[gx]\\
+  &=[(f\mComp g)x]\\
+  &=(f\mComp g)\mMap{}[x]\\
+  &=(f\mComp g)\mMap\mList{x}
 \end{align}
 のような関係を一般化したものだと考えれば良い．
+
+合成則は\haskell コンパイラによって最適化のために積極的に使われる．
 
 \separator
 
@@ -4393,22 +4426,22 @@ $\mType{Rencatngle}$ 型の変数は次のように初期化する．
 $\mType{Rectangle}$ 型から中身を取り出すには，次のような関数を用意して
 おかねばならない．
 \begin{align}
-  x\mValueWith{Rectangle}{x\,\_\,\_\,\_}
-  &=x\\
-  y\mValueWith{Rectangle}{\_\,y\,\_\,\_}
-  &=y\\
-  width\mValueWith{Rectangle}{\_\,\_\,w\,\_}
-  &=w\\
-  height\mValueWith{Rectangle}{\_\,\_\,\_\,h}
-  &=h
+  x\,\mValueWith{Rectangle}{a\,\_\,\_\,\_}
+  &=a\\
+  y\,\mValueWith{Rectangle}{\_\,a\,\_\,\_}
+  &=a\\
+  width\,\mValueWith{Rectangle}{\_\,\_\,a\,\_}
+  &=a\\
+  height\,\mValueWith{Rectangle}{\_\,\_\,\_\,a}
+  &=a
 \end{align}
 この面倒は，次のシンタックスシュガーを使うことで軽減される．
 \footnote{\haskell では
 \begin{verbatim}
-  x      Rectangle x _ _ _ = x
-  y      Rectangle _ y _ _ = y
-  width  Rectangle _ _ w _ = w
-  height Rectangle _ _ _ h = h
+  x      Rectangle a _ _ _ = a
+  y      Rectangle _ a _ _ = a
+  width  Rectangle _ _ a _ = a
+  height Rectangle _ _ _ a = a
 \end{verbatim}
 と書く．}
 
@@ -4579,7 +4612,7 @@ $(\le)$ を追加する．
     \mNumThree\le\mNumThree&=\mTrue\\
     \mNumThree\le\mNumMany&=\mTrue\\
     \mNumMany\le\mNumMany&=\mTrue\\
-    \_\equiv\_&=\mFalse
+    \_\le\_&=\mFalse
   \end{aligned}
   \right.
 \end{equation}
@@ -4859,7 +4892,14 @@ $\mValueConstructor{ZipList}$ は値コンストラクタである．すな
 こうしておいて，あとは
 \begin{multline}
   \mInstancePolymorphic\;
-  \mApplicativeTypeClass\mSuperSet\mZipListTypeConstructor\mA\\
+  \mFunctorTypeClass\mSuperSet\mZipListTypeConstructor\\
+  \mWhere
+  f\mMap{}\mZipListWith{\mList{x}}=\mZipListWith{f\mMapList\mList{x}}
+\end{multline}
+および
+\begin{multline}
+  \mInstancePolymorphic\;
+  \mApplicativeTypeClass\mSuperSet\mZipListTypeConstructor\\
   \mWhere
   \left\{
   \begin{aligned}
@@ -4916,10 +4956,10 @@ $\mValueConstructor{ZipList}$ は値コンストラクタである．すな
   =\mZipListRecordWith{\mGetList\mIn{}[\mA]}
 \end{equation}
 やったことはキーワード $\mDataTypePolymorphic$ を
-$\mNewDataTypePolymorphic$ に置き換えたことである．これは，字面に反して，
-型 $\mType{ZipList}$ が何一つ「新しくない」ことを\haskell コンパイラ
-に伝えるためである．その結果\haskell コンパイラは型
-$\mType{ZipList}$ に対する最適化の機会を得る．
+$\mNewDataTypePolymorphic$ に置き換えたことである．これは，字面に反し
+て，型 $\mZipListType{a}$ が何一つ「新しくない」ことを\haskell コンパ
+イラに伝えるためである．その結果\haskell コンパイラは型
+$\mZipListType{a}$ に対する最適化の機会を得る．
 
 \separator
 
@@ -4944,16 +4984,26 @@ $\mType{ZipList}$ に対する最適化の機会を得る．
 \end{equation}
 と定義する．こうすれば，演算子 $\mZip$ は
 \begin{equation}
-(\mZip)=\mZipWith(\mApply)
+  (\mZip)
+  =\mZipWith(\mApply)
 \end{equation}
 と関数 $\mZipWith$ から定義できる．
 
 関数 $\mZipWith$ を再帰的に定義したが，再帰をリストのマップ演算子に押
 し込むこともできる．それには
-\begin{multline}
-\mZipWith f(x:\mList{x})(y:\mList{y})=f'\mMapList\mList{z}\\
-\mWhereIsIIEXP{f'}{\mUncurry f}{\mList{z}}{\mZipFunc\mList{x}\mList{y}}
-\end{multline}
+\begin{equation}
+  \mZipWith f(x:\mList{x})(y:\mList{y})
+  =f'\mMapList\mList{z}
+  \mWhere
+  \left\{
+  \begin{aligned}
+    f'
+    &\mLetEq\mUncurry f\\
+    \mList{z}
+    &\mLetEq\mZipFunc\mList{x}\mList{y}
+  \end{aligned}
+  \right.
+\end{equation}
 と，先に $\mZipFunc$ 関数を定義しておいて，その後 $\mZipWith$ 関数を定
 義する．ここに $\mZipFunc$ 関数は
 \begin{equation}
@@ -4980,9 +5030,9 @@ $\mType{ZipList}$ に対する最適化の機会を得る．
 である．\footnote{\haskell では $\mZipWith$ 関数を
 \begin{verbatim}
   zipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
-  zipWith f (x:xs) (y:ys) = f' `map` zs
-    where f' = uncurry f
-          zs = zip xs ys
+  zipWith f (x:xs) (y:ys) = f' `map` zs where
+    f' = uncurry f
+    zs = zip xs ys
 \end{verbatim}
 と書ける．ただし \code{zipWith} は \filename{Prelude} から提供される．}
 
@@ -5442,6 +5492,8 @@ main = print (x0, x1) >> pure 0
 
 \section{複素数*}
 
+% Numerical Recipe in C
+
 2次方程式の定数 $a,b,c$ が複素数だとしよう．それぞれの実部を添え字 $r$
 で，虚部を添え字 $i$ で区別することにすると
 \begin{align}
@@ -5483,8 +5535,13 @@ $\mSq'$ 関数と $\sgn'$ 関数に置き換えたことで，
 \begin{equation}
   \left\mBrace
   \begin{aligned}
-    &\mSq'\mIn\mRealFloatTypeClass\mSuperSet\mA \mSuperClass\mProjEXP{\mComplexType{a}}{\mComplexType{a}}\\
-    &\mSq'x=x*x
+    &\mSq'
+    \mIn\mRealFloatTypeClass\mSuperSet\mA
+    \mSuperClass\mA
+    \mMapsTo\mComplexType{a}
+    \mMapsTo\mComplexType{a}\\
+    &\mSq'x
+    =x*x
   \end{aligned}
   \right.
 \end{equation}
@@ -5493,12 +5550,19 @@ $\mSq'$ 関数と $\sgn'$ 関数に置き換えたことで，
   \left\mBrace
   \begin{aligned}
     &\begin{aligned}
-       \sgn'&\mIn\mRealFloatTypeClass\mSuperSet\mA \mSuperClass\\
-       &\quad\mProjEXP{\mComplexType{a}}{\mProjEXP{\mComplexType{a}}{\mProjEXP{\mComplexType{a}}{\mA }}}
+       \sgn'
+       &\mIn\mRealFloatTypeClass\mSuperSet\mA\\
+       &\quad\mSuperClass\mComplexType{a}
+       \mMapsTo\mComplexType{a}
+       \mMapsTo\mComplexType{a}
+       \mMapsTo\mA
      \end{aligned}\\
     &\begin{aligned}
-       \sgn'abc&\mGuard{\mRealPart((\mConjugate b)*\mSqrt'{(\mSq' b-4\mComplexTimes a*c)})<0}=-1\\
-       &\mGuard{\mOtherwise}=1
+       \sgn'abc
+       &\mGuard{\mRealPart((\mConjugate b)*\mSqrt'{(\mSq' b-4\mComplexTimes a*c)})<0}
+       =-1\\
+       &\mGuard{\mOtherwise}
+       =1
      \end{aligned}
   \end{aligned}
   \right.
@@ -5710,11 +5774,6 @@ main = print ys >> pure 0
 なお，円周率 $\pi$ はそのまま定数 \code{pi} として \filename{Prelude}
 で定義されている．
 
-\separator
-
-\haskell は\cxx の \code{std::vector} や \code{std::valarray} のような
-効率的な数値配列を表す型を持っていない．
-
 \begin{table}
 \caption{\filename{Prelude} のデータ型}
 \label{tab:data-types}
@@ -5805,15 +5864,19 @@ $$
 
 \section{行列演算*}
 
+\TK{Data.Vector}
+
 % http://qiita.com/lotz/items/2c932b45f78f6fc70e9c
 % http://itpro.nikkeibp.co.jp/article/COLUMN/20120605/400424/
 
-\section{余談：イメージ演算*}
+\section{余談：アンボックス化}
 
-\haskell だけでイメージ（画像）を効率的に扱おうとすると非常な困難に出
-会う．これは\haskell がイメージデータを効率的に保存するデータ構造を持
-たないからである．一つの解決策は OpenCV というイメージ演算ライブラリの
-\haskell バインディングを用いることである．
+\TK{Unboxed}
+
+% \haskell だけでイメージ（画像）を効率的に扱おうとすると非常な困難に出
+% 会う．これは\haskell がイメージデータを効率的に保存するデータ構造を持
+% たないからである．一つの解決策は OpenCV というイメージ演算ライブラリの
+% \haskell バインディングを用いることである．
 
 % http://qiita.com/ma-oshita/items/2a66d8818664f2936afe
 % http://nebuta.hatenablog.com/entry/2013/06/15/154259
@@ -5950,9 +6013,7 @@ instance Functor f => Monad (Free f) where
 % http://tune.hateblo.jp/entry/2014/09/28/185233
 % http://konn-san.com/prog/haskell/extensible-effects.html
 
-
-
-\chapter{圏*}
+\chapter{カテゴリ*}
 \label{ch:category}
 
 \section{多値*}
@@ -5991,9 +6052,11 @@ $\mTypeAssemble{NonDet}{\mA\,\mB}$ は型 $\mA\mMapsTo[\mA]$ とは異な
 \begin{equation}
   \left\mBrace
   \begin{aligned}
-    &\mSqrts'\mIn\mRealTypeClass\mSuperSet\mA \mSuperClass
-    \mTypeAssemble{NonDet}{\mA\,\mA}\\
-    &\mSqrts'=\mValueWith{NonDet}{\mRun=\mSqrts}
+    &\mSqrts'
+    \mIn\mRealTypeClass\mSuperSet\mA
+    \mSuperClass\mTypeAssemble{NonDet}{\mA\,\mA}\\
+    &\mSqrts'
+    =\mValueWith{NonDet}{\mSqrts}
   \end{aligned}
   \right.
 \end{equation}
@@ -6013,7 +6076,7 @@ $\mTypeAssemble{NonDet}{\mA\,\mB}$ は型 $\mA\mMapsTo[\mA]$ とは異な
 
 % https://practical-scheme.net/wiliki/wiliki.cgi?Scheme%3A多値
 
-\section{圏*}
+\section{カテゴリ*}
 
 非決定的な関数 $\mDuplicate$ と $\mTriplicate$ を
 \begin{align}
@@ -6029,9 +6092,9 @@ $\mTypeAssemble{NonDet}{\mA\,\mB}$ は型 $\mA\mMapsTo[\mA]$ とは異な
 いま欲しいのは，
 \begin{equation}
   y
-  =\mTriplicate\square\mDuplicate x
+  =\mTriplicate\mSomeOp\mDuplicate x
 \end{equation}
-としたときに $y=[x,x,x,x,x,x]$ となるような合成演算子 $\square$ である．
+としたときに $y=[x,x,x,x,x,x]$ となるような合成演算子 $\mSomeOp$ である．
 
 関数合成演算子 $(\mComp)$ が使えないことは明らかである．少し検討すると，
 このふたつの関数は
@@ -6156,9 +6219,9 @@ $\mDuplicate$ と $\mTriplicate$ を定義しておこう．
 $\mCategoryTypeClass$ 型クラスは \filename{Control.Category}で
 \begin{haskellcode}
 \begin{verbatim}
-class Category cat
-  where id  :: cat a a
-        (.) :: cat b c -> cat a b -> cat a c
+class Category cat where
+  id  :: cat a a
+  (.) :: cat b c -> cat a b -> cat a c
 \end{verbatim}
 \end{haskellcode}
 と定義されており，\filename{Prelude} の \code{id} および \code{.} と名
@@ -6169,7 +6232,8 @@ class Category cat
 import Control.Category as Cat
 \end{verbatim}
 \end{haskellcode}
-としておき，\code{Cat.id} および \code{Cat..} として使用する．
+としておき，\code{Cat.id} および \code{Cat..} として使用する．なお
+\code{Cat..} は \code{<<<} とも定義されている．
 
 インスタンス化のことまで考えると，次のようにインポートしインスタンス化
 するのが良いだろう．
@@ -6201,37 +6265,23 @@ y = run (triplicate' Cat.. duplicate') x
 \end{verbatim}
 \end{haskellcode}
 
-ところで\haskell は次のふたつの演算子
-\begin{align}
-  \label{eq:leftleftarrows}
-  f\leftleftarrows g
-  &=\mLambda x\mLambdaArrow f\mBind gx\\
-  f\rightrightarrows g
-  &=\mLambda x\mLambdaArrow f\mBindRight gx
-\end{align}
-を定義している．\haskell では $\leftleftarrows$ を \code{<=<} と書き，
-$\rightrightarrows$ を \code{>=>} と書く．
-
-またリストのバインド演算子 $(\mBindList)$ は
+ところで，リストのバインド演算子 $(\mBindList)$ は
 \begin{equation}
   f\mBindList\mList{x}
   =\mJoinList(f\mMapList\mList{x})
 \end{equation}
-であった．
+であった．関数 $f$, $g$ が $\mValueWith{NonDet}{f}$,
+$\mValueWith{NonDet}{g}$ として与えられることを考えると，関数 $f$, $g$
+の型は $\mA\mMapsTo[\mA]$ で確定するので，式\eqref{eq:leftleftarrows}
+の中のバインド演算子 $(\mBind)$ はリストのバインド演算子
+$(\mBindList)$ で確定する．
 
-関数 $f$, $g$ が $\mValueWith{NonDet}{f}$,
-$\mValueWith{NonDet}{g}$ として与えられることを考えると，関
-数 $f$, $g$ の型は $\mA\mMapsTo[\mA]$ で確定するので，式
-\eqref{eq:leftleftarrows}の中のバインド演算子 $(\mBind)$ はリストのバ
-インド演算子 $(\mBindList)$ で確定する．
-
-そこで $\leftleftarrows$ 演算子とリストのバインド演算子を用い
-ると
+そこでリストのバインド演算子を用いると
 \begin{align}
   \mJoinList\mComp(f\mMapList)\mComp g
   &=\mLambda x\mLambdaArrow\mJoinList(f\mMapList(gx))\\
   &=\mLambda x\mLambdaArrow f\mBindList(gx)\\
-  &=f\leftleftarrows g
+  &=f\mBindComp g
 \end{align}
 であるから，式\eqref{eq:nondet-instance}の2行目は
 \begin{equation}
@@ -6245,10 +6295,10 @@ $\mValueWith{NonDet}{g}$ として与えられることを考えると，関
   \mCategoryTypeClass\mSuperSet\mTypeConstructor{NonDet}\\
   \mWhere\left\{
   \begin{aligned}
-    \mIdCat
+    \mIdCat x
     &=\mValueWith{NonDet}{\mPureWith{x}}\\
     \mValueWith{NonDet}{f}\mCompCat\mValueWith{NonDet}{g}
-    &=\mValueWith{NonDet}{f\leftleftarrows g}
+    &=\mValueWith{NonDet}{f\mBindComp g}
   \end{aligned}
   \right.
 \end{multline}
@@ -6269,7 +6319,7 @@ instance Cat.Category NonDet where
 (f\mCompCat g)\mCompCat h&=f\mCompCat(g\mCompCat h)
 \end{align}
 
-\section{余談: Kleisliカテゴリ*}
+\section{余談: Kleisli型*}
 
 \begin{equation}
   \mNewDataType\;
@@ -6320,7 +6370,7 @@ instance Cat.Category NonDet where
 \begin{equation}
   \mNewDataType\;
   \mTypeConstructor{Kleisli}\,\mPolymorphicTypeParameter{m}\,\mA\,\mB
-  =\mValueWith{NonDet}{\mA\mMapsTo\mTypeAssemble{m}{\mB}}
+  =\mValueWith{Kleisli}{\mA\mMapsTo\mTypeAssemble{m}{\mB}}
 \end{equation}
 
 ---
