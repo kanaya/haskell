@@ -1,7 +1,9 @@
 \documentclass[a5paper,twoside,fleqn,draft]{jsbook}
 \usepackage{eulervm}
-\usepackage{amsmath,amssymb,ascmac,bm,graphicx,latexsym,mathtools,multirow,okuverb}
+\usepackage{amsmath,amssymb,ascmac,bm,color,graphicx,latexsym,mathtools,multirow,okuverb}
 \makeindex
+
+\newcommand{\TK}[1]{\mask{\textbf{TK:}~#1}{C}}
 
 \def\[{[\![}
 \def\]{]\!]}
@@ -10,9 +12,7 @@
 
 \newcommand{\Langle}{\langle\!\langle}
 \newcommand{\Rangle}{\rangle\!\rangle}
-
 \newcommand{\separator}{\begin{center}$*$~$*$~$*$\end{center}}
-
 \DeclareMathOperator{\sgn}{sgn}
 
 %% Programming Languages
@@ -216,6 +216,7 @@
 \DeclareMathOperator{\mArrowOr}{\bigvee}%{\mid\mid\mid}
 \DeclareMathOperator{\mArrowTimes}{***}
 \DeclareMathOperator{\mBind}{\heartsuit}
+\DeclareMathOperator{\mBindComp}{\maltese}
 \DeclareMathOperator{\mBindFunc}{\diamondsuit}
 \DeclareMathOperator{\mBindList}{\clubsuit}
 \DeclareMathOperator{\mBindMaybe}{\spadesuit}
@@ -255,7 +256,7 @@
 \DeclareMathOperator{\mMapsTo}{\mapsto}
 \DeclareMathOperator{\mMinus}{\ominus}
 \DeclareMathOperator{\mMorphTo}{\rightarrowtail} % used?
-\DeclareMathOperator{\mPlus}{\maltese}
+\DeclareMathOperator{\mPlus}{\boldmath{+}} % Ok?
 \DeclareMathOperator{\mSetTimes}{\boldmath{\times}} % better one?
 \DeclareMathOperator{\mUnOp}{\star}
 \DeclareMathOperator{\mValueOr}{\curlyvee}
@@ -297,7 +298,6 @@
 
 % Special polymorphic types
 \newcommand{\mFuncType}[2]{\Langle\mType{#1}\Rangle}%_\mType{#2}}
-\newcommand{\mListType}[1]{[\mType{#1}]} %%% TO BE REMOVED
 \newcommand{\mPureType}[1]{\langle\mType{#1}\rangle}
 
 % Polymorphic types
@@ -344,12 +344,12 @@
 % Famous value constructors
 \newcommand{\mArrowWith}[1]{\langle\!\langle\!\langle#1\rangle\!\rangle\!\rangle}
 \newcommand{\mFuncWith}[1]{\Langle#1\Rangle}
-\newcommand{\mListWith}[1]{\left[#1\right]} %%% TO BE REMOVED
 \newcommand{\mPureWith}[1]{\langle#1\rangle}
 
 % Built-in value constructors
-\newcommand{\mSetWith}[1]{\left\{#1\right\}} %%% TO BE REMOVED
-\newcommand{\mTupleWith}[1]{\left(#1\right)} %%% TO BE REMOVED
+\newcommand{\mTupleWith}[1]{\left(#1\right)} %%% TO BE REMOVED (?)
+\newcommand{\mPairWith}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
+\newcommand{\mTripleWith}[3]{\begin{pmatrix}#1\\#2\\#3\end{pmatrix}}
 
 % Unboxed tupple
 \newcommand{\mTupleUnboxedWith}[1]{\texttt{(\#}#1\texttt{\#)}}
@@ -429,24 +429,20 @@ Ether変数&肩に!をつける&$\mEither{u}$\\
 関数&オイラー・小文字&$f,g,h,i,j,k$\\
 有名な関数&ローマン・小文字&$\mId,\sin,\cos$\\
 圏の関数&フラクチュール・小文字&$\mIdCat$\\
-% リスト関数&肩に星印をつける&$\mList{f}$\\
-% Maybe関数&肩に?をつける&$\mMaybe{g}$\\
 コンテナ関数&ギリシア文字&$\phi,\psi$\\
 \hline
 アクション&ギリシア文字&$\alpha,\omega$\\
 有名なアクション&スラント・小文字&$\mPutStr,\mReadLn$\\
-% \hline
-% 添字&ローマン・大文字&$x_\mLeft,x_\mRight$\\
 \hline
 集合&ボールドローマン・大文字&$\mSet{A},\mSet{B},\mSet{C}$\\
 有名な集合&ブラックボード・大文字&$\mBSet,\mZSet,\mRSet$\\
 単位元&ローマンに斜線・大文字&$\mZero$\\
 \hline
 型&ボールドローマン・大文字&$\mBoolType,\mIntType,\mFloatType$\\
+多相型&左肩にコンテナ名をつける&$\mIOType{a}$\\
+有名な多相型&特別な括弧で包む&$[\mA],\mMaybeType{a},\mFuncType{a}{r}$\\
 型パラメタ&ボールドローマン・小文字&$\mA,\mB,\mC$\\
 多相型パラメタ&ボールドイタリック・小文字&$\mPolymorphicTypeParameter{f},\mPolymorphicTypeParameter{m}$\\
-コンテナ型&左肩にコンテナ名をつける&$\mIOType{a}$\\
-有名なコンテナ型&特別な括弧で包む&$[\mA],\mMaybeType{a},\mFuncType{a}{r}$\\
 型クラス&スモールキャピタル&$\mEqTypeClass,\mOrdTypeClass,\mNumTypeClass$\\
 \hline
 \end{tabular}
@@ -461,19 +457,17 @@ Ether変数&肩に!をつける&$\mEither{u}$\\
 種類&字体・表記法&例\\
 \hline\hline
 値コンストラクタ&肩書付き括弧で包む&$\mRightWith{x},\mLeftWith{x}$\\
-有名な値コンストラクタ&特別な括弧で包む&$[x],\mJustWith{x},\mFuncWith{x}$\\
+有名な値コンストラクタ&特別な括弧で包む&$[x],\mJustWith{x},\mFuncWith{x},\mArrowWith{x}$\\
 \hline
 型コンストラクタ&スラント，大文字&$\mListTypeConstructor$, $\mMaybeTypeConstructor$\\
-% \hline
-% 有名な関手&カリグラフィ，大文字&$\mIdFunctor$\\
 \hline
 キーワード&サンセリフ，小文字&$\mIf,\mOtherwise$\\
 do記法中のキーワード&タイプライタ&$\mDoLetKeyword$\\
 % リストの構造&サンセリフ，大文字&$\mathFirst$, $\mathRest$\\
 \hline
-リスト&ブラケットで包む&$[x,y,z]$\\
-集合&ブレースで包む&$\{x,y,z\}$\\
-タプル&丸括弧で包む&$(x,y,z)$\\
+リスト&ブラケットで包む&$[x,y]$\\
+集合&ブレースで包む&$\{x,y\}$\\
+タプル&丸括弧で包む&$\mPairWith{x}{y}$\\
 % アンボックス化タプル&丸括弧とシャープ記号で包む&$\mTupleUnboxedWith{x,y,z}$\\
 \hline
 \end{tabular}
@@ -498,13 +492,15 @@ $\mMapsTo$&写像&\code{->}\\
 $\mBinOp$&任意の二項演算子&\\
 $\mPlus$&一般加法演算子&\\
 \hline
+$\mComplexPlus$&複素数値コンストラクタ&\code{:+}\\
+\hline
 $\mFromIntegral$&型変換演算子&\code{fromIntegral}\\
 $\star$&種&\code{*}\\
 \hline
 $\mComp$&関数合成&\code{.}\\
 $\mCompCat$&圏の関数合成&\code{.}\\
 $\mApply$&関数適用&\code{\$}\\
-$\mApplyRight$&右関数右適用&\\
+% $\mApplyRight$&右関数右適用&\\
 \hline
 $\mFold$&左畳み込み&\code{foldl}\\
 $\mFoldRight$&右畳み込み&\code{foldr}\\
@@ -554,9 +550,10 @@ $\mBindList$&リストのバインド演算子&\code{=<<}\\
 $\mBindMaybe$&Maybeのバインド演算子&\code{=<<}\\
 $\mBindFunc$&関数のバインド演算子&\code{=<<}\\
 \hline
+$\mBindComp$&バインド・合成演算子&\code{<=<}\\
+\hline
 $\mBindRight$&右バインド演算子&\code{>>=}\\
 $\mBindRightIgnore$&右バインド演算子（戻値無視）&\code{>>}\\
-$\rightrightarrows$&右バインド演算子（ラムダ版）&\code{>=>}\\
 \hline
 \end{tabular}
 \end{center}
@@ -799,11 +796,9 @@ $ brew install haskell-stack $ stack install ghc
 \item ...  \item 各章にはこのように「この章のまとめ」を置く．
 \end{enumerate}
 
-
 \begin{note}{ハスケル・カリー}
-...
+\TK{To be written.}
 \end{note}
-
 
 \chapter{カリー風な書き方}
 \label{ch:curry}
@@ -881,7 +876,8 @@ $\mMax$ は
 \end{equation}
 としても同じである．そこで $(\mMax x)$ だけ取り出すと，これは「引数が
   $x$ よりも小さければ $x$ を，そうでなければ引数を返す関数」とみなす
-ことができる．
+ことができる．\footnote{\haskell では $\mMax xy$ を \code{max x y} と
+  書く．}
 
 \section{ラムダ式}
 
@@ -1135,15 +1131,18 @@ $\mIf$ 節の中身は真理値を返す関数であれば良いので，関数 
 % Irrefutable pattern
 % https://stackoverflow.com/questions/6711870/what-are-the-cases-that-will-cause-irrefutable-pattern-failed-for-pattern?rq=1
 
-\begin{note}{...}%{式の評価順序}
-% \haskell は参照透過な言語なので，式がいつ評価されるかを考える必要はない．一方で，参照透過でない言語は式の評価順序をいつも気にしておく必要がある．例えば\clang は関数引数の評価順序を定めていないので，次のコード
-% \begin{ccode}
-% \begin{verbatim}
-% int i = 0;
-% printf("%d, %d\n", ++i, ++i);
-% \end{verbatim}
-% \end{ccode}
-% は画面に \code{1, 2} を出力する場合もあるし，\code{2, 1} を出力する場合もある．
+\begin{note}{式の評価順序}
+\haskell は参照透過な言語なので，式がいつ評価されるかを考える必要はな
+い．一方で，参照透過でない言語は式の評価順序をいつも気にしておく必要が
+ある．例えば\clang は関数引数の評価順序を定めていないので，次のコード
+\begin{ccode}
+\begin{verbatim}
+int i = 0;
+printf("%d, %d\n", ++i, ++i);
+\end{verbatim}
+\end{ccode}
+は画面に \code{1, 2} を出力する場合もあるし，\code{2, 1} を出力する場
+合もある．
 \end{note}
 
 \chapter{さらにカリー風な書き方}
@@ -1173,9 +1172,11 @@ $\mIf$ 節の中身は真理値を返す関数であれば良いので，関数 
 \haskell には単項マイナス $(-)$ を除いて他に単項演算子はない．
 
 二項演算子のうちよく使われるものは和 $(+)$，積 $(*)$，論理和
-$(\mLogicalOr)$，論理積 $(\mLogicalAnd)$，同値 $(\equiv)$，大なり
-$(>)$，小なり $(<)$ 等である．二項演算子はたとえ積記号であっても省略で
-きない．二項演算子は多数あるので，その都度説明する．
+$(\mLogicalOr)$，論理積 $(\mLogicalAnd)$，同値 $(\equiv)$，大なり$(>)$，
+小なり $(<)$ 等である．二項演算子はたとえ積記号であっても省略できない．
+二項演算子は多数あるので，その都度説明する．\footnote{\haskell では
+  $\mLogicalAnd$ を \code{\&\&} と書き，$\mLogicalOr$ を \code{||} と
+  書く．}
 
 二項演算子は\keyword{中置}することが基本であるが，括弧で包むことで前置
 することも可能である．任意の二項演算子 $\mBinOp$ について $x\mBinOp y$
@@ -1213,13 +1214,14 @@ $(\mBinOp)$ も
   (x\mBinOp)
   &=x\mBinOp\mAnonParam=(\mBinOp)x
 \end{align}
-である．例えば $(1+)$ は $((+)1)$ と等価である．ただし，マイナス演算子
-$(-)$ だけは例外で，$(-1)$ はマイナス $1$ を表す．負の数をいつも括弧で
-包んでおくのは良いアイディアである．\footnote{\haskell では $(1+)$ を
-  \code{(1+)} と書く．また \code{(-1)} はセクションではなくマイナス$1$
-  を表す（\code{-1} というリテラルとみなされる）．ただし \code{(- 1)}
-  のように空白を挟んでも同じくマイナス $1$ とみなされる（\code{1} とい
-    うリテラルに単項マイナス演算子が適用される）．}
+である．例えば $(1+)$ は $((+)1)$ と等価であり，これは $(+1)$ とも等価
+である．ただし，マイナス演算子$(-)$ だけは例外で，$(-1)$ はマイナス
+$1$ を表す．負の数をいつも括弧で包んでおくのは良いアイディアである．
+\footnote{\haskell では $(1+)$ を\code{(1+)} と書く．また \code{(-1)}
+  はセクションではなくマイナス$1$を表す（\code{-1} というリテラルとみ
+    なされる）．ただし \code{(- 1)}のように空白を挟んでも同じくマイナ
+  ス $1$ とみなされる（\code{1} というリテラルに単項マイナス演算子が適
+    用される）．}
 
 なお，二項演算子の結合性，すなわち左結合か右結合かは，演算子によって異
 なる．また演算の優先順位を明示的に与えるために括弧が用いられる．
@@ -1382,10 +1384,6 @@ $y$ 乗を $x^y$ ではなく $x\uparrow y$ と書いた．これは
 \item \haskell のラムダ式はいつもレキシカルクロージャである．
 \end{enumerate}
 
-\begin{note}{...}
-...
-\end{note}
-
 \chapter{型}
 \label{ch:type}
 
@@ -1459,19 +1457,24 @@ $x\mIn\mBoolType$ は省略できるが，可能な限り型を明記してお�
 は $\mIntType$ である．この $\mIntType$ は\clang の \code{int} と似た
 「計算機にとって都合の良い整数」である．計算機にとって都合の良い整数と
 は，例えば64ビット計算機の場合 $-2^{63}$ から $2^{63}-1$ の間の整数と
-いう意味である．
+いう意味である．\footnote{\haskell では $\mIntType$ を \code{Int} で表
+  す．}
 
-整数型には $\mIntegerType$ もある．この $\mIntegerType$ は計算
-機にとっては非常識なぐらい大きな，あるいは小さな値を表すことができる．
+整数型には $\mIntegerType$ もある．この $\mIntegerType$ は計算機にとっ
+ては非常識なぐらい大きな，あるいは小さな値を表すことができる．
+\footnote{\haskell では $\mIntegerType$ を \code{Integer} で表す．}
 
 計算機は残念ながら無限精度の実数を扱えない．そこで標準精度（単精度）の
 \keyword{浮動小数点数型}である $\mFloatType$ と，\keyword{倍精度浮動小
-  数点型}である $\mDoubleType$ が提供される．
+  数点型}である $\mDoubleType$ が提供される．\footnote{\haskell では
+  $\mFloatType$, $\mDoubleType$ をそれぞれ \code{Float}, \code{Double}
+  で表す．}
 
 もう一つ，計算機ならではの型がある．それは $\mIntType$ とよく似ている
 が，特別に文字を扱うために考えられた\keyword{文字型} $\mCharType$ であ
 る．文字といってもその中身は整数である．整数ではあるが，わざわざ別な型
-とするのには理由がある．
+とするのには理由がある．\footnote{\haskell では $\mCharType$ を
+  \code{Char} で表す．}
 
 理由の第一は，文字が小さな整数であるため，文字型を独立して定義しておく
 ことでメモリを節約できるのである．特にメモリが高価であった時代はこれが
@@ -1503,7 +1506,8 @@ UTF8文字エンコードを用いている場合，アルファベットは8ビ
   \mMapsTo\underbrace{\mIntType}_{fx}
 \end{equation}
 のようにイメージすると良い．これは関数 $f$ が集合 $\mIntType$ から集合
-$\mIntType$ への\keyword{写像}であると読む．
+$\mIntType$ への\keyword{写像}であると読む．\footnote{\haskell では
+  \code{f :: Int -> Int} と書く．}
 
 \section{カリー化*}
 
@@ -1560,28 +1564,33 @@ $\left(gx\right)y$ である．ここに $\left(gx\right)$ は引数 $y$ をと�
 \end{equation*}
 のようにイメージすると良い．自然言語で考えると $\mIntType$ 型の引数を
 一つ取り，$\mIntType$ 型の引数を一つ取って $\mIntType$ 型の値を返す関
-数を返す，と読める．
+数を返す，と読める．\footnote{関数の型に出てくる $\mMapsTo$ は2引数を
+  とる型コンストラクタである．型コンストラクタに関しては第XYZ章で詳し
+  く述べる．例えば $\mA\mMapsTo\mB$ という型は $(\mMapsTo)\mA\mB$ の別
+  名であり，型コンストラクタ $(\mMapsTo)$ に引数 $\mA$ と $\mB$ を与え
+  たものと読む．}
 
 \separator
 
 \haskell には\keyword{タプル}という型がある．タプルとは，複数の変数を組
 み合わせたもので，例えば変数 $x,y$ をひとまとめにした
 \begin{equation}
-  (x,y)
+  \mPairWith{x}{y}
 \end{equation}
-はタプルである．変数 $x,y$ の型は同じでも良いし，異なっても良い．
+はタプルである．変数 $x$, $y$ の型は同じでも良いし，異なっても良い．
+\footnote{\haskell では $\mPairWith{x}{y}$ を \code{(x, y)} と書く．}
 
 いまタプルを引数に取る関数
 \begin{equation}
-  f(x,y)
+  f\mPairWith{x}{y}
   =x+y
 \end{equation}
-があったとしよう．関数 $\mCurry$ はタプルを引数に取る関数をカリー化する
-ので，
+があったとしよう．\haskell にはタプルをとる関数をカリー化する関数
+$\mCurry$ があり，
 \begin{equation}
   (\mCurry f)xy
 \end{equation}
-は $f(x,y)$ と同じ結果すなわち $x+y$ になる．
+は $x+y$ になる．
 
 逆に，カリー化された関数
 \begin{equation}
@@ -1590,15 +1599,17 @@ $\left(gx\right)y$ である．ここに $\left(gx\right)$ は引数 $y$ をと�
 \end{equation}
 に関しては
 \begin{equation}
-  (\mUncurry f')(x,y)
+  (\mUncurry f')\mPairWith{x}{y}
 \end{equation}
 のように\keyword{アンカリー化}することで，タプルに適用することができる．
 
 \separator
 
-タプルの中身の個数は0個または2個以上でなければならず，上限は処理系によって定められている．
-2個の変数からなるタプルを特別にペア，3個の変数からなるタプルを特別にトリプルと呼ぶ．
-中身が0個のタプルすなわち $()$ は特別に\keyword{ユニット}と呼ぶ．
+タプルの中身の個数は0個または2個以上でなければならず，上限は処理系によっ
+て定められている．2個の変数からなるタプルを特別にペア，3個の変数からな
+るタプルを特別にトリプルと呼ぶ．中身が0個のタプルすなわち $()$ は特別
+に\keyword{ユニット}と呼ぶ．\footnote{GHC v8.2.1 は最大62個の変数から
+  なるタプルまで生成できる．}
 
 \section{多相型と型クラス}
 
@@ -1731,46 +1742,9 @@ $y$ へ代入することができる．\footnote{\haskell では
 
 \separator
 
-種...
+\TK{種}
 
-\begin{equation*}
-  \mProjEXP{\star}{\star}
-\end{equation*}
-
-% \begin{table*}
-% \caption{型と型クラス}
-% \label{tab:type-and-typeclass}
-% \begin{center}
-% \begin{tabular}{||c||c|c|c|c|c|c|c|c|c|c|c|c||}
-% \hline \multirow{4}{*}{型クラス}
-% &\multicolumn{12}{|c||}{$\mIntegralTypeClass$}\\ \cline{2-13}
-% \multirow{3}{*}{} &\multicolumn{10}{|c|}{$\mRealTypeClass$}
-% &\multicolumn{2}{|c||}{$\mEnumTypeClass$}\\ \cline{2-11}
-% \multirow{2}{*}{} &\multicolumn{5}{|c|}{$\mOrdTypeClass$}
-% &\multicolumn{5}{|c|}{$\mNumTypeClass$} &\multicolumn{2}{|c||}{
-% }\\ \cline{2-2}\cline{7-7} { } &$\mEqTypeClass$ &\multicolumn{4}{|c|}{
-% } &$\mEqTypeClass$ &\multicolumn{4}{|c|}{ } &\multicolumn{2}{|c||}{
-% }\\ \hline インタフェース&$\equiv$ &$<$ &$\le$ &$\ge$ &$>$ &$\equiv$
-% &$+$ &$-$ &$*$ &$/$ &$\mPred$ &$\mSucc$\\ \hline\hline $\mCharType$
-% &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
-% &$\checkmark$ & & & & &$\checkmark$ &$\checkmark$\\ \hline
-% $\mBoolType$ &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
-% &$\checkmark$ &$\checkmark$ & & & & &$\checkmark$
-% &$\checkmark$\\ \hline $\mIntType$ &$\checkmark$ &$\checkmark$
-% &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
-% &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
-% &$\checkmark$\\ \hline $\mIntegerType$ &$\checkmark$ &$\checkmark$
-% &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
-% &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
-% &$\checkmark$\\ \hline $\mFloatType$ &$\checkmark$ &$\checkmark$
-% &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
-% &$\checkmark$ &$\checkmark$ &$\checkmark$ & &\\ \hline $\mDoubleType$
-% &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
-% &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$ &$\checkmark$
-% & &\\ \hline
-% \end{tabular}
-% \end{center}
-% \end{table*}
+\TK{Figure.}
 
 \section{余談：モノイド}
 
@@ -1916,13 +1890,6 @@ $(\mBoolType,\mLogicalOr,\mFalse)$, $(\mBoolType,\mLogicalAnd,\mTrue)$
 \item 型のインタフェースをまとめたものを型クラスと呼ぶ．
   %***インタフェース***
 \end{enumerate}
-
-\begin{note}{$\mMapsTo$ の本当の意味}
-関数の型に出てくる $\mMapsTo$ は，2引数をとる型コンストラクタである．
-型コンストラクタに関しては第XYZ章で詳しく述べる．例えば
-$\mA\mMapsTo\mB$ という型は $(\mMapsTo)\mA\mB$ の別名であり，型コンス
-トラクタ $(\mMapsTo)$ に引数 $\mA$ と $\mB$ を与えたものと読む．
-\end{note}
 
 \chapter{リスト}
 \label{ch:list}
@@ -2207,7 +2174,7 @@ $\mB$ 型のリストすなわち$[\mB]$ 型を取り，$\mA$ 型の値を返す
 畳み込み演算子の面白い応用例を示そう．リストの結合演算子 $(\mAppend)$
 を使うと
 \begin{equation}
-  \mFold_\mEmptyList^{\mAppend}[\mListWith{0,1,2},\mListWith{3,4,5},\dotsb]
+  \mFold_\mEmptyList^{\mAppend}[[0,1,2,[3,4,5],\dotsb]
   =[0,1,2,3,4,5,\dotsb]
 \end{equation}
 であるから，演算子 $\mFold_\mEmptyList^{\mAppend}$ はリストを平坦化す
@@ -2394,7 +2361,7 @@ $(x:\mList{x})$ を参照したい場合もあるであろう．そのような�
 \item 平坦化演算子 $\mJoinList=\mFold_\mEmptyList^{\mAppend}$ はリストを
   平坦化する．
 \item 関数 $f\mIn\mProjEXP{\mA }{\mA }$ はマップ演算子 $\mMapList$ を
-  用いて $f\mMapList\mListWith{x_0,x_1\dotsb x_n}=[fx_0,fx_1\dotsb
+  用いて $f\mMapList[x_0,x_1\dotsb x_n]=[fx_0,fx_1\dotsb
     fx_n]$ のようにリスト$[x_0,x_1\dotsb x_n]$ に適用できる．
 \item マップ演算子$\mMapList$ の型は$\mProjEXP{(\mProjEXP{\mA }{\mB
   })}{\mProjEXP{\mA }{\mB }}$である．
@@ -2402,10 +2369,6 @@ $(x:\mList{x})$ を参照したい場合もあるであろう．そのような�
 \end{enumerate}
 
 % 型パラメタの話はどこが初出？
-
-\begin{note}{...}
-...
-\end{note}
 
 \chapter{再帰*}
 \label{ch:recursion}
@@ -4811,7 +4774,7 @@ $\mA$ と型コンストラクタ $\mPolymorphicTypeParameter{f}$ から
 リストに新しいマップ演算子 $\mZip$ を定義したいとしよう．この演算子
 $\mZip$ は
 \begin{equation}
-  [f,g,h]\mZip\mListWith{x,y,z}
+  [f,g,h]\mZip[x,y,z]
   =[fx,gy,hz]
 \end{equation}
 のように働くとする．新しいマップ演算子 $\mZip$ のことを我々は
@@ -4950,8 +4913,8 @@ $\mType{ZipList}$ に対する最適化の機会を得る．
   \left\mBrace
   \begin{aligned}
     {}&\mZipFunc\mIn{}\mProjEXP{[\mA]}
-    {\mProjEXP{\mListType{b}}
-      {([\mA],\mListType{b})}}\\
+    {\mProjEXP{[\mB]}
+      {([\mA],[\mB])}}\\
     {}&\mZipFunc xy=(x,y)
   \end{aligned}
   \right.
@@ -5636,7 +5599,7 @@ fx&\mGuard{x\equiv0}=1\\
     \mList{x}
     &\mIn{}[\mDoubleType]\\
     \mList{x}
-    &=[i/n*\pi\mListComp i\mFrom\mListWith{0\dotsb n}]
+    &=[i/n*\pi\mListComp i\mFrom[0\dotsb n]]
   \end{aligned}
   \right.
 \end{equation*}
@@ -5755,8 +5718,8 @@ main = print ys >> pure 0
 yt&=\sum(\mLambdaEXP{x}{\mFirst x*\mSecond x})\mMapList\mList{h}\\
 &\quad\mWhere\\
 &\qquad\mList{h}\mLetEq{}\mZipFunc\mList{f}\mList{g}\\
-&\qquad\mList{f}\mLetEq[fx\mListComp x\mFrom\mListWith{0,1\dotsb n}]\\
-&\qquad\mList{g}\mLetEq[g(t-x)\mListComp x\mFrom\mListWith{0,1\dotsb n}]
+&\qquad\mList{f}\mLetEq[fx\mListComp x\mFrom[0,1\dotsb n]]\\
+&\qquad\mList{g}\mLetEq[g(t-x)\mListComp x\mFrom[0,1\dotsb n]]
 \end{aligned}
 \end{equation}
 
