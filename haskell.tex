@@ -88,14 +88,14 @@
 \newcommand{\mInfixKeyword}{\mKeyword{infix}}
 \newcommand{\mInfixlKeyword}{\mKeyword{infixl}}
 \newcommand{\mInfixrKeyword}{\mKeyword{infixr}}
-\newcommand{\mInstanceKeyword}{\mKeyword{instance}}
+\newcommand{\mInstanceDeclKeyword}{\mKeyword{instance}}
 \newcommand{\mLetKeyword}{\mKeyword{let}}
-\newcommand{\mNewDataTypeKeyword}{\mKeyword{newtype}}
+\newcommand{\mNewTypeDeclKeyword}{\mKeyword{newtype}}
 \newcommand{\mOfKeyword}{\mKeyword{of}}
 \newcommand{\mOtherwiseKeyword}{\mKeyword{otherwise}}
 \newcommand{\mThenKeyword}{\mKeyword{then}}
 \newcommand{\mTypeClassDeclKeyword}{\mKeyword{type}\mKeywordUnderline{class}}
-\newcommand{\mTypeSynonymKeyword}{\mKeywordUnderline{type}\mKeyword{synonym}}
+\newcommand{\mTypeSynonymDeclKeyword}{\mKeywordUnderline{type}\mKeyword{synonym}}
 \newcommand{\mWhereKeyword}{\mKeyword{where}}
 
 \DeclareMathOperator{\mCaseKW}{\mCaseKeyword}
@@ -108,12 +108,12 @@
 \DeclareMathOperator{\mInfix}{\mInfixKeyword}
 \DeclareMathOperator{\mInfixl}{\mInfixlKeyword}
 \DeclareMathOperator{\mInfixr}{\mInfixrKeyword}
-\DeclareMathOperator{\mInstance}{\mInstanceKeyword}
-\DeclareMathOperator{\mInstancePolymorphic}{\mInstanceKeyword^{\dagger}}
+\DeclareMathOperator{\mInstanceDecl}{\mInstanceDeclKeyword}
+\DeclareMathOperator{\mInstanceDeclPolymorphic}{\mInstanceDeclKeyword^{\dagger}}
 \DeclareMathOperator{\mLet}{\mLetKeyword}
 \DeclareMathOperator{\mLetIn}{\mInKeyword}
-\DeclareMathOperator{\mNewDataType}{\mNewDataTypeKeyword}
-\DeclareMathOperator{\mNewDataTypePolymorphic}{\mNewDataTypeKeyword^\dagger}
+\DeclareMathOperator{\mNewTypeDecl}{\mNewTypeDeclKeyword}
+\DeclareMathOperator{\mNewTypeDeclPolymorphic}{\mNewTypeDeclKeyword^\dagger}
 \DeclareMathOperator{\mOfKW}{\mOfKeyword}
 \DeclareMathOperator{\mOtherwise}{\mOtherwiseKeyword}
 \DeclareMathOperator{\mSuperClass}{\Rightarrow}
@@ -121,7 +121,7 @@
 \DeclareMathOperator{\mThen}{\mThenKeyword}
 \DeclareMathOperator{\mTypeClassDecl}{\mTypeClassDeclKeyword}
 \DeclareMathOperator{\mTypeClassDeclPolymorphic}{\mTypeClassDeclKeyword^\dagger}
-\DeclareMathOperator{\mTypeSynonym}{\mTypeSynonymKeyword}
+\DeclareMathOperator{\mTypeSynonymDecl}{\mTypeSynonymDeclKeyword}
 \DeclareMathOperator{\mWhere}{\mWhereKeyword}
 
 % Constants
@@ -305,6 +305,8 @@
 % Polymorphic types
 \newcommand{\mTypeAssemble}[2]{{}^{\mType{#1}}\[\mType{#2}\]}
 \newcommand{\mTypeAssembleII}[3]{{}^{\mType{#1}}\[\mType{#2}\,\mType{#3}\]}
+\newcommand{\mPolymorphicTypeAssemble}[2]{{}^\mPolymorphicTypeParameter{#1}\[\mType{#2}\]}
+\newcommand{\mPolymporphicTypeAssemble}[3]{{}^\mPolymorphicTypeParameter{#1}\[\mType{#2}\]}
 
 \newcommand{\mComplexType}[1]{\mTypeAssemble{Complex}{#1}}
 \newcommand{\mEitherType}[2]{\mTypeAssembleII{Either}{#1}{#2}}
@@ -1665,7 +1667,7 @@ $\mEqTypeClass$ に属さなければならないから，新たな記号$\mSupe
 を使って
 \begin{equation}
   (\equiv)
-  \mIn{}\mEqTypeClass\mSuperSet\mA 
+  \mIn{}\mEqTypeClass\mSuperSet\mA
   \mSuperClass\mA\mMapsTo\mA\mMapsTo\mBoolType
 \end{equation}
 と書くことにする．\footnote{\haskell では \code{(==) :: Eq a => a -> a
@@ -1708,7 +1710,7 @@ $\mIntegralTypeClass$ にも属する．
 $\mFromIntegral$ は
 \begin{equation}
   \mFromIntegral
-  \mIn{}\mIntegralTypeClass\mSuperSet\mA 
+  \mIn{}\mIntegralTypeClass\mSuperSet\mA
   \mSuperClass\mA\mMapsTo\mB
 \end{equation}
 という型を持ち，$\mIntegralTypeClass$ 型クラスの型の変数を，任意の型へ
@@ -1981,6 +1983,39 @@ ls = [x+y for x in range(0, 10) for y in range(0,6) \
 呼ぶ．一般に $\mA$ 型のリストを $[\mA]$ と書く．仮の型である $\mA$ の
 事を \keyword{型パラメタ}と呼ぶ．
 
+型 $\mA$ から型 $[\mA]$ を生成する演算子を\keyword{リスト型コンストラ
+  クタ}と呼んで$\mListTypeConstructor$ と書き
+\begin{equation}
+  [\mA]
+  =\mListTypeConstructor\,\mA
+\end{equation}
+とする．この等式の両辺は変数ではなく型名であることに注意しよう．型コン
+ストラクタの概念は\python には無い（必要無い）が，静的型付け言語である
+\cxx の「クラステンプレート」が相当する．\footnote{\haskell では表記上
+  コンテナ型 $[\mA]$ と型コンストラクタ式$\mListTypeConstructor\,\mA $
+  を区別せず，両者とも \code{[a]} と書く．}
+
+$[x]$ のように $\mA$ 型の変数 $x$ を入れた$[\mA]$ 型の変数を作る演算子
+を\keyword{リスト値コンストラクタ}と呼ぶ．$[\mA]$ 型の変数のことを
+\keyword{リスト変数}とも呼ぶ．$\mA$ 型の変数 $x$ からリスト値コンスト
+ラクタを使ってリスト$\mList{x}$ を作ることは
+\begin{equation}
+  \mList{x}
+  =[x]
+\end{equation}
+と書く．\footnote{\haskell では \code{xs = [x]} と書く．}
+
+リスト型を表す $[\mA]$ と，1要素のリストである $[x]$
+の違いにはいつも気をつけておこう．本書では中身がボールドローマン体なら
+ばリスト型，中身がイタリック体ならリスト値である．またリストを保持する
+変数にも，本書では $\mList{x}$ のように星印をつけておくことにする．
+
+ある型を包み込んだ別の型を一般に\keyword{コンテナ型}または単に
+\keyword{コンテナ}と呼ぶ．コンテナ型の変数を\keyword{コンテナ変数}と呼
+ぶ．コンテナ型は多相型の一種である．
+
+% なお，リスト型，結合演算子，空リストの組み合わせ $\mTupleWith{[\mA],\mAppend,\mEmptyList}$ はモノイドである．
+
 \separator
 
 リストは\keyword{結合}できる．例えばリスト$\mList{x}$ とリスト
@@ -2015,41 +2050,6 @@ $\mList{y}$ を結合したリストは
   \mNull\mList{x}
 \end{equation}
 は $\mTrue$ を，そうでなければ $\mFalse$ を返す．
-
-\separator
-
-型 $\mA$ から型 $[\mA]$ を生成する演算子を\keyword{リスト型コンストラ
-  クタ}と呼んで$\mListTypeConstructor$ と書き
-\begin{equation}
-  [\mA]
-  =\mListTypeConstructor\,\mA 
-\end{equation}
-とする．この等式の両辺は変数ではなく型名であることに注意しよう．型コン
-ストラクタの概念は\python には無い（必要無い）が，静的型付け言語である
-\cxx の「クラステンプレート」が相当する．\footnote{\haskell では表記上
-  コンテナ型 $[\mA]$ と型コンストラクタ式$\mListTypeConstructor\,\mA $
-  を区別せず，両者とも \code{[a]} と書く．}
-
-$[x]$ のように $\mA$ 型の変数 $x$ を入れた$[\mA]$ 型の変数を作る演算子
-を\keyword{リスト値コンストラクタ}と呼ぶ．$[\mA]$ 型の変数のことを
-\keyword{リスト変数}とも呼ぶ．$\mA$ 型の変数 $x$ からリスト値コンスト
-ラクタを使ってリスト$\mList{x}$ を作ることは
-\begin{equation}
-  \mList{x}
-  =[x]
-\end{equation}
-と書く．\footnote{\haskell では \code{xs = [x]} と書く．}
-
-リスト型を表す $[\mA]$ と，1要素のリストである $[x]$
-の違いにはいつも気をつけておこう．本書では中身がボールドローマン体なら
-ばリスト型，中身がイタリック体ならリスト値である．またリストを保持する
-変数にも，本書では $\mList{x}$ のように星印をつけておくことにする．
-
-ある型を包み込んだ別の型を一般に\keyword{コンテナ型}または単に
-\keyword{コンテナ}と呼ぶ．コンテナ型の変数を\keyword{コンテナ変数}と呼
-ぶ．コンテナ型は多相型の一種である．
-
-% なお，リスト型，結合演算子，空リストの組み合わせ $\mTupleWith{[\mA],\mAppend,\mEmptyList}$ はモノイドである．
 
 \separator
 
@@ -2177,8 +2177,8 @@ $\mB$ 型のリストすなわち$[\mB]$ 型を取り，$\mA$ 型の値を返す
   =(x_0\mBinOp(x_1\mBinOp\dotsb\mBinOp(x_n\mBinOp a)))
 \end{equation}
 これは\keyword{右畳み込み}と呼ばれる演算子である．\footnote{\haskell
-  では $\mFoldRight^{*}_a\mList{x}$ を \code{foldr (*) a xs} と書く．}
-% ***CHECK***
+  では $\mFoldRight^{*}_a\mList{x}$ を \code{foldr (*) xs a} と書く．
+  引数の順序に注意しよう．}
 
 \separator
 
@@ -2407,8 +2407,9 @@ A...
 と定義できる．関数が自分自身を適用することを関数の\keyword{再帰適用}と
 呼ぶ．\footnote{\haskell では
 \begin{verbatim}
-  fact x = case x of 0 -> 1
-                     _ -> x * fact (x - 1)
+  fact x = case x of
+    0 -> 1
+    _ -> x * fact (x - 1)
 \end{verbatim}
 と書く．}
 
@@ -2724,7 +2725,7 @@ $\mMaybeType{a}$ を生成するこには\keyword{型コンストラクタ}
 $\mMaybeTypeConstructor$ を用いて
 \begin{equation}
   \mMaybeType{a}
-  =\mMaybeTypeConstructor\,\mA 
+  =\mMaybeTypeConstructor\,\mA
 \end{equation}
 とする．\footnote{\haskell では表記上コンテナ型 $\mMaybeType{a}$ と型
   コンストラクタ式 $\mMaybeTypeConstructor\mA$ を区別せず，両者
@@ -2981,7 +2982,7 @@ $\mB $ 型を取るEither型の変数 $\mEither{e}$ があるとすると，
 タを用いて
 \begin{equation}
   \mEitherType{a}{b}
-  =\mEitherTypeConstructor\,\mA \,\mB 
+  =\mEitherTypeConstructor\,\mA \,\mB
 \end{equation}
 のように作られる．\footnote{\haskell では $\mEitherType{a}{b}$ も
   $\mEitherTypeConstructor\,\mA\,\mB $ も区別せずに\code{Either a b} と
@@ -3000,6 +3001,9 @@ $\mLeftWith{x}$ である．値コンストラクタは
 \end{equation}
 のように使う．\footnote{\haskell ではそれぞれ \code{e = Right x} およ
   び \code{e = Left x} と書く．}
+
+% See https://downloads.haskell.org/~ghc/7.0.1/docs/html/users_guide/type-class-extensions.html
+% Multiparameter Typeclass Extension
 
 Eitherはより複雑な計算エラーが発生する場合に用いる．Maybeが単に失敗を
 表す $\mNothing$ しか表現できなかったのに対し，Eitherは任意の型の変数
@@ -3029,10 +3033,6 @@ Either型は\clang の共有型 (\code{union}) や\cxx のバリアント
   $\mEither{e}=\mRightWith{x}$ または$\mEither{e}=\mLeftWith{x}$ のよ
   うに生成する．
 \end{enumerate}
-
-\begin{note}{...}
-...
-\end{note}
 
 \chapter{関手}
 \label{ch:functor}
@@ -3127,14 +3127,14 @@ $(\mA\mMapsTo\mB)\mMapsTo([\mA]\mMapsTo[\mB])$ という型を持つ．
   \mIn{}\mFunctorTypeClass
   \mSuperSet\mPolymorphicTypeParameter{f}
   \mSuperClass(\mA\mMapsTo\mB)
-  \mMapsTo\mTypeAssemble{f}{a}
-  \mMapsTo\mTypeAssemble{f}{b}
+  \mMapsTo\mPolymorphicTypeAssemble{f}{a}
+  \mMapsTo\mPolymorphicTypeAssemble{f}{b}
 \end{equation}
 という型を持つ．ここに
 $\mFunctorTypeClass\mSuperSet\mPolymorphicTypeParameter{f}$ は，
 $\mPolymorphicTypeParameter{f}$ が $\mFunctorTypeClass$ 型クラスに属す
 という制約を表している．また $\mPolymorphicTypeParameter{f}$ は型コン
-ストラクタであり，$\mTypeAssemble{f}{a}$ は
+ストラクタであり，$\mPolymorphicTypeAssemble{f}{a}$ は
 $\mPolymorphicTypeParameter{f}$ 型コンストラクタと$\mA$ 型によって作ら
 れたコンテナ型である．
 
@@ -3353,21 +3353,23 @@ $\mFuncTypeConstructor{r}$ によって型 $(\mProjEXP{\mR}{\mA})$ が
   の代わりに \code{((->)r)} をそのまま使う．}
 
 マップ演算子の型は，
-$\mFuncTypeConstructor{r}\mA=\mTypeAssemble{f}{\mA}$ とすると
+$\mFuncTypeConstructor{r}\mA=\mPolymorphicTypeAssemble{f}{\mA}$ とする
+と
 \begin{equation}
   (\mMap)
-  \mIn{}\mFunctorTypeClass\mSuperSet\mTypeConstructor{f}
+  \mIn{}\mFunctorTypeClass\mSuperSet\mPolymorphicTypeParameter{f}
   \mSuperClass(\mA\mMapsTo\mB)
-  \mMapsTo\mTypeAssemble{f}{a}
-  \mMapsTo\mTypeAssemble{f}{b}
+  \mMapsTo\mPolymorphicTypeAssemble{f}{a}
+  \mMapsTo\mPolymorphicTypeAssemble{f}{b}
 \end{equation}
-であって，いま $\mTypeConstructor{f}=\mFuncTypeConstructor{r}$ を考え
-ているから，関数のマップ演算子を $\mMapFunc$ とすると
+であって，いま
+$\mPolymorphicTypeParameter{f}=\mFuncTypeConstructor{r}$ を考えている
+から，関数のマップ演算子を $\mMapFunc$ とすると
 \begin{equation}
   (\mMapFunc)
   \mIn{}(\mA\mMapsTo\mB)
-  \mMapsTo\mTypeAssemble{f}{\mA}
-  \mMapsTo\mTypeAssemble{f}\mB
+  \mMapsTo\mPolymorphicTypeAssemble{f}{\mA}
+  \mMapsTo\mPolymorphicTypeAssemble{f}\mB
 \end{equation}
 であり，これはすなわち
 \begin{equation}
@@ -3508,18 +3510,8 @@ Maybeのアプリカティブマップ演算子の定義は次の通り．
 \item ...
 \end{enumerate}
 
-
-\begin{note}{...}
-...
-%
-\end{note}
-
 \chapter{モナド}
 \label{ch:monad}
-
-\begin{leader}
-A...
-\end{leader}
 
 \section{バインド演算子}
 
@@ -4035,11 +4027,6 @@ $(\mFSet,\mComp,\mId)$ はモノイドである．
 \item ...
 \end{enumerate}
 
-
-\begin{note}{...}
-...
-\end{note}
-
 % http://itpro.nikkeibp.co.jp/article/COLUMN/20120110/378061/
 
 \chapter{IO}
@@ -4505,9 +4492,9 @@ $\mValueConstructor{Triangle}$ によって初期化され，それぞれ2個
 \label{sec:type-class-and-instance}
 
 型クラスとは，複数の型が持つ共通のインタフェースである．その複数の型を
-いま $\mA $ で表すこととして，型 $\mA $ が型クラス
-$\mEqTypeClass$ に属すとしよう．型クラス $\mEqTypeClass$ は等号
-$(\equiv)$ と不等号 $(\neq)$ をインタフェースとして持つ．このことを
+いま $\mA$ で表すこととして，型 $\mA$ が型クラス$\mEqTypeClass$ に属す
+としよう．型クラス $\mEqTypeClass$ は等号$(\equiv)$ と不等号 $(\neq)$
+をインタフェースとして持つ．このことを
 \begin{equation}
   \mTypeClassDecl\mathop{\mEqTypeClass}\mSuperSet\mA\mWhere{}
   \left\{
@@ -4530,15 +4517,17 @@ $(\equiv)$ と不等号 $(\neq)$ をインタフェースとして持つ．こ�
 \end{verbatim}
 と書く．}
 
+\TK{$\mTypeClassDecl$ による具象型の型クラス宣言．}
+
 ここで宣言したのは等号，不等号というインタフェースが「ある」という事だ
 けで，その実装は未定義である．等号，不等号の実装は次に述べる
-$\mInstance$ 文を使う．
+$\mInstanceDecl$ 文を使う．
 
 型クラス $\mEqTypeClass$ に属す型 $\mA $ は等号と不等号を持つ．我々
 の型 $\mType{Num}$ が型クラス $\mEqTypeClass$ に属すことを宣言し，型ク
 ラス $\mEqTypeClass$ が備えるべき等号，不等号を実装するには
 \begin{equation}
-  \mInstance\;\mEqTypeClass\mSuperSet\mType{Num}
+  \mInstanceDecl\;\mEqTypeClass\mSuperSet\mType{Num}
   \mWhere{}
   \left\{
   \begin{aligned}
@@ -4562,12 +4551,14 @@ $\mInstance$ 文を使う．
 \end{verbatim}
 と書く．}
 
+\TK{$\mInstanceDecl$ による具象型のインスタンス宣言．}
+
 型クラスは\keyword{継承関係}を持てる．型クラス $\mOrdTypeClass$ は型ク
 ラス $\mEqTypeClass$ から等号，不等号を継承し「小なりイコール」
 $(\le)$ を追加する．
 \begin{equation}
-  \mTypeClassDecl\;\mEqTypeClass\mSuperSet\mA 
-  \mSuperClass\mathop{\mOrdTypeClass}\mA 
+  \mTypeClassDecl\;\mEqTypeClass\mSuperSet\mA
+  \mSuperClass\mathop{\mOrdTypeClass}\mSuperSet\mA
   \mWhere{}(\le)\mIn\mProjEXP{\mA }{\mProjEXP{\mA }{\mBoolType}}
 \end{equation}
 型クラス $\mOrdTypeClass$ に属する型は，等号，不等号，小なりイコールと，
@@ -4598,7 +4589,7 @@ $(\le)$ を追加する．
 型クラス $\mOrdTypeClass$ のインスタンスは小なりイコール演算子 $(\le)$
 が定義されていなければならない．我々は
 \begin{equation}
-  \mInstance\;\mOrdTypeClass\mSuperSet\mType{Num}
+  \mInstanceDecl\;\mOrdTypeClass\mSuperSet\mType{Num}
   \mWhere{}
   \left\{
   \begin{aligned}
@@ -4618,17 +4609,25 @@ $(\le)$ を追加する．
 \end{equation}
 のように $\mType{Num}$ の $\le$ 演算子を定義することができる．
 
-\section{余談：型シノニム}
+\section{余談：レンズ*}
+
+\TK{Lens}
+
+% \section{余談：型シノニム*}
+
+---
+
+\TK{Move to 12.4}
 
 データ型には\keyword{シノニム}（別名）がつけられる．例えば
 $\mCharType$ のリスト $[\mCharType]$ は
 \begin{equation}
-  \mTypeSynonym\;
+  \mTypeSynonymDecl\;
   \mStringType
   =[\mCharType]
 \end{equation}
 とすることで，別名 $\mStringType$ を与えることができる．\haskell では
-$\mTypeSynonym$ を \code{type} と省略してしまう．これは残念なことだが，
+$\mTypeSynonymDecl$ を \code{type} と省略してしまう．これは残念なことだが，
 \clang の \code{typedef} のようなものだと思って割り切るしかない．
 \footnote{\haskell では \code{type String = [Char]} と書く．}
 
@@ -4671,10 +4670,10 @@ Maybeのように型パラメタを取る型を\keyword{多相型}と呼ぶ．�
 % に入れなさいという意味．
 
 Maybeが型クラス $\mEqTypeClass$ に属すものとして，$\mEqTypeClass$ から
-のインスタンス化をしておこう．ここでも型パラメタ付きの $\mInstance$ を
-仮に $\mInstancePolymorphic$ とすると次のように書けそうである．
+のインスタンス化をしておこう．ここでも型パラメタ付きの $\mInstanceDecl$ を
+仮に $\mInstanceDeclPolymorphic$ とすると次のように書けそうである．
 \begin{equation}
-  \mInstancePolymorphic\;
+  \mInstanceDeclPolymorphic\;
   \mEqTypeClass\mSuperSet{}(\mMaybeTypeConstructor\,\mA)
   \mWhere
   \left\{
@@ -4693,8 +4692,8 @@ Maybeが型クラス $\mEqTypeClass$ に属すものとして，$\mEqTypeClass$ 
 $\mA $ が型クラス $\mEqTypeClass$ に属すことを要求するので，次の
 ように言い換える．
 \begin{multline}
-\mInstancePolymorphic\;
-\mEqTypeClass\mSuperSet\mA 
+\mInstanceDeclPolymorphic\;
+\mEqTypeClass\mSuperSet\mA
 \mSuperClass
 \mEqTypeClass\mSuperSet{}(\mMaybeTypeConstructor\,\mA )\\
 \mWhere
@@ -4721,7 +4720,7 @@ $\mA $ 型は $\mEqTypeClass$ 型クラスに属すものとして」という�
 Maybeの間に新たに定義された等号 $(\equiv)$ は次の型を持つ．
 \begin{equation}
 (\equiv)
-\mIn{}\mEqTypeClass\mSuperSet\mA 
+\mIn{}\mEqTypeClass\mSuperSet\mA
 \mSuperClass\mProjEXP{\mMaybeType{a}}{\mProjEXP{\mMaybeType{a}}{\mBoolType}}
 \end{equation}
 
@@ -4730,7 +4729,7 @@ Maybeの間に新たに定義された等号 $(\equiv)$ は次の型を持つ．
 多相型を定義するとき，型パラメタは2個以上与えられても良い．例えば
 Eitherは次のように定義できる．
 \begin{equation}
-\mDataTypePolymorphic\;\mEitherTypeConstructor\,\mA \,\mB 
+\mDataTypePolymorphic\;\mEitherTypeConstructor\,\mA \,\mB
 =\mLeftWith{\mA }
 \mValueOr
 \mRightWith{\mB }
@@ -4741,57 +4740,63 @@ Eitherは次のように定義できる．
 型の定義中に自分自身を参照する型を\keyword{自己参照型}または
 \keyword{再帰型}と呼ぶ．例えばリストは
 \begin{equation}
-\mDataTypePolymorphic\;\mListTypeConstructor\,\mA =\mEmptyList\mValueOr\mA :\mListTypeConstructor\,\mA 
+\mDataTypePolymorphic\;\mListTypeConstructor\,\mA =\mEmptyList\mValueOr\mA :\mListTypeConstructor\,\mA
 \end{equation}
 のように定義できる．
 
 \section{関手の拡張}
 
-型クラス $\mFunctorTypeClass$ はマップ演算子 $(\mMap)$ を提供する．リ
-スト型は $\mFunctorTypeClass$ 型クラスのインスタンスなので，
-\begin{align}
+\TK{Writing.}
+
+\begin{equation}
   \mTypeClassDeclPolymorphic\;
-  &\mFunctorTypeClass\mSuperSet\mListTypeConstructor{}
+  \mFunctorTypeClass\mSuperSet\mPolymorphicTypeParameter{f}
   \mWhere{}
   (\mMap)
   \mIn{}(\mA\mMapsTo\mB)
-  \mMapsTo[\mA]
-  \mMapsTo[\mB]\\
-  \mInstancePolymorphic\;
-  &\mFunctorTypeClass\mSuperSet\mListTypeConstructor{}
+  \mMapsTo\mPolymorphicTypeAssemble{f}{a}
+  \mMapsTo\mPolymorphicTypeAssemble{f}{b}
+\end{equation}
+
+\TK{$\mTypeClassDeclPolymorphic$ による型コンストラクタの型クラス宣言．}
+
+型クラス $\mFunctorTypeClass$ はマップ演算子 $(\mMap)$ を提供する．リ
+スト型は $\mFunctorTypeClass$ 型クラスのインスタンスなので，
+\begin{equation}
+  \mInstanceDeclPolymorphic\;
+  \mFunctorTypeClass\mSuperSet\mListTypeConstructor{}
   \mWhere{}
   (\mMap)
   =(\mMapList)
-\end{align}
+\end{equation}
 と定義する．\footnote{\haskell では
 \begin{verbatim}
-  class    Functor [] where fmap :: (a -> b) -> [a] -> [b]
   instance Functor [] where fmap = map
 \end{verbatim}
 と書く．}
 
+\TK{$\mInstanceDeclPolymorphic$ による型コンストラクタのインスタンス宣言．}
+
+\TK{Follow:} That's it! Notice how we didn't write instance Functor
+   [a] where, because from fmap :: (a $\mapsto$ b) $\mapsto$ f a
+   $\mapsto$ f b, we see that the f has to be a type constructor that
+   takes one type. [a] is already a concrete type (of a list with any
+   type inside it), while [] is a type constructor that takes one type
+   and can produce types such as [Int], [String] or even [[String]].
+
 Maybe型の場合は
-\begin{align}
-  \mTypeClassDeclPolymorphic\;
-  &\mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor
-  \mWhere{}
-  (\mMap)
-  \mIn{}(\mA\mMapsTo\mB)
-  \mMapsTo\mMaybeType{a}
-  \mMapsTo\mMaybeType{b}\\
-  \mInstancePolymorphic\;
-  &\mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor
+\begin{equation}
+  \mInstanceDeclPolymorphic\;
+  \mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor
   \mWhere\left\{
   \begin{aligned}
-    f\mMap\mJustWith{x}&=\mJustWith{fx}\\
+    f\mMap{}\mJustWith{x}&=\mJustWith{fx}\\
     f\mMap\mNothing&=\mNothing
   \end{aligned}
   \right.
-\end{align}
+\end{equation}
 となる．\footnote{\haskell では
 \begin{verbatim}
-  class Functor Maybe where
-    fmap :: (a -> b) -> Maybe a -> Maybe b
   instance Functor Maybe where
     fmap f (Maybe x) = Maybe (f x)
     fmap f Nothing = Nothing
@@ -4799,55 +4804,26 @@ Maybe型の場合は
 と書く．}
 
 Either型の場合は
-\begin{align}
-  \mTypeClassDeclPolymorphic\;
-&\mFunctorTypeClass\mSuperSet{}(\mathop{\mEitherTypeConstructor}\,\mA )\nonumber\\
-&\quad\mWhere{}\mMap\mIn{}\mProjEXP{(\mProjEXP{\mA }{\mB })}{\mProjEXP{\mEitherType{a}{a}}{\mEitherType{a}{b}}}\\
-  \mInstancePolymorphic\;
-&\mFunctorTypeClass\mSuperSet{}(\mathop{\mEitherTypeConstructor}\,\mA )\nonumber\\
-  &\quad\mWhere{}
+\begin{equation}
+  \mInstanceDeclPolymorphic\;
+  \mFunctorTypeClass\mSuperSet{}(\mEitherTypeConstructor\,\mA)
+  \mWhere{}
   \left\{
   \begin{aligned}
     f\mMap{}\mRightWith{x}&=\mRightWith{fx}\\
     f\mMap{}\mLeftWith{x}&=\mLeftWith{x}
   \end{aligned}
   \right.
-\end{align}
+\end{equation}
 となる．\footnote{\haskell では
 \begin{verbatim}
-  class Functor (Either a) where
-    fmap :: (a -> b) -> Either a a -> Either a b
   instance Functor (Either a) where
     fmap f (Right x) = Right (f x)
     fmap f (Left x)  = Left x
 \end{verbatim}
 と書く．}
 
-型に関して一般化すると
-\begin{equation}
-  \label{eq:fn}
-  \mTypeClassDeclPolymorphic\;
-  \mFunctorTypeClass\mSuperSet\mPolymorphicTypeParameter{f}
-  \mWhere{}
-  \mMap
-  \mIn{}(\mA\mMapsTo\mB)
-  \mMapsTo\mTypeAssemble{f}{a}
-  \mMapsTo\mTypeAssemble{f}{b}
-\end{equation}
-のように書ける．ここで，型 $\mTypeAssemble{f}{a}$ は型
-$\mA$ と型コンストラクタ $\mPolymorphicTypeParameter{f}$ から
-\begin{equation}
-  \mTypeAssemble{f}{a}
-  =\mathop{\mPolymorphicTypeParameter{f}}\mA
-\end{equation}
-のように作られる．\footnote{\haskell では
-  $\mTypeAssemble{f}{a}$ も
-  $\mathop{\mTypeConstructor{f}}\mA$ も同様に \code{f a} と書く．
-  そこで式\eqref{eq:fn}は
-\begin{verbatim}
-  class functor f where fmap :: (a -> b) -> f a -> f b
-\end{verbatim}
-と書く．}
+\TK{Multiple parameter extension.}
 
 \section{余談: \code{newtype}*}
 
@@ -4876,7 +4852,7 @@ $\mZip$ は
 \begin{equation}
   \label{eq:data-type-ziplist}
   \mDataTypePolymorphic\;
-  \mathop{\mZipListTypeConstructor}\mA 
+  \mathop{\mZipListTypeConstructor}\mA
   =\mValueRecordWith{ZipList}{\mGetList\mIn{}[\mA]}
 \end{equation}
 のように定義することになる．念のため，左辺の
@@ -4885,20 +4861,20 @@ $\mValueConstructor{ZipList}$ は値コンストラクタである．すな
 わち
 \begin{equation}
   \mZipListType{a}
-  =\mZipListTypeConstructor\mA 
+  =\mZipListTypeConstructor\mA
 \end{equation}
 である．
 
 こうしておいて，あとは
 \begin{multline}
-  \mInstancePolymorphic\;
+  \mInstanceDeclPolymorphic\;
   \mFunctorTypeClass\mSuperSet\mZipListTypeConstructor\\
   \mWhere
   f\mMap{}\mZipListWith{\mList{x}}=\mZipListWith{f\mMapList\mList{x}}
 \end{multline}
 および
 \begin{multline}
-  \mInstancePolymorphic\;
+  \mInstanceDeclPolymorphic\;
   \mApplicativeTypeClass\mSuperSet\mZipListTypeConstructor\\
   \mWhere
   \left\{
@@ -4951,12 +4927,12 @@ $\mValueConstructor{ZipList}$ は値コンストラクタである．すな
 このままでも問題はないのだが，式\eqref{eq:data-type-ziplist}を次のよう
 に書き換えることがより好ましい．
 \begin{equation}
-  \mNewDataTypePolymorphic\;
+  \mNewTypeDeclPolymorphic\;
   \mZipListTypeConstructor\mA
   =\mZipListRecordWith{\mGetList\mIn{}[\mA]}
 \end{equation}
 やったことはキーワード $\mDataTypePolymorphic$ を
-$\mNewDataTypePolymorphic$ に置き換えたことである．これは，字面に反し
+$\mNewTypeDeclPolymorphic$ に置き換えたことである．これは，字面に反し
 て，型 $\mZipListType{a}$ が何一つ「新しくない」ことを\haskell コンパ
 イラに伝えるためである．その結果\haskell コンパイラは型
 $\mZipListType{a}$ に対する最適化の機会を得る．
@@ -5427,7 +5403,7 @@ a*x^2+b*x+c=0
 \begin{equation}
   \left\mBrace
   \begin{aligned}
-    &\mSq\mIn\mRealTypeClass\mSuperSet\mA 
+    &\mSq\mIn\mRealTypeClass\mSuperSet\mA
     \mSuperClass\mProjEXP{\mA}{\mA}\\
     &\mSq x=x*x
   \end{aligned}
@@ -5440,7 +5416,7 @@ a*x^2+b*x+c=0
 \begin{equation}
   \left\mBrace
   \begin{aligned}
-    {}&\sgn\mIn{}\mRealTypeClass\mSuperSet\mA 
+    {}&\sgn\mIn{}\mRealTypeClass\mSuperSet\mA
     \mSuperClass\mProjEXP{\mA }{\mA }\\
     {}&
     \begin{aligned}
@@ -5515,7 +5491,7 @@ a = ar :+ ai
 
 このように\haskell では複素数を
 \begin{equation}
-  \mComplexType{a}=\mathop{\mTypeConstructor{Complex}}\mA 
+  \mComplexType{a}=\mathop{\mTypeConstructor{Complex}}\mA
 \end{equation}
 の型パラメタ $\mA $ に $\mFloatType$ 型または $\mDoubleType$ 型を
 当てはめて構築した型を用いる．$\mFloatType$ 型および $\mDoubleType$ 型
@@ -5574,7 +5550,7 @@ $\mSq'$ 関数と $\sgn'$ 関数に置き換えたことで，
 \begin{equation}
   \left\mBrace
   \begin{aligned}
-    &\mSqrt'\mIn\mRealFloatTypeClass\mSuperSet\mA 
+    &\mSqrt'\mIn\mRealFloatTypeClass\mSuperSet\mA
     \mSuperClass\mProjEXP{\mA }{\mA }\\
     &\begin{aligned}
        \mSqrt'(x\mComplexPlus y)
@@ -5980,7 +5956,7 @@ main = do
 \section{Freeモナド*}
 \begin{align}
 \mDataType\;&\mathop{\mTypeConstructor{Free}}\mType{f}\mA =\mathop{\mValueConstructor{Pure}}\mA \mValueOr\mathop{\mValueConstructor{Free}(\mType{f}(\mathop{\mValueConstructor{Free}}\mType{f}\mA ))}\\
-\mInstance\;&\mFunctorTypeClass\mSuperSet\mType{f}\mSuperClass\mTypeConstructor{Monad}(\mathop{\mTypeConstructor{Free}}\mType{f})\nonumber\\
+\mInstanceDecl\;&\mFunctorTypeClass\mSuperSet\mType{f}\mSuperClass\mTypeConstructor{Monad}(\mathop{\mTypeConstructor{Free}}\mType{f})\nonumber\\
 &\quad\mWhere\left\{
 \begin{aligned}
 \mPureWith{x}&=\mValueWith{Pure}{x}\\
@@ -6033,14 +6009,14 @@ $\mSqrts$ を考えてみる．
 \end{equation}
 
 ここで型 $\mA\mMapsTo[\mA]$ に別名を与えよう．別名を与えるには型シノニ
-ムを定義する方法と，$\mNewDataType$ を用いる方法とがある．前者は単に読
+ムを定義する方法と，$\mNewTypeDecl$ を用いる方法とがある．前者は単に読
 みやすさの向上のためだけであるが，後者は第\ref{ch:polymorphic-types}章
 で見たように特定の型クラスの新しいインスタンスとしてその型を定義するた
 めである．
 
 我々は後者を選択することにして
 \begin{equation}
-  \mNewDataType\;
+  \mNewTypeDecl\;
   \mTypeConstructor{NonDet}\,\mA\,\mB
   =\mValueRecordWith{NonDet}{\mRun\mIn\mA\mMapsTo[\mB]}
 \end{equation}
@@ -6169,7 +6145,7 @@ $\mCategoryTypeClass$ 型クラスのインスタンスにできる．ただし�
 のように値コンストラクタで包んだ上でインスタンス化を行う．
 \begin{multline}
   \label{eq:nondet-instance}
-  \mInstance\;
+  \mInstanceDecl\;
   \mTypeClass{Category}\mSuperSet\mTypeConstructor{NonDet}\\
   \mWhere\left\{
   \begin{aligned}
@@ -6291,7 +6267,7 @@ $(\mBindList)$ で確定する．
 とも書ける．改めて式\eqref{eq:nondet-instance}を書き直すと
 % pureも説明!!
 \begin{multline}
-  \mInstancePolymorphic\;
+  \mInstanceDeclPolymorphic\;
   \mCategoryTypeClass\mSuperSet\mTypeConstructor{NonDet}\\
   \mWhere\left\{
   \begin{aligned}
@@ -6322,7 +6298,7 @@ instance Cat.Category NonDet where
 \section{余談: Kleisli型*}
 
 \begin{equation}
-  \mNewDataType\;
+  \mNewTypeDecl\;
   \mTypeConstructor{ItCouldBe}\,\mA\,\mB
   =\mValueRecordWith{ItCouldBe}{\mathrm{runIt}\mIn\mA\mMapsTo\mMaybeType{b}}
 \end{equation}
@@ -6341,7 +6317,7 @@ instance Cat.Category NonDet where
       =\mNothing
     \end{aligned}
   \end{aligned}
-  \right.    
+  \right.
 \end{equation}
 
 \begin{equation}
@@ -6357,10 +6333,10 @@ instance Cat.Category NonDet where
 ---
 
 \begin{align}
-  \mNewDataType\;
+  \mNewTypeDecl\;
   &\mTypeConstructor{NonDet}\,\mA\,\mB
   =\mValueWith{NonDet}{\mA\mMapsTo[\mB]}\\
-  \mNewDataType\;
+  \mNewTypeDecl\;
   &\mTypeConstructor{ItCouldBe}\,\mA\,\mB
   =\mValueWith{ItCouldBe}{\mA\mMapsTo\mMaybeType{b}}
 \end{align}
@@ -6368,7 +6344,7 @@ instance Cat.Category NonDet where
 
 
 \begin{equation}
-  \mNewDataType\;
+  \mNewTypeDecl\;
   \mTypeConstructor{Kleisli}\,\mPolymorphicTypeParameter{m}\,\mA\,\mB
   =\mValueWith{Kleisli}{\mA\mMapsTo\mTypeAssemble{m}{\mB}}
 \end{equation}
@@ -6384,13 +6360,13 @@ instance Cat.Category NonDet where
 \newcommand{\mFirstFunc}{\mathop{\mathrm{first}}}
 
 \begin{equation}
-  \mNewDataType\;
+  \mNewTypeDecl\;
   \mCircuitType\,\mA\,\mB
   =\mTypeAssemble{Circuit}{\mUncircuit\mIn\mA\mMapsTo(\mCircuitType\,\mA\,\mB,\mB)}
 \end{equation}
 
 \begin{multline}
-  \mInstance\;
+  \mInstanceDecl\;
   \mTypeClass{Category}\mSuperSet\mCircuitType\\
   \mWhere
   \left\{
@@ -6408,7 +6384,7 @@ instance Cat.Category NonDet where
 \end{multline}
 
 \begin{multline}
-  \mInstance\;
+  \mInstanceDecl\;
   \mTypeClass{Arrow}\mSuperSet\mCircuitType\\
   \mWhere\left\{
   \begin{aligned}
@@ -6463,7 +6439,7 @@ instance Cat.Category NonDet where
 \newcommand{\mRunKleisli}{\mathop{\mathrm{runKleisli}}}
 
 \begin{equation}
-  \mNewDataType\;
+  \mNewTypeDecl\;
   \mKleisliType\,\mPolymorphicTypeParameter{m}\,\mA\,\mB
   =\mKleisliWith{\mRunKleisli\mIn\mA\mMapsTo\mTypeAssemble{m}{b}}
 \end{equation}
@@ -6499,7 +6475,7 @@ $$
 $$
 
 \begin{equation}
-\mTypeClassDeclPolymorphic\mTypeClass{Arrow}{}\mA 
+\mTypeClassDeclPolymorphic\mTypeClass{Arrow}{}\mA
 \mWhere\left\{
 \begin{aligned}
   \mathrm{arr}&\mIn{}\mProjEXP{(\mProjEXP{\mB }{\mC })}{\mA \mB \mC }\\
@@ -6511,11 +6487,11 @@ $$
 \end{equation}
 
 \begin{equation}
-\mNewDataType\textit{Fn}\mA \mB ={}^\textit{Fn}\{\mathit{run}\mIn\mProjEXP{\mA }{\mB }\}
+\mNewTypeDecl\textit{Fn}\mA \mB ={}^\textit{Fn}\{\mathit{run}\mIn\mProjEXP{\mA }{\mB }\}
 \end{equation}
 
 \begin{multline}
-  \mInstance\mTypeClass{Arrow}{}\textit{Fn}\\
+  \mInstanceDecl\mTypeClass{Arrow}{}\textit{Fn}\\
   \mWhere\left\{
   \begin{aligned}
     \mathop{\mathrm{arr}} f&=\mathit{Fn} f\\
@@ -6528,7 +6504,7 @@ $$
 \end{multline}
 
 \begin{equation}
-  \mInstance\mTypeClass{Category}\mathit{Fn}\mWhere
+  \mInstanceDecl\mTypeClass{Category}\mathit{Fn}\mWhere
   \left\{
   \begin{aligned}
     (\mathit{Fn} g)\mComp(\mathit{Fn} f)&=\mathit{Fn}(g\mComp f)\\
@@ -6568,7 +6544,8 @@ $\mArrow,\mArrowAnd,\mArrowOr$
 % http://mew.org/~kazu/academic/2013/miyazaki-u/syntax.html
 % http://qiita.com/techno-tanoC/items/1fa1c65db08da2440fc4
 \section{非標準モジュール*}
-\section{余談：モジュールの公開*}
+% \section{余談：モジュールの公開*}
+\section{余談：文芸的プログラミング*}
 \section{この章のまとめ*}
 % http://itpro.nikkeibp.co.jp/article/COLUMN/20060801/244812/?itp_leaf_index
 
