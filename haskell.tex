@@ -287,7 +287,12 @@
 \newcommand{\mA}{\mType{a}}
 \newcommand{\mB}{\mType{b}}
 \newcommand{\mC}{\mType{c}}
+\newcommand{\mD}{\mType{D}}
 \newcommand{\mR}{\mType{r}}
+\newcommand{\mW}{\mType{w}}
+\newcommand{\mX}{\mType{x}}
+\newcommand{\mY}{\mType{y}}
+\newcommand{\mZ}{\mType{z}}
 
 \newcommand{\mBoolType}{\mType{Bool}}
 \newcommand{\mCharType}{\mType{Char}}
@@ -3695,14 +3700,6 @@ v=f\mMap u=\mPureWith{f}\mAppMap u=\mPureWith{f\mAnonParam}\mBind u
 
 \TK{To be written.}
 
-\begin{equation}
-  f\mBindComp g=f\mBind(g\mAnonParam)
-\end{equation}
-
-\separator
-
-\TK{To be written.}
-
 リストモナド
 
 \begin{equation}
@@ -3742,6 +3739,15 @@ Maybeモナド
     &\mIfSo\mNothing
   \end{cases}
 \end{equation}
+
+\separator
+
+\TK{To be written.}
+\begin{equation}
+  f\mBindComp g
+  =f\mBind(g\mAnonParam)
+\end{equation}
+
 
 \section{関手則・アプリカティブ関手則・モナド則}
 
@@ -3826,6 +3832,7 @@ $\phi=\mPureWith{g},\psi=\mPureWith{h},v=\mPureWith{z}$ とすると，合成
 \item 右単位元の存在: $i\mBind{}\mPureWith{x}=ix$
 \item 左単位元の存在: $\mPureWith{\mId}\mBind u=u$
 \item 結合則: $i\mBind{}(j\mBind v)=(i\mBind{}(j\mAnonParam))\mBind v$
+  % または $i\mBind{}(j\mBind v)=(i\mBindComp j)\mBind v$
 \end{enumerate}
 % https://wiki.haskell.org/Monad_laws
 % https://en.wikibooks.org/wiki/Haskell/Category_theory#The_monad_laws_and_their_importance
@@ -3860,9 +3867,11 @@ k=i\mBind{}(j\mAnonParam)=\mPureWith{f\mComp g\mAnonParam}
 &=\mPureWith{f\mComp gy}
 \end{align}
 であるから，結合則
-\begin{equation}
-i\mBind{}(j\mBind v)=(i\mBind{}(j\mAnonParam))\mBind v
-\end{equation}
+\begin{align}
+  i\mBind{}(j\mBind v)
+  &=(i\mBind{}(j\mAnonParam))\mBind v\\
+  &=(i\mBindComp j)\mBind v
+\end{align}
 を得ることになる．
 
 \begin{figure*}
@@ -4316,15 +4325,8 @@ y=g_2(g_1x)
 \item do記法．
 \end{enumerate}
 
-\begin{note}{...}
-...
-\end{note}
-
-
 \chapter{データ型の定義*}
 \label{ch:data-type}
-
-...
 
 \section{データ型}
 
@@ -5019,11 +5021,6 @@ $\mZipListType{a}$ に対する最適化の機会を得る．
 \begin{enumerate}
 \item ...
 \end{enumerate}
-
-\begin{note}{...}
-...
-\end{note}
-
 
 \part{\haskell プログラミング}
 
@@ -6054,6 +6051,18 @@ $\mTypeAssemble{NonDet}{\mA\,\mB}$ は型 $\mA\mMapsTo[\mA]$ とは異な
 
 \section{カテゴリ*}
 
+\TK{Writing.}
+
+$\mFunctorTypeClass$ は $(\mMap)$ を共通のインタフェースとして持つ型を
+抽象化した型クラス．インスタンスであるリストの実装は $\mMapList$ を使
+う．
+
+$\mCategoryTypeClass$ は $(\mCompCat)$ を共通のインタフェースとして持
+つ型を抽象化した型クラス．インスタンスである関数の実装は $\mComp$ を使
+う．
+
+---
+
 非決定的な関数 $\mDuplicate$ と $\mTriplicate$ を
 \begin{align}
   \mDuplicate x
@@ -6088,44 +6097,48 @@ $\mTypeAssemble{NonDet}{\mA\,\mB}$ は型 $\mA\mMapsTo[\mA]$ とは異な
 $(\mJoinList)$ やマップ演算子 $(\mMapList)$ を書くのは煩雑であるし，3段以
 上の合成になると手に負えなくなる．
 
-このような問題を解決するのが\keyword{圏}すなわち $\mCategoryTypeClass$
-型クラスである．
+このような問題を解決するのが\keyword{カテゴリ}すなわち
+$\mCategoryTypeClass$ 型クラスである．
 
 $\mCategoryTypeClass$ 型クラスは次のように定義されている．
 \begin{equation}
-  \mTypeClassDecl\;
-  \mCategoryTypeClass\,\mType{cat}
+  \mTypeClassDeclPolymorphic\;
+  \mCategoryTypeClass\mSuperSet\mPolymorphicTypeParameter{c}
   \mWhere\left\{
   \begin{aligned}
-    \mIdCat&\mIn\mType{cat}\,\mA\,\mA\\
+    \mIdCat&\mIn\mPolymorphicTypeParameter{c}\,\mX\,\mX\\
     (\mCompCat)
-    &\mIn\mType{cat}\,\mB\,\mC
-    \mMapsTo\mType{cat}\,\mA\,\mB
-    \mMapsTo\mType{cat}\,\mA\,\mC
+    &\mIn\mPolymorphicTypeParameter{c}\,\mX\,\mY
+    \mMapsTo\mPolymorphicTypeParameter{c}\,\mX\,\mY
+    \mMapsTo\mPolymorphicTypeParameter{c}\,\mX\,\mY
   \end{aligned}
   \right.
 \end{equation}
-型パラメタ $\mType{cat}$ が $\mType{cat}=(\mMapsTo)$ のとき
-$\mIdCat=\mId$ かつ $\mCompCat=\mComp$ になるので，圏は関数を何やら拡張
-したものであることがわかる．
+型パラメタ $\mPolymorphicTypeParameter{c}$ が
+$\mPolymorphicTypeParameter{c}=(\mMapsTo)$ のとき$\mIdCat=\mId$ かつ
+$\mCompCat=\mComp$ になるので，圏は関数を何やら拡張したものであること
+がわかる．
 
 我々は $\mDuplicate$ や $\mTriplicate$ の型を考えて
 \begin{equation}
-  \mType{cat}\,\mType{x}\,\mType{y}=\mType{x}\mMapsTo[\mType{y}]
+  \mPolymorphicTypeParameter{c}\,\mX\,\mY
+  =\mX\mMapsTo[\mY]
 \end{equation}
 と考えてみよう．つまり
-$\mType{cat}=((\mMapsTo)\mAnonParam[\mAnonParam])$ と考えるわけである．
+$\mPolymorphicTypeParameter{c}=((\mMapsTo)\mAnonParam[\mAnonParam])$
+と考えるわけである．
 
 そうすると，まず $\mIdCat$ は $\mA\mMapsTo[\mA]$ 型でなければならないか
 ら
 \begin{equation}
   \label{eq:id-category}
-  \mIdCat=\mLambda x\mLambdaArrow[x]
+  \mIdCat
+  =\mLambda x\mLambdaArrow[x]
 \end{equation}
 となる．
 
-次に $(\mCompCat)$ であるが，$\mA=\mB=\mC$ とすると
-$(\mA\mMapsTo[\mA])\mMapsTo(\mA\mMapsTo[\mA])\mMapsTo(\mA\mMapsTo[\mA])$
+次に $(\mCompCat)$ であるが，$\mX=\mY$ とすると，型は
+$(\mX\mMapsTo[\mX])\mMapsTo(\mX\mMapsTo[\mX])\mMapsTo(\mX\mMapsTo[\mX])$
 であるから，式\eqref{eq:triplicate-duplicate}から
 \begin{equation}
   \mTriplicate\mCompCat\mDuplicate
@@ -6145,7 +6158,7 @@ $\mCategoryTypeClass$ 型クラスのインスタンスにできる．ただし�
 のように値コンストラクタで包んだ上でインスタンス化を行う．
 \begin{multline}
   \label{eq:nondet-instance}
-  \mInstanceDecl\;
+  \mInstanceDeclPolymorphic\;
   \mTypeClass{Category}\mSuperSet\mTypeConstructor{NonDet}\\
   \mWhere\left\{
   \begin{aligned}
@@ -6195,9 +6208,9 @@ $\mDuplicate$ と $\mTriplicate$ を定義しておこう．
 $\mCategoryTypeClass$ 型クラスは \filename{Control.Category}で
 \begin{haskellcode}
 \begin{verbatim}
-class Category cat where
-  id  :: cat a a
-  (.) :: cat b c -> cat a b -> cat a c
+class Category c where
+  id  :: c x x
+  (.) :: c y z -> c x y -> c x z
 \end{verbatim}
 \end{haskellcode}
 と定義されており，\filename{Prelude} の \code{id} および \code{.} と名
@@ -6341,28 +6354,56 @@ instance Cat.Category NonDet where
   =\mValueWith{ItCouldBe}{\mA\mMapsTo\mMaybeType{b}}
 \end{align}
 
-
-
 \begin{equation}
   \mNewTypeDecl\;
   \mTypeConstructor{Kleisli}\,\mPolymorphicTypeParameter{m}\,\mA\,\mB
   =\mValueWith{Kleisli}{\mA\mMapsTo\mTypeAssemble{m}{\mB}}
 \end{equation}
 
+\begin{equation}
+  \mTypeSynonymDecl\;
+  \mTypeConstructor{ItCouldBe}\,\mA\,\mB
+  =\mTypeConstructor{Kleisli}\,\mA\,\mB
+\end{equation}
+
 \chapter{アローと継続*}
+
+\begin{leader}
+  カテゴリが抽象化したのは関数の合成すなわち関数の分解方法である．モナ
+  ドもカテゴリの一種である．% *** CHECK!!! ***
+  ただし関数 $f_2$ の値が関数 $f_1$ の引数に依存する場合は
+  $f_2\mCompCat f_1$ のように両者を合成できない．そこで考えられたのが
+  アローである．
+\end{leader}
+
 \section{アロー*}
+
+\newcommand{\mFirstFunc}{\mathop{\mathrm{first}}}
+
+\begin{multline}
+  \mTypeClassDeclPolymorphic\;
+  (\mCategoryTypeClass\mSuperSet\mPolymorphicTypeParameter{c})
+  \mSuperClass(\mArrowTypeClass\mSuperSet\mPolymorphicTypeParameter{c})\\
+  \mWhere{}\left\{
+  \begin{aligned}
+    \mArrowWith{\dotsb}
+    &\mIn{}(\mX\mMapsTo\mY)\mMapsTo\mPolymorphicTypeParameter{c}\,\mX\,\mY\\
+    \mFirstFunc
+    &\mIn{}\mPolymorphicTypeParameter{c}\,\mPairWith{\mX}{\mZ}\,\mPairWith{\mY}{\mZ}
+  \end{aligned}
+  \right.
+\end{multline}
 
 % from haskell wiki
 
 \newcommand{\mUncircuit}{\mathop{\mathrm{uncircuit}}}
-\newcommand{\mCircuitType}{\mType{Circuit}}
-\newcommand{\mCircuitWith}[1]{\mValueWith{Circuit}{#1}}
-\newcommand{\mFirstFunc}{\mathop{\mathrm{first}}}
+\newcommand{\mCircuitType}{\mTypeConstructor{Circ}}
+\newcommand{\mCircuitWith}[1]{\mValueWith{Circ}{#1}}
 
 \begin{equation}
   \mNewTypeDecl\;
   \mCircuitType\,\mA\,\mB
-  =\mTypeAssemble{Circuit}{\mUncircuit\mIn\mA\mMapsTo(\mCircuitType\,\mA\,\mB,\mB)}
+  =\mCircuitWith{\mUncircuit\mIn\mA\mMapsTo(\mCircuitType\,\mA\,\mB,\mB)}
 \end{equation}
 
 \begin{multline}
@@ -6373,12 +6414,11 @@ instance Cat.Category NonDet where
   \begin{aligned}
     \mIdCat
     &=\mCircuitWith{\mLambda x\mLambdaArrow(\mIdCat,x)}\\
-    \mCircuitWith{c_2}\mCompCat\mCircuitWith{c_1}
-    &={}^{\textrm{Circuit}}\[\mLambda x\mLambdaArrow(c_2'\mComp c_1',z)\\
-    &\quad\mWhere{}\{
-    (c_1',y)\mLetEq c_1x;\\
-    &\qquad(c_2',z)\mLetEq c_2y
-    \}\]
+    \mCircuitWith{f_2}\mCompCat\mCircuitWith{f_1}
+    &={}^{\textrm{Circ}}\[\mLambda x\mLambdaArrow(f_2'\mCompCat f_1',z)\\
+    &\quad\mWhere{}\left\{
+    \mPairWith{f_1'}{y}\mLetEq f_1x;
+    \mPairWith{f_2'}{z}\mLetEq f_2y\right\}\]
   \end{aligned}
   \right.
 \end{multline}
@@ -6389,10 +6429,10 @@ instance Cat.Category NonDet where
   \mWhere\left\{
   \begin{aligned}
     \mArrowWith{f}
-    &=\mCircuitWith{\mLambda x\mLambdaArrow(\mArrowWith{f},fx)}\\
-    \mFirstFunc\mCircuitWith{c}
-    &={}^{\mathrm{Circuit}}\[\mLambda xy\mLambdaArrow(\mFirstFunc c',(z,y))\\
-    &\quad\mWhere{}(c',z)=cx\] % cz???
+    &=\mCircuitWith{\mLambda x\mLambdaArrow\mPairWith{\mArrowWith{f}}{fx}}\\
+    \mFirstFunc\mCircuitWith{f}
+    &={}^{\mathrm{Circ}}\[\mLambda xy\mLambdaArrow\mPairWith{\mFirstFunc f'}{\mPairWith{z}{y}}
+    \mWhere{}\mPairWith{f'}{z}\mLetEq fx\]
   \end{aligned}
   \right.
 \end{multline}
@@ -6428,8 +6468,7 @@ instance Cat.Category NonDet where
 
 \begin{align}
   \mMean&\mIn\mCircuitType\,\mA\,\mA\\
-  \mMean&=(\mTotal\mathbin{\bigvee}\mArrowWith{\mConst1}\Rrightarrow\mTotal)\Rrightarrow\mArrowWith{\mUncurry(/)}\\
-  &=\mLambda x\mLambdaArrow(\mArrowWith{\mConst x}\Rrightarrow\mTotal\bigvee\mArrowWith{\mConst1}\Rrightarrow\mTotal)...?%\Rrightarrow\mArrowWith{\mUncurry(/)}
+  \mMean&=(\mTotal\mathbin{\bigvee}\mArrowWith{\mConst1}\Rrightarrow\mTotal)\Rrightarrow\mArrowWith{\mUncurry(/)}
 \end{align}
 
 ---
@@ -6446,76 +6485,26 @@ instance Cat.Category NonDet where
 
 \begin{equation}
   \mLambda x\mLambdaArrow((\mLambda y\mLambdaArrow\mJustWith{y*2})\mBind{}\mJustWith{x*3}))
-  =(\mJustWith{\dotsb}\mComp(*2))\mBindComp(\mJustWith{\dotsb}\mComp(*3))
+  =(\mJustWith{\mAnonParam}\mComp(*2))\mBindComp(\mJustWith{\mAnonParam}\mComp(*3))
 \end{equation}
 
 \begin{multline}
   \mLambda x\mLambdaArrow((\mLambda y\mLambdaArrow\mJustWith{y*x})\mBind{}\mJustWith{x*2})\\
-  =(\mJustWith{\dotsb}\mComp\mUncurry(*))\mBindComp(\mJustWith{\dotsb}\mComp{}((*2),\mId))
+  =(\mJustWith{\mAnonParam}\mComp\mUncurry(*))\mBindComp(\mJustWith{\mAnonParam}\mComp{}((*2),\mId))
 \end{multline}
 
 ---
 
 \begin{equation}
-  (f*\!*\!*g)\mPairWith{x}{y}=\mPairWith{fx}{gy}
+  \left(f\bigvee g\right)\mPairWith{x}{y}=\mPairWith{fx}{gy}
 \end{equation}
 
 \begin{equation}
-  (f\&\&\&g)x=\mPairWith{fx}{gx}
+  \left(f\bigwedge g\right)x=\mPairWith{fx}{gx}
 \end{equation}
 
 ---
 
-$$
-\mArrowWith{f}
-$$
-
-$$
-\Rrightarrow
-$$
-
-\begin{equation}
-\mTypeClassDeclPolymorphic\mTypeClass{Arrow}{}\mA
-\mWhere\left\{
-\begin{aligned}
-  \mathrm{arr}&\mIn{}\mProjEXP{(\mProjEXP{\mB }{\mC })}{\mA \mB \mC }\\
-  \ggg&\mIn\mProjEXP{\mA \mB \mC }{\mProjEXP{\mA \mC \mType{d}}{\mA \mB \mType{d}}}\\
-  \mathrm{first}&\mIn\mProjEXP{\mA \mB \mC }{\mA (\mB ,\mType{d})(\mC ,\mType{d})}\\
-  \mathrm{second}&\mIn\mProjEXP{\mA \mB \mC }{\mA (\mType{d},\mB )(\mType{d},\mC )}
-\end{aligned}
-\right.
-\end{equation}
-
-\begin{equation}
-\mNewTypeDecl\textit{Fn}\mA \mB ={}^\textit{Fn}\{\mathit{run}\mIn\mProjEXP{\mA }{\mB }\}
-\end{equation}
-
-\begin{multline}
-  \mInstanceDecl\mTypeClass{Arrow}{}\textit{Fn}\\
-  \mWhere\left\{
-  \begin{aligned}
-    \mathop{\mathrm{arr}} f&=\mathit{Fn} f\\
-    \mathop{\mathrm{first}} (\mathit{Fn} f)&=\mathit{Fn}(\mathop{\mathrm{mapFst}} f)\\
-      &\quad\mWhere\mathop{\mathrm{mapFst}}g(a,b)=(ga,b)\\
-    \mathop{\mathrm{second}} (\mathit{Fn} f)&=\mathit{Fn}(\mathop{\mathrm{mapSnd}} f)\\
-      &\quad\mWhere\mathop{\mathrm{mapSnd}} g(a,b)=(a,gb)
-  \end{aligned}
-  \right.
-\end{multline}
-
-\begin{equation}
-  \mInstanceDecl\mTypeClass{Category}\mathit{Fn}\mWhere
-  \left\{
-  \begin{aligned}
-    (\mathit{Fn} g)\mComp(\mathit{Fn} f)&=\mathit{Fn}(g\mComp f)\\
-    \mId&=\mathop{\mathrm{arr}}\mId
-  \end{aligned}
-  \right.
-\end{equation}
-
----
-
-$\mArrow,\mArrowAnd,\mArrowOr$
 
 % http://qiita.com/CyLomw/items/a618b7c7326d9abede63
 % http://qiita.com/CyLomw/items/ff1e5d1600291c952c5e
