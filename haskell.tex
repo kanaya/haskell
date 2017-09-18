@@ -6389,10 +6389,21 @@ instance Cat.Category NonDet where
     \mArrowWith{\dotsb}
     &\mIn{}(\mX\mMapsTo\mY)\mMapsTo\mPolymorphicTypeParameter{c}\,\mX\,\mY\\
     \mFirstFunc
-    &\mIn{}\mPolymorphicTypeParameter{c}\,\mPairWith{\mX}{\mZ}\,\mPairWith{\mY}{\mZ}
+    &\mIn{}\mPolymorphicTypeParameter{c}\,\mX\,\mY
+    \mMapsTo\mPolymorphicTypeParameter{c}\,\mPairWith{\mX}{\mZ}\,\mPairWith{\mY}{\mZ}
   \end{aligned}
   \right.
 \end{multline}
+
+\begin{equation}
+  z=f_2\mComp f_1x
+\end{equation}
+
+\begin{equation}
+  z=\mathop{\mathrm{app}}\mPairWith{\mArrowWith{\mUncurry f_2}\mCompCat\mFirstFunc\mArrowWith{f_1}\mCompCat{}\mArrowWith{\left(\mLambda x\mLambdaArrow\mPairWith{x}{x}\right)}}{x}
+\end{equation}
+
+---
 
 % from haskell wiki
 
