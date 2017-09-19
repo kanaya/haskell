@@ -6378,6 +6378,47 @@ instance Cat.Category NonDet where
 
 \section{アロー*}
 
+% \newcommand{\mSum}{\mathop{\mathrm{sum}}}
+\newcommand{\mLength}{\mathop{\mathrm{length}}}
+\newcommand{\mMean}{\mathop{\mathrm{mean}}}
+
+数値のリスト $\mList{x}$ の平均をとる関数 $\mMean$ を考えてみよう．実
+装は単純で
+\begin{equation}
+  \mMean\mList{x}=\mSum\mList{x}/\mLength\mList{x}
+\end{equation}
+である．
+
+問題はここからである．関数 $\mMean$ を関数 $\mSum$ と関数 $\mLength$
+の合成の形にできるだろうか．つまり
+\begin{equation}
+  \mMean\mList{x}=(\mSum\square\mLength)\mList{x}
+\end{equation}
+の形に分解するような関数合成演算子は存在するだろうか．
+
+残念なことに関数 $\mSum$ も $\mLength$ も同じ引数をとる必要がある．そ
+のため従来の方法では関数を合成出来ない．しかし次のように演算の結果をペ
+アに収めることが出来れば何とかなりそうである．
+\begin{equation}
+  \mMean\mList{x}
+  =%\left\{\begin{matrix}\mAnonParam\\/\\\mAnonParam\end{matrix}\right\}
+  \left(\mLambda\mPairWith{x}{y}\mLambdaArrow x/y\right)
+  \begin{pmatrix}
+    \mSum\mList{x}\\
+    \mLength\mList{x}
+  \end{pmatrix}
+  %\begin{bmatrix}\mSum\\\mLength\end{bmatrix}
+  %\begin{pmatrix}\mList{x}\\\mList{x}\end{pmatrix}  
+\end{equation}
+幸い，カリー化された2引数関数をペアを引数にとる関数へ変換する
+$\mUncurry$ 関数があり，
+\begin{equation}
+  \mUncurry(\mBinOp)=\mLambda\mPairWith{x}{y}\mLambdaArrow x\mBinOp y
+\end{equation}
+であるから，式XYZの最初の括弧は $\mUncurry(/)$ と出来る．
+
+---
+
 \newcommand{\mFirstFunc}{\mathop{\mathrm{first}}}
 
 \begin{multline}
@@ -6475,7 +6516,7 @@ instance Cat.Category NonDet where
   \mTotal&={\mAccum}'0(+)
 \end{align}
 
-\newcommand{\mMean}{\mathop{\mathrm{mean}}}
+% \newcommand{\mMean}{\mathop{\mathrm{mean}}}
 
 \begin{align}
   \mMean&\mIn\mCircuitType\,\mA\,\mA\\
