@@ -168,7 +168,8 @@
 \DeclareMathOperator{\mDuplicate}{\mSpecialFunc{duplicate}}
 \DeclareMathOperator{\mGetList}{\mSpecialFunc{getList}}
 \DeclareMathOperator{\mFact}{\mSpecialFunc{fact}}
-\DeclareMathOperator{\mFirst}{\mSpecialFunc{fst}}
+\DeclareMathOperator{\mFirst}{\mSpecialFunc{first}}
+\DeclareMathOperator{\mFst}{\mSpecialFunc{fst}}
 \DeclareMathOperator{\mHead}{\mSpecialFunc{head}}
 \DeclareMathOperator{\mId}{\mSpecialFunc{id}}
 \DeclareMathOperator{\mIdCat}{\mVarSpecialFunc{id}}
@@ -180,7 +181,8 @@
 \DeclareMathOperator{\mRealPart}{\Re}
 \DeclareMathOperator{\mRepeat}{\mSpecialFunc{repeat}}
 \DeclareMathOperator{\mRun}{\mSpecialFunc{run}}
-\DeclareMathOperator{\mSecond}{\mSpecialFunc{snd}}
+\DeclareMathOperator{\mSecond}{\mSpecialFunc{second}}
+\DeclareMathOperator{\mSnd}{\mSpecialFunc{snd}}
 \DeclareMathOperator{\mSq}{\mSpecialFunc{sq}}
 \DeclareMathOperator{\mSqrt}{\mSpecialFunc{sqrt}}
 \DeclareMathOperator{\mSqrts}{\mSpecialFunc{sqrts}}
@@ -351,8 +353,8 @@
 \newcommand{\mZipListRecordWith}[1]{\mValueRecordWith{ZipList}{#1}}
 
 % Famous value constructors
-\newcommand{\mArrowWith}[1]{\langle\!\langle\!\langle#1\rangle\!\rangle\!\rangle}
-\newcommand{\mFuncWith}[1]{\Langle#1\Rangle}
+\newcommand{\mArrowWith}[1]{\Langle#1\Rangle}
+\newcommand{\mFuncWith}[1]{((#1))}  % ***CHECK***
 \newcommand{\mPureWith}[1]{\langle#1\rangle}
 
 % Built-in value constructors
@@ -5794,7 +5796,7 @@ main = print ys >> pure 0
 
 \begin{equation}
 \begin{aligned}
-yt&=\sum(\mLambdaEXP{x}{\mFirst x*\mSecond x})\mMapList\mList{h}\\
+yt&=\sum(\mLambdaEXP{x}{\mFst x*\mSnd x})\mMapList\mList{h}\\
 &\quad\mWhere\\
 &\qquad\mList{h}\mLetEq{}\mZipFunc\mList{f}\mList{g}\\
 &\qquad\mList{f}\mLetEq[fx\mListComp x\mFrom[0,1\dotsb n]]\\
@@ -6435,13 +6437,44 @@ $\mUncurry$ 関数があり，
 \begin{equation}
   \mMean\mList{x}=\mUncurry(/)\begin{bmatrix}\mSum\\\mLength\end{bmatrix}(\mSeparate\mList{x})
 \end{equation}
-という形に持っていきたい．
-
-そしてまさに\haskell にはそのための演算子があるのである．
+という形に持っていきたい．それには
 \begin{equation}
-  \begin{bmatrix}\Vec{f_1}\\\Vec{f_2}\end{bmatrix}
-    =\Vec{f_1}***\Vec{f_2}
+  \mPairWith{fx}{gy}
+  =\begin{bmatrix}f\\g\end{bmatrix}
+  \mPairWith{x}{y}
 \end{equation}
+となるような関数合成が是非とも必要である．
+
+これまでの関数の型は $\mA\mMapsTo\mB$ であった．
+これから新しい「関数風」の型 $\mA\leadsto\mB$ を考える．
+
+\begin{equation}
+  \Vec{f}
+  =\mArrowWith{f}
+\end{equation}
+
+\begin{equation}
+  \mFirst\Vec{f}
+  =\mLambda{\mPairWith{x}{z}}\mLambdaArrow\mPairWith{fx}{z}
+\end{equation}
+
+\begin{equation}
+  \begin{bmatrix}
+    f\\g
+  \end{bmatrix}
+  =\mFirst\Vec{f}\mCompCat\mSecond\Vec{g}
+\end{equation}
+
+---
+
+より抽象度の高い議論を行うと
+\begin{equation}
+  \mPairWith{fx}{y}
+  =\begin{bmatrix}f\\g\end{bmatrix}
+  \mPairWith{x}{y}
+\end{equation}
+さえあれば良いことがわかる．
+
 
 ただし $\Vec{f_1}$, $\Vec{f_2}$ はもはや関数ではなく，
 $\Vec{f_1}***\Vec{f_2}$ も関数ではない．
