@@ -6381,6 +6381,7 @@ instance Cat.Category NonDet where
 % \newcommand{\mSum}{\mathop{\mathrm{sum}}}
 \newcommand{\mLength}{\mathop{\mathrm{length}}}
 \newcommand{\mMean}{\mathop{\mathrm{mean}}}
+\newcommand{\mSeparate}{\mathop{\mathrm{separate}}}
 
 数値のリスト $\mList{x}$ の平均をとる関数 $\mMean$ を考えてみよう．実
 装は単純で
@@ -6416,6 +6417,34 @@ $\mUncurry$ 関数があり，
   \mUncurry(\mBinOp)=\mLambda\mPairWith{x}{y}\mLambdaArrow x\mBinOp y
 \end{equation}
 であるから，式XYZの最初の括弧は $\mUncurry(/)$ と出来る．
+
+式XYZの後半は
+\begin{equation}
+  \mPairWith{\mSum\mList{x}}{\mLength\mList{x}}
+  =\begin{bmatrix}\mSum\\\mLength\end{bmatrix}\mPairWith{\mList{x}}{\mList{x}}
+\end{equation}
+という形にしたい．そうすれば
+\begin{equation}
+  \mSeparate x
+  =\mPairWith{x}{x}
+\end{equation}
+なる関数 $\mSeparate$ を用意すると，後は新しく導入したブラケットだけの
+問題である．
+
+問題を整理すると，式XYZを
+\begin{equation}
+  \mMean\mList{x}=\mUncurry(/)\begin{bmatrix}\mSum\\\mLength\end{bmatrix}(\mSeparate\mList{x})
+\end{equation}
+という形に持っていきたい．
+
+そしてまさに\haskell にはそのための演算子があるのである．
+\begin{equation}
+  \begin{bmatrix}\Vec{f_1}\\\Vec{f_2}\end{bmatrix}
+    =\Vec{f_1}***\Vec{f_2}
+\end{equation}
+
+ただし $\Vec{f_1}$, $\Vec{f_2}$ はもはや関数ではなく，
+$\Vec{f_1}***\Vec{f_2}$ も関数ではない．
 
 ---
 
