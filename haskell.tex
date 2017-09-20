@@ -9,11 +9,12 @@
 \def\]{]\!]}
 \def\({\left(\!\left(}
 \def\){\right)\!\right)}
+\DeclareMathOperator{\sgn}{sgn}
 
 \newcommand{\Langle}{\langle\!\langle}
 \newcommand{\Rangle}{\rangle\!\rangle}
+
 \newcommand{\separator}{\begin{center}$*$~$*$~$*$\end{center}}
-\DeclareMathOperator{\sgn}{sgn}
 
 %% Programming Languages
 
@@ -174,8 +175,10 @@
 \DeclareMathOperator{\mId}{\mSpecialFunc{id}}
 \DeclareMathOperator{\mIdCat}{\mVarSpecialFunc{id}}
 \DeclareMathOperator{\mIfFunc}{\mSpecialFunc{if}}
+\DeclareMathOperator{\mLength}{\mSpecialFunc{length}}
 \DeclareMathOperator{\mMainFunc}{\mSpecialFunc{main}}
 \DeclareMathOperator{\mMax}{\mSpecialFunc{max}}
+\DeclareMathOperator{\mMean}{\mSpecialFunc{mean}}
 \DeclareMathOperator{\mNull}{\mSpecialFunc{null}}
 \DeclareMathOperator{\mPred}{\mSpecialFunc{pred}}
 \DeclareMathOperator{\mRealPart}{\Re}
@@ -183,6 +186,7 @@
 \DeclareMathOperator{\mRun}{\mSpecialFunc{run}}
 \DeclareMathOperator{\mSecond}{\mSpecialFunc{second}}
 \DeclareMathOperator{\mSnd}{\mSpecialFunc{snd}}
+\DeclareMathOperator{\mSeparate}{\mSpecialFunc{separate}}
 \DeclareMathOperator{\mSq}{\mSpecialFunc{sq}}
 \DeclareMathOperator{\mSqrt}{\mSpecialFunc{sqrt}}
 \DeclareMathOperator{\mSqrts}{\mSpecialFunc{sqrts}}
@@ -193,6 +197,7 @@
 \DeclareMathOperator{\mTake}{\mSpecialFunc{take}}
 \DeclareMathOperator{\mTriplicate}{\mSpecialFunc{triplicate}}
 \DeclareMathOperator{\mUncurry}{\mSpecialFunc{uncurry}}
+\DeclareMathOperator{\mUnsplit}{\mSpecialFunc{unsprit}}
 \DeclareMathOperator{\mZipFunc}{\mSpecialFunc{zip}}
 \DeclareMathOperator{\mZipWith}{\mSpecialFunc{zipWith}}
 
@@ -213,10 +218,10 @@
 \DeclareMathOperator{\mAppMapFunc}{\bowtie}
 \DeclareMathOperator{\mAppMapList}{\otimes}
 \DeclareMathOperator{\mAppMapMaybe}{\boxtimes}
-\DeclareMathOperator{\mArrow}{\Rrightarrow}
-\DeclareMathOperator{\mArrowAnd}{\bigwedge}%{\&\&\&}
-\DeclareMathOperator{\mArrowOr}{\bigvee}%{\mid\mid\mid}
-\DeclareMathOperator{\mArrowTimes}{***}
+% \DeclareMathOperator{\mArrow}{\Rrightarrow}
+% \DeclareMathOperator{\mArrowAnd}{\bigwedge}%{\&\&\&}
+% \DeclareMathOperator{\mArrowOr}{\bigvee}%{\mid\mid\mid}
+% \DeclareMathOperator{\mArrowTimes}{***}
 \DeclareMathOperator{\mBind}{\heartsuit}
 \DeclareMathOperator{\mBindComp}{\maltese}
 \DeclareMathOperator{\mBindFunc}{\diamondsuit}
@@ -306,20 +311,21 @@
 \newcommand{\mUnitType}{\mType{()}}
 
 % Special polymorphic types
-\newcommand{\mFuncType}[2]{\Langle\mType{#1}\Rangle}%_\mType{#2}}
-\newcommand{\mPureType}[1]{\langle\mType{#1}\rangle}
+\newcommand{\mFuncType}[2]{[[[\mType{#1}\mMapsTo\mType{#2}]]]}
+\newcommand{\mPureType}[1]{[[[\mType{#1}]]]} % *** DO NOT USE ***
 
 % Polymorphic types
-\newcommand{\mTypeAssemble}[2]{{}^{\mType{#1}}\[\mType{#2}\]}
-\newcommand{\mTypeAssembleII}[3]{{}^{\mType{#1}}\[\mType{#2}\,\mType{#3}\]}
+\newcommand{\mTypeAssemble}[2]{{}^\mType{#1}\[\mType{#2}\]}
+\newcommand{\mTypeAssembleII}[3]{{}^\mType{#1}\[\mType{#2}\,\mType{#3}\]}
 \newcommand{\mPolymorphicTypeAssemble}[2]{{}^\mPolymorphicTypeParameter{#1}\[\mType{#2}\]}
-\newcommand{\mPolymporphicTypeAssemble}[3]{{}^\mPolymorphicTypeParameter{#1}\[\mType{#2}\]}
+\newcommand{\mPolymporphicTypeAssemble}[3]{{}^\mPolymorphicTypeParameter{#1}\[\mType{#2}\,\mType{#3}\]}
 
-\newcommand{\mComplexType}[1]{\mTypeAssemble{Complex}{#1}}
-\newcommand{\mEitherType}[2]{\mTypeAssembleII{Either}{#1}{#2}}
+\newcommand{\mComplexType}[1]{\mTypeAssemble{C}{#1}}
+\newcommand{\mEitherType}[2]{\mTypeAssembleII{E}{#1}{#2}}
 \newcommand{\mIOType}[1]{\mTypeAssemble{IO}{#1}}
-\newcommand{\mMaybeType}[1]{\[\mType{#1}\]}%{\mTypeAssemble{Maybe}{#1}}
-\newcommand{\mZipListType}[1]{\mTypeAssemble{ZipList}{#1}}
+\newcommand{\mListType}[1]{\mTypeAssemble{L}{#1}}
+\newcommand{\mMaybeType}[1]{\mTypeAssemble{M}{#1}}
+\newcommand{\mZipListType}[1]{\mTypeAssemble{ZL}{#1}}
 
 % Polymorphic types with specific data types
 \newcommand{\mComplexDoubleType}{\mComplexType{\mDoubleType}}
@@ -332,38 +338,39 @@
 \newcommand{\mTypeConstructor}[1]{\textsl{#1}}
 
 \DeclareMathOperator{\mEitherTypeConstructor}{\mTypeConstructor{Either}}
+\DeclareMathOperator{\mFuncTypeConstructor}{\mTypeConstructor{Func}}
 \DeclareMathOperator{\mListTypeConstructor}{\mTypeConstructor{List}}
 \DeclareMathOperator{\mMaybeTypeConstructor}{\mTypeConstructor{Maybe}}
 \DeclareMathOperator{\mZipListTypeConstructor}{\mTypeConstructor{ZipList}}
 
-\newcommand{\mFuncTypeConstructor}[1]{\mathop{\mTypeConstructor{Func}}}%{\mathop{\mTypeConstructor{Func}_{(\mType{#1})}}}
+% \newcommand{\mFuncTypeConstructor}[1]{\mathop{\mTypeConstructor{Func}}}%{\mathop{\mTypeConstructor{Func}_{(\mType{#1})}}}
 
 % Value constructors
 \newcommand{\mValueConstructor}[1]{\mathrm{#1}}
 
-\newcommand{\mValueWith}[2]{{}^\mValueConstructor{#1}\[#2\]}
-\newcommand{\mValueRecordWith}[2]{{}^\mValueConstructor{#1}\{#2\}}
-\newcommand{\mValueRecordBeginWith}[1]{{}^\mValueConstructor{#1}\{}
+\newcommand{\mValueWith}[2]{\mValueConstructor{#1}\,#2}
+\newcommand{\mValueRecordBeginWith}[1]{\mValueConstructor{#1}\{}
 \newcommand{\mValueRecordEnd}{\}}
+\newcommand{\mValueRecordWith}[2]{\mValueRecordBeginWith{#1}{#2}\mValueRecordEnd}
 
 \newcommand{\mLeftWith}[1]{\mValueWith{Left}{#1}}
 \newcommand{\mRightWith}[1]{\mValueWith{Right}{#1}}
-\newcommand{\mJustWith}[1]{\[#1\]}%{\mValueWith{Just}{#1}}
+\newcommand{\mJustWith}[1]{\mValueWith{Just}{#1}}
 \newcommand{\mZipListWith}[1]{\mValueWith{ZipList}{#1}}
 \newcommand{\mZipListRecordWith}[1]{\mValueRecordWith{ZipList}{#1}}
 
 % Famous value constructors
 \newcommand{\mArrowWith}[1]{\Langle#1\Rangle}
-\newcommand{\mFuncWith}[1]{((#1))}  % ***CHECK***
-\newcommand{\mPureWith}[1]{\langle#1\rangle}
+\newcommand{\mFuncWith}[1]{\langle#1\rangle}
+\newcommand{\mPureWith}[1]{\[#1\]}
 
 % Built-in value constructors
-\newcommand{\mTupleWith}[1]{\left(#1\right)} %%% TO BE REMOVED (?)
+\newcommand{\mTupleWith}[1]{\left(#1\right)} % *** TO BE REMOVED (?)
 \newcommand{\mPairWith}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
 \newcommand{\mTripleWith}[3]{\begin{pmatrix}#1\\#2\\#3\end{pmatrix}}
 
 % Unboxed tupple
-\newcommand{\mTupleUnboxedWith}[1]{\texttt{(\#}#1\texttt{\#)}}
+% \newcommand{\mTupleUnboxedWith}[1]{\texttt{(\#}#1\texttt{\#)}}
 
 % Functors
 \newcommand{\mSpecialFunctor}[1]{\mathcal{#1}} % Internal use
@@ -389,6 +396,7 @@
 \newcommand{\mRealFloatTypeClass}{\mTypeClass{RealFloat}}
 
 % Decolations
+\newcommand{\mArrow}[1]{\Vec{#1}}
 \newcommand{\mEither}[1]{{#1}^!}
 \newcommand{\mList}[1]{{#1}^\mathrm{\star}}
 \newcommand{\mMaybe}[1]{{#1}^?}
@@ -3349,18 +3357,18 @@ $v\equiv\mPureNothing$ であれば式の値は $\mPureNothing$ になる．式
   f
   \mIn\mR\mMapsTo\mA
 \end{equation}
-という型を持っているとする．全く形式的に，$\mFuncTypeConstructor{r}$
+という型を持っているとする．全く形式的に，$\mFuncTypeConstructor$
 なる型コンストラクタがあるとして
 \begin{equation}
-  \mR\mMapsTo\mA=\mFuncTypeConstructor{r}\mA
+  \mR\mMapsTo\mA=\mFuncTypeConstructor\mA
 \end{equation}
 であると考えてみる．型 $\mA$ から型コンストラクタ
-$\mFuncTypeConstructor{r}$ によって型 $(\mProjEXP{\mR}{\mA})$ が
-作られると考えるのだ．\footnote{\haskell では $\mFuncTypeConstructor{r}$
+$\mFuncTypeConstructor$ によって型 $(\mProjEXP{\mR}{\mA})$ が
+作られると考えるのだ．\footnote{\haskell では $\mFuncTypeConstructor$
   の代わりに \code{((->)r)} をそのまま使う．}
 
 マップ演算子の型は，
-$\mFuncTypeConstructor{r}\mA=\mPolymorphicTypeAssemble{f}{\mA}$ とする
+$\mFuncTypeConstructor\mA=\mPolymorphicTypeAssemble{f}{\mA}$ とする
 と
 \begin{equation}
   (\mMap)
@@ -3370,7 +3378,7 @@ $\mFuncTypeConstructor{r}\mA=\mPolymorphicTypeAssemble{f}{\mA}$ とする
   \mMapsTo\mPolymorphicTypeAssemble{f}{b}
 \end{equation}
 であって，いま
-$\mPolymorphicTypeParameter{f}=\mFuncTypeConstructor{r}$ を考えている
+$\mPolymorphicTypeParameter{f}=\mFuncTypeConstructor$ を考えている
 から，関数のマップ演算子を $\mMapFunc$ とすると
 \begin{equation}
   (\mMapFunc)
@@ -6404,11 +6412,6 @@ instance Cat.Category NonDet where
 \end{leader}
 
 \section{アロー*}
-
-% \newcommand{\mSum}{\mathop{\mathrm{sum}}}
-\newcommand{\mLength}{\mathop{\mathrm{length}}}
-\newcommand{\mMean}{\mathop{\mathrm{mean}}}
-\newcommand{\mSeparate}{\mathop{\mathrm{separate}}}
 
 数値のリスト $\mList{x}$ の平均をとる関数 $\mMean$ を考えてみよう．実
 装は単純で
