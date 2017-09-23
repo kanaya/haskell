@@ -230,8 +230,8 @@
 \DeclareMathOperator{\mBindRight}{\ooalign{$\longrightarrow$\crcr\hss$\mBind$\hss}}
 \DeclareMathOperator{\mBindRightIgnore}{\twoheadrightarrow}
 \DeclareMathOperator{\mBinOp}{\bigstar}
-\DeclareMathOperator{\mComp}{\bullet}
-\DeclareMathOperator{\mCompCat}{\centerdot}
+\DeclareMathOperator{\mComp}{\centerdot}
+\DeclareMathOperator{\mCompCat}{\bullet}
 \DeclareMathOperator{\mCompProj}{\circledcirc}
 \DeclareMathOperator{\mCompRot}{\cdot} % !!! conflict
 \DeclareMathOperator{\mComplexPlus}{\dotplus}
@@ -6464,8 +6464,7 @@ $\mUncurry$ 関数があり，
   =\mPairWith{x}{x}
 \end{equation}
 なる関数 $\mSeparate$ を用意すると，後は新しく導入したブラケット
-% と新しい適用演算子 $\square$
-だけの問題である．
+$\begin{bmatrix}f\\g\end{bmatrix}$ だけの問題である．
 
 問題を整理すると，式XYZを
 \begin{equation}
@@ -6487,7 +6486,91 @@ $\mUncurry$ 関数があり，
   % \mathop{\square}{}
   \mPairWith{x}{y}
 \end{equation}
-となるような関数合成が是非とも必要である．
+となるような関数 $f$ と関数 $g$ の合成方法が是非とも必要である．
+
+そして，関数の合成を考える以上
+\begin{equation}
+  \begin{bmatrix}
+    f\\
+    g
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    f'\\
+    g'
+  \end{bmatrix}
+  \mCompCat
+  \begin{bmatrix}
+    f''\\
+    g''
+  \end{bmatrix}
+\end{equation}
+なる合成演算子 $(\mCompCat)$ も同時に考えておく必要がある．と言うのも，
+ブラケットの合成が自由にできるようになると
+\begin{equation}
+  \begin{pmatrix}
+    fx\\
+    y
+  \end{pmatrix}
+  =
+  \begin{bmatrix}
+    f\\
+    \mId
+  \end{bmatrix}
+  \begin{pmatrix}
+    x\\
+    y
+  \end{pmatrix}
+\end{equation}
+のようにペアの片側だけに作用するブラケットだけを考えておけば良くなるか
+らである．
+
+---
+
+\begin{equation}
+  \begin{pmatrix}
+    fx\\
+    gy
+  \end{pmatrix}
+  =
+  \left(
+  \begin{bmatrix}
+    f\\
+    \mId
+  \end{bmatrix}
+  \mCompCat
+  \begin{bmatrix}
+    \mId\\
+    g
+  \end{bmatrix}
+  \right)
+  \begin{pmatrix}
+    x\\
+    y
+  \end{pmatrix}
+\end{equation}
+
+---
+
+\begin{equation}
+  \mArrowWith{f}=\mArrow{f}
+\end{equation}
+
+\begin{equation}
+  \mFirst\mArrow{f}=\begin{bmatrix}f\\\mId\end{bmatrix}
+\end{equation}
+
+\begin{equation}
+  \mArrow{f}\mCompCat\mArrow{g}
+  =
+  \begin{bmatrix}
+    f_1\mComp g_1\\
+    f_2\mComp g_2
+  \end{bmatrix}
+  \mWhere...
+\end{equation}
+
+---
 
 議論を簡単にするために
 \begin{equation}
