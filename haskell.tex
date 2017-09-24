@@ -9,6 +9,8 @@
 \def\]{]\!]}
 \def\({\left(\!\left(}
 \def\){\right)\!\right)}
+\def\llangle{\langle\!\langle}
+\def\rrangle{\rangle\!\rangle}
 \DeclareMathOperator{\sgn}{sgn}
 
 \newcommand{\Langle}{\langle\!\langle}
@@ -94,6 +96,7 @@
 \newcommand{\mNewTypeDeclKeyword}{\mKeyword{newtype}}
 \newcommand{\mOfKeyword}{\mKeyword{of}}
 \newcommand{\mOtherwiseKeyword}{\mKeyword{otherwise}}
+\newcommand{\mProcKeyword}{\mKeyword{proc}}
 \newcommand{\mThenKeyword}{\mKeyword{then}}
 \newcommand{\mTypeClassDeclKeyword}{\mKeyword{type}\mKeywordUnderline{class}}
 \newcommand{\mTypeSynonymDeclKeyword}{\mKeywordUnderline{type}\mKeyword{synonym}}
@@ -117,6 +120,7 @@
 \DeclareMathOperator{\mNewTypeDeclPolymorphic}{\mNewTypeDeclKeyword^\dagger}
 \DeclareMathOperator{\mOfKW}{\mOfKeyword}
 \DeclareMathOperator{\mOtherwise}{\mOtherwiseKeyword}
+\DeclareMathOperator{\mProcKW}{\mProcKeyword}
 \DeclareMathOperator{\mSuperClass}{\Rightarrow}
 \DeclareMathOperator{\mSuperSet}{\supset}
 \DeclareMathOperator{\mThen}{\mThenKeyword}
@@ -230,6 +234,7 @@
 \DeclareMathOperator{\mBindRight}{\ooalign{$\longrightarrow$\crcr\hss$\mBind$\hss}}
 \DeclareMathOperator{\mBindRightIgnore}{\twoheadrightarrow}
 \DeclareMathOperator{\mBinOp}{\bigstar}
+\DeclareMathOperator{\mCatMapsTo}{\rightarrowtail}
 \DeclareMathOperator{\mComp}{\centerdot}
 \DeclareMathOperator{\mCompCat}{\bullet}
 \DeclareMathOperator{\mCompProj}{\circledcirc}
@@ -311,8 +316,9 @@
 \newcommand{\mUnitType}{\mType{()}}
 
 % Special polymorphic types
-\newcommand{\mFuncType}[2]{[[[\mType{#1}\mMapsTo\mType{#2}]]]}
-\newcommand{\mPureType}[1]{[[[\mType{#1}]]]} % *** DO NOT USE ***
+\newcommand{\mCatType}[2]{\llangle\mType{#1}\mCatMapsTo\mType{#2}\rrangle}
+\newcommand{\mFuncType}[2]{\langle\mType{#1}\mMapsTo\mType{#2}\rangle}
+\newcommand{\mPureType}[1]{\[\mType{#1}\]}
 
 % Polymorphic types
 \newcommand{\mTypeAssemble}[2]{{}^\mType{#1}\[\mType{#2}\]}
@@ -348,8 +354,8 @@
 % Value constructors
 \newcommand{\mValueConstructor}[1]{\mathrm{#1}}
 
-\newcommand{\mValueWith}[2]{\mValueConstructor{#1}\,#2}
-\newcommand{\mValueRecordBeginWith}[1]{\mValueConstructor{#1}\{}
+\newcommand{\mValueWith}[2]{{}^\mValueConstructor{#1}\[#2\]}
+\newcommand{\mValueRecordBeginWith}[1]{\mValueConstructor{#1}\,\{}
 \newcommand{\mValueRecordEnd}{\}}
 \newcommand{\mValueRecordWith}[2]{\mValueRecordBeginWith{#1}{#2}\mValueRecordEnd}
 
@@ -361,11 +367,12 @@
 
 % Famous value constructors
 \newcommand{\mArrowWith}[1]{\Langle#1\Rangle}
-\newcommand{\mFuncWith}[1]{\langle#1\rangle}
+\newcommand{\mConstWith}[1]{\langle#1\rangle}
+\newcommand{\mFuncWith}[1]{\langle#1\rangle}  % USED???
 \newcommand{\mPureWith}[1]{\[#1\]}
 
 % Built-in value constructors
-\newcommand{\mTupleWith}[1]{\left(#1\right)} % *** TO BE REMOVED (?)
+\newcommand{\mTupleWith}[1]{\left(#1\right)} % *** TO BE REMOVED
 \newcommand{\mPairWith}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
 \newcommand{\mTripleWith}[3]{\begin{pmatrix}#1\\#2\\#3\end{pmatrix}}
 
@@ -412,6 +419,7 @@
 \newcommand{\mCaseOf}[1]{\mCaseKW#1\mOfKW}
 \newcommand{\mDo}[1]{\mDoKW\left\{#1\right\}}
 \newcommand{\mDoLet}[2]{\mathop{\mDoLetKeyword}#1\mDoLetEq#2}
+% \newcommand{\mProc}{...}
 
 \newcommand{\mIfThenElseEXP}[3]{\mIf{#1}\mThen{#2}\mElse{#3}} %%% TO BE REMOVED
 \newcommand{\mLambdaEXP}[2]{\mLambda{#1}\mLambdaArrow{#2}} %%% TO BE REMOVED
@@ -458,8 +466,9 @@ Ether変数&肩に!をつける&$\mEither{u}$\\
 単位元&ローマンに斜線・大文字&$\mZero$\\
 \hline
 型&ボールドローマン・大文字&$\mBoolType,\mIntType,\mFloatType$\\
-多相型&左肩にコンテナ名をつける&$\mIOType{a}$\\
-有名な多相型&特別な括弧で包む&$[\mA],\mMaybeType{a},\mFuncType{a}{r}$\\
+多相型&左肩にコンテナ名をつける&$\mMaybeType{a},\mIOType{a}$\\
+有名な多相型 (1)&特別な括弧で包む&$[\mA],\mPureType{a}$\\
+有名な多相型 (2)&特別な矢印を用いる&$\mFuncType{r}{a},\mCatType{r}{a}$\\
 型パラメタ&ボールドローマン・小文字&$\mA,\mB,\mC$\\
 多相型パラメタ&ボールドイタリック・小文字&$\mPolymorphicTypeParameter{f},\mPolymorphicTypeParameter{m}$\\
 型クラス&スモールキャピタル&$\mEqTypeClass,\mOrdTypeClass,\mNumTypeClass$\\
@@ -476,7 +485,7 @@ Ether変数&肩に!をつける&$\mEither{u}$\\
 種類&字体・表記法&例\\
 \hline\hline
 値コンストラクタ&肩書付き括弧で包む&$\mRightWith{x},\mLeftWith{x}$\\
-有名な値コンストラクタ&特別な括弧で包む&$[x],\mJustWith{x},\mFuncWith{x},\mArrowWith{x}$\\
+有名な値コンストラクタ&特別な括弧で包む&$[x],\mPureWith{x},\mFuncWith{x},\mArrowWith{x}$\\
 \hline
 型コンストラクタ&スラント，大文字&$\mListTypeConstructor$, $\mMaybeTypeConstructor$\\
 \hline
@@ -486,7 +495,7 @@ do記法中のキーワード&タイプライタ&$\mDoLetKeyword$\\
 \hline
 リスト&ブラケットで包む&$[x,y]$\\
 集合&ブレースで包む&$\{x,y\}$\\
-タプル&丸括弧で包む&$\mPairWith{x}{y}$\\
+タプル&丸括弧で包む&$\mPairWith{x}{y},\mTripleWith{x}{y}{z}$\\
 % アンボックス化タプル&丸括弧とシャープ記号で包む&$\mTupleUnboxedWith{x,y,z}$\\
 \hline
 \end{tabular}
@@ -548,11 +557,13 @@ $\mPureNothing$&空&\\
 \hline
 記号&意味&\haskell 記号\\
 \hline\hline
+$\mPureWith{x}$&ピュア演算子&\code{pure x}\\
 $[x]$&リスト値コンストラクタ&\code{[x]}\\
 $\mJustWith{x}$&Maybe値コンストラクタ&\code{Just x}\\
 $\mLeftWith{x},\mRightWith{x}$&Either値コンストラクタ&\code{Left x}, \code{Right x}\\
-$\mFuncWith{x}$&関数値コンストラクタ&\code{r->x}\\
-$\mPureWith{x}$&ピュア演算子&\code{pure x}\\
+% $\mFuncWith{x}$&関数値コンストラクタ&\code{r->x}\\
+$\mConstWith{x}$&定数演算子&\code{const x}\\
+$\mArrowWith{x}$&アロー演算子&\code{arr x}\\
 \hline
 $\mMap$&一般マップ&\code{<\$>}\\
 $\mMapList$&リストのマップ&\code{<\$>}\\
@@ -6063,9 +6074,9 @@ $\mTypeAssemble{NonDet}{\mA\,\mB}$ は型 $\mA\mMapsTo[\mA]$ とは異な
 
 \TK{Writing.}
 
-$\mFunctorTypeClass$ は $(\mMap)$ を共通のインタフェースとして持つ型を
-抽象化した型クラス．インスタンスであるリストの実装は $\mMapList$ を使
-う．
+$\mFunctorTypeClass$ は一般マップ演算子 $(\mMap)$ を共通のインタフェー
+スとして持つ型を抽象化した型クラス．インスタンスであるリストの実装は
+$\mMapList$ を使う．
 
 ---
 
@@ -6083,7 +6094,7 @@ $\mFunctorTypeClass$ は $(\mMap)$ を共通のインタフェースとして持
 いま欲しいのは，
 \begin{equation}
   y
-  =\mTriplicate\mSomeOp\mDuplicate x
+  =(\mTriplicate\mSomeOp\mDuplicate)x
 \end{equation}
 としたときに $y=[x,x,x,x,x,x]$ となるような合成演算子 $\mSomeOp$ であ
 る．
@@ -6092,13 +6103,13 @@ $\mFunctorTypeClass$ は $(\mMap)$ を共通のインタフェースとして持
 このふたつの関数は
 \begin{equation}
   y
-  =\mJoinList(\mTriplicate\mMapList(\mDuplicate x))
+  =\mJoinList(\mTriplicate\mMapList{}(\mDuplicate x))
 \end{equation}
 のように合成できることがわかる．これを関数合成演算子を使って分解すると
 \begin{equation}
   \label{eq:triplicate-duplicate}
   y
-  =\mJoinList\mComp(\mTriplicate\mMapList)\mComp\mDuplicate\mApply x
+  =\mJoinList\mComp{}(\mTriplicate\mMapList)\mComp\mDuplicate\mApply x
 \end{equation}
 となり，少しは読みやすくなる．しかし，合成のたびに平坦化演算子
 $(\mJoinList)$ やマップ演算子 $(\mMapList)$ を書くのは煩雑であるし，3段以
@@ -6111,21 +6122,21 @@ $(\mJoinList)$ やマップ演算子 $(\mMapList)$ を書くのは煩雑であ�
 
 ---
 
-関数 $\mA\mMapsTo\mB$ の代わりに，射 $\mA\leadsto\mB$ を考える．
+関数 $\mA\mMapsTo\mB$ の代わりに，射 $\mA\mCatMapsTo\mB$ を考える．
 
 \begin{align}
   \mIdCat
-  &\mIn{}\mA\leadsto\mB\\
+  &\mIn{}\mA\mCatMapsTo\mB\\
   (\mCompCat)
-  &\mIn{}(\mB\leadsto\mC)
-  \mMapsTo(\mA\leadsto\mB)
-  \mMapsTo(\mA\leadsto\mC)
+  &\mIn{}(\mB\mCatMapsTo\mC)
+  \mMapsTo(\mA\mCatMapsTo\mB)
+  \mMapsTo(\mA\mCatMapsTo\mC)
 \end{align}
 
 e.g.
 
 \begin{equation}
-  \mA\leadsto\mB
+  \mA\mCatMapsTo\mB
   =\mA\mMapsTo[\mA]
 \end{equation}
 
@@ -6153,6 +6164,23 @@ $\mCategoryTypeClass$ 型クラスは次のように定義されている．
 $\mPolymorphicTypeParameter{c}=(\mMapsTo)$ のとき$\mIdCat=\mId$ かつ
 $\mCompCat=\mComp$ になるので，圏は関数を何やら拡張したものであること
 がわかる．
+
+---
+
+\begin{equation}
+  \mTypeClassDeclPolymorphic\;
+  \mCategoryTypeClass\mSuperSet\mPolymorphicTypeParameter{c}
+  \mWhere\left\{
+  \begin{aligned}
+    \mIdCat
+    &\mIn\mX\mCatMapsTo\mY\\
+    (\mCompCat)
+    &\mIn{}(\mX\mCatMapsTo\mY)\mMapsTo(\mX\mCatMapsTo\mY)\mMapsTo(\mX\mCatMapsTo\mY)
+  \end{aligned}
+  \right.
+\end{equation}
+
+---
 
 我々は $\mDuplicate$ や $\mTriplicate$ の型を考えて
 \begin{equation}
@@ -6200,7 +6228,7 @@ $\mCategoryTypeClass$ 型クラスのインスタンスにできる．ただし�
     \mIdCat
     &=\mValueWith{NonDet}{\mLambdaEXP{x}{[x]}}\\
     \mValueWith{NonDet}{f}\mCompCat\mValueWith{NonDet}{g}
-    &=\mValueWith{NonDet}{\mJoinList\mComp(f\mMapList)\mComp g}
+    &=\mValueWith{NonDet}{\mJoinList\mComp{}(f\mMapList)\mComp g}
   \end{aligned}
   \right.
 \end{multline}
@@ -6310,7 +6338,7 @@ $(\mBindList)$ で確定する．
 であるから，式\eqref{eq:nondet-instance}の2行目は
 \begin{equation}
   \mValueWith{NonDet}{f}\mComp\mValueWith{NonDet}{g}
-  =\mValueWith{NonDet}{f\leftleftarrows g}
+  =\mValueWith{NonDet}{f\mBindComp g}
 \end{equation}
 とも書ける．改めて式\eqref{eq:nondet-instance}を書き直すと
 % pureも説明!!
@@ -6320,7 +6348,7 @@ $(\mBindList)$ で確定する．
   \mWhere\left\{
   \begin{aligned}
     \mIdCat x
-    &=\mValueWith{NonDet}{\mPureWith{x}}\\
+    &=\mValueWith{NonDet}{\mPureWith{x}}\\ % ???
     \mValueWith{NonDet}{f}\mCompCat\mValueWith{NonDet}{g}
     &=\mValueWith{NonDet}{f\mBindComp g}
   \end{aligned}
@@ -6416,7 +6444,8 @@ instance Cat.Category NonDet where
 数値のリスト $\mList{x}$ の平均をとる関数 $\mMean$ を考えてみよう．実
 装は単純で
 \begin{equation}
-  \mMean\mList{x}=\mSum\mList{x}/\mLength\mList{x}
+  \mMean\mList{x}
+  =\mSum\mList{x}/\mLength\mList{x}
 \end{equation}
 である．
 
@@ -6464,7 +6493,7 @@ $\mUncurry$ 関数があり，
   =\mPairWith{x}{x}
 \end{equation}
 なる関数 $\mSeparate$ を用意すると，後は新しく導入したブラケット
-$\begin{bmatrix}f\\g\end{bmatrix}$ だけの問題である．
+$\begin{bmatrix}\vdots\end{bmatrix}$ だけの問題である．
 
 問題を整理すると，式XYZを
 \begin{equation}
@@ -6491,18 +6520,18 @@ $\begin{bmatrix}f\\g\end{bmatrix}$ だけの問題である．
 そして，関数の合成を考える以上
 \begin{equation}
   \begin{bmatrix}
-    f\\
-    g
+    f\mComp f'\\
+    g\mComp g'
   \end{bmatrix}
   =
   \begin{bmatrix}
-    f'\\
-    g'
+    f\\
+    g
   \end{bmatrix}
   \mCompCat
   \begin{bmatrix}
-    f''\\
-    g''
+    f'\\
+    g'
   \end{bmatrix}
 \end{equation}
 なる合成演算子 $(\mCompCat)$ も同時に考えておく必要がある．と言うのも，
@@ -6524,6 +6553,39 @@ $\begin{bmatrix}f\\g\end{bmatrix}$ だけの問題である．
 \end{equation}
 のようにペアの片側だけに作用するブラケットだけを考えておけば良くなるか
 らである．
+
+---
+
+関数 $f$ をアロー $\mArrow{f}$ にする演算子（アロー演算子）を用意する．
+これを
+\begin{equation}
+  \mArrow{f}=\mArrowWith{f}
+\end{equation}
+とする．
+
+アロー $\mArrow{f}$ からブラケットを作る演算子 $\mFirst$ ただし
+\begin{equation}
+  \begin{bmatrix}
+    f\\
+    \mId
+  \end{bmatrix}
+  =
+  \mFirst\mArrow{f}
+\end{equation}
+を用意する．左辺のブラケットもまたアローであるとする．
+
+ふたつのアローを合成する演算子を
+\begin{equation}
+  \mArrow{f_1}\mCompCat\mArrow{f_2}
+  =
+  \begin{bmatrix}
+    f_{1,1}\mComp f_{2,1}\\
+    f_{1,2}\mComp f_{2,2}
+  \end{bmatrix}
+\end{equation}
+と定義する．
+
+Id.
 
 ---
 
@@ -6663,7 +6725,7 @@ $\begin{bmatrix}f\\g\end{bmatrix}$ だけの問題である．
 ならば $f$ もアローであるべきだ．
 
 これまでの関数の型は $\mA\mMapsTo\mB$ であった．
-これから新しい「関数風」の型 $\mA\leadsto\mB$ を考える．
+これから新しい「関数風」の型 $\mA\mCatMapsTo\mB$ を考える．
 
 \begin{equation}
   \Vec{f}
