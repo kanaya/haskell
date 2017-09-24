@@ -6586,6 +6586,43 @@ $\begin{bmatrix}\vdots\end{bmatrix}$ だけの問題である．
 と定義する．
 
 Id.
+\begin{equation}
+  \mIdCat\mCompCat\mArrow{f}
+  =\mArrow{f}\mCompCat\mIdCat
+  =\mArrow{f}
+\end{equation}
+とする．
+
+これらの実装を与える．
+
+\begin{multline}
+  \mInstanceDeclPolymorphic\;
+  \mArrowTypeClass\mSuperSet\mTypeConstructor{SimpleFunc}\\
+  \mWhere{}
+  \left\{
+  \begin{aligned}
+    \mArrowWith{f}
+    &=\mValueWith{SimpleFunc}{f}\\
+    \mFirst\mValueWith{SimpleFunc}{f}
+    &=\mValueWith{SimpleFunc}{\mLambda\mPairWith{x}{y}\mLambdaArrow\mPairWith{fx}{y}}
+  \end{aligned}
+  \right.
+\end{multline}
+
+\begin{multline}
+  \mInstanceDeclPolymorphic\;
+  \mCategoryTypeClass\mSuperSet\mTypeConstructor{SimpleFunc}\\
+  \mWhere{}
+  \left\{
+  \begin{aligned}
+    \mIdCat
+    &=\mValueWith{SimpleFunc}{\mId}\\
+    \mValueWith{SimpleFunc}{f}\mCompCat\mValueWith{SimpleFunc}{g}
+    &=\mValueWith{SimpleFunc}{f\mComp g}
+  \end{aligned}
+  \right.
+\end{multline}
+
 
 ---
 
@@ -6816,10 +6853,10 @@ $\Vec{f_1}***\Vec{f_2}$ も関数ではない．
     \mIdCat
     &=\mCircuitWith{\mLambda x\mLambdaArrow(\mIdCat,x)}\\
     \mCircuitWith{f_2}\mCompCat\mCircuitWith{f_1}
-    &={}^{\textrm{Circ}}\[\mLambda x\mLambdaArrow(f_2'\mCompCat f_1',z)\\
+    &={}^{\textrm{Circ}}[[\mLambda x\mLambdaArrow(f_2'\mCompCat f_1',z)\\
     &\quad\mWhere{}\left\{
     \mPairWith{f_1'}{y}\mLetEq f_1x;
-    \mPairWith{f_2'}{z}\mLetEq f_2y\right\}\]
+    \mPairWith{f_2'}{z}\mLetEq f_2y\right\}]]
   \end{aligned}
   \right.
 \end{multline}
