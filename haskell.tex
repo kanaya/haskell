@@ -175,11 +175,13 @@
 \DeclareMathOperator{\mFact}{\mSpecialFunc{fact}}
 \DeclareMathOperator{\mFirst}{\mSpecialFunc{first}}
 \DeclareMathOperator{\mFst}{\mSpecialFunc{fst}}
+\DeclareMathOperator{\mFuncall}{\mSpecialFunc{funcall}}
 \DeclareMathOperator{\mHead}{\mSpecialFunc{head}}
 \DeclareMathOperator{\mId}{\mSpecialFunc{id}}
 \DeclareMathOperator{\mIdCat}{\mVarSpecialFunc{id}}
 \DeclareMathOperator{\mIfFunc}{\mSpecialFunc{if}}
 \DeclareMathOperator{\mLength}{\mSpecialFunc{length}}
+\DeclareMathOperator{\mLiftATwo}{\mSpecialFunc{liftA}_2}
 \DeclareMathOperator{\mMainFunc}{\mSpecialFunc{main}}
 \DeclareMathOperator{\mMax}{\mSpecialFunc{max}}
 \DeclareMathOperator{\mMean}{\mSpecialFunc{mean}}
@@ -191,6 +193,7 @@
 \DeclareMathOperator{\mSecond}{\mSpecialFunc{second}}
 \DeclareMathOperator{\mSnd}{\mSpecialFunc{snd}}
 \DeclareMathOperator{\mSeparate}{\mSpecialFunc{separate}}
+\DeclareMathOperator{\mSplit}{\mSpecialFunc{split}}
 \DeclareMathOperator{\mSq}{\mSpecialFunc{sq}}
 \DeclareMathOperator{\mSqrt}{\mSpecialFunc{sqrt}}
 \DeclareMathOperator{\mSqrts}{\mSpecialFunc{sqrts}}
@@ -201,7 +204,7 @@
 \DeclareMathOperator{\mTake}{\mSpecialFunc{take}}
 \DeclareMathOperator{\mTriplicate}{\mSpecialFunc{triplicate}}
 \DeclareMathOperator{\mUncurry}{\mSpecialFunc{uncurry}}
-\DeclareMathOperator{\mUnsplit}{\mSpecialFunc{unsprit}}
+\DeclareMathOperator{\mUnsplit}{\mSpecialFunc{unsplit}}
 \DeclareMathOperator{\mZipFunc}{\mSpecialFunc{zip}}
 \DeclareMathOperator{\mZipWith}{\mSpecialFunc{zipWith}}
 
@@ -215,6 +218,8 @@
 \DeclareMathOperator{\mRand}{\mAction{rand}}
 
 % Operators
+\newcommand{\mArrowArrow}[1]{\xrightarrow{#1}}
+
 \DeclareMathOperator{\mAppend}{\oplus}
 \DeclareMathOperator{\mApply}{\$}
 \DeclareMathOperator{\mApplyRight}{\rightsquigarrow}
@@ -249,13 +254,14 @@
 \DeclareMathOperator*{\mFoldStrict}{\bigcup{}_\text{Strict}}
 \DeclareMathOperator*{\mFoldRight}{\bigsqcup}
 \DeclareMathOperator{\mFrom}{\in}
+\DeclareMathOperator{\mFuncArrow}{\mapsto}
 \DeclareMathOperator{\mIfSo}{\dashrightarrow}
 \DeclareMathOperator{\mIn}{{:\!:}}
 \DeclareMathOperator{\mJoin}{\natural}
 \DeclareMathOperator{\mJoinList}{\flat} % also called concat
 \DeclareMathOperator{\mJoinMaybe}{\sharp}
 \DeclareMathOperator{\mLambda}{\backslash}
-\DeclareMathOperator{\mLambdaArrow}{\rightarrow}
+\DeclareMathOperator{\mLambdaArrow}{\mapsto}
 \DeclareMathOperator{\mLetEq}{\triangleq}
 \DeclareMathOperator{\mListAt}{!!}
 \DeclareMathOperator{\mLogicalAnd}{\wedge}
@@ -265,7 +271,6 @@
 \DeclareMathOperator{\mMapFunc}{\circ}
 \DeclareMathOperator{\mMapList}{\odot}
 \DeclareMathOperator{\mMapMaybe}{\boxdot}
-\DeclareMathOperator{\mMapsTo}{\mapsto}
 \DeclareMathOperator{\mMinus}{\ominus}
 \DeclareMathOperator{\mMorphTo}{\rightarrowtail} % used?
 \DeclareMathOperator{\mPlus}{\boldmath{+}} % Ok?
@@ -299,7 +304,7 @@
 \newcommand{\mA}{\mType{a}}
 \newcommand{\mB}{\mType{b}}
 \newcommand{\mC}{\mType{c}}
-\newcommand{\mD}{\mType{D}}
+\newcommand{\mD}{\mType{d}}
 \newcommand{\mR}{\mType{r}}
 \newcommand{\mW}{\mType{w}}
 \newcommand{\mX}{\mType{x}}
@@ -317,7 +322,7 @@
 
 % Special polymorphic types
 \newcommand{\mCatType}[2]{\llangle\mType{#1}\mCatMapsTo\mType{#2}\rrangle}
-\newcommand{\mFuncType}[2]{\langle\mType{#1}\mMapsTo\mType{#2}\rangle}
+\newcommand{\mFuncType}[2]{\langle\mType{#1}\mFuncArrow\mType{#2}\rangle}
 \newcommand{\mPureType}[1]{\[\mType{#1}\]}
 
 % Polymorphic types
@@ -355,7 +360,7 @@
 \newcommand{\mValueConstructor}[1]{\mathrm{#1}}
 
 \newcommand{\mValueWith}[2]{{}^\mValueConstructor{#1}\[#2\]}
-\newcommand{\mValueRecordBeginWith}[1]{\mValueConstructor{#1}\,\{}
+\newcommand{\mValueRecordBeginWith}[1]{{}^\mValueConstructor{#1}\,\{}
 \newcommand{\mValueRecordEnd}{\}}
 \newcommand{\mValueRecordWith}[2]{\mValueRecordBeginWith{#1}{#2}\mValueRecordEnd}
 
@@ -425,7 +430,7 @@
 \newcommand{\mLambdaEXP}[2]{\mLambda{#1}\mLambdaArrow{#2}} %%% TO BE REMOVED
 \newcommand{\mLetInEXP}[3]{\mLet#1\mLetEq#2\mLetIn{#3}} %%% TO BE REMOVED
 \newcommand{\mMorph}[2]{#1\mMorphTo#2} %%% TO BE REMOVED
-\newcommand{\mProjEXP}[2]{#1\mMapsTo#2} %%% TO BE REMOVED
+\newcommand{\mProjEXP}[2]{#1\mFuncArrow#2} %%% TO BE REMOVED
 \newcommand{\mWhereIsEXP}[2]{\mathbin{\mWhereKeyword}#1\mLetEq#2} %%% TO BE REMOVED
 \newcommand{\mWhereIsIIEXP}[4]{\mathbin{\mWhereKeyword}#1\mLetEq#2,#3\mLetEq#4} %%% TO BE REMOVED
 
@@ -514,7 +519,7 @@ $\mAnonParam$&無名パラメタ&\\
 \hline
 $\mIn$&型集合の元&\code{::}\\
 $\in$&値集合の元&\code{<-}\\
-$\mMapsTo$&写像&\code{->}\\
+$\mFuncArrow$&写像&\code{->}\\
 \hline
 % $\mUnOp$&任意の単項演算子&\\
 $\mBinOp$&任意の二項演算子&\\
@@ -1528,13 +1533,13 @@ UTF8文字エンコードを用いている場合，アルファベットは8ビ
 \begin{equation}
   f
   \mIn\mIntType
-  \mMapsTo\mIntType
+  \mFuncArrow\mIntType
 \end{equation}
 という型を持つ．上式は
 \begin{equation}
   f
   \mIn\underbrace{\mIntType}_{x}
-  \mMapsTo\underbrace{\mIntType}_{fx}
+  \mFuncArrow\underbrace{\mIntType}_{fx}
 \end{equation}
 のようにイメージすると良い．これは関数 $f$ が集合 $\mIntType$ から集合
 $\mIntType$ への\keyword{写像}であると読む．\footnote{\haskell では
@@ -1580,25 +1585,25 @@ $\left(gx\right)y$ である．ここに $\left(gx\right)$ は引数 $y$ をと�
 整数引数を二つ取り，整数を返す関数 $g$ は
 \begin{equation}
   g
-  \mIn\mIntType\mMapsTo\mIntType\mMapsTo\mIntType
+  \mIn\mIntType\mFuncArrow\mIntType\mFuncArrow\mIntType
 \end{equation}
 という型を持つ．写像の矢印記号は右結合するので，これは
 \begin{equation}
   g
-  \mIn\mIntType\mMapsTo(\mIntType\mMapsTo\mIntType)
+  \mIn\mIntType\mFuncArrow(\mIntType\mFuncArrow\mIntType)
 \end{equation}
 と同じ意味である．上式は
 \begin{equation*}
   g
   \mIn\underbrace{\mIntType}_x
-  \mMapsTo\underbrace{\overbrace{\mIntType}^y\mMapsTo\overbrace{\mIntType}^{(gx)y}}_{gx}
+  \mFuncArrow\underbrace{\overbrace{\mIntType}^y\mFuncArrow\overbrace{\mIntType}^{(gx)y}}_{gx}
 \end{equation*}
 のようにイメージすると良い．自然言語で考えると $\mIntType$ 型の引数を
 一つ取り，$\mIntType$ 型の引数を一つ取って $\mIntType$ 型の値を返す関
-数を返す，と読める．\footnote{関数の型に出てくる $\mMapsTo$ は2引数を
+数を返す，と読める．\footnote{関数の型に出てくる $\mFuncArrow$ は2引数を
   とる型コンストラクタである．型コンストラクタに関しては第XYZ章で詳し
-  く述べる．例えば $\mA\mMapsTo\mB$ という型は $(\mMapsTo)\mA\mB$ の別
-  名であり，型コンストラクタ $(\mMapsTo)$ に引数 $\mA$ と $\mB$ を与え
+  く述べる．例えば $\mA\mFuncArrow\mB$ という型は $(\mFuncArrow)\mA\mB$ の別
+  名であり，型コンストラクタ $(\mFuncArrow)$ に引数 $\mA$ と $\mB$ を与え
   たものと読む．}
 
 \separator
@@ -1650,12 +1655,12 @@ $\mCurry$ があり，
 整数型の等値演算子は
 \begin{equation}
   (\equiv)
-  \mIn\mIntType\mMapsTo\mIntType\mMapsTo\mBoolType
+  \mIn\mIntType\mFuncArrow\mIntType\mFuncArrow\mBoolType
 \end{equation}
 であり，浮動小数点型の等値演算子は
 \begin{equation}
   (\equiv)
-  \mIn\mFloatType\mMapsTo\mFloatType\mMapsTo\mBoolType
+  \mIn\mFloatType\mFuncArrow\mFloatType\mFuncArrow\mBoolType
 \end{equation}
 である．
 
@@ -1669,7 +1674,7 @@ $\mA $ として，等値演算子の型を
 \begin{equation}
   \label{eq:equiv}
   (\equiv)
-  \mIn\mA\mMapsTo\mA\mMapsTo\mBoolType
+  \mIn\mA\mFuncArrow\mA\mFuncArrow\mBoolType
 \end{equation}
 と表現してみよう．このような型パラメタを用いた型を総称して\keyword{多
   相型}と呼ぶ．
@@ -1694,7 +1699,7 @@ $\mEqTypeClass$ に属さなければならないから，新たな記号$\mSupe
 \begin{equation}
   (\equiv)
   \mIn{}\mEqTypeClass\mSuperSet\mA
-  \mSuperClass\mA\mMapsTo\mA\mMapsTo\mBoolType
+  \mSuperClass\mA\mFuncArrow\mA\mFuncArrow\mBoolType
 \end{equation}
 と書くことにする．\footnote{\haskell では \code{(==) :: Eq a => a -> a
     -> Bool} と書く．記号 $\mSuperSet$ は省略する．}
@@ -1737,7 +1742,7 @@ $\mFromIntegral$ は
 \begin{equation}
   \mFromIntegral
   \mIn{}\mIntegralTypeClass\mSuperSet\mA
-  \mSuperClass\mA\mMapsTo\mB
+  \mSuperClass\mA\mFuncArrow\mB
 \end{equation}
 という型を持ち，$\mIntegralTypeClass$ 型クラスの型の変数を，任意の型へ
 変換する．例えば
@@ -2052,7 +2057,7 @@ $\mList{y}$ を結合したリストは
 と表現する．リストの結合演算子の型は
 \begin{equation}
   (\mAppend)
-  \mIn[\mA]\mMapsTo[\mA]\mMapsTo[\mA]
+  \mIn[\mA]\mFuncArrow[\mA]\mFuncArrow[\mA]
 \end{equation}
 である．\footnote{\haskell では $\mList{x}\mAppend\mList{y}$ を
   \code{xs++ys} と書く．}
@@ -2104,7 +2109,7 @@ $\mList{y}$ から最初の $x$ 個の要素からなるリストを返す．い
 関数 $\mTake$ の型は
 \begin{equation}
   \mTake
-  \mIn\mIntType\mMapsTo[\mA]\mMapsTo[\mA]
+  \mIn\mIntType\mFuncArrow[\mA]\mFuncArrow[\mA]
 \end{equation}
 である．
 
@@ -2188,10 +2193,10 @@ $\mB$ 型のリストすなわち$[\mB]$ 型を取り，$\mA$ 型の値を返す
 み込み演算子の型は
 \begin{equation}
   \mFold
-  \mIn(\mA\mMapsTo\mB\mMapsTo\mA)
-  \mMapsTo\mA
-  \mMapsTo[\mB]
-  \mMapsTo\mA
+  \mIn(\mA\mFuncArrow\mB\mFuncArrow\mA)
+  \mFuncArrow\mA
+  \mFuncArrow[\mB]
+  \mFuncArrow\mA
 \end{equation}
 である．
 
@@ -2260,28 +2265,28 @@ $\mMapList$ を考えよう．このとき
 リストのマップ演算子の型は
 \begin{equation}
   \mMapList
-  \mIn{}(\mA\mMapsTo\mB)\mMapsTo[\mA]\mMapsTo[\mB]
+  \mIn{}(\mA\mFuncArrow\mB)\mFuncArrow[\mA]\mFuncArrow[\mB]
 \end{equation}
-である．矢印 $\mMapsTo$ は右結合なので，これは
+である．矢印 $\mFuncArrow$ は右結合なので，これは
 \begin{equation}
   \mMapList
-  \mIn{}(\mA\mMapsTo\mB)\mMapsTo([\mA]\mMapsTo[\mB])
+  \mIn{}(\mA\mFuncArrow\mB)\mFuncArrow([\mA]\mFuncArrow[\mB])
 \end{equation}
 の意味でもある．念のため上式に注釈を加えると
 \begin{equation}
   \mMapList
-  \mIn\underbrace{\left(\mA\mMapsTo\mB\right)}_f
-  \mMapsTo\left(\underbrace{[\mA]}_{[x_0,x_1\dotsb x_n]}
-  \mMapsTo\underbrace{[\mB]}_{[fx_0,fx_1\dotsb fx_n]}\right)
+  \mIn\underbrace{\left(\mA\mFuncArrow\mB\right)}_f
+  \mFuncArrow\left(\underbrace{[\mA]}_{[x_0,x_1\dotsb x_n]}
+  \mFuncArrow\underbrace{[\mB]}_{[fx_0,fx_1\dotsb fx_n]}\right)
 \end{equation}
 である．
 
 ここで $f$ と $f\mMapList$ の型を並べてみると
 \begin{align}
   f
-  &\mIn\mA\mMapsTo\mB\\
+  &\mIn\mA\mFuncArrow\mB\\
   f\mMapList
-  &\mIn{}[\mA]\mMapsTo[\mB]
+  &\mIn{}[\mA]\mFuncArrow[\mB]
 \end{align}
 となり，マップ演算子が何をしているのか一目瞭然になる．
 
@@ -3069,7 +3074,7 @@ A...
 
 \section{圏と関手}
 
-$\mA $ 型の変数 $x,y\mIn\mA$ について，関数 $f\mIn\mA\mMapsTo\mA$ があり
+$\mA $ 型の変数 $x,y\mIn\mA$ について，関数 $f\mIn\mA\mFuncArrow\mA$ があり
 \begin{equation}
   y
   =fx
@@ -3081,7 +3086,7 @@ $\mA $ 型の変数 $x,y\mIn\mA$ について，関数 $f\mIn\mA\mMapsTo\mA$ が
 について，関数
 \begin{equation}
   g
-  \mIn\mMaybeType{a}\mMapsTo\mMaybeType{a}
+  \mIn\mMaybeType{a}\mFuncArrow\mMaybeType{a}
 \end{equation}
 があり
 \begin{equation}
@@ -3125,9 +3130,9 @@ $\mMaybe{u}=\mJustWith{x},\mMaybe{v}=\mJustWith{y}$ なのだから，$\mA $
   関数も射に含まれる．）そして，圏から圏へとジャンプさせるものを
 \keyword{関手}と呼ぶ．この例で言えば値コンストラクタ $\mJustWith{x}$
 とマップ演算子 $\mMapMaybe$ が関手である．値コンストラクタ
-$\mJustWith{x}$ は $\mA\mMapsTo\mMaybeType{a}$ という型を持ち，マップ
+$\mJustWith{x}$ は $\mA\mFuncArrow\mMaybeType{a}$ という型を持ち，マップ
 演算子 $\mMapMaybe$ は
-$(\mA\mMapsTo\mB)\mMapsTo(\mMaybeType{a}\mMapsTo\mMaybeType{b})$ とい
+$(\mA\mFuncArrow\mB)\mFuncArrow(\mMaybeType{a}\mFuncArrow\mMaybeType{b})$ とい
 う型を持つ．
 \footnote{関手は英語でファンクター(functor)と言うが，\cxx の関数オブジェ
   クト (function object) もかつてはファンクター(functor)と呼ばれていた．
@@ -3136,8 +3141,8 @@ $(\mA\mMapsTo\mB)\mMapsTo(\mMaybeType{a}\mMapsTo\mMaybeType{b})$ とい
 
 同じことはリストにも言える．値コンストラクタ $[x]$ とマップ演算子
 $\mMapList$ もまた関手である．この場合値コンストラクタは
-$\mA\mMapsTo[\mA]$ という型を持ち，マップ演算子も同じく
-$(\mA\mMapsTo\mB)\mMapsTo([\mA]\mMapsTo[\mB])$ という型を持つ．
+$\mA\mFuncArrow[\mA]$ という型を持ち，マップ演算子も同じく
+$(\mA\mFuncArrow\mB)\mFuncArrow([\mA]\mFuncArrow[\mB])$ という型を持つ．
 
 \separator
 
@@ -3152,9 +3157,9 @@ $(\mA\mMapsTo\mB)\mMapsTo([\mA]\mMapsTo[\mB])$ という型を持つ．
   (\mMap)
   \mIn{}\mFunctorTypeClass
   \mSuperSet\mPolymorphicTypeParameter{f}
-  \mSuperClass(\mA\mMapsTo\mB)
-  \mMapsTo\mPolymorphicTypeAssemble{f}{a}
-  \mMapsTo\mPolymorphicTypeAssemble{f}{b}
+  \mSuperClass(\mA\mFuncArrow\mB)
+  \mFuncArrow\mPolymorphicTypeAssemble{f}{a}
+  \mFuncArrow\mPolymorphicTypeAssemble{f}{b}
 \end{equation}
 という型を持つ．ここに
 $\mFunctorTypeClass\mSuperSet\mPolymorphicTypeParameter{f}$ は，
@@ -3168,13 +3173,13 @@ $\mPolymorphicTypeParameter{f}$ 型コンストラクタと$\mA$ 型によって
 $\mPolymorphicTypeParameter{f}=\mListTypeConstructor$ であれば
 \begin{equation}
   (\mMapList)
-  \mIn{}(\mA\mMapsTo\mB)\mMapsTo[\mA]\mMapsTo[\mB]
+  \mIn{}(\mA\mFuncArrow\mB)\mFuncArrow[\mA]\mFuncArrow[\mB]
 \end{equation}
 であるし，もし型コンストラクタがMaybe型コンストラクタであれば，つまり
 $\mPolymorphicTypeParameter{f}=\mMaybeTypeConstructor$ であれば
 \begin{equation}
   (\mMapMaybe)
-  \mIn{}(\mA\mMapsTo\mB)\mMapsTo\mMaybeType{a}\mMapsTo\mMaybeType{b}
+  \mIn{}(\mA\mFuncArrow\mB)\mFuncArrow\mMaybeType{a}\mFuncArrow\mMaybeType{b}
 \end{equation}
 である．
 
@@ -3236,7 +3241,7 @@ Maybe&$\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mJustWith{x},\mNo
 返す．
 
 リストのアプリカティブマップ演算子 $\mAppMapList$ の型は
-$[\mA\mMapsTo\mB]\mMapsTo[\mA]\mMapsTo[\mB]$ である．これは
+$[\mA\mFuncArrow\mB]\mFuncArrow[\mA]\mFuncArrow[\mB]$ である．これは
 \begin{equation}
   \mAppMapList
   \mIn\underbrace{\mA\mapsto\mB }_{[f_0,f_1\dotsb f_n]}
@@ -3366,12 +3371,12 @@ $v\equiv\mPureNothing$ であれば式の値は $\mPureNothing$ になる．式
 いま関数 $f$ が
 \begin{equation}
   f
-  \mIn\mR\mMapsTo\mA
+  \mIn\mR\mFuncArrow\mA
 \end{equation}
 という型を持っているとする．全く形式的に，$\mFuncTypeConstructor$
 なる型コンストラクタがあるとして
 \begin{equation}
-  \mR\mMapsTo\mA=\mFuncTypeConstructor\mA
+  \mR\mFuncArrow\mA=\mFuncTypeConstructor\mA
 \end{equation}
 であると考えてみる．型 $\mA$ から型コンストラクタ
 $\mFuncTypeConstructor$ によって型 $(\mProjEXP{\mR}{\mA})$ が
@@ -3384,25 +3389,25 @@ $\mFuncTypeConstructor\mA=\mPolymorphicTypeAssemble{f}{\mA}$ とする
 \begin{equation}
   (\mMap)
   \mIn{}\mFunctorTypeClass\mSuperSet\mPolymorphicTypeParameter{f}
-  \mSuperClass(\mA\mMapsTo\mB)
-  \mMapsTo\mPolymorphicTypeAssemble{f}{a}
-  \mMapsTo\mPolymorphicTypeAssemble{f}{b}
+  \mSuperClass(\mA\mFuncArrow\mB)
+  \mFuncArrow\mPolymorphicTypeAssemble{f}{a}
+  \mFuncArrow\mPolymorphicTypeAssemble{f}{b}
 \end{equation}
 であって，いま
 $\mPolymorphicTypeParameter{f}=\mFuncTypeConstructor$ を考えている
 から，関数のマップ演算子を $\mMapFunc$ とすると
 \begin{equation}
   (\mMapFunc)
-  \mIn{}(\mA\mMapsTo\mB)
-  \mMapsTo\mPolymorphicTypeAssemble{f}{\mA}
-  \mMapsTo\mPolymorphicTypeAssemble{f}\mB
+  \mIn{}(\mA\mFuncArrow\mB)
+  \mFuncArrow\mPolymorphicTypeAssemble{f}{\mA}
+  \mFuncArrow\mPolymorphicTypeAssemble{f}\mB
 \end{equation}
 であり，これはすなわち
 \begin{equation}
   (\mMapFunc)
-  \mIn{}(\mA\mMapsTo\mB)
-  \mMapsTo(\mR\mMapsTo\mA)
-  \mMapsTo(\mR\mMapsTo\mB)
+  \mIn{}(\mA\mFuncArrow\mB)
+  \mFuncArrow(\mR\mFuncArrow\mA)
+  \mFuncArrow(\mR\mFuncArrow\mB)
 \end{equation}
 のことである．
 
@@ -3454,16 +3459,16 @@ $\mFuncWith{x}$ と書くことにしよう．
 関数版のアプリカティブマップ演算子を $\mAppMapFunc$ とすると，その型は
 \begin{equation}
   (\mAppMapFunc)
-  \mIn\mTypeAssemble{f}{\mA\mMapsTo\mB}
-  \mMapsTo\mTypeAssemble{f}{\mA}
-  \mMapsTo\mTypeAssemble{f}{\mB}
+  \mIn\mTypeAssemble{f}{\mA\mFuncArrow\mB}
+  \mFuncArrow\mTypeAssemble{f}{\mA}
+  \mFuncArrow\mTypeAssemble{f}{\mB}
 \end{equation}
 つまり
 \begin{equation}
   (\mAppMapFunc)
-  \mIn{}(\mR\mMapsTo\mA\mMapsTo\mB)
-  \mMapsTo(\mR\mMapsTo\mA)
-  \mMapsTo(\mR\mMapsTo\mB)
+  \mIn{}(\mR\mFuncArrow\mA\mFuncArrow\mB)
+  \mFuncArrow(\mR\mFuncArrow\mA)
+  \mFuncArrow(\mR\mFuncArrow\mB)
 \end{equation}
 である．
 
@@ -3687,8 +3692,8 @@ $\mApplicativeTypeClass$ 型クラスはピュア演算子 $(\mPureWith{x})$ と
 \end{equation}
 ここに $x$ は非コンテナ変数で，関数 $f$ も「普通の」（コンテナに入って
   いない）関数である．より厳密に言えば $x\mIn\mA$ かつ
-$f\mIn\mA\mMapsTo\mB$ である．従って，関数 $i$ の型は
-$\mA\mMapsTo\mPureType{b}$ である．条件 $\mLovelyVar$ には任意の値を
+$f\mIn\mA\mFuncArrow\mB$ である．従って，関数 $i$ の型は
+$\mA\mFuncArrow\mPureType{b}$ である．条件 $\mLovelyVar$ には任意の値を
   入れてよい．
 
 関数 $i$ をコンテナに入った変数 $u=\mPureWith{x}$ に適用させるのが一般
@@ -3730,7 +3735,7 @@ v=f\mMap u=\mPureWith{f}\mAppMap u=\mPureWith{f\mAnonParam}\mBind u
 
 \begin{equation}
   f
-  \mIn{}\mA\mMapsTo[\mA]
+  \mIn{}\mA\mFuncArrow[\mA]
 \end{equation}
 
 \begin{equation}
@@ -3747,7 +3752,7 @@ Maybeモナド
 
 \begin{equation}
   f
-  \mIn\mA\mMapsTo\mMaybeType{a}
+  \mIn\mA\mFuncArrow\mMaybeType{a}
 \end{equation}
 
 \begin{equation}
@@ -4776,9 +4781,9 @@ Eitherは次のように定義できる．
   \mFunctorTypeClass\mSuperSet\mPolymorphicTypeParameter{f}
   \mWhere{}
   (\mMap)
-  \mIn{}(\mA\mMapsTo\mB)
-  \mMapsTo\mPolymorphicTypeAssemble{f}{a}
-  \mMapsTo\mPolymorphicTypeAssemble{f}{b}
+  \mIn{}(\mA\mFuncArrow\mB)
+  \mFuncArrow\mPolymorphicTypeAssemble{f}{a}
+  \mFuncArrow\mPolymorphicTypeAssemble{f}{b}
 \end{equation}
 
 \TK{$\mTypeClassDeclPolymorphic$ による型コンストラクタの型クラス宣言．}
@@ -5532,8 +5537,8 @@ $\mSq'$ 関数と $\sgn'$ 関数に置き換えたことで，
     &\mSq'
     \mIn\mRealFloatTypeClass\mSuperSet\mA
     \mSuperClass\mA
-    \mMapsTo\mComplexType{a}
-    \mMapsTo\mComplexType{a}\\
+    \mFuncArrow\mComplexType{a}
+    \mFuncArrow\mComplexType{a}\\
     &\mSq'x
     =x*x
   \end{aligned}
@@ -5547,9 +5552,9 @@ $\mSq'$ 関数と $\sgn'$ 関数に置き換えたことで，
        \sgn'
        &\mIn\mRealFloatTypeClass\mSuperSet\mA\\
        &\quad\mSuperClass\mComplexType{a}
-       \mMapsTo\mComplexType{a}
-       \mMapsTo\mComplexType{a}
-       \mMapsTo\mA
+       \mFuncArrow\mComplexType{a}
+       \mFuncArrow\mComplexType{a}
+       \mFuncArrow\mA
      \end{aligned}\\
     &\begin{aligned}
        \sgn'abc
@@ -6020,13 +6025,13 @@ $\mSqrts$ を考えてみる．
   \left\mBrace
   \begin{aligned}
     &\mSqrts\mIn{}\mRealTypeClass\mSuperSet\mA \mSuperClass
-    \mA\mMapsTo[\mA]\\
+    \mA\mFuncArrow[\mA]\\
     &\mSqrts x=[\mSqrt x,(-\mSqrt x)]
   \end{aligned}
   \right.
 \end{equation}
 
-ここで型 $\mA\mMapsTo[\mA]$ に別名を与えよう．別名を与えるには型シノニ
+ここで型 $\mA\mFuncArrow[\mA]$ に別名を与えよう．別名を与えるには型シノニ
 ムを定義する方法と，$\mNewTypeDecl$ を用いる方法とがある．前者は単に読
 みやすさの向上のためだけであるが，後者は第\ref{ch:polymorphic-types}章
 で見たように特定の型クラスの新しいインスタンスとしてその型を定義するた
@@ -6036,12 +6041,12 @@ $\mSqrts$ を考えてみる．
 \begin{equation}
   \mNewTypeDecl\;
   \mTypeConstructor{NonDet}\,\mA\,\mB
-  =\mValueRecordWith{NonDet}{\mRun\mIn\mA\mMapsTo[\mB]}
+  =\mValueRecordWith{NonDet}{\mRun\mIn\mA\mFuncArrow[\mB]}
 \end{equation}
 とする．
 
 型コンストラクタ $\mTypeConstructor{NonDet}$ によって作られる型
-$\mTypeAssemble{NonDet}{\mA\,\mB}$ は型 $\mA\mMapsTo[\mA]$ とは異な
+$\mTypeAssemble{NonDet}{\mA\,\mB}$ は型 $\mA\mFuncArrow[\mA]$ とは異な
 る型であるため，関数 $\mSqrts$ の新しいバージョンが必要になる．そこで
 \begin{equation}
   \left\mBrace
@@ -6122,22 +6127,22 @@ $(\mJoinList)$ やマップ演算子 $(\mMapList)$ を書くのは煩雑であ�
 
 ---
 
-関数 $\mA\mMapsTo\mB$ の代わりに，射 $\mA\mCatMapsTo\mB$ を考える．
+関数 $\mA\mFuncArrow\mB$ の代わりに，射 $\mA\mCatMapsTo\mB$ を考える．
 
 \begin{align}
   \mIdCat
   &\mIn{}\mA\mCatMapsTo\mB\\
   (\mCompCat)
   &\mIn{}(\mB\mCatMapsTo\mC)
-  \mMapsTo(\mA\mCatMapsTo\mB)
-  \mMapsTo(\mA\mCatMapsTo\mC)
+  \mFuncArrow(\mA\mCatMapsTo\mB)
+  \mFuncArrow(\mA\mCatMapsTo\mC)
 \end{align}
 
 e.g.
 
 \begin{equation}
   \mA\mCatMapsTo\mB
-  =\mA\mMapsTo[\mA]
+  =\mA\mFuncArrow[\mA]
 \end{equation}
 
 ---
@@ -6155,13 +6160,13 @@ $\mCategoryTypeClass$ 型クラスは次のように定義されている．
     \mIdCat&\mIn\mPolymorphicTypeParameter{c}\,\mX\,\mX\\
     (\mCompCat)
     &\mIn\mPolymorphicTypeParameter{c}\,\mX\,\mY
-    \mMapsTo\mPolymorphicTypeParameter{c}\,\mX\,\mY
-    \mMapsTo\mPolymorphicTypeParameter{c}\,\mX\,\mY
+    \mFuncArrow\mPolymorphicTypeParameter{c}\,\mX\,\mY
+    \mFuncArrow\mPolymorphicTypeParameter{c}\,\mX\,\mY
   \end{aligned}
   \right.
 \end{equation}
 型パラメタ $\mPolymorphicTypeParameter{c}$ が
-$\mPolymorphicTypeParameter{c}=(\mMapsTo)$ のとき$\mIdCat=\mId$ かつ
+$\mPolymorphicTypeParameter{c}=(\mFuncArrow)$ のとき$\mIdCat=\mId$ かつ
 $\mCompCat=\mComp$ になるので，圏は関数を何やら拡張したものであること
 がわかる．
 
@@ -6175,7 +6180,7 @@ $\mCompCat=\mComp$ になるので，圏は関数を何やら拡張したもの�
     \mIdCat
     &\mIn\mX\mCatMapsTo\mY\\
     (\mCompCat)
-    &\mIn{}(\mX\mCatMapsTo\mY)\mMapsTo(\mX\mCatMapsTo\mY)\mMapsTo(\mX\mCatMapsTo\mY)
+    &\mIn{}(\mX\mCatMapsTo\mY)\mFuncArrow(\mX\mCatMapsTo\mY)\mFuncArrow(\mX\mCatMapsTo\mY)
   \end{aligned}
   \right.
 \end{equation}
@@ -6185,13 +6190,13 @@ $\mCompCat=\mComp$ になるので，圏は関数を何やら拡張したもの�
 我々は $\mDuplicate$ や $\mTriplicate$ の型を考えて
 \begin{equation}
   \mPolymorphicTypeParameter{c}\,\mX\,\mY
-  =\mX\mMapsTo[\mY]
+  =\mX\mFuncArrow[\mY]
 \end{equation}
 と考えてみよう．つまり
-$\mPolymorphicTypeParameter{c}=((\mMapsTo)\mAnonParam[\mAnonParam])$
+$\mPolymorphicTypeParameter{c}=((\mFuncArrow)\mAnonParam[\mAnonParam])$
 と考えるわけである．
 
-そうすると，まず $\mIdCat$ は $\mA\mMapsTo[\mA]$ 型でなければならないか
+そうすると，まず $\mIdCat$ は $\mA\mFuncArrow[\mA]$ 型でなければならないか
 ら
 \begin{equation}
   \label{eq:id-category}
@@ -6201,7 +6206,7 @@ $\mPolymorphicTypeParameter{c}=((\mMapsTo)\mAnonParam[\mAnonParam])$
 となる．
 
 次に $(\mCompCat)$ であるが，$\mX=\mY$ とすると，型は
-$(\mX\mMapsTo[\mX])\mMapsTo(\mX\mMapsTo[\mX])\mMapsTo(\mX\mMapsTo[\mX])$
+$(\mX\mFuncArrow[\mX])\mFuncArrow(\mX\mFuncArrow[\mX])\mFuncArrow(\mX\mFuncArrow[\mX])$
 であるから，式\eqref{eq:triplicate-duplicate}から
 \begin{equation}
   \mTriplicate\mCompCat\mDuplicate
@@ -6324,7 +6329,7 @@ y = run (triplicate' Cat.. duplicate') x
 \end{equation}
 であった．関数 $f$, $g$ が $\mValueWith{NonDet}{f}$,
 $\mValueWith{NonDet}{g}$ として与えられることを考えると，関数 $f$, $g$
-の型は $\mA\mMapsTo[\mA]$ で確定するので，式\eqref{eq:leftleftarrows}
+の型は $\mA\mFuncArrow[\mA]$ で確定するので，式\eqref{eq:leftleftarrows}
 の中のバインド演算子 $(\mBind)$ はリストのバインド演算子
 $(\mBindList)$ で確定する．
 
@@ -6376,7 +6381,7 @@ instance Cat.Category NonDet where
 \begin{equation}
   \mNewTypeDecl\;
   \mTypeConstructor{ItCouldBe}\,\mA\,\mB
-  =\mValueRecordWith{ItCouldBe}{\mathrm{runIt}\mIn\mA\mMapsTo\mMaybeType{b}}
+  =\mValueRecordWith{ItCouldBe}{\mathrm{runIt}\mIn\mA\mFuncArrow\mMaybeType{b}}
 \end{equation}
 
 \begin{equation}
@@ -6384,7 +6389,7 @@ instance Cat.Category NonDet where
   \begin{aligned}
     &\mathrm{rec}
     \mIn{}(\mRealTypeClass\mSuperSet\mA)
-    \mSuperClass\mA\mMapsTo\mA\\
+    \mSuperClass\mA\mFuncArrow\mA\\
     &
     \begin{aligned}
       \mathop{\mathrm{rec}}x&\mGuard{x\neq0}
@@ -6411,16 +6416,16 @@ instance Cat.Category NonDet where
 \begin{align}
   \mNewTypeDecl\;
   &\mTypeConstructor{NonDet}\,\mA\,\mB
-  =\mValueWith{NonDet}{\mA\mMapsTo[\mB]}\\
+  =\mValueWith{NonDet}{\mA\mFuncArrow[\mB]}\\
   \mNewTypeDecl\;
   &\mTypeConstructor{ItCouldBe}\,\mA\,\mB
-  =\mValueWith{ItCouldBe}{\mA\mMapsTo\mMaybeType{b}}
+  =\mValueWith{ItCouldBe}{\mA\mFuncArrow\mMaybeType{b}}
 \end{align}
 
 \begin{equation}
   \mNewTypeDecl\;
   \mTypeConstructor{Kleisli}\,\mPolymorphicTypeParameter{m}\,\mA\,\mB
-  =\mValueWith{Kleisli}{\mA\mMapsTo\mTypeAssemble{m}{\mB}}
+  =\mValueWith{Kleisli}{\mA\mFuncArrow\mTypeAssemble{m}{\mB}}
 \end{equation}
 
 \begin{equation}
@@ -6595,6 +6600,12 @@ Id.
 
 これらの実装を与える．
 
+\begin{equation}
+  \mNewTypeDecl\;
+  \mTypeConstructor{SimpleFunc}\,\mA\,\mB
+  =\mValueRecordWith{SimlpeFunc}{\mFuncall\mIn\mA\mFuncArrow\mB}
+\end{equation}
+
 \begin{multline}
   \mInstanceDeclPolymorphic\;
   \mArrowTypeClass\mSuperSet\mTypeConstructor{SimpleFunc}\\
@@ -6616,12 +6627,72 @@ Id.
   \left\{
   \begin{aligned}
     \mIdCat
-    &=\mValueWith{SimpleFunc}{\mId}\\
+    &=\mArrowWith{\mId}\\
     \mValueWith{SimpleFunc}{f}\mCompCat\mValueWith{SimpleFunc}{g}
     &=\mValueWith{SimpleFunc}{f\mComp g}
   \end{aligned}
   \right.
 \end{multline}
+
+ユーティリティ．
+
+\begin{equation}
+  \left\mBrace
+  \begin{aligned}
+    &\mSplit\mIn\mArrowTypeClass\mSuperSet\mPolymorphicTypeParameter{a}
+    \mSuperClass\mB\mArrowArrow{\mPolymorphicTypeParameter{a}}(\mB,\mB)\\
+    &\mSplit=\mArrowWith{\mLambda x\mLambdaArrow\mPairWith{x}{x}}
+  \end{aligned}
+  \right.
+\end{equation}
+
+\begin{equation}
+  \left\mBrace
+  \begin{aligned}
+    &\mUnsplit\mIn\mArrowTypeClass\mSuperSet\mPolymorphicTypeParameter{a}
+    \mSuperClass(\mB\mFuncArrow\mC\mFuncArrow\mD)
+    \mFuncArrow\left(\mPairWith{\mB}{\mC}\mArrowArrow{\mPolymorphicTypeParameter{a}}\mD\right)\\
+    &\mUnsplit
+    =\mLambda\mBinOp\mLambdaArrow{}\mArrowWith{\mLambda\mPairWith{x}{y}\mFuncArrow x\mBinOp y}
+  \end{aligned}
+  \right.
+\end{equation}
+
+自動導出．
+
+\begin{equation}
+  \begin{bmatrix}
+    f\\
+    g
+  \end{bmatrix}
+  =\mSecond g\mCompCat\mFirst f
+\end{equation}
+
+\begin{equation}
+  \mLiftATwo\mBinOp fg
+  =(\mUnsplit\mBinOp)\mCompCat\mSecond g\mCompCat\mFirst f\mCompCat\mSplit
+\end{equation}
+
+使ってみる．
+
+\begin{align}
+  f,g&\mIn\mValueWith{SimpleFunc}{\mIntType\,\mIntType}\\
+  f&=\mArrowWith{(/2)}\\
+  g&=\mArrowWith{\mLambda x\mLambdaArrow x*3+1}\\
+  h&=\mLiftATwo(+)fg\\
+  z&=(\mFuncall h)8
+\end{align}
+
+結果として $z=29$ を得る．
+
+\begin{equation}
+  \mMean
+  =\mLiftATwo(/)\mArrowWith{\mSum}\mArrowWith{\mLength}
+\end{equation}
+
+\begin{equation}
+  m=\mFuncall\mMean\mList{x}
+\end{equation}
 
 
 ---
@@ -6761,7 +6832,7 @@ Id.
 
 ならば $f$ もアローであるべきだ．
 
-これまでの関数の型は $\mA\mMapsTo\mB$ であった．
+これまでの関数の型は $\mA\mFuncArrow\mB$ であった．
 これから新しい「関数風」の型 $\mA\mCatMapsTo\mB$ を考える．
 
 \begin{equation}
@@ -6814,10 +6885,10 @@ $\Vec{f_1}***\Vec{f_2}$ も関数ではない．
   \mWhere{}\left\{
   \begin{aligned}
     \mArrowWith{\dotsb}
-    &\mIn{}(\mX\mMapsTo\mY)\mMapsTo\mPolymorphicTypeParameter{c}\,\mX\,\mY\\
+    &\mIn{}(\mX\mFuncArrow\mY)\mFuncArrow\mPolymorphicTypeParameter{c}\,\mX\,\mY\\
     \mFirstFunc
     &\mIn{}\mPolymorphicTypeParameter{c}\,\mX\,\mY
-    \mMapsTo\mPolymorphicTypeParameter{c}\,\mPairWith{\mX}{\mZ}\,\mPairWith{\mY}{\mZ}
+    \mFuncArrow\mPolymorphicTypeParameter{c}\,\mPairWith{\mX}{\mZ}\,\mPairWith{\mY}{\mZ}
   \end{aligned}
   \right.
 \end{multline}
@@ -6841,7 +6912,7 @@ $\Vec{f_1}***\Vec{f_2}$ も関数ではない．
 \begin{equation}
   \mNewTypeDecl\;
   \mCircuitType\,\mA\,\mB
-  =\mCircuitWith{\mUncircuit\mIn\mA\mMapsTo(\mCircuitType\,\mA\,\mB,\mB)}
+  =\mCircuitWith{\mUncircuit\mIn\mA\mFuncArrow(\mCircuitType\,\mA\,\mB,\mB)}
 \end{equation}
 
 \begin{multline}
@@ -6878,7 +6949,7 @@ $\Vec{f_1}***\Vec{f_2}$ も関数ではない．
 \newcommand{\mRunCircuit}{\mathop{\mathrm{runCircuit}}}
 
 \begin{align}
-  \mRunCircuit&\mIn\mCircuitType\,\mA\,\mB\mMapsTo[\mA]\mMapsTo[\mB]\\
+  \mRunCircuit&\mIn\mCircuitType\,\mA\,\mB\mFuncArrow[\mA]\mFuncArrow[\mB]\\
   \mRunCircuit\_\mEmptyList&=\mEmptyList\\
   \mRunCircuit c(x:\mList{x})&=x':\mRunCircuit c'\mList{x}\\
   &\quad\mWhere{}(c',x')\mLetEq\mUncircuit cx
@@ -6918,7 +6989,7 @@ $\Vec{f_1}***\Vec{f_2}$ も関数ではない．
 \begin{equation}
   \mNewTypeDecl\;
   \mKleisliType\,\mPolymorphicTypeParameter{m}\,\mA\,\mB
-  =\mKleisliWith{\mRunKleisli\mIn\mA\mMapsTo\mTypeAssemble{m}{b}}
+  =\mKleisliWith{\mRunKleisli\mIn\mA\mFuncArrow\mTypeAssemble{m}{b}}
 \end{equation}
 
 \begin{equation}
