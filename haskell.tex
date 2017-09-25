@@ -200,6 +200,7 @@
 \DeclareMathOperator{\mSort}{\mSpecialFunc{srt}}
 \DeclareMathOperator{\mSucc}{\mSpecialFunc{succ}}
 \DeclareMathOperator{\mSum}{\mSpecialFunc{sum}}
+\DeclareMathOperator{\mSwap}{\mSpecialFunc{swap}}
 \DeclareMathOperator{\mTail}{\mSpecialFunc{tail}}
 \DeclareMathOperator{\mTake}{\mSpecialFunc{take}}
 \DeclareMathOperator{\mTriplicate}{\mSpecialFunc{triplicate}}
@@ -254,7 +255,7 @@
 \DeclareMathOperator*{\mFoldStrict}{\bigcup{}_\text{Strict}}
 \DeclareMathOperator*{\mFoldRight}{\bigsqcup}
 \DeclareMathOperator{\mFrom}{\in}
-\DeclareMathOperator{\mFuncArrow}{\mapsto}
+\DeclareMathOperator{\mFuncArrow}{\rightarrow}
 \DeclareMathOperator{\mIfSo}{\dashrightarrow}
 \DeclareMathOperator{\mIn}{{:\!:}}
 \DeclareMathOperator{\mJoin}{\natural}
@@ -6461,9 +6462,9 @@ instance Cat.Category NonDet where
 \end{equation}
 の形に分解するような関数合成演算子は存在するだろうか．
 
-残念なことに関数 $\mSum$ も $\mLength$ も同じ引数をとる必要がある．そ
-のため従来の方法では関数を合成出来ない．しかし次のように演算の結果をペ
-アに収めることが出来れば何とかなりそうである．
+残念なことに関数 $\mSum$ も $\mLength$ も同じ引数を $(\mList{x})$ とる
+必要がある．そのため従来の方法では関数を合成出来ない．しかし次のように
+演算の結果をペアに収めることが出来れば何とかなりそうである．
 \begin{equation}
   \mMean\mList{x}
   =%\left\{\begin{matrix}\mAnonParam\\/\\\mAnonParam\end{matrix}\right\}
@@ -6494,28 +6495,29 @@ $\mUncurry$ 関数があり，
 \end{equation}
 という形にしたい．そうすれば
 \begin{equation}
-  \mSeparate x
+  \mSplit x
   =\mPairWith{x}{x}
 \end{equation}
-なる関数 $\mSeparate$ を用意すると，後は新しく導入したブラケット
+なる関数 $\mSplit$ を用意すると，後は新しく導入したブラケット
 $\begin{bmatrix}\vdots\end{bmatrix}$ だけの問題である．
 
 問題を整理すると，式XYZを
 \begin{equation}
   \mMean\mList{x}
-  =\mUncurry(/)\begin{bmatrix}
+  =\mUncurry(/)
+  \begin{bmatrix}
     \mSum\\
     \mLength
   \end{bmatrix}
-  % \mathop{\square}{}
-  (\mSeparate\mList{x})
+  (\mSplit\mList{x})
 \end{equation}
 という形に持っていきたい．それには
 \begin{equation}
   \mPairWith{fx}{gy}
-  =\begin{bmatrix}f
-  \\
-  g
+  =
+  \begin{bmatrix}
+    f\\
+    g
   \end{bmatrix}
   % \mathop{\square}{}
   \mPairWith{x}{y}
@@ -6567,6 +6569,11 @@ $\begin{bmatrix}\vdots\end{bmatrix}$ だけの問題である．
   \mArrow{f}=\mArrowWith{f}
 \end{equation}
 とする．
+
+アローとは関数の拡張で，関数の型を $\mB\mFuncArrow\mC$ と表すとき，対
+応するアローの型を $\mB\mArrowArrow{\mPolymorphicTypeParameter{a}}\mC$
+と表す．ここに $\mPolymorphicTypeParameter{a}$ は型コンストラクタであ
+り，型クラス $\mArrowTypeClass$ のインスタンスである．
 
 アロー $\mArrow{f}$ からブラケットを作る演算子 $\mFirst$ ただし
 \begin{equation}
@@ -6639,9 +6646,11 @@ Id.
 \begin{equation}
   \left\mBrace
   \begin{aligned}
-    &\mSplit\mIn\mArrowTypeClass\mSuperSet\mPolymorphicTypeParameter{a}
+    &\mSplit'
+    \mIn\mArrowTypeClass\mSuperSet\mPolymorphicTypeParameter{a}
     \mSuperClass\mB\mArrowArrow{\mPolymorphicTypeParameter{a}}(\mB,\mB)\\
-    &\mSplit=\mArrowWith{\mLambda x\mLambdaArrow\mPairWith{x}{x}}
+    &\mSplit'
+    =\mArrowWith{\mLambda x\mLambdaArrow\mPairWith{x}{x}}
   \end{aligned}
   \right.
 \end{equation}
@@ -6649,16 +6658,22 @@ Id.
 \begin{equation}
   \left\mBrace
   \begin{aligned}
-    &\mUnsplit\mIn\mArrowTypeClass\mSuperSet\mPolymorphicTypeParameter{a}
-    \mSuperClass(\mB\mFuncArrow\mC\mFuncArrow\mD)
+    &\mUnsplit'
+    \mIn\mArrowTypeClass\mSuperSet\mPolymorphicTypeParameter{a}
+    \mSuperClass{}(\mB\mFuncArrow\mC\mFuncArrow\mD)
     \mFuncArrow\left(\mPairWith{\mB}{\mC}\mArrowArrow{\mPolymorphicTypeParameter{a}}\mD\right)\\
-    &\mUnsplit
+    &\mUnsplit'
     =\mLambda\mBinOp\mLambdaArrow{}\mArrowWith{\mLambda\mPairWith{x}{y}\mFuncArrow x\mBinOp y}
   \end{aligned}
   \right.
 \end{equation}
 
 自動導出．
+
+\begin{equation}
+  \mSecond
+  =\mSwap\mCompCat\mFirst\dotsb
+\end{equation}
 
 \begin{equation}
   \begin{bmatrix}
@@ -6680,18 +6695,33 @@ Id.
   f&=\mArrowWith{(/2)}\\
   g&=\mArrowWith{\mLambda x\mLambdaArrow x*3+1}\\
   h&=\mLiftATwo(+)fg\\
+%  &=(\mUnsplit(+))\mCompCat\mSecond g\mCompCat\mFirst f\mCompCat\mSplit\\
   z&=(\mFuncall h)8
 \end{align}
 
 結果として $z=29$ を得る．
 
-\begin{equation}
-  \mMean
-  =\mLiftATwo(/)\mArrowWith{\mSum}\mArrowWith{\mLength}
-\end{equation}
+\begin{align}
+  \mSum'
+  &=\mValueWith{SimpleFunc}{\mSum}\\
+  \mLength'
+  &=\mValueWith{SimpleFunc}{\mLength}
+\end{align}
 
 \begin{equation}
-  m=\mFuncall\mMean\mList{x}
+  \mMean'
+  =\mLiftATwo(/)\mSum'\mLength'
+\end{equation}
+
+\begin{align}
+  \mMean'
+  &=\mUnsplit'(/)\mCompCat\mSecond\mSum'\mCompCat\mFirst\mLength'\mCompCat\mSplit'\\
+  &=\mUnsplit'(/)\mCompCat\begin{bmatrix}\mLength'\\\mSum'\end{bmatrix}\mCompCat\mSplit'
+\end{align}
+
+\begin{equation}
+  m
+  =\mFuncall\mMean'\mList{x}
 \end{equation}
 
 
