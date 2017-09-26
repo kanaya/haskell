@@ -6458,32 +6458,39 @@ instance Cat.Category NonDet where
 問題はここからである．関数 $\mMean$ を関数 $\mSum$ と関数 $\mLength$
 の合成の形にできるだろうか．つまり
 \begin{equation}
-  \mMean\mList{x}=(\mSum\square\mLength)\mList{x}
+  \mMean\mList{x}
+  =(\mSum\mSomeOp\mLength)\mList{x}
+\end{equation}
+あるいは
+\begin{equation}
+  \mMean
+  =\mSum\mSomeOp\mLength
 \end{equation}
 の形に分解するような関数合成演算子は存在するだろうか．
 
-残念なことに関数 $\mSum$ も $\mLength$ も同じ引数を $(\mList{x})$ とる
+残念なことに関数 $\mSum$ も $\mLength$ も同じ引数 $(\mList{x})$ をとる
 必要がある．そのため従来の方法では関数を合成出来ない．しかし次のように
 演算の結果をペアに収めることが出来れば何とかなりそうである．
 \begin{equation}
+  \label{eq:mean}
   \mMean\mList{x}
-  =%\left\{\begin{matrix}\mAnonParam\\/\\\mAnonParam\end{matrix}\right\}
+  =
   \left(\mLambda\mPairWith{x}{y}\mLambdaArrow x/y\right)
   \begin{pmatrix}
     \mSum\mList{x}\\
     \mLength\mList{x}
   \end{pmatrix}
-  %\begin{bmatrix}\mSum\\\mLength\end{bmatrix}
-  %\begin{pmatrix}\mList{x}\\\mList{x}\end{pmatrix}  
 \end{equation}
-幸い，カリー化された2引数関数をペアを引数にとる関数へ変換する
+幸いカリー化された2引数関数をペアを引数にとる関数へ変換する
 $\mUncurry$ 関数があり，
 \begin{equation}
-  \mUncurry(\mBinOp)=\mLambda\mPairWith{x}{y}\mLambdaArrow x\mBinOp y
+  \mUncurry(\mBinOp)
+  =\mLambda\mPairWith{x}{y}\mLambdaArrow x\mBinOp y
 \end{equation}
-であるから，式XYZの最初の括弧は $\mUncurry(/)$ と出来る．
+であるから，式\eqref{eq:mean}の第1項（前半の括弧）は $\mUncurry(/)$ と
+出来る．
 
-式XYZの後半は
+式\eqref{eq:mean}の第2項（後半の括弧）は
 \begin{equation}
   \mPairWith{\mSum\mList{x}}{\mLength\mList{x}}
   =\begin{bmatrix}
@@ -6499,9 +6506,9 @@ $\mUncurry$ 関数があり，
   =\mPairWith{x}{x}
 \end{equation}
 なる関数 $\mSplit$ を用意すると，後は新しく導入したブラケット
-$\begin{bmatrix}\vdots\end{bmatrix}$ だけの問題である．
+$\begin{bmatrix}\vdots\end{bmatrix}$ だけの問題になる．
 
-問題を整理すると，式XYZを
+問題を整理すると，式\eqref{eq:mean}を
 \begin{equation}
   \mMean\mList{x}
   =\mUncurry(/)
@@ -6526,7 +6533,9 @@ $\begin{bmatrix}\vdots\end{bmatrix}$ だけの問題である．
   % \mathop{\square}{}
   \mPairWith{x}{y}
 \end{equation}
-となるような関数 $f$ と関数 $g$ の合成方法が是非とも必要である．
+となるような関数 $f$ と関数 $g$ の合成
+$\begin{bmatrix}\vdots\end{bmatrix}$ が是非とも必要である．この特殊な
+  関数合成を仮に\keyword{ブラケット}と呼ぶことにしよう．
 
 そして，関数の合成を考える以上
 \begin{equation}
@@ -6565,19 +6574,38 @@ $\begin{bmatrix}\vdots\end{bmatrix}$ だけの問題である．
 のようにペアの片側だけに作用するブラケットだけを考えておけば良くなるか
 らである．
 
----
+\separator
 
-関数 $f$ をアロー $\mArrow{f}$ にする演算子（アロー演算子）を用意する．
-これを
+カテゴリは関数の合成演算子をオーバーライドする仕組みであった．いま欲し
+いのは，関数をオーバーライドし，かつブラケットを生成できる仕組みである．
+
+そのような型全体が所属する型クラスを\keyword{アロー型クラス}と呼ぶ．ア
+ロー型クラスは $\mArrowTypeClass$ と表記する．アロー型クラスのインスタ
+ンスを $\mPolymorphicTypeParameter{a}$ で表すとしよう．もちろん
+$\mPolymorphicTypeParameter{a}$ は型コンストラクタである．
+
+$\mPolymorphicTypeParameter{a}$ 型コンストラクタによって作られる値を
+\keyword{アロー}と呼ぶ．アローは関数から作られるものとする．関数 $f$
+が $\mB\mFuncArrow\mC$ という型を持つとき，関数 $f$ から作られたアロー
+を $\mArrow{f}$ と書き，アロー $\mArrow{f}$ は
+$\mB\mArrowArrow{\mPolymorphicTypeParameter{a}}\mC$ という型を持つとす
+る．
+
+型 $\mB\mFuncArrow\mC$ は $(\mFuncArrow)\mB\mC$ の中置記法バージョンで
+あった．我々の $\mB\mArrowArrow{\mPolymorphicTypeParameter{a}}\mC$ も
+$(\mArrowArrow{\mPolymorphicTypeParameter{a}})\mB\mC$ の中置記法バージョ
+ンである．ただし $(\mArrowArrow{\mPolymorphicTypeParameter{a}})$ は単
+純に $\mPolymorphicTypeParameter{a}$ と書いて良い．
+
+\separator
+
+関数 $f$ をアロー $\mArrow{f}$ にする演算子（アロー演算子）を用意しよ
+う．これを
 \begin{equation}
-  \mArrow{f}=\mArrowWith{f}
+  \mArrow{f}
+  =\mArrowWith{f}
 \end{equation}
 とする．
-
-アローとは関数の拡張で，関数の型を $\mB\mFuncArrow\mC$ と表すとき，対
-応するアローの型を $\mB\mArrowArrow{\mPolymorphicTypeParameter{a}}\mC$
-と表す．ここに $\mPolymorphicTypeParameter{a}$ は型コンストラクタであ
-り，型クラス $\mArrowTypeClass$ のインスタンスである．
 
 アロー $\mArrow{f}$ からブラケットを作る演算子 $\mFirst$ ただし
 \begin{equation}
@@ -6601,22 +6629,52 @@ $\begin{bmatrix}\vdots\end{bmatrix}$ だけの問題である．
 \end{equation}
 と定義する．
 
-Id.
+最後にアローのid関数を改めて定義しておこう．アロー $\mArrow{\mIdCat}$
+は
 \begin{equation}
-  \mIdCat\mCompCat\mArrow{f}
-  =\mArrow{f}\mCompCat\mIdCat
+  \mArrow{\mIdCat}\mCompCat\mArrow{f}
+  =\mArrow{f}\mCompCat\mArrow{\mIdCat}
   =\mArrow{f}
 \end{equation}
 とする．
 
-これらの実装を与える．
+これらの実装を与える．アロー型クラスは次のように定義されている．
+\begin{multline}
+  \mTypeClassDeclPolymorphic\;
+  \mCategoryTypeClass\mSuperSet\mPolymorphicTypeParameter{a}
+  \mSuperClass
+  \mArrowTypeClass\mSuperSet\mPolymorphicTypeParameter{a}\\
+  \mWhere{}
+  \left\{
+  \begin{aligned}
+    \mArrowWith{}
+    &\mIn{}(\mB\mFuncArrow\mC)
+    \mFuncArrow(\mB\mArrowArrow{\mPolymorphicTypeParameter{a}}\mC)\\
+    \mFirst
+    &\mIn{}(\mB\mArrowArrow{\mPolymorphicTypeParameter{a}}\mC)
+    \mFuncArrow\left(\mPairWith{\mB}{\mD}
+    \mArrowArrow{\mPolymorphicTypeParameter{a}}\mPairWith{\mC}{\mD}\right)
+  \end{aligned}
+  \right.
+\end{multline}
+つまり値コンストラクタ $\mArrowWith{f}$ と関数 $\mFirst$ を実装した新
+しい型を用意すればよいことになる．いや，アロー型クラスはカテゴリ型クラ
+スから派生しているので，カテゴリ型クラスが備える関数合成 $(\mCompCat)$
+とid関数 $(\mIdCat)$ の実装も必要である．
 
+これらを踏まえて，新しい型コンストラクタ
+$\mTypeConstructor{SimpleFunc}$ を考えてみる．
 \begin{equation}
   \mNewTypeDecl\;
   \mTypeConstructor{SimpleFunc}\,\mA\,\mB
   =\mValueRecordWith{SimlpeFunc}{\mFuncall\mIn\mA\mFuncArrow\mB}
 \end{equation}
+型 $\mTypeConstructor{SimpleFunc}\,\mA\,\mB$ は $\mA\mFuncArrow\mB$ 型
+の変数を唯一のメンバに持つ型で，つまりは1引数1戻値の関数をラップしただ
+けのものである．
 
+この型コンストラクタ $\mTypeConstructor{SimpleFunc}$ を型クラス
+$\mArrowTypeClass$ のインスタンスにしてみよう．
 \begin{multline}
   \mInstanceDeclPolymorphic\;
   \mArrowTypeClass\mSuperSet\mTypeConstructor{SimpleFunc}\\
@@ -6630,7 +6688,11 @@ Id.
   \end{aligned}
   \right.
 \end{multline}
+これがブラケットの正体である．
+\TK{...}
 
+型コンストラクタ $\mTypeConstructor{SimpleFunc}$ はまた型クラス
+$\mArrowTypeClass$ のインスタンスでもなければならないので，
 \begin{multline}
   \mInstanceDeclPolymorphic\;
   \mCategoryTypeClass\mSuperSet\mTypeConstructor{SimpleFunc}\\
@@ -6644,41 +6706,39 @@ Id.
   \end{aligned}
   \right.
 \end{multline}
+のように $\mIdCat$ と $\mCompCat$ の実装を与える．
 
-ユーティリティ．
-
-\begin{equation}
-  \left\mBrace
+ユーティリティとして，関数 $\mSplit$ と関数 $\mUnsplit$ のアローバージョ
+ンを用意しておく．
+\begin{align}
+  &\left\mBrace
   \begin{aligned}
     &\mSplit'
     \mIn\mArrowTypeClass\mSuperSet\mPolymorphicTypeParameter{a}
     \mSuperClass\mB\mArrowArrow{\mPolymorphicTypeParameter{a}}(\mB,\mB)\\
     &\mSplit'
-    =\mArrowWith{\mLambda x\mLambdaArrow\mPairWith{x}{x}}
+    =\mArrowWith{\mSplit}
   \end{aligned}
-  \right.
-\end{equation}
-
-\begin{equation}
-  \left\mBrace
+  \right.\\
+  &\left\mBrace
   \begin{aligned}
     &\mUnsplit'
     \mIn\mArrowTypeClass\mSuperSet\mPolymorphicTypeParameter{a}
     \mSuperClass{}(\mB\mFuncArrow\mC\mFuncArrow\mD)
     \mFuncArrow\left(\mPairWith{\mB}{\mC}\mArrowArrow{\mPolymorphicTypeParameter{a}}\mD\right)\\
     &\mUnsplit'
-    =\mLambda\mBinOp\mLambdaArrow{}\mArrowWith{\mLambda\mPairWith{x}{y}\mFuncArrow x\mBinOp y}
+    =\mArrowWith{\mUnsplit}
   \end{aligned}
   \right.
-\end{equation}
+\end{align}
 
-自動導出．
-
+型クラス $\mArrowTypeClass$ には関数 $\mSecond$ のデフォルト実装
 \begin{equation}
   \mSecond
-  =\mSwap\mCompCat\mFirst\dotsb
+  =\mArrowWith{\mSwap}\mCompCat\mFirst
+  \mWhere\mSwap\mPairWith{x}{y}\mLetEq\mPairWith{y}{x}
 \end{equation}
-
+が与えられており，この $\mSecond$ を使ってブラケットの定義
 \begin{equation}
   \begin{bmatrix}
     f\\
@@ -6686,11 +6746,15 @@ Id.
   \end{bmatrix}
   =\mSecond g\mCompCat\mFirst f
 \end{equation}
+が与えられている．\haskell ではこのブラケットを \code{f***g} と表現す
+る．
 
+もう一つ便利なユーティリティ関数 $\mLiftATwo$ が定義されており，
 \begin{equation}
   \mLiftATwo\mBinOp fg
-  =(\mUnsplit'\mBinOp)\mCompCat\mSecond g\mCompCat\mFirst f\mCompCat\mSplit'
+  =\mArrowWith{\mUnsplit\mBinOp}\mCompCat\mSecond g\mCompCat\mFirst f\mCompCat{}\mArrowWith{\mSplit}
 \end{equation}
+である．
 
 使ってみる．
 
