@@ -6505,11 +6505,15 @@ $\begin{bmatrix}\vdots\end{bmatrix}$ だけの問題である．
 \begin{equation}
   \mMean\mList{x}
   =\mUncurry(/)
+  \mComp
   \begin{bmatrix}
     \mSum\\
     \mLength
   \end{bmatrix}
-  (\mSplit\mList{x})
+  \mComp{}
+  \mSplit
+  \mApply
+  \mList{x}
 \end{equation}
 という形に持っていきたい．それには
 \begin{equation}
@@ -6685,7 +6689,7 @@ Id.
 
 \begin{equation}
   \mLiftATwo\mBinOp fg
-  =(\mUnsplit\mBinOp)\mCompCat\mSecond g\mCompCat\mFirst f\mCompCat\mSplit
+  =(\mUnsplit'\mBinOp)\mCompCat\mSecond g\mCompCat\mFirst f\mCompCat\mSplit'
 \end{equation}
 
 使ってみる．
