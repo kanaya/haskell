@@ -241,7 +241,7 @@
 \DeclareMathOperator{\mBindRightIgnore}{\twoheadrightarrow}
 \DeclareMathOperator{\mBinOp}{\bigstar}
 \DeclareMathOperator{\mCatMapsTo}{\rightarrowtail}
-\DeclareMathOperator{\mComp}{\centerdot}
+\DeclareMathOperator{\mCompFunc}{\centerdot}
 \DeclareMathOperator{\mCompCat}{\bullet}
 \DeclareMathOperator{\mCompProj}{\circledcirc}
 \DeclareMathOperator{\mCompRot}{\cdot} % !!! conflict
@@ -332,7 +332,7 @@
 \newcommand{\mPolymorphicTypeAssemble}[2]{{}^\mPolymorphicTypeParameter{#1}\[\mType{#2}\]}
 \newcommand{\mPolymporphicTypeAssemble}[3]{{}^\mPolymorphicTypeParameter{#1}\[\mType{#2}\,\mType{#3}\]}
 
-\newcommand{\mComplexType}[1]{\mTypeAssemble{C}{#1}}
+\newcommand{\mCompFunclexType}[1]{\mTypeAssemble{C}{#1}}
 \newcommand{\mEitherType}[2]{\mTypeAssembleII{E}{#1}{#2}}
 \newcommand{\mIOType}[1]{\mTypeAssemble{IO}{#1}}
 \newcommand{\mListType}[1]{\mTypeAssemble{L}{#1}}
@@ -340,7 +340,7 @@
 \newcommand{\mZipListType}[1]{\mTypeAssemble{ZL}{#1}}
 
 % Polymorphic types with specific data types
-\newcommand{\mComplexDoubleType}{\mComplexType{\mDoubleType}}
+\newcommand{\mCompFunclexDoubleType}{\mCompFunclexType{\mDoubleType}}
 \newcommand{\mIODoubleType}{\mIOType{\mDoubleType}}
 \newcommand{\mIOIntType}{\mIOType{\mIntType}}
 \newcommand{\mIOStringType}{\mIOType{\mStringType}}
@@ -531,7 +531,7 @@ $\mComplexPlus$&複素数値コンストラクタ&\code{:+}\\
 $\mFromIntegral$&型変換演算子&\code{fromIntegral}\\
 $\star$&種&\code{*}\\
 \hline
-$\mComp$&関数合成&\code{.}\\
+$\mCompFunc$&関数合成&\code{.}\\
 $\mCompCat$&圏の関数合成&\code{.}\\
 $\mApply$&関数適用&\code{\$}\\
 % $\mApplyRight$&右関数右適用&\\
@@ -1290,22 +1290,22 @@ z = f2(f1(x))
 \eqref{eq:ffx}の括弧は省略できない．
 
 ここで，引数のことは忘れて，関数 $f_1$ と関数 $f_2$ を先に\keyword{合
-  成}しておきたいとしよう．その合成を $f_2\mComp f_1$ と書く．演算子
-$\mComp$ は\keyword{関数合成演算子}と呼ぶ．合成はラムダ式を使って
+  成}しておきたいとしよう．その合成を $f_2\mCompFunc f_1$ と書く．演算子
+$\mCompFunc$ は\keyword{関数合成演算子}と呼ぶ．合成はラムダ式を使って
 \begin{equation}
-  f_2\mComp f_1
+  f_2\mCompFunc f_1
   =f_2(f_1\mAnonParam)
 \end{equation}
-と定義できる．関数合成演算子 $\mComp$ は関数適用よりも優先順位が高く，
-$\left(f_2\mComp f_1\right)x$ は単に $f_2\mComp f_1x$ と書いても良い．
+と定義できる．関数合成演算子 $\mCompFunc$ は関数適用よりも優先順位が高く，
+$\left(f_2\mCompFunc f_1\right)x$ は単に $f_2\mCompFunc f_1x$ と書いても良い．
 この記法は括弧の数を減らすためにしばしば用いられる．式\eqref{eq:ffx}は
 関数合成演算子を用いると
 \begin{equation}
   z
-  =f_2\mComp f_1x
+  =f_2\mCompFunc f_1x
 \end{equation}
 と書ける．\footnote{\haskell では関数 \code{f2} と関数 \code{f1} の合
-  成は \code{f2.f1} である．式 $z=f_2\mComp f_1x$ は \code{z = f2.f1
+  成は \code{f2.f1} である．式 $z=f_2\mCompFunc f_1x$ は \code{z = f2.f1
     x} と書く．}
 
 関数合成演算子とは逆に，結合の優先順位の低い\keyword{関数適用演算子}も
@@ -1416,7 +1416,7 @@ $y$ 乗を $x^y$ ではなく $x\uparrow y$ と書いた．これは
   任意の二項演算子 $\mBinOp$ について $(\mBinOp x)=\mAnonParam\mBinOp
   x$ であり，$(x\mBinOp)=x\mBinOp\mAnonParam$ である．これらの記法をセ
   クション記法と呼ぶ．\item 関数 $f$ と関数 $g$ を合成した関数を
-  $f\mComp g$ と書く．\item 式 $f\mApply gx$ は $f(gx)$ の意味である．
+  $f\mCompFunc g$ と書く．\item 式 $f\mApply gx$ は $f(gx)$ の意味である．
 \item 関数を引数に取ったり，関数を返す関数のことを高階関数と呼ぶ．
 \item \haskell のラムダ式はいつもレキシカルクロージャである．
 \end{enumerate}
@@ -3414,24 +3414,24 @@ $\mPolymorphicTypeParameter{f}=\mFuncTypeConstructor$ を考えている
 
 いま関数 $f\mIn\mProjEXP{\mR}{\mA }$ とは別な関数
 $g\mIn\mProjEXP{\mA }{\mB }$ があったとしよう．関数 $f$ と関数
-$g$ の合成 $g\mComp f$ の型は
+$g$ の合成 $g\mCompFunc f$ の型は
 \begin{equation}
-g\mComp f\mIn\mProjEXP{\mR}{\mB }
+g\mCompFunc f\mIn\mProjEXP{\mR}{\mB }
 \end{equation}
 であるから，
 \begin{equation}
-(\mComp)\mIn{}\mProjEXP{\mProjEXP{(\mProjEXP{\mA }{\mB })}{(\mProjEXP{\mR}{\mA })}}
+(\mCompFunc)\mIn{}\mProjEXP{\mProjEXP{(\mProjEXP{\mA }{\mB })}{(\mProjEXP{\mR}{\mA })}}
   {(\mProjEXP{\mR}{\mB })}
 \end{equation}
 である．つまり関数のマップ演算子 $(\mMapFunc)$ と関数の合成演算子
-$(\mComp)$ は同じ型を持つ．
+$(\mCompFunc)$ は同じ型を持つ．
 
 幸い，我々は関数のマップ演算子の実装に関しては，型さえ守っていれば（そ
   して第\ref{ch:monad}章で述べる関手則さえ守っていれば）自由に選べる．
 そこで
 \begin{equation}
   g\mMapFunc f
-  =g\mComp f
+  =g\mCompFunc f
 \end{equation}
 としておこう．これは
 \begin{equation}
@@ -3485,7 +3485,7 @@ g\mAppMapFunc f=\mLambdaEXP{x}{gx(fx)}
 &=\mLambdaEXP{x}{\mFuncWith{g}x(fx)}\\
 &=\mLambdaEXP{x}{(\mLambdaEXP{\_}{g})x(fx)}\\
 &=\mLambdaEXP{x}{g(fx)}\\
-&=g\mComp f
+&=g\mCompFunc f
 \end{align}
 であるからである．
 
@@ -3784,7 +3784,7 @@ Maybeモナド
 関手の一般マップ演算子 $(\mMap)$ は次の規則に従う．
 \begin{enumerate}
 \item 単位元の存在: $\mId\mMap u=u$
-\item 合成則: $(f\mComp g)\mMap=(f\mMap)\mComp{}(g\mMap)$%=f\mMap{}(g\mMap\mAnonParam)$
+\item 合成則: $(f\mCompFunc g)\mMap=(f\mMap)\mCompFunc{}(g\mMap)$%=f\mMap{}(g\mMap\mAnonParam)$
 \end{enumerate}
 ただし関数 $\mId$ は $\mId x=x$ で定義される．もちろん
 $\mId=\mAnonParam$ と定義しても同じである．
@@ -3797,13 +3797,13 @@ $\mList{x}$ である．単位元の存在とは，そのような関数 $\mId$ 
 
 合成則のほうは $\mList{x}=[x]$ を例に考えるとわかりやすく，
 \begin{align}
-  ((f\mMap)\mComp(g\mMap))\mList{x}
+  ((f\mMap)\mCompFunc(g\mMap))\mList{x}
   &=(f\mMap{}(g\mMap\mAnonParam))\mList{x}\\
   &=f\mMap{}(g\mMap\mList{x})\\
   &=f\mMap{}[gx]\\
-  &=[(f\mComp g)x]\\
-  &=(f\mComp g)\mMap{}[x]\\
-  &=(f\mComp g)\mMap\mList{x}
+  &=[(f\mCompFunc g)x]\\
+  &=(f\mCompFunc g)\mMap{}[x]\\
+  &=(f\mCompFunc g)\mMap\mList{x}
 \end{align}
 のような関係を一般化したものだと考えれば良い．
 
@@ -3816,7 +3816,7 @@ $\mList{x}$ である．単位元の存在とは，そのような関数 $\mId$ 
 \begin{enumerate}
 \item 単位元の存在: $\mPureWith{\mId}\mAppMap u=u$
 \item 準同型則: $\mPureWith{f}\mAppMap\mPureWith{x}=\mPureWith{fx}$
-\item 合成則: $\mPureWith{(\mComp)}\mAppMap\phi\mAppMap\psi\mAppMap v=\phi\mAppMap{}(\psi\mAppMap v)$
+\item 合成則: $\mPureWith{(\mCompFunc)}\mAppMap\phi\mAppMap\psi\mAppMap v=\phi\mAppMap{}(\psi\mAppMap v)$
 \item 交換則: $\varphi\mAppMap\mPureWith{y}=\mPureWith{(\mApply y)}\mAppMap\varphi$
 % \item $f\mMap=\mPureWith{f}\mAppMap$ --- （上述の四つの法則から導かれる）
 \end{enumerate}
@@ -3837,17 +3837,17 @@ f&\Big\downarrow&&\Big\downarrow&\mPureWith{f}\mAppMap\\
 $\phi=\mPureWith{g},\psi=\mPureWith{h},v=\mPureWith{z}$ とすると，合成
 則の左辺は
 \begin{align}
-\mPureWith{(\mComp)}\mAppMap\phi\mAppMap\psi\mAppMap v
-&=\mPureWith{(\mComp)g}\mAppMap\psi\mAppMap v\\
-&=\mPureWith{(\mComp)gh}\mAppMap v\\
-&=\mPureWith{g\mComp h}\mAppMap v\\
-&=\mPureWith{g\mComp hz}
+\mPureWith{(\mCompFunc)}\mAppMap\phi\mAppMap\psi\mAppMap v
+&=\mPureWith{(\mCompFunc)g}\mAppMap\psi\mAppMap v\\
+&=\mPureWith{(\mCompFunc)gh}\mAppMap v\\
+&=\mPureWith{g\mCompFunc h}\mAppMap v\\
+&=\mPureWith{g\mCompFunc hz}
 \end{align}
 となる一方，合成則の右辺は
 \begin{align}
 \phi\mAppMap{}(\psi\mAppMap v)
 &=\phi\mAppMap\mPureWith{hz}\\
-&=\mPureWith{g\mComp hz}
+&=\mPureWith{g\mCompFunc hz}
 \end{align}
 となり一致する．合成則とは，このような関係が満たされるように一般アプリ
 カティブマップ演算子を定義しておきなさいという意味だ．
@@ -3874,24 +3874,24 @@ v=\mPureWith{y}
 \begin{align}
 i\mBind(j\mBind v)&=i\mBind\mPureWith{gy}\\
 &=\mPureWith{f(gy)}\\
-&=\mPureWith{f\mComp gy}
+&=\mPureWith{f\mCompFunc gy}
 \end{align}
 である一方，$k=i\mBind{}(j\mAnonParam)$ とすると
 \begin{align}
 kz&=(i\mBind(j\mAnonParam))z\\
 &=i\mBind(jz)\\
 &=\mPureWith{f(gz)}\\
-&=\mPureWith{f\mComp gz}
+&=\mPureWith{f\mCompFunc gz}
 \end{align}
 であるから
 \begin{equation}
-k=i\mBind{}(j\mAnonParam)=\mPureWith{f\mComp g\mAnonParam}
+k=i\mBind{}(j\mAnonParam)=\mPureWith{f\mCompFunc g\mAnonParam}
 \end{equation}
 を得る．ここで
 \begin{align}
-\mPureWith{f\mComp g\mAnonParam}\mBind v
-&=(f\mComp g)\mMap v\\
-&=\mPureWith{f\mComp gy}
+\mPureWith{f\mCompFunc g\mAnonParam}\mBind v
+&=(f\mCompFunc g)\mMap v\\
+&=\mPureWith{f\mCompFunc gy}
 \end{align}
 であるから，結合則
 \begin{align}
@@ -3973,7 +3973,7 @@ Maybe
   &$\mAppMapFunc$
   &$\mMapFunc$
   &$\mAnonParam$
-  &$\mComp$\\
+  &$\mCompFunc$\\
 \hline
 整数
   &
@@ -4022,7 +4022,7 @@ g\mBindFunc f=\mLambdaEXP{x}{g(fx)x}
 &=\mLambdaEXP{x}{\mFuncWith{g(fx)}x}\\
 &=\mLambdaEXP{x}{(\mLambdaEXP{\_}{g(fx)})x}\\
 &=\mLambdaEXP{x}{g(fx)}\\
-&=g\mComp f\\
+&=g\mCompFunc f\\
 &=g\mMapFunc f
 \end{align}
 のように合成できる．
@@ -4030,7 +4030,7 @@ g\mBindFunc f=\mLambdaEXP{x}{g(fx)x}
 まとめると
 \begin{align}
 \mFuncWith{x}&=\mLambdaEXP{\_}{x}\\
-g\mMapFunc f&=\mLambdaEXP{x}{g(fx)}=g\mComp f\\
+g\mMapFunc f&=\mLambdaEXP{x}{g(fx)}=g\mCompFunc f\\
 g\mAppMapFunc f&=\mLambdaEXP{x}{gx(fx)}\\
 g\mBindFunc f&=\mLambdaEXP{x}{g(fx)x}
 \end{align}
@@ -4045,10 +4045,10 @@ g\mBindFunc f&=\mLambdaEXP{x}{g(fx)x}
 関数はモノイドとしての性質も持つ．関数 $\mId=\mAnonParam$ とすると，任
 意の関数 $f$ に対して
 \begin{equation}
-\mId\mComp f=f\mComp\mId=f
+\mId\mCompFunc f=f\mCompFunc\mId=f
 \end{equation}
 であるから，関数全体の集合を $\mFSet$ で表すと，組み合わせ
-$(\mFSet,\mComp,\mId)$ はモノイドである．
+$(\mFSet,\mCompFunc,\mId)$ はモノイドである．
 
 モナドでありモノイドである型クラスを\keyword{モナドプラス}と呼ぶ．関数
 はモナドプラスである．
@@ -5170,7 +5170,7 @@ int main(void) {
 副作用のないプログラムはひとつの関数で書ける．その関数を $\mMainFunc$
 と呼ぶことにすると，この $\mMainFunc$ 関数を
 \begin{equation}
-\mMainFunc=f_n\mComp f_{n-1}\mComp\dotsb\mComp f_1
+\mMainFunc=f_n\mCompFunc f_{n-1}\mCompFunc\dotsb\mCompFunc f_1
 \end{equation}
 と部分関数に分解することがプログラマの能力である．副作用のないプログラ
 ムとは，コマンドラインから引数 $x$ を受け取り，なんらかの処理を行い，
@@ -5515,7 +5515,7 @@ a = ar :+ ai
 
 このように\haskell では複素数を
 \begin{equation}
-  \mComplexType{a}=\mathop{\mTypeConstructor{Complex}}\mA
+  \mCompFunclexType{a}=\mathop{\mTypeConstructor{Complex}}\mA
 \end{equation}
 の型パラメタ $\mA $ に $\mFloatType$ 型または $\mDoubleType$ 型を
 当てはめて構築した型を用いる．$\mFloatType$ 型および $\mDoubleType$ 型
@@ -5538,8 +5538,8 @@ $\mSq'$ 関数と $\sgn'$ 関数に置き換えたことで，
     &\mSq'
     \mIn\mRealFloatTypeClass\mSuperSet\mA
     \mSuperClass\mA
-    \mFuncArrow\mComplexType{a}
-    \mFuncArrow\mComplexType{a}\\
+    \mFuncArrow\mCompFunclexType{a}
+    \mFuncArrow\mCompFunclexType{a}\\
     &\mSq'x
     =x*x
   \end{aligned}
@@ -5552,9 +5552,9 @@ $\mSq'$ 関数と $\sgn'$ 関数に置き換えたことで，
     &\begin{aligned}
        \sgn'
        &\mIn\mRealFloatTypeClass\mSuperSet\mA\\
-       &\quad\mSuperClass\mComplexType{a}
-       \mFuncArrow\mComplexType{a}
-       \mFuncArrow\mComplexType{a}
+       &\quad\mSuperClass\mCompFunclexType{a}
+       \mFuncArrow\mCompFunclexType{a}
+       \mFuncArrow\mCompFunclexType{a}
        \mFuncArrow\mA
      \end{aligned}\\
     &\begin{aligned}
@@ -5589,7 +5589,7 @@ $\mSq'$ 関数と $\sgn'$ 関数に置き換えたことで，
   \left\mBrace
   \begin{aligned}
     &(\mComplexTimes)\mIn\mRealFloatTypeClass\mSuperSet\mA \mSuperClass
-    \mProjEXP{\mA }{\mProjEXP{\mComplexType{a}}{\mComplexType{a}}}\\
+    \mProjEXP{\mA }{\mProjEXP{\mCompFunclexType{a}}{\mCompFunclexType{a}}}\\
     &(\mComplexTimes)a(x\mComplexPlus y)=a*x\mComplexPlus a*y
   \end{aligned}
   \right.
@@ -5934,6 +5934,7 @@ main = do
 \section{この章のまとめ*}
 
 \chapter{文字列処理*}
+\label{ch:string}
 \section{文字列型*}
 \section{構文解析 (1)*}
 \section{構文解析 (2)*}
@@ -5941,6 +5942,7 @@ main = do
 \section{この章のまとめ}
 
 \chapter{状態系モナド*}
+\label{ch:state-monad}
 \section{STモナド*}
 \section{Stateモナド*}
 \section{ReaderモナドとWriterモナド*}
@@ -5948,6 +5950,7 @@ main = do
 \section{この章のまとめ*}
 
 \chapter{モナド変換子*}
+\label{ch:monad-transfer}
 \section{Identityモナド*}
 \section{StateTモナド*}
 \section{リフト*}
@@ -5958,6 +5961,7 @@ main = do
 % \section{余談：プリミティブ型*}
 
 \chapter{例外*}
+\label{ch:exception}
 \section{Eitherモナド*}
 \section{mtlモジュール*}
 \section{exceptionsモジュール*}
@@ -5976,6 +5980,7 @@ main = do
 % http://itchyny.hatenablog.com/entry/2015/12/27/150000
 
 \chapter{Freeモナド*}
+\label{ch:free-monad}
 \section{ドメイン特化言語*}
 \section{Freeモナド*}
 \begin{align}
@@ -6034,7 +6039,7 @@ $\mSqrts$ を考えてみる．
 
 ここで型 $\mA\mFuncArrow[\mA]$ に別名を与えよう．別名を与えるには型シノニ
 ムを定義する方法と，$\mNewTypeDecl$ を用いる方法とがある．前者は単に読
-みやすさの向上のためだけであるが，後者は第\ref{ch:polymorphic-types}章
+みやすさの向上のためだけであるが，後者は第\ref{ch:polymorphic-data-type}章
 で見たように特定の型クラスの新しいインスタンスとしてその型を定義するた
 めである．
 
@@ -6087,14 +6092,20 @@ $\mMapList$ を使う．
 ---
 
 非決定的な関数 $\mDuplicate$ と $\mTriplicate$ を
-\begin{align}
-  \mDuplicate x
-  &=[x,x]\\
-  \mTriplicate x
-  &=[x,x,x]
-\end{align}
+\begin{equation}
+  \left\mBrace
+  \begin{aligned}
+    &\mDuplicate,\mTriplicate
+    \mIn\mA\mFuncArrow[\mA]\\
+    &\mDuplicate x
+    =[x,x]\\
+    &\mTriplicate x
+    =[x,x,x]
+  \end{aligned}
+  \right.
+\end{equation}
 のように定義しよう．このふたつの関数をもし合成できるとしたら，合成され
-た関数は，$x$ を引数に取り $[x,x,x,x,x,x]$ を返すものと考えるのが自然で
+た関数は $x$ を引数に取り $[x,x,x,x,x,x]$ を返すものと考えるのが自然で
 あろう．しかし，どのように合成したら良いだろうか．
 
 いま欲しいのは，
@@ -6103,10 +6114,23 @@ $\mMapList$ を使う．
   =(\mTriplicate\mSomeOp\mDuplicate)x
 \end{equation}
 としたときに $y=[x,x,x,x,x,x]$ となるような合成演算子 $\mSomeOp$ であ
-る．
+る．ここで関数合成演算子 $(\mCompFunc)$ が使えないことは明らかである．と言
+うのも，関数 $\mTriplicate$ はリストを引数に取らないため
+\begin{equation}
+  \mTriplicate\mCompFunc\mDuplicate x
+  =\mTriplicate[x,x]
+  \dots\text{型エラー!}
+\end{equation}
+となってしまうからである．リストのマップ演算子 $(\mMapList)$ を使うと
+\begin{align}
+  \mTriplicate\mMapList{}(\mDuplicate x)
+  &=\mTriplicate\mMapList{}[x,x]\\
+  &=[[x,x,x],[x,x,x]]
+\end{align}
+であるから，型エラーは回避できる．
 
-関数合成演算子 $(\mComp)$ が使えないことは明らかである．少し検討すると，
-このふたつの関数は
+このように検討すると，このふたつの関数 $\mDuplicate$ と $\mTriplicate$
+は
 \begin{equation}
   y
   =\mJoinList(\mTriplicate\mMapList{}(\mDuplicate x))
@@ -6115,16 +6139,19 @@ $\mMapList$ を使う．
 \begin{equation}
   \label{eq:triplicate-duplicate}
   y
-  =\mJoinList\mComp{}(\mTriplicate\mMapList)\mComp\mDuplicate\mApply x
+  =\mJoinList\mCompFunc{}(\mTriplicate\mMapList)\mCompFunc\mDuplicate\mApply x
 \end{equation}
 となり，少しは読みやすくなる．しかし，合成のたびに平坦化演算子
 $(\mJoinList)$ やマップ演算子 $(\mMapList)$ を書くのは煩雑であるし，3段以
 上の合成になると手に負えなくなる．
 
----
+そこで，関数合成をオーバーライドする方法が欲しくなる．アプリカティブ関
+手のマップ演算子 $(\mMap)$ は各々のインスタンスで独自にオーバーライド
+されていた．リストのマップ演算子 $(\mMapList)$ や Maybe のマップ演算子
+$(\mMapMaybe)$ がそれらである．同じように，関数合成 $(\mCompFunc)$ も一般
+化したものが欲しい．
 
-そこで，関数合成をオーバーライドする方法が欲しくなる．それが
-\keyword{カテゴリ}である．
+それが\keyword{カテゴリ}の合成演算子 $(\mCompCat)$ である．
 
 ---
 
@@ -6168,7 +6195,7 @@ $\mCategoryTypeClass$ 型クラスは次のように定義されている．
 \end{equation}
 型パラメタ $\mPolymorphicTypeParameter{c}$ が
 $\mPolymorphicTypeParameter{c}=(\mFuncArrow)$ のとき$\mIdCat=\mId$ かつ
-$\mCompCat=\mComp$ になるので，圏は関数を何やら拡張したものであること
+$\mCompCat=\mCompFunc$ になるので，圏は関数を何やら拡張したものであること
 がわかる．
 
 ---
@@ -6211,12 +6238,12 @@ $(\mX\mFuncArrow[\mX])\mFuncArrow(\mX\mFuncArrow[\mX])\mFuncArrow(\mX\mFuncArrow
 であるから，式\eqref{eq:triplicate-duplicate}から
 \begin{equation}
   \mTriplicate\mCompCat\mDuplicate
-  =\mJoinList\mComp(\mTriplicate\mMapList)\mComp\mDuplicate
+  =\mJoinList\mCompFunc(\mTriplicate\mMapList)\mCompFunc\mDuplicate
 \end{equation}
 をそのまま抽象化して
 \begin{equation}
   \label{eq:triplicate-duplicate-comp}
-  f\mCompCat g=\mJoinList\mComp(f\mMapList)\mComp g
+  f\mCompCat g=\mJoinList\mCompFunc(f\mMapList)\mCompFunc g
 \end{equation}
 とすれば，そのまま使えそうである．
 
@@ -6234,7 +6261,7 @@ $\mCategoryTypeClass$ 型クラスのインスタンスにできる．ただし�
     \mIdCat
     &=\mValueWith{NonDet}{\mLambdaEXP{x}{[x]}}\\
     \mValueWith{NonDet}{f}\mCompCat\mValueWith{NonDet}{g}
-    &=\mValueWith{NonDet}{\mJoinList\mComp{}(f\mMapList)\mComp g}
+    &=\mValueWith{NonDet}{\mJoinList\mCompFunc{}(f\mMapList)\mCompFunc g}
   \end{aligned}
   \right.
 \end{multline}
@@ -6268,7 +6295,7 @@ $\mDuplicate$ と $\mTriplicate$ を定義しておこう．
 \begin{align}
   \mTriplicate'\mCompCat\mDuplicate'
   &=\mValueWith{NonDet}{\mTriplicate}\mCompCat\mValueWith{NonDet}{\mDuplicate}\\
-  &=\mValueWith{NonDet}{\mJoinList\mComp(\mTriplicate\mMapList)\mComp\mDuplicate}
+  &=\mValueWith{NonDet}{\mJoinList\mCompFunc(\mTriplicate\mMapList)\mCompFunc\mDuplicate}
 \end{align}
 である．
 
@@ -6336,14 +6363,14 @@ $(\mBindList)$ で確定する．
 
 そこでリストのバインド演算子を用いると
 \begin{align}
-  \mJoinList\mComp(f\mMapList)\mComp g
+  \mJoinList\mCompFunc(f\mMapList)\mCompFunc g
   &=\mLambda x\mLambdaArrow\mJoinList(f\mMapList(gx))\\
   &=\mLambda x\mLambdaArrow f\mBindList(gx)\\
   &=f\mBindComp g
 \end{align}
 であるから，式\eqref{eq:nondet-instance}の2行目は
 \begin{equation}
-  \mValueWith{NonDet}{f}\mComp\mValueWith{NonDet}{g}
+  \mValueWith{NonDet}{f}\mCompFunc\mValueWith{NonDet}{g}
   =\mValueWith{NonDet}{f\mBindComp g}
 \end{equation}
 とも書ける．改めて式\eqref{eq:nondet-instance}を書き直すと
@@ -6404,7 +6431,7 @@ instance Cat.Category NonDet where
 
 \begin{equation}
   y
-  =\sharp\mComp(f\mMapMaybe)\mComp g\mApply x
+  =\sharp\mCompFunc(f\mMapMaybe)\mCompFunc g\mApply x
 \end{equation}
 
 \begin{equation}
@@ -6436,6 +6463,7 @@ instance Cat.Category NonDet where
 \end{equation}
 
 \chapter{アローと継続*}
+\label{ch:arrow}
 
 \begin{leader}
   カテゴリが抽象化したのは関数の合成すなわち関数の分解方法である．モナ
@@ -6512,12 +6540,12 @@ $\begin{bmatrix}\vdots\end{bmatrix}$ だけの問題になる．
 \begin{equation}
   \mMean\mList{x}
   =\mUncurry(/)
-  \mComp
+  \mCompFunc
   \begin{bmatrix}
     \mSum\\
     \mLength
   \end{bmatrix}
-  \mComp{}
+  \mCompFunc{}
   \mSplit
   \mApply
   \mList{x}
@@ -6540,8 +6568,8 @@ $\begin{bmatrix}\vdots\end{bmatrix}$ が是非とも必要である．この特�
 そして，関数の合成を考える以上
 \begin{equation}
   \begin{bmatrix}
-    f\mComp f'\\
-    g\mComp g'
+    f\mCompFunc f'\\
+    g\mCompFunc g'
   \end{bmatrix}
   =
   \begin{bmatrix}
@@ -6623,8 +6651,8 @@ $(\mArrowArrow{\mPolymorphicTypeParameter{a}})\mB\mC$ の中置記法バージ�
   \mArrow{f_1}\mCompCat\mArrow{f_2}
   =
   \begin{bmatrix}
-    f_{1,1}\mComp f_{2,1}\\
-    f_{1,2}\mComp f_{2,2}
+    f_{1,1}\mCompFunc f_{2,1}\\
+    f_{1,2}\mCompFunc f_{2,2}
   \end{bmatrix}
 \end{equation}
 と定義する．
@@ -6702,7 +6730,7 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
     \mIdCat
     &=\mArrowWith{\mId}\\
     \mValueWith{SimpleFunc}{f}\mCompCat\mValueWith{SimpleFunc}{g}
-    &=\mValueWith{SimpleFunc}{f\mComp g}
+    &=\mValueWith{SimpleFunc}{f\mCompFunc g}
   \end{aligned}
   \right.
 \end{multline}
@@ -6832,8 +6860,8 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
   \mArrow{f}\mCompCat\mArrow{g}
   =
   \begin{bmatrix}
-    f_1\mComp g_1\\
-    f_2\mComp g_2
+    f_1\mCompFunc g_1\\
+    f_2\mCompFunc g_2
   \end{bmatrix}
   \mWhere...
 \end{equation}
@@ -6992,7 +7020,7 @@ $\Vec{f_1}***\Vec{f_2}$ も関数ではない．
 \end{multline}
 
 \begin{equation}
-  z=f_2\mComp f_1x
+  z=f_2\mCompFunc f_1x
 \end{equation}
 
 \begin{equation}
@@ -7092,12 +7120,12 @@ $\Vec{f_1}***\Vec{f_2}$ も関数ではない．
 
 \begin{equation}
   \mLambda x\mLambdaArrow((\mLambda y\mLambdaArrow\mJustWith{y*2})\mBind{}\mJustWith{x*3}))
-  =(\mJustWith{\mAnonParam}\mComp(*2))\mBindComp(\mJustWith{\mAnonParam}\mComp(*3))
+  =(\mJustWith{\mAnonParam}\mCompFunc(*2))\mBindComp(\mJustWith{\mAnonParam}\mCompFunc(*3))
 \end{equation}
 
 \begin{multline}
   \mLambda x\mLambdaArrow((\mLambda y\mLambdaArrow\mJustWith{y*x})\mBind{}\mJustWith{x*2})\\
-  =(\mJustWith{\mAnonParam}\mComp\mUncurry(*))\mBindComp(\mJustWith{\mAnonParam}\mComp{}((*2),\mId))
+  =(\mJustWith{\mAnonParam}\mCompFunc\mUncurry(*))\mBindComp(\mJustWith{\mAnonParam}\mCompFunc{}((*2),\mId))
 \end{multline}
 
 ---
@@ -7135,6 +7163,7 @@ $\Vec{f_1}***\Vec{f_2}$ も関数ではない．
 \section{この章のまとめ*}
 
 \chapter{モジュール*}
+\label{ch:module}
 \section{標準モジュール*}
 \section{モジュールの作成*}
 % http://mew.org/~kazu/academic/2013/miyazaki-u/syntax.html
@@ -7148,6 +7177,7 @@ $\Vec{f_1}***\Vec{f_2}$ も関数ではない．
 \part{補講}
 
 \chapter{代数的構造}
+\label{ch:algebra}
 
 \begin{leader}
 この章では「代数的構造」を見ていくことにする．代数的構造とは，四則演算
@@ -7667,6 +7697,7 @@ Abelian Group&$\checkmark$&$\checkmark$&$\checkmark$&$\checkmark$&$\checkmark$\\
 
 
 \chapter{モナドとプログラミング言語*}
+\label{ch:monad-and-programming-lang}
 \section{ジョイン*}
 \section{クライスリ・トリプル*}
 \section{*}
@@ -7678,6 +7709,7 @@ $\mu$再帰関数
 
 
 \chapter{ラムダ*}
+\label{ch:lambda}
 
 \section{条件式}
 
@@ -7711,6 +7743,7 @@ f&=\mLambdaEXP{xy}{y}\\
 \section{この章のまとめ*}
 
 \chapter{型付きラムダ*}
+\label{ch:typed-lambda}
 \section{型付きラムダ*}
 \section{カリー＝ハワード同型対応*}
 \section{*}
@@ -7748,6 +7781,7 @@ int main(void) {
 % https://ja.wikipedia.org/wiki/ホーア論理
 
 \chapter{マクロ*}
+\label{ch:macro}
 
 \section{\commonlisp のマクロ}
 
@@ -8025,10 +8059,12 @@ int main(void) {
 \end{note}
 
 \chapter{もっと勉強したい人へ*}
+\label{ch:further-reading}
 
 % 述語論理
 
 \chapter*{キーワード一覧}
+\label{ch:keywords}
 
 \chapter*{キーワード対訳表}
 
