@@ -220,6 +220,7 @@
 
 % Operators
 \newcommand{\mArrowArrow}[1]{\xrightarrow{#1}}
+\newcommand{\mCatArrow}[1]{\xrightarrow{#1}}
 
 \DeclareMathOperator{\mAppend}{\oplus}
 \DeclareMathOperator{\mApply}{\$}
@@ -232,6 +233,7 @@
 % \DeclareMathOperator{\mArrowAnd}{\bigwedge}%{\&\&\&}
 % \DeclareMathOperator{\mArrowOr}{\bigvee}%{\mid\mid\mid}
 % \DeclareMathOperator{\mArrowTimes}{***}
+\DeclareMathOperator{\mArrowArrowA}{\mArrowArrow{\mPolymorphicTypeParameter{a}}}
 \DeclareMathOperator{\mBind}{\heartsuit}
 \DeclareMathOperator{\mBindComp}{\maltese}
 \DeclareMathOperator{\mBindFunc}{\diamondsuit}
@@ -240,7 +242,8 @@
 \DeclareMathOperator{\mBindRight}{\ooalign{$\longrightarrow$\crcr\hss$\mBind$\hss}}
 \DeclareMathOperator{\mBindRightIgnore}{\twoheadrightarrow}
 \DeclareMathOperator{\mBinOp}{\bigstar}
-\DeclareMathOperator{\mCatMapsTo}{\rightarrowtail}
+\DeclareMathOperator{\mCatArrowC}{\mCatArrow{\mPolymorphicTypeParameter{c}}}
+% \DeclareMathOperator{\mCatMapsTo}{\rightarrowtail}
 \DeclareMathOperator{\mCompFunc}{\centerdot}
 \DeclareMathOperator{\mCompCat}{\bullet}
 \DeclareMathOperator{\mCompProj}{\circledcirc}
@@ -322,7 +325,7 @@
 \newcommand{\mUnitType}{\mType{()}}
 
 % Special polymorphic types
-\newcommand{\mCatType}[2]{\llangle\mType{#1}\mCatMapsTo\mType{#2}\rrangle}
+\newcommand{\mCatType}[2]{\llangle\mType{#1}\mCatArrowC\mType{#2}\rrangle}
 \newcommand{\mFuncType}[2]{\langle\mType{#1}\mFuncArrow\mType{#2}\rangle}
 \newcommand{\mPureType}[1]{\[\mType{#1}\]}
 
@@ -395,7 +398,7 @@
 
 \newcommand{\mApplicativeTypeClass}{\mTypeClass{Applicative}}
 \newcommand{\mArrowTypeClass}{\mTypeClass{Arrow}}
-\newcommand{\mCategoryTypeClass}{\mTypeClass{Category}}
+\newcommand{\mCatTypeClass}{\mTypeClass{Category}}
 \newcommand{\mEnumTypeClass}{\mTypeClass{Enum}}
 \newcommand{\mEqTypeClass}{\mTypeClass{Eq}}
 \newcommand{\mFunctorTypeClass}{\mTypeClass{Functor}}
@@ -6026,7 +6029,7 @@ instance Functor f => Monad (Free f) where
 \haskell の関数の引数は常にひとつであり，戻り値も常にひとつである．しか
 し，複数の戻り値を返したい場合もある．例えば実数 $x$ の平方根は
 $\sqrt{x}$ および $-\sqrt{x}$ のふたつである．そこで次のような関数
-$\mSqrts$ を考えてみる．
+$\mSqrts$ ただし
 \begin{equation}
   \left\mBrace
   \begin{aligned}
@@ -6036,20 +6039,28 @@ $\mSqrts$ を考えてみる．
   \end{aligned}
   \right.
 \end{equation}
+を考えてみる．\footnote{\haskell では
+\begin{verbatim}
+  sqrts :: Real a => a -> [a]
+  sqrts = [sqrt x, (-sqrt x)]
+\end{verbatim}
+と書く．}
 
 ここで型 $\mA\mFuncArrow[\mA]$ に別名を与えよう．別名を与えるには型シノニ
 ムを定義する方法と，$\mNewTypeDecl$ を用いる方法とがある．前者は単に読
 みやすさの向上のためだけであるが，後者は第\ref{ch:polymorphic-data-type}章
 で見たように特定の型クラスの新しいインスタンスとしてその型を定義するた
-めである．
-
-我々は後者を選択することにして
+めである．我々は後者を選択することにして
 \begin{equation}
   \mNewTypeDecl\;
   \mTypeConstructor{NonDet}\,\mA\,\mB
   =\mValueRecordWith{NonDet}{\mRun\mIn\mA\mFuncArrow[\mB]}
 \end{equation}
-とする．
+とする．\footnote{\haskell では
+\begin{verbatim}
+  newtype NonDet a b = NonDet { run :: a -> [b] }
+\end{verbatim}
+と書く．}
 
 型コンストラクタ $\mTypeConstructor{NonDet}$ によって作られる型
 $\mTypeAssemble{NonDet}{\mA\,\mB}$ は型 $\mA\mFuncArrow[\mA]$ とは異な
@@ -6065,14 +6076,23 @@ $\mTypeAssemble{NonDet}{\mA\,\mB}$ は型 $\mA\mFuncArrow[\mA]$ とは異な
   \end{aligned}
   \right.
 \end{equation}
-のように定義しよう．
+のように定義しよう．\footnote{\haskell では
+\begin{verbatim}
+  sqrts' :: Real a => NonDet a a
+  sqrts' = NonDet sqrts
+\end{verbatim}
+と書く．}
 
 関数 $\mSqrts'$ はコンテナ $\mValueWith{NonDet}{\dotsb}$ に包まれ
 ているので，
 \begin{equation}
   y=\mRun\mSqrts'x
 \end{equation}
-のようにして呼び出さねばならない．
+のようにして呼び出さねばならない．\footnote{\haskell では
+\begin{verbatim}
+  y = run sqrts' x
+\end{verbatim}
+と書く．}
 
 次節から，多値を返す関数の適用と合成を一般化する．その前に用語の説明を
 しておこう．複数の値を返す関数のうち，返す値の数が定まらないような関数
@@ -6104,9 +6124,17 @@ $\mMapList$ を使う．
   \end{aligned}
   \right.
 \end{equation}
-のように定義しよう．このふたつの関数をもし合成できるとしたら，合成され
-た関数は $x$ を引数に取り $[x,x,x,x,x,x]$ を返すものと考えるのが自然で
-あろう．しかし，どのように合成したら良いだろうか．
+のように定義しよう．\footnote{\haskell では
+\begin{verbatim}
+  duplicate, triplicate :: a -> [a]
+  duplicate x = [x, x]
+  triplicate x = [x, x, x]
+\end{verbatim}
+と書く．}
+
+このふたつの関数 $\mDuplicate$ と $\mTriplicate$ をもし合成できるとし
+たら，合成された関数は $x$ を引数に取り $[x,x,x,x,x,x]$ を返すものと考
+えるのが自然であろう．しかし，どのように合成したら良いだろうか．
 
 いま欲しいのは，
 \begin{equation}
@@ -6129,8 +6157,8 @@ $\mMapList$ を使う．
 \end{align}
 であるから，型エラーは回避できる．
 
-このように検討すると，このふたつの関数 $\mDuplicate$ と $\mTriplicate$
-は
+このように検討していくと，このふたつの関数 $\mDuplicate$ と
+$\mTriplicate$ は
 \begin{equation}
   y
   =\mJoinList(\mTriplicate\mMapList{}(\mDuplicate x))
@@ -6145,31 +6173,67 @@ $\mMapList$ を使う．
 $(\mJoinList)$ やマップ演算子 $(\mMapList)$ を書くのは煩雑であるし，3段以
 上の合成になると手に負えなくなる．
 
-そこで，関数合成をオーバーライドする方法が欲しくなる．アプリカティブ関
-手のマップ演算子 $(\mMap)$ は各々のインスタンスで独自にオーバーライド
-されていた．リストのマップ演算子 $(\mMapList)$ や Maybe のマップ演算子
-$(\mMapMaybe)$ がそれらである．同じように，関数合成 $(\mCompFunc)$ も一般
-化したものが欲しい．
+そこで，関数合成をオーバーライドする方法が欲しくなる．関手のマップ演算
+子 $(\mMap)$ は各々のインスタンスで独自にオーバーライドされていた．リ
+ストのマップ演算子 $(\mMapList)$ や Maybe のマップ演算子
+$(\mMapMaybe)$ がそれらである．同じように，関数合成 $(\mCompFunc)$ も
+一般化したものが欲しい．
 
-それが\keyword{カテゴリ}の合成演算子 $(\mCompCat)$ である．
+それが\keyword{カテゴリ}の合成演算子 $(\mCompCat)$ である．カテゴリは
+$\mCatTypeClass$ で表される型クラスである．
+
+カテゴリ型クラスの定義に立ち入る前に，新しい表記を導入しておこう．これ
+まで型 $\mA$ の引数をひとつ取り，型 $\mB$ の戻り値を返す関数の型を
+$\mA\mFuncArrow\mB$ または $(\mFuncArrow)\mA\mB$ と書いてきた．これか
+ら導入する型は，やはり型 $\mA$ の引数を取り，型 $\mB$ の戻り値を返す．
+この新しい型を $\mA\mCatArrowC\mB$ または $(\mCatArrowC)\mA\mB$ と書こ
+う．ここに $\mPolymorphicTypeParameter{c}$ は型コンストラクタであり，
+カテゴリ型クラスのインスタンスである．型 $(\mCatArrowC)\mA\mB$ の値は
+関数ではなく\keyword{射}と呼ぶ．\footnote{\haskell では
+  $(\mCatArrowC)\mA\mB$ を \code{c a b} と書く．}
+
+カテゴリ型クラス $(\mCatTypeClass)$ は次のように定義されている．
+\begin{equation}
+  \mTypeClassDeclPolymorphic\;
+  \mCatTypeClass\mSuperSet\mPolymorphicTypeParameter{c}
+  \mWhere\left\{
+  \begin{aligned}
+    \mIdCat
+    &\mIn\mX\mCatArrowC\mY\\
+    (\mCompCat)
+    &\mIn{}(\mX\mCatArrowC\mY)\mFuncArrow(\mX\mCatArrowC\mY)\mFuncArrow(\mX\mCatArrowC\mY)
+  \end{aligned}
+  \right.
+\end{equation}
 
 ---
 
-関数 $\mA\mFuncArrow\mB$ の代わりに，射 $\mA\mCatMapsTo\mB$ を考える．
+\begin{equation}
+  \mCatArrow{\mTypeConstructor{NonDet}}{}
+  =\mA\mFuncArrow[\mA]
+\end{equation}
+としよう．\footnote{\haskell では
+\begin{verbatim}
+  newtype NonDet = NonDet a -> [a]
+  instance Category NonDet where ...
+\end{verbatim}
+と書く．\code{...} の部分は後述する．}
+
+---
 
 \begin{align}
   \mIdCat
-  &\mIn{}\mA\mCatMapsTo\mB\\
+  &\mIn{}\mA\mCatArrowC\mB\\
   (\mCompCat)
-  &\mIn{}(\mB\mCatMapsTo\mC)
-  \mFuncArrow(\mA\mCatMapsTo\mB)
-  \mFuncArrow(\mA\mCatMapsTo\mC)
+  &\mIn{}(\mB\mCatArrowC\mC)
+  \mFuncArrow(\mA\mCatArrowC\mB)
+  \mFuncArrow(\mA\mCatArrowC\mC)
 \end{align}
 
 e.g.
 
 \begin{equation}
-  \mA\mCatMapsTo\mB
+  \mA\mCatArrowC\mB
   =\mA\mFuncArrow[\mA]
 \end{equation}
 
@@ -6177,12 +6241,12 @@ e.g.
 
 
 このような問題を解決するのが\keyword{カテゴリ}すなわち
-$\mCategoryTypeClass$ 型クラスである．
+$\mCatTypeClass$ 型クラスである．
 
-$\mCategoryTypeClass$ 型クラスは次のように定義されている．
+$\mCatTypeClass$ 型クラスは次のように定義されている．
 \begin{equation}
   \mTypeClassDeclPolymorphic\;
-  \mCategoryTypeClass\mSuperSet\mPolymorphicTypeParameter{c}
+  \mCatTypeClass\mSuperSet\mPolymorphicTypeParameter{c}
   \mWhere\left\{
   \begin{aligned}
     \mIdCat&\mIn\mPolymorphicTypeParameter{c}\,\mX\,\mX\\
@@ -6199,19 +6263,6 @@ $\mCompCat=\mCompFunc$ になるので，圏は関数を何やら拡張したも
 がわかる．
 
 ---
-
-\begin{equation}
-  \mTypeClassDeclPolymorphic\;
-  \mCategoryTypeClass\mSuperSet\mPolymorphicTypeParameter{c}
-  \mWhere\left\{
-  \begin{aligned}
-    \mIdCat
-    &\mIn\mX\mCatMapsTo\mY\\
-    (\mCompCat)
-    &\mIn{}(\mX\mCatMapsTo\mY)\mFuncArrow(\mX\mCatMapsTo\mY)\mFuncArrow(\mX\mCatMapsTo\mY)
-  \end{aligned}
-  \right.
-\end{equation}
 
 ---
 
@@ -6238,17 +6289,17 @@ $(\mX\mFuncArrow[\mX])\mFuncArrow(\mX\mFuncArrow[\mX])\mFuncArrow(\mX\mFuncArrow
 であるから，式\eqref{eq:triplicate-duplicate}から
 \begin{equation}
   \mTriplicate\mCompCat\mDuplicate
-  =\mJoinList\mCompFunc(\mTriplicate\mMapList)\mCompFunc\mDuplicate
+  =\mJoinList\mCompFunc{}(\mTriplicate\mMapList)\mCompFunc\mDuplicate
 \end{equation}
 をそのまま抽象化して
 \begin{equation}
   \label{eq:triplicate-duplicate-comp}
-  f\mCompCat g=\mJoinList\mCompFunc(f\mMapList)\mCompFunc g
+  f\mCompCat g=\mJoinList\mCompFunc{}(f\mMapList)\mCompFunc g
 \end{equation}
 とすれば，そのまま使えそうである．
 
 これで，我々の型コンストラクタ $\mTypeConstructor{NonDet}$ を
-$\mCategoryTypeClass$ 型クラスのインスタンスにできる．ただし，式
+$\mCatTypeClass$ 型クラスのインスタンスにできる．ただし，式
 \eqref{eq:id-category} ならびに式 \eqref{eq:triplicate-duplicate-comp}
 は型 $\mTypeAssemble{NonDet}{\mA\,\mB}$ に対応していないので，次
 のように値コンストラクタで包んだ上でインスタンス化を行う．
@@ -6295,13 +6346,13 @@ $\mDuplicate$ と $\mTriplicate$ を定義しておこう．
 \begin{align}
   \mTriplicate'\mCompCat\mDuplicate'
   &=\mValueWith{NonDet}{\mTriplicate}\mCompCat\mValueWith{NonDet}{\mDuplicate}\\
-  &=\mValueWith{NonDet}{\mJoinList\mCompFunc(\mTriplicate\mMapList)\mCompFunc\mDuplicate}
+  &=\mValueWith{NonDet}{\mJoinList\mCompFunc{}(\mTriplicate\mMapList)\mCompFunc\mDuplicate}
 \end{align}
 である．
 
 \separator
 
-$\mCategoryTypeClass$ 型クラスは \filename{Control.Category}で
+$\mCatTypeClass$ 型クラスは \filename{Control.Category}で
 \begin{haskellcode}
 \begin{verbatim}
 class Category c where
@@ -6353,7 +6404,7 @@ y = run (triplicate' Cat.. duplicate') x
 ところで，リストのバインド演算子 $(\mBindList)$ は
 \begin{equation}
   f\mBindList\mList{x}
-  =\mJoinList(f\mMapList\mList{x})
+  =\mJoinList{}(f\mMapList\mList{x})
 \end{equation}
 であった．関数 $f$, $g$ が $\mValueWith{NonDet}{f}$,
 $\mValueWith{NonDet}{g}$ として与えられることを考えると，関数 $f$, $g$
@@ -6363,8 +6414,8 @@ $(\mBindList)$ で確定する．
 
 そこでリストのバインド演算子を用いると
 \begin{align}
-  \mJoinList\mCompFunc(f\mMapList)\mCompFunc g
-  &=\mLambda x\mLambdaArrow\mJoinList(f\mMapList(gx))\\
+  \mJoinList\mCompFunc{}(f\mMapList)\mCompFunc g
+  &=\mLambda x\mLambdaArrow\mJoinList{}(f\mMapList(gx))\\
   &=\mLambda x\mLambdaArrow f\mBindList(gx)\\
   &=f\mBindComp g
 \end{align}
@@ -6377,7 +6428,7 @@ $(\mBindList)$ で確定する．
 % pureも説明!!
 \begin{multline}
   \mInstanceDeclPolymorphic\;
-  \mCategoryTypeClass\mSuperSet\mTypeConstructor{NonDet}\\
+  \mCatTypeClass\mSuperSet\mTypeConstructor{NonDet}\\
   \mWhere\left\{
   \begin{aligned}
     \mIdCat x
@@ -6669,7 +6720,7 @@ $(\mArrowArrow{\mPolymorphicTypeParameter{a}})\mB\mC$ の中置記法バージ�
 これらの実装を与える．アロー型クラスは次のように定義されている．
 \begin{multline}
   \mTypeClassDeclPolymorphic\;
-  \mCategoryTypeClass\mSuperSet\mPolymorphicTypeParameter{a}
+  \mCatTypeClass\mSuperSet\mPolymorphicTypeParameter{a}
   \mSuperClass
   \mArrowTypeClass\mSuperSet\mPolymorphicTypeParameter{a}\\
   \mWhere{}
@@ -6723,7 +6774,7 @@ $\mArrowTypeClass$ のインスタンスにしてみよう．
 $\mArrowTypeClass$ のインスタンスでもなければならないので，
 \begin{multline}
   \mInstanceDeclPolymorphic\;
-  \mCategoryTypeClass\mSuperSet\mTypeConstructor{SimpleFunc}\\
+  \mCatTypeClass\mSuperSet\mTypeConstructor{SimpleFunc}\\
   \mWhere{}
   \left\{
   \begin{aligned}
@@ -6959,7 +7010,7 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
 ならば $f$ もアローであるべきだ．
 
 これまでの関数の型は $\mA\mFuncArrow\mB$ であった．
-これから新しい「関数風」の型 $\mA\mCatMapsTo\mB$ を考える．
+これから新しい「関数風」の型 $\mA\mCatArrowC\mB$ を考える．
 
 \begin{equation}
   \Vec{f}
@@ -7006,7 +7057,7 @@ $\Vec{f_1}***\Vec{f_2}$ も関数ではない．
 
 \begin{multline}
   \mTypeClassDeclPolymorphic\;
-  (\mCategoryTypeClass\mSuperSet\mPolymorphicTypeParameter{c})
+  (\mCatTypeClass\mSuperSet\mPolymorphicTypeParameter{c})
   \mSuperClass(\mArrowTypeClass\mSuperSet\mPolymorphicTypeParameter{c})\\
   \mWhere{}\left\{
   \begin{aligned}
