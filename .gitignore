@@ -1,6 +1,9 @@
 *.aux
 *.dvi
 *.idx
+*.fdb_latexmk
+*.fls
+*.ilg
 *.log
 *.toc
 .texpadtmp/
