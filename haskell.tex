@@ -1,5 +1,5 @@
 \documentclass[a5paper,twoside,fleqn,draft]{jsbook}
-\usepackage{eulervm}
+% \usepackage{eulervm}
 \usepackage{amsmath,amssymb,ascmac,bm,color,graphicx,latexsym,mathtools,multirow,okuverb}
 \makeindex
 
@@ -13,8 +13,8 @@
 \def\rrangle{\rangle\!\rangle}
 \DeclareMathOperator{\sgn}{sgn}
 
-\newcommand{\Langle}{\langle\!\langle}
-\newcommand{\Rangle}{\rangle\!\rangle}
+\newcommand{\Langle}{\llangle}
+\newcommand{\Rangle}{\rrangle}
 
 \newcommand{\separator}{\begin{center}$*$~$*$~$*$\end{center}}
 
@@ -102,6 +102,8 @@
 \newcommand{\mTypeSynonymDeclKeyword}{\mKeywordUnderline{type}\mKeyword{synonym}}
 \newcommand{\mWhereKeyword}{\mKeyword{where}}
 
+\newcommand{\mPolymorphic}[1]{{#1}^\dagger}
+
 \DeclareMathOperator{\mCaseKW}{\mCaseKeyword}
 \DeclareMathOperator{\mDataType}{\mDataTypeKeyword}
 \DeclareMathOperator{\mDataTypePolymorphic}{\mDataTypeKeyword^\dagger}
@@ -113,11 +115,11 @@
 \DeclareMathOperator{\mInfixl}{\mInfixlKeyword}
 \DeclareMathOperator{\mInfixr}{\mInfixrKeyword}
 \DeclareMathOperator{\mInstanceDecl}{\mInstanceDeclKeyword}
-\DeclareMathOperator{\mInstanceDeclPolymorphic}{\mInstanceDeclKeyword^{\dagger}}
+\DeclareMathOperator{\mInstanceDeclPolymorphic}{\mPolymorphic{\mInstanceDeclKeyword}}
 \DeclareMathOperator{\mLet}{\mLetKeyword}
 \DeclareMathOperator{\mLetIn}{\mInKeyword}
 \DeclareMathOperator{\mNewTypeDecl}{\mNewTypeDeclKeyword}
-\DeclareMathOperator{\mNewTypeDeclPolymorphic}{\mNewTypeDeclKeyword^\dagger}
+\DeclareMathOperator{\mNewTypeDeclPolymorphic}{\mPolymorphic{\mNewTypeDeclKeyword}}
 \DeclareMathOperator{\mOfKW}{\mOfKeyword}
 \DeclareMathOperator{\mOtherwise}{\mOtherwiseKeyword}
 \DeclareMathOperator{\mProcKW}{\mProcKeyword}
@@ -125,7 +127,7 @@
 \DeclareMathOperator{\mSuperSet}{\supset}
 \DeclareMathOperator{\mThen}{\mThenKeyword}
 \DeclareMathOperator{\mTypeClassDecl}{\mTypeClassDeclKeyword}
-\DeclareMathOperator{\mTypeClassDeclPolymorphic}{\mTypeClassDeclKeyword^\dagger}
+\DeclareMathOperator{\mTypeClassDeclPolymorphic}{\mPolymorphic{\mTypeClassDeclKeyword}}
 \DeclareMathOperator{\mTypeSynonymDecl}{\mTypeSynonymDeclKeyword}
 \DeclareMathOperator{\mWhere}{\mWhereKeyword}
 
@@ -148,7 +150,7 @@
 \newcommand{\mString}[1]{\text{#1}}
 
 % Special variables
-\newcommand{\mSpecialVar}[1]{\textit{#1}}
+\newcommand{\mSpecialVar}[1]{\textrm{#1}}
 
 \newcommand{\mAnonParam}{\diamond}
 \newcommand{\mFirstVar}{\mSpecialVar{first}}
@@ -156,6 +158,8 @@
 \newcommand{\mRestVar}{\mSpecialVar{rest}}
 
 % Cast
+
+\newcommand{\mToIntegral}[1]{{}_\text{Integral}\left(#1\right)}
 
 \newcommand{\mUpCast}{\bigtriangleup}
 
@@ -336,10 +340,10 @@
 \newcommand{\mPolymporphicTypeAssemble}[3]{{}^\mPolymorphicTypeParameter{#1}\[\mType{#2}\,\mType{#3}\]}
 
 \newcommand{\mCompFunclexType}[1]{\mTypeAssemble{C}{#1}}
-\newcommand{\mEitherType}[2]{\mTypeAssembleII{E}{#1}{#2}}
+\newcommand{\mEitherType}[2]{\mTypeAssembleII{Either}{#1}{#2}}
 \newcommand{\mIOType}[1]{\mTypeAssemble{IO}{#1}}
-\newcommand{\mListType}[1]{\mTypeAssemble{L}{#1}}
-\newcommand{\mMaybeType}[1]{\mTypeAssemble{M}{#1}}
+\newcommand{\mListType}[1]{\mTypeAssemble{List}{#1}}
+\newcommand{\mMaybeType}[1]{\mTypeAssemble{Maybe}{#1}}
 \newcommand{\mZipListType}[1]{\mTypeAssemble{ZL}{#1}}
 
 % Polymorphic types with specific data types
@@ -363,7 +367,7 @@
 % Value constructors
 \newcommand{\mValueConstructor}[1]{\mathrm{#1}}
 
-\newcommand{\mValueWith}[2]{{}^\mValueConstructor{#1}\[#2\]}
+\newcommand{\mValueWith}[2]{{}_\mValueConstructor{#1}\[#2\]}
 \newcommand{\mValueRecordBeginWith}[1]{{}^\mValueConstructor{#1}\,\{}
 \newcommand{\mValueRecordEnd}{\}}
 \newcommand{\mValueRecordWith}[2]{\mValueRecordBeginWith{#1}{#2}\mValueRecordEnd}
@@ -382,8 +386,8 @@
 
 % Built-in value constructors
 \newcommand{\mTupleWith}[1]{\left(#1\right)} % *** TO BE REMOVED
-\newcommand{\mPairWith}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
-\newcommand{\mTripleWith}[3]{\begin{pmatrix}#1\\#2\\#3\end{pmatrix}}
+\newcommand{\mPairWith}[2]{\left({#1},{#2}\right)}%{\begin{pmatrix}#1\\#2\end{pmatrix}}
+\newcommand{\mTripleWith}[3]{\left({#1},{#2},{#3}\right)}%{\begin{pmatrix}#1\\#2\\#3\end{pmatrix}}
 
 % Unboxed tupple
 % \newcommand{\mTupleUnboxedWith}[1]{\texttt{(\#}#1\texttt{\#)}}
@@ -413,9 +417,9 @@
 
 % Decolations
 \newcommand{\mArrow}[1]{\Vec{#1}}
-\newcommand{\mEither}[1]{{#1}^!}
-\newcommand{\mList}[1]{{#1}^\mathrm{\star}}
-\newcommand{\mMaybe}[1]{{#1}^?}
+\newcommand{\mEither}[1]{{#1}_!}
+\newcommand{\mList}[1]{{#1}_\mathrm{s}}
+\newcommand{\mMaybe}[1]{{#1}_?}
 \newcommand{\mVec}[1]{\Vec{#1}}
 
 % Guards
@@ -453,33 +457,33 @@
 \hline
 種類&字体・表記法&例\\
 \hline\hline
-定数&オイラー・大文字&$A,B,C$\\
-有名な定数&ローマン・大文字&$\mTrue,\mFalse$\\
+定数&イタリック大文字（1文字）&$A,B,C$\\
+有名な定数&ローマン大文字&$\mTrue,\mFalse$\\
+単位元&ローマンに斜線&$\mZero$\\
 \hline
-変数&オイラー・小文字&$u,v,w,x,y,z$\\
-有名な変数&イタリック・小文字&$\mFirstVar,\mRestVar$\\
-リスト変数&肩に星印をつける&$\mList{x}$\\
-Maybe変数&肩に?をつける&$\mMaybe{u}$\\
-Ether変数&肩に!をつける&$\mEither{u}$\\
+変数&イタリック小文字（1文字）&$u,v,w,x,y,z$\\
+有名な変数&ローマン小文字&$\mFirstVar,\mRestVar$\\
+リスト変数&sをつける&$\mList{x}$\\
+Maybe変数&?をつける&$\mMaybe{x}$\\
+Ether変数&!をつける&$\mEither{x}$\\
 \hline
-関数&オイラー・小文字&$f,g,h,i,j,k$\\
-有名な関数&ローマン・小文字&$\mId,\sin,\cos$\\
-圏の関数&フラクチュール・小文字&$\mIdCat$\\
-コンテナ関数&ギリシア文字&$\phi,\psi$\\
+関数&イタリック小文字（1文字）&$f,g,h,i,j,k$\\
+有名な関数&イタリック小文字&$\mId,\sin,\cos$\\
+圏の関数&フラクチュール小文字&$\mIdCat$\\
+% コンテナ関数&ギリシア文字&$\phi,\psi$\\
 \hline
 アクション&ギリシア文字&$\alpha,\omega$\\
-有名なアクション&スラント・小文字&$\mPutStr,\mReadLn$\\
+有名なアクション&スラント小文字&$\mPutStr,\mReadLn$\\
 \hline
-集合&ボールドローマン・大文字&$\mSet{A},\mSet{B},\mSet{C}$\\
-有名な集合&ブラックボード・大文字&$\mBSet,\mZSet,\mRSet$\\
-単位元&ローマンに斜線・大文字&$\mZero$\\
+集合&ボールド大文字（1文字）&$\mSet{A},\mSet{B},\mSet{C}$\\
+有名な集合&ブラックボード大文字&$\mBSet,\mZSet,\mRSet$\\
 \hline
-型&ボールドローマン・大文字&$\mBoolType,\mIntType,\mFloatType$\\
+型&ボールド大文字&$\mBoolType,\mIntType,\mFloatType$\\
 多相型&左肩にコンテナ名をつける&$\mMaybeType{a},\mIOType{a}$\\
 有名な多相型 (1)&特別な括弧で包む&$[\mA],\mPureType{a}$\\
 有名な多相型 (2)&特別な矢印を用いる&$\mFuncType{r}{a},\mCatType{r}{a}$\\
-型パラメタ&ボールドローマン・小文字&$\mA,\mB,\mC$\\
-多相型パラメタ&ボールドイタリック・小文字&$\mPolymorphicTypeParameter{f},\mPolymorphicTypeParameter{m}$\\
+型パラメタ&ボールド小文字&$\mA,\mB,\mC$\\
+多相型パラメタ&ボールドイタリック小文字&$\mPolymorphicTypeParameter{f},\mPolymorphicTypeParameter{m}$\\
 型クラス&スモールキャピタル&$\mEqTypeClass,\mOrdTypeClass,\mNumTypeClass$\\
 \hline
 \end{tabular}
@@ -496,9 +500,9 @@ Ether変数&肩に!をつける&$\mEither{u}$\\
 値コンストラクタ&肩書付き括弧で包む&$\mRightWith{x},\mLeftWith{x}$\\
 有名な値コンストラクタ&特別な括弧で包む&$[x],\mPureWith{x},\mFuncWith{x},\mArrowWith{x}$\\
 \hline
-型コンストラクタ&スラント，大文字&$\mListTypeConstructor$, $\mMaybeTypeConstructor$\\
+型コンストラクタ&スラント大文字&$\mListTypeConstructor$, $\mMaybeTypeConstructor$\\
 \hline
-キーワード&サンセリフ，小文字&$\mIf,\mOtherwise$\\
+キーワード&サンセリフ小文字&$\mIf,\mOtherwise$\\
 do記法中のキーワード&タイプライタ&$\mDoLetKeyword$\\
 % リストの構造&サンセリフ，大文字&$\mathFirst$, $\mathRest$\\
 \hline
@@ -1087,7 +1091,7 @@ $\mThen$ 節も $\mElse$ 節も省略できないものとする．$\mIf$ 節の
 $\mIf$ 節の中身は真理値を返す関数であれば良いので，関数 $p$ を
 \begin{equation}
   p
-  =(\equiv)0
+  =(\mAnonParam\equiv0)
 \end{equation}
 としておき，
 \begin{equation}
@@ -2379,7 +2383,7 @@ $(x:\mList{x})$ を参照したい場合もあるであろう．そのような�
   f\mList{y}@(x:\mList{x})
   =\dotsb
 \end{equation}
-として，変数 $y$ でリスト全体を参照することも可能である．このような記
+として，変数 $\mList{y}$ でリスト全体を参照することも可能である．このような記
 法を\keyword{asパタン}と呼ぶ．\footnote{\haskell では
   $f\mList{y}@(x:\mList{x})$ を \code{f ys@(x:xs)} と書く．}
 
@@ -2875,7 +2879,7 @@ $\mNothing$ を生成し，1引数コンストラクタ \code{maybe(a)} は
 template <class a, class b, class fn>
 maybe<b> map_over(fn f, maybe<a> u) {
   if (u.is_valid()) {
-    return maybe<a>(f(u.get_value()));
+    return maybe<b>(f(u.get_value()));
   }
   else {
     return maybe<b>();
@@ -2910,9 +2914,7 @@ maybe<int> v = map_over(g, u);
 注意してほしいのは \code{g(x)} も \code{map\_over(g, u)} も正当なコー
 ドだが \code{g(u)} は型エラーであることだ．また
 \code{g(u.get\_value())} は正当なコードだが，わざわざ \code{u} が持つ
-文脈を捨てることになる．（\cxx プログラマへの注意：\code{int} 型の使用
-は現在では非推奨である．本書ではコードの読みやすさのためにあえて
-\code{int} を使用している．）
+文脈を捨てることになる．
 
 % ところで，関数\code{f}の実装は，ラムダ式の使えない\cxx03ではファンク
 % ター (functor) という機構を使うことになる．このファンクターは第
@@ -3140,7 +3142,7 @@ $(\mA\mFuncArrow\mB)\mFuncArrow(\mMaybeType{a}\mFuncArrow\mMaybeType{b})$ とい
 う型を持つ．
 \footnote{関手は英語でファンクター(functor)と言うが，\cxx の関数オブジェ
   クト (function object) もかつてはファンクター(functor)と呼ばれていた．
-  \cxx のファンクターとはクロージャの粗末な代用品のことで，本書で述べ
+  \cxx のファンクターとはクロージャの代用品のことで，本書で述べ
   る関手とは異なる概念である．混同しないように注意しよう．}
 
 同じことはリストにも言える．値コンストラクタ $[x]$ とマップ演算子
@@ -3150,7 +3152,7 @@ $(\mA\mFuncArrow\mB)\mFuncArrow([\mA]\mFuncArrow[\mB])$ という型を持つ．
 
 \separator
 
-\haskell ではマップ演算子が定義された型を関手と呼ぶ．具体的には，マッ
+\haskell ではマップ演算子が定義された型を関手（型）と呼ぶ．具体的には，マッ
 プ演算子が定義された全ての型は $\mFunctorTypeClass$ 型クラスのインスタ
 ンスであるとする．つまり，$\mFunctorTypeClass$ 型クラスには一般化され
 たマップ演算子が定義されており，そのインスタンスであるリストやMaybeは
@@ -3354,7 +3356,7 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
 う．アプリカティブマップ演算子は連続して
 \begin{equation}
   \label{eq:applicative-style}
-  \mPureWith{f}\mAppMap u\mAppMap v
+  w=\mPureWith{f}\mAppMap u\mAppMap v
 \end{equation}
 のように使える．もし $u\equiv\mPureNothing$ もしくは
 $v\equiv\mPureNothing$ であれば式の値は $\mPureNothing$ になる．式
@@ -3614,7 +3616,7 @@ $\mMaybe{u}=\mJustWith{x}$ としよう．新しいマップ演算子 $\mBindMay
 $\mMaybe{v}=\mJustWith{gx}$ であり，失敗していたら
 $\mMaybe{v}=\mNothing$ である．
 
-演算 $(g\mBindMaybe\mMaybe{u})$ の結果はMaybe値であるから，バインド演
+演算 $g\mBindMaybe\mMaybe{u}$ の結果はMaybe値であるから，バインド演
 算子は連続して用いることができる．通常の引数を取ってMaybe値を返すもう
 一つの関数 $h$ があるとすると
 \begin{equation}
@@ -3660,7 +3662,7 @@ $\mMaybe{u}=\mJustWith{0},\mMaybe{u}=\mJustWith{1/\pi},u=\mNothing$ な
 % 演算子}と呼ぶ．
 
 というわけで，$\mApplicativeTypeClass$ 型クラスをさらに拡張して，一般
-のバインド演算子を持たせることを考えらてみよう．我々はこの新しい型クラ
+のバインド演算子を持たせることを考えてみよう．我々はこの新しい型クラ
 スを\keyword{モナド}型クラスと呼び $\mMonadTypeClass$ で表す．
 
 \section{モナド}
@@ -3670,14 +3672,13 @@ $\mApplicativeTypeClass$ 型クラスはピュア演算子 $(\mPureWith{x})$ と
 般アプリカティブマップ演算子 $(\mAppMap)$ を持っており，このふたつの演
 算子から一般マップ演算子を合成できた．新しい $\mMonadTypeClass$ 型クラ
 スは，\keyword{一般バインド演算子} $(\mBind)$ とピュア演算子を持つもの
-としよう．後で見るように，一般マップ演算子はピュア演算子と一般バインド
-演算子から合成できるし，一般アプリカティブマップ演算子もまたピュア演算
+としよう．後で見るように，一般アプリカティブマップ演算子はピュア演算
 子と一般バインド演算子から合成できる．\footnote{\haskell には最初に関
 手が導入され，その次に関手を拡張する形でモナドが導入された．そしてそ
 の次に，関手を拡張しなおす形でアプリカティブ関手が導入された．それゆ
 え，モナドとアプリカティブ関手には概念的重複があるにもかかわらず，別々
 に定義されるという悲劇が暫くの間続いた．アプリカティブ関手のピュア演
-算子と，モナドのユニット演算子は概念的に同じものであるにもかかわらず，
+算子と，モナドのピュア演算子は概念的に同じものであるにもかかわらず，
 別々の演算子として定義されていたのである．この状態は GHC v7.10 以降
 で，モナドがアプリカティブ関手を拡張する形に改められたことで解消した．
 ただし，かつて「モナド版のピュア演算子」としてモナドに「ユニット演算
@@ -3953,7 +3954,7 @@ k=i\mBind{}(j\mAnonParam)=\mPureWith{f\mCompFunc g\mAnonParam}
   &
   &$\mZero$
   &$\mPlus$\\
-\hline
+\hline\hline
 リスト
   &$\mBindList$
   &$[x]$
