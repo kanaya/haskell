@@ -17,6 +17,7 @@
 \newcommand{\Rangle}{\rrangle}
 
 \newcommand{\separator}{\begin{center}$*$~$*$~$*$\end{center}}
+\newcommand{\textURL}[1]{\texttt{#1}}
 
 %% Programming Languages
 
@@ -123,7 +124,7 @@
 \DeclareMathOperator{\mOfKW}{\mOfKeyword}
 \DeclareMathOperator{\mOtherwise}{\mOtherwiseKeyword}
 \DeclareMathOperator{\mProcKW}{\mProcKeyword}
-\DeclareMathOperator{\mSuperClass}{\Rightarrow}
+\DeclareMathOperator{\mSuperClass}{\;\Rightarrow\;}
 \DeclareMathOperator{\mSuperSet}{\supset}
 \DeclareMathOperator{\mThen}{\mThenKeyword}
 \DeclareMathOperator{\mTypeClassDecl}{\mTypeClassDeclKeyword}
@@ -626,7 +627,7 @@ $\mBindRightIgnore$&右バインド演算子（戻値無視）&\code{>>}\\
 
 %% REWRITE %%
 
-さて，登山口にどのプログラミング言語を選ぶのが適当であろうか．IEEE Spectrum の ``The 2015 Top Ten Programming Languages'' という記事によると「ビッグ5」として \java, \clang, \cxx, \python, \csharp\ が挙げられている．このうち\clang は「多くのプログラマが読める」以外にメリットが無く，その唯一のメリットさえ最近は怪しくなっているため，登山口候補から外す．残るは\java, \cxx, \csharp\ グループと\python ということになるが，シンプルであり，かつ\haskell と対極にある言語である\python（バージョン3）を登山口に選ぶことにした．
+さて，登山口にどのプログラミング言語を選ぶのが適当であろうか．TIOBE Index 2023年2月版によると「ビッグ5」として \python, \clang, \cxx, \java, \csharp\ が挙げられている．\footnote{\textURL{https://www.tiobe.com/tiobe-index/}}順位の変動はあるが，他の調査でもビッグ5は過去何年も変動していないので，当座は妥当な統計であろう．このうち\clang は「多くのプログラマが読める」以外にメリットが無く，その唯一のメリットさえ最近は怪しくなっているため，登山口候補から外す．残るは\java, \cxx, \csharp\ グループと\python ということになるが，シンプルであり，かつ\haskell と対極にある言語である\python を登山口に選ぶことにした．
 
 本書では\python コードはこのように登場する．
 \begin{pythoncode}
@@ -636,13 +637,13 @@ print("Hello, world.")
 \end{pythoncode}
 本書に示すコードは擬似コードではなく，すべて実行可能な本物のコードである．
 
-ところで，一部の章でどうしても型に触れないといけない部分がある．\python は動的型付け言語であり，型の説明には不適切であるため，この部分だけ理解の助けとして\cxxfourteen によるコードを例示した．この部分はコードを読まなくても先に進める．\java ではなく\cxx を採用したのはmacOSでも簡単に試せるようにである．型システムに関する限り\cxx よりも\java のほうが簡潔に記述できるが，致し方無い．
+ところで，一部の章でどうしても型に触れないといけない部分がある．\python は動的型付け言語であり，型の説明には不適切であるため，この部分だけ理解の助けとして\cxxseventeen によるコードを例示した．この部分はコードを読まなくても先に進める．
 
 \separator
 
 ところで，プログラムのソースコードは現代でもASCII文字セットの範囲で書くことが標準的である．Unicodeを利用したり，まして文字にカラーを指定したり，書体や装飾を指定することは一般的ではない．例えば変数 \code{a} のことを \textbf{a} と書いたり \underline{a} と書いたり $\Hat a$ と書いたりして区別することはない．
 
-\haskell プログラマもまた，多くの異なる概念を同じ貧弱な文字セットで表現しなければならない．これは，初めて\haskell コードを読むときに大きな問題になり得る．例えば\haskell では \code{[a]} という表記をよく扱う．この \code{[a]} は \code{a} という変数1要素からなるリストのこともあるし， \code{a} 型という仮の型から作ったリスト型の場合もあるが，字面からでは判断できない．もし変数はオイラー体，型はボールド体と決まっていれば，それぞれ $[a]$ および $[\mA]$ と区別出来たところである．
+\haskell プログラマもまた，多くの異なる概念を同じ貧弱な文字セットで表現しなければならない．これは，初めて\haskell コードを読むときに大きな問題になり得る．例えば\haskell では \code{[a]} という表記をよく扱う．この \code{[a]} は \code{a} という変数1要素からなるリストのこともあるし， \code{a} 型という仮の型から作ったリスト型の場合もあるが，字面からでは判断できない．もし変数はイタリック体，型はボールド体と決まっていれば，それぞれ $[a]$ および $[\mA]$ と区別出来たところである．
 
 本書は，異なる性質のものには異なる書体を割り当てるようにしている．ただし，どの表現もいつでも\haskell に翻訳できるように配慮している．実際，本書執筆の最大の困難点は，数学的に妥当で，かつ\haskell の記法とも矛盾しない記法を見つけることであった．
 
@@ -708,20 +709,20 @@ print("Hello, world.")
 
 ---
 
-\haskell コンパイラの中で最もよく使われているものは Glasgow's HaskellCompiler (GHC) である．本書に登場する\haskell コードもすべてGHCでテストをしている．GHCは2015年にリリースされたバージョン7.10とそれまでのバージョンとの間に大きな違いがある．本書はバージョン7.10以降を対象としているため，一部は古い書籍と互換性がない．
+% \haskell コンパイラの中で最もよく使われているものは Glasgow's HaskellCompiler (GHC) である．本書に登場する\haskell コードもすべてGHCでテストをしている．GHCは2015年にリリースされたバージョン7.10とそれまでのバージョンとの間に大きな違いがある．本書はバージョン7.10以降を対象としているため，一部は古い書籍と互換性がない．
 
-GHCは公式サイト\cite{haskellplatform}からダウンロード可能であるが，GNU/Linuxシステム（以下Linux），macOSはそれぞれのパッケージマネージャからインストールすることを勧める．インストール方法は以下の参考文献にアクセスしてもらいたい．
-\begin{description}
-\item[Linux] パッケージマネージャからghciをインストールする．Debian系ならAPT，Red Hat系ならYumを使うのが一般的であろう．文献\cite{linux}を参考にしてもらいたい．\item[macOS] 文献\cite{osx}にHomebrewのインストール方法が書かれているので，Homebrewのインストールまでしておき，ターミナルで
-\begin{verbatim}
-$ brew install ghci
-\end{verbatim} %$
-とする．（本書執筆時点でHaskell Stackという新しいパッケージングシステムが登場してきている．将来的にはGHC本体もHaskell Stackからインストールすることが望ましくなるだろう．Haskell Stackを用いたGHCのインストールはmacOSではHomebrewを用いて
-\begin{verbatim}
-$ brew install haskell-stack $ stack install ghc
-\end{verbatim} %$ %$
-とすれば良い．本書はひとまずGHCを直接インストールすることを前提に進める．）\item[Windows 10] GHC公式サイト\cite{haskellplatform}からパッケージをインストールする．
-\end{description}
+% GHCは公式サイト\cite{haskellplatform}からダウンロード可能であるが，GNU/Linuxシステム（以下Linux），macOSはそれぞれのパッケージマネージャからインストールすることを勧める．インストール方法は以下の参考文献にアクセスしてもらいたい．
+% \begin{description}
+% \item[Linux] パッケージマネージャからghciをインストールする．Debian系ならAPT，Red Hat系ならYumを使うのが一般的であろう．文献\cite{linux}を参考にしてもらいたい．\item[macOS] 文献\cite{osx}にHomebrewのインストール方法が書かれているので，Homebrewのインストールまでしておき，ターミナルで
+% \begin{verbatim}
+% $ brew install ghci
+% \end{verbatim} %$
+% とする．（本書執筆時点でHaskell Stackという新しいパッケージングシステムが登場してきている．将来的にはGHC本体もHaskell Stackからインストールすることが望ましくなるだろう．Haskell Stackを用いたGHCのインストールはmacOSではHomebrewを用いて
+% \begin{verbatim}
+% $ brew install haskell-stack $ stack install ghc
+% \end{verbatim} %$ %$
+% とすれば良い．本書はひとまずGHCを直接インストールすることを前提に進める．）\item[Windows 10] GHC公式サイト\cite{haskellplatform}からパッケージをインストールする．
+% \end{description}
 
 
 \section{余談：本書の構成*}
@@ -1119,9 +1120,9 @@ z = f2(f1(x))
 のように定義することも可能である．このとき，
 \begin{align}
   f
-  &=g(100)\\
+  &=g\,100\\
   r
-  &=f1
+  &=f\,1
 \end{align}
 とすれば $r=101$ を得る．\footnote{\haskell では $ga=a+\mAnonParam$ を $ga=\mLambdaEXP{x}{a+x}$ と展開しておいて \code{g a = \textbackslash x -> a+x} と書く．}
 
@@ -1461,13 +1462,13 @@ $\mFromIntegral$ は
 \end{equation}
 であるとき，演算子 $+$ が集合 $\mZSet$ に対して\keyword{全域性}を持つと言う．
 % ***CHECK***
-一般に集合 $\mSet{A}$ の元に対して二項演算子 $\mBinOp$ が定義されていて，$a_1,a_2\mIn\mSet{A}$ のときに
+一般に集合 $\mASet$ の元に対して二項演算子 $\mBinOp$ が定義されていて，$a_1,a_2\mIn\mASet$ のときに
 \begin{equation}
   \label{eq:totality}
   a_1\mBinOp a_2
-  \mIn\mSet{A}
+  \mIn\mASet
 \end{equation}
-である場合，つまり演算子 $\mBinOp$ が集合 $\mSet{A}$ に対して全域性を持つ場合，組み合わせ $\mTupleWith{\mSet{A},\mBinOp}$ を\keyword{マグマ}と呼ぶ．組み合わせ $\mTupleWith{\mZSet,+}$ はマグマの例であり，$\mTupleWith{\mZSet,*}$ もマグマの例である．
+である場合，つまり演算子 $\mBinOp$ が集合 $\mASet$ に対して全域性を持つ場合，組み合わせ $\mTupleWith{\mASet,\mBinOp}$ を\keyword{マグマ}と呼ぶ．組み合わせ $\mTupleWith{\mZSet,+}$ はマグマの例であり，$\mTupleWith{\mZSet,*}$ もマグマの例である．
 % マグマはかつて亜群と呼ばれていたが，現在は亜群は別の意味(groupoid)の訳語に使われている．
 
 他に\keyword{論理集合} $\mBSet=\{\mTrue,\mFalse\}$ に対して，\keyword{論理和} $(\mLogicalOr)$ は全域性を持つから，組み合わせ $\mTupleWith{\mBSet,\mLogicalOr}$ はマグマであるし，同様に\keyword{論理積} $(\mLogicalAnd)$ も全域性を持つから，組み合わせ $\mTupleWith{\mBSet,\mLogicalAnd}$ もマグマである．論理集合 $\mBSet$ とは論理型 $\mBoolType$ を数学風に言い換えたものである．
@@ -1478,7 +1479,7 @@ $\mFromIntegral$ は
   \left(a_1\mBinOp a_2\right)\mBinOp a_3
   =a_1\mBinOp\left(a_2\mBinOp{a_3}\right)
 \end{equation}
-ただし $a_1,a_2,a_3\mIn\mSet{A}$ のとき，組み合わせ $\mTupleWith{\mSet{A},\mBinOp}$ のことを\keyword{半群}と呼ぶ．この式\eqref{eq:associativity}で表される性質を\keyword{結合性}と呼ぶ．組み合わせ $\mTupleWith{\mZSet,+}$, $\mTupleWith{\mZSet,*}$, $\mTupleWith{\mBSet,\mLogicalOr}$, $\mTupleWith{\mBSet,\mLogicalOr}$ はすべて半群である．
+ただし $a_1,a_2,a_3\mIn\mASet$ のとき，組み合わせ $\mTupleWith{\mASet,\mBinOp}$ のことを\keyword{半群}と呼ぶ．この式\eqref{eq:associativity}で表される性質を\keyword{結合性}と呼ぶ．組み合わせ $\mTupleWith{\mZSet,+}$, $\mTupleWith{\mZSet,*}$, $\mTupleWith{\mBSet,\mLogicalOr}$, $\mTupleWith{\mBSet,\mLogicalOr}$ はすべて半群である．
 
 ところで，整数全体の集合 $\mZSet$ には特別な元 $0\mIn\mZSet$ がある．この元 $0$ は $z\mIn\mZSet$ のとき
 \begin{equation}
@@ -1488,7 +1489,7 @@ $\mFromIntegral$ は
 \end{equation}
 という性質を持つ．この $0$ を演算 $+$ における\keyword{単位元}と呼ぶ．足し算のことを\keyword{加法}とも言うので $0$ のことは\keyword{加法単位元}と呼ぶこともあるし，文字通り\keyword{零元}と呼ぶこともある．
 
-一般に，$a,\mZero_\mLeft,\mZero_\mRight\mIn\mSet{A}$ として
+一般に，$a,\mZero_\mLeft,\mZero_\mRight\mIn\mASet$ として
 \begin{equation}
   \label{eq:identity}
   \mZero_\mLeft\mPlus a
@@ -1497,7 +1498,7 @@ $\mFromIntegral$ は
 \end{equation}
 であるとき，元 $\mZero_\mLeft,\mZero_\mRight$ を単位元と呼ぶ．我々は多くの場合 $\mZero_\mLeft=\mZero_\mRight$ であるケースを扱うので，二つの単位元を区別する必要はほとんどないが，必要な場合は $\mZero_\mRight$ を\keyword{左単位元}，$\mZero_\mRight$ を\keyword{右単位元}と呼ぶ．
 
-組み合わせ $\mTupleWith{\mSet{A},\mPlus,\mZero_\mLeft,\mZero_\mRight}$ のことを\keyword{モノイド}または\keyword{単位的半群}と呼ぶ．例えば $\mTupleWith{\mZSet,+,0,0}$ はモノイドであるし，$\mTupleWith{\mZSet,*,1,1}$, $\mTupleWith{\mBSet,\mLogicalOr,\mFalse,\mFalse}$, $\mTupleWith{\mBSet,\mLogicalAnd,\mTrue,\mTrue}$ もモノイドである．これらのモノイドは全て左単位元と右単位元が同じなので，それぞれ $\mTupleWith{\mZSet,+,0}$, $\mTupleWith{\mZSet,*,1}$, $\mTupleWith{\mBSet,\mLogicalOr,\mFalse}$, $\mTupleWith{\mBSet,\mLogicalAnd,\mTrue}$ とも書く．
+組み合わせ $\mTupleWith{\mASet,\mPlus,\mZero_\mLeft,\mZero_\mRight}$ のことを\keyword{モノイド}または\keyword{単位的半群}と呼ぶ．例えば $\mTupleWith{\mZSet,+,0,0}$ はモノイドであるし，$\mTupleWith{\mZSet,*,1,1}$, $\mTupleWith{\mBSet,\mLogicalOr,\mFalse,\mFalse}$, $\mTupleWith{\mBSet,\mLogicalAnd,\mTrue,\mTrue}$ もモノイドである．これらのモノイドは全て左単位元と右単位元が同じなので，それぞれ $\mTupleWith{\mZSet,+,0}$, $\mTupleWith{\mZSet,*,1}$, $\mTupleWith{\mBSet,\mLogicalOr,\mFalse}$, $\mTupleWith{\mBSet,\mLogicalAnd,\mTrue}$ とも書く．
 
 このように，数学者は数の性質を抽象化し，集合とその集合に対する演算というものの見方をよく行う．プログラミングの言葉で言えば，複数のクラスに共通のインタフェースを定義するようなものである．
 
