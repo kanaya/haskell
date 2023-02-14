@@ -132,7 +132,7 @@
 \DeclareMathOperator{\mWhere}{\mWhereKeyword}
 
 % Constants
-\newcommand{\mSpecialConstant}[1]{\textrm{#1}}
+\newcommand{\mSpecialConstant}[1]{\textit{#1}}
 
 \newcommand{\mEmptyList}{{[\,]}}
 \newcommand{\mFalse}{\mSpecialConstant{False}}
@@ -150,7 +150,7 @@
 \newcommand{\mString}[1]{\text{#1}}
 
 % Special variables
-\newcommand{\mSpecialVar}[1]{\textrm{#1}}
+\newcommand{\mSpecialVar}[1]{\textit{#1}}
 
 \newcommand{\mAnonParam}{\diamond}
 \newcommand{\mFirstVar}{\mSpecialVar{first}}
@@ -299,6 +299,7 @@
 \newcommand{\mSet}[1]{\mathbf{#1}}
 \newcommand{\mSpecialSet}[1]{\mathbb{#1}}
 
+\newcommand{\mASet}{\mSpecialSet{A}}
 \newcommand{\mBSet}{\mSpecialSet{B}}
 \newcommand{\mFSet}{\mSpecialSet{F}}
 \newcommand{\mKSet}{\mSpecialSet{K}}
@@ -457,33 +458,33 @@
 \hline
 種類&字体・表記法&例\\
 \hline\hline
-定数&イタリック大文字（1文字）&$A,B,C$\\
-有名な定数&ローマン大文字&$\mTrue,\mFalse$\\
+% 定数&イタリック大文字（1文字）&$A,B,C$\\
+定数&イタリック大文字&$\mTrue,\mFalse$\\
 単位元&ローマンに斜線&$\mZero$\\
 \hline
-変数&イタリック小文字（1文字）&$u,v,w,x,y,z$\\
-有名な変数&ローマン小文字&$\mFirstVar,\mRestVar$\\
+変数&イタリック小文字&$u,v,w,x,y,z$\\
+% 有名な変数&ローマン小文字&$\mFirstVar,\mRestVar$\\
 リスト変数&sをつける&$\mList{x}$\\
 Maybe変数&?をつける&$\mMaybe{x}$\\
 Ether変数&!をつける&$\mEither{x}$\\
 \hline
 関数&イタリック小文字（1文字）&$f,g,h,i,j,k$\\
-有名な関数&イタリック小文字&$\mId,\sin,\cos$\\
+有名な関数&ローマン小文字&$\mId,\sin,\cos$\\
 圏の関数&フラクチュール小文字&$\mIdCat$\\
 % コンテナ関数&ギリシア文字&$\phi,\psi$\\
 \hline
 アクション&ギリシア文字&$\alpha,\omega$\\
-有名なアクション&スラント小文字&$\mPutStr,\mReadLn$\\
+有名なアクション&スラント小文字&$\mPrint$\\
 \hline
-集合&ボールド大文字（1文字）&$\mSet{A},\mSet{B},\mSet{C}$\\
-有名な集合&ブラックボード大文字&$\mBSet,\mZSet,\mRSet$\\
+% 集合&ボールド大文字（1文字）&$\mSet{A},\mSet{B},\mSet{C}$\\
+集合&ブラックボード大文字&$\mBSet,\mZSet,\mRSet$\\
 \hline
 型&ボールド大文字&$\mBoolType,\mIntType,\mFloatType$\\
 多相型&左肩にコンテナ名をつける&$\mMaybeType{a},\mIOType{a}$\\
 有名な多相型 (1)&特別な括弧で包む&$[\mA],\mPureType{a}$\\
 有名な多相型 (2)&特別な矢印を用いる&$\mFuncType{r}{a},\mCatType{r}{a}$\\
 型パラメタ&ボールド小文字&$\mA,\mB,\mC$\\
-多相型パラメタ&ボールドイタリック小文字&$\mPolymorphicTypeParameter{f},\mPolymorphicTypeParameter{m}$\\
+% 多相型パラメタ&ボールドイタリック小文字&$\mPolymorphicTypeParameter{f},\mPolymorphicTypeParameter{m}$\\
 型クラス&スモールキャピタル&$\mEqTypeClass,\mOrdTypeClass,\mNumTypeClass$\\
 \hline
 \end{tabular}
@@ -497,7 +498,7 @@ Ether変数&!をつける&$\mEither{x}$\\
 \hline
 種類&字体・表記法&例\\
 \hline\hline
-値コンストラクタ&肩書付き括弧で包む&$\mRightWith{x},\mLeftWith{x}$\\
+値コンストラクタ&名前付き括弧で包む&$\mRightWith{x},\mLeftWith{x}$\\
 有名な値コンストラクタ&特別な括弧で包む&$[x],\mPureWith{x},\mFuncWith{x},\mArrowWith{x}$\\
 \hline
 型コンストラクタ&スラント大文字&$\mListTypeConstructor$, $\mMaybeTypeConstructor$\\
@@ -508,7 +509,7 @@ do記法中のキーワード&タイプライタ&$\mDoLetKeyword$\\
 \hline
 リスト&ブラケットで包む&$[x,y]$\\
 集合&ブレースで包む&$\{x,y\}$\\
-タプル&丸括弧で包む&$\mPairWith{x}{y},\mTripleWith{x}{y}{z}$\\
+タプル&丸括弧で包む&$\mPairWith{x}{y}$\\
 % アンボックス化タプル&丸括弧とシャープ記号で包む&$\mTupleUnboxedWith{x,y,z}$\\
 \hline
 \end{tabular}
