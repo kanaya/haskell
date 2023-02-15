@@ -5547,16 +5547,14 @@ instance Cat.Category NonDet where
 
 \section{アロー*}
 
-数値のリスト $\mList{x}$ の平均をとる関数 $\mMean$ を考えてみよう．実
-装は単純で
+数値のリスト $\mList{x}$ の平均をとる関数 $\mMean$ を考えてみよう．実装は単純で
 \begin{equation}
   \mMean\mList{x}
   =\mSum\mList{x}/\mLength\mList{x}
 \end{equation}
 である．
 
-問題はここからである．関数 $\mMean$ を関数 $\mSum$ と関数 $\mLength$
-の合成の形にできるだろうか．つまり
+問題はここからである．関数 $\mMean$ を関数 $\mSum$ と関数 $\mLength$ の合成の形にできるだろうか．つまり
 \begin{equation}
   \mMean\mList{x}
   =(\mSum\mSomeOp\mLength)\mList{x}
@@ -5568,18 +5566,12 @@ instance Cat.Category NonDet where
 \end{equation}
 の形に分解するような関数合成演算子は存在するだろうか．
 
-残念なことに関数 $\mSum$ も $\mLength$ も同じ引数 $(\mList{x})$ をとる
-必要がある．そのため従来の方法では関数を合成出来ない．しかし次のように
-演算の結果をペアに収めることが出来れば何とかなりそうである．
+残念なことに関数 $\mSum$ も $\mLength$ も同じ引数 $(\mList{x})$ をとる必要がある．そのため従来の方法では関数を合成出来ない．しかし次のように演算の結果をペアに収めることが出来れば何とかなりそうである．
 \begin{equation}
   \label{eq:mean}
   \mMean\mList{x}
   =
-  \left(\mLambda\mPairWith{x}{y}\mLambdaArrow x/y\right)
-  \begin{pmatrix}
-    \mSum\mList{x}\\
-    \mLength\mList{x}
-  \end{pmatrix}
+  \left(\mLambda\mPairWith{x}{y}\mLambdaArrow x/y\right)\mPairWith{\mSum\mList{x}}{\mLength\mList{x}}
 \end{equation}
 幸いカリー化された2引数関数をペアを引数にとる関数へ変換する
 $\mUncurry$ 関数があり，
@@ -5657,19 +5649,13 @@ $\begin{bmatrix}\vdots\end{bmatrix}$ が是非とも必要である．この特�
 なる合成演算子 $(\mCompCat)$ も同時に考えておく必要がある．と言うのも，
 ブラケットの合成が自由にできるようになると
 \begin{equation}
-  \begin{pmatrix}
-    fx\\
-    y
-  \end{pmatrix}
+  \mPairWith{fx}{y}
   =
   \begin{bmatrix}
     f\\
     \mId
   \end{bmatrix}
-  \begin{pmatrix}
-    x\\
-    y
-  \end{pmatrix}
+  \mPairWith{x}{y}
 \end{equation}
 のようにペアの片側だけに作用するブラケットだけを考えておけば良くなるか
 らである．
