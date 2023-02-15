@@ -146,6 +146,8 @@
 \newcommand{\mPureNothing}{\varnothing}
 \newcommand{\mTrue}{\mSpecialConstant{True}}
 \newcommand{\mZero}{\O}
+\newcommand{\mZeroLeft}{\mZero_\textrm{left}}
+\newcommand{\mZeroRight}{\mZero_\textrm{right}}
 
 % Strings
 \newcommand{\mString}[1]{\text{#1}}
@@ -1489,16 +1491,16 @@ $\mFromIntegral$ は
 \end{equation}
 という性質を持つ．この $0$ を演算 $+$ における\keyword{単位元}と呼ぶ．足し算のことを\keyword{加法}とも言うので $0$ のことは\keyword{加法単位元}と呼ぶこともあるし，文字通り\keyword{零元}と呼ぶこともある．
 
-一般に，$a,\mZero_\mLeft,\mZero_\mRight\mIn\mASet$ として
+一般に，$a,\mZeroLeft,\mZeroRight\mIn\mASet$ として
 \begin{equation}
   \label{eq:identity}
-  \mZero_\mLeft\mPlus a
-  =a\mPlus\mZero_\mRight
+  \mZeroLeft\mPlus a
+  =a\mPlus\mZeroRight
   =a
 \end{equation}
-であるとき，元 $\mZero_\mLeft,\mZero_\mRight$ を単位元と呼ぶ．我々は多くの場合 $\mZero_\mLeft=\mZero_\mRight$ であるケースを扱うので，二つの単位元を区別する必要はほとんどないが，必要な場合は $\mZero_\mRight$ を\keyword{左単位元}，$\mZero_\mRight$ を\keyword{右単位元}と呼ぶ．
+であるとき，元 $\mZeroLeft,\mZeroRight$ を単位元と呼ぶ．我々は多くの場合 $\mZeroLeft=\mZeroRight$ であるケースを扱うので，二つの単位元を区別する必要はほとんどないが，必要な場合は $\mZeroLeft$ を\keyword{左単位元}，$\mZeroRight$ を\keyword{右単位元}と呼ぶ．
 
-組み合わせ $\mTupleWith{\mASet,\mPlus,\mZero_\mLeft,\mZero_\mRight}$ のことを\keyword{モノイド}または\keyword{単位的半群}と呼ぶ．例えば $\mTupleWith{\mZSet,+,0,0}$ はモノイドであるし，$\mTupleWith{\mZSet,*,1,1}$, $\mTupleWith{\mBSet,\mLogicalOr,\mFalse,\mFalse}$, $\mTupleWith{\mBSet,\mLogicalAnd,\mTrue,\mTrue}$ もモノイドである．これらのモノイドは全て左単位元と右単位元が同じなので，それぞれ $\mTupleWith{\mZSet,+,0}$, $\mTupleWith{\mZSet,*,1}$, $\mTupleWith{\mBSet,\mLogicalOr,\mFalse}$, $\mTupleWith{\mBSet,\mLogicalAnd,\mTrue}$ とも書く．
+組み合わせ $\mTupleWith{\mASet,\mPlus,\mZeroLeft,\mZeroRight}$ のことを\keyword{モノイド}または\keyword{単位的半群}と呼ぶ．例えば $\mTupleWith{\mZSet,+,0,0}$ はモノイドであるし，$\mTupleWith{\mZSet,*,1,1}$, $\mTupleWith{\mBSet,\mLogicalOr,\mFalse,\mFalse}$, $\mTupleWith{\mBSet,\mLogicalAnd,\mTrue,\mTrue}$ もモノイドである．これらのモノイドは全て左単位元と右単位元が同じなので，それぞれ $\mTupleWith{\mZSet,+,0}$, $\mTupleWith{\mZSet,*,1}$, $\mTupleWith{\mBSet,\mLogicalOr,\mFalse}$, $\mTupleWith{\mBSet,\mLogicalAnd,\mTrue}$ とも書く．
 
 このように，数学者は数の性質を抽象化し，集合とその集合に対する演算というものの見方をよく行う．プログラミングの言葉で言えば，複数のクラスに共通のインタフェースを定義するようなものである．
 
@@ -1509,10 +1511,13 @@ $\mFromIntegral$ は
 \label{tab:monoids}
 \begin{center}
 \begin{tabular}{||c||c|c||}
-\hline 型&演算子&単位元\\ \hline\hline $\mBoolType$ &$\vee$
-&$\mFalse$\\ \hline $\mBoolType$ &$\wedge$ &$\mTrue$\\ \hline
-$\mIntType$ &$+$ &$0$\\ \hline $\mIntType$ &$*$ &$1$\\ \hline
-$\mFloatType$ &$+$ &$0$\\ \hline $\mFloatType$ &$*$ &$1$\\ \hline
+\hline 型&演算子&単位元\\\hline\hline
+$\mBoolType$ &$\vee$&$\mFalse$\\\hline
+$\mBoolType$ &$\wedge$ &$\mTrue$\\\hline\hline
+$\mIntType$ &$+$ &$0$\\\hline
+$\mIntType$ &$*$ &$1$\\\hline\hline
+$\mFloatType$ &$+$ &$0$\\\hline
+$\mFloatType$ &$*$ &$1$\\\hline
 \end{tabular}
 \end{center}
 \end{table}
@@ -1565,12 +1570,12 @@ ls = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 複数の型の要素が混在してもよい配列のことをヘテロジニアスな配列と呼び，ホモジニアスな配列とは区別する．
 
-今後，リストを指す変数は，リストであることを忘れないように変数名の肩に星印をつけて
+今後，リストを指す変数は，リストであることを忘れないように変数名にsをつけて
 \begin{equation}
   \mList{x}
   =[0,1\dots9]
 \end{equation}
-のように書くことにしよう．なお，変数 $x$ とリスト変数 $\mList{x}$ は異なる変数であるとする．\footnote{\haskell では星印のかわりに \code{s} を変数名にくっつけて \code{xs = [0, 1..9]} のように書く習慣がある．}
+のように書くことにしよう．なお，変数 $x$ とリスト変数 $\mList{x}$ は異なる変数であるとする．\footnote{\haskell では \code{s} を変数名にくっつけて \code{xs = [0, 1..9]} のように書く習慣がある．}
 
 \separator
 
@@ -1597,7 +1602,7 @@ ls = [x*2 for x in range(0, 10)]
 は $0\le x\le9$ かつ $0\le y\le5$ の範囲で $x+y>3$となる $x$ 及び $y$ から $x+y$ を並べたリストである．これは\python でいう
 \begin{pythoncode}
 \begin{verbatim}
-ls = [x+y for x in range(0, 10) for y in range(0,6) \
+ls = [x+y for x in range(0, 10) for y in range(0, 6) \
   if x+y > 3]
 \end{verbatim}
 \end{pythoncode}
@@ -1621,7 +1626,7 @@ $[x]$ のように $\mA$ 型の変数 $x$ を入れた$[\mA]$ 型の変数を作
 \end{equation}
 と書く．\footnote{\haskell では \code{xs = [x]} と書く．}
 
-リスト型を表す $[\mA]$ と，1要素のリストである $[x]$ の違いにはいつも気をつけておこう．本書では中身がボールドローマン体ならばリスト型，中身がイタリック体ならリスト値である．またリストを保持する変数にも，本書では $\mList{x}$ のように星印をつけておくことにする．
+リスト型を表す $[\mA]$ と，1要素のリストである $[x]$ の違いにはいつも気をつけておこう．本書では中身がボールドローマン体ならばリスト型，中身がイタリック体ならリスト値である．
 
 ある型を包み込んだ別の型を一般に\keyword{コンテナ型}または単に\keyword{コンテナ}と呼ぶ．コンテナ型の変数を\keyword{コンテナ変数}と呼ぶ．コンテナ型は多相型の一種である．
 
@@ -1641,12 +1646,6 @@ $\mList{y}$ を結合したリストは
 \end{equation}
 である．\footnote{\haskell では $\mList{x}\mAppend\mList{y}$ を \code{xs++ys} と書く．}
 
-リストは\keyword{無限個}の要素を持っても良い．例えば自然数全体を表すリスト $\mList{n}$ は
-\begin{equation}
-\mList{n}=[1,2\dots]
-\end{equation}
-のように定義して良い．\footnote{\haskell では$\mList{n}=[1,2\dots]$ を \code{ns = [1, 2..]} と書く．}
-
 \separator
 
 リストは空でもよい．\keyword{空リスト}は$\mEmptyList$で表す．\footnote{\haskell では空リストを \code{[]} で表す．}
@@ -1665,12 +1664,14 @@ $\mList{n}$ は
   \mList{n}
   =[1,2\dotsb]
 \end{equation*}
-と書くことができる．無限リストを扱えるのは，我々がいつも遅延評価を行うからである．遅延評価とは，本当の計算は必要になるまで行わないという方式のことである．
+と書くことができる．\footnote{\haskell では$\mList{n}=[1,2\dots]$ を \code{ns = [1, 2..]} と書く．}
 
-もし本当に無限リストを計算機の上で再現する必要があったなら，計算機には無限のメモリが必要になってしまう．しかし我々は，計算が必要になるまで評価を行わないので，無限リストの中から有限個の要素が取り出されるのを待つことができるのである．例えば関数 $\mTake x\mList{y}$ はリスト $\mList{y}$ から最初の $x$ 個の要素からなるリストを返す．いま
+無限リストを扱えるのは，我々がいつも遅延評価を行うからである．遅延評価とは，本当の計算は必要になるまで行わないという方式のことである．
+
+もし本当に無限リストを計算機の上で再現する必要があったなら，計算機には無限のメモリが必要になってしまう．しかし我々は，計算が必要になるまで評価を行わないので，無限リストの中から有限個の要素が取り出されるのを待つことができるのである．例えば関数 $\mTake n\mList{x}$ はリスト $\mList{x}$ から最初の $n$ 個の要素からなるリストを返す．いま
 \begin{equation*}
   \mList{z}
-  =\mTake5\,\mList{n}
+  =\mTake\,5\,\mList{n}
 \end{equation*}
 とすると，リスト $\mList{z}$ は $\mList{z}=[1,2\dotsb5]$ という値を持つ．\footnote{\haskell では \code{zs = take 5 ns} と書く．}
 
@@ -1953,7 +1954,7 @@ A...
 
 これで我々は関数の適用，変数の代入，ラムダ式，条件式，再帰の方法を学んだわけである．これだけあれば，原理的にはどのようなアルゴリズムも書くことができる．今日からはカリー風な数学であらゆるアルゴリズムを表現できるのである！
 
----
+\separator
 
 cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例えばリストの和をとる関数 $\mSum$ は
 \begin{equation}
@@ -2182,7 +2183,7 @@ def map_over(f, p):
 
 もう一度振り出しに戻る．
 
-整数 $x,y,z$ があり $x=y/z$ という式があるとする．この式は $z\equiv0$ のときにはゼロ除算エラーである．しかし「例外」は内部状態の書き換えであり，我々の計算に入れたくない．そこで変数 $x$ が正しく計算されたかもしれないし，されていないかもしれないということを $\mMaybe{u}$ のように肩に?をつけた変数に入れて，忘れないようにしておこう．
+整数 $x,y,z$ があり $x=y/z$ という式があるとする．この式は $z\equiv0$ のときにはゼロ除算エラーである．しかし「例外」は内部状態の書き換えであり，我々の計算に入れたくない．そこで変数 $x$ が正しく計算されたかもしれないし，されていないかもしれないということを $\mMaybe{u}$ のように?をつけた変数に入れて，忘れないようにしておこう．
 
 ここで変数 $\mMaybe{u}$ が取り得る値は正しく計算された値 $x$ をラップしたものか，あるいはエラーを表す値 $\mNothing$ である．このように計算結果に「意味付け」をすることを\keyword{文脈}に入れると言う．定数 $\mNothing$ は「ナッシング」と呼ぶ．\footnote{\haskell では $\mNothing$ を \code{Nothing} と書く．}
 
@@ -2248,7 +2249,7 @@ $\mA $ 型の変数を $\mMaybeType{a}$ 型の変数に代入するには，次�
 Maybeは次の\code{maybe}クラステンプレートで表現できる．（\java プログラマへの注意：これは\code{maybe<a>}クラスの定義と同じ意味である．）
 \begin{cxxcode}
 \begin{verbatim}
-template <class a> class maybe {
+template <typename a> class maybe {
   private:
     a value;
     bool valid;
@@ -3117,6 +3118,30 @@ k=i\mBind{}(j\mAnonParam)=\mPureWith{f\mCompFunc g\mAnonParam}
   &$\mFunctorTypeClass$
   &\multicolumn{2}{|c||}{}\\
 \hline\hline
+一般モノイド
+  &
+  &
+  &
+  &
+  &$\mZero$
+  &$\mPlus$\\
+\hline
+整数
+  &
+  &
+  &
+  &
+  &$0$
+  &$+$\\
+\hline
+整数
+  &
+  &
+  &
+  &
+  &$1$
+  &$*$\\
+\hline\hline
 一般コンテナ
   &$\mBind$
   &$\mPureWith{x}$
@@ -3125,14 +3150,6 @@ k=i\mBind{}(j\mAnonParam)=\mPureWith{f\mCompFunc g\mAnonParam}
   &
   &\\
 \hline
-一般モノイド
-  &
-  &
-  &
-  &
-  &$\mZero$
-  &$\mPlus$\\
-\hline\hline
 リスト
   &$\mBindList$
   &$[x]$
@@ -3156,22 +3173,6 @@ Maybe
   &$\mMapFunc$
   &$\mAnonParam$
   &$\mCompFunc$\\
-\hline
-整数
-  &
-  &
-  &
-  &
-  &$0$
-  &$+$\\
-\hline
-整数
-  &
-  &
-  &
-  &
-  &$1$
-  &$*$\\
 \hline
 \end{tabular}
 \end{center}
