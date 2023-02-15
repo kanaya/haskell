@@ -334,7 +334,7 @@
 
 % Special polymorphic types
 \newcommand{\mCatType}[2]{\llangle\mType{#1}\mCatArrowC\mType{#2}\rrangle}
-\newcommand{\mFuncType}[2]{\langle\mType{#1}\mFuncArrow\mType{#2}\rangle}
+% \newcommand{\mFuncType}[2]{\langle\mType{#1}\mFuncArrow\mType{#2}\rangle}
 \newcommand{\mPureType}[1]{\[\mType{#1}\]}
 
 % Polymorphic types
@@ -361,10 +361,14 @@
 \newcommand{\mTypeConstructor}[1]{\textsl{#1}}
 
 \DeclareMathOperator{\mEitherTypeConstructor}{\mTypeConstructor{Either}}
-\DeclareMathOperator{\mFuncTypeConstructor}{\mTypeConstructor{Func}}
+% \DeclareMathOperator{\mFuncTypeConstructor}{\mTypeConstructor{Func}}
+\DeclareMathOperator{\mFuncTypeConstructor}{(\mType{r}\!\rightarrow)}
 \DeclareMathOperator{\mListTypeConstructor}{\mTypeConstructor{List}}
 \DeclareMathOperator{\mMaybeTypeConstructor}{\mTypeConstructor{Maybe}}
 \DeclareMathOperator{\mZipListTypeConstructor}{\mTypeConstructor{ZipList}}
+
+\newcommand{\mFuncTypeAssemble}[1]{{}^{\mFuncTypeConstructor}\mType{#1}}
+\newcommand{\mFuncType}[1]{\mTypeAssemble{\mFuncTypeConstructor}{#1}}
 
 % \newcommand{\mFuncTypeConstructor}[1]{\mathop{\mTypeConstructor{Func}}}%{\mathop{\mTypeConstructor{Func}_{(\mType{#1})}}}
 
@@ -2654,22 +2658,21 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
 \end{equation}
 であると考えてみる．型 $\mA$ から型コンストラクタ $\mFuncTypeConstructor$ によって型 $(\mProjEXP{\mR}{\mA})$ が作られると考えるのだ．\footnote{\haskell では $\mFuncTypeConstructor$ の代わりに \code{((->)r)} をそのまま使う．}
 
-マップ演算子の型は，$\mFuncTypeConstructor\mA=\mPolymorphicTypeAssemble{f}{\mA}$ とする
-と
+マップ演算子の型は，$\mFuncTypeConstructor\mA=\mFuncType{a}$ とすると
+% $\mFuncTypeConstructor\mA=\mPolymorphicTypeAssemble{\mFuncTypeConstructor}{\mA}$ とすると
 \begin{equation}
   (\mMap)
   \mIn{}\mFunctorTypeClass\mSuperSet\mPolymorphicTypeParameter{f}
   \mSuperClass(\mA\mFuncArrow\mB)
-  \mFuncArrow\mPolymorphicTypeAssemble{f}{a}
-  \mFuncArrow\mPolymorphicTypeAssemble{f}{b}
+  \mFuncArrow\mFuncType{a}
+  \mFuncArrow\mFuncType{b}
 \end{equation}
-であって，いま $\mPolymorphicTypeParameter{f}=\mFuncTypeConstructor$ を考えている
-から，関数のマップ演算子を $\mMapFunc$ とすると
+であって，関数のマップ演算子を $\mMapFunc$ とすると
 \begin{equation}
   (\mMapFunc)
   \mIn{}(\mA\mFuncArrow\mB)
-  \mFuncArrow\mPolymorphicTypeAssemble{f}{\mA}
-  \mFuncArrow\mPolymorphicTypeAssemble{f}\mB
+  \mFuncArrow\mFuncType{a}
+  \mFuncArrow\mFuncType{b}
 \end{equation}
 であり，これはすなわち
 \begin{equation}
