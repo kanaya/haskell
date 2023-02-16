@@ -428,6 +428,7 @@
 \newcommand{\mEither}[1]{{#1}_!}
 \newcommand{\mList}[1]{{#1}_\mathrm{s}}
 \newcommand{\mMaybe}[1]{{#1}_?}
+\newcommand{\mContainer}[1]{{#1}_*}
 \newcommand{\mVec}[1]{\Vec{#1}}
 
 % Guards
@@ -467,16 +468,18 @@
 \hline\hline
 変数&イタリック小文字（1文字）&$u,v,w,x,y,z$\\
 有名な変数&ローマン小文字&$\mFirstVar,\mRestVar$\\
-リスト変数&sをつける&$\mList{x}$\\
-Maybe変数&?をつける&$\mMaybe{x}$\\
-Ether変数&!をつける&$\mEither{x}$\\
+リスト変数&$\mathrm{s}$をつける&$\mList{x}$\\
+Maybe変数&$?$をつける&$\mMaybe{x}$\\
+Ether変数&$!$をつける&$\mEither{x}$\\
+コンテナ変数&$*$をつける&$\mContainer{x}$\\
 \hline
-% 定数&イタリック大文字（1文字）&$A,B,C$\\
+定数&イタリック大文字（1文字）&$A,B,C$\\
 有名な定数&ローマン大文字&$\mTrue,\mFalse$\\
 単位元&ローマンに斜線&$\mZero$\\
 \hline
 関数&イタリック小文字（1文字）&$f,g,h,i,j,k$\\
 有名な関数&ローマン小文字&$\mId,\sin,\cos$\\
+コンテナ関数&$*$をつける&$\mContainer{f}$\\
 圏の関数&フラクチュール小文字&$\mIdCat$\\
 % コンテナ関数&ギリシア文字&$\phi,\psi$\\
 \hline
@@ -491,8 +494,8 @@ Ether変数&!をつける&$\mEither{x}$\\
 % 多相型パラメタ&ボールドイタリック小文字&$\mPolymorphicTypeParameter{f},\mPolymorphicTypeParameter{m}$\\
 型クラス&スモールキャピタル&$\mEqTypeClass,\mOrdTypeClass,\mNumTypeClass$\\
 多相型&左肩にコンテナ名をつける&$\mMaybeType{a},\mIOType{a}$\\
-有名な多相型 (1)&特別な括弧で包む&$[\mA],\mPureType{a}$\\
-有名な多相型 (2)&特別な矢印を用いる&$\mFuncType{r}{a},\mCatType{r}{a}$\\
+有名な多相型&特別な括弧で包む&$[\mA],\mPureType{a}$\\
+% 有名な多相型 (2)&特別な矢印を用いる&$\mFuncType{a},\mCatType{r}{a}$\\
 \hline
 \end{tabular}
 \end{center}
@@ -2514,10 +2517,10 @@ $\mPolymorphicTypeParameter{f}=\mMaybeTypeConstructor$ であれば
 \label{tab:list-and-maybe}
 \caption{リストとMaybeの関係}
 \begin{center}
-\begin{tabular}{||c|c|c|c|c||}\hline
-型の名前&型&型コンストラクタ&マップ&値コンストラクタ\\\hline\hline
-リスト&$[\mA]$&$\mListTypeConstructor$&$\mMapList$&$[x]$\\
-Maybe&$\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mJustWith{x},\mNothing$\\\hline
+\begin{tabular}{||c|c|c|c||}\hline
+型&型コンストラクタ&マップ&値コンストラクタ\\\hline\hline
+$[\mA]$&$\mListTypeConstructor$&$\mMapList$&$[x]$\\
+$\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mJustWith{x},\mNothing$\\\hline
 \end{tabular}
 \end{center}
 \end{table*}
