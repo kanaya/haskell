@@ -338,8 +338,8 @@
 \newcommand{\mPureType}[1]{\[\mType{#1}\]}
 
 % Polymorphic types
-\newcommand{\mTypeAssemble}[2]{{}^\mType{#1}\[\mType{#2}\]}
-\newcommand{\mTypeAssembleII}[3]{{}^\mType{#1}\[\mType{#2}\,\mType{#3}\]}
+\newcommand{\mTypeAssemble}[2]{{}^\mathrm{#1}\[\mType{#2}\]}
+\newcommand{\mTypeAssembleII}[3]{{}^\mathrm{#1}\[\mType{#2}\,\mType{#3}\]}
 \newcommand{\mPolymorphicTypeAssemble}[2]{{}^\mPolymorphicTypeParameter{#1}\[\mType{#2}\]}
 \newcommand{\mPolymporphicTypeAssemble}[3]{{}^\mPolymorphicTypeParameter{#1}\[\mType{#2}\,\mType{#3}\]}
 
@@ -466,8 +466,8 @@
 \hline
 種類&字体・表記法&例\\
 \hline\hline
-変数&イタリック小文字（1文字）&$u,v,w,x,y,z$\\
-有名な変数&ローマン小文字&$\mFirstVar,\mRestVar$\\
+変数&イタリック（1文字）&$u,v,w,x,y,z$\\
+有名な変数&ローマン&$\mFirstVar,\mRestVar$\\
 リスト変数&$\mathrm{s}$をつける&$\mList{x}$\\
 Maybe変数&$?$をつける&$\mMaybe{x}$\\
 Ether変数&$!$をつける&$\mEither{x}$\\
@@ -477,20 +477,20 @@ Ether変数&$!$をつける&$\mEither{x}$\\
 有名な定数&ローマン大文字&$\mTrue,\mFalse$\\
 単位元&ローマンに斜線&$\mZero$\\
 \hline
-関数&イタリック小文字（1文字）&$f,g,h,i,j,k$\\
-有名な関数&ローマン小文字&$\mId,\sin,\cos$\\
+関数&イタリック（1文字）&$f,g,h,i,j,k$\\
+有名な関数&ローマン&$\mId,\sin,\cos$\\
 コンテナ関数&$*$をつける&$\mContainer{f}$\\
-圏の関数&フラクチュール小文字&$\mIdCat$\\
+圏の関数&フラクチュール&$\mIdCat$\\
 % コンテナ関数&ギリシア文字&$\phi,\psi$\\
 \hline
 アクション&ギリシア文字&$\alpha,\omega$\\
-有名なアクション&スラント小文字&$\mPrint$\\
+有名なアクション&スラント&$\mPrint$\\
 \hline
 % 集合&ボールド大文字（1文字）&$\mSet{A},\mSet{B},\mSet{C}$\\
 集合&ブラックボード大文字&$\mBSet,\mZSet,\mRSet$\\
 \hline
 型&ボールド大文字&$\mBoolType,\mIntType,\mFloatType$\\
-型パラメタ&ボールド小文字&$\mA,\mB,\mC$\\
+型パラメタ&ボールド（1文字）&$\mA,\mB,\mC$\\
 % 多相型パラメタ&ボールドイタリック小文字&$\mPolymorphicTypeParameter{f},\mPolymorphicTypeParameter{m}$\\
 型クラス&スモールキャピタル&$\mEqTypeClass,\mOrdTypeClass,\mNumTypeClass$\\
 多相型&左肩にコンテナ名をつける&$\mMaybeType{a},\mIOType{a}$\\
@@ -511,9 +511,10 @@ Ether変数&$!$をつける&$\mEither{x}$\\
 値コンストラクタ&名前付き括弧で包む&$\mRightWith{x},\mLeftWith{x}$\\
 有名な値コンストラクタ&特別な括弧で包む&$[x],\mPureWith{x},\mFuncWith{x},\mArrowWith{x}$\\
 \hline
-型コンストラクタ&スラント大文字&$\mListTypeConstructor$, $\mMaybeTypeConstructor$\\
+型コンストラクタ&ボールドイタリック&$\mPolymorphicTypeParameter{f},\mPolymorphicTypeParameter{g}$\\
+有名な型コンストラクタ&スラント大文字&$\mListTypeConstructor$, $\mMaybeTypeConstructor$\\
 \hline
-キーワード&サンセリフ小文字&$\mIf,\mOtherwise$\\
+キーワード&サンセリフ&$\mIf,\mOtherwise$\\
 do記法中のキーワード&タイプライタ&$\mDoLetKeyword$\\
 % リストの構造&サンセリフ，大文字&$\mathFirst$, $\mathRest$\\
 \hline
