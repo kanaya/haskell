@@ -406,7 +406,7 @@
 \DeclareMathOperator{\mIdFunctor}{\mSpecialFunctor{ID}}
 
 % Type classes
-\newcommand{\mTypeClass}[1]{\textsc{#1}} % Inetrnal use
+\newcommand{\mTypeClass}[1]{\textbf{\textit{#1}}}%{\textsc{#1}} % Inetrnal use
 
 \newcommand{\mApplicativeTypeClass}{\mTypeClass{Applicative}}
 \newcommand{\mArrowTypeClass}{\mTypeClass{Arrow}}
@@ -451,6 +451,8 @@
 \newcommand{\mWhereIsEXP}[2]{\mathbin{\mWhereKeyword}#1\mLetEq#2} %%% TO BE REMOVED
 \newcommand{\mWhereIsIIEXP}[4]{\mathbin{\mWhereKeyword}#1\mLetEq#2,#3\mLetEq#4} %%% TO BE REMOVED
 
+\newcommand{\mLLL}{\triangleleft\!\!\!\triangleleft\!\!\!\triangleleft}
+
 \title{関数型プログラミングと代数構造}
 \author{金谷一朗}
 
@@ -484,16 +486,18 @@ Ether変数&$!$をつける&$\mEither{x}$\\
 % コンテナ関数&ギリシア文字&$\phi,\psi$\\
 \hline
 アクション&ギリシア文字（1文字）&$\alpha,\omega$\\
-有名なアクション&ローマン&$\mPrint$\\
+有名なアクション&ローマン&$\mMain,\mPutStr$\\
 \hline
 % 集合&ボールド大文字（1文字）&$\mSet{A},\mSet{B},\mSet{C}$\\
 集合&ブラックボード大文字&$\mBSet,\mZSet,\mRSet$\\
 \hline
 型&ボールド（1文字）&$\mA,\mB,\mC$\\
-有名な型&ボールド大文字&$\mBoolType,\mIntType,\mFloatType$\\
+有名な型&ボールド大文字&$\mBoolType,\mIntType$\\
 % 多相型パラメタ&ボールドイタリック小文字&$\mPolymorphicTypeParameter{f},\mPolymorphicTypeParameter{m}$\\
-型クラス&スモールキャピタル&$\mEqTypeClass,\mOrdTypeClass,\mNumTypeClass$\\
-多相型&左肩にコンテナ名をつける&$\mMaybeType{a},\mIOType{a}$\\
+型クラス&ボールドイタリック大文字&$\mEqTypeClass,\mOrdTypeClass$\\
+型コンストラクタ&&$\mPolymorphicTypeParameter{f},\mPolymorphicTypeParameter{g},\mPolymorphicTypeParameter{h}$\\
+有名な型コンストラクタ&&$\mListTypeConstructor,\mMaybeTypeConstructor$\\
+多相型&左肩にコンテナ名をつける&$\mMaybeType{a}$\\
 有名な多相型&特別な括弧で包む&$[\mA],\mPureType{a}$\\
 % 有名な多相型 (2)&特別な矢印を用いる&$\mFuncType{a},\mCatType{r}{a}$\\
 \hline
@@ -610,6 +614,8 @@ $\mBindComp$&バインド・合成演算子&\code{<=<}\\
 $\mBindRight$&右バインド演算子&\code{>>=}\\
 $\mBindRightIgnore$&右バインド演算子（戻値無視）&\code{>>}\\
 \hline
+$\mLLL$&カテゴリ関数合成&\code{<<<}\\
+\hline
 \end{tabular}
 \end{center}
 \end{table*}
@@ -681,7 +687,7 @@ print("Hello, world.")
 
 ところが，入出力，状態変数，例外など，プログラミングに使われる多くのテクニックは関数の副作用を前提としている．参照透過性と副作用を統一的に扱うためには\keyword{モナド}という数学概念が必要である．\haskell はモナドを陽に扱うプログラミング言語である．
 
-... % 数学とプログラミングの関係
+% 数学とプログラミングの関係
 
 % ラムダ式は単純で，十分に数学的に定式化できるものだ．
 
@@ -717,7 +723,7 @@ print("Hello, world.")
 
 本書の第I部は\haskell コンパイラ無しで読み進めることができる．とは言え，前もって\haskell コンパイラを用意しておくことは無意味とも言えない．
 
----
+\TK{To be written.}
 
 % \haskell コンパイラの中で最もよく使われているものは Glasgow's HaskellCompiler (GHC) である．本書に登場する\haskell コードもすべてGHCでテストをしている．GHCは2015年にリリースされたバージョン7.10とそれまでのバージョンとの間に大きな違いがある．本書はバージョン7.10以降を対象としているため，一部は古い書籍と互換性がない．
 
@@ -1191,7 +1197,7 @@ z = f2(f1(x))
 \item \haskell のラムダ式はいつもレキシカルクロージャである．
 \end{enumerate}
 
-\chapter{型}
+\chapter{型*}
 \label{ch:type}
 
 \begin{leader}
@@ -1272,7 +1278,7 @@ z = f2(f1(x))
 \end{equation}
 のようにイメージすると良い．これは関数 $f$ が集合 $\mIntType$ から集合 $\mIntType$ への\keyword{写像}であると読む．\footnote{\haskell では \code{f :: Int -> Int} と書く．}
 
-\section{カリー化*}
+\section{カリー化}
 
 \haskell では，どのような関数であれ引数は1個しかとらない．引数が2個あるように見える関数として，例えば $gxy$ があったとしよう．ここに $g$ は関数，$x,y$ は変数である．関数適用は左結合であるから，これは　$\left(gx\right)y$ である．ここに $\left(gx\right)$ は引数 $y$ をとる関数であると見ることができる．つまり，関数 $f$ とは引数 $x$ をとり「引数 $y$ をとって値を返す関数 $\left(gx\right)$ を返す」関数であると言える．
 
@@ -1351,7 +1357,7 @@ z = f2(f1(x))
 
 タプルの中身の個数は0個または2個以上でなければならず，上限は処理系によって定められている．2個の変数からなるタプルを特別にペア，3個の変数からなるタプルを特別にトリプルと呼ぶ．中身が0個のタプルすなわち $()$ は特別に\keyword{ユニット}と呼ぶ．\footnote{GHC v8.2.1 は最大62個の変数からなるタプルまで生成できる．}
 
-\section{多相型と型クラス}
+\section{多相型と型クラス*}
 
 整数型 $(\mIntType)$ と浮動小数点型 $(\mFloatType)$ はよく似ている．どちらも値同士を比較可能で，それ故どちらにも等値演算子が定義されている．
 
@@ -1451,8 +1457,6 @@ $\mFromIntegral$ は
 \separator
 
 \TK{種}
-
-\TK{Figure.}
 
 \section{余談：モノイド}
 
@@ -1625,7 +1629,7 @@ ls = [x+y for x in range(0, 10) for y in range(0, 6) \
   [\mA]
   =\mListTypeConstructor\,\mA
 \end{equation}
-とする．この等式の両辺は変数ではなく型名であることに注意しよう．型コンストラクタの概念は\python には無い（必要無い）が，静的型付け言語である\cxx の「クラステンプレート」が相当する．\footnote{\haskell では表記上コンテナ型 $[\mA]$ と型コンストラクタ式$\mListTypeConstructor\,\mA $ を区別せず，両者とも \code{[a]} と書く．}
+とする．\footnote{\haskell ではこの式の右辺を \code{[] a} とも書ける．}この等式の両辺は変数ではなく型名であることに注意しよう．型コンストラクタの概念は\python には無い（必要無い）が，静的型付け言語である\cxx の「クラステンプレート」が相当する．\footnote{\haskell では表記上コンテナ型 $[\mA]$ と型コンストラクタ式$\mListTypeConstructor\,\mA $ を区別せず，両者とも \code{[a]} と書く．}
 
 $[x]$ のように $\mA$ 型の変数 $x$ を入れた$[\mA]$ 型の変数を作る演算子を\keyword{リスト値コンストラクタ}と呼ぶ．$[\mA]$ 型の変数のことを\keyword{リスト変数}とも呼ぶ．$\mA$ 型の変数 $x$ からリスト値コンストラクタを使ってリスト$\mList{x}$ を作ることは
 \begin{equation}
@@ -1676,12 +1680,12 @@ $\mList{n}$ は
 
 無限リストを扱えるのは，我々がいつも遅延評価を行うからである．遅延評価とは，本当の計算は必要になるまで行わないという方式のことである．
 
-もし本当に無限リストを計算機の上で再現する必要があったなら，計算機には無限のメモリが必要になってしまう．しかし我々は，計算が必要になるまで評価を行わないので，無限リストの中から有限個の要素が取り出されるのを待つことができるのである．例えば関数 $\mTake n\mList{x}$ はリスト $\mList{x}$ から最初の $n$ 個の要素からなるリストを返す．いま
+もし本当に無限リストを計算機の上で再現する必要があったなら，計算機には無限のメモリが必要になってしまう．しかし我々は，計算が必要になるまで評価を行わないので，無限リストの中から有限個の要素が取り出されるのを待つことができるのである．例えば関数 $\mTake n\,\mList{n}$ はリスト $\mList{n}$ から最初の $n$ 個の要素からなるリストを返す．いま
 \begin{equation*}
-  \mList{z}
-  =\mTake\,5\,\mList{n}
+  \mList{x}
+  =\mTake5\,\mList{n}
 \end{equation*}
-とすると，リスト $\mList{z}$ は $\mList{z}=[1,2\dotsb5]$ という値を持つ．\footnote{\haskell では \code{zs = take 5 ns} と書く．}
+とすると，リスト $\mList{x}$ は $\mList{x}=[1,2\dotsb5]$ という値を持つ．\footnote{\haskell では \code{xs = take 5 ns} と書く．}
 
 関数 $\mTake$ の型は
 \begin{equation}
@@ -1936,7 +1940,7 @@ cons演算子 $(:)$ は右結合する．すなわち $x_0:x_1:x_2=x_0:(x_1:x_2)
 \label{ch:recursion}
 
 \begin{leader}
-A...
+\TK{To be written.}
 \end{leader}
 
 \section{関数の再帰適用}
@@ -2036,7 +2040,7 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
 
 計算機科学者が末尾再帰を好む理由は，\haskell を含む幾つかのプログラミング言語処理系が\keyword{末尾再帰最適化}を行うからである．末尾再帰最適化とは，一言で言うと再帰を計算機が扱いやすいループに置き換えることである．では最初から我々もループで関数を表現しておけば，と思われるかもしれないが，再帰以外の方法でループを表現する場合には必ず変数（ループカウンタ）への破壊的代入が必要になるため，我々は末尾再帰に慎ましくループを隠すのである．
 
-\section{遅延評価*}
+\section{遅延評価}
 
 \haskell は，意図しない限り遅延評価を行う．これは特に左畳み込み演算子 $(\mFold)$ を使う場合に問題となる．いま $\mList{x}=[x_0,x_1,x_2,x_3]$ とすると，左畳み込み演算 $\mFold^+_0\mList{x}$ は
 \begin{align}
@@ -2313,7 +2317,7 @@ maybe<int> v = map_over(g, u);
 % ター (functor) という機構を使うことになる．このファンクターは第
 % \ref{ch:functor}章の関手 (functor) とは全く別な概念である．
 
-\section{リストとMaybe}
+\section{リストとMaybe*}
 
 関数 $f$ をMayby値 $\mMaybe{u}$ に適用するために
 \begin{equation}
@@ -2377,10 +2381,6 @@ X<b> map_over(fn f, X<a> x, b dummy);
 \separator
 
 \TK{To be written.}
-
-\begin{equation}
-  \mJoinList[[x]]=[x]
-\end{equation}
 
 \begin{equation}
   \mJoinMaybe\mJustWith{\mJustWith{x}}=\mJustWith{x}
@@ -2832,8 +2832,6 @@ Maybeの例を思い出そう．Maybe型の変数 $\mMaybe{u}$ はラップさ�
 \mMaybe{v}=gx
 \end{equation}
 という風に結果をMaybe変数に保存しなければならない．今まで見てきた $y=fx$ や $\mMaybe{v}=f\mMapMaybe\mMaybe{u}$ の関係とは異なることに注意しよう．
-
-\TK{Poor flow.}
 
 関数 $g$ の型は
 \begin{equation}
@@ -4087,6 +4085,19 @@ $\mNewTypeDeclPolymorphic$ に置き換えたことである．これは，字�
 \begin{enumerate}
 \item ...
 \end{enumerate}
+
+\TK{TO DO}
+\begin{itemize}
+\item state monad
+\item fix
+\item category
+\item kleisli class
+\item arrow
+\item continuation
+\item 文字セットとコメント
+\item 代数的構造
+\item ラムダ
+\end{itemize}
 
 \part{\haskell プログラミング}
 
