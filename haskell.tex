@@ -2665,7 +2665,7 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
 \begin{equation}
   \mR\mFuncArrow\mA=\mFuncTypeConstructor\mA
 \end{equation}
-であると考えてみる．型 $\mA$ から型コンストラクタ $\mFuncTypeConstructor$ によって型 $(\mProjEXP{\mR}{\mA})$ が作られると考えるのだ．\footnote{\haskell では $\mFuncTypeConstructor$ の代わりに \code{((->)r)} をそのまま使う．}
+であると考えてみる．型 $\mA$ から型コンストラクタ $\mFuncTypeConstructor$ によって型 $(\mProjEXP{\mR}{\mA})$ が作られると考えるのだ．\footnote{\haskell では $\mFuncTypeConstructor$ を \code{((->)r)} と書く．}
 
 マップ演算子の型は，$\mFuncTypeConstructor\mA=\mFuncType{a}$ とすると
 % $\mFuncTypeConstructor\mA=\mPolymorphicTypeAssemble{\mFuncTypeConstructor}{\mA}$ とすると
@@ -2814,9 +2814,9 @@ Maybeのアプリカティブマップ演算子の定義は次の通り．
 
 一般マップ演算子をピュア演算子と一般アプリカティブマップ演算子に分解することで，式の見通しを良くすることができるアプリカティブスタイルという記法を採用できた．アプリカティブスタイルでは
 \begin{equation}
-  f\mMap u\mAppMap v\mAppMap w
+  f\mMap\mContainer{u}\mAppMap\mContainer{v}\mAppMap\mContainer{w}
 \end{equation}
-という風にコンテナ変数 $u,v,w$ に関数 $f$ を適用させることができる．コンテナ変数 $u,v,w$ のいずれかが $\mPureNothing$ であれば式全体の値が$\mPureNothing$ になる．これは3個の計算を並列に行って，その結果をそれぞれ $u,v,w$ に入れておき，最後に関数 $f$ に投げるという\keyword{計算構造}を具現化したものである．（関数 $f$ は\clang で言えば \code{main} 関数に相当するであろう．）
+という風にコンテナ変数 $\mContainer{u},\mContainer{v},\mContainer{w}$ に関数 $f$ を適用させることができる．コンテナ変数 $\mContainer{u},\mContainer{v},\mContainer{w}$ のいずれかが $\mPureNothing$ であれば式全体の値が$\mPureNothing$ になる．これは3個の計算を並列に行って，その結果をそれぞれ $\mContainer{u},\mContainer{v},\mContainer{w}$ に入れておき，最後に関数 $f$ に投げるという\keyword{計算構造}を具現化したものである．（関数 $f$ は\clang で言えば \code{main} 関数に相当するであろう．）
 
 しかしながら，アプリカティブスタイルでは変数に文脈を与えるタイミングがコンテナ変数を作るときのそれぞれ1回に限られている．そこで，任意のタイミングで変数に文脈を与えられるように，別な方法で一般マップ演算子を分解してみよう．
 
@@ -2903,26 +2903,33 @@ $\mFunctorTypeClass$ 型クラスは一般マップ演算子 $(\mMap)$ を持っ
     &\mIfSo\mPureNothing
   \end{cases}
 \end{equation}
-ここに $x$ は非コンテナ変数で，関数 $f$ も「普通の」（コンテナに入っていない）関数である．より厳密に言えば $x\mIn\mA$ かつ $f\mIn\mA\mFuncArrow\mB$ である．従って，関数 $i$ の型は $\mA\mFuncArrow\mPureType{b}$ である．条件 $\mLovelyVar$ には任意の値を入れてよい．
+ここに $x$ は非コンテナ変数で，関数 $f$ も「普通の」（コンテナに入っていない）関数である．より厳密に言えば $x\mIn\mA$ かつ $f\mIn\mA\mFuncArrow\mB$ である．従って，関数 $\mContainer{i}$ の型は $\mA\mFuncArrow\mPureType{b}$ である．条件 $\mLovelyVar$ には任意の値を入れてよい．
 
-関数 $i$ をコンテナに入った変数 $u=\mPureWith{x}$ に適用させるのが一般バインド演算子 $(\mBind)$ の役割である．計算結果をコンテナ変数 $a$ に格納するとすると，関数 $i$ のコンテナ変数 $u$ への適用は
+関数 $i$ をコンテナに入った変数 $u=\mPureWith{x}$ に適用させるのが一般バインド演算子 $(\mBind)$ の役割である．計算結果をコンテナ変数 $a$ に格納するとすると，関数 $i$ のコンテナ変数 $\mContainer{u}$ への適用は
 \begin{equation}
 \label{eq:i-love-u}
-a=i\mBind u
+\mContainer{a}=i\mBind\mContainer{u}
 \end{equation}
-と書ける．うまく行けば $a=\mPureWith{fx}$ となるし，そうでなければ $a=\mPureNothing$ となる．
+と書ける．うまく行けば $\mContainer{a}=\mPureWith{fx}$ となるし，そうでなければ $\mContainer{a}=\mPureNothing$ となる．
 
-さて $u=\mPureWith{x},v=\mPureWith{y}$ として，かつ $y=fx$ であるとき
+さて $\mContainer{u}=\mPureWith{x},\mContainer{v}=\mPureWith{y}$ として，かつ $y=fx$ であるとき
 \begin{equation}
-v=f\mMap u=\mPureWith{f}\mAppMap u
+\mContainer{v}=f\mMap\mContainer{u}=\mPureWith{f}\mAppMap\mContainer{u}
 \end{equation}
-であった．式\eqref{eq:def-of-i}から $ix=\mPureWith{fx}$ すなわち $i=\mPureWith{f\mAnonParam}$ の関係を抜き出すと式\eqref{eq:i-love-u}は
+であった．
+
+\TK{CHECK}
+
+式\eqref{eq:def-of-i}から $ix=\mPureWith{fx}$ すなわち $i=\mPureWith{f\mAnonParam}$ の関係を抜き出すと式\eqref{eq:i-love-u}は
 \begin{equation}
-a=\mPureWith{f\mAnonParam}\mBind u
+\mContainer{a}=\mPureWith{f\mAnonParam}\mBind\mContainer{u}
 \end{equation}
-となる．いま $y=fx$ であったから $a=v$ であり，最終的に
+となる．いま $y=fx$ であったから $\mContainer{a}=\mContainer{v}$ であり，最終的に
 \begin{equation}
-v=f\mMap u=\mPureWith{f}\mAppMap u=\mPureWith{f\mAnonParam}\mBind u
+\mContainer{v}
+=f\mMap\mContainer{u}
+=\mPureWith{f}\mAppMap\mContainer{u}
+=\mPureWith{f\mAnonParam}\mBind\mContainer{u}
 \end{equation}
 を得る．これが一般バインド演算子と一般アプリカティブマップ演算子，一般マップ演算子の関係である．
 
