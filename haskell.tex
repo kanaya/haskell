@@ -71,7 +71,7 @@
 \newenvironment{rubycode}{\begin{itembox}[r]{\ruby}}{\end{itembox}}
 \newenvironment{schemecode}{\begin{itembox}[r]{\scheme}}{\end{itembox}}
 
-%% Math
+%% Math (in Math-mode)
 
 % Brace
 \newcommand{\mBrace}{\Vert}
@@ -146,8 +146,8 @@
 \newcommand{\mPureNothing}{\varnothing}
 \newcommand{\mTrue}{\mSpecialConstant{True}}
 \newcommand{\mZero}{\text{\O}}
-\newcommand{\mZeroLeft}{\mZero_\textrm{left}}
-\newcommand{\mZeroRight}{\mZero_\textrm{right}}
+\newcommand{\mZeroLeft}{\mZero_\mLeft}
+\newcommand{\mZeroRight}{\mZero_\mRight}
 
 % Strings
 \newcommand{\mString}[1]{\text{#1}}
@@ -161,17 +161,13 @@
 \newcommand{\mRestVar}{\mSpecialVar{rest}}
 
 % Cast
-
-\newcommand{\mToIntegral}[1]{{}_\text{Integral}\left(#1\right)}
-
 \newcommand{\mUpCast}{\bigtriangleup}
 
 \DeclareMathOperator{\mFromIntegral}{\mUpCast_\text{Integral}}
 
 % Functions
-%%% \newcommand{\mFunc}[1]{\mathop{\mathit{#1}}}
-\newcommand{\mSpecialFunc}[1]{#1}
-\newcommand{\mSpecialFuncSmall}[1]{#1}
+\newcommand{\mSpecialFunc}[1]{\mathrm{#1}}
+\newcommand{\mSpecialFuncSmall}[1]{\mathrm{#1}}
 \newcommand{\mVarSpecialFunc}[1]{\mathfrak{#1}}
 
 \DeclareMathOperator{\mConjugate}{\mSpecialFunc{conjugate}}
@@ -217,7 +213,7 @@
 \DeclareMathOperator{\mZipWith}{\mSpecialFunc{zipWith}}
 
 % Actions
-\newcommand{\mAction}[1]{\textrm{#1}}
+\newcommand{\mAction}[1]{\mathrm{#1}}
 
 \DeclareMathOperator{\mReadLn}{\mAction{readLn}}
 \DeclareMathOperator{\mMain}{\mAction{main}}
@@ -236,10 +232,6 @@
 \DeclareMathOperator{\mAppMapFunc}{\bowtie}
 \DeclareMathOperator{\mAppMapList}{\otimes}
 \DeclareMathOperator{\mAppMapMaybe}{\boxtimes}
-% \DeclareMathOperator{\mArrow}{\Rrightarrow}
-% \DeclareMathOperator{\mArrowAnd}{\bigwedge}%{\&\&\&}
-% \DeclareMathOperator{\mArrowOr}{\bigvee}%{\mid\mid\mid}
-% \DeclareMathOperator{\mArrowTimes}{***}
 \DeclareMathOperator{\mArrowArrowA}{\mArrowArrow{\mPolymorphicTypeParameter{a}}}
 \DeclareMathOperator{\mBind}{\heartsuit}
 \DeclareMathOperator{\mBindComp}{\maltese}
@@ -250,7 +242,6 @@
 \DeclareMathOperator{\mBindRightIgnore}{\twoheadrightarrow}
 \DeclareMathOperator{\mBinOp}{\bigstar}
 \DeclareMathOperator{\mCatArrowC}{\mCatArrow{\mPolymorphicTypeParameter{c}}}
-% \DeclareMathOperator{\mCatMapsTo}{\rightarrowtail}
 \DeclareMathOperator{\mCompFunc}{\centerdot}
 \DeclareMathOperator{\mCompCat}{\bullet}
 \DeclareMathOperator{\mCompProj}{\circledcirc}
@@ -295,8 +286,8 @@
 % Subscripts
 \newcommand{\mSpecialSub}[1]{\text{#1}}
 
-\newcommand{\mLeft}{\mSpecialSub{Left}}
-\newcommand{\mRight}{\mSpecialSub{Right}}
+\newcommand{\mLeft}{\mSpecialSub{left}}
+\newcommand{\mRight}{\mSpecialSub{right}}
 
 % Sets
 \newcommand{\mSet}[1]{\mathbf{#1}}
@@ -334,7 +325,6 @@
 
 % Special polymorphic types
 \newcommand{\mCatType}[2]{\llangle\mType{#1}\mCatArrowC\mType{#2}\rrangle}
-% \newcommand{\mFuncType}[2]{\langle\mType{#1}\mFuncArrow\mType{#2}\rangle}
 \newcommand{\mPureType}[1]{\[\mType{#1}\]}
 
 % Polymorphic types
@@ -343,7 +333,7 @@
 \newcommand{\mPolymorphicTypeAssemble}[2]{{}^\mPolymorphicTypeParameter{#1}\[\mType{#2}\]}
 \newcommand{\mPolymporphicTypeAssemble}[3]{{}^\mPolymorphicTypeParameter{#1}\[\mType{#2}\,\mType{#3}\]}
 
-\newcommand{\mCompFunclexType}[1]{\mTypeAssemble{C}{#1}}
+\newcommand{\mCompFunclexType}[1]{\mTypeAssemble{C}{#1}} % to be removed
 \newcommand{\mEitherType}[2]{\mTypeAssembleII{Either}{#1}{#2}}
 \newcommand{\mIOType}[1]{\mTypeAssemble{IO}{#1}}
 \newcommand{\mListType}[1]{\mTypeAssemble{List}{#1}}
@@ -351,7 +341,7 @@
 \newcommand{\mZipListType}[1]{\mTypeAssemble{ZL}{#1}}
 
 % Polymorphic types with specific data types
-\newcommand{\mCompFunclexDoubleType}{\mCompFunclexType{\mDoubleType}}
+\newcommand{\mCompFunclexDoubleType}{\mCompFunclexType{\mDoubleType}} % to be removed
 \newcommand{\mIODoubleType}{\mIOType{\mDoubleType}}
 \newcommand{\mIOIntType}{\mIOType{\mIntType}}
 \newcommand{\mIOStringType}{\mIOType{\mStringType}}
@@ -361,7 +351,6 @@
 \newcommand{\mTypeConstructor}[1]{\textsl{#1}}
 
 \DeclareMathOperator{\mEitherTypeConstructor}{\mTypeConstructor{Either}}
-% \DeclareMathOperator{\mFuncTypeConstructor}{\mTypeConstructor{Func}}
 \DeclareMathOperator{\mFuncTypeConstructor}{((\rightarrow)\mType{r})}
 \DeclareMathOperator{\mListTypeConstructor}{\mTypeConstructor{List}}
 \DeclareMathOperator{\mMaybeTypeConstructor}{\mTypeConstructor{Maybe}}
@@ -369,8 +358,6 @@
 
 \newcommand{\mFuncTypeAssemble}[1]{{}^{\mFuncTypeConstructor}\mType{#1}}
 \newcommand{\mFuncType}[1]{\mTypeAssemble{\mFuncTypeConstructor}{#1}}
-
-% \newcommand{\mFuncTypeConstructor}[1]{\mathop{\mTypeConstructor{Func}}}%{\mathop{\mTypeConstructor{Func}_{(\mType{#1})}}}
 
 % Value constructors
 \newcommand{\mValueConstructor}[1]{\mathrm{#1}}
@@ -389,16 +376,12 @@
 % Famous value constructors
 \newcommand{\mArrowWith}[1]{\Langle#1\Rangle}
 \newcommand{\mConstWith}[1]{\langle#1\rangle}
-\newcommand{\mFuncWith}[1]{\langle#1\rangle}  % USED???
 \newcommand{\mPureWith}[1]{\[#1\]}
 
 % Built-in value constructors
-\newcommand{\mTupleWith}[1]{\left(#1\right)} % *** TO BE REMOVED
+\newcommand{\mTupleWith}[1]{\left(#1\right)}
 \newcommand{\mPairWith}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
 \newcommand{\mTripleWith}[3]{\begin{pmatrix}#1\\#2\\#3\end{pmatrix}}
-
-% Unboxed tupple
-% \newcommand{\mTupleUnboxedWith}[1]{\texttt{(\#}#1\texttt{\#)}}
 
 % Functors
 \newcommand{\mSpecialFunctor}[1]{\mathcal{#1}} % Internal use
@@ -406,7 +389,7 @@
 \DeclareMathOperator{\mIdFunctor}{\mSpecialFunctor{ID}}
 
 % Type classes
-\newcommand{\mTypeClass}[1]{\textbf{\textit{#1}}}%{\textsc{#1}} % Inetrnal use
+\newcommand{\mTypeClass}[1]{\textbf{\textit{#1}}}
 
 \newcommand{\mApplicativeTypeClass}{\mTypeClass{Applicative}}
 \newcommand{\mArrowTypeClass}{\mTypeClass{Arrow}}
@@ -441,7 +424,6 @@
 \newcommand{\mCaseOf}[1]{\mCaseKW#1\mOfKW}
 \newcommand{\mDo}[1]{\mDoKW\left\{#1\right\}}
 \newcommand{\mDoLet}[2]{\mathop{\mDoLetKeyword}#1\mDoLetEq#2}
-% \newcommand{\mProc}{...}
 
 \newcommand{\mIfThenElseEXP}[3]{\mIf{#1}\mThen{#2}\mElse{#3}} %%% TO BE REMOVED
 \newcommand{\mLambdaEXP}[2]{\mLambda{#1}\mLambdaArrow{#2}} %%% TO BE REMOVED
@@ -513,7 +495,7 @@ Ether変数&$!$をつける&$\mEither{x}$\\
 種類&字体・表記法&例\\
 \hline\hline
 値コンストラクタ&名前付き括弧で包む&$\mRightWith{x},\mLeftWith{x}$\\
-有名な値コンストラクタ&特別な括弧で包む&$[x],\mPureWith{x},\mFuncWith{x},\mArrowWith{x}$\\
+有名な値コンストラクタ&特別な括弧で包む&$[x],\mPureWith{x},\mConstWith{x},\mArrowWith{x}$\\
 \hline
 型コンストラクタ&ボールドイタリック&$\mPolymorphicTypeParameter{f},\mPolymorphicTypeParameter{g}$\\
 有名な型コンストラクタ&スラント大文字&$\mListTypeConstructor$, $\mMaybeTypeConstructor$\\
@@ -2717,14 +2699,14 @@ g\mCompFunc f\mIn\mProjEXP{\mR}{\mB }
 
 \separator
 
-関数はアプリカティブ関手でもある．アプリカティブ関手には，アプリカティブマップ演算子とピュア演算子が定義されるのであった．そこで，関数版のアプリカティブマップ演算子を $\mAppMapFunc$ とし，関数版のピュア演算子を $\mFuncWith{x}$ と書くことにしよう．
+関数はアプリカティブ関手でもある．アプリカティブ関手には，アプリカティブマップ演算子とピュア演算子が定義されるのであった．そこで，関数版のアプリカティブマップ演算子を $\mAppMapFunc$ とし，関数版のピュア演算子を $\mConstWith{x}$ と書くことにしよう．
 
 ピュア演算子は $\mProjEXP{\mA }{(\mProjEXP{\mR}{\mA })}$ 型を持たなければならない．従って関数版のピュア演算子は変数から関数を作るとも考えられる．我々は関数版のピュア演算子として
 \begin{equation}
-  \mFuncWith{x}
+  \mConstWith{x}
   =\mLambdaEXP{\_}{x}
 \end{equation}
-を採用する．\footnote{\haskell では $\mFuncWith{x}$ を \code{const x} と書く．}
+を採用する．\footnote{\haskell では $\mConstWith{x}$ を \code{const x} と書く．}
 
 関数版のアプリカティブマップ演算子を $\mAppMapFunc$ とすると，その型は
 \begin{equation}
@@ -2748,8 +2730,8 @@ g\mAppMapFunc f=\mLambdaEXP{x}{gx(fx)}
 \end{equation}
 とする．これは，関数版のピュア演算子の定義と，一般マップ演算子と一般アプリカティブマップ演算子の関係 $f\mMap w=\mPureWith{f}\mAppMap w$ から導かれる．すなわち
 \begin{align}
-\mFuncWith{g}\mAppMapFunc f
-&=\mLambdaEXP{x}{\mFuncWith{g}x(fx)}\\
+\mConstWith{g}\mAppMapFunc f
+&=\mLambdaEXP{x}{\mConstWith{g}x(fx)}\\
 &=\mLambdaEXP{x}{(\mLambdaEXP{\_}{g})x(fx)}\\
 &=\mLambdaEXP{x}{g(fx)}\\
 &=g\mCompFunc f
@@ -3185,7 +3167,7 @@ Maybe
 \hline
 関数
   &$\mBindFunc$
-  &$\mFuncWith{x}$
+  &$\mConstWith{x}$
   &$\mAppMapFunc$
   &$\mMapFunc$
   &$\mAnonParam$
@@ -3207,7 +3189,7 @@ Maybe
 
 関数はアプリカティブ関手であった．関数のピュア演算子とアプリカティブマップ演算子はそれぞれ
 \begin{align}
-\mFuncWith{x}&=\mLambdaEXP{\_}{x}\\
+\mConstWith{x}&=\mLambdaEXP{\_}{x}\\
 g\mAppMapFunc f&=\mLambdaEXP{x}{gx(fx)}
 \end{align}
 であった．
@@ -3223,9 +3205,9 @@ g\mBindFunc f=\mLambdaEXP{x}{g(fx)x}
 \end{equation}
 と定義する．ピュア演算子とバインド演算子から，関数のマップ演算子を
 \begin{align}
-\mFuncWith{g\mAnonParam}\mBindFunc f
-&=\mLambdaEXP{x}{\mFuncWith{g\mAnonParam}(fx)x}\\
-&=\mLambdaEXP{x}{\mFuncWith{g(fx)}x}\\
+\mConstWith{g\mAnonParam}\mBindFunc f
+&=\mLambdaEXP{x}{\mConstWith{g\mAnonParam}(fx)x}\\
+&=\mLambdaEXP{x}{\mConstWith{g(fx)}x}\\
 &=\mLambdaEXP{x}{(\mLambdaEXP{\_}{g(fx)})x}\\
 &=\mLambdaEXP{x}{g(fx)}\\
 &=g\mCompFunc f\\
@@ -3235,7 +3217,7 @@ g\mBindFunc f=\mLambdaEXP{x}{g(fx)x}
 
 まとめると
 \begin{align}
-\mFuncWith{x}&=\mLambdaEXP{\_}{x}\\
+\mConstWith{x}&=\mLambdaEXP{\_}{x}\\
 g\mMapFunc f&=\mLambdaEXP{x}{g(fx)}=g\mCompFunc f\\
 g\mAppMapFunc f&=\mLambdaEXP{x}{gx(fx)}\\
 g\mBindFunc f&=\mLambdaEXP{x}{g(fx)x}
@@ -3446,7 +3428,7 @@ y=g_2(g_1x)
 
 直列に評価したい関数の戻り値が，いつも次の関数の引数の型と一致しているとは限らないし，次の関数（アクション）が引数を取らない可能性もある．もし関数 $g_2$ が引数を取らなければ
 \begin{equation}
-\mFuncWith{g_2}(g_1x)
+\mConstWith{g_2}(g_1x)
 \end{equation}
 とする．この時，関数適用 $(g_1x)$ の結果は単純に捨てられる．
 \footnote{\clang では \code{void} 型を返す関数 \code{void g1(int)} を引数を取らない関数 \code{int g2(void)} に「食わせる」ことが可能で，\code{g2(g1(x))} は正しいコードである．もっとも\clang プログラマは \code{g1(x), g2()} という書き方の方を好むであろう．}
@@ -3456,7 +3438,7 @@ y=g_2(g_1x)
 ふたつのアクション $\alpha_1,\alpha_2$ があり，アクション $\alpha_2$ が引数を取らない場合，その二つを合成するには
 \begin{equation}
 \label{eq:ignore-return}
-\alpha_1 x\mBindRight\mFuncWith{\alpha_2}
+\alpha_1 x\mBindRight\mConstWith{\alpha_2}
 \end{equation}
 とする．式\eqref{eq:ignore-return}はしばしば
 % \begin{equation}
@@ -3464,7 +3446,7 @@ y=g_2(g_1x)
 % \end{equation}
 % または
 \begin{equation}
-\alpha_1 x\mBindRightIgnore\alpha_2=\alpha_1x\mBindRight\mFuncWith{\alpha_2}
+\alpha_1 x\mBindRightIgnore\alpha_2=\alpha_1x\mBindRight\mConstWith{\alpha_2}
 \end{equation}
 なる演算子 $\mBindRightIgnore$ を用いて記述される．\footnote{\haskell では $\alpha_1x\mBindRightIgnore\alpha_2$ を \code{alpha1 x >> alpha2} と書く．}
 
