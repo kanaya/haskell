@@ -145,7 +145,7 @@
 \newcommand{\mNumMany}{\mSpecialConstant{Many}}
 \newcommand{\mPureNothing}{\varnothing}
 \newcommand{\mTrue}{\mSpecialConstant{True}}
-\newcommand{\mZero}{\O}
+\newcommand{\mZero}{\text{\O}}
 \newcommand{\mZeroLeft}{\mZero_\textrm{left}}
 \newcommand{\mZeroRight}{\mZero_\textrm{right}}
 
@@ -217,7 +217,7 @@
 \DeclareMathOperator{\mZipWith}{\mSpecialFunc{zipWith}}
 
 % Actions
-\newcommand{\mAction}[1]{\textsl{#1}}
+\newcommand{\mAction}[1]{\textrm{#1}}
 
 \DeclareMathOperator{\mReadLn}{\mAction{readLn}}
 \DeclareMathOperator{\mMain}{\mAction{main}}
@@ -284,8 +284,8 @@
 \DeclareMathOperator{\mMapMaybe}{\boxdot}
 \DeclareMathOperator{\mMinus}{\ominus}
 \DeclareMathOperator{\mMorphTo}{\rightarrowtail} % used?
-\DeclareMathOperator{\mPlus}{\boldmath{+}} % Ok?
-\DeclareMathOperator{\mSetTimes}{\boldmath{\times}} % better one?
+\DeclareMathOperator{\mPlus}{\bf{+}} % Ok?
+\DeclareMathOperator{\mSetTimes}{\bf{\times}} % better one?
 \DeclareMathOperator{\mSomeOp}{\square}
 \DeclareMathOperator{\mUnOp}{\star}
 \DeclareMathOperator{\mValueOr}{\curlyvee}
@@ -362,7 +362,7 @@
 
 \DeclareMathOperator{\mEitherTypeConstructor}{\mTypeConstructor{Either}}
 % \DeclareMathOperator{\mFuncTypeConstructor}{\mTypeConstructor{Func}}
-\DeclareMathOperator{\mFuncTypeConstructor}{(\mType{r}\!\rightarrow)}
+\DeclareMathOperator{\mFuncTypeConstructor}{((\rightarrow)\mType{r})}
 \DeclareMathOperator{\mListTypeConstructor}{\mTypeConstructor{List}}
 \DeclareMathOperator{\mMaybeTypeConstructor}{\mTypeConstructor{Maybe}}
 \DeclareMathOperator{\mZipListTypeConstructor}{\mTypeConstructor{ZipList}}
@@ -466,31 +466,31 @@
 \hline
 種類&字体・表記法&例\\
 \hline\hline
+定数&イタリック大文字（1文字）&$A,B,C$\\
+有名な定数&ローマン大文字&$\mTrue,\mFalse$\\
+単位元&ローマンに斜線&$\mZero$\\
+\hline
 変数&イタリック（1文字）&$u,v,w,x,y,z$\\
 有名な変数&ローマン&$\mFirstVar,\mRestVar$\\
 リスト変数&$\mathrm{s}$をつける&$\mList{x}$\\
 Maybe変数&$?$をつける&$\mMaybe{x}$\\
 Ether変数&$!$をつける&$\mEither{x}$\\
-コンテナ変数&$*$をつける&$\mContainer{x}$\\
-\hline
-定数&イタリック大文字（1文字）&$A,B,C$\\
-有名な定数&ローマン大文字&$\mTrue,\mFalse$\\
-単位元&ローマンに斜線&$\mZero$\\
+一般のコンテナ変数&$*$をつける&$\mContainer{x}$\\
 \hline
 関数&イタリック（1文字）&$f,g,h,i,j,k$\\
 有名な関数&ローマン&$\mId,\sin,\cos$\\
-コンテナ関数&$*$をつける&$\mContainer{f}$\\
+一般のコンテナ関数&$*$をつける&$\mContainer{f}$\\
 圏の関数&フラクチュール&$\mIdCat$\\
 % コンテナ関数&ギリシア文字&$\phi,\psi$\\
 \hline
-アクション&ギリシア文字&$\alpha,\omega$\\
-有名なアクション&スラント&$\mPrint$\\
+アクション&ギリシア文字（1文字）&$\alpha,\omega$\\
+有名なアクション&ローマン&$\mPrint$\\
 \hline
 % 集合&ボールド大文字（1文字）&$\mSet{A},\mSet{B},\mSet{C}$\\
 集合&ブラックボード大文字&$\mBSet,\mZSet,\mRSet$\\
 \hline
-型&ボールド大文字&$\mBoolType,\mIntType,\mFloatType$\\
-型パラメタ&ボールド（1文字）&$\mA,\mB,\mC$\\
+型&ボールド（1文字）&$\mA,\mB,\mC$\\
+有名な型&ボールド大文字&$\mBoolType,\mIntType,\mFloatType$\\
 % 多相型パラメタ&ボールドイタリック小文字&$\mPolymorphicTypeParameter{f},\mPolymorphicTypeParameter{m}$\\
 型クラス&スモールキャピタル&$\mEqTypeClass,\mOrdTypeClass,\mNumTypeClass$\\
 多相型&左肩にコンテナ名をつける&$\mMaybeType{a},\mIOType{a}$\\
@@ -994,7 +994,7 @@ $\mIf$ 節の中身は真理値を返す関数であれば良いので，関数 
   &=fx'\mWhere x'\mWhereEq gx\\
   &=(\mLambda x'\mLambdaArrow fx')(gx)
 \end{align}
-である．
+である．ただし $\mLet$ 節が式であるのに対し，$\mWhere$ 節は式ではないことに気をつけよう．
 
 \section{この章のまとめ}
 
@@ -1904,10 +1904,10 @@ cons演算子 $(:)$ は右結合する．すなわち $x_0:x_1:x_2=x_0:(x_1:x_2)
 \end{equation}
 という風にパタンマッチを行えるが，式の右辺でリスト全体すなわち $(x:\mList{x})$ を参照したい場合もあるであろう．そのような場合は
 \begin{equation}
-  f\mList{y}@(x:\mList{x})
+  f\mList{a}@(x:\mList{x})
   =\dotsb
 \end{equation}
-として，変数 $\mList{y}$ でリスト全体を参照することも可能である．このような記法を\keyword{asパタン}と呼ぶ．\footnote{\haskell では $f\mList{y}@(x:\mList{x})$ を \code{f ys@(x:xs)} と書く．}
+として，変数 $\mList{a}$ でリスト全体を参照することも可能である．このような記法を\keyword{asパタン}と呼ぶ．\footnote{\haskell では $f\mList{a}@(x:\mList{x})$ を \code{f as@(x:xs)} と書く．}
 
 \section{この章のまとめ}
 
@@ -2621,10 +2621,10 @@ $\mAppMapMaybe$ を
 これらの関係を一般化して
 \begin{equation}
   \label{eq:general-applicative-map}
-  f\mMap w
-  =\mPureWith{f}\mAppMap w
+  f\mMap\mContainer{w}
+  =\mPureWith{f}\mAppMap\mContainer{w}
 \end{equation}
-となるような\keyword{一般アプリカティブマップ演算子} $(\mAppMap)$ を考える．ここに $f$ は関数，$w$ はリストやMaybeといったコンテナ型の変数すなわち\keyword{コンテナ変数}である．一般アプリカティブマップ演算子 $(\mAppMap)$ から一般マップ演算子 $(\mMap)$ を導き出すには，式\eqref{eq:general-applicative-map} のように値コンストラクタが必要である．この一般化された値コンストラクタを\keyword{ピュア演算子}と呼ぶ．アプリカティブマップ演算子とピュア演算子を持つ型クラスを\keyword{アプリカティブ関手}と呼び，$\mApplicativeTypeClass$ 型クラスと定義する．\footnote{\haskell では一般アプリカティブマップ演算子を \code{<*>} と書く．}
+となるような\keyword{一般アプリカティブマップ演算子} $(\mAppMap)$ を考える．ここに $f$ は関数，$\mContainer{w}$ はリストやMaybeといったコンテナ型の変数すなわち\keyword{コンテナ変数}である．一般アプリカティブマップ演算子 $(\mAppMap)$ から一般マップ演算子 $(\mMap)$ を導き出すには，式\eqref{eq:general-applicative-map} のように値コンストラクタが必要である．この一般化された値コンストラクタを\keyword{ピュア演算子}と呼ぶ．アプリカティブマップ演算子とピュア演算子を持つ型クラスを\keyword{アプリカティブ関手}と呼び，$\mApplicativeTypeClass$ 型クラスと定義する．\footnote{\haskell では一般アプリカティブマップ演算子を \code{<*>} と書く．}
 
 ピュア演算子をピュア値コンストラクタと呼ばないのは，単純に「ピュア値」というものがないからである．$\mFunctorTypeClass$ 型クラスはリスト型やMaybe型を抽象化したものであって，直接変数を生成できない．型クラスは，\cxx の用語で言えば純粋仮想クラスのようなものであるし，\objectivec の用語で言えばメタクラスであるからである．もちろんリストのピュア演算子は $[x]$ であるし，Maybeのピュア演算子は $\mJustWith{x}$ であり，それぞれ具体的な変数を生成する．しかし変数 $x$ にピュア演算子を適用した
 $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在しない．\footnote{\haskell は一般のピュア演算子の実装を与えていない．変数の型に応じて対応する関数が適用される．}
@@ -2638,12 +2638,12 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
 この節の最後に\keyword{アプリカティブスタイル}という記法を紹介しておこう．アプリカティブマップ演算子は連続して
 \begin{equation}
   \label{eq:applicative-style}
-  w=\mPureWith{f}\mAppMap u\mAppMap v
+  \mContainer{w}
+  =\mPureWith{f}\mAppMap\mContainer{u}\mAppMap\mContainer{v}
 \end{equation}
 のように使える．もし $u\equiv\mPureNothing$ もしくは $v\equiv\mPureNothing$ であれば式の値は $\mPureNothing$ になる．式\eqref{eq:applicative-style}からピュア演算子を消すには，最初のアプリカティブマップ演算子をマップ演算子に置き換えて
 \begin{equation}
-  w
-  =f\mMap u\mAppMap v
+  \mContainer{w}=f\mMap\mContainer{u}\mAppMap\mContainer{v}
 \end{equation}
 とすれば良い．このようにアプリカティブマップ演算子を並べる書き方をアプリカティブスタイルと呼ぶ．
 
@@ -2656,7 +2656,12 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
   f
   \mIn\mR\mFuncArrow\mA
 \end{equation}
-という型を持っているとする．全く形式的に，$\mFuncTypeConstructor$ なる型コンストラクタがあるとして
+という型を持っているとする．この式は $\mFuncArrow$ を二項演算子，すなわち2引数関数とみなせば
+\begin{equation}
+  f
+  \mIn(\mFuncArrow)\mR\,\mA
+\end{equation}
+と等価である．全く形式的に，$\mFuncTypeConstructor$ なる型コンストラクタがあるとして
 \begin{equation}
   \mR\mFuncArrow\mA=\mFuncTypeConstructor\mA
 \end{equation}
@@ -2724,9 +2729,9 @@ g\mCompFunc f\mIn\mProjEXP{\mR}{\mB }
 関数版のアプリカティブマップ演算子を $\mAppMapFunc$ とすると，その型は
 \begin{equation}
   (\mAppMapFunc)
-  \mIn\mTypeAssemble{f}{\mA\mFuncArrow\mB}
-  \mFuncArrow\mTypeAssemble{f}{\mA}
-  \mFuncArrow\mTypeAssemble{f}{\mB}
+  \mIn\mFuncType{\mA\mFuncArrow\mB}
+  \mFuncArrow\mFuncType{\mA}
+  \mFuncArrow\mFuncType{\mB}
 \end{equation}
 つまり
 \begin{equation}
