@@ -71,7 +71,7 @@
 \newenvironment{rubycode}{\begin{itembox}[r]{\ruby}}{\end{itembox}}
 \newenvironment{schemecode}{\begin{itembox}[r]{\scheme}}{\end{itembox}}
 
-%% Math
+%% Math (in Math-mode)
 
 % Brace
 \newcommand{\mBrace}{\Vert}
@@ -146,8 +146,8 @@
 \newcommand{\mPureNothing}{\varnothing}
 \newcommand{\mTrue}{\mSpecialConstant{True}}
 \newcommand{\mZero}{\text{\O}}
-\newcommand{\mZeroLeft}{\mZero_\textrm{left}}
-\newcommand{\mZeroRight}{\mZero_\textrm{right}}
+\newcommand{\mZeroLeft}{\mZero_\mLeft}
+\newcommand{\mZeroRight}{\mZero_\mRight}
 
 % Strings
 \newcommand{\mString}[1]{\text{#1}}
@@ -161,17 +161,13 @@
 \newcommand{\mRestVar}{\mSpecialVar{rest}}
 
 % Cast
-
-\newcommand{\mToIntegral}[1]{{}_\text{Integral}\left(#1\right)}
-
 \newcommand{\mUpCast}{\bigtriangleup}
 
 \DeclareMathOperator{\mFromIntegral}{\mUpCast_\text{Integral}}
 
 % Functions
-%%% \newcommand{\mFunc}[1]{\mathop{\mathit{#1}}}
-\newcommand{\mSpecialFunc}[1]{#1}
-\newcommand{\mSpecialFuncSmall}[1]{#1}
+\newcommand{\mSpecialFunc}[1]{\mathrm{#1}}
+\newcommand{\mSpecialFuncSmall}[1]{\mathrm{#1}}
 \newcommand{\mVarSpecialFunc}[1]{\mathfrak{#1}}
 
 \DeclareMathOperator{\mConjugate}{\mSpecialFunc{conjugate}}
@@ -217,7 +213,7 @@
 \DeclareMathOperator{\mZipWith}{\mSpecialFunc{zipWith}}
 
 % Actions
-\newcommand{\mAction}[1]{\textrm{#1}}
+\newcommand{\mAction}[1]{\mathrm{#1}}
 
 \DeclareMathOperator{\mReadLn}{\mAction{readLn}}
 \DeclareMathOperator{\mMain}{\mAction{main}}
@@ -236,10 +232,6 @@
 \DeclareMathOperator{\mAppMapFunc}{\bowtie}
 \DeclareMathOperator{\mAppMapList}{\otimes}
 \DeclareMathOperator{\mAppMapMaybe}{\boxtimes}
-% \DeclareMathOperator{\mArrow}{\Rrightarrow}
-% \DeclareMathOperator{\mArrowAnd}{\bigwedge}%{\&\&\&}
-% \DeclareMathOperator{\mArrowOr}{\bigvee}%{\mid\mid\mid}
-% \DeclareMathOperator{\mArrowTimes}{***}
 \DeclareMathOperator{\mArrowArrowA}{\mArrowArrow{\mPolymorphicTypeParameter{a}}}
 \DeclareMathOperator{\mBind}{\heartsuit}
 \DeclareMathOperator{\mBindComp}{\maltese}
@@ -250,7 +242,6 @@
 \DeclareMathOperator{\mBindRightIgnore}{\twoheadrightarrow}
 \DeclareMathOperator{\mBinOp}{\bigstar}
 \DeclareMathOperator{\mCatArrowC}{\mCatArrow{\mPolymorphicTypeParameter{c}}}
-% \DeclareMathOperator{\mCatMapsTo}{\rightarrowtail}
 \DeclareMathOperator{\mCompFunc}{\centerdot}
 \DeclareMathOperator{\mCompCat}{\bullet}
 \DeclareMathOperator{\mCompProj}{\circledcirc}
@@ -295,8 +286,8 @@
 % Subscripts
 \newcommand{\mSpecialSub}[1]{\text{#1}}
 
-\newcommand{\mLeft}{\mSpecialSub{Left}}
-\newcommand{\mRight}{\mSpecialSub{Right}}
+\newcommand{\mLeft}{\mSpecialSub{left}}
+\newcommand{\mRight}{\mSpecialSub{right}}
 
 % Sets
 \newcommand{\mSet}[1]{\mathbf{#1}}
@@ -334,7 +325,6 @@
 
 % Special polymorphic types
 \newcommand{\mCatType}[2]{\llangle\mType{#1}\mCatArrowC\mType{#2}\rrangle}
-% \newcommand{\mFuncType}[2]{\langle\mType{#1}\mFuncArrow\mType{#2}\rangle}
 \newcommand{\mPureType}[1]{\[\mType{#1}\]}
 
 % Polymorphic types
@@ -343,7 +333,7 @@
 \newcommand{\mPolymorphicTypeAssemble}[2]{{}^\mPolymorphicTypeParameter{#1}\[\mType{#2}\]}
 \newcommand{\mPolymporphicTypeAssemble}[3]{{}^\mPolymorphicTypeParameter{#1}\[\mType{#2}\,\mType{#3}\]}
 
-\newcommand{\mCompFunclexType}[1]{\mTypeAssemble{C}{#1}}
+\newcommand{\mCompFunclexType}[1]{\mTypeAssemble{C}{#1}} % to be removed
 \newcommand{\mEitherType}[2]{\mTypeAssembleII{Either}{#1}{#2}}
 \newcommand{\mIOType}[1]{\mTypeAssemble{IO}{#1}}
 \newcommand{\mListType}[1]{\mTypeAssemble{List}{#1}}
@@ -351,7 +341,7 @@
 \newcommand{\mZipListType}[1]{\mTypeAssemble{ZL}{#1}}
 
 % Polymorphic types with specific data types
-\newcommand{\mCompFunclexDoubleType}{\mCompFunclexType{\mDoubleType}}
+\newcommand{\mCompFunclexDoubleType}{\mCompFunclexType{\mDoubleType}} % to be removed
 \newcommand{\mIODoubleType}{\mIOType{\mDoubleType}}
 \newcommand{\mIOIntType}{\mIOType{\mIntType}}
 \newcommand{\mIOStringType}{\mIOType{\mStringType}}
@@ -361,7 +351,6 @@
 \newcommand{\mTypeConstructor}[1]{\textsl{#1}}
 
 \DeclareMathOperator{\mEitherTypeConstructor}{\mTypeConstructor{Either}}
-% \DeclareMathOperator{\mFuncTypeConstructor}{\mTypeConstructor{Func}}
 \DeclareMathOperator{\mFuncTypeConstructor}{((\rightarrow)\mType{r})}
 \DeclareMathOperator{\mListTypeConstructor}{\mTypeConstructor{List}}
 \DeclareMathOperator{\mMaybeTypeConstructor}{\mTypeConstructor{Maybe}}
@@ -369,8 +358,6 @@
 
 \newcommand{\mFuncTypeAssemble}[1]{{}^{\mFuncTypeConstructor}\mType{#1}}
 \newcommand{\mFuncType}[1]{\mTypeAssemble{\mFuncTypeConstructor}{#1}}
-
-% \newcommand{\mFuncTypeConstructor}[1]{\mathop{\mTypeConstructor{Func}}}%{\mathop{\mTypeConstructor{Func}_{(\mType{#1})}}}
 
 % Value constructors
 \newcommand{\mValueConstructor}[1]{\mathrm{#1}}
@@ -389,16 +376,12 @@
 % Famous value constructors
 \newcommand{\mArrowWith}[1]{\Langle#1\Rangle}
 \newcommand{\mConstWith}[1]{\langle#1\rangle}
-\newcommand{\mFuncWith}[1]{\langle#1\rangle}  % USED???
 \newcommand{\mPureWith}[1]{\[#1\]}
 
 % Built-in value constructors
-\newcommand{\mTupleWith}[1]{\left(#1\right)} % *** TO BE REMOVED
-\newcommand{\mPairWith}[2]{\left({#1},{#2}\right)}%{\begin{pmatrix}#1\\#2\end{pmatrix}}
-\newcommand{\mTripleWith}[3]{\left({#1},{#2},{#3}\right)}%{\begin{pmatrix}#1\\#2\\#3\end{pmatrix}}
-
-% Unboxed tupple
-% \newcommand{\mTupleUnboxedWith}[1]{\texttt{(\#}#1\texttt{\#)}}
+\newcommand{\mTupleWith}[1]{\left(#1\right)}
+\newcommand{\mPairWith}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
+\newcommand{\mTripleWith}[3]{\begin{pmatrix}#1\\#2\\#3\end{pmatrix}}
 
 % Functors
 \newcommand{\mSpecialFunctor}[1]{\mathcal{#1}} % Internal use
@@ -406,7 +389,7 @@
 \DeclareMathOperator{\mIdFunctor}{\mSpecialFunctor{ID}}
 
 % Type classes
-\newcommand{\mTypeClass}[1]{\textbf{\textit{#1}}}%{\textsc{#1}} % Inetrnal use
+\newcommand{\mTypeClass}[1]{\textbf{\textit{#1}}}
 
 \newcommand{\mApplicativeTypeClass}{\mTypeClass{Applicative}}
 \newcommand{\mArrowTypeClass}{\mTypeClass{Arrow}}
@@ -441,7 +424,6 @@
 \newcommand{\mCaseOf}[1]{\mCaseKW#1\mOfKW}
 \newcommand{\mDo}[1]{\mDoKW\left\{#1\right\}}
 \newcommand{\mDoLet}[2]{\mathop{\mDoLetKeyword}#1\mDoLetEq#2}
-% \newcommand{\mProc}{...}
 
 \newcommand{\mIfThenElseEXP}[3]{\mIf{#1}\mThen{#2}\mElse{#3}} %%% TO BE REMOVED
 \newcommand{\mLambdaEXP}[2]{\mLambda{#1}\mLambdaArrow{#2}} %%% TO BE REMOVED
@@ -513,7 +495,7 @@ Ether変数&$!$をつける&$\mEither{x}$\\
 種類&字体・表記法&例\\
 \hline\hline
 値コンストラクタ&名前付き括弧で包む&$\mRightWith{x},\mLeftWith{x}$\\
-有名な値コンストラクタ&特別な括弧で包む&$[x],\mPureWith{x},\mFuncWith{x},\mArrowWith{x}$\\
+有名な値コンストラクタ&特別な括弧で包む&$[x],\mPureWith{x},\mConstWith{x},\mArrowWith{x}$\\
 \hline
 型コンストラクタ&ボールドイタリック&$\mPolymorphicTypeParameter{f},\mPolymorphicTypeParameter{g}$\\
 有名な型コンストラクタ&スラント大文字&$\mListTypeConstructor$, $\mMaybeTypeConstructor$\\
@@ -620,7 +602,7 @@ $\mLLL$&カテゴリ関数合成&\code{<<<}\\
 \end{center}
 \end{table*}
 
-\part{代数的構造とプログラミング}
+\part{関数型プログラミング*}
 
 \chapter{はじめに*}
 \label{ch:introduction}
@@ -1936,7 +1918,7 @@ cons演算子 $(:)$ は右結合する．すなわち $x_0:x_1:x_2=x_0:(x_1:x_2)
 
 % 型パラメタの話はどこが初出？
 
-\chapter{再帰*}
+\chapter{再帰}
 \label{ch:recursion}
 
 \begin{leader}
@@ -2116,7 +2098,7 @@ srt(x:xs) = srt as ++ [x] ++ srt bs where
 と書く．このコードはしばしば\haskell のパワーを示すために紹介される．しかし，クイックソートのピボットとして常にリストの先頭要素を用いているため，必ずしも良いコードではない．
 \end{note}
 
-\chapter{Maybe}
+\chapter{Maybe*}
 \label{ch:maybe}
 
 \begin{leader}
@@ -2430,7 +2412,7 @@ Either型は\clang の共有型 (\code{union}) や\cxx のバリアント型 (\c
 \item Either変数は二つの型のいずれかを持つことができ，$\mEither{e}=\mRightWith{x}$ または$\mEither{e}=\mLeftWith{x}$ のように生成する．
 \end{enumerate}
 
-\chapter{関手}
+\chapter{関手*}
 \label{ch:functor}
 
 \begin{leader}
@@ -2717,14 +2699,14 @@ g\mCompFunc f\mIn\mProjEXP{\mR}{\mB }
 
 \separator
 
-関数はアプリカティブ関手でもある．アプリカティブ関手には，アプリカティブマップ演算子とピュア演算子が定義されるのであった．そこで，関数版のアプリカティブマップ演算子を $\mAppMapFunc$ とし，関数版のピュア演算子を $\mFuncWith{x}$ と書くことにしよう．
+関数はアプリカティブ関手でもある．アプリカティブ関手には，アプリカティブマップ演算子とピュア演算子が定義されるのであった．そこで，関数版のアプリカティブマップ演算子を $\mAppMapFunc$ とし，関数版のピュア演算子を $\mConstWith{x}$ と書くことにしよう．
 
 ピュア演算子は $\mProjEXP{\mA }{(\mProjEXP{\mR}{\mA })}$ 型を持たなければならない．従って関数版のピュア演算子は変数から関数を作るとも考えられる．我々は関数版のピュア演算子として
 \begin{equation}
-  \mFuncWith{x}
+  \mConstWith{x}
   =\mLambdaEXP{\_}{x}
 \end{equation}
-を採用する．\footnote{\haskell では $\mFuncWith{x}$ を \code{const x} と書く．}
+を採用する．\footnote{\haskell では $\mConstWith{x}$ を \code{const x} と書く．}
 
 関数版のアプリカティブマップ演算子を $\mAppMapFunc$ とすると，その型は
 \begin{equation}
@@ -2748,8 +2730,8 @@ g\mAppMapFunc f=\mLambdaEXP{x}{gx(fx)}
 \end{equation}
 とする．これは，関数版のピュア演算子の定義と，一般マップ演算子と一般アプリカティブマップ演算子の関係 $f\mMap w=\mPureWith{f}\mAppMap w$ から導かれる．すなわち
 \begin{align}
-\mFuncWith{g}\mAppMapFunc f
-&=\mLambdaEXP{x}{\mFuncWith{g}x(fx)}\\
+\mConstWith{g}\mAppMapFunc f
+&=\mLambdaEXP{x}{\mConstWith{g}x(fx)}\\
 &=\mLambdaEXP{x}{(\mLambdaEXP{\_}{g})x(fx)}\\
 &=\mLambdaEXP{x}{g(fx)}\\
 &=g\mCompFunc f
@@ -2807,7 +2789,7 @@ Maybeのアプリカティブマップ演算子の定義は次の通り．
 \item ...
 \end{enumerate}
 
-\chapter{モナド}
+\chapter{モナド*}
 \label{ch:monad}
 
 \section{バインド演算子}
@@ -3185,7 +3167,7 @@ Maybe
 \hline
 関数
   &$\mBindFunc$
-  &$\mFuncWith{x}$
+  &$\mConstWith{x}$
   &$\mAppMapFunc$
   &$\mMapFunc$
   &$\mAnonParam$
@@ -3207,7 +3189,7 @@ Maybe
 
 関数はアプリカティブ関手であった．関数のピュア演算子とアプリカティブマップ演算子はそれぞれ
 \begin{align}
-\mFuncWith{x}&=\mLambdaEXP{\_}{x}\\
+\mConstWith{x}&=\mLambdaEXP{\_}{x}\\
 g\mAppMapFunc f&=\mLambdaEXP{x}{gx(fx)}
 \end{align}
 であった．
@@ -3223,9 +3205,9 @@ g\mBindFunc f=\mLambdaEXP{x}{g(fx)x}
 \end{equation}
 と定義する．ピュア演算子とバインド演算子から，関数のマップ演算子を
 \begin{align}
-\mFuncWith{g\mAnonParam}\mBindFunc f
-&=\mLambdaEXP{x}{\mFuncWith{g\mAnonParam}(fx)x}\\
-&=\mLambdaEXP{x}{\mFuncWith{g(fx)}x}\\
+\mConstWith{g\mAnonParam}\mBindFunc f
+&=\mLambdaEXP{x}{\mConstWith{g\mAnonParam}(fx)x}\\
+&=\mLambdaEXP{x}{\mConstWith{g(fx)}x}\\
 &=\mLambdaEXP{x}{(\mLambdaEXP{\_}{g(fx)})x}\\
 &=\mLambdaEXP{x}{g(fx)}\\
 &=g\mCompFunc f\\
@@ -3235,7 +3217,7 @@ g\mBindFunc f=\mLambdaEXP{x}{g(fx)x}
 
 まとめると
 \begin{align}
-\mFuncWith{x}&=\mLambdaEXP{\_}{x}\\
+\mConstWith{x}&=\mLambdaEXP{\_}{x}\\
 g\mMapFunc f&=\mLambdaEXP{x}{g(fx)}=g\mCompFunc f\\
 g\mAppMapFunc f&=\mLambdaEXP{x}{gx(fx)}\\
 g\mBindFunc f&=\mLambdaEXP{x}{g(fx)x}
@@ -3266,7 +3248,7 @@ g\mBindFunc f&=\mLambdaEXP{x}{g(fx)x}
 
 % http://itpro.nikkeibp.co.jp/article/COLUMN/20120110/378061/
 
-\chapter{IO}
+\chapter{IO*}
 \label{ch:io}
 
 A...
@@ -3446,7 +3428,7 @@ y=g_2(g_1x)
 
 直列に評価したい関数の戻り値が，いつも次の関数の引数の型と一致しているとは限らないし，次の関数（アクション）が引数を取らない可能性もある．もし関数 $g_2$ が引数を取らなければ
 \begin{equation}
-\mFuncWith{g_2}(g_1x)
+\mConstWith{g_2}(g_1x)
 \end{equation}
 とする．この時，関数適用 $(g_1x)$ の結果は単純に捨てられる．
 \footnote{\clang では \code{void} 型を返す関数 \code{void g1(int)} を引数を取らない関数 \code{int g2(void)} に「食わせる」ことが可能で，\code{g2(g1(x))} は正しいコードである．もっとも\clang プログラマは \code{g1(x), g2()} という書き方の方を好むであろう．}
@@ -3456,7 +3438,7 @@ y=g_2(g_1x)
 ふたつのアクション $\alpha_1,\alpha_2$ があり，アクション $\alpha_2$ が引数を取らない場合，その二つを合成するには
 \begin{equation}
 \label{eq:ignore-return}
-\alpha_1 x\mBindRight\mFuncWith{\alpha_2}
+\alpha_1 x\mBindRight\mConstWith{\alpha_2}
 \end{equation}
 とする．式\eqref{eq:ignore-return}はしばしば
 % \begin{equation}
@@ -3464,7 +3446,7 @@ y=g_2(g_1x)
 % \end{equation}
 % または
 \begin{equation}
-\alpha_1 x\mBindRightIgnore\alpha_2=\alpha_1x\mBindRight\mFuncWith{\alpha_2}
+\alpha_1 x\mBindRightIgnore\alpha_2=\alpha_1x\mBindRight\mConstWith{\alpha_2}
 \end{equation}
 なる演算子 $\mBindRightIgnore$ を用いて記述される．\footnote{\haskell では $\alpha_1x\mBindRightIgnore\alpha_2$ を \code{alpha1 x >> alpha2} と書く．}
 
@@ -3745,7 +3727,7 @@ $\mType{Rectangle}$ 型から中身を取り出すには，次のような関数
 \end{note}
 
 
-\chapter{多相型の定義}
+\chapter{多相型の定義*}
 \label{ch:polymorphic-data-type}
 ...
 
@@ -4085,988 +4067,6 @@ $\mNewTypeDeclPolymorphic$ に置き換えたことである．これは，字�
 \begin{enumerate}
 \item ...
 \end{enumerate}
-
-\TK{TO DO}
-\begin{itemize}
-\item state monad
-\item fix
-\item category
-\item kleisli class
-\item arrow
-\item continuation
-\item 文字セットとコメント
-\item 代数的構造
-\item ラムダ
-\end{itemize}
-
-\part{\haskell プログラミング}
-
-\chapter{プログラム}
-\label{ch:program}
-
-\begin{leader}
-A...
-\end{leader}
-
-\section{文字セットとコメント}
-
-\haskell コンパイラを含む多くのコンパイラがUnicode文字セットに対応して
-いるものの，従来からの習慣や英語圏での使いやすさを考慮してか，ASCII文
-字セットだけでプログラムを書けるようにしているし，またそれを推奨してい
-る．
-
-\haskell プログラムもまた，文字定数を除いてはASCII文字セットの範囲で書
-くことが普通である．そこで我々もその習慣に従うことにしよう．例えば円周
-率を代入する変数を $\pi$ と書きたいところだが，我々は \code{pi} と書く．
-
-数学記号のほとんども，ASCII文字セットの中から記号を組み合わせるか，さ
-もなくば言葉で表現する．例えば\haskell では $\mFrom$ の代わりに
-\code{<-} を使うし，$\neg$ の代わりに \code{not} を使う．
-
-また計算機科学者たちの絶えざる努力にもかかわらず，プログラム中の文字の
-装飾はこれまでほとんど受け入れられていない．我々は本書で \textrm{f},
-\textit{f}, \textsl{f}, \textbf{f}, \textbf{\textit{f}}, $f$,
-$\mathfrak{f}$ を使い分けてきたが，\haskell プログラム中では全て
-\code{f} と書く．
-
-以上のような制約にもかかわらず，\haskell プログラムと我々が見えきた
-「カリー風の」数学記法は本質的に差がない．本書を読み進めてきた読者なら，
-\haskell プログラムを読むのに苦労はいらないだろう．
-
-\haskell では \code{--} から行の終わりまでがコメントとして扱われる．ま
-た \code{\{-} で始まり \code{-\}} で終わる文字列もコメントとして扱われ
-る．
-
-\separator
-
-習慣的に\haskell プログラムのファイルには拡張子 \filename{.hs} を付け
-る．
-
-\section{main関数と一般の関数定義}
-
-\python インタプリタはプログラムを頭から実行していくので，main関数は書
-かなくてもよいが，アプリケーションプログラマにとっての一番の関心事は
-main関数（\haskell では $\mMain$ アクション）の書き方だろう．iOSアプリ
-ケーション開発のように，基本的にはmain関数をプログラマが触れないという
-スタイルもあるが，それでもデバッグの時にはmain関数から辿ることになるの
-で，main関数のありかを知っておくことはいつでも重要だ．
-
-\haskell コンパイラも $\mMain$ アクションをアプリケーションプログラム
-のエントリポイントとして認識する．というよりも，\haskell プログラムと
-は $\mMain$ という一つのアクションである．$\mMain$ を含む一般の関数や
-アクションはこれまで通り
-\begin{equation}
-\mMain=\dots
-\end{equation}
-のように関数名のあとに等号 $(=)$ を置いて定義する．
-
-\clang でmain関数の型がOSの都合で \code{int main(void)} または
-\code{int main(int, const char *const *)} と決められているように，
-\haskell でも $\mMain$ アクションの型はあらかじめ決められている．その
-型は $\mIOIntType$ である．
-
-UNIXおよびUNIXに影響を受けたOSでは，プログラムは終了時に整数値をOSへ返
-すことになっている．プログラムが $0$ を返せば，そのプログラムは正常終
-了したとみなされる．例えばUNIXシェル（\filename{sh} や \filename{csh}
-  のこと）で，
-\begin{verbatim}
-$ program1 && program2
-\end{verbatim}
-としたとき，\filename{program1} の戻り値が $0$ のときに限って
-\filename{program2} が実行される．
-
-何もせずにOSに $0$ を返すプログラムすなわち
-\begin{equation}
-\left\mBrace
-\begin{aligned}
-\mMain&\mIn{}\mIOIntType\\
-\mMain&=\mPureWith{0}
-\end{aligned}
-\right.
-\end{equation}
-を\haskell で書くと，
-\begin{haskellcode}
-\begin{verbatim}
--- do-nothing.hs
-main :: IO Int
-main = pure 0
-\end{verbatim}
-\end{haskellcode}
-または
-\begin{haskellcode}
-\begin{verbatim}
--- do-nothing.hs
-main :: IO Int
-main = return 0
-\end{verbatim}
-\end{haskellcode}
-のようになる．ここに \code{return} はモナドのピュア演算子の別名で，特
-別に\keyword{ユニット演算子}と呼ぶ．\footnote{GHC v7.8 以前はモナドに
-  ピュア演算子が定義されず，モナド独自のユニット演算子が定義されていた．}
-
-このプログラムは\clang の
-\begin{ccode}
-\begin{verbatim}
-/* do-nothing.c */
-int main(void) {
-  return 0;
-}
-\end{verbatim}
-\end{ccode}
-と等しい．
-
-\section{プログラミングの本質}
-
-副作用のないプログラムはひとつの関数で書ける．その関数を $\mMainFunc$
-と呼ぶことにすると，この $\mMainFunc$ 関数を
-\begin{equation}
-\mMainFunc=f_n\mCompFunc f_{n-1}\mCompFunc\dotsb\mCompFunc f_1
-\end{equation}
-と部分関数に分解することがプログラマの能力である．副作用のないプログラ
-ムとは，コマンドラインから引数 $x$ を受け取り，なんらかの処理を行い，
-OSに終了値を返すだけのプログラムである．このようなプログラムは普通役に
-立たないが，議論が簡単になるので少し見てみよう．
-
-副作用のない関数を合成するのはわけのないことだ．もし\python ならば
-\begin{pythoncode}
-\begin{verbatim}
-y = f2(f1(x))
-\end{verbatim}
-\end{pythoncode}
-のように関数を入れ子にしても良いし，読みづらければ途中経過を一時変数に
-して
-\begin{pythoncode}
-\begin{verbatim}
-y1 = f1(x)
-y2 = f2(y1)
-\end{verbatim}
-\end{pythoncode}
-としてもよい．副作用のない関数の場合，これが関数合成の規則である．
-
-プログラムが副作用を持つ場合は，プログラム自身がIOモナドであるため，関
-数へと分解できないのであった．副作用を持つプログラムはアクションであり，
-そのアクションを $\mMain$ アクションと名付けると，その $\mMain$ アクショ
-ンを
-\begin{equation}
-\mMain=\alpha_n\mBind\alpha_{n-1}\mBind\dotsb\mBind\alpha_0
-\end{equation}
-と部分アクションに分解することがプログラマの能力となる．
-
-% How to unwrap w?
-
-\separator
-
-ここで，プログラマの「サバイバルキット」を用意しておこう．次のプログラ
-ムで定数 \code{x} と関数 \code{f} の部分を埋めれば，関数適用の結果つま
-り \code{f x} の値を画面に出力する．
-\begin{haskellcode}
-\begin{verbatim}
--- survivalkit.hs
-x :: Double
-x = {- Value -}
-f :: Double -> Double
-f = {- Function -}
-main :: IO Int
-main = print (f x) >> pure 0
-\end{verbatim}
-\end{haskellcode}
-ファイル名を \filename{survivalkit.hs} とすると，コンパイルと実行は次
-のようにする．
-\begin{verbatim}
-$ ghc survivalkit.hs
-$ ./sample
-\end{verbatim}%$
-
-プログラム \filename{survivalkit.hs} を数式で書くと
-\begin{align}
-  {}&\left\mBrace
-    \begin{aligned}
-      x&\mIn\mDoubleType\\
-      x&=\dots\\
-    \end{aligned}
-    \right.\\
-  {}&\left\mBrace
-    \begin{aligned}
-      f&\mIn{}\mProjEXP{\mDoubleType}{\mDoubleType}\\
-      f&=\dots\\
-    \end{aligned}
-    \right.\\
-  {}&\left\mBrace
-    \begin{aligned}
-      \mMain&\mIn{}\mIODoubleType\\
-      \mMain&=\mPrint(fx)\mBindRightIgnore\mPureWith{0}
-    \end{aligned}
-    \right.
-\end{align}
-である．この式は $\mPrint(fx)$ がいかなる値を返そうとも，アクション
-$\mMain$ の値は $0$ になることを示している．
-
-\section{余談：インタープリタ*}
-
-\section{この章のまとめ*}
-
-\begin{note}{...}
-...
-\end{note}
-
-\chapter{演算*}
-\label{ch:arithmetic}
-
-\begin{leader}
-演算の例を挙げる．
-\end{leader}
-
-
-\section{名前と予約語*}
-
-表\ref{tab:reserved-symbols}および表\ref{tab:reserved-keywords}に
-\haskell で予約されている記号と名前を掲げる．これらの記号，名前は演算
-子，関数，定数として使うことが出来ない．
-
-もちろんこれら以外に \code{+} や \code{map} など慣例的に使われている語
-の再定義は避けるべきである．特に \filename{Prelude} モジュールは特段の
-事情がない限り必ず読み込まれるモジュールなので，\filename{Prelude} で
-定義される記号と名前の再定義は避けるべきであろう．\filename{Prelude}
-で定義される記号と名前は膨大な数になるので，リファレンスを参考にしても
-らいたい．
-
-\haskell で演算子に使える記号は
-\begin{verbatim}
- ! @ # $ % ^ & * - + = . \ | / < : > ? ~
-\end{verbatim}%$
-である．ただし \code{:} ではじまる記号は予約されている．
-
-% *** リファレンス ***
-% http://www.sampou.org/haskell/report-revised-j/basic.html
-% http://mew.org/~kazu/academic/2013/miyazaki-u/syntax.html
-
-\begin{table*}
-\caption{\haskell の予約済み演算子と記号}
-\label{tab:reserved-symbols}
-\begin{center}
-\begin{tabular}{||c|c||}
-\hline
-\code{--}&行コメント\\
-\code{\{-} \code{-\}}&コメント\\
-\hline
-\code{'}&文字リテラル\\
-\code{"}&文字列リテラル\\%{\textquotedblright}\\
-\code{`}&関数の中置\\
-\code{(} \code{)}&括弧\\
-\code{\{} \code{\}}&レコード構文 $(\{\dotsb\})$，ブロック\\
-\code{;}&ステートメントセパレータ\\
-\hline
-% \code{-}&単項マイナス $(-)$\\
-\code{\textbackslash}&ラムダ $(\mLambda)$，行分割\\
-\code{:}&結合演算子\\
-\code{::}&型の宣言 $(\mIn)$\\
-\code{..}&等差数列\\
-\code{=}&定義 $(=)$\\
-\code{=>}&インスタンス定義 $(\mSuperClass)$\\
-\code{->}&関数型コンストラクタ $(\mapsto)$，ラムダ式の矢印 $(\rightarrow)$，\\
-&case式の矢印 $(\mIfSo)$\\
-\code{<-}&リスト内包表記 $(\mFrom)$，do記法中の代入 $(\mDoEq)$\\
-\code{@}&asパタン $(@)$\\
-\code{|}&ガード $(\mGuard{})$，リスト内包 $(\mListComp)$，データ型の和演算 $(\mValueOr)$\\
-\code{,}&リストの値の区切り，リスト内包表記の区切り，\\
-&タプルの値の区切り\\
-% \code{-<}&（アロー表記用）\\
-% \code{-<<}&（アロー表記用）\\
-% \code{[|}, \code{|]}&（テンプレート）\\
-% \code{?}&（暗黙パラメタ）\\
-% \code{\#}&（マジックハッシュ）\\
-% \code{*}\\
-\hline
-\code{!}&正格評価\\
-\code{\textasciitilde}&XYZ\\
-\hline
-\end{tabular}
-\end{center}
-\end{table*}
-
-% http://www.nslabs.jp/haskell-keywords.rhtml
-
-\begin{table*}
-\caption{\haskell の予約語}
-\label{tab:reserved-keywords}
-\begin{center}
-\begin{tabular}{||l|l||}
-\hline
-分岐 (1)&\code{case}, \code{of}\\
-分岐 (2)&\code{if}, \code{then}, \code{else}\\
-型定義&\code{class}, \code{data}, \code{deriving}, \code{instance},\\
-&\code{newtype}, \code{type}\\
-do記法&\code{do}\\
-局所変数 (1)&\code{let}, \code{in}\\
-局所変数 (2)&\code{where}\\
-演算子定義&\code{infix}, \code{infixl}, \code{infixr}\\
-モジュール関係&\code{foreign}, \code{import}, \code{module}\\
-ワイルドカード引数&\code{\_}\\
-\hline
-\end{tabular}
-\end{center}
-\end{table*}
-
-% http://www.imada.sdu.dk/~rolf/Edu/DM22/F06/haskell-operatorer.pdf
-% https://wiki.haskell.org/Keywords
-
-% \begin{table*}
-% \caption{\code{Prelude} モジュールの予約語と記号}
-% \begin{center}
-% \begin{tabular}{||l||}
-% \hline
-% \code{Bool}, \code{\&\&}, \code{||}, \code{otherwise}\\
-% \code{Bounded}, \code{minBoud}, \code{maxBound}\\
-% \code{Enum}, \code{succ}, \code{pred}, \code{toEnum}, \code{fromEnum}, \code{enumFrom}, \code{enumFromThen}, \code{enumFromTo}, \code{enumFromThenTo}\\
-% \code{Eq}, \code{==}, \code{/=}\\
-% \code{Data}, \code{gfoldl}, \code{gunfold}, \code{toConstr}, \code{dataTypeOf}, \code{dataCast1}, \code{dataCast2}, \code{gmapT}, \code{gmapQl}, \code{gmapQr}, \code{gmapQ}\\
-% ~~\code{gmapQi}, \code{gmapM}, \code{gmapMp}, \code{gmapMo}\\
-% \code{Ord}, \code{<}, \code{<=}, \code{>}, \code{>=}, \code{max}, \code{min}\\
-% \code{Read}, \code{readsPrec}, \code{readList}, \code{readPrec}, \code{readListPrec}\\
-% \code{Show}, \code{showsPrec}, \code{show}, \code{showList}\\
-% \code{Ix}, \code{range}, \code{index}, \code{unsafeIndex}, \code{inRange}, \code{rangeSize}, \code{unsafeRangeSize}\\
-% \code{Generic}, \code{Rep}, \code{from}, \code{to}\\
-% \code{FiniteBits}, \code{finiteBitSize}, \code{countLeadingZeros}, \code{countTailingZeros}\\
-% \code{Bits}, \code{.\&.}, \code{.|.}, \code{xor}, \code{complement}, % \code{shift}, \code{rotate}, \code{zeroBits}, \code{bit}, \code{setBit}, \code{clearBit}, \code{complementBit},\\
-% ~~\code{testBit}, \code{bitSizeMaybe}, \code{bitSize}, \code{isSigned}, \code{shiftL}, \code{unsafeShiftL}, \code{shiftR}, \code{unsafeShiftR},\\
-% ~~\code{rotateL}, \code{rotateR}, \code{popCount}\\
-% \code{Storable}, \code{sizeOf}, \code{alignment}, \code{peekElemOff}, \code{pokeElemOff}, \code{peekByteOff}, \code{pokeByteOff}, \code{peek}, \code{poke}\\
-% \code{Maybe}, \code{Just}, \code{Nothing}\\
-% \code{Monad}, \code{>>=}, \code{>>}, \code{return}, \code{fail}\\
-% \code{Functor}, \code{fmap}, \code{<\$}\\
-% \code{MonadFix}, \code{mfix}\\
-% \code{MonadFail}\\
-% \code{Applicative}, \code{pure}, \code{<*>}, \code{liftA2}, \code{*>},  \code{<*}\\
-% \code{Foldable}, \code{fold}, \code{foldMap}, \code{fordr}, \code{foldr'}, \code{foldl}, \code{foldl'}, \code{foldr1}, \code{foldl1}, \code{toList}, \code{null}, \code{length},\\
-% ~~\code{elem}, \code{maximum}, \code{minimum}, \code{sum}, \code{product}\\
-% \code{Traversable}, \code{traverse}, \code{sequenceA}, \code{mapM}, \code{sequence}\\
-% \code{MonadPlus}, \code{mzero}, \code{mplus}\\
-% \code{Alternative}, \code{empty}, \code{<|>}, \code{some}, \code{many}\\
-% \code{MonadZip}, \code{mzip}, \code{mzipWith}, \code{munzip}\\
-% \code{Show1}, \code{liftShowsPrec}, \code{liftShowList}\\
-% \code{Read1}, \code{liftReadsSec}, \code{liftReadList}, \code{liftReadPrec}, \code{liftReadListPrec}\\
-% \code{Ord1}, \code{liftCompare}\\
-% \code{Eq1}, \code{liftEq}\\
-% \code{Either}\\
-% \code{Show2}, \code{liftShowsPrec2}, \code{liftShowList2}\\
-% \code{Read2}, ...\\
-% \hline
-% \end{tabular}
-% \end{center}
-% \end{table*}
-
-\section{2次方程式の解*}
-
-2次方程式の解とは，定数 $a,b,c$ が既知の式
-\begin{equation}
-a*x^2+b*x+c=0
-\end{equation}
-において定数 $x$ が取り得る値のことである．なお $x^2$ は\haskell では
-\code{x**2} と書く．
-
-2次方程式の解法は知られており，
-\begin{multline}
-  (x_0,x_1)=(q/a,c/q)\\
-  \mWhere q\mLetEq\frac{\left(b+(\sgn b)*\sqrt{\mSq b-4*a*c}\right)}{2}
-\end{multline}
-である．ここに関数 $\mSq$ は
-\begin{equation}
-  \mSq x=x^2
-\end{equation}
-である．わざわざ関数にしたのは，単純な \code{x**2} よりも高速な実装
-\begin{equation}
-  \left\mBrace
-  \begin{aligned}
-    &\mSq\mIn\mRealTypeClass\mSuperSet\mA
-    \mSuperClass\mProjEXP{\mA}{\mA}\\
-    &\mSq x=x*x
-  \end{aligned}
-  \right.
-\end{equation}
-を後で与えるためである．平方根 $\sqrt{x}$ は\haskell では \code{sqrt
-  x} と書く．
-
-また関数 $\sgn$ は
-\begin{equation}
-  \left\mBrace
-  \begin{aligned}
-    {}&\sgn\mIn{}\mRealTypeClass\mSuperSet\mA
-    \mSuperClass\mProjEXP{\mA }{\mA }\\
-    {}&
-    \begin{aligned}
-      \sgn x&\mGuard{x<0}=-1\\
-      &\mGuard{\mOtherwise}=1
-    \end{aligned}
-  \end{aligned}
-  \right.
-\end{equation}
-である．
-
-最後にタプル $(x_0,x_1)$ を画面に表示すれば完了なので
-\begin{equation}
-  \left\mBrace
-  \begin{aligned}
-    {}&\mMain\mIn\mIOIntType\\
-    {}&\mMain=\mPrint(x_0,x_1)\mBindRightIgnore\mPureWith{0}
-  \end{aligned}
-  \right.
-\end{equation}
-とする．
-
-これをそのまま\haskell で実装すれば，2次方程式の解が求まる．
-\begin{haskellcode}
-\begin{verbatim}
--- quadratic.hs
-a = {- ... -}
-b = {- ... -}
-c = {- ... -}
-sgn :: Real a => a -> a
-sgn x | x<0       = -1
-      | otherwise = 1
-sq :: Real a => a -> a
-sq x = x*x
-(x0, x1) = (q/a, c/q) where
-  q = (b+sgn(b)*sqrt(sq b - 4*a*c))/2.0
-main :: IO Int
-main = print (x0, x1) >> pure 0
-\end{verbatim}
-\end{haskellcode}
-
-なお，2次方程式のよく知られた解法，すなわち
-\begin{equation}
-  (x_0,x_1)=\left(\frac{-b+d}{2*a},\frac{-b-d}{2*a}\right)
-  \mWhereIsEXP{d}{\sqrt{b^2-4*a*c}}
-\end{equation}
-は定数 $a$ または $c$ の値が小さい場合には計算誤差が大きくなるため，推
-奨されない．
-
-\section{複素数*}
-
-% Numerical Recipe in C
-
-2次方程式の定数 $a,b,c$ が複素数だとしよう．それぞれの実部を添え字 $r$
-で，虚部を添え字 $i$ で区別することにすると
-\begin{align}
-a&=a_r\mComplexPlus a_i\\
-b&=b_r\mComplexPlus b_i\\
-c&=c_r\mComplexPlus c_i
-\end{align}
-となる．ここに $\mComplexPlus$ は複素数を合成する演算子で，第1引数（左
-  引数）が実部，第2引数（右引数）が虚部からなる複素数を合成するものと
-する．\haskell では
-\begin{haskellcode}
-\begin{verbatim}
-import Data.Complex
-a :: Complex Double
-a = ar :+ ai
-\end{verbatim}
-\end{haskellcode}
-のように \code{:+} 演算子を使って複素数をコンストラクトする．
-
-このように\haskell では複素数を
-\begin{equation}
-  \mCompFunclexType{a}=\mathop{\mTypeConstructor{Complex}}\mA
-\end{equation}
-の型パラメタ $\mA $ に $\mFloatType$ 型または $\mDoubleType$ 型を
-当てはめて構築した型を用いる．$\mFloatType$ 型および $\mDoubleType$ 型
-は $\mRealFloatTypeClass$ 型クラスに属する．
-
-複素数の場合の2次方程式の解は，実数の場合とほぼ同じで
-\begin{equation}
-  (x_0,x_1)=(q/a,c/q)\mWhere\left\{
-  \begin{aligned}
-    &q\mLetEq\left(b+\sgn'abc*r\right)/2\\
-    &r\mLetEq\mSqrt'{(\mSq'b-4*a*c)}
-  \end{aligned}
-  \right.
-\end{equation}
-である．実数の場合との違いは $\mSq$ 関数と $\sgn$ 関数をそれぞれ
-$\mSq'$ 関数と $\sgn'$ 関数に置き換えたことで，
-\begin{equation}
-  \left\mBrace
-  \begin{aligned}
-    &\mSq'
-    \mIn\mRealFloatTypeClass\mSuperSet\mA
-    \mSuperClass\mA
-    \mFuncArrow\mCompFunclexType{a}
-    \mFuncArrow\mCompFunclexType{a}\\
-    &\mSq'x
-    =x*x
-  \end{aligned}
-  \right.
-\end{equation}
-および
-\begin{equation}
-  \left\mBrace
-  \begin{aligned}
-    &\begin{aligned}
-       \sgn'
-       &\mIn\mRealFloatTypeClass\mSuperSet\mA\\
-       &\quad\mSuperClass\mCompFunclexType{a}
-       \mFuncArrow\mCompFunclexType{a}
-       \mFuncArrow\mCompFunclexType{a}
-       \mFuncArrow\mA
-     \end{aligned}\\
-    &\begin{aligned}
-       \sgn'abc
-       &\mGuard{\mRealPart((\mConjugate b)*\mSqrt'{(\mSq' b-4\mComplexTimes a*c)})<0}
-       =-1\\
-       &\mGuard{\mOtherwise}
-       =1
-     \end{aligned}
-  \end{aligned}
-  \right.
-\end{equation}
-である．
-
-この $\sgn'$ 関数の中で複素数の平方根および複素数の実数倍を計算する必
-要がある．そこで，複素数の平方根を
-\begin{equation}
-  \left\mBrace
-  \begin{aligned}
-    &\mSqrt'\mIn\mRealFloatTypeClass\mSuperSet\mA
-    \mSuperClass\mProjEXP{\mA }{\mA }\\
-    &\begin{aligned}
-       \mSqrt'(x\mComplexPlus y)
-       &=\frac{\sqrt{2}}{2}*\left(\sqrt{d+x}\mComplexPlus(\sgn y)*\sqrt{d-x}\right)\\
-       &\quad\mWhereIsEXP{d}{\sqrt{\mSq x+\mSq y}}
-     \end{aligned}
-  \end{aligned}
-  \right.
-\end{equation}
-と定義し，複素数の実数倍は演算子 $\mComplexTimes$ で表すとして
-\begin{equation}
-  \left\mBrace
-  \begin{aligned}
-    &(\mComplexTimes)\mIn\mRealFloatTypeClass\mSuperSet\mA \mSuperClass
-    \mProjEXP{\mA }{\mProjEXP{\mCompFunclexType{a}}{\mCompFunclexType{a}}}\\
-    &(\mComplexTimes)a(x\mComplexPlus y)=a*x\mComplexPlus a*y
-  \end{aligned}
-  \right.
-\end{equation}
-とした．（演算子 $\mComplexTimes$ は \code{*.} と書くことにする．）
-
-\haskell は複素数の実数倍のための演算子を標準では用意していないため，
-このように独自の演算子を定義するか，あるいは複素数掛ける複素数の形にし
-て演算を行うかのいずれかが必要である．
-
-% 効率を考えなければ，次のような型変換関数を作ることも手である．
-% \begin{haskellcode}
-% \begin{verbatim}
-% toComplex :: RealFloat a => a -> Complex a
-% toComplex x = x :+ 0
-% \end{verbatim}
-% \end{haskellcode}
-
-なお，$\mConjugate$ は共役複素数を求める関数，$\Re$ は実部を求める関数
-である．$\Re$ は\haskell では \code{realPart} と書く．
-
-まとめると次のようになる．
-
-\begin{haskellcode}
-\begin{verbatim}
--- complex.hs
-import Data.Complex
-
-a, b, c :: Complex Double
-a = {- ... -} :+ {- ... -}
-b = {- ... -} :+ {- ... -}
-c = {- ... -} :+ {- ... -}
-
-sq :: Real a => a -> a
-sq x = x*x
-
-sq' :: RealFloat a => Complex a -> Complex a
-sq' x = x*x
-
-sgn :: Real a => a -> a
-sgn x | x < 0     = (-1)
-      | otherwise = 1
-
-sgn' :: RealFloat a =>
-  Complex a -> Complex a -> Complex a -> Complex a
-sgn' a b c
-  | realPart((conjugate b)*sqrt'(sq' b-4*.(a*c)))<0 = (-1):+0
-  | otherwise                                       = 1:+0
-
-sqrt' :: RealFloat a => Complex a -> Complex a
-sqrt' (x:+y) = (sqrt 2)/2*((sqrt(d+x)):+sgn(y)*(sqrt(d-x)))
-  where d = sqrt(sq x + sq y)
-
-(*.) :: Real a => a -> Complex a -> Complex a
-(*.) a (x:+y) = a*x:+a*y
-
-(x0, x1) = (q/a, c/q) where
-  q = (b + sgn' a b c * r) / 2
-  r = sqrt'(sq' b - 4*.(a*c))
-
-main :: IO Int
-main = print a >> pure 0
-\end{verbatim}
-\end{haskellcode}
-
-\section{余談：正格評価*}
-
-% https://blog.miz-ar.info/2016/06/writing-efficient-program-with-haskell/
-
-\section{この章のまとめ*}
-
-\begin{note}{...}
-...
-\end{note}
-
-\chapter{より複雑な演算}
-\label{ch:more-arithmetic}
-
-\section{演算子の優先順位*}
-
-\section{数学関数の演算*}
-
-$y=fx$ ただし
-\begin{equation}
-\begin{aligned}
-fx&\mGuard{x\equiv0}=1\\
-&\mGuard{\mOtherwise}=(\sin x)/x
-\end{aligned}
-\end{equation}
-とする．ここで $0\le x\le\pi$ の範囲で $y$ の値を求めたいとしよう．$x$
-の範囲を $n+1$ 分割するとする．
-
-まず $n$ に具体的な型と値を与えておこう．これは次のようにする．
-\begin{equation}
-\left\mBrace
-\begin{aligned}
-n&\mIn\mIntType\\
-n&=100
-\end{aligned}
-\right.
-\end{equation}
-
-次に，関数 $f$ を定義しておこう．
-\begin{equation}
-\left\mBrace
-\begin{aligned}
-f&\mIn\mProjEXP{\mDoubleType}{\mDoubleType}\\
-fx&\mGuard{x\equiv0}=1\\
-&\mGuard{\mOtherwise}=(\sin x)/x
-\end{aligned}
-\right.
-\end{equation}
-
-関数 $f$ に与える引数 $x$ のリストを定義する．
-\begin{equation*}
-  \left\mBrace
-  \begin{aligned}
-    \mList{x}
-    &\mIn{}[\mDoubleType]\\
-    \mList{x}
-    &=[i/n*\pi\mListComp i\mFrom[0\dotsb n]]
-  \end{aligned}
-  \right.
-\end{equation*}
-実はこのままではまずい．変数 $i$ も変数 $n$ も $\mIntType$ 型なので，
-割り算が出来ないのだ．そこで型変換のための関数 $\mFromIntegral$ を使お
-う．関数 $\mFromIntegral$ は $\mIntegralTypeClass$ 型クラスの型の変数
-を，任意の型へと変換する．関数 $\mFromIntegral$ を使って書き直すと
-\begin{equation}
-  \left\mBrace
-  \begin{aligned}
-    \mList{x}
-    &\mIn{}[\mDoubleType]\\
-    \mList{x}
-    &=[(\mFromIntegral i)/(\mFromIntegral n)*\pi\mListComp i\mFrom[0\dotsb n]]
-  \end{aligned}
-  \right.
-\end{equation}
-となる．この結果，リスト $\mList{x}$ は
-\begin{equation}
-  \mList{x}
-  =[0,(1/n)*\pi,(2/n)*\pi,\dotsb,\pi]
-\end{equation}
-となる．
-
-最後に，関数 $f$ をリスト $\mList{x}$ に適用して結果を得る．
-\begin{equation}
-  \left\mBrace
-  \begin{aligned}
-    y
-    &\mIn{}[\mDoubleType]\\
-    y
-    &=f\mMapList\mList{x}
-  \end{aligned}
-  \right.
-\end{equation}
-
-結果 $\mList{y}$ はプログラム
-\begin{equation}
-\mMain=\mPrint y\mBindRightIgnore\mPureWith{0}
-\end{equation}
-によって出力できる．
-
-これをそのまま\haskell プログラムにすると次のようになる．
-\begin{haskellcode}
-\begin{verbatim}
--- sample.hs
-n :: Int
-n = 100
-f :: Double -> Double
-f x | x == 0    = 1
-    | otherwise = (sin x)/x
-xs :: [Double]
-xs = [(fromIntegral i) / (fromIntegral n)
-  * pi | i <- [0..n]]
-ys :: [Double]
-ys = f `map` xs
-main = print ys >> pure 0
-\end{verbatim}
-\end{haskellcode}
-
-なお，円周率 $\pi$ はそのまま定数 \code{pi} として \filename{Prelude}
-で定義されている．
-
-\begin{table}
-\caption{\filename{Prelude} のデータ型}
-\label{tab:data-types}
-\begin{center}
-\begin{tabular}{||c|c||}
-\hline
-名前&型名\\
-\hline\hline
-\code{Bool}&論理型 $(\mBoolType)$\\
-\code{Char}&文字型 $(\mCharType)$\\
-\code{Int}&整数型 $(\mIntType)$\\
-\code{Integer}&整数型 $(\mIntegerType)$\\
-\code{Float}&単精度浮動小数点型 $(\mFloatType)$\\
-\code{Double}&倍精度浮動小数点型 $(\mDoubleType)$\\
-\code{String}&\code{[Char]} の型シノニム\\
-\hline
-\end{tabular}
-\end{center}
-\end{table}
-
-\begin{table}
-\caption{\filename{Prelude} の多相型}
-\label{tab:data-types-polymorphic}
-\begin{center}
-\begin{tabular}{||c|c||}
-\hline
-名前&型名\\
-\hline\hline
-\code{[a]}&リスト $([\mA])$\\
-\code{Maybe a}&Maybe $\left(\mMaybeType{a}\right)$\\
-\code{Either a b}&Either $\left(\mEitherType{a}{b}\right)$\\
-\code{((->)r)a}&関数 $\left(\mFuncType{a}{r}\right)$\\
-\hline
-\end{tabular}
-\end{center}
-\end{table}
-
-% \section{コンボリューション演算*}
-
----
-
-\begin{equation}
-(f\circledcirc g)t=\sum_xfx*g(t-x)
-\end{equation}
-
-\begin{equation}
-\begin{aligned}
-yt&=\sum(\mLambdaEXP{x}{\mFst x*\mSnd x})\mMapList\mList{h}\\
-&\quad\mWhere\\
-&\qquad\mList{h}\mLetEq{}\mZipFunc\mList{f}\mList{g}\\
-&\qquad\mList{f}\mLetEq[fx\mListComp x\mFrom[0,1\dotsb n]]\\
-&\qquad\mList{g}\mLetEq[g(t-x)\mListComp x\mFrom[0,1\dotsb n]]
-\end{aligned}
-\end{equation}
-
-効率悪い．
-
----
-
-\begin{equation}
-(\circledcirc)\mIn{}(\mNumTypeClass\mSuperSet\mA )\mSuperClass{}
-\mProjEXP{
-  (\mProjEXP{\mA }{\mA })
-}
-{
-  \mProjEXP{(\mProjEXP{\mA }{\mA })}
-  {\mProjEXP{\mA }{\mA }}
-}
-\end{equation}
-
-\begin{equation}
-f\circledcirc g=\mLambdaEXP{t}{\sum fx*g(t-x)}
-\end{equation}
-
-
-$$
-yt=(f\circledcirc g)t
-$$
-
-
-$$
-yt=\sum_xfx*g(t-x)
-$$
-
-$$
-y=\sum_xfx*g(\mAnonParam-x)
-$$
-
-\section{行列演算*}
-
-\TK{Data.Vector}
-
-% http://qiita.com/lotz/items/2c932b45f78f6fc70e9c
-% http://itpro.nikkeibp.co.jp/article/COLUMN/20120605/400424/
-
-\section{余談：アンボックス化}
-
-\TK{Unboxed}
-
-% \haskell だけでイメージ（画像）を効率的に扱おうとすると非常な困難に出
-% 会う．これは\haskell がイメージデータを効率的に保存するデータ構造を持
-% たないからである．一つの解決策は OpenCV というイメージ演算ライブラリの
-% \haskell バインディングを用いることである．
-
-% http://qiita.com/ma-oshita/items/2a66d8818664f2936afe
-% http://nebuta.hatenablog.com/entry/2013/06/15/154259
-
----
-
-% \section{余談：複素数*}
-
-\begin{equation}
-z={}!x{}\mComplexPlus{}!y
-\end{equation}
-
-\begin{haskellcode}
-\begin{verbatim}
-import Data.Complex
-z :: Complex Double
-z = !x :+ !y
-\end{verbatim}
-\end{haskellcode}
-
-% ベクトル
-
-\section{この章のまとめ*}
-
-\chapter{IO*}
-\label{ch:more-io}
-
-\section{書き出し*}
-\section{読み込み*}
-\section{IOモナド*}
-% \section{余談：ダークサイド*}
-
-\section{余談：コマンドライン引数*}
-
-コマンドライン引数はアクション \code{getArgs} で読み出すことができる．
-例えば
-\begin{haskellcode}
-\begin{verbatim}
--- args.hs
-import System.Environment (getArgs)
-main :: IO Int
-main = do
-  args <- getArgs
-  {- do something -}
-  return 0
-\end{verbatim}
-\end{haskellcode}
-とすると，リスト \code{args} にコマンドライン引数が渡される．アクショ
-ン \code{getArgs} の戻り値の型は \code{[String]} である．
-
-\begin{equation}
-\mMain=(\dotsb\mWhere{}\mList{a}=\mAction{getArgs})\mBindRightIgnore\mPureWith{0}
-\end{equation}
-
-\section{この章のまとめ*}
-
-\chapter{文字列処理*}
-\label{ch:string}
-\section{文字列型*}
-\section{構文解析 (1)*}
-\section{構文解析 (2)*}
-\section{余談: Unicode*}
-\section{この章のまとめ}
-
-\chapter{状態系モナド*}
-\label{ch:state-monad}
-\section{STモナド*}
-\section{Stateモナド*}
-\section{ReaderモナドとWriterモナド*}
-\section{余談：関数モナド*}
-\section{この章のまとめ*}
-
-\chapter{モナド変換子*}
-\label{ch:monad-transfer}
-\section{Identityモナド*}
-\section{StateTモナド*}
-\section{リフト*}
-% http://qiita.com/7shi/items/4408b76624067c17e933
-\section{余談: Extensible Effects*}
-% http://konn-san.com/prog/haskell/extensible-effects.html
-\section{この章のまとめ*}
-% \section{余談：プリミティブ型*}
-
-\chapter{例外*}
-\label{ch:exception}
-\section{Eitherモナド*}
-\section{mtlモジュール*}
-\section{exceptionsモジュール*}
-\section{余談：モナド変換子を使う*}
-\section{この章のまとめ*}
-
-% http://syocy.hatenablog.com/entry/2016/07/02/174426
-
-% \chapter{道具箱*}
-% \section{リストの操作*}
-% \section{非決定性*}
-% \section{並列処理*}
-% \section{余談：チューニング*}
-% \section{この章のまとめ*}
-
-% http://itchyny.hatenablog.com/entry/2015/12/27/150000
-
-\chapter{Freeモナド*}
-\label{ch:free-monad}
-\section{ドメイン特化言語*}
-\section{Freeモナド*}
-\begin{align}
-\mDataType\;&\mathop{\mTypeConstructor{Free}}\mType{f}\mA =\mathop{\mValueConstructor{Pure}}\mA \mValueOr\mathop{\mValueConstructor{Free}(\mType{f}(\mathop{\mValueConstructor{Free}}\mType{f}\mA ))}\\
-\mInstanceDecl\;&\mFunctorTypeClass\mSuperSet\mType{f}\mSuperClass\mTypeConstructor{Monad}(\mathop{\mTypeConstructor{Free}}\mType{f})\nonumber\\
-&\quad\mWhere\left\{
-\begin{aligned}
-\mPureWith{x}&=\mValueWith{Pure}{x}\\
-k\mBind\mValueWith{Pure}{a}&=ka\\
-k\mBind\mValueWith{Free}{f}&=\mValueWith{Free}{(k\mBind\mAnonParam)\mMap f}
-\end{aligned}
-\right.
-\end{align}
-
-\begin{haskellcode}
-\begin{verbatim}
-data Free f a = Pure a | Free (f (Free f a))
-instance Functor f => Monad (Free f) where
-    return = Pure
-    Pure a >>= k = k a
-    Free fm >>= k = Free (fmap (>>=k) fm)
-\end{verbatim}
-\end{haskellcode}
-
-\section{(DSLの例)*}
-\section{余談: Operationalモナド*}
-\section{この章のまとめ*}
-
-% http://d.hatena.ne.jp/its_out_of_tune/20121111/1352632815
-% http://qiita.com/hiruberuto/items/3d55b0e54565dbb286a7
-% http://fumieval.hatenablog.com/entry/2013/05/09/223604
-% http://d.hatena.ne.jp/fumiexcel/20121111/1352614885
-% http://qiita.com/dico_leque/items/d3fac511d0c284305c13
-
-% http://tune.hateblo.jp/entry/2014/09/28/185233
-% http://konn-san.com/prog/haskell/extensible-effects.html
 
 \chapter{カテゴリ*}
 \label{ch:category}
@@ -5561,7 +4561,7 @@ instance Cat.Category NonDet where
   =\mTypeConstructor{Kleisli}\,\mA\,\mB
 \end{equation}
 
-\chapter{アローと継続*}
+\chapter{アロー*}
 \label{ch:arrow}
 
 \begin{leader}
@@ -6242,24 +5242,916 @@ $\Vec{f_1}***\Vec{f_2}$ も関数ではない．
 % http://d.hatena.ne.jp/r-west/20070720/1184946510
 % https://www.haskell.org/arrows/
 % https://wiki.haskell.org/Arrow_tutorial
-\section{\scheme の継続*}
-\section{継続モナド*}
-\section{余談：チューリング＝チャーチのテーゼ*}
+
+\chapter{プログラム}
+\label{ch:program}
+
+\begin{leader}
+A...
+\end{leader}
+
+\section{文字セットとコメント}
+
+\haskell コンパイラを含む多くのコンパイラがUnicode文字セットに対応して
+いるものの，従来からの習慣や英語圏での使いやすさを考慮してか，ASCII文
+字セットだけでプログラムを書けるようにしているし，またそれを推奨してい
+る．
+
+\haskell プログラムもまた，文字定数を除いてはASCII文字セットの範囲で書
+くことが普通である．そこで我々もその習慣に従うことにしよう．例えば円周
+率を代入する変数を $\pi$ と書きたいところだが，我々は \code{pi} と書く．
+
+数学記号のほとんども，ASCII文字セットの中から記号を組み合わせるか，さ
+もなくば言葉で表現する．例えば\haskell では $\mFrom$ の代わりに
+\code{<-} を使うし，$\neg$ の代わりに \code{not} を使う．
+
+また計算機科学者たちの絶えざる努力にもかかわらず，プログラム中の文字の
+装飾はこれまでほとんど受け入れられていない．我々は本書で \textrm{f},
+\textit{f}, \textsl{f}, \textbf{f}, \textbf{\textit{f}}, $f$,
+$\mathfrak{f}$ を使い分けてきたが，\haskell プログラム中では全て
+\code{f} と書く．
+
+以上のような制約にもかかわらず，\haskell プログラムと我々が見えきた
+「カリー風の」数学記法は本質的に差がない．本書を読み進めてきた読者なら，
+\haskell プログラムを読むのに苦労はいらないだろう．
+
+\haskell では \code{--} から行の終わりまでがコメントとして扱われる．ま
+た \code{\{-} で始まり \code{-\}} で終わる文字列もコメントとして扱われ
+る．
+
+\separator
+
+習慣的に\haskell プログラムのファイルには拡張子 \filename{.hs} を付け
+る．
+
+\section{main関数と一般の関数定義}
+
+\python インタプリタはプログラムを頭から実行していくので，main関数は書
+かなくてもよいが，アプリケーションプログラマにとっての一番の関心事は
+main関数（\haskell では $\mMain$ アクション）の書き方だろう．iOSアプリ
+ケーション開発のように，基本的にはmain関数をプログラマが触れないという
+スタイルもあるが，それでもデバッグの時にはmain関数から辿ることになるの
+で，main関数のありかを知っておくことはいつでも重要だ．
+
+\haskell コンパイラも $\mMain$ アクションをアプリケーションプログラム
+のエントリポイントとして認識する．というよりも，\haskell プログラムと
+は $\mMain$ という一つのアクションである．$\mMain$ を含む一般の関数や
+アクションはこれまで通り
+\begin{equation}
+\mMain=\dots
+\end{equation}
+のように関数名のあとに等号 $(=)$ を置いて定義する．
+
+\clang でmain関数の型がOSの都合で \code{int main(void)} または
+\code{int main(int, const char *const *)} と決められているように，
+\haskell でも $\mMain$ アクションの型はあらかじめ決められている．その
+型は $\mIOIntType$ である．
+
+UNIXおよびUNIXに影響を受けたOSでは，プログラムは終了時に整数値をOSへ返
+すことになっている．プログラムが $0$ を返せば，そのプログラムは正常終
+了したとみなされる．例えばUNIXシェル（\filename{sh} や \filename{csh}
+  のこと）で，
+\begin{verbatim}
+$ program1 && program2
+\end{verbatim}
+としたとき，\filename{program1} の戻り値が $0$ のときに限って
+\filename{program2} が実行される．
+
+何もせずにOSに $0$ を返すプログラムすなわち
+\begin{equation}
+\left\mBrace
+\begin{aligned}
+\mMain&\mIn{}\mIOIntType\\
+\mMain&=\mPureWith{0}
+\end{aligned}
+\right.
+\end{equation}
+を\haskell で書くと，
+\begin{haskellcode}
+\begin{verbatim}
+-- do-nothing.hs
+main :: IO Int
+main = pure 0
+\end{verbatim}
+\end{haskellcode}
+または
+\begin{haskellcode}
+\begin{verbatim}
+-- do-nothing.hs
+main :: IO Int
+main = return 0
+\end{verbatim}
+\end{haskellcode}
+のようになる．ここに \code{return} はモナドのピュア演算子の別名で，特
+別に\keyword{ユニット演算子}と呼ぶ．\footnote{GHC v7.8 以前はモナドに
+  ピュア演算子が定義されず，モナド独自のユニット演算子が定義されていた．}
+
+このプログラムは\clang の
+\begin{ccode}
+\begin{verbatim}
+/* do-nothing.c */
+int main(void) {
+  return 0;
+}
+\end{verbatim}
+\end{ccode}
+と等しい．
+
+\section{プログラミングの本質}
+
+副作用のないプログラムはひとつの関数で書ける．その関数を $\mMainFunc$
+と呼ぶことにすると，この $\mMainFunc$ 関数を
+\begin{equation}
+\mMainFunc=f_n\mCompFunc f_{n-1}\mCompFunc\dotsb\mCompFunc f_1
+\end{equation}
+と部分関数に分解することがプログラマの能力である．副作用のないプログラ
+ムとは，コマンドラインから引数 $x$ を受け取り，なんらかの処理を行い，
+OSに終了値を返すだけのプログラムである．このようなプログラムは普通役に
+立たないが，議論が簡単になるので少し見てみよう．
+
+副作用のない関数を合成するのはわけのないことだ．もし\python ならば
+\begin{pythoncode}
+\begin{verbatim}
+y = f2(f1(x))
+\end{verbatim}
+\end{pythoncode}
+のように関数を入れ子にしても良いし，読みづらければ途中経過を一時変数に
+して
+\begin{pythoncode}
+\begin{verbatim}
+y1 = f1(x)
+y2 = f2(y1)
+\end{verbatim}
+\end{pythoncode}
+としてもよい．副作用のない関数の場合，これが関数合成の規則である．
+
+プログラムが副作用を持つ場合は，プログラム自身がIOモナドであるため，関
+数へと分解できないのであった．副作用を持つプログラムはアクションであり，
+そのアクションを $\mMain$ アクションと名付けると，その $\mMain$ アクショ
+ンを
+\begin{equation}
+\mMain=\alpha_n\mBind\alpha_{n-1}\mBind\dotsb\mBind\alpha_0
+\end{equation}
+と部分アクションに分解することがプログラマの能力となる．
+
+% How to unwrap w?
+
+\separator
+
+ここで，プログラマの「サバイバルキット」を用意しておこう．次のプログラ
+ムで定数 \code{x} と関数 \code{f} の部分を埋めれば，関数適用の結果つま
+り \code{f x} の値を画面に出力する．
+\begin{haskellcode}
+\begin{verbatim}
+-- survivalkit.hs
+x :: Double
+x = {- Value -}
+f :: Double -> Double
+f = {- Function -}
+main :: IO Int
+main = print (f x) >> pure 0
+\end{verbatim}
+\end{haskellcode}
+ファイル名を \filename{survivalkit.hs} とすると，コンパイルと実行は次
+のようにする．
+\begin{verbatim}
+$ ghc survivalkit.hs
+$ ./sample
+\end{verbatim}%$
+
+プログラム \filename{survivalkit.hs} を数式で書くと
+\begin{align}
+  {}&\left\mBrace
+    \begin{aligned}
+      x&\mIn\mDoubleType\\
+      x&=\dots\\
+    \end{aligned}
+    \right.\\
+  {}&\left\mBrace
+    \begin{aligned}
+      f&\mIn{}\mProjEXP{\mDoubleType}{\mDoubleType}\\
+      f&=\dots\\
+    \end{aligned}
+    \right.\\
+  {}&\left\mBrace
+    \begin{aligned}
+      \mMain&\mIn{}\mIODoubleType\\
+      \mMain&=\mPrint(fx)\mBindRightIgnore\mPureWith{0}
+    \end{aligned}
+    \right.
+\end{align}
+である．この式は $\mPrint(fx)$ がいかなる値を返そうとも，アクション
+$\mMain$ の値は $0$ になることを示している．
+
+\section{余談：インタープリタ*}
+
 \section{この章のまとめ*}
+
+\begin{note}{...}
+...
+\end{note}
+
+% 2023
+% https://enakai00.hatenablog.com/entry/20130912/1378970253
+% https://r-west.hatenablog.com/entry/20070720/1184946510
+% https://r-west.hatenablog.com/entry/20070529/1180455881
+% https://blog.jle.im/entry/auto-as-category-applicative-arrow-intro-to-machines
+% https://blog.jle.im/entry/intro-to-machines-arrows-part-1-stream-and
+% https://qiita.com/CyLomw/items/a618b7c7326d9abede63
+% https://qiita.com/CyLomw/items/ff1e5d1600291c952c5e
+% https://qiita.com/CyLomw/items/a874cee33c69653f53c6
+% https://qiita.com/CyLomw/items/688942f19a5bc3a25037
+% https://qiita.com/kanatatsu64/items/d5bfe07a6c9a8f839df5
+% https://qiita.com/Lugendre/items/6b4a8c8a9c85fcdcb292
+% https://elvishjerricco.github.io/2017/08/22/monadfix-is-time-travel.html
+% https://qiita.com/lotz/items/0894079a44e87dc8b73e
+
+\TK{TO DO}
+\begin{itemize}
+\item state monad
+\item fix
+\item category
+\item kleisli class
+\item arrow
+\item continuation
+\item 文字セットとコメント
+\item 代数的構造
+\item ラムダ
+\end{itemize}
+
+\part{執筆用メモ*}
+
+
+
+\chapter{演算*}
+\label{ch:arithmetic}
+
+\begin{leader}
+演算の例を挙げる．
+\end{leader}
+
+
+\section{名前と予約語*}
+
+表\ref{tab:reserved-symbols}および表\ref{tab:reserved-keywords}に
+\haskell で予約されている記号と名前を掲げる．これらの記号，名前は演算
+子，関数，定数として使うことが出来ない．
+
+もちろんこれら以外に \code{+} や \code{map} など慣例的に使われている語
+の再定義は避けるべきである．特に \filename{Prelude} モジュールは特段の
+事情がない限り必ず読み込まれるモジュールなので，\filename{Prelude} で
+定義される記号と名前の再定義は避けるべきであろう．\filename{Prelude}
+で定義される記号と名前は膨大な数になるので，リファレンスを参考にしても
+らいたい．
+
+\haskell で演算子に使える記号は
+\begin{verbatim}
+ ! @ # $ % ^ & * - + = . \ | / < : > ? ~
+\end{verbatim}%$
+である．ただし \code{:} ではじまる記号は予約されている．
+
+% *** リファレンス ***
+% http://www.sampou.org/haskell/report-revised-j/basic.html
+% http://mew.org/~kazu/academic/2013/miyazaki-u/syntax.html
+
+\begin{table*}
+\caption{\haskell の予約済み演算子と記号}
+\label{tab:reserved-symbols}
+\begin{center}
+\begin{tabular}{||c|c||}
+\hline
+\code{--}&行コメント\\
+\code{\{-} \code{-\}}&コメント\\
+\hline
+\code{'}&文字リテラル\\
+\code{"}&文字列リテラル\\%{\textquotedblright}\\
+\code{`}&関数の中置\\
+\code{(} \code{)}&括弧\\
+\code{\{} \code{\}}&レコード構文 $(\{\dotsb\})$，ブロック\\
+\code{;}&ステートメントセパレータ\\
+\hline
+% \code{-}&単項マイナス $(-)$\\
+\code{\textbackslash}&ラムダ $(\mLambda)$，行分割\\
+\code{:}&結合演算子\\
+\code{::}&型の宣言 $(\mIn)$\\
+\code{..}&等差数列\\
+\code{=}&定義 $(=)$\\
+\code{=>}&インスタンス定義 $(\mSuperClass)$\\
+\code{->}&関数型コンストラクタ $(\mapsto)$，ラムダ式の矢印 $(\rightarrow)$，\\
+&case式の矢印 $(\mIfSo)$\\
+\code{<-}&リスト内包表記 $(\mFrom)$，do記法中の代入 $(\mDoEq)$\\
+\code{@}&asパタン $(@)$\\
+\code{|}&ガード $(\mGuard{})$，リスト内包 $(\mListComp)$，データ型の和演算 $(\mValueOr)$\\
+\code{,}&リストの値の区切り，リスト内包表記の区切り，\\
+&タプルの値の区切り\\
+% \code{-<}&（アロー表記用）\\
+% \code{-<<}&（アロー表記用）\\
+% \code{[|}, \code{|]}&（テンプレート）\\
+% \code{?}&（暗黙パラメタ）\\
+% \code{\#}&（マジックハッシュ）\\
+% \code{*}\\
+\hline
+\code{!}&正格評価\\
+\code{\textasciitilde}&XYZ\\
+\hline
+\end{tabular}
+\end{center}
+\end{table*}
+
+% http://www.nslabs.jp/haskell-keywords.rhtml
+
+\begin{table*}
+\caption{\haskell の予約語}
+\label{tab:reserved-keywords}
+\begin{center}
+\begin{tabular}{||l|l||}
+\hline
+分岐 (1)&\code{case}, \code{of}\\
+分岐 (2)&\code{if}, \code{then}, \code{else}\\
+型定義&\code{class}, \code{data}, \code{deriving}, \code{instance},\\
+&\code{newtype}, \code{type}\\
+do記法&\code{do}\\
+局所変数 (1)&\code{let}, \code{in}\\
+局所変数 (2)&\code{where}\\
+演算子定義&\code{infix}, \code{infixl}, \code{infixr}\\
+モジュール関係&\code{foreign}, \code{import}, \code{module}\\
+ワイルドカード引数&\code{\_}\\
+\hline
+\end{tabular}
+\end{center}
+\end{table*}
+
+% http://www.imada.sdu.dk/~rolf/Edu/DM22/F06/haskell-operatorer.pdf
+% https://wiki.haskell.org/Keywords
+
+% \begin{table*}
+% \caption{\code{Prelude} モジュールの予約語と記号}
+% \begin{center}
+% \begin{tabular}{||l||}
+% \hline
+% \code{Bool}, \code{\&\&}, \code{||}, \code{otherwise}\\
+% \code{Bounded}, \code{minBoud}, \code{maxBound}\\
+% \code{Enum}, \code{succ}, \code{pred}, \code{toEnum}, \code{fromEnum}, \code{enumFrom}, \code{enumFromThen}, \code{enumFromTo}, \code{enumFromThenTo}\\
+% \code{Eq}, \code{==}, \code{/=}\\
+% \code{Data}, \code{gfoldl}, \code{gunfold}, \code{toConstr}, \code{dataTypeOf}, \code{dataCast1}, \code{dataCast2}, \code{gmapT}, \code{gmapQl}, \code{gmapQr}, \code{gmapQ}\\
+% ~~\code{gmapQi}, \code{gmapM}, \code{gmapMp}, \code{gmapMo}\\
+% \code{Ord}, \code{<}, \code{<=}, \code{>}, \code{>=}, \code{max}, \code{min}\\
+% \code{Read}, \code{readsPrec}, \code{readList}, \code{readPrec}, \code{readListPrec}\\
+% \code{Show}, \code{showsPrec}, \code{show}, \code{showList}\\
+% \code{Ix}, \code{range}, \code{index}, \code{unsafeIndex}, \code{inRange}, \code{rangeSize}, \code{unsafeRangeSize}\\
+% \code{Generic}, \code{Rep}, \code{from}, \code{to}\\
+% \code{FiniteBits}, \code{finiteBitSize}, \code{countLeadingZeros}, \code{countTailingZeros}\\
+% \code{Bits}, \code{.\&.}, \code{.|.}, \code{xor}, \code{complement}, % \code{shift}, \code{rotate}, \code{zeroBits}, \code{bit}, \code{setBit}, \code{clearBit}, \code{complementBit},\\
+% ~~\code{testBit}, \code{bitSizeMaybe}, \code{bitSize}, \code{isSigned}, \code{shiftL}, \code{unsafeShiftL}, \code{shiftR}, \code{unsafeShiftR},\\
+% ~~\code{rotateL}, \code{rotateR}, \code{popCount}\\
+% \code{Storable}, \code{sizeOf}, \code{alignment}, \code{peekElemOff}, \code{pokeElemOff}, \code{peekByteOff}, \code{pokeByteOff}, \code{peek}, \code{poke}\\
+% \code{Maybe}, \code{Just}, \code{Nothing}\\
+% \code{Monad}, \code{>>=}, \code{>>}, \code{return}, \code{fail}\\
+% \code{Functor}, \code{fmap}, \code{<\$}\\
+% \code{MonadFix}, \code{mfix}\\
+% \code{MonadFail}\\
+% \code{Applicative}, \code{pure}, \code{<*>}, \code{liftA2}, \code{*>},  \code{<*}\\
+% \code{Foldable}, \code{fold}, \code{foldMap}, \code{fordr}, \code{foldr'}, \code{foldl}, \code{foldl'}, \code{foldr1}, \code{foldl1}, \code{toList}, \code{null}, \code{length},\\
+% ~~\code{elem}, \code{maximum}, \code{minimum}, \code{sum}, \code{product}\\
+% \code{Traversable}, \code{traverse}, \code{sequenceA}, \code{mapM}, \code{sequence}\\
+% \code{MonadPlus}, \code{mzero}, \code{mplus}\\
+% \code{Alternative}, \code{empty}, \code{<|>}, \code{some}, \code{many}\\
+% \code{MonadZip}, \code{mzip}, \code{mzipWith}, \code{munzip}\\
+% \code{Show1}, \code{liftShowsPrec}, \code{liftShowList}\\
+% \code{Read1}, \code{liftReadsSec}, \code{liftReadList}, \code{liftReadPrec}, \code{liftReadListPrec}\\
+% \code{Ord1}, \code{liftCompare}\\
+% \code{Eq1}, \code{liftEq}\\
+% \code{Either}\\
+% \code{Show2}, \code{liftShowsPrec2}, \code{liftShowList2}\\
+% \code{Read2}, ...\\
+% \hline
+% \end{tabular}
+% \end{center}
+% \end{table*}
+
+\section{2次方程式の解*}
+
+2次方程式の解とは，定数 $a,b,c$ が既知の式
+\begin{equation}
+a*x^2+b*x+c=0
+\end{equation}
+において定数 $x$ が取り得る値のことである．なお $x^2$ は\haskell では
+\code{x**2} と書く．
+
+2次方程式の解法は知られており，
+\begin{multline}
+  (x_0,x_1)=(q/a,c/q)\\
+  \mWhere q\mLetEq\frac{\left(b+(\sgn b)*\sqrt{\mSq b-4*a*c}\right)}{2}
+\end{multline}
+である．ここに関数 $\mSq$ は
+\begin{equation}
+  \mSq x=x^2
+\end{equation}
+である．わざわざ関数にしたのは，単純な \code{x**2} よりも高速な実装
+\begin{equation}
+  \left\mBrace
+  \begin{aligned}
+    &\mSq\mIn\mRealTypeClass\mSuperSet\mA
+    \mSuperClass\mProjEXP{\mA}{\mA}\\
+    &\mSq x=x*x
+  \end{aligned}
+  \right.
+\end{equation}
+を後で与えるためである．平方根 $\sqrt{x}$ は\haskell では \code{sqrt
+  x} と書く．
+
+また関数 $\sgn$ は
+\begin{equation}
+  \left\mBrace
+  \begin{aligned}
+    {}&\sgn\mIn{}\mRealTypeClass\mSuperSet\mA
+    \mSuperClass\mProjEXP{\mA }{\mA }\\
+    {}&
+    \begin{aligned}
+      \sgn x&\mGuard{x<0}=-1\\
+      &\mGuard{\mOtherwise}=1
+    \end{aligned}
+  \end{aligned}
+  \right.
+\end{equation}
+である．
+
+最後にタプル $(x_0,x_1)$ を画面に表示すれば完了なので
+\begin{equation}
+  \left\mBrace
+  \begin{aligned}
+    {}&\mMain\mIn\mIOIntType\\
+    {}&\mMain=\mPrint(x_0,x_1)\mBindRightIgnore\mPureWith{0}
+  \end{aligned}
+  \right.
+\end{equation}
+とする．
+
+これをそのまま\haskell で実装すれば，2次方程式の解が求まる．
+\begin{haskellcode}
+\begin{verbatim}
+-- quadratic.hs
+a = {- ... -}
+b = {- ... -}
+c = {- ... -}
+sgn :: Real a => a -> a
+sgn x | x<0       = -1
+      | otherwise = 1
+sq :: Real a => a -> a
+sq x = x*x
+(x0, x1) = (q/a, c/q) where
+  q = (b+sgn(b)*sqrt(sq b - 4*a*c))/2.0
+main :: IO Int
+main = print (x0, x1) >> pure 0
+\end{verbatim}
+\end{haskellcode}
+
+なお，2次方程式のよく知られた解法，すなわち
+\begin{equation}
+  (x_0,x_1)=\left(\frac{-b+d}{2*a},\frac{-b-d}{2*a}\right)
+  \mWhereIsEXP{d}{\sqrt{b^2-4*a*c}}
+\end{equation}
+は定数 $a$ または $c$ の値が小さい場合には計算誤差が大きくなるため，推
+奨されない．
+
+\section{複素数*}
+
+% Numerical Recipe in C
+
+2次方程式の定数 $a,b,c$ が複素数だとしよう．それぞれの実部を添え字 $r$
+で，虚部を添え字 $i$ で区別することにすると
+\begin{align}
+a&=a_r\mComplexPlus a_i\\
+b&=b_r\mComplexPlus b_i\\
+c&=c_r\mComplexPlus c_i
+\end{align}
+となる．ここに $\mComplexPlus$ は複素数を合成する演算子で，第1引数（左
+  引数）が実部，第2引数（右引数）が虚部からなる複素数を合成するものと
+する．\haskell では
+\begin{haskellcode}
+\begin{verbatim}
+import Data.Complex
+a :: Complex Double
+a = ar :+ ai
+\end{verbatim}
+\end{haskellcode}
+のように \code{:+} 演算子を使って複素数をコンストラクトする．
+
+このように\haskell では複素数を
+\begin{equation}
+  \mCompFunclexType{a}=\mathop{\mTypeConstructor{Complex}}\mA
+\end{equation}
+の型パラメタ $\mA $ に $\mFloatType$ 型または $\mDoubleType$ 型を
+当てはめて構築した型を用いる．$\mFloatType$ 型および $\mDoubleType$ 型
+は $\mRealFloatTypeClass$ 型クラスに属する．
+
+複素数の場合の2次方程式の解は，実数の場合とほぼ同じで
+\begin{equation}
+  (x_0,x_1)=(q/a,c/q)\mWhere\left\{
+  \begin{aligned}
+    &q\mLetEq\left(b+\sgn'abc*r\right)/2\\
+    &r\mLetEq\mSqrt'{(\mSq'b-4*a*c)}
+  \end{aligned}
+  \right.
+\end{equation}
+である．実数の場合との違いは $\mSq$ 関数と $\sgn$ 関数をそれぞれ
+$\mSq'$ 関数と $\sgn'$ 関数に置き換えたことで，
+\begin{equation}
+  \left\mBrace
+  \begin{aligned}
+    &\mSq'
+    \mIn\mRealFloatTypeClass\mSuperSet\mA
+    \mSuperClass\mA
+    \mFuncArrow\mCompFunclexType{a}
+    \mFuncArrow\mCompFunclexType{a}\\
+    &\mSq'x
+    =x*x
+  \end{aligned}
+  \right.
+\end{equation}
+および
+\begin{equation}
+  \left\mBrace
+  \begin{aligned}
+    &\begin{aligned}
+       \sgn'
+       &\mIn\mRealFloatTypeClass\mSuperSet\mA\\
+       &\quad\mSuperClass\mCompFunclexType{a}
+       \mFuncArrow\mCompFunclexType{a}
+       \mFuncArrow\mCompFunclexType{a}
+       \mFuncArrow\mA
+     \end{aligned}\\
+    &\begin{aligned}
+       \sgn'abc
+       &\mGuard{\mRealPart((\mConjugate b)*\mSqrt'{(\mSq' b-4\mComplexTimes a*c)})<0}
+       =-1\\
+       &\mGuard{\mOtherwise}
+       =1
+     \end{aligned}
+  \end{aligned}
+  \right.
+\end{equation}
+である．
+
+この $\sgn'$ 関数の中で複素数の平方根および複素数の実数倍を計算する必
+要がある．そこで，複素数の平方根を
+\begin{equation}
+  \left\mBrace
+  \begin{aligned}
+    &\mSqrt'\mIn\mRealFloatTypeClass\mSuperSet\mA
+    \mSuperClass\mProjEXP{\mA }{\mA }\\
+    &\begin{aligned}
+       \mSqrt'(x\mComplexPlus y)
+       &=\frac{\sqrt{2}}{2}*\left(\sqrt{d+x}\mComplexPlus(\sgn y)*\sqrt{d-x}\right)\\
+       &\quad\mWhereIsEXP{d}{\sqrt{\mSq x+\mSq y}}
+     \end{aligned}
+  \end{aligned}
+  \right.
+\end{equation}
+と定義し，複素数の実数倍は演算子 $\mComplexTimes$ で表すとして
+\begin{equation}
+  \left\mBrace
+  \begin{aligned}
+    &(\mComplexTimes)\mIn\mRealFloatTypeClass\mSuperSet\mA \mSuperClass
+    \mProjEXP{\mA }{\mProjEXP{\mCompFunclexType{a}}{\mCompFunclexType{a}}}\\
+    &(\mComplexTimes)a(x\mComplexPlus y)=a*x\mComplexPlus a*y
+  \end{aligned}
+  \right.
+\end{equation}
+とした．（演算子 $\mComplexTimes$ は \code{*.} と書くことにする．）
+
+\haskell は複素数の実数倍のための演算子を標準では用意していないため，
+このように独自の演算子を定義するか，あるいは複素数掛ける複素数の形にし
+て演算を行うかのいずれかが必要である．
+
+% 効率を考えなければ，次のような型変換関数を作ることも手である．
+% \begin{haskellcode}
+% \begin{verbatim}
+% toComplex :: RealFloat a => a -> Complex a
+% toComplex x = x :+ 0
+% \end{verbatim}
+% \end{haskellcode}
+
+なお，$\mConjugate$ は共役複素数を求める関数，$\Re$ は実部を求める関数
+である．$\Re$ は\haskell では \code{realPart} と書く．
+
+まとめると次のようになる．
+
+\begin{haskellcode}
+\begin{verbatim}
+-- complex.hs
+import Data.Complex
+
+a, b, c :: Complex Double
+a = {- ... -} :+ {- ... -}
+b = {- ... -} :+ {- ... -}
+c = {- ... -} :+ {- ... -}
+
+sq :: Real a => a -> a
+sq x = x*x
+
+sq' :: RealFloat a => Complex a -> Complex a
+sq' x = x*x
+
+sgn :: Real a => a -> a
+sgn x | x < 0     = (-1)
+      | otherwise = 1
+
+sgn' :: RealFloat a =>
+  Complex a -> Complex a -> Complex a -> Complex a
+sgn' a b c
+  | realPart((conjugate b)*sqrt'(sq' b-4*.(a*c)))<0 = (-1):+0
+  | otherwise                                       = 1:+0
+
+sqrt' :: RealFloat a => Complex a -> Complex a
+sqrt' (x:+y) = (sqrt 2)/2*((sqrt(d+x)):+sgn(y)*(sqrt(d-x)))
+  where d = sqrt(sq x + sq y)
+
+(*.) :: Real a => a -> Complex a -> Complex a
+(*.) a (x:+y) = a*x:+a*y
+
+(x0, x1) = (q/a, c/q) where
+  q = (b + sgn' a b c * r) / 2
+  r = sqrt'(sq' b - 4*.(a*c))
+
+main :: IO Int
+main = print a >> pure 0
+\end{verbatim}
+\end{haskellcode}
+
+\section{余談：正格評価*}
+
+% https://blog.miz-ar.info/2016/06/writing-efficient-program-with-haskell/
+
+
+\chapter{より複雑な演算}
+\label{ch:more-arithmetic}
+
+\section{数学関数の演算*}
+
+$y=fx$ ただし
+\begin{equation}
+\begin{aligned}
+fx&\mGuard{x\equiv0}=1\\
+&\mGuard{\mOtherwise}=(\sin x)/x
+\end{aligned}
+\end{equation}
+とする．ここで $0\le x\le\pi$ の範囲で $y$ の値を求めたいとしよう．$x$
+の範囲を $n+1$ 分割するとする．
+
+まず $n$ に具体的な型と値を与えておこう．これは次のようにする．
+\begin{equation}
+\left\mBrace
+\begin{aligned}
+n&\mIn\mIntType\\
+n&=100
+\end{aligned}
+\right.
+\end{equation}
+
+次に，関数 $f$ を定義しておこう．
+\begin{equation}
+\left\mBrace
+\begin{aligned}
+f&\mIn\mProjEXP{\mDoubleType}{\mDoubleType}\\
+fx&\mGuard{x\equiv0}=1\\
+&\mGuard{\mOtherwise}=(\sin x)/x
+\end{aligned}
+\right.
+\end{equation}
+
+関数 $f$ に与える引数 $x$ のリストを定義する．
+\begin{equation*}
+  \left\mBrace
+  \begin{aligned}
+    \mList{x}
+    &\mIn{}[\mDoubleType]\\
+    \mList{x}
+    &=[i/n*\pi\mListComp i\mFrom[0\dotsb n]]
+  \end{aligned}
+  \right.
+\end{equation*}
+実はこのままではまずい．変数 $i$ も変数 $n$ も $\mIntType$ 型なので，
+割り算が出来ないのだ．そこで型変換のための関数 $\mFromIntegral$ を使お
+う．関数 $\mFromIntegral$ は $\mIntegralTypeClass$ 型クラスの型の変数
+を，任意の型へと変換する．関数 $\mFromIntegral$ を使って書き直すと
+\begin{equation}
+  \left\mBrace
+  \begin{aligned}
+    \mList{x}
+    &\mIn{}[\mDoubleType]\\
+    \mList{x}
+    &=[(\mFromIntegral i)/(\mFromIntegral n)*\pi\mListComp i\mFrom[0\dotsb n]]
+  \end{aligned}
+  \right.
+\end{equation}
+となる．この結果，リスト $\mList{x}$ は
+\begin{equation}
+  \mList{x}
+  =[0,(1/n)*\pi,(2/n)*\pi,\dotsb,\pi]
+\end{equation}
+となる．
+
+最後に，関数 $f$ をリスト $\mList{x}$ に適用して結果を得る．
+\begin{equation}
+  \left\mBrace
+  \begin{aligned}
+    y
+    &\mIn{}[\mDoubleType]\\
+    y
+    &=f\mMapList\mList{x}
+  \end{aligned}
+  \right.
+\end{equation}
+
+結果 $\mList{y}$ はプログラム
+\begin{equation}
+\mMain=\mPrint y\mBindRightIgnore\mPureWith{0}
+\end{equation}
+によって出力できる．
+
+これをそのまま\haskell プログラムにすると次のようになる．
+\begin{haskellcode}
+\begin{verbatim}
+-- sample.hs
+n :: Int
+n = 100
+f :: Double -> Double
+f x | x == 0    = 1
+    | otherwise = (sin x)/x
+xs :: [Double]
+xs = [(fromIntegral i) / (fromIntegral n)
+  * pi | i <- [0..n]]
+ys :: [Double]
+ys = f `map` xs
+main = print ys >> pure 0
+\end{verbatim}
+\end{haskellcode}
+
+なお，円周率 $\pi$ はそのまま定数 \code{pi} として \filename{Prelude}
+で定義されている．
+
+\begin{table}
+\caption{\filename{Prelude} のデータ型}
+\label{tab:data-types}
+\begin{center}
+\begin{tabular}{||c|c||}
+\hline
+名前&型名\\
+\hline\hline
+\code{Bool}&論理型 $(\mBoolType)$\\
+\code{Char}&文字型 $(\mCharType)$\\
+\code{Int}&整数型 $(\mIntType)$\\
+\code{Integer}&整数型 $(\mIntegerType)$\\
+\code{Float}&単精度浮動小数点型 $(\mFloatType)$\\
+\code{Double}&倍精度浮動小数点型 $(\mDoubleType)$\\
+\code{String}&\code{[Char]} の型シノニム\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{table}
+\caption{\filename{Prelude} の多相型}
+\label{tab:data-types-polymorphic}
+\begin{center}
+\begin{tabular}{||c|c||}
+\hline
+名前&型名\\
+\hline\hline
+\code{[a]}&リスト $([\mA])$\\
+\code{Maybe a}&Maybe $\left(\mMaybeType{a}\right)$\\
+\code{Either a b}&Either $\left(\mEitherType{a}{b}\right)$\\
+\code{((->)r)a}&関数 $\left(\mFuncType{a}{r}\right)$\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+% \section{コンボリューション演算*}
+
+---
+
+\begin{equation}
+(f\circledcirc g)t=\sum_xfx*g(t-x)
+\end{equation}
+
+\begin{equation}
+\begin{aligned}
+yt&=\sum(\mLambdaEXP{x}{\mFst x*\mSnd x})\mMapList\mList{h}\\
+&\quad\mWhere\\
+&\qquad\mList{h}\mLetEq{}\mZipFunc\mList{f}\mList{g}\\
+&\qquad\mList{f}\mLetEq[fx\mListComp x\mFrom[0,1\dotsb n]]\\
+&\qquad\mList{g}\mLetEq[g(t-x)\mListComp x\mFrom[0,1\dotsb n]]
+\end{aligned}
+\end{equation}
+
+効率悪い．
+
+---
+
+\begin{equation}
+(\circledcirc)\mIn{}(\mNumTypeClass\mSuperSet\mA )\mSuperClass{}
+\mProjEXP{
+  (\mProjEXP{\mA }{\mA })
+}
+{
+  \mProjEXP{(\mProjEXP{\mA }{\mA })}
+  {\mProjEXP{\mA }{\mA }}
+}
+\end{equation}
+
+\begin{equation}
+f\circledcirc g=\mLambdaEXP{t}{\sum fx*g(t-x)}
+\end{equation}
+
+
+$$
+yt=(f\circledcirc g)t
+$$
+
+
+$$
+yt=\sum_xfx*g(t-x)
+$$
+
+$$
+y=\sum_xfx*g(\mAnonParam-x)
+$$
+
+\section{行列演算*}
+
+\TK{Data.Vector}
+
+% http://qiita.com/lotz/items/2c932b45f78f6fc70e9c
+% http://itpro.nikkeibp.co.jp/article/COLUMN/20120605/400424/
+
+\section{余談：アンボックス化}
+
+\TK{Unboxed}
+
+% \haskell だけでイメージ（画像）を効率的に扱おうとすると非常な困難に出
+% 会う．これは\haskell がイメージデータを効率的に保存するデータ構造を持
+% たないからである．一つの解決策は OpenCV というイメージ演算ライブラリの
+% \haskell バインディングを用いることである．
+
+% http://qiita.com/ma-oshita/items/2a66d8818664f2936afe
+% http://nebuta.hatenablog.com/entry/2013/06/15/154259
+
+---
+
+% \section{余談：複素数*}
+
+\begin{equation}
+z={}!x{}\mComplexPlus{}!y
+\end{equation}
+
+\begin{haskellcode}
+\begin{verbatim}
+import Data.Complex
+z :: Complex Double
+z = !x :+ !y
+\end{verbatim}
+\end{haskellcode}
+
+% ベクトル
+
+\chapter{IO*}
+\label{ch:more-io}
+
+\section{書き出し*}
+\section{読み込み*}
+\section{IOモナド*}
+% \section{余談：ダークサイド*}
+
+\section{余談：コマンドライン引数*}
+
+コマンドライン引数はアクション \code{getArgs} で読み出すことができる．
+例えば
+\begin{haskellcode}
+\begin{verbatim}
+-- args.hs
+import System.Environment (getArgs)
+main :: IO Int
+main = do
+  args <- getArgs
+  {- do something -}
+  return 0
+\end{verbatim}
+\end{haskellcode}
+とすると，リスト \code{args} にコマンドライン引数が渡される．アクショ
+ン \code{getArgs} の戻り値の型は \code{[String]} である．
+
+\begin{equation}
+\mMain=(\dotsb\mWhere{}\mList{a}=\mAction{getArgs})\mBindRightIgnore\mPureWith{0}
+\end{equation}
+
+\section{この章のまとめ*}
+
+
 
 \chapter{モジュール*}
 \label{ch:module}
-\section{標準モジュール*}
-\section{モジュールの作成*}
-% http://mew.org/~kazu/academic/2013/miyazaki-u/syntax.html
-% http://qiita.com/techno-tanoC/items/1fa1c65db08da2440fc4
-\section{非標準モジュール*}
-% \section{余談：モジュールの公開*}
-\section{余談：文芸的プログラミング*}
-\section{この章のまとめ*}
-% http://itpro.nikkeibp.co.jp/article/COLUMN/20060801/244812/?itp_leaf_index
-
-\part{補講}
 
 \chapter{代数的構造}
 \label{ch:algebra}
@@ -7142,9 +7034,6 @@ int main(void) {
 \begin{note}{オブジェクト指向とクロージャ}
 ...
 \end{note}
-
-\chapter{もっと勉強したい人へ*}
-\label{ch:further-reading}
 
 % 述語論理
 
