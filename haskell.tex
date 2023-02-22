@@ -154,10 +154,12 @@
 \newcommand{\mConstant}[1]{\textcolor{\constColor}{#1}}
 \newcommand{\mSpecialConstant}[1]{\textcolor{\constColor}{\textrm{#1}}}
 
-\newcommand{\mZeroNumber}{\mConstant{0}}
-\newcommand{\mOneNumber}{\mConstant{1}}
+\newcommand{\mZeroNumber}{{\mConstant{0}}}
+\newcommand{\mOneNumber}{{\mConstant{1}}}
 \newcommand{\mTwoNumber}{\mConstant{2}}
 \newcommand{\mThreeNumber}{\mConstant{3}}
+\newcommand{\mFourNumber}{\mConstant{4}}
+\newcommand{\mFiveNumber}{\mConstant{5}}
 
 \newcommand{\mEmptyList}{{[\,]}}
 \newcommand{\mFalse}{\mSpecialConstant{False}}
@@ -185,7 +187,7 @@
 \newcommand{\mLovelyVar}{\mSpecialVar{lovely}}
 \newcommand{\mRestVar}{\mSpecialVar{rest}}
 
-\newcommand{\mAVar}{\mVar{a}}
+\newcommand{\mAVar}{{\mVar{a}}}
 \newcommand{\mMVar}{\mVar{m}}
 \newcommand{\mNVar}{\mVar{n}}
 \newcommand{\mUVar}{\mVar{u}}
@@ -1705,7 +1707,7 @@ $\mList{y}$ を結合したリストは
 $\mList{n}$ は
 \begin{equation*}
   \mList{n}
-  =[1,2\dotsb]
+  =[\mOneNumber,\mTwoNumber\dotsb]
 \end{equation*}
 と書くことができる．\footnote{\haskell では$\mList{n}=[1,2\dots]$ を \code{ns = [1, 2..]} と書く．}
 
@@ -1714,9 +1716,9 @@ $\mList{n}$ は
 もし本当に無限リストを計算機の上で再現する必要があったなら，計算機には無限のメモリが必要になってしまう．しかし我々は，計算が必要になるまで評価を行わないので，無限リストの中から有限個の要素が取り出されるのを待つことができるのである．例えば関数 $\mTake\mNVar\,\mList{n}$ はリスト $\mList{n}$ から最初の $\mNVar$ 個の要素からなるリストを返す．いま
 \begin{equation*}
   \mList{x}
-  =\mTake5\,\mList{n}
+  =\mTake\,\mFiveNumber\,\mList{n}
 \end{equation*}
-とすると，リスト $\mList{x}$ は $\mList{x}=[1,2\dotsb5]$ という値を持つ．\footnote{\haskell では \code{xs = take 5 ns} と書く．}
+とすると，リスト $\mList{x}$ は $\mList{x}=[\mOneNumber,\mTwoNumber\dotsb\mFiveNumber]$ という値を持つ．\footnote{\haskell では \code{xs = take 5 ns} と書く．}
 
 関数 $\mTake$ の型は
 \begin{equation}
@@ -1736,15 +1738,15 @@ $\mList{n}$ は
 \section{畳み込み}
 \label{sec:convolution}
 
-我々はよくリストの総和を表現するために総和演算子 $(\sum)$ を使う．総和演算子とはリスト $[x_0,x_1\dotsb x_n]$ に対して
+我々はよくリストの総和を表現するために総和演算子 $(\sum)$ を使う．総和演算子とはリスト $[\mXVar_0,\mXVar_1\dotsb\mXVar_n]$ に対して
 \begin{equation}
-  \sum[x_0,x_1\dotsb x_n]
-  =x_0+x_1+\dotsb+x_n
+  \sum[\mXVar_0,\mXVar_1\dotsb \mXVar_n]
+  =\mXVar_0+\mXVar_1+\dotsb+\mXVar_n
 \end{equation}
-で定義される演算子である．この表現を一般化してみよう．リスト $[x_0,x_1\dotsb x_n]$ が与えられたとき，任意の二項演算子を $\mBinOp$ として
+で定義される演算子である．この表現を一般化してみよう．リスト $[\mXVar_0,\mXVar_1\dotsb \mXVar_n]$ が与えられたとき，任意の二項演算子を $\mBinOp$ として
 \begin{equation}
-  \mFold^{\mBinOp}_a[x_0,x_1\dotsb x_n]
-  =a\mBinOp x_0\mBinOp x_1\mBinOp\dotsb\mBinOp x_n
+  \mFold^{\mBinOp}_a[\mXVar_0,\mXVar_1\dotsb \mXVar_n]
+  =a\mBinOp \mXVar_0\mBinOp \mXVar_1\mBinOp\dotsb\mBinOp \mXVar_n
 \end{equation}
 であると定義する．
 
@@ -1771,19 +1773,19 @@ s = ls.inject(0) { |x, y| \mXVar+\mYVar }
 リストの総和をとる演算子 $\sum$ は
 \begin{equation}
   \sum\mList{x}
-  =\mFold^+_0\mList{x}
+  =\mFold^+_\mZeroNumber\mList{x}
 \end{equation}
 とすれば得られる．この式は両辺の $\mList{x}$ を省略して
 \begin{equation}
   \sum
-  =\mFold^+_0
+  =\mFold^+_\mZeroNumber
 \end{equation}
 とも書く．このように，ラムダ式を使わずに引数を省略してしまう書き方を\keyword{ポイントフリースタイル}と呼ぶ．ポイントフリースタイルは今後も頻出するので，是非慣れておいてもらいたい．\footnote{\haskell はポイントフリースタイルをサポートする．}
 
 リストの要素のすべての積をとる演算子 $\prod$ は
 \begin{equation}
   \prod
-  =\mFold^*_1
+  =\mFold^*_\mOneNumber
 \end{equation}
 とすれば得られる．
 
@@ -1801,17 +1803,17 @@ s = ls.inject(0) { |x, y| \mXVar+\mYVar }
 
 畳み込み演算子には次のようなもう一つのバリエーションがある．
 \begin{equation}
-  \mFoldRight^{\mBinOp}_a[x_0,x_1\dotsb x_n]
-  =(x_0\mBinOp(x_1\mBinOp\dotsb\mBinOp(x_n\mBinOp a)))
+  \mFoldRight^{\mBinOp}_\mAVar[\mXVar_0,\mXVar_1\dotsb \mXVar_n]
+  =(\mXVar_0\mBinOp(\mXVar_1\mBinOp\dotsb\mBinOp(\mXVar_n\mBinOp\mAVar)))
 \end{equation}
-これは\keyword{右畳み込み}と呼ばれる演算子である．\footnote{\haskell では $\mFoldRight^{*}_a\mList{x}$ を \code{foldr (*) xs a} と書く．引数の順序に注意しよう．}
+これは\keyword{右畳み込み}と呼ばれる演算子である．\footnote{\haskell では $\mFoldRight^{*}_\mAVar\mList{x}$ を \code{foldr (*) xs a} と書く．引数の順序に注意しよう．}
 
 \separator
 
 畳み込み演算子の面白い応用例を示そう．リストの結合演算子 $(\mAppend)$ を使うと
 \begin{equation}
-  \mFold_\mEmptyList^{\mAppend}[[0,1,2,[3,4,5],\dotsb]
-  =[0,1,2,3,4,5,\dotsb]
+  \mFold_\mEmptyList^{\mAppend}[[\mZeroNumber,\mOneNumber,\mTwoNumber,[\mThreeNumber,\mFourNumber,\mFiveNumber]\dotsb]
+  =[\mZeroNumber,\mOneNumber,\mTwoNumber,\mThreeNumber,\mFourNumber,\mFiveNumber\dotsb]
 \end{equation}
 であるから，演算子 $\mFold_\mEmptyList^{\mAppend}$ はリストを平坦化する\keyword{平坦化演算子}である．平坦化演算子はconcat演算子とも呼ばれることもあるが，基本的な演算子であるため特別な記号をつけておこう．我々は
 \begin{equation}
@@ -1837,11 +1839,11 @@ ls = [1, 2, 3, 4, 5]
 ms = map(f, ls)
 \end{verbatim}
 \end{pythoncode}
-とすると，結果として \code{ms} には $[101,102,103,104,105]$ が入る．
+とすると，結果として \code{ms} には \code{[101, 102, 103, 104, 105]} が入る．
 
-このように引数として関数 $\mFFunc$ とリスト $[x_0,x_1\dotsb x_n]$ を取り，戻り値として $[\mFFunc\mXVar_0,\mFFunc\mXVar_1\dotsb \mFFunc\mXVar_n]$ を返す演算子 $\mMapList$ を考えよう．このとき
+このように引数として関数 $\mFFunc$ とリスト $[\mXVar_0,\mXVar_1\dotsb \mXVar_n]$ を取り，戻り値として $[\mFFunc\mXVar_0,\mFFunc\mXVar_1\dotsb \mFFunc\mXVar_n]$ を返す演算子 $\mMapList$ を考えよう．このとき
 \begin{equation}
-  f\mMapList[x_0,x_1\dotsb x_n]
+  f\mMapList[\mXVar_0,\mXVar_1\dotsb \mXVar_n]
   =[\mFFunc\mXVar_0,\mFFunc\mXVar_1\dotsb \mFFunc\mXVar_n]
 \end{equation}
 であると定義する．この演算子 $\mMapList$ をリストの\keyword{マップ演算子}と呼ぶ．\footnote{\haskell では $f\mMapList\mList{x}$ を\code{map f xs} または \code{f <\$> xs} と書く．ただし演算子 \code{<\$>} は \code{fmap} 演算子の中置バージョンである．}
@@ -1860,7 +1862,7 @@ ms = map(f, ls)
 \begin{equation}
   \mMapList
   \mIn\underbrace{\left(\mA\mFuncArrow\mB\right)}_f
-  \mFuncArrow\left(\underbrace{[\mA]}_{[x_0,x_1\dotsb x_n]}
+  \mFuncArrow\left(\underbrace{[\mA]}_{[\mXVar_0,\mXVar_1\dotsb \mXVar_n]}
   \mFuncArrow\underbrace{[\mB]}_{[\mFFunc\mXVar_0,\mFFunc\mXVar_1\dotsb \mFFunc\mXVar_n]}\right)
 \end{equation}
 である．
@@ -1899,12 +1901,12 @@ ms = map(f, ls)
 
 要素 $\mRestVar$ はリストまたは空リストであるから，一般にリストは次のように展開できることになる．
 \begin{align}
-  [x_0,x_1,x_2\dotsb x_n]
-  &=x_0:[x_1,x_2\dotsb x_n]\\
-  &=x_0:x_1:[x_2\dotsb x_n]\\
-  &=x_0:x_1:x_2:\dotsb:x_n:\mEmptyList
+  [\mXVar_0,\mXVar_1,\mXVar_2\dotsb \mXVar_n]
+  &=\mXVar_0:[\mXVar_1,\mXVar_2\dotsb \mXVar_n]\\
+  &=\mXVar_0:\mXVar_1:[\mXVar_2\dotsb \mXVar_n]\\
+  &=\mXVar_0:\mXVar_1:\mXVar_2:\dotsb:\mXVar_n:\mEmptyList
 \end{align}
-cons演算子 $(:)$ は右結合する．すなわち $\mXVar_0:x_1:x_2=x_0:(x_1:x_2)$ である．
+cons演算子 $(:)$ は右結合する．すなわち $\mXVar_0:\mXVar_1:\mXVar_2=\mXVar_0:(\mXVar_1:\mXVar_2)$ である．
 
 マップ演算子の実装は，リストの実装に踏み込めば簡単である．空でないリストは必ず $\mXVar:\mList{x}$ へと分解できるから
 \begin{equation}
@@ -1947,7 +1949,7 @@ cons演算子 $(:)$ は右結合する．すなわち $\mXVar_0:x_1:x_2=x_0:(x_1
 \section{この章のまとめ}
 
 \begin{enumerate}
-\item 配列はリストである．配列は $[x_0,x_1,x_2]$ のように表記する．
+\item 配列はリストである．配列は $[\mXVar_0,\mXVar_1,\mXVar_2]$ のように表記する．
 \item 等差数列の配列は $[0,1\dotsb10]$ のように途中を $\dotsb$ で省略できる．
 \item 配列は無限長であってもよい．無限長配列は $[0,1\dotsb]$ のように表記する．
 \item 1要素のリストは $[x]$ のように表記する．この括弧をリスト値コンス
@@ -1957,10 +1959,10 @@ cons演算子 $(:)$ は右結合する．すなわち $\mXVar_0:x_1:x_2=x_0:(x_1
 \item リスト型コンストラクタ$\mListTypeConstructor$ は型パラメタ $\mA$ に作用して$[\mA]$ を生成する．
 \item リストは先頭要素と続くリストから定義される．先頭要素を $\mXVar$ とし，続くリストを $\mList{x}$ とすると$\mXVar:\mList{x}$ はリストである．ここに演算子 $:$ は結合(cons)演算子である．
 \item リストはリスト結合(append)できる．リスト $\mList{y}$ とリスト $\mList{z}$ のリスト結合は $\mList{y}\mAppend\mList{z}$ である．
-\item 左畳み込み演算子$\mFold^{\mBinOp}_a[x_0,x_1\dotsb x_n]$ は $a\mBinOp x_0\mBinOp x_1\mBinOp\dotsb\mBinOp x_n$ を返す．
-\item 右畳み込み演算子 $\mFoldRight^{\mBinOp}_{a}[x_0,x_1\dotsb x_n]$ は$(x_0\mBinOp(x_1\mBinOp\dotsb\mBinOp(x_n\mBinOp a)))$ を返す．
+\item 左畳み込み演算子$\mFold^{\mBinOp}_a[\mXVar_0,\mXVar_1\dotsb \mXVar_n]$ は $a\mBinOp \mXVar_0\mBinOp \mXVar_1\mBinOp\dotsb\mBinOp \mXVar_n$ を返す．
+\item 右畳み込み演算子 $\mFoldRight^{\mBinOp}_{a}[\mXVar_0,\mXVar_1\dotsb \mXVar_n]$ は$(\mXVar_0\mBinOp(\mXVar_1\mBinOp\dotsb\mBinOp(\mXVar_n\mBinOp a)))$ を返す．
 \item 平坦化演算子 $\mJoinList=\mFold_\mEmptyList^{\mAppend}$ はリストを平坦化する．
-\item 関数 $f\mIn\mProjEXP{\mA }{\mA }$ はマップ演算子 $\mMapList$ を用いて $f\mMapList[x_0,x_1\dotsb x_n]=[\mFFunc\mXVar_0,\mFFunc\mXVar_1\dotsb \mFFunc\mXVar_n]$ のようにリスト$[x_0,x_1\dotsb x_n]$ に適用できる．
+\item 関数 $f\mIn\mProjEXP{\mA }{\mA }$ はマップ演算子 $\mMapList$ を用いて $f\mMapList[\mXVar_0,\mXVar_1\dotsb \mXVar_n]=[\mFFunc\mXVar_0,\mFFunc\mXVar_1\dotsb \mFFunc\mXVar_n]$ のようにリスト$[\mXVar_0,\mXVar_1\dotsb \mXVar_n]$ に適用できる．
 \item マップ演算子$\mMapList$ の型は$\mProjEXP{(\mProjEXP{\mA }{\mB})}{\mProjEXP{\mA }{\mB }}$である．
 \item $\mHead(x:\mList{x})=x,\mTail(x:\mList{x})=\mList{x}$である．
 \end{enumerate}
@@ -2073,17 +2075,17 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
 
 \section{遅延評価}
 
-\haskell は，意図しない限り遅延評価を行う．これは特に左畳み込み演算子 $(\mFold)$ を使う場合に問題となる．いま $\mList{x}=[x_0,x_1,x_2,x_3]$ とすると，左畳み込み演算 $\mFold^+_0\mList{x}$ は
+\haskell は，意図しない限り遅延評価を行う．これは特に左畳み込み演算子 $(\mFold)$ を使う場合に問題となる．いま $\mList{x}=[\mXVar_0,\mXVar_1,\mXVar_2,\mXVar_3]$ とすると，左畳み込み演算 $\mFold^+_0\mList{x}$ は
 \begin{align}
   \mFold^+_0\mList{x}
-  &=\mFold^+_0{}(x_0:x_1:x_2:\mEmptyList)\\
-  &=\mFold^+_{0+x_0}{}(x_1:x_2:x_3:\mEmptyList)\\
-  &=\mFold^+_{(0+x_0)+x_1}{}(x_2:x_3:\mEmptyList)\\
-  &=\mFold^+_{((0+x_0)+x_1)+x_2}{}(x_3:\mEmptyList)\\
-  &=\mFold^+_{(((0+x_0)+x_1)+x_2)+x_3}{}\mEmptyList\\
-  &=(((0+x_0)+x_1)+x_2)+x_3
+  &=\mFold^+_0{}(\mXVar_0:\mXVar_1:\mXVar_2:\mEmptyList)\\
+  &=\mFold^+_{0+\mXVar_0}{}(\mXVar_1:\mXVar_2:\mXVar_3:\mEmptyList)\\
+  &=\mFold^+_{(0+\mXVar_0)+\mXVar_1}{}(\mXVar_2:\mXVar_3:\mEmptyList)\\
+  &=\mFold^+_{((0+\mXVar_0)+\mXVar_1)+\mXVar_2}{}(\mXVar_3:\mEmptyList)\\
+  &=\mFold^+_{(((0+\mXVar_0)+\mXVar_1)+\mXVar_2)+\mXVar_3}{}\mEmptyList\\
+  &=(((0+\mXVar_0)+\mXVar_1)+\mXVar_2)+\mXVar_3
 \end{align}
-と展開される．遅延評価のために，\haskell 処理系は値ではなく式をメモリにストアしなければならないが，左畳み込み演算は大きなメモリを必要としがちである．もし例えば予め $0+x_0$ を先に計算しておくなど左畳み込みだけ先に評価しておけば，大いにメモリの節約になる．そのために\haskell は「遅延評価無し」の左畳み込み演算子を用意している．\footnote{「遅延評価無し」の左畳み込み演算子を\haskell では \code{oldl'} と書く．}
+と展開される．遅延評価のために，\haskell 処理系は値ではなく式をメモリにストアしなければならないが，左畳み込み演算は大きなメモリを必要としがちである．もし例えば予め $0+\mXVar_0$ を先に計算しておくなど左畳み込みだけ先に評価しておけば，大いにメモリの節約になる．そのために\haskell は「遅延評価無し」の左畳み込み演算子を用意している．\footnote{「遅延評価無し」の左畳み込み演算子を\haskell では \code{oldl'} と書く．}
 
 % \haskell には言語拡張として，\keyword{アンボックス化タプル}という機能がある．
 %
@@ -2598,8 +2600,8 @@ $[\mA\mFuncArrow\mB]\mFuncArrow[\mA]\mFuncArrow[\mB]$ である．これは
 \begin{equation}
   \mAppMapList
   \mIn\underbrace{\mA\mapsto\mB }_{[f_0,\mFFunc\dotsb f_n]}
-  \mapsto\underbrace{[\mA]}_{[x_0,x_1\dotsb x_n]}
-  \mapsto\underbrace{[\mB]}_{[f_0x_0,f_0x_1\dotsb f_0x_n,\mFFunc x_0,\mFFunc x_1\dotsb f_nx_n]}
+  \mapsto\underbrace{[\mA]}_{[\mXVar_0,\mXVar_1\dotsb \mXVar_n]}
+  \mapsto\underbrace{[\mB]}_{[f_0\mXVar_0,f_0\mXVar_1\dotsb f_0\mXVar_n,\mFFunc \mXVar_0,\mFFunc \mXVar_1\dotsb f_n\mXVar_n]}
 \end{equation}
 と解釈すれば良い．
 
@@ -3466,8 +3468,8 @@ IOモナドの変数値を読み出すために行われる関数呼び出しは
 
 もうひとつ，アクションが関数でなければならない理由がある．\haskell はいつも遅延評価を行うことを思い出してもらいたい．\python であれば，式は書かれた順に評価される．しかし，例えば
 \begin{align}
-y_1&=\mFFunc x_1\\
-y_2&=\mGFunc x_2
+y_1&=\mFFunc \mXVar_1\\
+y_2&=\mGFunc \mXVar_2
 \end{align}
 という式があった場合，関数 $\mFFunc$ と $\mGFunc$ のどちらが先に評価されるか，あるいは同時に評価されるかは\haskell では未定義である．\haskell で唯一計算順序が保証されているのは，関数適用である．例えば
 \begin{equation}
@@ -4017,13 +4019,13 @@ Either型の場合は
 
 任意のリスト $\mList{x}$ と任意の関数リスト $\mList{f}$ ただし
 \begin{align}
-\mList{x}&=[x_0,x_1,\dotsb]\\
+\mList{x}&=[\mXVar_0,\mXVar_1,\dotsb]\\
 \mList{f}&=[f_0,\mFFunc,\dotsb]
 \end{align}
 の両方をそれぞれ値コンストラクタで包んでアプリカティブマップ演算子を適用すると
 \begin{equation}
   \mZipListWith{\mList{f}}\mAppMap\mZipListWith{\mList{x}}
-  =[f_0x_0,\mFFunc x_1,\dotsb]
+  =[f_0\mXVar_0,\mFFunc \mXVar_1,\dotsb]
 \end{equation}
 のようにジップ演算子を適用できる．
 
@@ -5689,7 +5691,7 @@ a*x^2+b*x+c=0
 
 2次方程式の解法は知られており，
 \begin{multline}
-  (x_0,x_1)=(q/a,c/q)\\
+  (\mXVar_0,\mXVar_1)=(q/a,c/q)\\
   \mWhere q\mLetEq\frac{\left(b+(\sgn b)*\sqrt{\mSq b-4*a*c}\right)}{2}
 \end{multline}
 である．ここに関数 $\mSq$ は
@@ -5725,12 +5727,12 @@ a*x^2+b*x+c=0
 \end{equation}
 である．
 
-最後にタプル $(x_0,x_1)$ を画面に表示すれば完了なので
+最後にタプル $(\mXVar_0,\mXVar_1)$ を画面に表示すれば完了なので
 \begin{equation}
   \left\mBrace
   \begin{aligned}
     {}&\mMain\mIn\mIOIntType\\
-    {}&\mMain=\mPrint(x_0,x_1)\mBindRightIgnore\mPureWith{0}
+    {}&\mMain=\mPrint(\mXVar_0,\mXVar_1)\mBindRightIgnore\mPureWith{0}
   \end{aligned}
   \right.
 \end{equation}
@@ -5757,7 +5759,7 @@ main = print (x0, x1) >> pure 0
 
 なお，2次方程式のよく知られた解法，すなわち
 \begin{equation}
-  (x_0,x_1)=\left(\frac{-b+d}{2*a},\frac{-b-d}{2*a}\right)
+  (\mXVar_0,\mXVar_1)=\left(\frac{-b+d}{2*a},\frac{-b-d}{2*a}\right)
   \mWhereIsEXP{d}{\sqrt{b^2-4*a*c}}
 \end{equation}
 は定数 $a$ または $c$ の値が小さい場合には計算誤差が大きくなるため，推
@@ -5796,7 +5798,7 @@ a = ar :+ ai
 
 複素数の場合の2次方程式の解は，実数の場合とほぼ同じで
 \begin{equation}
-  (x_0,x_1)=(q/a,c/q)\mWhere\left\{
+  (\mXVar_0,\mXVar_1)=(q/a,c/q)\mWhere\left\{
   \begin{aligned}
     &q\mLetEq\left(b+\sgn'abc*r\right)/2\\
     &r\mLetEq\mSqrt'{(\mSq'b-4*a*c)}
