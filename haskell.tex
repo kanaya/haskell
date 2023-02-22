@@ -119,6 +119,9 @@
 
 \newcommand{\mPolymorphic}[1]{{#1}^\dagger}
 
+\newcommand{\mTypeConstructor}[1]{\textcolor{\typeConstColor}{\textbf{\textit{#1}}}}
+\newcommand{\mSpecialTypeConstructor}[1]{\textcolor{\typeConstColor}{\textbf{#1}}}
+
 \DeclareMathOperator{\mCaseKW}{\mCaseKeyword}
 \DeclareMathOperator{\mDataType}{\mDataTypeKeyword}
 \DeclareMathOperator{\mDataTypePolymorphic}{\mDataTypeKeyword^\dagger}
@@ -175,6 +178,13 @@
 \newcommand{\mFirstVar}{\mSpecialVar{first}}
 \newcommand{\mLovelyVar}{\mSpecialVar{lovely}}
 \newcommand{\mRestVar}{\mSpecialVar{rest}}
+
+\newcommand{\mUVar}{\mVar{u}}
+\newcommand{\mVVar}{\mVar{v}}
+\newcommand{\mWVar}{\mVar{w}}
+\newcommand{\mXVar}{\mVar{x}}
+\newcommand{\mYVar}{\mVar{y}}
+\newcommand{\mZVar}{\mVar{z}}
 
 % Cast
 \newcommand{\mUpCast}{\bigtriangleup}
@@ -252,7 +262,7 @@
 \DeclareMathOperator{\mAppMapFunc}{\bowtie}
 \DeclareMathOperator{\mAppMapList}{\otimes}
 \DeclareMathOperator{\mAppMapMaybe}{\boxtimes}
-\DeclareMathOperator{\mArrowArrowA}{\mArrowArrow{\mPolymorphicTypeParameter{a}}}
+\DeclareMathOperator{\mArrowArrowA}{\mArrowArrow{\mTypeConstructor{a}}}
 \DeclareMathOperator{\mBind}{\heartsuit}
 \DeclareMathOperator{\mBindComp}{\maltese}
 \DeclareMathOperator{\mBindFunc}{\diamondsuit}
@@ -261,7 +271,7 @@
 \DeclareMathOperator{\mBindRight}{\ooalign{$\longrightarrow$\crcr\hss$\mBind$\hss}}
 \DeclareMathOperator{\mBindRightIgnore}{\twoheadrightarrow}
 \DeclareMathOperator{\mBinOp}{\bigstar}
-\DeclareMathOperator{\mCatArrowC}{\mCatArrow{\mPolymorphicTypeParameter{c}}}
+\DeclareMathOperator{\mCatArrowC}{\mCatArrow{\mTypeConstructor{c}}}
 \DeclareMathOperator{\mCompFunc}{\centerdot}
 \DeclareMathOperator{\mCompCat}{\bullet}
 \DeclareMathOperator{\mCompProj}{\circledcirc}
@@ -350,8 +360,8 @@
 % Polymorphic types
 \newcommand{\mTypeAssemble}[2]{{}^\mathrm{#1}\[\mType{#2}\]}
 \newcommand{\mTypeAssembleII}[3]{{}^\mathrm{#1}\[\mType{#2}\,\mType{#3}\]}
-\newcommand{\mPolymorphicTypeAssemble}[2]{{}^\mPolymorphicTypeParameter{#1}\[\mType{#2}\]}
-\newcommand{\mPolymporphicTypeAssemble}[3]{{}^\mPolymorphicTypeParameter{#1}\[\mType{#2}\,\mType{#3}\]}
+\newcommand{\mPolymorphicTypeAssemble}[2]{{}^{#1}\[\mType{#2}\]}
+% \newcommand{\mPolymorphicTypeAssemble}[3]{{}^\mTypeConstructor{#1}\[\mType{#2}\,\mType{#3}\]}
 
 \newcommand{\mCompFunclexType}[1]{\mTypeAssemble{C}{#1}} % to be removed
 \newcommand{\mEitherType}[2]{\mTypeAssembleII{Either}{#1}{#2}}
@@ -368,13 +378,11 @@
 \newcommand{\mIOUnitType}{\mIOType{\mUnitType}}
 
 % Type constructors
-\newcommand{\mTypeConstructor}[1]{\textcolor{\varSpecialColor}{\textrm{#1}}}
-
-\DeclareMathOperator{\mEitherTypeConstructor}{\mTypeConstructor{Either}}
+\DeclareMathOperator{\mEitherTypeConstructor}{\mSpecialTypeConstructor{Either}}
 \DeclareMathOperator{\mFuncTypeConstructor}{((\rightarrow)\mType{r})}
-\DeclareMathOperator{\mListTypeConstructor}{\mTypeConstructor{List}}
-\DeclareMathOperator{\mMaybeTypeConstructor}{\mTypeConstructor{Maybe}}
-\DeclareMathOperator{\mZipListTypeConstructor}{\mTypeConstructor{ZipList}}
+\DeclareMathOperator{\mListTypeConstructor}{\mSpecialTypeConstructor{List}}
+\DeclareMathOperator{\mMaybeTypeConstructor}{\mSpecialTypeConstructor{Maybe}}
+\DeclareMathOperator{\mZipListTypeConstructor}{\mSpecialTypeConstructor{ZipList}}
 
 \newcommand{\mFuncTypeAssemble}[1]{{}^{\mFuncTypeConstructor}\mType{#1}}
 \newcommand{\mFuncType}[1]{\mTypeAssemble{\mFuncTypeConstructor}{#1}}
@@ -478,7 +486,7 @@
 \hline
 単位元&ローマンに斜線&$\mZero$\\
 \hline
-変数&イタリック（1文字）&$\mVar{u},\mVar{v},\mVar{w},\mVar{x},\mVar{y},\mVar{z}$\\
+変数&イタリック（1文字）&$\mVar{u},\mVar{v},\mVar{w},\mXVar,\mYVar,\mVar{z}$\\
 リスト変数&$\mathrm{s}$をつける&$\mList{x}$\\
 Maybe変数&$?$をつける&$\mMaybe{x}$\\
 Ether変数&$!$をつける&$\mEither{x}$\\
@@ -496,12 +504,13 @@ Ether変数&$!$をつける&$\mEither{x}$\\
 \hline
 型&ボールド（1文字）&$\mA,\mB,\mC$\\
 有名な型&ボールド大文字&$\mBoolType,\mIntType$\\
-% 多相型パラメタ&ボールドイタリック小文字&$\mPolymorphicTypeParameter{f},\mPolymorphicTypeParameter{m}$\\
+% 多相型パラメタ&ボールドイタリック小文字&$\mTypeConstructor{f},\mTypeConstructor{m}$\\
 型クラス&ボールドイタリック大文字&$\mEqTypeClass,\mOrdTypeClass$\\
-型コンストラクタ&ボールドイタリック&$\mPolymorphicTypeParameter{f},\mPolymorphicTypeParameter{g},\mPolymorphicTypeParameter{h}$\\
-有名な型コンストラクタ&ローマン大文字&$\mListTypeConstructor,\mMaybeTypeConstructor$\\
 多相型&左肩にコンテナ名をつける&$\mMaybeType{a}$\\
 有名な多相型&特別な括弧で包む&$[\mA],\mPureType{a}$\\
+\hline
+型コンストラクタ&ボールドイタリック&$\mTypeConstructor{f},\mTypeConstructor{g},\mTypeConstructor{h}$\\
+有名な型コンストラクタ&ローマン大文字&$\mListTypeConstructor,\mMaybeTypeConstructor$\\
 % 有名な多相型 (2)&特別な矢印を用いる&$\mFuncType{a},\mCatType{r}{a}$\\
 \hline
 % 集合&ボールド大文字（1文字）&$\mSet{A},\mSet{B},\mSet{C}$\\
@@ -521,7 +530,7 @@ Ether変数&$!$をつける&$\mEither{x}$\\
 値コンストラクタ&名前付き括弧で包む&$\mRightWith{x},\mLeftWith{x}$\\
 有名な値コンストラクタ&特別な括弧で包む&$[x],\mPureWith{x},\mConstWith{x},\mArrowWith{x}$\\
 \hline
-% 型コンストラクタ&ボールドイタリック&$\mPolymorphicTypeParameter{f},\mPolymorphicTypeParameter{g}$\\
+% 型コンストラクタ&ボールドイタリック&$\mTypeConstructor{f},\mTypeConstructor{g}$\\
 % 有名な型コンストラクタ&スラント大文字&$\mListTypeConstructor$, $\mMaybeTypeConstructor$\\
 % \hline
 キーワード&サンセリフ&$\mIf,\mOtherwise$\\
@@ -665,7 +674,7 @@ print("Hello, world.")
 
 ところで，プログラムのソースコードは現代でもASCII文字セットの範囲で書くことが標準的である．Unicodeを利用したり，まして文字にカラーを指定したり，書体や装飾を指定することは一般的ではない．例えば変数 \code{a} のことを \textbf{a} と書いたり \underline{a} と書いたり $\Hat a$ と書いたりして区別することはない．
 
-\haskell プログラマもまた，多くの異なる概念を同じ貧弱な文字セットで表現しなければならない．これは，初めて\haskell コードを読むときに大きな問題になり得る．例えば\haskell では \code{[a]} という表記をよく扱う．この \code{[a]} は \code{a} という変数1要素からなるリストのこともあるし， \code{a} 型という仮の型から作ったリスト型の場合もあるが，字面からでは判断できない．もし変数はイタリック体，型はボールド体と決まっていれば，それぞれ $[a]$ および $[\mA]$ と区別出来たところである．
+\haskell プログラマもまた，多くの異なる概念を同じ貧弱な文字セットで表現しなければならない．これは，初めて\haskell コードを読むときに大きな問題になり得る．例えば\haskell では \code{[a]} という表記をよく扱う．この \code{[a]} は \code{a} という変数1要素からなるリストのこともあるし， \code{a} 型という仮の型から作ったリスト型の場合もあるが，字面からでは判断できない．もし変数はイタリック体，型はボールド体と決まっていれば，それぞれ $[\mVar{a}]$ および $[\mA]$ と区別出来たところである．
 
 本書は，異なる性質のものには異なる書体を割り当てるようにしている．ただし，どの表現もいつでも\haskell に翻訳できるように配慮している．実際，本書執筆の最大の困難点は，数学的に妥当で，かつ\haskell の記法とも矛盾しない記法を見つけることであった．
 
@@ -790,13 +799,13 @@ f(x)
 \end{pythoncode}
 と書くが，括弧は冗長なので今後は
 \begin{equation}
-  fx
+  \mFunc{f}\mXVar
 \end{equation}
 と書くことにする．\footnote{\haskell では関数 \code{f} に引数 \code{x}を適用させることを \code{f x} と書く．}
 
 % 本書では\python のコード片は上述のように囲みにいれることにする．
 
-関数 $f$ に引数 $x$を「食わせる」ことを\keyword{関数適用}と呼ぶ．もし$fx$ と書いてあったら，それは $f$ と $x$ の積，つまり $f*x$ ではなく，従来の $f(x)$ すなわち関数 $f$ に引数 $x$ を与えているものと解釈する．高校生向けの数学書でも $\sin x$ のように三角関数に限ってはカリー風に書くことになっているので，まるで馴染みがないということもないだろう．なお，関数はいつも引数の左側に書くことにする．これを「関数 $f$ が変数 $x$ の\keyword{左から作用する}」と言い，また関数 $f$ のことを\keyword{左作用素}とも呼ぶ．
+関数 $\mFunc{f}$ に引数 $\mXVar$を「食わせる」ことを\keyword{関数適用}と呼ぶ．もし $\mFunc{f}\mXVar$ と書いてあったら，それは $\mFunc{f}$ と $\mXVar$ の積，つまり $\mFunc{f}*\mXVar$ ではなく，従来の $\mFunc{f}(\mXVar)$ すなわち関数 $\mFunc{f}$ に引数 $\mXVar$ を与えているものと解釈する．高校生向けの数学書でも $\mSin\mXVar$ のように三角関数に限ってはカリー風に書くことになっているので，まるで馴染みがないということもないだろう．なお，関数はいつも引数の左側に書くことにする．これを「関数 $\mFunc{f}$ が変数 $\mXVar$ の\keyword{左から作用する}」と言い，また関数 $\mFunc{f}$ のことを\keyword{左作用素}とも呼ぶ．
 
 複数引数をとる関数を\python や一般的な数学の教科書では
 \begin{pythoncode}
@@ -804,25 +813,24 @@ f(x)
 g(x, y)
 \end{verbatim}
 \end{pythoncode}
-と書くが，これも括弧が冗長なので今後は $gxy$ と書く．この場合式 $gxy$は左を優先して結合する．つまり
+と書くが，これも括弧が冗長なので今後は $\mFunc{g}\mXVar\mYVar$ と書く．この場合式 $\mFunc{g}\mXVar\mYVar$ は左を優先して結合する．つまり
 \begin{equation}
-  gxy=(gx)y
+  \mFunc{g}\mXVar\mYVar=(\mFunc{g}\mXVar)\mYVar
 \end{equation}
-である．これは引数 $y$ に関数 $(gx)$ が左から作用していると解釈する．関数 $(gx)$ は引数 $x$ に関数 $g$ を作用させて作った関数である．引数に「飢えた」関数 $(gx)$ を\keyword{部分適用}された関数と呼ぶ．
+である．これは引数 $\mYVar$ に関数 $(\mFunc{g}\mXVar)$ が左から作用していると解釈する．関数 $(\mFunc{g}\mXVar)$ は引数 $\mXVar$ に関数 $\mFunc{g}$ を作用させて作った関数である．引数に「飢えた」関数 $(\mFunc{g}\mXVar)$ を\keyword{部分適用}された関数と呼ぶ．
 
 このように式の左側を優先的に演算していくことを\keyword{左結合}と呼ぶ．\haskell の場合，関数適用はいつも左結合である．
 
 部分適用の例を見てみよう．例えばふたつの引数のうち大きい方を返す関数
 $\mMax$ は
 \begin{equation}
-  \mMax xy
+  \mMax\mXVar\mYVar
 \end{equation}
 として使われるが，関数適用は左結合であるから
 \begin{equation}
-  (\mMax x)y
+  (\mMax\mXVar)\mYVar
 \end{equation}
-としても同じである．そこで $(\mMax x)$ だけ取り出すと，これは「引数が $x$ よりも小さければ $x$ を，そうでなければ引数を返す関数」とみなす
-ことができる．\footnote{\haskell では $\mMax xy$ を \code{max x y} と書く．}
+としても同じである．そこで $(\mMax\mXVar)$ だけ取り出すと，これは「引数が $\mXVar$ よりも小さければ $\mXVar$ を，そうでなければ引数を返す関数」とみなすことができる．\footnote{\haskell では $\mMax\mXVar\mYVar$ を \code{max x y} と書く．}
 
 \section{ラムダ式}
 
@@ -2498,20 +2506,20 @@ $\mA $ 型の変数 $x,y\mIn\mA$ について，関数 $f\mIn\mA\mFuncArrow\mA$ 
 \begin{equation}
   (\mMap)
   \mIn{}\mFunctorTypeClass
-  \mSuperSet\mPolymorphicTypeParameter{f}
+  \mSuperSet\mTypeConstructor{f}
   \mSuperClass(\mA\mFuncArrow\mB)
   \mFuncArrow\mPolymorphicTypeAssemble{f}{a}
   \mFuncArrow\mPolymorphicTypeAssemble{f}{b}
 \end{equation}
-という型を持つ．ここに $\mFunctorTypeClass\mSuperSet\mPolymorphicTypeParameter{f}$ は，$\mPolymorphicTypeParameter{f}$ が $\mFunctorTypeClass$ 型クラスに属すという制約を表している．また $\mPolymorphicTypeParameter{f}$ は型コンストラクタであり，$\mPolymorphicTypeAssemble{f}{a}$ は $\mPolymorphicTypeParameter{f}$ 型コンストラクタと$\mA$ 型によって作られたコンテナ型である．
+という型を持つ．ここに $\mFunctorTypeClass\mSuperSet\mTypeConstructor{f}$ は，$\mTypeConstructor{f}$ が $\mFunctorTypeClass$ 型クラスに属すという制約を表している．また $\mTypeConstructor{f}$ は型コンストラクタであり，$\mPolymorphicTypeAssemble{f}{a}$ は $\mTypeConstructor{f}$ 型コンストラクタと$\mA$ 型によって作られたコンテナ型である．
 
-もし型コンストラクタがリスト型コンストラクタであれば，つまり $\mPolymorphicTypeParameter{f}=\mListTypeConstructor$ であれば
+もし型コンストラクタがリスト型コンストラクタであれば，つまり $\mTypeConstructor{f}=\mListTypeConstructor$ であれば
 \begin{equation}
   (\mMapList)
   \mIn{}(\mA\mFuncArrow\mB)\mFuncArrow[\mA]\mFuncArrow[\mB]
 \end{equation}
 であるし，もし型コンストラクタがMaybe型コンストラクタであれば，つまり
-$\mPolymorphicTypeParameter{f}=\mMaybeTypeConstructor$ であれば
+$\mTypeConstructor{f}=\mMaybeTypeConstructor$ であれば
 \begin{equation}
   (\mMapMaybe)
   \mIn{}(\mA\mFuncArrow\mB)\mFuncArrow\mMaybeType{a}\mFuncArrow\mMaybeType{b}
@@ -2677,7 +2685,7 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
 % $\mFuncTypeConstructor\mA=\mPolymorphicTypeAssemble{\mFuncTypeConstructor}{\mA}$ とすると
 \begin{equation}
   (\mMap)
-  \mIn{}\mFunctorTypeClass\mSuperSet\mPolymorphicTypeParameter{f}
+  \mIn{}\mFunctorTypeClass\mSuperSet\mTypeConstructor{f}
   \mSuperClass(\mA\mFuncArrow\mB)
   \mFuncArrow\mFuncType{a}
   \mFuncArrow\mFuncType{b}
@@ -3840,7 +3848,7 @@ Maybeの間に新たに定義された等号 $(\equiv)$ は次の型を持つ．
 
 \begin{equation}
   \mTypeClassDeclPolymorphic\;
-  \mFunctorTypeClass\mSuperSet\mPolymorphicTypeParameter{f}
+  \mFunctorTypeClass\mSuperSet\mTypeConstructor{f}
   \mWhere{}
   (\mMap)
   \mIn{}(\mA\mFuncArrow\mB)
@@ -4258,7 +4266,7 @@ $\mCatTypeClass$ で表される型クラスである．
 $\mA\mFuncArrow\mB$ または $(\mFuncArrow)\mA\mB$ と書いてきた．これか
 ら導入する型は，やはり型 $\mA$ の引数を取り，型 $\mB$ の戻り値を返す．
 この新しい型を $\mA\mCatArrowC\mB$ または $(\mCatArrowC)\mA\mB$ と書こ
-う．ここに $\mPolymorphicTypeParameter{c}$ は型コンストラクタであり，
+う．ここに $\mTypeConstructor{c}$ は型コンストラクタであり，
 カテゴリ型クラスのインスタンスである．型 $(\mCatArrowC)\mA\mB$ の値は
 関数ではなく\keyword{射}と呼ぶ．\footnote{\haskell では
   $(\mCatArrowC)\mA\mB$ を \code{c a b} と書く．}
@@ -4266,7 +4274,7 @@ $\mA\mFuncArrow\mB$ または $(\mFuncArrow)\mA\mB$ と書いてきた．これ�
 カテゴリ型クラス $(\mCatTypeClass)$ は次のように定義されている．
 \begin{equation}
   \mTypeClassDeclPolymorphic\;
-  \mCatTypeClass\mSuperSet\mPolymorphicTypeParameter{c}
+  \mCatTypeClass\mSuperSet\mTypeConstructor{c}
   \mWhere\left\{
   \begin{aligned}
     \mIdCat
@@ -4317,19 +4325,19 @@ $\mCatTypeClass$ 型クラスである．
 $\mCatTypeClass$ 型クラスは次のように定義されている．
 \begin{equation}
   \mTypeClassDeclPolymorphic\;
-  \mCatTypeClass\mSuperSet\mPolymorphicTypeParameter{c}
+  \mCatTypeClass\mSuperSet\mTypeConstructor{c}
   \mWhere\left\{
   \begin{aligned}
-    \mIdCat&\mIn\mPolymorphicTypeParameter{c}\,\mX\,\mX\\
+    \mIdCat&\mIn\mTypeConstructor{c}\,\mX\,\mX\\
     (\mCompCat)
-    &\mIn\mPolymorphicTypeParameter{c}\,\mX\,\mY
-    \mFuncArrow\mPolymorphicTypeParameter{c}\,\mX\,\mY
-    \mFuncArrow\mPolymorphicTypeParameter{c}\,\mX\,\mY
+    &\mIn\mTypeConstructor{c}\,\mX\,\mY
+    \mFuncArrow\mTypeConstructor{c}\,\mX\,\mY
+    \mFuncArrow\mTypeConstructor{c}\,\mX\,\mY
   \end{aligned}
   \right.
 \end{equation}
-型パラメタ $\mPolymorphicTypeParameter{c}$ が
-$\mPolymorphicTypeParameter{c}=(\mFuncArrow)$ のとき$\mIdCat=\mId$ かつ
+型パラメタ $\mTypeConstructor{c}$ が
+$\mTypeConstructor{c}=(\mFuncArrow)$ のとき$\mIdCat=\mId$ かつ
 $\mCompCat=\mCompFunc$ になるので，圏は関数を何やら拡張したものであること
 がわかる．
 
@@ -4339,11 +4347,11 @@ $\mCompCat=\mCompFunc$ になるので，圏は関数を何やら拡張したも
 
 我々は $\mDuplicate$ や $\mTriplicate$ の型を考えて
 \begin{equation}
-  \mPolymorphicTypeParameter{c}\,\mX\,\mY
+  \mTypeConstructor{c}\,\mX\,\mY
   =\mX\mFuncArrow[\mY]
 \end{equation}
 と考えてみよう．つまり
-$\mPolymorphicTypeParameter{c}=((\mFuncArrow)\mAnonParam[\mAnonParam])$
+$\mTypeConstructor{c}=((\mFuncArrow)\mAnonParam[\mAnonParam])$
 と考えるわけである．
 
 そうすると，まず $\mIdCat$ は $\mA\mFuncArrow[\mA]$ 型でなければならないか
@@ -4575,7 +4583,7 @@ instance Cat.Category NonDet where
 
 \begin{equation}
   \mNewTypeDecl\;
-  \mTypeConstructor{Kleisli}\,\mPolymorphicTypeParameter{m}\,\mA\,\mB
+  \mTypeConstructor{Kleisli}\,\mTypeConstructor{m}\,\mA\,\mB
   =\mValueWith{Kleisli}{\mA\mFuncArrow\mTypeAssemble{m}{\mB}}
 \end{equation}
 
@@ -4718,21 +4726,21 @@ $\begin{bmatrix}\vdots\end{bmatrix}$ が是非とも必要である．この特�
 
 そのような型全体が所属する型クラスを\keyword{アロー型クラス}と呼ぶ．ア
 ロー型クラスは $\mArrowTypeClass$ と表記する．アロー型クラスのインスタ
-ンスを $\mPolymorphicTypeParameter{a}$ で表すとしよう．もちろん
-$\mPolymorphicTypeParameter{a}$ は型コンストラクタである．
+ンスを $\mTypeConstructor{a}$ で表すとしよう．もちろん
+$\mTypeConstructor{a}$ は型コンストラクタである．
 
-$\mPolymorphicTypeParameter{a}$ 型コンストラクタによって作られる値を
+$\mTypeConstructor{a}$ 型コンストラクタによって作られる値を
 \keyword{アロー}と呼ぶ．アローは関数から作られるものとする．関数 $f$
 が $\mB\mFuncArrow\mC$ という型を持つとき，関数 $f$ から作られたアロー
 を $\mArrow{f}$ と書き，アロー $\mArrow{f}$ は
-$\mB\mArrowArrow{\mPolymorphicTypeParameter{a}}\mC$ という型を持つとす
+$\mB\mArrowArrow{\mTypeConstructor{a}}\mC$ という型を持つとす
 る．
 
 型 $\mB\mFuncArrow\mC$ は $(\mFuncArrow)\mB\mC$ の中置記法バージョンで
-あった．我々の $\mB\mArrowArrow{\mPolymorphicTypeParameter{a}}\mC$ も
-$(\mArrowArrow{\mPolymorphicTypeParameter{a}})\mB\mC$ の中置記法バージョ
-ンである．ただし $(\mArrowArrow{\mPolymorphicTypeParameter{a}})$ は単
-純に $\mPolymorphicTypeParameter{a}$ と書いて良い．
+あった．我々の $\mB\mArrowArrow{\mTypeConstructor{a}}\mC$ も
+$(\mArrowArrow{\mTypeConstructor{a}})\mB\mC$ の中置記法バージョ
+ンである．ただし $(\mArrowArrow{\mTypeConstructor{a}})$ は単
+純に $\mTypeConstructor{a}$ と書いて良い．
 
 \separator
 
@@ -4778,19 +4786,19 @@ $(\mArrowArrow{\mPolymorphicTypeParameter{a}})\mB\mC$ の中置記法バージ�
 これらの実装を与える．アロー型クラスは次のように定義されている．
 \begin{multline}
   \mTypeClassDeclPolymorphic\;
-  \mCatTypeClass\mSuperSet\mPolymorphicTypeParameter{a}
+  \mCatTypeClass\mSuperSet\mTypeConstructor{a}
   \mSuperClass
-  \mArrowTypeClass\mSuperSet\mPolymorphicTypeParameter{a}\\
+  \mArrowTypeClass\mSuperSet\mTypeConstructor{a}\\
   \mWhere{}
   \left\{
   \begin{aligned}
     \mArrowWith{}
     &\mIn{}(\mB\mFuncArrow\mC)
-    \mFuncArrow(\mB\mArrowArrow{\mPolymorphicTypeParameter{a}}\mC)\\
+    \mFuncArrow(\mB\mArrowArrow{\mTypeConstructor{a}}\mC)\\
     \mFirst
-    &\mIn{}(\mB\mArrowArrow{\mPolymorphicTypeParameter{a}}\mC)
+    &\mIn{}(\mB\mArrowArrow{\mTypeConstructor{a}}\mC)
     \mFuncArrow\left(\mPairWith{\mB}{\mD}
-    \mArrowArrow{\mPolymorphicTypeParameter{a}}\mPairWith{\mC}{\mD}\right)
+    \mArrowArrow{\mTypeConstructor{a}}\mPairWith{\mC}{\mD}\right)
   \end{aligned}
   \right.
 \end{multline}
@@ -4851,8 +4859,8 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
   &\left\mBrace
   \begin{aligned}
     &\mSplit'
-    \mIn\mArrowTypeClass\mSuperSet\mPolymorphicTypeParameter{a}
-    \mSuperClass\mB\mArrowArrow{\mPolymorphicTypeParameter{a}}(\mB,\mB)\\
+    \mIn\mArrowTypeClass\mSuperSet\mTypeConstructor{a}
+    \mSuperClass\mB\mArrowArrow{\mTypeConstructor{a}}(\mB,\mB)\\
     &\mSplit'
     =\mArrowWith{\mSplit}
   \end{aligned}
@@ -4860,9 +4868,9 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
   &\left\mBrace
   \begin{aligned}
     &\mUnsplit'
-    \mIn\mArrowTypeClass\mSuperSet\mPolymorphicTypeParameter{a}
+    \mIn\mArrowTypeClass\mSuperSet\mTypeConstructor{a}
     \mSuperClass{}(\mB\mFuncArrow\mC\mFuncArrow\mD)
-    \mFuncArrow\left(\mPairWith{\mB}{\mC}\mArrowArrow{\mPolymorphicTypeParameter{a}}\mD\right)\\
+    \mFuncArrow\left(\mPairWith{\mB}{\mC}\mArrowArrow{\mTypeConstructor{a}}\mD\right)\\
     &\mUnsplit'
     =\mArrowWith{\mUnsplit}
   \end{aligned}
@@ -5115,15 +5123,15 @@ $\Vec{f_1}***\Vec{f_2}$ も関数ではない．
 
 \begin{multline}
   \mTypeClassDeclPolymorphic\;
-  (\mCatTypeClass\mSuperSet\mPolymorphicTypeParameter{c})
-  \mSuperClass(\mArrowTypeClass\mSuperSet\mPolymorphicTypeParameter{c})\\
+  (\mCatTypeClass\mSuperSet\mTypeConstructor{c})
+  \mSuperClass(\mArrowTypeClass\mSuperSet\mTypeConstructor{c})\\
   \mWhere{}\left\{
   \begin{aligned}
     \mArrowWith{\dotsb}
-    &\mIn{}(\mX\mFuncArrow\mY)\mFuncArrow\mPolymorphicTypeParameter{c}\,\mX\,\mY\\
+    &\mIn{}(\mX\mFuncArrow\mY)\mFuncArrow\mTypeConstructor{c}\,\mX\,\mY\\
     \mFirstFunc
-    &\mIn{}\mPolymorphicTypeParameter{c}\,\mX\,\mY
-    \mFuncArrow\mPolymorphicTypeParameter{c}\,\mPairWith{\mX}{\mZ}\,\mPairWith{\mY}{\mZ}
+    &\mIn{}\mTypeConstructor{c}\,\mX\,\mY
+    \mFuncArrow\mTypeConstructor{c}\,\mPairWith{\mX}{\mZ}\,\mPairWith{\mY}{\mZ}
   \end{aligned}
   \right.
 \end{multline}
@@ -5223,7 +5231,7 @@ $\Vec{f_1}***\Vec{f_2}$ も関数ではない．
 
 \begin{equation}
   \mNewTypeDecl\;
-  \mKleisliType\,\mPolymorphicTypeParameter{m}\,\mA\,\mB
+  \mKleisliType\,\mTypeConstructor{m}\,\mA\,\mB
   =\mKleisliWith{\mRunKleisli\mIn\mA\mFuncArrow\mTypeAssemble{m}{b}}
 \end{equation}
 
