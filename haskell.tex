@@ -20,7 +20,7 @@
 % \def\constColor{Violet}
 \def\constColor{WildStrawberry}
 \def\varColor{NavyBlue}
-\def\funcColor{OliveGreen}
+\def\funcColor{BlueGreen}
 \def\actionColor{PineGreen}
 \def\typeColor{RedOrange}
 \def\typeConstColor{Maroon}
@@ -349,7 +349,7 @@
 \newcommand{\mZSet}{\mSpecialSet{Z}}
 
 % Type names
-\newcommand{\mType}[1]{\textcolor{\typeColor}{\mathbf{#1}}} % TypeParameter
+\newcommand{\mType}[1]{\textcolor{\typeColor}{\mathbf{#1}}}
 \newcommand{\mPolymorphicTypeParameter}[1]{\textbf{\textit{#1}}}
 
 \newcommand{\mA}{\mType{a}}
@@ -528,7 +528,7 @@ Ether変数&$!$をつける&$\mEither{x}$\\
 有名な多相型&特別な括弧で包む&$[\mA],\mPureType{a}$\\
 \hline
 型コンストラクタ&ボールドイタリック&$\mTypeConstructor{f},\mTypeConstructor{g},\mTypeConstructor{h}$\\
-有名な型コンストラクタ&ローマン大文字&$\mListTypeConstructor,\mMaybeTypeConstructor$\\
+有名な型コンストラクタ&ボールド大文字&$\mListTypeConstructor,\mMaybeTypeConstructor$\\
 % 有名な多相型 (2)&特別な矢印を用いる&$\mFuncType{a},\mCatType{r}{a}$\\
 \hline
 % 集合&ボールド大文字（1文字）&$\mSet{A},\mSet{B},\mSet{C}$\\
@@ -868,7 +868,7 @@ lambda x: 1+x
 
 ラムダ式は関数である．ラムダ式を適用するには，ラムダ式を括弧で包む必要がある．例を挙げる．
 \begin{equation}
-  (\mLambda\mXVar\mLambdaArrow\mOneNumber+\mXVar)\mTwoNumber
+  (\mLambda\mXVar\mLambdaArrow\mOneNumber+\mXVar)\,\mTwoNumber
 \end{equation}
 この式は結果として $\mThreeNumber$ を返す．
 
@@ -1131,7 +1131,7 @@ z = g(f(x))
 \end{equation}
 と定義できる．関数合成演算子 $\mCompFunc$ は関数適用よりも優先順位が高く， $\left(\mGFunc\mCompFunc \mFFunc\right)\mXVar$ は単に $\mGFunc\mCompFunc\mFFunc\mXVar$ と書いても良い．この記法は括弧の数を減らすためにしばしば用いられる．式\eqref{eq:ffx}は関数合成演算子を用いると
 \begin{equation}
-  z
+  \mZVar
   =\mGFunc\mCompFunc\mFFunc\mXVar
 \end{equation}
 と書ける．\footnote{\haskell では関数 \code{f2} と関数 \code{f1} の合成は \code{f2.f1} である．式 $\mZVar=\mGFunc\mCompFunc \mFFunc x$ は \code{z = f2.f1 x} と書く．}
@@ -1143,17 +1143,17 @@ z = g(f(x))
 \end{equation}
 演算子 $\mApply$ の優先順位は関数適用も含めあらゆる演算子よりも低いものとする．関数適用演算子を用いて式\eqref{eq:ffx}を書き直すと
 \begin{equation}
-  z
-  =\mGFunc\mApply \mFFunc x
+  \mZVar
+  =\mGFunc\mApply\mFFunc\mXVar
 \end{equation}
-となる．演算子 $\mApply$ の優先順位は足し算よりも低いので $\mFFunc(\mXVar+\mOneNumber)$ は $\mFFunc\mApply\mXVar+\mOneNumber$ と書くこともできる．演算子 $\mApply$ を閉じ括弧のいらない開き括弧と考えてもよい．\footnote{\haskell では $\mGFunc\mApply \mFFunc x$ を \code{f2 \$ f1 x} と書く．}
+となる．演算子 $\mApply$ の優先順位は足し算よりも低いので $\mFFunc(\mXVar+\mOneNumber)$ は $\mFFunc\mApply\mXVar+\mOneNumber$ と書くこともできる．演算子 $\mApply$ を閉じ括弧のいらない開き括弧と考えてもよい．\footnote{\haskell では $\mGFunc\mApply\mFFunc\mXVar$ を \code{g \$ f x} と書く．}
 
 関数適用演算子のもう一つの興味深い使い方は，関数適用演算子の部分適用である．セクション $(\mApply\mXVar)$ を用いると
 \begin{equation}
   (\mApply\mXVar)\mFFunc
   =\mFFunc\mApply\mXVar
 \end{equation}
-であるから，関数適用演算子を用いて引数を関数に渡すことができる．\footnote{\haskell では $(\mApply x)f$ を \code{(\$\mXVar)f} と書く．}
+であるから，関数適用演算子を用いて引数を関数に渡すことができる．\footnote{\haskell では $(\mApply\mXVar)\mFFunc$ を \code{(\$x)f} と書く．}
 
 \section{高階関数}
 
@@ -1323,7 +1323,7 @@ z = g(f(x))
 ラムダ式の場合は話はもっと単純で，形式的に
 \begin{equation}
   \mLambda\mXVar\mYVar\mLambdaArrow\mXVar+\mYVar
-  =\mLambda\mXVar\mLambdaArrow\left(\mLambda y\mLambdaArrow\mXVar+\mYVar\right)
+  =\mLambda\mXVar\mLambdaArrow\left(\mLambda\mYVar\mLambdaArrow\mXVar+\mYVar\right)
 \end{equation}
 のように展開すれば1引数にできる．矢印$\mLambdaArrow$は\keyword{右結合}である．そこでこのラムダ式は括弧を省略して
 \begin{equation}
@@ -1493,17 +1493,17 @@ $\mFromIntegral$ は
 
 整数全てからなる\keyword{集合}を $\mZSet$ で表すことにする．計算機科学で整数と言うと，本当の整数と，例えば $-2^{63}$ から $2^{63}-1$ までの間の整数の意味と両方あるが，今は前者の意味である．
 
-集合 $\mZSet$ の任意の\keyword{元}（\keyword{要素}）$\mZVar$ を
+集合 $\mZSet$ の任意の\keyword{元}（\keyword{要素}）$z$ を
 \begin{equation}
   z
-  \mIn\mZSet
+  \in\mZSet
 \end{equation}
 と書く．
 
-二つの整数 $z_1,z_2\mIn\mZSet$ があるとしよう．両者の間には\keyword{足し算} $(+)$ が定義されており，その結果すなわち\keyword{和}もまた整数である．ここで
+二つの整数 $z_1,z_2\in\mZSet$ があるとしよう．両者の間には\keyword{足し算} $(+)$ が定義されており，その結果すなわち\keyword{和}もまた整数である．ここで
 \begin{equation}
   z_1+z_2
-  \mIn\mZSet
+  \in\mZSet
 \end{equation}
 であるとき，演算子 $+$ が集合 $\mZSet$ に対して\keyword{全域性}を持つと言う．
 % ***CHECK***
@@ -1511,7 +1511,7 @@ $\mFromIntegral$ は
 \begin{equation}
   \label{eq:totality}
   a_1\mBinOp a_2
-  \mIn\mASet
+  \in\mASet
 \end{equation}
 である場合，つまり演算子 $\mBinOp$ が集合 $\mASet$ に対して全域性を持つ場合，組み合わせ $\mTupleWith{\mASet,\mBinOp}$ を\keyword{マグマ}と呼ぶ．組み合わせ $\mTupleWith{\mZSet,+}$ はマグマの例であり，$\mTupleWith{\mZSet,*}$ もマグマの例である．
 % マグマはかつて亜群と呼ばれていたが，現在は亜群は別の意味(groupoid)の訳語に使われている．
@@ -1534,7 +1534,7 @@ $\mFromIntegral$ は
 \end{equation}
 という性質を持つ．この $0$ を演算 $+$ における\keyword{単位元}と呼ぶ．足し算のことを\keyword{加法}とも言うので $0$ のことは\keyword{加法単位元}と呼ぶこともあるし，文字通り\keyword{零元}と呼ぶこともある．
 
-一般に，$a,\mZeroLeft,\mZeroRight\mIn\mASet$ として
+一般に，$a,\mZeroLeft,\mZeroRight\in\mASet$ として
 \begin{equation}
   \label{eq:identity}
   \mZeroLeft\mPlus a
@@ -1633,23 +1633,23 @@ ls = [x*2 for x in range(0, 10)]
 我々も内包表記を
 \begin{equation}
   \mList{x}
-  =[x*2\mListComp x\mFrom[0,1\dots9]]
+  =[\mXVar*2\mListComp\mXVar\mFrom[0,1\dots9]]
 \end{equation}
-のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mFrom$を用いた．\footnote{\haskell では $\mList{x}=[x*2\mListComp x\mFrom[0,1\dots9]]$ を \code{xs = [x*2 | x<-[0,1..9]]} と書く．}
+のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mFrom$を用いた．\footnote{\haskell では $\mList{x}=[\mXVar*2\mListComp\mXVar\mFrom[0,1\dots9]]$ を \code{xs = [x*2 | x<-[0,1..9]]} と書く．}
 
 内包表記の式は複数あっても良い．例えば
 \begin{equation}
   \mList{x}
-  =[\mXVar+\mYVar\mListComp x\mFrom[0,1\dots9],\,y\mFrom[0,1\dots5],\,\mXVar+\mYVar>3]
+  =[\mXVar+\mYVar\mListComp\mXVar\mFrom[0,1\dots9],\,\mYVar\mFrom[0,1\dots5],\,\mXVar+\mYVar>3]
 \end{equation}
-は $0\le x\le9$ かつ $0\le y\le5$ の範囲で $\mXVar+y>3$となる $\mXVar$ 及び $\mYVar$ から $\mXVar+y$ を並べたリストである．これは\python でいう
+は $0\le\mXVar\le9$ かつ $0\le\mYVar\le5$ の範囲で $\mXVar+\mYVar>3$となる $\mXVar$ 及び $\mYVar$ から $\mXVar+\mYVar$ を並べたリストである．これは\python でいう
 \begin{pythoncode}
 \begin{verbatim}
-ls = [\mXVar+\mYVar for x in range(0, 10) for y in range(0, 6) \
-  if \mXVar+\mYVar > 3]
+ls = [x+y for x in range(0, 10) for y in range(0, 6) \
+  if x+y > 3]
 \end{verbatim}
 \end{pythoncode}
-のことである．\footnote{\haskell では \code{xs = [\mXVar+\mYVar | x<-[0,1..9], y<-[0,1..5], \mXVar+\mYVar>3]} と書く．}
+のことである．\footnote{\haskell では \code{xs = [x+y | x<-[0,1..9], y<-[0,1..5], x+y>3]} と書く．}
 
 % ...もっと内包表記．
 
@@ -1662,14 +1662,14 @@ ls = [\mXVar+\mYVar for x in range(0, 10) for y in range(0, 6) \
 \end{equation}
 とする．\footnote{\haskell ではこの式の右辺を \code{[] a} とも書ける．}この等式の両辺は変数ではなく型名であることに注意しよう．型コンストラクタの概念は\python には無い（必要無い）が，静的型付け言語である\cxx の「クラステンプレート」が相当する．\footnote{\haskell では表記上コンテナ型 $[\mA]$ と型コンストラクタ式$\mListTypeConstructor\,\mA $ を区別せず，両者とも \code{[a]} と書く．}
 
-$[x]$ のように $\mA$ 型の変数 $\mXVar$ を入れた$[\mA]$ 型の変数を作る演算子を\keyword{リスト値コンストラクタ}と呼ぶ．$[\mA]$ 型の変数のことを\keyword{リスト変数}とも呼ぶ．$\mA$ 型の変数 $\mXVar$ からリスト値コンストラクタを使ってリスト$\mList{x}$ を作ることは
+$[\mXVar]$ のように $\mA$ 型の変数 $\mXVar$ を入れた$[\mA]$ 型の変数を作る演算子を\keyword{リスト値コンストラクタ}と呼ぶ．$[\mA]$ 型の変数のことを\keyword{リスト変数}とも呼ぶ．$\mA$ 型の変数 $\mXVar$ からリスト値コンストラクタを使ってリスト$\mList{x}$ を作ることは
 \begin{equation}
   \mList{x}
-  =[x]
+  =[\mXVar]
 \end{equation}
 と書く．\footnote{\haskell では \code{xs = [x]} と書く．}
 
-リスト型を表す $[\mA]$ と，1要素のリストである $[x]$ の違いにはいつも気をつけておこう．本書では中身がボールドローマン体ならばリスト型，中身がイタリック体ならリスト値である．
+リスト型を表す $[\mA]$ と，1要素のリストである $[\mXVar]$ の違いにはいつも気をつけておこう．本書では中身がボールドローマン体ならばリスト型，中身がイタリック体ならリスト値である．
 
 ある型を包み込んだ別の型を一般に\keyword{コンテナ型}または単に\keyword{コンテナ}と呼ぶ．コンテナ型の変数を\keyword{コンテナ変数}と呼ぶ．コンテナ型は多相型の一種である．
 
@@ -1711,7 +1711,7 @@ $\mList{n}$ は
 
 無限リストを扱えるのは，我々がいつも遅延評価を行うからである．遅延評価とは，本当の計算は必要になるまで行わないという方式のことである．
 
-もし本当に無限リストを計算機の上で再現する必要があったなら，計算機には無限のメモリが必要になってしまう．しかし我々は，計算が必要になるまで評価を行わないので，無限リストの中から有限個の要素が取り出されるのを待つことができるのである．例えば関数 $\mTake n\,\mList{n}$ はリスト $\mList{n}$ から最初の $n$ 個の要素からなるリストを返す．いま
+もし本当に無限リストを計算機の上で再現する必要があったなら，計算機には無限のメモリが必要になってしまう．しかし我々は，計算が必要になるまで評価を行わないので，無限リストの中から有限個の要素が取り出されるのを待つことができるのである．例えば関数 $\mTake\mNVar\,\mList{n}$ はリスト $\mList{n}$ から最初の $\mNVar$ 個の要素からなるリストを返す．いま
 \begin{equation*}
   \mList{x}
   =\mTake5\,\mList{n}
@@ -1727,11 +1727,11 @@ $\mList{n}$ は
 
 \separator
 
-リスト $\mList{x}$ の $n$ 番目の要素には
+リスト $\mList{x}$ の $\mNVar$ 番目の要素には
 \begin{equation}
-  \mList{x}\mListAt n
+  \mList{x}\mListAt\mNVar
 \end{equation}
-とすることでアクセスできる．\footnote{\haskell では $\mList{x}\mListAt n$ を \code{xs!!n} と書く．}
+とすることでアクセスできる．\footnote{\haskell では $\mList{x}\mListAt\mNVar$ を \code{xs!!n} と書く．}
 
 \section{畳み込み}
 \label{sec:convolution}
