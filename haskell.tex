@@ -13,6 +13,10 @@
 \def\rrangle{\rangle\!\rangle}
 \DeclareMathOperator{\sgn}{sgn}
 
+\def\defaultColor{black}
+\def\specialColor{blue}
+\def\varSpecialColor{red}
+
 \newcommand{\Langle}{\llangle}
 \newcommand{\Rangle}{\rrangle}
 
@@ -133,7 +137,8 @@
 \DeclareMathOperator{\mWhere}{\mWhereKeyword}
 
 % Constants
-\newcommand{\mSpecialConstant}[1]{\textrm{#1}}
+\newcommand{\mConstant}[1]{#1}
+\newcommand{\mSpecialConstant}[1]{\color{\specialColor}\textrm{#1}\color{\defaultColor}}
 
 \newcommand{\mEmptyList}{{[\,]}}
 \newcommand{\mFalse}{\mSpecialConstant{False}}
@@ -153,7 +158,7 @@
 \newcommand{\mString}[1]{\text{#1}}
 
 % Special variables
-\newcommand{\mSpecialVar}[1]{\textrm{#1}}
+\newcommand{\mSpecialVar}[1]{\color{\specialColor}\textrm{#1}\color{\defaultColor}}
 
 \newcommand{\mAnonParam}{\diamond}
 \newcommand{\mFirstVar}{\mSpecialVar{first}}
@@ -167,7 +172,7 @@
 
 % Functions
 \newcommand{\mSpecialFunc}[1]{\mathrm{#1}}
-\newcommand{\mSpecialFuncSmall}[1]{\mathrm{#1}}
+\newcommand{\mSpecialFuncSmall}[1]{\color{\varSpecialColor}\mathrm{#1}\color{\defaultColor}}
 \newcommand{\mVarSpecialFunc}[1]{\mathfrak{#1}}
 
 \DeclareMathOperator{\mConjugate}{\mSpecialFunc{conjugate}}
@@ -213,13 +218,14 @@
 \DeclareMathOperator{\mZipWith}{\mSpecialFunc{zipWith}}
 
 % Actions
-\newcommand{\mAction}[1]{\mathrm{#1}}
+\newcommand{\mAction}[1]{#1}
+\newcommand{\mActionLong}[1]{\textsl{#1}}
 
-\DeclareMathOperator{\mReadLn}{\mAction{readLn}}
-\DeclareMathOperator{\mMain}{\mAction{main}}
-\DeclareMathOperator{\mPrint}{\mAction{print}}
-\DeclareMathOperator{\mPutStr}{\mAction{putStr}}
-\DeclareMathOperator{\mRand}{\mAction{rand}}
+\DeclareMathOperator{\mReadLn}{\mActionLong{readLn}}
+\DeclareMathOperator{\mMain}{\mActionLong{main}}
+\DeclareMathOperator{\mPrint}{\mActionLong{print}}
+\DeclareMathOperator{\mPutStr}{\mActionLong{putStr}}
+\DeclareMathOperator{\mRand}{\mActionLong{rand}}
 
 % Operators
 \newcommand{\mArrowArrow}[1]{\xrightarrow{#1}}
@@ -348,7 +354,7 @@
 \newcommand{\mIOUnitType}{\mIOType{\mUnitType}}
 
 % Type constructors
-\newcommand{\mTypeConstructor}[1]{\textsl{#1}}
+\newcommand{\mTypeConstructor}[1]{\textrm{#1}}
 
 \DeclareMathOperator{\mEitherTypeConstructor}{\mTypeConstructor{Either}}
 \DeclareMathOperator{\mFuncTypeConstructor}{((\rightarrow)\mType{r})}
@@ -450,38 +456,39 @@
 \hline
 種類&字体・表記法&例\\
 \hline\hline
-定数&イタリック大文字（1文字）&$A,B,C$\\
+定数&イタリック大文字（1文字）&$\mConstant{A},\mConstant{B},\mConstant{C}$\\
 有名な定数&ローマン大文字&$\mTrue,\mFalse$\\
+\hline
 単位元&ローマンに斜線&$\mZero$\\
 \hline
 変数&イタリック（1文字）&$u,v,w,x,y,z$\\
-有名な変数&ローマン&$\mFirstVar,\mRestVar$\\
 リスト変数&$\mathrm{s}$をつける&$\mList{x}$\\
 Maybe変数&$?$をつける&$\mMaybe{x}$\\
 Ether変数&$!$をつける&$\mEither{x}$\\
 一般のコンテナ変数&$*$をつける&$\mContainer{x}$\\
+有名な変数&ローマン&$\mFirstVar,\mRestVar$\\
 \hline
 関数&イタリック（1文字）&$f,g,h,i,j,k$\\
-有名な関数&ローマン&$\mId,\sin,\cos$\\
 一般のコンテナ関数&$*$をつける&$\mContainer{f}$\\
-圏の関数&フラクチュール&$\mIdCat$\\
-% コンテナ関数&ギリシア文字&$\phi,\psi$\\
+有名な関数&ローマン&$\mId,\sin,\cos$\\
 \hline
-アクション&ギリシア文字（1文字）&$\alpha,\omega$\\
-有名なアクション&ローマン&$\mMain,\mPutStr$\\
+関手&フラクチュール&$\mIdCat$\\
 \hline
-% 集合&ボールド大文字（1文字）&$\mSet{A},\mSet{B},\mSet{C}$\\
-集合&ブラックボード大文字&$\mBSet,\mZSet,\mRSet$\\
+アクション&ギリシア文字（1文字）&$\mAction{\alpha},\mAction{\omega}$\\
+有名なアクション&スラント&$\mMain,\mPutStr$\\
 \hline
 型&ボールド（1文字）&$\mA,\mB,\mC$\\
 有名な型&ボールド大文字&$\mBoolType,\mIntType$\\
 % 多相型パラメタ&ボールドイタリック小文字&$\mPolymorphicTypeParameter{f},\mPolymorphicTypeParameter{m}$\\
 型クラス&ボールドイタリック大文字&$\mEqTypeClass,\mOrdTypeClass$\\
-型コンストラクタ&&$\mPolymorphicTypeParameter{f},\mPolymorphicTypeParameter{g},\mPolymorphicTypeParameter{h}$\\
-有名な型コンストラクタ&&$\mListTypeConstructor,\mMaybeTypeConstructor$\\
+型コンストラクタ&ボールドイタリック&$\mPolymorphicTypeParameter{f},\mPolymorphicTypeParameter{g},\mPolymorphicTypeParameter{h}$\\
+有名な型コンストラクタ&ローマン大文字&$\mListTypeConstructor,\mMaybeTypeConstructor$\\
 多相型&左肩にコンテナ名をつける&$\mMaybeType{a}$\\
 有名な多相型&特別な括弧で包む&$[\mA],\mPureType{a}$\\
 % 有名な多相型 (2)&特別な矢印を用いる&$\mFuncType{a},\mCatType{r}{a}$\\
+\hline
+% 集合&ボールド大文字（1文字）&$\mSet{A},\mSet{B},\mSet{C}$\\
+集合&ブラックボード大文字&$\mBSet,\mZSet,\mRSet$\\
 \hline
 \end{tabular}
 \end{center}
@@ -497,9 +504,9 @@ Ether変数&$!$をつける&$\mEither{x}$\\
 値コンストラクタ&名前付き括弧で包む&$\mRightWith{x},\mLeftWith{x}$\\
 有名な値コンストラクタ&特別な括弧で包む&$[x],\mPureWith{x},\mConstWith{x},\mArrowWith{x}$\\
 \hline
-型コンストラクタ&ボールドイタリック&$\mPolymorphicTypeParameter{f},\mPolymorphicTypeParameter{g}$\\
-有名な型コンストラクタ&スラント大文字&$\mListTypeConstructor$, $\mMaybeTypeConstructor$\\
-\hline
+% 型コンストラクタ&ボールドイタリック&$\mPolymorphicTypeParameter{f},\mPolymorphicTypeParameter{g}$\\
+% 有名な型コンストラクタ&スラント大文字&$\mListTypeConstructor$, $\mMaybeTypeConstructor$\\
+% \hline
 キーワード&サンセリフ&$\mIf,\mOtherwise$\\
 do記法中のキーワード&タイプライタ&$\mDoLetKeyword$\\
 % リストの構造&サンセリフ，大文字&$\mathFirst$, $\mathRest$\\
