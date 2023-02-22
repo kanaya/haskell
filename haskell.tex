@@ -19,7 +19,7 @@
 % https://mathlandscape.com/latex-color/
 \def\constColor{Violet}
 \def\varColor{NavyBlue}
-\def\funcColor{BlueGreen}
+\def\funcColor{OliveGreen}
 \def\actionColor{PineGreen}
 \def\typeColor{RedOrange}
 \def\typeConstColor{Maroon}
@@ -152,6 +152,11 @@
 % Constants
 \newcommand{\mConstant}[1]{\textcolor{\constColor}{#1}}
 \newcommand{\mSpecialConstant}[1]{\textcolor{\constColor}{\textrm{#1}}}
+
+\newcommand{\mZeroNumber}{\mConstant{0}}
+\newcommand{\mOneNumber}{\mConstant{1}}
+\newcommand{\mTwoNumber}{\mConstant{2}}
+\newcommand{\mThreeNumber}{\mConstant{3}}
 
 \newcommand{\mEmptyList}{{[\,]}}
 \newcommand{\mFalse}{\mSpecialConstant{False}}
@@ -853,15 +858,15 @@ lambda x: 1+x
 \end{pythoncode}
 と書くが，我々はより簡潔に
 \begin{equation}
-  \mLambda\mXVar\mLambdaArrow1+\mXVar
+  \mLambda\mXVar\mLambdaArrow\mOneNumber+\mXVar
 \end{equation}
-と書くことにする．この式は多くの書物で $\lambda\mXVar\mathbin{.}1+\mXVar$ と記述されるところである．しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号 $(.)$ が今後登場する二項演算子 $\cdot$ と紛らわしいため，上述の記法を用いる．\footnote{\haskell ではラムダ式 $\mLambda\mXVar\mLambdaArrow1+\mXVar$ を \code{\textbackslash x -> 1+x} と書く．ラムダ式は元々は $\Hat\mXVar\mathbin{.}\mXVar+1$ のように書かれていた．これが次第に $\mathop{\texttt{\textasciicircum}}\mXVar\mathbin{.}\mXVar+1$ となり，$\lambda\mXVar\mathbin{.}\mXVar+1$ に変化していったと言われている．\haskell が $\lambda$ の代わりに $\mLambda$ 記号を使うのは，その形が似ているからである．}
+と書くことにする．この式は多くの書物で $\lambda\mXVar\mathbin{.}\mOneNumber+\mXVar$ と記述されるところである．しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号 $(.)$ が今後登場する二項演算子 $\cdot$ と紛らわしいため，上述の記法を用いる．\footnote{\haskell ではラムダ式 $\mLambda\mXVar\mLambdaArrow\mOneNumber+\mXVar$ を \code{\textbackslash x -> 1+x} と書く．ラムダ式は元々は $\Hat\mXVar\mathbin{.}\mXVar+\mOneNumber$ のように書かれていた．これが次第に $\mathop{\texttt{\textasciicircum}}\mXVar\mathbin{.}\mXVar+\mOneNumber$ となり，$\lambda\mXVar\mathbin{.}\mXVar+\mOneNumber$ に変化していったと言われている．\haskell が $\lambda$ の代わりに $\mLambda$ 記号を使うのは，その形が似ているからである．}
 
 ラムダ式は関数である．ラムダ式を適用するには，ラムダ式を括弧で包む必要がある．例を挙げる．
 \begin{equation}
-  (\mLambda\mXVar\mLambdaArrow1+\mXVar)2
+  (\mLambda\mXVar\mLambdaArrow\mOneNumber+\mXVar)\mTwoNumber
 \end{equation}
-この式は結果として $3$ を返す．
+この式は結果として $\mThreeNumber$ を返す．
 
 複数引数をとるラムダ式は例えば
 \begin{equation}
@@ -891,11 +896,11 @@ lambda x: 1+x
 
 \separator
 
-関数に\keyword{スペシャルバージョン}がある場合はそれらを列挙する．例えば引数が $0$ の場合は特別に戻り値が $1$ であり，その他の場合は関数 $\mFFunc$ と同じ振る舞いをする関数 $\mFFFunc$ を考える．このとき $\mFFFunc$ は
+関数に\keyword{スペシャルバージョン}がある場合はそれらを列挙する．例えば引数が $\mZeroNumber$ の場合は特別に戻り値が $\mOneNumber$ であり，その他の場合は関数 $\mFFunc$ と同じ振る舞いをする関数 $\mFFFunc$ を考える．このとき $\mFFFunc$ は
 \begin{equation}
   \left\{
   \begin{aligned}
-    \mFFFunc0&=1\\
+    \mFFFunc\mZeroNumber&=\mOneNumber\\
     \mFFFunc\mXVar&=(\mSin\mXVar)/\mXVar
   \end{aligned}
   \right.
@@ -911,7 +916,7 @@ lambda x: 1+x
 \begin{equation}
   \mFFFunc\mXVar=\mCaseOf{\mXVar}
   \begin{cases}
-    0&\mIfSo1\\
+    \mZeroNumber&\mIfSo\mOneNumber\\
     \_&\mIfSo(\mSin\mXVar)/\mXVar
   \end{cases}
 \end{equation}
@@ -927,11 +932,11 @@ lambda x: 1+x
 
 \separator
 
-関数定義にパタンマッチではなく\keyword{場合分け}が必要な場合は\keyword{ガード}を用いる．例えば引数の値が負の場合は $-1$ を，$0$ の場合は $1$ を，それ以外の場合は関数 $\mFFunc$ と同じ振る舞いをする関数 $\mFFFFunc$ は
+関数定義にパタンマッチではなく\keyword{場合分け}が必要な場合は\keyword{ガード}を用いる．例えば引数の値が負の場合は $\mZeroNumber$ を，$\mZeroNumber$ の場合は $\mOneNumber$ を，それ以外の場合は関数 $\mFFunc$ と同じ振る舞いをする関数 $\mFFFFunc$ は
 \begin{equation}
   \begin{aligned}
-    \mFFFFunc\mXVar&\mGuard{\mXVar<0}=0\\
-    &\mGuard{\mXVar\equiv0}=1\\
+    \mFFFFunc\mXVar&\mGuard{\mXVar<\mZeroNumber}=\mZeroNumber\\
+    &\mGuard{\mXVar\equiv\mZeroNumber}=\mOneNumber\\
     &\mGuard{\mOtherwise}=(\mSin\mXVar)/\mXVar
   \end{aligned}
 \end{equation}
@@ -960,23 +965,23 @@ def f(x):
 我々の条件式とは
 \begin{equation}
   \mFFunc\mXVar
-  =\mIf\mXVar\equiv0
-  \mThen1
+  =\mIf\mXVar\equiv\mZeroNumber
+  \mThen\mOneNumber
   \mElse{}(\mSin\mXVar)/\mXVar
 \end{equation}
 のように $\mIf$ 節，$\mThen$ 節，及び $\mElse$ 節からなるものであって，$\mThen$ 節も $\mElse$ 節も省略できないものとする．$\mIf$ 節の式の値が真 $(\mTrue)$ であれば $\mThen$ 節の式が評価され，偽 $(\mFalse)$ であれば $\mElse$ 節の式が評価される．我々の条件式は\clang/\cxx における条件演算子（三項演算子）と等しく見えるが，\haskell の場合は遅延評価が行われ
-るため，結果として条件式の\keyword{短絡評価}が行われる点が異なる．\footnote{\haskell では $\mFFunc\mXVar=\mIfThenElseEXP{\mXVar\equiv0}{1}{{}(\mSin\mXVar)/\mXVar}$ を \code{f x = if x==0 then 1 else (sin x)/x} と書く．}
+るため，結果として条件式の\keyword{短絡評価}が行われる点が異なる．\footnote{\haskell では $\mFFunc\mXVar=\mIfThenElseEXP{\mXVar\equiv\mZeroNumber}{\mOneNumber}{(\mSin\mXVar)/\mXVar}$ を \code{f x = if x==0 then 1 else (sin x)/x} と書く．}
 
 $\mIf$ 節の中身は真理値を返す関数であれば良いので，関数 $\mPFunc$ を
 \begin{equation}
   \mPFunc
-  =(\mAnonParam\equiv0)
+  =(\mAnonParam\equiv\mZeroNumber)
 \end{equation}
 としておき，
 \begin{equation}
   \mFFunc\mXVar
   =\mIf\mPFunc\mXVar
-  \mThen1
+  \mThen\mOneNumber
   \mElse{}(\mSin\mXVar)/\mXVar
 \end{equation}
 と書く方法もしばしば用いられる．
@@ -997,24 +1002,24 @@ $\mIf$ 節の中身は真理値を返す関数であれば良いので，関数 
 数式が長く続くとき，読みやすさのために局所変数を導入すると便利である．例えば
 \begin{equation}
   \mYVar
-  =\mFFunc(1+\mXVar)
+  =\mFFunc(\mOneNumber+\mXVar)
 \end{equation}
-という式のうち，先に $1+\mXVar$ の部分を計算して $\mXXVar$ のように名前をつけておきたいこともあるであろう．そんなときは
+という式のうち，先に $\mOneNumber+\mXVar$ の部分を計算して $\mXXVar$ のように名前をつけておきたいこともあるであろう．そんなときは
 \begin{equation}
   \label{eq:letin}
   \mYVar
   =\mLet\mXXVar
-  \mLetEq1+\mXVar
+  \mLetEq\mOneNumber+\mXVar
   \mLetIn\mFFunc\mXXVar
 \end{equation}
-と書くことにする．このようにして導入された $\mXXVar$ を\keyword{局所変数}と呼ぶ．\footnote{\haskell では $\mYVar=\mLet\mXXVar\mLetEq1+\mXVar\mLetIn\mFFunc\mXXVar$ を \code{y = let x' = 1+x in f x'} と書く．}
+と書くことにする．このようにして導入された $\mXXVar$ を\keyword{局所変数}と呼ぶ．\footnote{\haskell では $\mYVar=\mLet\mXXVar\mLetEq\mOneNumber+\mXVar\mLetIn\mFFunc\mXXVar$ を \code{y = let x' = 1+x in f x'} と書く．}
 
 式\eqref{eq:letin}は局所変数を後ろに回して
 \begin{equation}
   \label{eq:where}
-  \mYVar=\mFFunc\mXXVar\mWhere\mXXVar\mWhereEq1+\mXVar
+  \mYVar=\mFFunc\mXXVar\mWhere\mXXVar\mWhereEq\mOneNumber+\mXVar
 \end{equation}
-のように書いても良い．\footnote{\haskell では$\mYVar=\mFFunc\mXXVar\mWhere\mXXVar\mWhereEq1+\mXVar$ は \code{y = f x' where x' = 1+x} と書く．}
+のように書いても良い．\footnote{\haskell では$\mYVar=\mFFunc\mXXVar\mWhere\mXXVar\mWhereEq\mOneNumber+\mXVar$ は \code{y = f x' where x' = 1+x} と書く．}
 
 式\eqref{eq:letin}や式\eqref{eq:where}はラムダ式を使った\keyword{糖衣構文}（シンタックスシュガー）であり，一般に
 \begin{align}
