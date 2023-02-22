@@ -209,7 +209,7 @@
 \newcommand{\mSpecialFuncSmall}[1]{\textcolor{\funcColor}{\textrm{#1}}}
 \newcommand{\mVarSpecialFunc}[1]{\mathfrak{#1}}
 
-\newcommand{\mFFunc}{\mFunc{f}}
+\newcommand{\mFFunc}{{\mFunc{f}}}
 \newcommand{\mGFunc}{\mFunc{g}}
 \newcommand{\mHFunc}{\mFunc{h}}
 \newcommand{\mIFunc}{\mFunc{i}}
@@ -485,6 +485,8 @@
 \newcommand{\mWhereIsIIEXP}[4]{\mathbin{\mWhereKeyword}#1\mLetEq#2,#3\mLetEq#4} %%% TO BE REMOVED
 
 \newcommand{\mLLL}{\triangleleft\!\!\!\triangleleft\!\!\!\triangleleft}
+
+\newcommand{\mAs}[2]{\overbrace{(#1)}^{#2}}
 
 \title{関数型プログラミングと代数構造}
 \author{金谷一朗}
@@ -859,7 +861,7 @@ $\mMax$ は
 例えば引数 $\mXVar$ をとり値 $1+\mXVar$ を返すラムダ式を\python では
 \begin{pythoncode}
 \begin{verbatim}
-lambda x: 1+x
+lambda \mXVar: 1+x
 \end{verbatim}
 \end{pythoncode}
 と書くが，我々はより簡潔に
@@ -1834,7 +1836,7 @@ map(f, ls)
 のように \code{map} 関数を用いる．例えば
 \begin{pythoncode}
 \begin{verbatim}
-f = lambda x: 100+x
+f = lambda \mXVar: 100+x
 ls = [1, 2, 3, 4, 5]
 ms = map(f, ls)
 \end{verbatim}
@@ -1843,10 +1845,10 @@ ms = map(f, ls)
 
 このように引数として関数 $\mFFunc$ とリスト $[\mXVar_0,\mXVar_1\dotsb \mXVar_n]$ を取り，戻り値として $[\mFFunc\mXVar_0,\mFFunc\mXVar_1\dotsb \mFFunc\mXVar_n]$ を返す演算子 $\mMapList$ を考えよう．このとき
 \begin{equation}
-  f\mMapList[\mXVar_0,\mXVar_1\dotsb \mXVar_n]
+  \mFFunc\mMapList[\mXVar_0,\mXVar_1\dotsb \mXVar_n]
   =[\mFFunc\mXVar_0,\mFFunc\mXVar_1\dotsb \mFFunc\mXVar_n]
 \end{equation}
-であると定義する．この演算子 $\mMapList$ をリストの\keyword{マップ演算子}と呼ぶ．\footnote{\haskell では $f\mMapList\mList{x}$ を\code{map f xs} または \code{f <\$> xs} と書く．ただし演算子 \code{<\$>} は \code{fmap} 演算子の中置バージョンである．}
+であると定義する．この演算子 $\mMapList$ をリストの\keyword{マップ演算子}と呼ぶ．\footnote{\haskell では $\mFFunc\mMapList\mList{x}$ を\code{map f xs} または \code{f <\$> xs} と書く．ただし演算子 \code{<\$>} は \code{fmap} 演算子の中置バージョンである．}
 
 リストのマップ演算子の型は
 \begin{equation}
@@ -1861,33 +1863,33 @@ ms = map(f, ls)
 の意味でもある．念のため上式に注釈を加えると
 \begin{equation}
   \mMapList
-  \mIn\underbrace{\left(\mA\mFuncArrow\mB\right)}_f
+  \mIn\underbrace{\left(\mA\mFuncArrow\mB\right)}_\mFFunc
   \mFuncArrow\left(\underbrace{[\mA]}_{[\mXVar_0,\mXVar_1\dotsb \mXVar_n]}
   \mFuncArrow\underbrace{[\mB]}_{[\mFFunc\mXVar_0,\mFFunc\mXVar_1\dotsb \mFFunc\mXVar_n]}\right)
 \end{equation}
 である．
 
-ここで $\mFFunc$ と $f\mMapList$ の型を並べてみると
+ここで $\mFFunc$ と $\mFFunc\mMapList$ の型を並べてみると
 \begin{align}
-  f
+  \mFFunc
   &\mIn\mA\mFuncArrow\mB\\
-  f\mMapList
+  \mFFunc\mMapList
   &\mIn{}[\mA]\mFuncArrow[\mB]
 \end{align}
 となり，マップ演算子が何をしているのか一目瞭然になる．
 
-\TK{liftM}
+% \TK{liftM}
 
 具体例を見てみよう．先程の\python コードの例にあわせて
 \begin{align}
-  f
-  &=\mLambda x\mLambdaArrow100+x\\
+  \mFFunc
+  &=\mLambda x\mLambdaArrow\mConstant{100}+\mXVar\\
   \mList{x}
-  &=[1,2,3,4,5]\\
+  &=[\mOneNumber\dotsb\mFiveNumber]\\
   \mList{y}
-  &=f\mMapList\mList{x}
+  &=\mFFunc\mMapList\mList{x}
 \end{align}
-とすると $\mList{y}$ の値は $[101,102,103,104,105]$ となる．
+とすると $\mList{y}$ の値は $[\mConstant{101},\mConstant{102},\mConstant{103},\mConstant{104},\mConstant{105}]$ となる．
 
 \section{余談：リストの実装}
 
@@ -1897,7 +1899,7 @@ ms = map(f, ls)
 \begin{equation}
   \mFirstVar:\mRestVar
 \end{equation}
-を用い，リファレンス $\mFirstVar$ はリストが保持する型，リファレンス $\mRestVar$ はリスト型であるとする．演算子 $:$ を\lisp に倣って\keyword{cons演算子}と呼ぶ．\footnote{\haskell でも要素 \code{x} をリスト \code{xs} の先頭に追加することを \code{x:xs} と書く．}
+を用い，リファレンス $\mFirstVar$ はリストが保持する型，リファレンス $\mRestVar$ はリスト型であるとする．演算子 $:$ を\lisp に倣って\keyword{cons演算子}と呼ぶ．\footnote{\haskell でも要素 \code{x} をリスト \code{xs} の先頭に追加することを \code{\mXVar:xs} と書く．}
 
 要素 $\mRestVar$ はリストまたは空リストであるから，一般にリストは次のように展開できることになる．
 \begin{align}
@@ -1912,10 +1914,10 @@ cons演算子 $(:)$ は右結合する．すなわち $\mXVar_0:\mXVar_1:\mXVar_
 \begin{equation}
   \left\{
   \begin{aligned}
-    f\mMapList\mEmptyList
+    \mFFunc\mMapList\mEmptyList
     &=\mEmptyList\\
-    f\mMapList{}(x:\mList{x})
-    &=(\mFFunc\mXVar):(f\mMapList\mList{x})
+    \mFFunc\mMapList{}(\mXVar:\mList{x})
+    &=(\mFFunc\mXVar):(\mFFunc\mMapList\mList{x})
   \end{aligned}
   \right.
 \end{equation}
@@ -1936,15 +1938,15 @@ cons演算子 $(:)$ は右結合する．すなわち $\mXVar_0:\mXVar_1:\mXVar_
 
 リストを引数にとる関数はいつでも
 \begin{equation}
-  f(x:\mList{x})
+  f(\mXVar:\mList{x})
   =\dotsb
 \end{equation}
-という風にパタンマッチを行えるが，式の右辺でリスト全体すなわち $(x:\mList{x})$ を参照したい場合もあるであろう．そのような場合は
+という風にパタンマッチを行えるが，式の右辺でリスト全体すなわち $(\mXVar:\mList{x})$ を参照したい場合もあるであろう．そのような場合は
 \begin{equation}
-  f\mList{a}@(x:\mList{x})
+  \mFFunc\mAs{\mXVar:\mList{x}}{\mList{a}}%\overbrace{(\mXVar:\mList{x})}^{\mList{a}}
   =\dotsb
 \end{equation}
-として，変数 $\mList{a}$ でリスト全体を参照することも可能である．このような記法を\keyword{asパタン}と呼ぶ．\footnote{\haskell では $f\mList{a}@(x:\mList{x})$ を \code{f as@(x:xs)} と書く．}
+として，変数 $\mList{a}$ でリスト全体を参照することも可能である．このような記法を\keyword{asパタン}と呼ぶ．\footnote{\haskell では $\mFFunc\mAs{\mXVar:\mList{x}}{\mList{a}}$ を \code{f as@(x:xs)} と書く．}
 
 \section{この章のまとめ}
 
@@ -1964,7 +1966,7 @@ cons演算子 $(:)$ は右結合する．すなわち $\mXVar_0:\mXVar_1:\mXVar_
 \item 平坦化演算子 $\mJoinList=\mFold_\mEmptyList^{\mAppend}$ はリストを平坦化する．
 \item 関数 $f\mIn\mProjEXP{\mA }{\mA }$ はマップ演算子 $\mMapList$ を用いて $f\mMapList[\mXVar_0,\mXVar_1\dotsb \mXVar_n]=[\mFFunc\mXVar_0,\mFFunc\mXVar_1\dotsb \mFFunc\mXVar_n]$ のようにリスト$[\mXVar_0,\mXVar_1\dotsb \mXVar_n]$ に適用できる．
 \item マップ演算子$\mMapList$ の型は$\mProjEXP{(\mProjEXP{\mA }{\mB})}{\mProjEXP{\mA }{\mB }}$である．
-\item $\mHead(x:\mList{x})=x,\mTail(x:\mList{x})=\mList{x}$である．
+\item $\mHead(\mXVar:\mList{x})=x,\mTail(\mXVar:\mList{x})=\mList{x}$である．
 \end{enumerate}
 
 % 型パラメタの話はどこが初出？
@@ -2007,7 +2009,7 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
   \begin{aligned}
     \mSum\mEmptyList
     &=0\\
-    \mSum(x:\mList{x})
+    \mSum(\mXVar:\mList{x})
     &=x+\mSum\mList{x}
   \end{aligned}
   \right.
@@ -2015,7 +2017,7 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
 のようにも定義できるということである．\footnote{\haskell では
 \begin{verbatim}
   sum []     = 0
-  sum (x:xs) = x + sum xs
+  sum (\mXVar:xs) = x + sum xs
 \end{verbatim}
 と書く．}
 
@@ -2127,7 +2129,7 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
   \begin{aligned}
     \mSort\mEmptyList
     &=\mEmptyList\\
-    \mSort(x:\mList{x})
+    \mSort(\mXVar:\mList{x})
     &=(\mSort\mList{a})\mAppend[x]\mAppend{}(\mSort\mList{b})\\
     &\quad\mWhere\left\{\begin{aligned}
     \mList{a}&\mLetEq{}[a\mListComp a\mFrom\mList{x},a\le x]\\
@@ -2141,7 +2143,7 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
 \begin{haskellcode}
 \begin{verbatim}
 srt[] = []
-srt(x:xs) = srt as ++ [x] ++ srt bs where
+srt(\mXVar:xs) = srt as ++ [x] ++ srt bs where
   as = [a| a<-xs, a<=x]
   bs = [b| b<-xs, b>x]
 \end{verbatim}
@@ -2193,7 +2195,7 @@ p = Possibly(False)
 ここで，引数に $1$ を加えて返す関数 \code{f} があるとしよう．関数 \code{f} の定義は次の通りである．
 \begin{pythoncode}
 \begin{verbatim}
-f = lambda x: 1+x
+f = lambda \mXVar: 1+x
 \end{verbatim}
 \end{pythoncode}
 
@@ -4000,7 +4002,7 @@ Either型の場合は
   \begin{aligned}
     (\mZip)\_\mEmptyList&=\mEmptyList\\
     (\mZip)\mEmptyList\_&=\mEmptyList\\
-    (\mZip)(x:\mList{x})(y:\mList{y})&=(x\mApply y):\mList{x}\mZip\mList{y}
+    (\mZip)(\mXVar:\mList{x})(y:\mList{y})&=(x\mApply y):\mList{x}\mZip\mList{y}
   \end{aligned}
   \right.
 \end{equation}
@@ -4011,7 +4013,7 @@ Either型の場合は
   \left\mBrace
   \begin{aligned}
     &\mRepeat\mIn{}\mProjEXP{[\mA]}{[\mA]}\\
-    &\mRepeat x=x:\mRepeat x
+    &\mRepeat x=\mXVar:\mRepeat x
   \end{aligned}
   \right.
 \end{equation}
@@ -4052,7 +4054,7 @@ $\mNewTypeDeclPolymorphic$ に置き換えたことである．これは，字�
     &=\mEmptyList\\
     \mZipWith\_\_\mEmptyList
     &=\mEmptyList\\
-    \mZipWith f(x:\mList{x})(y:\mList{y})
+    \mZipWith f(\mXVar:\mList{x})(y:\mList{y})
     &=f\mXVar\mYVar:\mZipWith f\mList{x}\mList{y}
     \end{aligned}
     \right.
@@ -4068,7 +4070,7 @@ $\mNewTypeDeclPolymorphic$ に置き換えたことである．これは，字�
 
 関数 $\mZipWith$ を再帰的に定義したが，再帰をリストのマップ演算子に押し込むこともできる．それには
 \begin{equation}
-  \mZipWith f(x:\mList{x})(y:\mList{y})
+  \mZipWith f(\mXVar:\mList{x})(y:\mList{y})
   =f'\mMapList\mList{z}
   \mWhere
   \left\{
@@ -4105,7 +4107,7 @@ $\mNewTypeDeclPolymorphic$ に置き換えたことである．これは，字�
 である．\footnote{\haskell では $\mZipWith$ 関数を
 \begin{verbatim}
   zipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
-  zipWith f (x:xs) (y:ys) = f' `map` zs where
+  zipWith f (\mXVar:xs) (y:ys) = f' `map` zs where
     f' = uncurry f
     zs = zip xs ys
 \end{verbatim}
@@ -5213,7 +5215,7 @@ $\Vec{\mFFunc}***\Vec{\mGFunc}$ も関数ではない．
 \begin{align}
   \mRunCircuit&\mIn\mCircuitType\,\mA\,\mB\mFuncArrow[\mA]\mFuncArrow[\mB]\\
   \mRunCircuit\_\mEmptyList&=\mEmptyList\\
-  \mRunCircuit c(x:\mList{x})&=x':\mRunCircuit c'\mList{x}\\
+  \mRunCircuit c(\mXVar:\mList{x})&=x':\mRunCircuit c'\mList{x}\\
   &\quad\mWhere{}(c',x')\mLetEq\mUncircuit cx
 \end{align}
 
@@ -5915,11 +5917,11 @@ sgn' a b c
   | otherwise                                       = 1:+0
 
 sqrt' :: RealFloat a => Complex a -> Complex a
-sqrt' (x:+y) = (sqrt 2)/2*((sqrt(d+x)):+sgn(y)*(sqrt(d-x)))
+sqrt' (\mXVar:+y) = (sqrt 2)/2*((sqrt(d+x)):+sgn(y)*(sqrt(d-x)))
   where d = sqrt(sq x + sq y)
 
 (*.) :: Real a => a -> Complex a -> Complex a
-(*.) a (x:+y) = a*x:+a*y
+(*.) a (\mXVar:+y) = a*\mXVar:+a*y
 
 (x0, x1) = (q/a, c/q) where
   q = (b + sgn' a b c * r) / 2
