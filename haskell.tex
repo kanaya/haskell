@@ -15,6 +15,15 @@
 \DeclareMathOperator{\sgn}{sgn}
 
 \def\defaultColor{black}
+
+% https://mathlandscape.com/latex-color/
+\def\constColor{Violet}
+\def\varColor{NavyBlue}
+\def\funcColor{BlueGreen}
+\def\actionColor{PineGreen}
+\def\typeColor{RedOrange}
+\def\typeConstColor{Maroon}
+
 \def\specialColor{BlueGreen}
 \def\varSpecialColor{BrickRed}
 
@@ -138,8 +147,8 @@
 \DeclareMathOperator{\mWhere}{\mWhereKeyword}
 
 % Constants
-\newcommand{\mConstant}[1]{#1}
-\newcommand{\mSpecialConstant}[1]{\textcolor{\specialColor}{\textrm{#1}}}
+\newcommand{\mConstant}[1]{\textcolor{\constColor}{#1}}
+\newcommand{\mSpecialConstant}[1]{\textcolor{\constColor}{\textrm{#1}}}
 
 \newcommand{\mEmptyList}{{[\,]}}
 \newcommand{\mFalse}{\mSpecialConstant{False}}
@@ -158,8 +167,9 @@
 % Strings
 \newcommand{\mString}[1]{\text{#1}}
 
-% Special variables
-\newcommand{\mSpecialVar}[1]{\textcolor{\specialColor}{\textrm{#1}}}
+% Variables and special variables
+\newcommand{\mVar}[1]{\textcolor{\varColor}{#1}}
+\newcommand{\mSpecialVar}[1]{\textcolor{\varColor}{\textrm{#1}}}
 
 \newcommand{\mAnonParam}{\diamond}
 \newcommand{\mFirstVar}{\mSpecialVar{first}}
@@ -172,8 +182,9 @@
 \DeclareMathOperator{\mFromIntegral}{\mUpCast_\text{Integral}}
 
 % Functions
-\newcommand{\mSpecialFunc}[1]{\textcolor{\varSpecialColor}{\textrm{#1}}}
-\newcommand{\mSpecialFuncSmall}[1]{\textcolor{\varSpecialColor}{\textrm{#1}}}
+\newcommand{\mFunc}[1]{\textcolor{\funcColor}{#1}}
+\newcommand{\mSpecialFunc}[1]{\textcolor{\funcColor}{\textrm{#1}}}
+\newcommand{\mSpecialFuncSmall}[1]{\textcolor{\funcColor}{\textrm{#1}}}
 \newcommand{\mVarSpecialFunc}[1]{\mathfrak{#1}}
 
 \DeclareMathOperator{\mConjugate}{\mSpecialFunc{conjugate}}
@@ -221,8 +232,8 @@
 \DeclareMathOperator{\mZipWith}{\mSpecialFunc{zipWith}}
 
 % Actions
-\newcommand{\mAction}[1]{#1}
-\newcommand{\mActionLong}[1]{\textsl{#1}}
+\newcommand{\mAction}[1]{\textcolor{\actionColor}{#1}}
+\newcommand{\mActionLong}[1]{\textcolor{\actionColor}{\textsl{#1}}}
 
 \DeclareMathOperator{\mReadLn}{\mActionLong{readLn}}
 \DeclareMathOperator{\mMain}{\mActionLong{main}}
@@ -310,7 +321,7 @@
 \newcommand{\mZSet}{\mSpecialSet{Z}}
 
 % Type names
-\newcommand{\mType}[1]{\mathbf{#1}} % TypeParameter
+\newcommand{\mType}[1]{\textcolor{\typeColor}{\mathbf{#1}}} % TypeParameter
 \newcommand{\mPolymorphicTypeParameter}[1]{\textbf{\textit{#1}}}
 
 \newcommand{\mA}{\mType{a}}
@@ -398,7 +409,7 @@
 \DeclareMathOperator{\mIdFunctor}{\mSpecialFunctor{ID}}
 
 % Type classes
-\newcommand{\mTypeClass}[1]{\textbf{\textit{#1}}}
+\newcommand{\mTypeClass}[1]{\textcolor{\typeColor}{\textbf{\textit{#1}}}}
 
 \newcommand{\mApplicativeTypeClass}{\mTypeClass{Applicative}}
 \newcommand{\mArrowTypeClass}{\mTypeClass{Arrow}}
@@ -416,11 +427,14 @@
 \newcommand{\mRealFloatTypeClass}{\mTypeClass{RealFloat}}
 
 % Decolations
+\newcommand{\mEither}[1]{\mVar{#1}_!}
+\newcommand{\mList}[1]{\mVar{#1}_\mathrm{s}}
+\newcommand{\mMaybe}[1]{\mVar{#1}_?}
+
+\newcommand{\mVarContainer}[1]{\mVar{#1}_*}
+\newcommand{\mFuncContainer}[1]{\mFunc{#1}_*}
+
 \newcommand{\mArrow}[1]{\Vec{#1}}
-\newcommand{\mEither}[1]{{#1}_!}
-\newcommand{\mList}[1]{{#1}_\mathrm{s}}
-\newcommand{\mMaybe}[1]{{#1}_?}
-\newcommand{\mContainer}[1]{{#1}_*}
 \newcommand{\mVec}[1]{\Vec{#1}}
 
 % Guards
@@ -464,15 +478,15 @@
 \hline
 単位元&ローマンに斜線&$\mZero$\\
 \hline
-変数&イタリック（1文字）&$u,v,w,x,y,z$\\
+変数&イタリック（1文字）&$\mVar{u},\mVar{v},\mVar{w},\mVar{x},\mVar{y},\mVar{z}$\\
 リスト変数&$\mathrm{s}$をつける&$\mList{x}$\\
 Maybe変数&$?$をつける&$\mMaybe{x}$\\
 Ether変数&$!$をつける&$\mEither{x}$\\
-一般のコンテナ変数&$*$をつける&$\mContainer{x}$\\
+一般のコンテナ変数&$*$をつける&$\mVarContainer{x}$\\
 有名な変数&ローマン&$\mFirstVar,\mRestVar$\\
 \hline
-関数&イタリック（1文字）&$f,g,h,i,j,k$\\
-一般のコンテナ関数&$*$をつける&$\mContainer{f}$\\
+関数&イタリック（1文字）&$\mFunc{f},\mFunc{g},\mFunc{h},\mFunc{i},\mFunc{j},\mFunc{k}$\\
+一般のコンテナ関数&$*$をつける&$\mFuncContainer{f}$\\
 有名な関数&ローマン&$\mId,\mSin,\mCos$\\
 \hline
 関手&フラクチュール&$\mIdCat$\\
@@ -2613,10 +2627,10 @@ $\mAppMapMaybe$ を
 これらの関係を一般化して
 \begin{equation}
   \label{eq:general-applicative-map}
-  f\mMap\mContainer{w}
-  =\mPureWith{f}\mAppMap\mContainer{w}
+  f\mMap\mVarContainer{w}
+  =\mPureWith{f}\mAppMap\mVarContainer{w}
 \end{equation}
-となるような\keyword{一般アプリカティブマップ演算子} $(\mAppMap)$ を考える．ここに $f$ は関数，$\mContainer{w}$ はリストやMaybeといったコンテナ型の変数すなわち\keyword{コンテナ変数}である．一般アプリカティブマップ演算子 $(\mAppMap)$ から一般マップ演算子 $(\mMap)$ を導き出すには，式\eqref{eq:general-applicative-map} のように値コンストラクタが必要である．この一般化された値コンストラクタを\keyword{ピュア演算子}と呼ぶ．アプリカティブマップ演算子とピュア演算子を持つ型クラスを\keyword{アプリカティブ関手}と呼び，$\mApplicativeTypeClass$ 型クラスと定義する．\footnote{\haskell では一般アプリカティブマップ演算子を \code{<*>} と書く．}
+となるような\keyword{一般アプリカティブマップ演算子} $(\mAppMap)$ を考える．ここに $f$ は関数，$\mVarContainer{w}$ はリストやMaybeといったコンテナ型の変数すなわち\keyword{コンテナ変数}である．一般アプリカティブマップ演算子 $(\mAppMap)$ から一般マップ演算子 $(\mMap)$ を導き出すには，式\eqref{eq:general-applicative-map} のように値コンストラクタが必要である．この一般化された値コンストラクタを\keyword{ピュア演算子}と呼ぶ．アプリカティブマップ演算子とピュア演算子を持つ型クラスを\keyword{アプリカティブ関手}と呼び，$\mApplicativeTypeClass$ 型クラスと定義する．\footnote{\haskell では一般アプリカティブマップ演算子を \code{<*>} と書く．}
 
 ピュア演算子をピュア値コンストラクタと呼ばないのは，単純に「ピュア値」というものがないからである．$\mFunctorTypeClass$ 型クラスはリスト型やMaybe型を抽象化したものであって，直接変数を生成できない．型クラスは，\cxx の用語で言えば純粋仮想クラスのようなものであるし，\objectivec の用語で言えばメタクラスであるからである．もちろんリストのピュア演算子は $[x]$ であるし，Maybeのピュア演算子は $\mJustWith{x}$ であり，それぞれ具体的な変数を生成する．しかし変数 $x$ にピュア演算子を適用した
 $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在しない．\footnote{\haskell は一般のピュア演算子の実装を与えていない．変数の型に応じて対応する関数が適用される．}
@@ -2630,12 +2644,12 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
 この節の最後に\keyword{アプリカティブスタイル}という記法を紹介しておこう．アプリカティブマップ演算子は連続して
 \begin{equation}
   \label{eq:applicative-style}
-  \mContainer{w}
-  =\mPureWith{f}\mAppMap\mContainer{u}\mAppMap\mContainer{v}
+  \mVarContainer{w}
+  =\mPureWith{f}\mAppMap\mVarContainer{u}\mAppMap\mVarContainer{v}
 \end{equation}
 のように使える．もし $u\equiv\mPureNothing$ もしくは $v\equiv\mPureNothing$ であれば式の値は $\mPureNothing$ になる．式\eqref{eq:applicative-style}からピュア演算子を消すには，最初のアプリカティブマップ演算子をマップ演算子に置き換えて
 \begin{equation}
-  \mContainer{w}=f\mMap\mContainer{u}\mAppMap\mContainer{v}
+  \mVarContainer{w}=f\mMap\mVarContainer{u}\mAppMap\mVarContainer{v}
 \end{equation}
 とすれば良い．このようにアプリカティブマップ演算子を並べる書き方をアプリカティブスタイルと呼ぶ．
 
@@ -2806,9 +2820,9 @@ Maybeのアプリカティブマップ演算子の定義は次の通り．
 
 一般マップ演算子をピュア演算子と一般アプリカティブマップ演算子に分解することで，式の見通しを良くすることができるアプリカティブスタイルという記法を採用できた．アプリカティブスタイルでは
 \begin{equation}
-  f\mMap\mContainer{u}\mAppMap\mContainer{v}\mAppMap\mContainer{w}
+  f\mMap\mVarContainer{u}\mAppMap\mVarContainer{v}\mAppMap\mVarContainer{w}
 \end{equation}
-という風にコンテナ変数 $\mContainer{u},\mContainer{v},\mContainer{w}$ に関数 $f$ を適用させることができる．コンテナ変数 $\mContainer{u},\mContainer{v},\mContainer{w}$ のいずれかが $\mPureNothing$ であれば式全体の値が$\mPureNothing$ になる．これは3個の計算を並列に行って，その結果をそれぞれ $\mContainer{u},\mContainer{v},\mContainer{w}$ に入れておき，最後に関数 $f$ に投げるという\keyword{計算構造}を具現化したものである．（関数 $f$ は\clang で言えば \code{main} 関数に相当するであろう．）
+という風にコンテナ変数 $\mVarContainer{u},\mVarContainer{v},\mVarContainer{w}$ に関数 $f$ を適用させることができる．コンテナ変数 $\mVarContainer{u},\mVarContainer{v},\mVarContainer{w}$ のいずれかが $\mPureNothing$ であれば式全体の値が$\mPureNothing$ になる．これは3個の計算を並列に行って，その結果をそれぞれ $\mVarContainer{u},\mVarContainer{v},\mVarContainer{w}$ に入れておき，最後に関数 $f$ に投げるという\keyword{計算構造}を具現化したものである．（関数 $f$ は\clang で言えば \code{main} 関数に相当するであろう．）
 
 しかしながら，アプリカティブスタイルでは変数に文脈を与えるタイミングがコンテナ変数を作るときのそれぞれ1回に限られている．そこで，任意のタイミングで変数に文脈を与えられるように，別な方法で一般マップ演算子を分解してみよう．
 
@@ -2893,18 +2907,18 @@ $\mFunctorTypeClass$ 型クラスは一般マップ演算子 $(\mMap)$ を持っ
     &\mIfSo\mPureNothing
   \end{cases}
 \end{equation}
-ここに $x$ は非コンテナ変数で，関数 $f$ も「普通の」（コンテナに入っていない）関数である．より厳密に言えば $x\mIn\mA$ かつ $f\mIn\mA\mFuncArrow\mB$ である．従って，関数 $\mContainer{i}$ の型は $\mA\mFuncArrow\mPureType{b}$ である．条件 $\mLovelyVar$ には任意の値を入れてよい．
+ここに $x$ は非コンテナ変数で，関数 $f$ も「普通の」（コンテナに入っていない）関数である．より厳密に言えば $x\mIn\mA$ かつ $f\mIn\mA\mFuncArrow\mB$ である．従って，関数 $\mVarContainer{i}$ の型は $\mA\mFuncArrow\mPureType{b}$ である．条件 $\mLovelyVar$ には任意の値を入れてよい．
 
-関数 $i$ をコンテナに入った変数 $u=\mPureWith{x}$ に適用させるのが一般バインド演算子 $(\mBind)$ の役割である．計算結果をコンテナ変数 $a$ に格納するとすると，関数 $i$ のコンテナ変数 $\mContainer{u}$ への適用は
+関数 $i$ をコンテナに入った変数 $u=\mPureWith{x}$ に適用させるのが一般バインド演算子 $(\mBind)$ の役割である．計算結果をコンテナ変数 $a$ に格納するとすると，関数 $i$ のコンテナ変数 $\mVarContainer{u}$ への適用は
 \begin{equation}
 \label{eq:i-love-u}
-\mContainer{a}=i\mBind\mContainer{u}
+\mVarContainer{a}=i\mBind\mVarContainer{u}
 \end{equation}
-と書ける．うまく行けば $\mContainer{a}=\mPureWith{fx}$ となるし，そうでなければ $\mContainer{a}=\mPureNothing$ となる．
+と書ける．うまく行けば $\mVarContainer{a}=\mPureWith{fx}$ となるし，そうでなければ $\mVarContainer{a}=\mPureNothing$ となる．
 
-さて $\mContainer{u}=\mPureWith{x},\mContainer{v}=\mPureWith{y}$ として，かつ $y=fx$ であるとき
+さて $\mVarContainer{u}=\mPureWith{x},\mVarContainer{v}=\mPureWith{y}$ として，かつ $y=fx$ であるとき
 \begin{equation}
-\mContainer{v}=f\mMap\mContainer{u}=\mPureWith{f}\mAppMap\mContainer{u}
+\mVarContainer{v}=f\mMap\mVarContainer{u}=\mPureWith{f}\mAppMap\mVarContainer{u}
 \end{equation}
 であった．
 
@@ -2912,14 +2926,14 @@ $\mFunctorTypeClass$ 型クラスは一般マップ演算子 $(\mMap)$ を持っ
 
 式\eqref{eq:def-of-i}から $ix=\mPureWith{fx}$ すなわち $i=\mPureWith{f\mAnonParam}$ の関係を抜き出すと式\eqref{eq:i-love-u}は
 \begin{equation}
-\mContainer{a}=\mPureWith{f\mAnonParam}\mBind\mContainer{u}
+\mVarContainer{a}=\mPureWith{f\mAnonParam}\mBind\mVarContainer{u}
 \end{equation}
-となる．いま $y=fx$ であったから $\mContainer{a}=\mContainer{v}$ であり，最終的に
+となる．いま $y=fx$ であったから $\mVarContainer{a}=\mVarContainer{v}$ であり，最終的に
 \begin{equation}
-\mContainer{v}
-=f\mMap\mContainer{u}
-=\mPureWith{f}\mAppMap\mContainer{u}
-=\mPureWith{f\mAnonParam}\mBind\mContainer{u}
+\mVarContainer{v}
+=f\mMap\mVarContainer{u}
+=\mPureWith{f}\mAppMap\mVarContainer{u}
+=\mPureWith{f\mAnonParam}\mBind\mVarContainer{u}
 \end{equation}
 を得る．これが一般バインド演算子と一般アプリカティブマップ演算子，一般マップ演算子の関係である．
 
