@@ -1,6 +1,7 @@
 \documentclass[a5paper,twoside,fleqn,draft]{jsbook}
 % \usepackage{eulervm}
-\usepackage{amsmath,amssymb,ascmac,bm,color,graphicx,latexsym,mathtools,multirow,okuverb}
+\usepackage{amsmath,amssymb,ascmac,bm,graphicx,latexsym,mathtools,multirow,okuverb}
+\usepackage[dvipsnames]{xcolor}
 \makeindex
 
 \newcommand{\TK}[1]{\mask{\textbf{TK:}~#1}{C}}
@@ -14,8 +15,8 @@
 \DeclareMathOperator{\sgn}{sgn}
 
 \def\defaultColor{black}
-\def\specialColor{blue}
-\def\varSpecialColor{green}
+\def\specialColor{BlueGreen}
+\def\varSpecialColor{BrickRed}
 
 \newcommand{\Langle}{\llangle}
 \newcommand{\Rangle}{\rrangle}
@@ -138,7 +139,7 @@
 
 % Constants
 \newcommand{\mConstant}[1]{#1}
-\newcommand{\mSpecialConstant}[1]{\color{\specialColor}\textrm{#1}\color{\defaultColor}}
+\newcommand{\mSpecialConstant}[1]{\textcolor{\specialColor}{\textrm{#1}}}
 
 \newcommand{\mEmptyList}{{[\,]}}
 \newcommand{\mFalse}{\mSpecialConstant{False}}
@@ -158,7 +159,7 @@
 \newcommand{\mString}[1]{\text{#1}}
 
 % Special variables
-\newcommand{\mSpecialVar}[1]{\color{\specialColor}\textrm{#1}\color{\defaultColor}}
+\newcommand{\mSpecialVar}[1]{\textcolor{\specialColor}{\textrm{#1}}}
 
 \newcommand{\mAnonParam}{\diamond}
 \newcommand{\mFirstVar}{\mSpecialVar{first}}
@@ -171,13 +172,13 @@
 \DeclareMathOperator{\mFromIntegral}{\mUpCast_\text{Integral}}
 
 % Functions
-\newcommand{\mSpecialFunc}[1]{\textrm{#1}}
-\newcommand{\mSpecialFuncSmall}[1]{\color{\varSpecialColor}\mathrm{#1}\color{\defaultColor}}
+\newcommand{\mSpecialFunc}[1]{\textcolor{\varSpecialColor}{\textrm{#1}}}
+\newcommand{\mSpecialFuncSmall}[1]{\textcolor{\varSpecialColor}{\textrm{#1}}}
 \newcommand{\mVarSpecialFunc}[1]{\mathfrak{#1}}
 
 \DeclareMathOperator{\mConjugate}{\mSpecialFunc{conjugate}}
 \DeclareMathOperator{\mConst}{\mSpecialFunc{const}}
-\DeclareMathOperator{\mCos}{\mSpecialFunc{\color{\varSpecialColor}cos\color{\defaultColor}}}
+\DeclareMathOperator{\mCos}{\mSpecialFunc{cos}}
 \DeclareMathOperator{\mCurry}{\mSpecialFunc{curry}}
 \DeclareMathOperator{\mDuplicate}{\mSpecialFunc{duplicate}}
 \DeclareMathOperator{\mGetList}{\mSpecialFunc{getList}}
@@ -186,7 +187,7 @@
 \DeclareMathOperator{\mFst}{\mSpecialFunc{fst}}
 \DeclareMathOperator{\mFuncall}{\mSpecialFunc{funcall}}
 \DeclareMathOperator{\mHead}{\mSpecialFunc{head}}
-\DeclareMathOperator{\mId}{\mSpecialFunc{\color{\varSpecialColor}id\color{\defaultColor}}}
+\DeclareMathOperator{\mId}{\mSpecialFunc{id}}
 \DeclareMathOperator{\mIdCat}{\mVarSpecialFunc{id}}
 \DeclareMathOperator{\mIfFunc}{\mSpecialFunc{if}}
 \DeclareMathOperator{\mLength}{\mSpecialFunc{length}}
@@ -200,7 +201,7 @@
 \DeclareMathOperator{\mRepeat}{\mSpecialFunc{repeat}}
 \DeclareMathOperator{\mRun}{\mSpecialFunc{run}}
 \DeclareMathOperator{\mSecond}{\mSpecialFunc{second}}
-\DeclareMathOperator{\mSin}{\mSpecialFunc{\color{\varSpecialColor}sin\color{\defaultColor}}}
+\DeclareMathOperator{\mSin}{\mSpecialFunc{sin}}
 \DeclareMathOperator{\mSnd}{\mSpecialFunc{snd}}
 \DeclareMathOperator{\mSeparate}{\mSpecialFunc{separate}}
 \DeclareMathOperator{\mSplit}{\mSpecialFunc{split}}
@@ -356,13 +357,13 @@
 \newcommand{\mIOUnitType}{\mIOType{\mUnitType}}
 
 % Type constructors
-\newcommand{\mTypeConstructor}[1]{\textrm{#1}}
+\newcommand{\mTypeConstructor}[1]{\textcolor{\varSpecialColor}{\textrm{#1}}}
 
-\DeclareMathOperator{\mEitherTypeConstructor}{\mTypeConstructor{\color{\varSpecialColor}Either\color{\defaultColor}}}
-\DeclareMathOperator{\mFuncTypeConstructor}{((\rightarrow)\mType{\color{\varSpecialColor}r\color{\defaultColor}})}
-\DeclareMathOperator{\mListTypeConstructor}{\mTypeConstructor{\color{\varSpecialColor}List\color{\defaultColor}}}
-\DeclareMathOperator{\mMaybeTypeConstructor}{\mTypeConstructor{\color{\varSpecialColor}Maybe\color{\defaultColor}}}
-\DeclareMathOperator{\mZipListTypeConstructor}{\mTypeConstructor{\color{\varSpecialColor}ZipList\color{\defaultColor}}}
+\DeclareMathOperator{\mEitherTypeConstructor}{\mTypeConstructor{Either}}
+\DeclareMathOperator{\mFuncTypeConstructor}{((\rightarrow)\mType{r})}
+\DeclareMathOperator{\mListTypeConstructor}{\mTypeConstructor{List}}
+\DeclareMathOperator{\mMaybeTypeConstructor}{\mTypeConstructor{Maybe}}
+\DeclareMathOperator{\mZipListTypeConstructor}{\mTypeConstructor{ZipList}}
 
 \newcommand{\mFuncTypeAssemble}[1]{{}^{\mFuncTypeConstructor}\mType{#1}}
 \newcommand{\mFuncType}[1]{\mTypeAssemble{\mFuncTypeConstructor}{#1}}
