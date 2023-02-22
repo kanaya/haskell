@@ -15,7 +15,7 @@
 
 \def\defaultColor{black}
 \def\specialColor{blue}
-\def\varSpecialColor{red}
+\def\varSpecialColor{green}
 
 \newcommand{\Langle}{\llangle}
 \newcommand{\Rangle}{\rrangle}
@@ -171,12 +171,13 @@
 \DeclareMathOperator{\mFromIntegral}{\mUpCast_\text{Integral}}
 
 % Functions
-\newcommand{\mSpecialFunc}[1]{\mathrm{#1}}
+\newcommand{\mSpecialFunc}[1]{\textrm{#1}}
 \newcommand{\mSpecialFuncSmall}[1]{\color{\varSpecialColor}\mathrm{#1}\color{\defaultColor}}
 \newcommand{\mVarSpecialFunc}[1]{\mathfrak{#1}}
 
 \DeclareMathOperator{\mConjugate}{\mSpecialFunc{conjugate}}
 \DeclareMathOperator{\mConst}{\mSpecialFunc{const}}
+\DeclareMathOperator{\mCos}{\mSpecialFunc{\color{\varSpecialColor}cos\color{\defaultColor}}}
 \DeclareMathOperator{\mCurry}{\mSpecialFunc{curry}}
 \DeclareMathOperator{\mDuplicate}{\mSpecialFunc{duplicate}}
 \DeclareMathOperator{\mGetList}{\mSpecialFunc{getList}}
@@ -185,7 +186,7 @@
 \DeclareMathOperator{\mFst}{\mSpecialFunc{fst}}
 \DeclareMathOperator{\mFuncall}{\mSpecialFunc{funcall}}
 \DeclareMathOperator{\mHead}{\mSpecialFunc{head}}
-\DeclareMathOperator{\mId}{\mSpecialFunc{id}}
+\DeclareMathOperator{\mId}{\mSpecialFunc{\color{\varSpecialColor}id\color{\defaultColor}}}
 \DeclareMathOperator{\mIdCat}{\mVarSpecialFunc{id}}
 \DeclareMathOperator{\mIfFunc}{\mSpecialFunc{if}}
 \DeclareMathOperator{\mLength}{\mSpecialFunc{length}}
@@ -199,6 +200,7 @@
 \DeclareMathOperator{\mRepeat}{\mSpecialFunc{repeat}}
 \DeclareMathOperator{\mRun}{\mSpecialFunc{run}}
 \DeclareMathOperator{\mSecond}{\mSpecialFunc{second}}
+\DeclareMathOperator{\mSin}{\mSpecialFunc{\color{\varSpecialColor}sin\color{\defaultColor}}}
 \DeclareMathOperator{\mSnd}{\mSpecialFunc{snd}}
 \DeclareMathOperator{\mSeparate}{\mSpecialFunc{separate}}
 \DeclareMathOperator{\mSplit}{\mSpecialFunc{split}}
@@ -356,11 +358,11 @@
 % Type constructors
 \newcommand{\mTypeConstructor}[1]{\textrm{#1}}
 
-\DeclareMathOperator{\mEitherTypeConstructor}{\mTypeConstructor{Either}}
-\DeclareMathOperator{\mFuncTypeConstructor}{((\rightarrow)\mType{r})}
-\DeclareMathOperator{\mListTypeConstructor}{\mTypeConstructor{List}}
-\DeclareMathOperator{\mMaybeTypeConstructor}{\mTypeConstructor{Maybe}}
-\DeclareMathOperator{\mZipListTypeConstructor}{\mTypeConstructor{ZipList}}
+\DeclareMathOperator{\mEitherTypeConstructor}{\mTypeConstructor{\color{\varSpecialColor}Either\color{\defaultColor}}}
+\DeclareMathOperator{\mFuncTypeConstructor}{((\rightarrow)\mType{\color{\varSpecialColor}r\color{\defaultColor}})}
+\DeclareMathOperator{\mListTypeConstructor}{\mTypeConstructor{\color{\varSpecialColor}List\color{\defaultColor}}}
+\DeclareMathOperator{\mMaybeTypeConstructor}{\mTypeConstructor{\color{\varSpecialColor}Maybe\color{\defaultColor}}}
+\DeclareMathOperator{\mZipListTypeConstructor}{\mTypeConstructor{\color{\varSpecialColor}ZipList\color{\defaultColor}}}
 
 \newcommand{\mFuncTypeAssemble}[1]{{}^{\mFuncTypeConstructor}\mType{#1}}
 \newcommand{\mFuncType}[1]{\mTypeAssemble{\mFuncTypeConstructor}{#1}}
@@ -470,7 +472,7 @@ Ether変数&$!$をつける&$\mEither{x}$\\
 \hline
 関数&イタリック（1文字）&$f,g,h,i,j,k$\\
 一般のコンテナ関数&$*$をつける&$\mContainer{f}$\\
-有名な関数&ローマン&$\mId,\sin,\cos$\\
+有名な関数&ローマン&$\mId,\mSin,\mCos$\\
 \hline
 関手&フラクチュール&$\mIdCat$\\
 \hline
