@@ -186,6 +186,7 @@
 \newcommand{\mRestVar}{\mSpecialVar{rest}}
 
 \newcommand{\mAVar}{\mVar{a}}
+\newcommand{\mMVar}{\mVar{m}}
 \newcommand{\mNVar}{\mVar{n}}
 \newcommand{\mUVar}{\mVar{u}}
 \newcommand{\mVVar}{\mVar{v}}
@@ -556,7 +557,7 @@ do記法中のキーワード&タイプライタ&$\mDoLetKeyword$\\
 \hline
 リスト&ブラケットで包む&$[x,y]$\\
 集合&ブレースで包む&$\{x,y\}$\\
-タプル&丸括弧で包む&$\mPairWith{x}{y}$\\
+タプル&丸括弧で包む&$\mPairWith{\mXVar}{\mYVar}$\\
 % アンボックス化タプル&丸括弧とシャープ記号で包む&$\mTupleUnboxedWith{x,y,z}$\\
 \hline
 \end{tabular}
@@ -991,7 +992,7 @@ $\mIf$ 節の中身は真理値を返す関数であれば良いので，関数 
 
 % 条件式は紙面が許せば次のように書いても良い．
 % \begin{equation}
-%   fx=\begin{cases}
+%   \mFFunc\mXVar=\begin{cases}
 %   1&\mIf x\equiv0\\
 %   (\sin x)/x&\mOtherwise
 %   \end{cases}
@@ -1035,9 +1036,9 @@ $\mIf$ 節の中身は真理値を返す関数であれば良いので，関数 
 \section{この章のまとめ}
 
 \begin{enumerate}
-\item 変数 $\mXVar$ に関数 $\mFFunc$ を適用することを $fx$ と書く．\item 変数 $\mXVar,\mYVar$ に関数 $\mGFunc$ を適用することを $g\mXVar\mYVar$ と書く．関数適用は左結合するので $g\mXVar\mYVar=(gx)y$ である．この関数 $(gx)$ は部分適用された関数と呼ぶ．
-\item 関数はラムダ式で定義する．ラムダ式は $\mLambdaEXP{x}{(\sin x)/x}$ のように表記する．\item ラムダ式は $f\mAnonParam$ のように無名パラメタ $\mAnonParam$ を用いて表記しても良い．\item 関数定義 $f=\mLambdaEXP{x}{(\sin x)/x}$ は $fx=(\sin x)/x$ と省略表記できる．
-\item 関数定義にはパタンマッチが使える．例えば $f'0=1;f'x=(\sin x)/x$ と定義できる．\item パタンマッチは関数本体に書いても良い．関数 $f'$ の例で言えば $f'=\mCaseOf{x}0\mIfSo1;\_\mIfSo(\sin x)/x$ と 定義できる．\item 関数定義にはガードが使える．例えば $f''\mGuard{x<0}=0;f''\mGuard{x\equiv0}=1;f''\mGuard{\mOtherwise}=(\sin x)/x$ と定義できる．\item 条件分岐は $\mIfThenElseEXP{x}{y}{z}$ と書き，$x\equiv\mTrue$ の時には $\mYVar$ が，$x\equiv\mFalse$ のときには $\mZVar$ が式の値になる．\item 局所変数は $y=\mLetInEXP{x'}{\dotsb}{fx'}$ または$y=fx'\mWhereIsEXP{x'}{\dotsb}$ という書き方で導入できる．
+\item 変数 $\mXVar$ に関数 $\mFFunc$ を適用することを $\mFFunc\mXVar$ と書く．\item 変数 $\mXVar,\mYVar$ に関数 $\mGFunc$ を適用することを $g\mXVar\mYVar$ と書く．関数適用は左結合するので $g\mXVar\mYVar=(\mGFunc\mXVar)y$ である．この関数 $(\mGFunc\mXVar)$ は部分適用された関数と呼ぶ．
+\item 関数はラムダ式で定義する．ラムダ式は $\mLambdaEXP{x}{(\sin x)/x}$ のように表記する．\item ラムダ式は $f\mAnonParam$ のように無名パラメタ $\mAnonParam$ を用いて表記しても良い．\item 関数定義 $f=\mLambdaEXP{x}{(\sin x)/x}$ は $\mFFunc\mXVar=(\sin x)/x$ と省略表記できる．
+\item 関数定義にはパタンマッチが使える．例えば $f'0=1;f'x=(\sin x)/x$ と定義できる．\item パタンマッチは関数本体に書いても良い．関数 $f'$ の例で言えば $f'=\mCaseOf{x}0\mIfSo1;\_\mIfSo(\sin x)/x$ と 定義できる．\item 関数定義にはガードが使える．例えば $f''\mGuard{x<0}=0;f''\mGuard{x\equiv0}=1;f''\mGuard{\mOtherwise}=(\sin x)/x$ と定義できる．\item 条件分岐は $\mIfThenElseEXP{\mXVar}{\mYVar}{z}$ と書き，$\mXVar\equiv\mTrue$ の時には $\mYVar$ が，$\mXVar\equiv\mFalse$ のときには $\mZVar$ が式の値になる．\item 局所変数は $y=\mLetInEXP{x'}{\dotsb}{\mFFunc\mXVar'}$ または$y=\mFFunc\mXVar'\mWhereIsEXP{x'}{\dotsb}$ という書き方で導入できる．
 \end{enumerate}
 
 % Irrefutable pattern
@@ -1076,7 +1077,7 @@ printf("%d, %d\n", ++i, ++i);
   \left(\mBinOp\right)\mXVar\mYVar
   =\mXVar\mBinOp\mYVar
 \end{equation}
-である．従って，二項演算子と2引数関数に本質的な差はない．本書では演算子と関数という用語は全く同じ意味で用いる．\footnote{\haskell では任意の二項演算子を括弧で包むことで前置演算子として使うことができる．例えば \code{x+y}と \code{(+)x y} は同じ結果を返す．逆に任意の2引数関数 \code{f}は \code{x `f` y} と書くことで中置することができる．}
+である．従って，二項演算子と2引数関数に本質的な差はない．本書では演算子と関数という用語は全く同じ意味で用いる．\footnote{\haskell では任意の二項演算子を括弧で包むことで前置演算子として使うことができる．例えば \code{\mXVar+\mYVar}と \code{(+)x y} は同じ結果を返す．逆に任意の2引数関数 \code{f}は \code{x `f` y} と書くことで中置することができる．}
 
 一般の関数が左結合であることを思い出すと，二項演算子を関数に見立てた
 $(\mBinOp)$ も
@@ -1152,7 +1153,7 @@ z = g(f(x))
   (\mApply\mXVar)\mFFunc
   =\mFFunc\mApply\mXVar
 \end{equation}
-であるから，関数適用演算子を用いて引数を関数に渡すことができる．\footnote{\haskell では $(\mApply x)f$ を \code{(\$x)f} と書く．}
+であるから，関数適用演算子を用いて引数を関数に渡すことができる．\footnote{\haskell では $(\mApply x)f$ を \code{(\$\mXVar)f} と書く．}
 
 \section{高階関数}
 
@@ -1219,10 +1220,10 @@ z = g(f(x))
 
 \begin{enumerate}
 \item 関数と演算子は同じものである．
-\item 任意の二項演算子 $\mBinOp$ について $x\mBinOp y$ と $(\mBinOp)\mXVar\mYVar$ は全く同じ意味である．
+\item 任意の二項演算子 $\mBinOp$ について $\mXVar\mBinOp y$ と $(\mBinOp)\mXVar\mYVar$ は全く同じ意味である．
 \item 任意の二項演算子 $\mBinOp$ について $(\mBinOp x)=\mAnonParam\mBinOp x$ であり，$(x\mBinOp)=x\mBinOp\mAnonParam$ である．これらの記法をセクション記法と呼ぶ．
 \item 関数 $\mFFunc$ と関数 $\mGFunc$ を合成した関数を $f\mCompFunc g$ と書く．
-\item 式 $f\mApply gx$ は $f(gx)$ の意味である．
+\item 式 $f\mApply \mGFunc\mXVar$ は $f(\mGFunc\mXVar)$ の意味である．
 \item 関数を引数に取ったり，関数を返す関数のことを高階関数と呼ぶ．
 \item \haskell のラムダ式はいつもレキシカルクロージャである．
 \end{enumerate}
@@ -1240,7 +1241,7 @@ z = g(f(x))
 
 変数に型の制約を設ける理由は，プログラム上のエラーが減ることを期待するためである．例えば真理値が必要とされるところに整数値の変数が来ることは悪い予兆である．一方で\clang 言語のように全ての変数にいちいち型を明記していくのも骨が折れる．
 
-数学者や物理学者は変数に型の制約を求める一方，新しい変数の型は明記せず読者に推論させる方法をしばしばとる．例えば，質量 $m$ は「スカラー」という型を持つし，速度 $v$ は「3次元ベクトル」という型を持つ．スカラーと3次元ベクトルの間に足し算は定義されていないため，例えば $m+v$という表記を見たときに，両者の型を知っていれば直ちにエラーであることがわかる．
+数学者や物理学者は変数に型の制約を求める一方，新しい変数の型は明記せず読者に推論させる方法をしばしばとる．例えば，質量 $\mMVar$ は「スカラー」という型を持つし，速度 $\mVVar$ は「3次元ベクトル」という型を持つ．スカラーと3次元ベクトルの間に足し算は定義されていないため，例えば $\mMVar+\mVVar$という表記を見たときに，両者の型を知っていれば直ちにエラーであることがわかる．
 
 \haskell はコンパイラが型推論を行うことで，型が自明の場合は型を省略することが出来る．
 
@@ -1248,7 +1249,7 @@ z = g(f(x))
 
 \haskell にはよく使う型が予め用意されている．例えば\keyword{論理型} は論理値すなわち真 $(\mTrue)$ または偽 $(\mFalse)$ という値をとる変数の型である．ある変数 $\mXVar$ が論理型であることを，\haskell では
 \begin{equation}
-  x
+  \mXVar
   \mIn\mBoolType
 \end{equation}
 と書く．数学者なら同じことを
@@ -1260,9 +1261,9 @@ z = g(f(x))
 \begin{equation}
   \left\mBrace
   \begin{aligned}
-    x
+    \mXVar
     &\mIn\mBoolType\\
-    x
+    \mXVar
     &=\mTrue
   \end{aligned}
   \right.
@@ -1274,7 +1275,7 @@ z = g(f(x))
 \end{verbatim}
 と書く．}
 
-この場合変数 $\mXVar$ が $\mBoolType$ 型であることは自明であるため $x\mIn\mBoolType$ は省略できるが，可能な限り型を明記しておくことは良い習慣である．
+この場合変数 $\mXVar$ が $\mBoolType$ 型であることは自明であるため $\mXVar\mIn\mBoolType$ は省略できるが，可能な限り型を明記しておくことは良い習慣である．
 
 他に整数を表す\keyword{整数型}がある．整数型には2種類あって，その一つは $\mIntType$ である．この $\mIntType$ は\clang の \code{int} と似た「計算機にとって都合の良い整数」である．計算機にとって都合の良い整数とは，例えば64ビット計算機の場合 $-2^{63}$ から $2^{63}-1$ の間の整数という意味である．\footnote{\haskell では $\mIntType$ を \code{Int} で表す．}
 
@@ -1296,38 +1297,38 @@ z = g(f(x))
 
 関数にも型がある．例えば整数引数を一つ取り，整数を返す関数 $\mFFunc$ は
 \begin{equation}
-  f
+  \mFFunc
   \mIn\mIntType
   \mFuncArrow\mIntType
 \end{equation}
 という型を持つ．上式は
 \begin{equation}
-  f
-  \mIn\underbrace{\mIntType}_{x}
-  \mFuncArrow\underbrace{\mIntType}_{fx}
+  \mFFunc
+  \mIn\underbrace{\mIntType}_{\mXVar}
+  \mFuncArrow\underbrace{\mIntType}_{\mFFunc\mXVar}
 \end{equation}
 のようにイメージすると良い．これは関数 $\mFFunc$ が集合 $\mIntType$ から集合 $\mIntType$ への\keyword{写像}であると読む．\footnote{\haskell では \code{f :: Int -> Int} と書く．}
 
 \section{カリー化}
 
-\haskell では，どのような関数であれ引数は1個しかとらない．引数が2個あるように見える関数として，例えば $g\mXVar\mYVar$ があったとしよう．ここに $\mGFunc$ は関数，$\mXVar,\mYVar$ は変数である．関数適用は左結合であるから，これは　$\left(gx\right)y$ である．ここに $\left(gx\right)$ は引数 $\mYVar$ をとる関数であると見ることができる．つまり，関数 $\mFFunc$ とは引数 $\mXVar$ をとり「引数 $\mYVar$ をとって値を返す関数 $\left(gx\right)$ を返す」関数であると言える．
+\haskell では，どのような関数であれ引数は1個しかとらない．引数が2個あるように見える関数として，例えば $\mGFunc\mXVar\mYVar$ があったとしよう．ここに $\mGFunc$ は関数，$\mXVar,\mYVar$ は変数である．関数適用は左結合であるから，これは　$\left(\mGFunc\mXVar\right)\mYVar$ である．ここに $\left(\mGFunc\mXVar\right)$ は引数 $\mYVar$ をとる関数であると見ることができる．つまり，関数 $\mFFunc$ とは引数 $\mXVar$ をとり「引数 $\mYVar$ をとって値を返す関数 $\left(\mGFunc\mXVar\right)$ を返す」関数であると言える．
 
-二項演算 $x+y$ は $(+)\mXVar\mYVar$ とも書けたことを思い出そう．これも左結合を思い出すと
+二項演算 $\mXVar+\mYVar$ は $(+)\mXVar\mYVar$ とも書けたことを思い出そう．これも左結合を思い出すと
 \begin{equation}
   (+)\mXVar\mYVar
-  =\left((+)x\right)y
+  =\left((+)\mXVar\right)\mYVar
 \end{equation}
 であるから，$\mYVar$ という引数を $\left((+)x\right)$ という関数に食わせていると解釈できる．
 
 ラムダ式の場合は話はもっと単純で，形式的に
 \begin{equation}
-  \mLambda \mXVar\mYVar\mLambdaArrow x+y
-  =\mLambda x\mLambdaArrow\left(\mLambda y\mLambdaArrow x+y\right)
+  \mLambda\mXVar\mYVar\mLambdaArrow\mXVar+\mYVar
+  =\mLambda\mXVar\mLambdaArrow\left(\mLambda y\mLambdaArrow\mXVar+\mYVar\right)
 \end{equation}
 のように展開すれば1引数にできる．矢印$\mLambdaArrow$は\keyword{右結合}である．そこでこのラムダ式は括弧を省略して
 \begin{equation}
-  \mLambda \mXVar\mYVar\mLambdaArrow x+y
-  =\mLambda x\mLambdaArrow\mLambda y\mLambdaArrow x+y
+  \mLambda\mXVar\mYVar\mLambdaArrow\mXVar+\mYVar
+  =\mLambda\mXVar\mLambdaArrow\mLambda\mYVar\mLambdaArrow\mXVar+\mYVar
 \end{equation}
 とも書かれる．
 
@@ -1337,19 +1338,19 @@ z = g(f(x))
 
 整数引数を二つ取り，整数を返す関数 $\mGFunc$ は
 \begin{equation}
-  g
+  \mGFunc
   \mIn\mIntType\mFuncArrow\mIntType\mFuncArrow\mIntType
 \end{equation}
 という型を持つ．写像の矢印記号は右結合するので，これは
 \begin{equation}
-  g
+  \mGFunc
   \mIn\mIntType\mFuncArrow(\mIntType\mFuncArrow\mIntType)
 \end{equation}
 と同じ意味である．上式は
 \begin{equation*}
-  g
-  \mIn\underbrace{\mIntType}_x
-  \mFuncArrow\underbrace{\overbrace{\mIntType}^y\mFuncArrow\overbrace{\mIntType}^{(gx)y}}_{gx}
+  \mGFunc
+  \mIn\underbrace{\mIntType}_{\mXVar}
+  \mFuncArrow\underbrace{\overbrace{\mIntType}^{\mYVar}\mFuncArrow\overbrace{\mIntType}^{(\mGFunc\mXVar)\mYVar}}_{\mGFunc\mXVar}
 \end{equation*}
 のようにイメージすると良い．自然言語で考えると $\mIntType$ 型の引数を一つ取り，$\mIntType$ 型の引数を一つ取って $\mIntType$ 型の値を返す関数を返す，と読める．\footnote{関数の型に出てくる $\mFuncArrow$ は2引数をとる型コンストラクタである．型コンストラクタに関しては第XYZ章で詳しく述べる．例えば $\mA\mFuncArrow\mB$ という型は $(\mFuncArrow)\mA\mB$ の別名であり，型コンストラクタ $(\mFuncArrow)$ に引数 $\mA$ と $\mB$ を与えたものと読む．}
 
@@ -1357,29 +1358,29 @@ z = g(f(x))
 
 \haskell には\keyword{タプル}という型がある．タプルとは，複数の変数を組み合わせたもので，例えば変数 $\mXVar,\mYVar$ をひとまとめにした
 \begin{equation}
-  \mPairWith{x}{y}
+  \mPairWith{\mXVar}{\mYVar}
 \end{equation}
-はタプルである．変数 $\mXVar$, $\mYVar$ の型は同じでも良いし，異なっても良い．\footnote{\haskell では $\mPairWith{x}{y}$ を \code{(x, y)} と書く．}
+はタプルである．変数 $\mXVar$, $\mYVar$ の型は同じでも良いし，異なっても良い．\footnote{\haskell では $\mPairWith{\mXVar}{\mYVar}$ を \code{(x, y)} と書く．}
 
 いまタプルを引数に取る関数
 \begin{equation}
-  f\mPairWith{x}{y}
-  =x+y
+  f\mPairWith{\mXVar}{\mYVar}
+  =\mXVar+\mYVar
 \end{equation}
 があったとしよう．\haskell にはタプルをとる関数をカリー化する関数 $\mCurry$ があり，
 \begin{equation}
-  (\mCurry f)\mXVar\mYVar
+  (\mCurry\mFFunc)\mXVar\mYVar
 \end{equation}
-は $x+y$ になる．
+は $\mXVar+\mYVar$ になる．
 
 逆に，カリー化された関数
 \begin{equation}
-  f'\mXVar\mYVar
-  =x+y
+  \mFFFunc\mXVar\mYVar
+  =\mXVar+\mYVar
 \end{equation}
 に関しては
 \begin{equation}
-  (\mUncurry f')\mPairWith{x}{y}
+  (\mUncurry\mFFFunc)\mPairWith{\mXVar}{\mYVar}
 \end{equation}
 のように\keyword{アンカリー化}することで，タプルに適用することができる．
 
@@ -1459,21 +1460,21 @@ $\mFromIntegral$ は
   {}
   &\left\mBrace
   \begin{aligned}
-    x
+    \mXVar
     &\mIn\mIntType\\
-    x
-    &=1
+    \mXVar
+    &=\mOneNumber
   \end{aligned}
   \right.\\
-        {}
-        &\left\mBrace
-        \begin{aligned}
-          y
-          &\mIn\mDoubleType\\
-          y
-          &=\mFromIntegral x
-        \end{aligned}
-        \right.
+    {}
+    &\left\mBrace
+    \begin{aligned}
+      \mYVar
+      &\mIn\mDoubleType\\
+      \mYVar
+      &=\mFromIntegral\mXVar
+    \end{aligned}
+  \right.
 \end{align}
 とすることで，$\mIntType$ 型の変数 $\mXVar$ の値を $\mDoubleType$ 型の変数 $\mYVar$ へ代入することができる．\footnote{\haskell では
 \begin{verbatim}
@@ -1639,16 +1640,16 @@ ls = [x*2 for x in range(0, 10)]
 内包表記の式は複数あっても良い．例えば
 \begin{equation}
   \mList{x}
-  =[x+y\mListComp x\mFrom[0,1\dots9],\,y\mFrom[0,1\dots5],\,x+y>3]
+  =[\mXVar+\mYVar\mListComp x\mFrom[0,1\dots9],\,y\mFrom[0,1\dots5],\,\mXVar+\mYVar>3]
 \end{equation}
-は $0\le x\le9$ かつ $0\le y\le5$ の範囲で $x+y>3$となる $\mXVar$ 及び $\mYVar$ から $x+y$ を並べたリストである．これは\python でいう
+は $0\le x\le9$ かつ $0\le y\le5$ の範囲で $\mXVar+y>3$となる $\mXVar$ 及び $\mYVar$ から $\mXVar+y$ を並べたリストである．これは\python でいう
 \begin{pythoncode}
 \begin{verbatim}
-ls = [x+y for x in range(0, 10) for y in range(0, 6) \
-  if x+y > 3]
+ls = [\mXVar+\mYVar for x in range(0, 10) for y in range(0, 6) \
+  if \mXVar+\mYVar > 3]
 \end{verbatim}
 \end{pythoncode}
-のことである．\footnote{\haskell では \code{xs = [x+y | x<-[0,1..9], y<-[0,1..5], x+y>3]} と書く．}
+のことである．\footnote{\haskell では \code{xs = [\mXVar+\mYVar | x<-[0,1..9], y<-[0,1..5], \mXVar+\mYVar>3]} と書く．}
 
 % ...もっと内包表記．
 
@@ -1755,14 +1756,14 @@ $\mList{n}$ は
 \begin{verbatim}
 # Python 2.7
 ls = [0, 1, 2, 3, 4, 5]
-s = reduce(lambda x, y: x+y, ls, 0)
+s = reduce(lambda x, y: \mXVar+\mYVar, ls, 0)
 \end{verbatim}
 \end{pythoncode}
 のように求めることができる．この \code{reduce} 関数は\python バージョン3では非推奨になっているが，\ruby には受け継がれていて，\ruby では
 \begin{rubycode}
 \begin{verbatim}
 ls = [0, 1, 2, 3, 4, 5]
-s = ls.inject(0) { |x, y| x+y }
+s = ls.inject(0) { |x, y| \mXVar+\mYVar }
 \end{verbatim}
 \end{rubycode}
 と書ける．
@@ -1838,10 +1839,10 @@ ms = map(f, ls)
 \end{pythoncode}
 とすると，結果として \code{ms} には $[101,102,103,104,105]$ が入る．
 
-このように引数として関数 $\mFFunc$ とリスト $[x_0,x_1\dotsb x_n]$ を取り，戻り値として $[fx_0,fx_1\dotsb fx_n]$ を返す演算子 $\mMapList$ を考えよう．このとき
+このように引数として関数 $\mFFunc$ とリスト $[x_0,x_1\dotsb x_n]$ を取り，戻り値として $[\mFFunc\mXVar_0,\mFFunc\mXVar_1\dotsb \mFFunc\mXVar_n]$ を返す演算子 $\mMapList$ を考えよう．このとき
 \begin{equation}
   f\mMapList[x_0,x_1\dotsb x_n]
-  =[fx_0,fx_1\dotsb fx_n]
+  =[\mFFunc\mXVar_0,\mFFunc\mXVar_1\dotsb \mFFunc\mXVar_n]
 \end{equation}
 であると定義する．この演算子 $\mMapList$ をリストの\keyword{マップ演算子}と呼ぶ．\footnote{\haskell では $f\mMapList\mList{x}$ を\code{map f xs} または \code{f <\$> xs} と書く．ただし演算子 \code{<\$>} は \code{fmap} 演算子の中置バージョンである．}
 
@@ -1860,7 +1861,7 @@ ms = map(f, ls)
   \mMapList
   \mIn\underbrace{\left(\mA\mFuncArrow\mB\right)}_f
   \mFuncArrow\left(\underbrace{[\mA]}_{[x_0,x_1\dotsb x_n]}
-  \mFuncArrow\underbrace{[\mB]}_{[fx_0,fx_1\dotsb fx_n]}\right)
+  \mFuncArrow\underbrace{[\mB]}_{[\mFFunc\mXVar_0,\mFFunc\mXVar_1\dotsb \mFFunc\mXVar_n]}\right)
 \end{equation}
 である．
 
@@ -1903,16 +1904,16 @@ ms = map(f, ls)
   &=x_0:x_1:[x_2\dotsb x_n]\\
   &=x_0:x_1:x_2:\dotsb:x_n:\mEmptyList
 \end{align}
-cons演算子 $(:)$ は右結合する．すなわち $x_0:x_1:x_2=x_0:(x_1:x_2)$ である．
+cons演算子 $(:)$ は右結合する．すなわち $\mXVar_0:x_1:x_2=x_0:(x_1:x_2)$ である．
 
-マップ演算子の実装は，リストの実装に踏み込めば簡単である．空でないリストは必ず $x:\mList{x}$ へと分解できるから
+マップ演算子の実装は，リストの実装に踏み込めば簡単である．空でないリストは必ず $\mXVar:\mList{x}$ へと分解できるから
 \begin{equation}
   \left\{
   \begin{aligned}
     f\mMapList\mEmptyList
     &=\mEmptyList\\
     f\mMapList{}(x:\mList{x})
-    &=(fx):(f\mMapList\mList{x})
+    &=(\mFFunc\mXVar):(f\mMapList\mList{x})
   \end{aligned}
   \right.
 \end{equation}
@@ -1954,12 +1955,12 @@ cons演算子 $(:)$ は右結合する．すなわち $x_0:x_1:x_2=x_0:(x_1:x_2)
 \item 空リストは $\mEmptyList$ と表す．
 \item $\mA $型のリストを $[\mA]$ 型で表す．
 \item リスト型コンストラクタ$\mListTypeConstructor$ は型パラメタ $\mA$ に作用して$[\mA]$ を生成する．
-\item リストは先頭要素と続くリストから定義される．先頭要素を $\mXVar$ とし，続くリストを $\mList{x}$ とすると$x:\mList{x}$ はリストである．ここに演算子 $:$ は結合(cons)演算子である．
+\item リストは先頭要素と続くリストから定義される．先頭要素を $\mXVar$ とし，続くリストを $\mList{x}$ とすると$\mXVar:\mList{x}$ はリストである．ここに演算子 $:$ は結合(cons)演算子である．
 \item リストはリスト結合(append)できる．リスト $\mList{y}$ とリスト $\mList{z}$ のリスト結合は $\mList{y}\mAppend\mList{z}$ である．
 \item 左畳み込み演算子$\mFold^{\mBinOp}_a[x_0,x_1\dotsb x_n]$ は $a\mBinOp x_0\mBinOp x_1\mBinOp\dotsb\mBinOp x_n$ を返す．
 \item 右畳み込み演算子 $\mFoldRight^{\mBinOp}_{a}[x_0,x_1\dotsb x_n]$ は$(x_0\mBinOp(x_1\mBinOp\dotsb\mBinOp(x_n\mBinOp a)))$ を返す．
 \item 平坦化演算子 $\mJoinList=\mFold_\mEmptyList^{\mAppend}$ はリストを平坦化する．
-\item 関数 $f\mIn\mProjEXP{\mA }{\mA }$ はマップ演算子 $\mMapList$ を用いて $f\mMapList[x_0,x_1\dotsb x_n]=[fx_0,fx_1\dotsb fx_n]$ のようにリスト$[x_0,x_1\dotsb x_n]$ に適用できる．
+\item 関数 $f\mIn\mProjEXP{\mA }{\mA }$ はマップ演算子 $\mMapList$ を用いて $f\mMapList[x_0,x_1\dotsb x_n]=[\mFFunc\mXVar_0,\mFFunc\mXVar_1\dotsb \mFFunc\mXVar_n]$ のようにリスト$[x_0,x_1\dotsb x_n]$ に適用できる．
 \item マップ演算子$\mMapList$ の型は$\mProjEXP{(\mProjEXP{\mA }{\mB})}{\mProjEXP{\mA }{\mB }}$である．
 \item $\mHead(x:\mList{x})=x,\mTail(x:\mList{x})=\mList{x}$である．
 \end{enumerate}
@@ -2155,9 +2156,9 @@ srt(x:xs) = srt as ++ [x] ++ srt bs where
 
 \section{Possibly}
 
-計算の途中で，計算にまつわる状態を残りの計算に引き継ぎたくなる場合がある．例えば，整数 $x,y,z$ があり $x=y/z$ なる値を続く計算で利用したいとする．だが $z\equiv0$ のときには $\mXVar$ は正しく計算されない．こんなときプログラマが取れる手段は
+計算の途中で，計算にまつわる状態を残りの計算に引き継ぎたくなる場合がある．例えば，整数 $\mXVar,y,z$ があり $\mXVar=y/z$ なる値を続く計算で利用したいとする．だが $z\equiv0$ のときには $\mXVar$ は正しく計算されない．こんなときプログラマが取れる手段は
 \begin{itemize}
-\item $x=y/z$ を計算した時点で\keyword{ゼロ除算例外}を発生させ，プログラムの制御を他の場所へ移す（大域ジャンプを行う）
+\item $\mXVar=y/z$ を計算した時点で\keyword{ゼロ除算例外}を発生させ，プログラムの制御を他の場所へ移す（大域ジャンプを行う）
 \item グローバル変数にゼロ除算エラーが起こったことを記録しておき，$\mXVar$ にはとりあえずの数値，例えば $0$ を代入しておいて，計算を続行させる
 \item $\mXVar$ にエラー状態を示す印を新たにつけておいて，計算を続行させる
 \end{itemize}
@@ -2225,7 +2226,7 @@ def map_over(f, p):
 
 もう一度振り出しに戻る．
 
-整数 $x,y,z$ があり $x=y/z$ という式があるとする．この式は $z\equiv0$ のときにはゼロ除算エラーである．しかし「例外」は内部状態の書き換えであり，我々の計算に入れたくない．そこで変数 $\mXVar$ が正しく計算されたかもしれないし，されていないかもしれないということを $\mMaybe{u}$ のように?をつけた変数に入れて，忘れないようにしておこう．
+整数 $\mXVar,y,z$ があり $\mXVar=y/z$ という式があるとする．この式は $z\equiv0$ のときにはゼロ除算エラーである．しかし「例外」は内部状態の書き換えであり，我々の計算に入れたくない．そこで変数 $\mXVar$ が正しく計算されたかもしれないし，されていないかもしれないということを $\mMaybe{u}$ のように?をつけた変数に入れて，忘れないようにしておこう．
 
 ここで変数 $\mMaybe{u}$ が取り得る値は正しく計算された値 $\mXVar$ をラップしたものか，あるいはエラーを表す値 $\mNothing$ である．このように計算結果に「意味付け」をすることを\keyword{文脈}に入れると言う．定数 $\mNothing$ は「ナッシング」と呼ぶ．\footnote{\haskell では $\mNothing$ を \code{Nothing} と書く．}
 
@@ -2246,7 +2247,7 @@ $\mA $ 型の変数を $\mMaybeType{a}$ 型の変数に代入するには，次�
 変数 $\mXVar$ が一度ゼロ除算の危険性に「汚染」された場合，その後ずっとMaybe変数に入れ続けなければいけない．そこで，普通の変数を引数にとる関数 $\mFFunc$ にMaybe変数 $\mMaybe{u}$ を食わせるには，リストの時と同じようなマップ演算子が必要になる．具体的には，変数 $\mXVar$ が $\mType{Int}$ 型として，Maybe変数 $\mMaybe{u}=\mJustWith{x}$ が与えられたとき
 \begin{equation}
   f\mMapMaybe\mMaybe{u}
-  =\mJustWith{fx}
+  =\mJustWith{\mFFunc\mXVar}
 \end{equation}
 となるようなMaybeバージョンのマップ演算子 $\mMapMaybe$ を用いる．ここに $f\mMapMaybe\mMaybe{u}$ の型は，もし $f\mIn\mProjEXP{\mIntType}{\mFloatType}$ ならば $\mMaybeType{\mFloatType}$ である．
 
@@ -2256,7 +2257,7 @@ $\mA $ 型の変数を $\mMaybeType{a}$ 型の変数に代入するには，次�
   =\mCaseOf{\mMaybe{u}}
   \begin{cases}
     \mJustWith{x}
-    &\mIfSo\mJustWith{fx}\\
+    &\mIfSo\mJustWith{\mFFunc\mXVar}\\
     \_
     &\mIfSo\mNothing
   \end{cases}
@@ -2266,7 +2267,7 @@ $\mA $ 型の変数を $\mMaybeType{a}$ 型の変数に代入するには，次�
   \left\{
   \begin{aligned}
     f\mMapMaybe\mJustWith{x}
-    &=\mJustWith{fx}\\
+    &=\mJustWith{\mFFunc\mXVar}\\
     f\mMapMaybe\mNothing
     &=\mNothing
   \end{aligned}
@@ -2327,7 +2328,7 @@ maybe<b> map_over(fn f, maybe<a> u) {
 % （\cxxzerothree プログラマへの注意：関数 \code{f} の代わりに関数オブジェ
 %   クトを渡しても良い．）
 
-整数 $\mXVar$ からMaybe値 $\mMaybe{u}=\mJustWith{x}$ を作り，関数 $gx=1+x$ をMaybe値 $\mMaybe{u}$ に食わせてMaybe値 $\mMaybe{v}$ ただし
+整数 $\mXVar$ からMaybe値 $\mMaybe{u}=\mJustWith{x}$ を作り，関数 $\mGFunc\mXVar=1+x$ をMaybe値 $\mMaybe{u}$ に食わせてMaybe値 $\mMaybe{v}$ ただし
 \begin{equation}
   \mMaybe{v}
   =g\mMapMaybe\mMaybe{u}
@@ -2469,10 +2470,10 @@ A...
 
 \section{圏と関手}
 
-$\mA $ 型の変数 $x,y\mIn\mA$ について，関数 $f\mIn\mA\mFuncArrow\mA$ があり
+$\mA $ 型の変数 $\mXVar,y\mIn\mA$ について，関数 $f\mIn\mA\mFuncArrow\mA$ があり
 \begin{equation}
   y
-  =fx
+  =\mFFunc\mXVar
 \end{equation}
 であるとしよう．このように型 $\mA$ で閉じた世界を仮に $\mA$ 世界と呼ぶことにする．
 
@@ -2588,7 +2589,7 @@ $\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mJustWith{x},\mNothing$
 いま関数のリスト $[f,g,h]$ と変数のリスト $[x,y,z]$ があるとする．リストのアプリカティブマップ演算子 $\mAppMapList$ を次のように定義する．
 \begin{equation}
   [f,g,h]\mAppMapList[x,y,z]
-  =[fx,fy,fz,gx,gy,gz,hx,hy,hz]
+  =[\mFFunc\mXVar,fy,fz,\mGFunc\mXVar,gy,gz,hx,hy,hz]
 \end{equation}
 リストのアプリカティブマップ演算子はこのように，左引数のリスト内のすべての関数を順番に右引数のリスト内の変数に適用し，その結果をリストとして返す．
 
@@ -2605,12 +2606,12 @@ $[\mA\mFuncArrow\mB]\mFuncArrow[\mA]\mFuncArrow[\mB]$ である．これは
 リストバージョンのアプリカティブマップ演算子 $(\mAppMapList)$ の特別な場合として，左引数のリストの要素数が $1$ の場合を考えると
 \begin{equation}
   [f]\mAppMapList{}[x,y,z]
-  =[fx,fy,fz]
+  =[\mFFunc\mXVar,fy,fz]
 \end{equation}
 であり，通常のマップ演算子 $(\mMapList)$ を使ったマップすなわち
 \begin{equation}
   f\mMapList{}[x,y,z]
-  =[fx,fy,fz]
+  =[\mFFunc\mXVar,fy,fz]
 \end{equation}
 と右辺が一致する．つまり，マップ演算子はアプリカティブマップ演算子の特別な場合と考えることができる．実際，リストマップ演算子はアプリカティブマップ演算子から
 \begin{equation}
@@ -2634,7 +2635,7 @@ $\mAppMapMaybe$ を
 % \begin{equation}
 % \mMaybe{i}\mAppMapMaybe\mMaybe{u}
 % =\begin{cases}
-% \mJustWith{fx}
+% \mJustWith{\mFFunc\mXVar}
 % &\mIf\left(\mMaybe{i}\equiv\mJustWith{f}\right)
 % \mLogicalAnd
 % \left(\mMaybe{u}\equiv\mJustWith{x}\right)\\
@@ -2741,7 +2742,7 @@ g\mCompFunc f\mIn\mProjEXP{\mR}{\mB }
 としておこう．これは
 \begin{equation}
   g\mMapFunc f
-  =\mLambdaEXP{x}{g(fx)}
+  =\mLambdaEXP{x}{g(\mFFunc\mXVar)}
 \end{equation}
 と書いても同じことである．これが \haskell における関数のマップ演算子の定義である．
 
@@ -2774,14 +2775,14 @@ g\mCompFunc f\mIn\mProjEXP{\mR}{\mB }
 
 我々は関数版アプリカティブマップ演算子として
 \begin{equation}
-g\mAppMapFunc f=\mLambdaEXP{x}{gx(fx)}
+g\mAppMapFunc f=\mLambdaEXP{x}{\mGFunc\mXVar(\mFFunc\mXVar)}
 \end{equation}
 とする．これは，関数版のピュア演算子の定義と，一般マップ演算子と一般アプリカティブマップ演算子の関係 $f\mMap w=\mPureWith{f}\mAppMap w$ から導かれる．すなわち
 \begin{align}
 \mConstWith{g}\mAppMapFunc f
-&=\mLambdaEXP{x}{\mConstWith{g}x(fx)}\\
-&=\mLambdaEXP{x}{(\mLambdaEXP{\_}{g})x(fx)}\\
-&=\mLambdaEXP{x}{g(fx)}\\
+&=\mLambdaEXP{x}{\mConstWith{g}x(\mFFunc\mXVar)}\\
+&=\mLambdaEXP{x}{(\mLambdaEXP{\_}{g})x(\mFFunc\mXVar)}\\
+&=\mLambdaEXP{x}{g(\mFFunc\mXVar)}\\
 &=g\mCompFunc f
 \end{align}
 であるからである．
@@ -2818,14 +2819,14 @@ Maybeのアプリカティブマップ演算子の定義は次の通り．
 % &=\begin{cases}
 % \left\{
 % \begin{array}{ll}
-% \mJustWith{fx}&\mIf\mMaybe{u}\equiv\mJustWith{x}\\
+% \mJustWith{\mFFunc\mXVar}&\mIf\mMaybe{u}\equiv\mJustWith{x}\\
 % \mNothing&\mOtherwise
 % \end{array}\right\}
 % &\mIf\mMaybe{h}\equiv\mJustWith{f}\\
 % \mNothing&\mOtherwise
 % \end{cases}\\
 % &=\begin{cases}
-% \mJustWith{fx}&\mIf\left(\mMaybe{u}\equiv\mJustWith{x}\right)\mLogicalAnd\left(\mMaybe{h}\equiv\mJustWith{f}\right)\\
+% \mJustWith{\mFFunc\mXVar}&\mIf\left(\mMaybe{u}\equiv\mJustWith{x}\right)\mLogicalAnd\left(\mMaybe{h}\equiv\mJustWith{f}\right)\\
 % \mNothing&\mOtherwise
 % \end{cases}
 % \end{align}
@@ -2853,15 +2854,15 @@ Maybeのアプリカティブマップ演算子の定義は次の通り．
 Maybeの例を思い出そう．Maybe型の変数 $\mMaybe{u}$ はラップされた値 $\mJustWith{x}$ を持つのか，エラーを表す $\mNothing$ を持つのかを選べる．そこで，引数 $\mXVar$ をとり何らかの計算をする関数 $\mGFunc$ を考えよう．この関数 $\mGFunc$ は引数 $\mXVar$ の値次第ではエラーを表す $\mNothing$ を返す．例えば
 \begin{equation}
   \begin{aligned}
-    gx&\mGuard{x\neq0}=\mJustWith{1/x}\\
+    \mGFunc\mXVar&\mGuard{x\neq0}=\mJustWith{1/x}\\
     &\mGuard{\mOtherwise}=\mNothing
   \end{aligned}
 \end{equation}
-といった関数が考えられる．変数 $\mXVar$ は文脈を持っていないが，関数 $\mGFunc$ を適用した結果である $gx$ は文脈を持っていることに注意しよう．いま $gx$ はMaybeという文脈を持っているから，我々は
+といった関数が考えられる．変数 $\mXVar$ は文脈を持っていないが，関数 $\mGFunc$ を適用した結果である $\mGFunc\mXVar$ は文脈を持っていることに注意しよう．いま $\mGFunc\mXVar$ はMaybeという文脈を持っているから，我々は
 \begin{equation}
-\mMaybe{v}=gx
+\mMaybe{v}=\mGFunc\mXVar
 \end{equation}
-という風に結果をMaybe変数に保存しなければならない．今まで見てきた $y=fx$ や $\mMaybe{v}=f\mMapMaybe\mMaybe{u}$ の関係とは異なることに注意しよう．
+という風に結果をMaybe変数に保存しなければならない．今まで見てきた $y=\mFFunc\mXVar$ や $\mMaybe{v}=f\mMapMaybe\mMaybe{u}$ の関係とは異なることに注意しよう．
 
 関数 $\mGFunc$ の型は
 \begin{equation}
@@ -2875,7 +2876,7 @@ Maybeの例を思い出そう．Maybe型の変数 $\mMaybe{u}$ はラップさ�
 \begin{equation}
   \mMaybe{v}=g\mBindMaybe\mMaybe{u}
 \end{equation}
-とする．この新しいマップ演算子 $\mBindMaybe$ のことをMaybeの\keyword{バインド演算子}と呼ぶ．ここで，もし計算が成功していたら $\mMaybe{v}=\mJustWith{gx}$ であり，失敗していたら $\mMaybe{v}=\mNothing$ である．
+とする．この新しいマップ演算子 $\mBindMaybe$ のことをMaybeの\keyword{バインド演算子}と呼ぶ．ここで，もし計算が成功していたら $\mMaybe{v}=\mJustWith{\mGFunc\mXVar}$ であり，失敗していたら $\mMaybe{v}=\mNothing$ である．
 
 演算 $g\mBindMaybe\mMaybe{u}$ の結果はMaybe値であるから，バインド演算子は連続して用いることができる．通常の引数を取ってMaybe値を返すもう一つの関数 $h$ があるとすると
 \begin{equation}
@@ -2891,7 +2892,7 @@ Maybeの例を思い出そう．Maybe型の変数 $\mMaybe{u}$ はラップさ�
 具体例で考えてみよう．関数 $\mGFunc$ を
 \begin{equation}
   \begin{aligned}
-    gx&\mGuard{x\neq0}=\mJustWith{1/x}\\
+    \mGFunc\mXVar&\mGuard{x\neq0}=\mJustWith{1/x}\\
     &\mGuard{\mOtherwise}=\mNothing
   \end{aligned}
 \end{equation}
@@ -2926,21 +2927,21 @@ $\mFunctorTypeClass$ 型クラスは一般マップ演算子 $(\mMap)$ を持っ
   \label{eq:def-of-i}
   ix=\mCaseOf{x}\begin{cases}
     \mLovelyVar
-    &\mIfSo\mPureWith{fx}\\
+    &\mIfSo\mPureWith{\mFFunc\mXVar}\\
     \_
     &\mIfSo\mPureNothing
   \end{cases}
 \end{equation}
-ここに $\mXVar$ は非コンテナ変数で，関数 $\mFFunc$ も「普通の」（コンテナに入っていない）関数である．より厳密に言えば $x\mIn\mA$ かつ $f\mIn\mA\mFuncArrow\mB$ である．従って，関数 $\mVarContainer{i}$ の型は $\mA\mFuncArrow\mPureType{b}$ である．条件 $\mLovelyVar$ には任意の値を入れてよい．
+ここに $\mXVar$ は非コンテナ変数で，関数 $\mFFunc$ も「普通の」（コンテナに入っていない）関数である．より厳密に言えば $\mXVar\mIn\mA$ かつ $f\mIn\mA\mFuncArrow\mB$ である．従って，関数 $\mVarContainer{i}$ の型は $\mA\mFuncArrow\mPureType{b}$ である．条件 $\mLovelyVar$ には任意の値を入れてよい．
 
 関数 $i$ をコンテナに入った変数 $u=\mPureWith{x}$ に適用させるのが一般バインド演算子 $(\mBind)$ の役割である．計算結果をコンテナ変数 $a$ に格納するとすると，関数 $i$ のコンテナ変数 $\mVarContainer{u}$ への適用は
 \begin{equation}
 \label{eq:i-love-u}
 \mVarContainer{a}=i\mBind\mVarContainer{u}
 \end{equation}
-と書ける．うまく行けば $\mVarContainer{a}=\mPureWith{fx}$ となるし，そうでなければ $\mVarContainer{a}=\mPureNothing$ となる．
+と書ける．うまく行けば $\mVarContainer{a}=\mPureWith{\mFFunc\mXVar}$ となるし，そうでなければ $\mVarContainer{a}=\mPureNothing$ となる．
 
-さて $\mVarContainer{u}=\mPureWith{x},\mVarContainer{v}=\mPureWith{y}$ として，かつ $y=fx$ であるとき
+さて $\mVarContainer{u}=\mPureWith{x},\mVarContainer{v}=\mPureWith{y}$ として，かつ $y=\mFFunc\mXVar$ であるとき
 \begin{equation}
 \mVarContainer{v}=f\mMap\mVarContainer{u}=\mPureWith{f}\mAppMap\mVarContainer{u}
 \end{equation}
@@ -2948,11 +2949,11 @@ $\mFunctorTypeClass$ 型クラスは一般マップ演算子 $(\mMap)$ を持っ
 
 \TK{CHECK}
 
-式\eqref{eq:def-of-i}から $ix=\mPureWith{fx}$ すなわち $i=\mPureWith{f\mAnonParam}$ の関係を抜き出すと式\eqref{eq:i-love-u}は
+式\eqref{eq:def-of-i}から $ix=\mPureWith{\mFFunc\mXVar}$ すなわち $i=\mPureWith{f\mAnonParam}$ の関係を抜き出すと式\eqref{eq:i-love-u}は
 \begin{equation}
 \mVarContainer{a}=\mPureWith{f\mAnonParam}\mBind\mVarContainer{u}
 \end{equation}
-となる．いま $y=fx$ であったから $\mVarContainer{a}=\mVarContainer{v}$ であり，最終的に
+となる．いま $y=\mFFunc\mXVar$ であったから $\mVarContainer{a}=\mVarContainer{v}$ であり，最終的に
 \begin{equation}
 \mVarContainer{v}
 =f\mMap\mVarContainer{u}
@@ -2999,7 +3000,7 @@ Maybeモナド
   =\mCaseOf{\mMaybe{u}}
   \begin{cases}
     \mJustWith{x}
-    &\mIfSo\mJustWith{fx}\\
+    &\mIfSo\mJustWith{\mFFunc\mXVar}\\
     \_
     &\mIfSo\mNothing
   \end{cases}
@@ -3034,7 +3035,7 @@ Maybeモナド
   ((f\mMap)\mCompFunc(g\mMap))\mList{x}
   &=(f\mMap{}(g\mMap\mAnonParam))\mList{x}\\
   &=f\mMap{}(g\mMap\mList{x})\\
-  &=f\mMap{}[gx]\\
+  &=f\mMap{}[\mGFunc\mXVar]\\
   &=[(f\mCompFunc g)x]\\
   &=(f\mCompFunc g)\mMap{}[x]\\
   &=(f\mCompFunc g)\mMap\mList{x}
@@ -3048,7 +3049,7 @@ Maybeモナド
 アプリカティブ関手の一般アプリカティブマップ演算子 $(\mAppMap)$ およびピュア演算子は次の規則に従う．
 \begin{enumerate}
 \item 単位元の存在: $\mPureWith{\mId}\mAppMap u=u$
-\item 準同型則: $\mPureWith{f}\mAppMap\mPureWith{x}=\mPureWith{fx}$
+\item 準同型則: $\mPureWith{f}\mAppMap\mPureWith{x}=\mPureWith{\mFFunc\mXVar}$
 \item 合成則: $\mPureWith{(\mCompFunc)}\mAppMap\phi\mAppMap\psi\mAppMap v=\phi\mAppMap{}(\psi\mAppMap v)$
 \item 交換則: $\varphi\mAppMap\mPureWith{y}=\mPureWith{(\mApply y)}\mAppMap\varphi$
 % \item $f\mMap=\mPureWith{f}\mAppMap$ --- （上述の四つの法則から導かれる）
@@ -3056,12 +3057,12 @@ Maybeモナド
 % https://en.wikibooks.org/wiki/Haskell/Applicative_functors#Applicative_functor_laws
 ここでも $\mId=\mAnonParam$ である．
 
-アプリカティブマップ演算子の準同型則は $w=\mPureWith{fx}$ とした時に，
+アプリカティブマップ演算子の準同型則は $w=\mPureWith{\mFFunc\mXVar}$ とした時に，
 \begin{equation}
 \begin{matrix}
 &x&\xrightarrow{\mPureWith{\dotsb}}&\mPureWith{x}\\
 f&\Big\downarrow&&\Big\downarrow&\mPureWith{f}\mAppMap\\
-&fx&\xrightarrow{\mPureWith{\dotsb}}&w
+&\mFFunc\mXVar&\xrightarrow{\mPureWith{\dotsb}}&w
 \end{matrix}
 \end{equation}
 のように $\mXVar$ からスタートして，どちらのルートを辿っても $w$ に行き着くという意味である．
@@ -3238,7 +3239,7 @@ Maybe
 関数はアプリカティブ関手であった．関数のピュア演算子とアプリカティブマップ演算子はそれぞれ
 \begin{align}
 \mConstWith{x}&=\mLambdaEXP{\_}{x}\\
-g\mAppMapFunc f&=\mLambdaEXP{x}{gx(fx)}
+g\mAppMapFunc f&=\mLambdaEXP{x}{\mGFunc\mXVar(\mFFunc\mXVar)}
 \end{align}
 であった．
 % 関数ピュア演算子は，任意の引数 $\mXVar$ を関数に置き換える．ただし，その関数は引数を捨てて元の変数 $\mXVar$ を返す．例えば
@@ -3249,15 +3250,15 @@ g\mAppMapFunc f&=\mLambdaEXP{x}{gx(fx)}
 
 関数のバインド演算子 $\mBindFunc$ を考えておこう．関数のバインド演算子は
 \begin{equation}
-g\mBindFunc f=\mLambdaEXP{x}{g(fx)x}
+g\mBindFunc f=\mLambdaEXP{x}{g(\mFFunc\mXVar)x}
 \end{equation}
 と定義する．ピュア演算子とバインド演算子から，関数のマップ演算子を
 \begin{align}
 \mConstWith{g\mAnonParam}\mBindFunc f
-&=\mLambdaEXP{x}{\mConstWith{g\mAnonParam}(fx)x}\\
-&=\mLambdaEXP{x}{\mConstWith{g(fx)}x}\\
-&=\mLambdaEXP{x}{(\mLambdaEXP{\_}{g(fx)})x}\\
-&=\mLambdaEXP{x}{g(fx)}\\
+&=\mLambdaEXP{x}{\mConstWith{g\mAnonParam}(\mFFunc\mXVar)x}\\
+&=\mLambdaEXP{x}{\mConstWith{g(\mFFunc\mXVar)}x}\\
+&=\mLambdaEXP{x}{(\mLambdaEXP{\_}{g(\mFFunc\mXVar)})x}\\
+&=\mLambdaEXP{x}{g(\mFFunc\mXVar)}\\
 &=g\mCompFunc f\\
 &=g\mMapFunc f
 \end{align}
@@ -3266,9 +3267,9 @@ g\mBindFunc f=\mLambdaEXP{x}{g(fx)x}
 まとめると
 \begin{align}
 \mConstWith{x}&=\mLambdaEXP{\_}{x}\\
-g\mMapFunc f&=\mLambdaEXP{x}{g(fx)}=g\mCompFunc f\\
-g\mAppMapFunc f&=\mLambdaEXP{x}{gx(fx)}\\
-g\mBindFunc f&=\mLambdaEXP{x}{g(fx)x}
+g\mMapFunc f&=\mLambdaEXP{x}{g(\mFFunc\mXVar)}=g\mCompFunc f\\
+g\mAppMapFunc f&=\mLambdaEXP{x}{\mGFunc\mXVar(\mFFunc\mXVar)}\\
+g\mBindFunc f&=\mLambdaEXP{x}{g(\mFFunc\mXVar)x}
 \end{align}
 である．
 
@@ -3324,7 +3325,7 @@ A...
 この話は何かと似ていないだろうか．そう，Maybeである．一度ゼロ除算の可能性に汚染されたコンテナ変数は，コンテナから出すことが許されないのである．Maybeを返す関数$\mFFunc$の戻り値
 \begin{equation}
   \begin{aligned}
-    fx&\mGuard{x\neq0}=\mJustWith{1/x}\\
+    \mFFunc\mXVar&\mGuard{x\neq0}=\mJustWith{1/x}\\
     &\mGuard{\mOtherwise}=\mNothing
   \end{aligned}
 \end{equation}
@@ -3334,7 +3335,7 @@ A...
 \end{equation}
 に渡そうと思ったら，
 \begin{equation}
-  g\mBind fx
+  g\mBind \mFFunc\mXVar
 \end{equation}
 のようにバインド演算子で合成しなければならなかった．
 
@@ -3405,7 +3406,7 @@ define main:
 
 do記法には $\mDoEq$ の他に，我々の $\mLetKeyword$ とよく似た $\mDoLetKeyword$ という構文が用意されている．この $\mDoLetKeyword$ は局所変数の導入に用いられて，例えば
 \begin{equation}
-\omega=\mDo{\mDoLet{y}{fx}\mDoNext\alpha y}
+\omega=\mDo{\mDoLet{y}{\mFFunc\mXVar}\mDoNext\alpha y}
 \end{equation}
 のように使う．
 
@@ -3414,7 +3415,7 @@ do記法には $\mDoEq$ の他に，我々の $\mLetKeyword$ とよく似た $\m
 \mDo{\alpha x}=\alpha x\\
 \mDo{y\mDoEq\alpha x\mDoNext\beta y}=\beta\mBind\alpha x\\
 \mDo{\alpha x\mDoNext\beta y}=(\mLambdaEXP{\_}{\beta y})\mBind \alpha x\label{eq:do-alpha-beta}\\
-\mDo{\mDoLet{y}{fx}\mDoNext\alpha y}=\alpha y\mWhereIsEXP{y}{fx}\\
+\mDo{\mDoLet{y}{\mFFunc\mXVar}\mDoNext\alpha y}=\alpha y\mWhereIsEXP{y}{\mFFunc\mXVar}\\
 \mDo{y\mDoEq\alpha x\mDoNext\mDoLet{z}{fy}\mDoNext\beta z}
 =\beta\mBind{}(f\mMap\alpha x)
 \end{gather}
@@ -3904,7 +3905,7 @@ Maybe型の場合は
   \mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor
   \mWhere\left\{
   \begin{aligned}
-    f\mMap{}\mJustWith{x}&=\mJustWith{fx}\\
+    f\mMap{}\mJustWith{x}&=\mJustWith{\mFFunc\mXVar}\\
     f\mMap\mNothing&=\mNothing
   \end{aligned}
   \right.
@@ -3924,7 +3925,7 @@ Either型の場合は
   \mWhere{}
   \left\{
   \begin{aligned}
-    f\mMap{}\mRightWith{x}&=\mRightWith{fx}\\
+    f\mMap{}\mRightWith{x}&=\mRightWith{\mFFunc\mXVar}\\
     f\mMap{}\mLeftWith{x}&=\mLeftWith{x}
   \end{aligned}
   \right.
@@ -3944,14 +3945,14 @@ Either型の場合は
 リストに新しいマップ演算子 $\mZip$ を定義したいとしよう．この演算子 $\mZip$ は
 \begin{equation}
   [f,g,h]\mZip[x,y,z]
-  =[fx,gy,hz]
+  =[\mFFunc\mXVar,gy,hz]
 \end{equation}
 のように働くとする．新しいマップ演算子 $\mZip$ のことを我々は\keyword{ジップ演算子}と呼ぶことにする．
 
 ジップ演算子を定義するにはどうしたら良いだろうか．汎用性を考えると，ジップ演算子もまたリストのアプリカティブマップ演算子であって欲しい．ところが，リストには既に $\mAppMapList$ というアプリカティブマップ演算子が定義されている．念のためにアプリカティブマップ演算子を用いると
 \begin{equation}
   [f,g,h]\mAppMapList[x,y,z]
-  =[fx,fy,fz,gx,gy,gz,hx,hy,hz]
+  =[\mFFunc\mXVar,fy,fz,\mGFunc\mXVar,gy,gz,hx,hy,hz]
 \end{equation}
 である．ある型のインスタンス化は一種類しか行えないので，リスト型に新しいアプリカティブマップ演算子を追加することは出来ない．
 
@@ -4511,8 +4512,8 @@ $(\mBindList)$ で確定する．
 そこでリストのバインド演算子を用いると
 \begin{align}
   \mJoinList\mCompFunc{}(f\mMapList)\mCompFunc g
-  &=\mLambda x\mLambdaArrow\mJoinList{}(f\mMapList(gx))\\
-  &=\mLambda x\mLambdaArrow f\mBindList(gx)\\
+  &=\mLambda x\mLambdaArrow\mJoinList{}(f\mMapList(\mGFunc\mXVar))\\
+  &=\mLambda x\mLambdaArrow f\mBindList(\mGFunc\mXVar)\\
   &=f\mBindComp g
 \end{align}
 であるから，式\eqref{eq:nondet-instance}の2行目は
@@ -4646,13 +4647,13 @@ instance Cat.Category NonDet where
   \label{eq:mean}
   \mMean\mList{x}
   =
-  \left(\mLambda\mPairWith{x}{y}\mLambdaArrow x/y\right)\mPairWith{\mSum\mList{x}}{\mLength\mList{x}}
+  \left(\mLambda\mPairWith{\mXVar}{\mYVar}\mLambdaArrow x/y\right)\mPairWith{\mSum\mList{x}}{\mLength\mList{x}}
 \end{equation}
 幸いカリー化された2引数関数をペアを引数にとる関数へ変換する
 $\mUncurry$ 関数があり，
 \begin{equation}
   \mUncurry(\mBinOp)
-  =\mLambda\mPairWith{x}{y}\mLambdaArrow x\mBinOp y
+  =\mLambda\mPairWith{\mXVar}{\mYVar}\mLambdaArrow x\mBinOp y
 \end{equation}
 であるから，式\eqref{eq:mean}の第1項（前半の括弧）は $\mUncurry(/)$ と
 出来る．
@@ -4691,14 +4692,14 @@ $\begin{bmatrix}\vdots\end{bmatrix}$ だけの問題になる．
 \end{equation}
 という形に持っていきたい．それには
 \begin{equation}
-  \mPairWith{fx}{gy}
+  \mPairWith{\mFFunc\mXVar}{gy}
   =
   \begin{bmatrix}
     f\\
     g
   \end{bmatrix}
   % \mathop{\square}{}
-  \mPairWith{x}{y}
+  \mPairWith{\mXVar}{\mYVar}
 \end{equation}
 となるような関数 $\mFFunc$ と関数 $\mGFunc$ の合成
 $\begin{bmatrix}\vdots\end{bmatrix}$ が是非とも必要である．この特殊な
@@ -4724,13 +4725,13 @@ $\begin{bmatrix}\vdots\end{bmatrix}$ が是非とも必要である．この特�
 なる合成演算子 $(\mCompCat)$ も同時に考えておく必要がある．と言うのも，
 ブラケットの合成が自由にできるようになると
 \begin{equation}
-  \mPairWith{fx}{y}
+  \mPairWith{\mFFunc\mXVar}{y}
   =
   \begin{bmatrix}
     f\\
     \mId
   \end{bmatrix}
-  \mPairWith{x}{y}
+  \mPairWith{\mXVar}{\mYVar}
 \end{equation}
 のようにペアの片側だけに作用するブラケットだけを考えておけば良くなるか
 らである．
@@ -4845,7 +4846,7 @@ $\mArrowTypeClass$ のインスタンスにしてみよう．
     \mArrowWith{f}
     &=\mValueWith{SimpleFunc}{f}\\
     \mFirst\mValueWith{SimpleFunc}{f}
-    &=\mValueWith{SimpleFunc}{\mLambda\mPairWith{x}{y}\mLambdaArrow\mPairWith{fx}{y}}
+    &=\mValueWith{SimpleFunc}{\mLambda\mPairWith{\mXVar}{\mYVar}\mLambdaArrow\mPairWith{\mFFunc\mXVar}{y}}
   \end{aligned}
   \right.
 \end{multline}
@@ -4897,7 +4898,7 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
 \begin{equation}
   \mSecond
   =\mArrowWith{\mSwap}\mCompCat\mFirst
-  \mWhere\mSwap\mPairWith{x}{y}\mLetEq\mPairWith{y}{x}
+  \mWhere\mSwap\mPairWith{\mXVar}{\mYVar}\mLetEq\mPairWith{y}{x}
 \end{equation}
 が与えられており，この $\mSecond$ を使ってブラケットの定義
 \begin{equation}
@@ -4958,7 +4959,7 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
 
 \begin{equation}
   \begin{pmatrix}
-    fx\\
+    \mFFunc\mXVar\\
     gy
   \end{pmatrix}
   =
@@ -5003,13 +5004,13 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
 
 議論を簡単にするために
 \begin{equation}
-  \mPairWith{fx}{y}
+  \mPairWith{\mFFunc\mXVar}{y}
   =\begin{bmatrix}
   f\\
   \mId
   \end{bmatrix}
   % \mathop{\square}{}
-  \mPairWith{x}{y}
+  \mPairWith{\mXVar}{\mYVar}
 \end{equation}
 と
 \begin{equation}
@@ -5018,12 +5019,12 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
   \mId\\
   g
   \end{bmatrix}
-  \mPairWith{x}{y}
+  \mPairWith{\mXVar}{\mYVar}
 \end{equation}
 を考えよう．この二つを合成すると
 \begin{equation}
   \begin{bmatrix}
-    fx\\
+    \mFFunc\mXVar\\
     gy
   \end{bmatrix}
   =
@@ -5036,7 +5037,7 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
     f\\
     \mId
   \end{bmatrix}
-  \mPairWith{x}{y}
+  \mPairWith{\mXVar}{\mYVar}
 \end{equation}
 であるとする．つまり，合成則も一緒に考えておくのである．
 
@@ -5101,7 +5102,7 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
 
 \begin{equation}
   \mFirst\Vec{f}
-  =\mLambda{\mPairWith{x}{z}}\mLambdaArrow\mPairWith{fx}{z}
+  =\mLambda{\mPairWith{x}{z}}\mLambdaArrow\mPairWith{\mFFunc\mXVar}{z}
 \end{equation}
 
 \begin{equation}
@@ -5123,9 +5124,9 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
 
 より抽象度の高い議論を行うと
 \begin{equation}
-  \mPairWith{fx}{y}
+  \mPairWith{\mFFunc\mXVar}{y}
   =\begin{bmatrix}f\\g\end{bmatrix}
-  \mPairWith{x}{y}
+  \mPairWith{\mXVar}{\mYVar}
 \end{equation}
 さえあれば良いことがわかる．
 
@@ -5197,10 +5198,10 @@ $\Vec{\mFFunc}***\Vec{\mGFunc}$ も関数ではない．
   \mWhere\left\{
   \begin{aligned}
     \mArrowWith{f}
-    &=\mCircuitWith{\mLambda x\mLambdaArrow\mPairWith{\mArrowWith{f}}{fx}}\\
+    &=\mCircuitWith{\mLambda x\mLambdaArrow\mPairWith{\mArrowWith{f}}{\mFFunc\mXVar}}\\
     \mFirstFunc\mCircuitWith{f}
     &={}^{\mathrm{Circ}}\[\mLambda \mXVar\mYVar\mLambdaArrow\mPairWith{\mFirstFunc f'}{\mPairWith{z}{y}}
-    \mWhere{}\mPairWith{f'}{z}\mLetEq fx\]
+    \mWhere{}\mPairWith{f'}{z}\mLetEq \mFFunc\mXVar\]
   \end{aligned}
   \right.
 \end{multline}
@@ -5264,11 +5265,11 @@ $\Vec{\mFFunc}***\Vec{\mGFunc}$ も関数ではない．
 ---
 
 \begin{equation}
-  \left(f\bigvee g\right)\mPairWith{x}{y}=\mPairWith{fx}{gy}
+  \left(f\bigvee g\right)\mPairWith{\mXVar}{\mYVar}=\mPairWith{\mFFunc\mXVar}{gy}
 \end{equation}
 
 \begin{equation}
-  \left(f\bigwedge g\right)x=\mPairWith{fx}{gx}
+  \left(f\bigwedge g\right)x=\mPairWith{\mFFunc\mXVar}{\mGFunc\mXVar}
 \end{equation}
 
 ---
@@ -5279,7 +5280,7 @@ $\Vec{\mFFunc}***\Vec{\mGFunc}$ も関数ではない．
 % http://qiita.com/CyLomw/items/a874cee33c69653f53c6
 % http://qiita.com/CyLomw/items/688942f19a5bc3a25037
 % http://www.kotha.net/ghcguide_ja/7.6.2/arrow-notation.html
-% http://d.hatena.ne.jp/haxis_fx/20110720/1311149995
+% http://d.hatena.ne.jp/haxis_\mFFunc\mXVar/20110720/1311149995
 % http://d.hatena.ne.jp/r-west/20070720/1184946510
 % http://d.hatena.ne.jp/r-west/20070531/1180630841
 % http://d.hatena.ne.jp/r-west/20070604/1180976373
@@ -5484,11 +5485,11 @@ $ ./sample
   {}&\left\mBrace
     \begin{aligned}
       \mMain&\mIn{}\mIODoubleType\\
-      \mMain&=\mPrint(fx)\mBindRightIgnore\mPureWith{0}
+      \mMain&=\mPrint(\mFFunc\mXVar)\mBindRightIgnore\mPureWith{0}
     \end{aligned}
     \right.
 \end{align}
-である．この式は $\mPrint(fx)$ がいかなる値を返そうとも，アクション
+である．この式は $\mPrint(\mFFunc\mXVar)$ がいかなる値を返そうとも，アクション
 $\mMain$ の値は $0$ になることを示している．
 
 \section{余談：インタープリタ*}
@@ -5683,7 +5684,7 @@ do記法&\code{do}\\
 \begin{equation}
 a*x^2+b*x+c=0
 \end{equation}
-において定数 $\mXVar$ が取り得る値のことである．なお $x^2$ は\haskell では
+において定数 $\mXVar$ が取り得る値のことである．なお $\mXVar^2$ は\haskell では
 \code{x**2} と書く．
 
 2次方程式の解法は知られており，
@@ -5937,10 +5938,10 @@ main = print a >> pure 0
 
 \section{数学関数の演算*}
 
-$y=fx$ ただし
+$y=\mFFunc\mXVar$ ただし
 \begin{equation}
 \begin{aligned}
-fx&\mGuard{x\equiv0}=1\\
+\mFFunc\mXVar&\mGuard{x\equiv0}=1\\
 &\mGuard{\mOtherwise}=(\sin x)/x
 \end{aligned}
 \end{equation}
@@ -5962,7 +5963,7 @@ n&=100
 \left\mBrace
 \begin{aligned}
 f&\mIn\mProjEXP{\mDoubleType}{\mDoubleType}\\
-fx&\mGuard{x\equiv0}=1\\
+\mFFunc\mXVar&\mGuard{x\equiv0}=1\\
 &\mGuard{\mOtherwise}=(\sin x)/x
 \end{aligned}
 \right.
@@ -6081,7 +6082,7 @@ main = print ys >> pure 0
 ---
 
 \begin{equation}
-(f\circledcirc g)t=\sum_xfx*g(t-x)
+(f\circledcirc g)t=\sum_x\mFFunc\mXVar*g(t-x)
 \end{equation}
 
 \begin{equation}
@@ -6089,7 +6090,7 @@ main = print ys >> pure 0
 yt&=\sum(\mLambdaEXP{x}{\mFst x*\mSnd x})\mMapList\mList{h}\\
 &\quad\mWhere\\
 &\qquad\mList{h}\mLetEq{}\mZipFunc\mList{f}\mList{g}\\
-&\qquad\mList{f}\mLetEq[fx\mListComp x\mFrom[0,1\dotsb n]]\\
+&\qquad\mList{f}\mLetEq[\mFFunc\mXVar\mListComp x\mFrom[0,1\dotsb n]]\\
 &\qquad\mList{g}\mLetEq[g(t-x)\mListComp x\mFrom[0,1\dotsb n]]
 \end{aligned}
 \end{equation}
@@ -6110,7 +6111,7 @@ yt&=\sum(\mLambdaEXP{x}{\mFst x*\mSnd x})\mMapList\mList{h}\\
 \end{equation}
 
 \begin{equation}
-f\circledcirc g=\mLambdaEXP{t}{\sum fx*g(t-x)}
+f\circledcirc g=\mLambdaEXP{t}{\sum \mFFunc\mXVar*g(t-x)}
 \end{equation}
 
 
@@ -6120,11 +6121,11 @@ $$
 
 
 $$
-yt=\sum_xfx*g(t-x)
+yt=\sum_x\mFFunc\mXVar*g(t-x)
 $$
 
 $$
-y=\sum_xfx*g(\mAnonParam-x)
+y=\sum_x\mFFunc\mXVar*g(\mAnonParam-x)
 $$
 
 \section{行列演算*}
@@ -6220,7 +6221,7 @@ main = do
 まず最初に，我々にとって一番身近な代数的構造である\keyword{数}を見てみ
 よう．数の代表例は\keyword{実数}であるから，実数を例にとって考えてみよ
 う．実数全体の集合を $\mRSet$ で表すことにする．また任意の実数を
-$x,y,z$ で表すこととする．このことを数学者は $x,y,z\in\mRSet$ と書くが，
+$\mXVar,y,z$ で表すこととする．このことを数学者は $\mXVar,y,z\in\mRSet$ と書くが，
 本書ではこれまで通り
 \begin{equation}
 x,y,z\mIn\mRSet
@@ -6228,15 +6229,15 @@ x,y,z\mIn\mRSet
 と表すことにする．
 
 以下に実数の備える代数的性質を列挙する．どれも当たり前のことに見えるが，
-ひとつひとつ見ていこう．ここで $x,y,z\mIn\mRSet$ とする．
+ひとつひとつ見ていこう．ここで $\mXVar,y,z\mIn\mRSet$ とする．
 \begin{description}
 \item[実数の性質1. 加法の全域性] 任意の $\mXVar$ と任意の $\mYVar$ の\keyword{加
-法}（足し算）の結果すなわち\keyword{和} $x+y$ は $\mRSet$ の元すなわ
+法}（足し算）の結果すなわち\keyword{和} $\mXVar+y$ は $\mRSet$ の元すなわ
 ち実数である．演算の結果が同じ集合の元になることを\keyword{全域性}と
 呼ぶ．
-\item[実数の性質2. 加法の結合性] 任意の $x,y,z$ について
+\item[実数の性質2. 加法の結合性] 任意の $\mXVar,y,z$ について
 \begin{equation}
-(x+y)+\mZVar=x+(y+z)
+(\mXVar+\mYVar)+\mZVar=x+(y+z)
 \end{equation}
 である．これを加法の\keyword{結合性}（結合律）と呼ぶ．
 \item[実数の性質3. 零元（加法単位元）の存在] 特別な実数 $0\mIn\mRSet$ があり
@@ -6256,13 +6257,13 @@ $-x\mIn\mRSet$ があり
 呼ぶこともある．
 \item[実数の性質5. 加法の可換性] 任意の $\mXVar,\mYVar$ について
 \begin{equation}
-x+y=y+x
+\mXVar+\mYVar=y+x
 \end{equation}
 である．このことを加法の\keyword{可換性}（可換律）と呼ぶ．
 \item[実数の性質6. 乗法] 任意の $\mXVar$ と任意の $\mYVar$ の\keyword{乗法}（掛
-け算）の結果すなわち\keyword{積} $x*y$ は $\mRSet$ の元すなわち実数
+け算）の結果すなわち\keyword{積} $\mXVar*y$ は $\mRSet$ の元すなわち実数
 である．
-\item[実数の性質7. 乗法の結合性] 任意の $x,y,z$ について
+\item[実数の性質7. 乗法の結合性] 任意の $\mXVar,y,z$ について
 \begin{equation}
 (x*y)*\mZVar=x*(y*z)
 \end{equation}
@@ -6272,12 +6273,12 @@ x+y=y+x
 1*x=x*1=x
 \end{equation}
 である．この $1$ を乗法の単位元または\keyword{乗法単位元}と呼ぶ．
-\item[実数の性質9. 逆元の存在] 任意の $\mXVar$ に対して $x^{-1}\mIn\mRSet$
+\item[実数の性質9. 逆元の存在] 任意の $\mXVar$ に対して $\mXVar^{-1}\mIn\mRSet$
 があり
 \begin{equation}
 x^{-1}*x=1
 \end{equation}
-である．この $x^{-1}$ は $\mXVar$ の乗法の逆元である．\keyword{乗法逆元}と
+である．この $\mXVar^{-1}$ は $\mXVar$ の乗法の逆元である．\keyword{乗法逆元}と
 呼ぶこともある．ただし性質11で述べる通り，加法単位元については逆元がな
 くても良い．
 \item[実数の性質10. 乗法の可換性] 任意の $\mXVar,\mYVar$ について
@@ -6289,7 +6290,7 @@ x*y=y*x
 は存在しなくても良い．（つまり $0^{-1}$ のことは考えなくて良い．）
 \item[実数の性質12. 分配律] 加法と乗法が混在する場合
 \begin{equation}
-(x+y)*\mZVar=(x*z)+(y*z)
+(\mXVar+\mYVar)*\mZVar=(x*z)+(y*z)
 \end{equation}
 と乗法を\keyword{分配}する．
 \end{description}
@@ -6314,19 +6315,19 @@ $\mZVar$ を体の元，$n$ を自然数とした．さて $z\uparrow2$ は
 \begin{equation}
 z\uparrow2=z*z
 \end{equation}
-であるから，いま $\mZVar=x+y$ とすると
+であるから，いま $\mZVar=\mXVar+\mYVar$ とすると
 \begin{align}
 z\uparrow2&=z*z\\
-&=z*(x+y)\\
+&=z*(\mXVar+\mYVar)\\
 &=z*x+z*y\;\text{---分配律}\\
-&=(x+y)*x+(x+y)*y\\
-&=x*x+y*x+x*y+y*y\;\text{---分配律}\\
-&=x\uparrow2+x*y+y*x+y\uparrow2
+&=(\mXVar+\mYVar)*x+(\mXVar+\mYVar)*y\\
+&=x*\mXVar+\mYVar*x+x*y+y*y\;\text{---分配律}\\
+&=x\uparrow2+x*y+y*\mXVar+\mYVar\uparrow2
 \end{align}
 となり
 \begin{equation}
 \label{eq:xysq}
-(x+y)\uparrow2=x\uparrow2+x*y+y*x+y\uparrow2
+(\mXVar+\mYVar)\uparrow2=x\uparrow2+x*y+y*\mXVar+\mYVar\uparrow2
 \end{equation}
 を得る．式\eqref{eq:xysq}は体の性質だけを使って導いた関係なので，実数
 だけでなく有理数や複素数にもそのまま使える．実際には式\eqref{eq:xysq}
@@ -6376,12 +6377,12 @@ z\uparrow2&=z*z\\
 わせと「非可換・単位元あり・逆元なし」の組み合わせがペアになったもの
 （環）があることがわかる．
 
-いま集合 $\mSet{G}$ があり，$x,y,z\mIn\mSet{G}$ であるとし，二項演算子
+いま集合 $\mSet{G}$ があり，$\mXVar,y,z\mIn\mSet{G}$ であるとし，二項演算子
 を $\mBinOp$ と書くことにして，体の性質の前半分を書き下してみよう．
 \begin{description}
-\item[性質1.] 任意の $\mXVar$ と任意の $\mYVar$ の演算の結果 $x\mBinOp y$ は
+\item[性質1.] 任意の $\mXVar$ と任意の $\mYVar$ の演算の結果 $\mXVar\mBinOp y$ は
 $\mSet{G}$ の元である．
-\item[性質2.] 任意の $x,y,z$ について
+\item[性質2.] 任意の $\mXVar,y,z$ について
 \begin{equation}
 (x\mBinOp y)\mBinOp \mZVar=x\mBinOp(y\mBinOp z)
 \end{equation}
@@ -6494,7 +6495,7 @@ $\mVec{0}$ で表すことにしよう．ここでも矢印はベクトルであ
 $\mTupleWith{\mSet{V},+,\mVec{0},-}$ もまた可換群である．
 
 可換群の性質のうち最初の4項目だけを満たすものを群と呼ぶ．可換群は群の
-特別な場合である．現代の数学では $x\mBinOp y\neq y\mBinOp x$ のように
+特別な場合である．現代の数学では $\mXVar\mBinOp y\neq y\mBinOp x$ のように
 演算子の前後を入れ替えると結果が異なるような演算をよく取り扱うので，一
 般の群は可換群よりもよく取り上げられ，それ故より短い名前が付けられてい
 る．
@@ -6521,12 +6522,12 @@ $\mTupleWith{\mSet{V},+,\mVec{0},-}$ もまた可換群である．
 \end{center}
 \end{table}
 
-単位的半群の性質は次の三つである．ただし $x,y,z$ が集合 $\mSet{M}$ の
+単位的半群の性質は次の三つである．ただし $\mXVar,y,z$ が集合 $\mSet{M}$ の
 元であるとする．
 \begin{description}
 \item[単位的半群の性質1.] 任意の $\mXVar$ と任意の $\mYVar$ の演算の結果
-$x\mBinOp y$ は $\mSet{M}$ の元である．
-\item[単位的半群の性質2. 結合性] 任意の $x,y,z$ について
+$\mXVar\mBinOp y$ は $\mSet{M}$ の元である．
+\item[単位的半群の性質2. 結合性] 任意の $\mXVar,y,z$ について
 \begin{equation}
 (x\mBinOp y)\mBinOp \mZVar=x\mBinOp(y\mBinOp z)
 \end{equation}
@@ -6558,8 +6559,8 @@ $x\mBinOp y$ は $\mSet{M}$ の元である．
 \section{圏}
 
 これまでは集合の元同士に対する二項演算を考えてきた．集合$\mSet{M}$が単
-位的半群であるとき，集合$\mSet{M}$の元$x,y\mIn\mSet{M}$に対して
-$x\mBinOp y\mIn\mSet{M}$であった．見方を変えると，演算子$\mBinOp$とは
+位的半群であるとき，集合$\mSet{M}$の元$\mXVar,y\mIn\mSet{M}$に対して
+$\mXVar\mBinOp y\mIn\mSet{M}$であった．見方を変えると，演算子$\mBinOp$とは
 集合$\mSet{M}$の元2個から出発して，集合$\mSet{M}$の元1個へとジャンプさ
 せる\keyword{写像}であると言える．これを
 \begin{equation}
@@ -6829,7 +6830,7 @@ int main(void) {
 \cxxfourteen
 \begin{verbatim}
 auto lambda_exp
-  = [](auto x, auto y) { return x+y; };
+  = [](auto x, auto y) { return \mXVar+\mYVar; };
 \end{verbatim}
 
 \begin{verbatim}
