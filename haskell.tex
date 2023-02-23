@@ -17,8 +17,8 @@
 \def\defaultColor{black}
 
 % https://mathlandscape.com/latex-color/
-% \def\constColor{Violet}
-\def\constColor{WildStrawberry}
+% \def\constantColor{Violet}
+\def\constantColor{WildStrawberry}
 \def\varColor{NavyBlue}
 \def\funcColor{BlueGreen}
 \def\actionColor{PineGreen}
@@ -151,8 +151,8 @@
 \DeclareMathOperator{\mWhere}{\mWhereKeyword}
 
 % Constants
-\newcommand{\mConstant}[1]{\textcolor{\constColor}{#1}}
-\newcommand{\mSpecialConstant}[1]{\textcolor{\constColor}{\textrm{#1}}}
+\newcommand{\mConstant}[1]{\textcolor{\constantColor}{#1}}
+\newcommand{\mSpecialConstant}[1]{\textcolor{\constantColor}{\textrm{#1}}}
 
 \newcommand{\mZeroNumber}{{\mConstant{0}}}
 \newcommand{\mOneNumber}{{\mConstant{1}}}
@@ -165,14 +165,14 @@
 \newcommand{\mEightNumber}{\mConstant{8}}
 \newcommand{\mNineNumber}{\mConstant{9}}
 
-\newcommand{\mEmptyList}{{[\,]}}
+\newcommand{\mEmptyList}{{\textcolor{\constantColor}{[\,]}}}
 \newcommand{\mFalse}{\mSpecialConstant{False}}
-\newcommand{\mNothing}{\emptyset}
+\newcommand{\mNothing}{\textcolor{\constantColor}{\emptyset}}
 \newcommand{\mNumOne}{\mSpecialConstant{One}}
 \newcommand{\mNumTwo}{\mSpecialConstant{Two}}
 \newcommand{\mNumThree}{\mSpecialConstant{Three}}
 \newcommand{\mNumMany}{\mSpecialConstant{Many}}
-\newcommand{\mPureNothing}{\varnothing}
+\newcommand{\mPureNothing}{\textcolor{\constantColor}{\varnothing}}
 \newcommand{\mTrue}{\mSpecialConstant{True}}
 \newcommand{\mZero}{\mSpecialConstant{\O}}
 \newcommand{\mZeroLeft}{\mZero_\mLeft}
@@ -217,6 +217,7 @@
 \newcommand{\mGFunc}{\mFunc{g}}
 \newcommand{\mHFunc}{\mFunc{h}}
 \newcommand{\mIFunc}{\mFunc{i}}
+\newcommand{\mJFunc}{\mFunc{j}}
 \newcommand{\mPFunc}{\mFunc{p}}
 \newcommand{\mFFFunc}{\mFunc{f'}}
 \newcommand{\mFFFFunc}{\mFunc{f''}}
@@ -386,7 +387,6 @@
 \newcommand{\mTypeAssemble}[2]{{}^\mathrm{#1}\[\mType{#2}\]}
 \newcommand{\mTypeAssembleII}[3]{{}^\mathrm{#1}\[\mType{#2}\,\mType{#3}\]}
 \newcommand{\mPolymorphicTypeAssemble}[2]{{}^{#1}\[\mType{#2}\]}
-% \newcommand{\mPolymorphicTypeAssemble}[3]{{}^\mTypeConstructor{#1}\[\mType{#2}\,\mType{#3}\]}
 
 \newcommand{\mCompFunclexType}[1]{\mTypeAssemble{C}{#1}} % to be removed
 \newcommand{\mEitherType}[2]{\mTypeAssembleII{Either}{#1}{#2}}
@@ -1966,7 +1966,7 @@ cons演算子 $(:)$ は右結合する．すなわち $\mXVar_0:\mXVar_1:\mXVar_
 \item 左畳み込み演算子$\mFold^{\mBinOp}_a[\mXVar_0,\mXVar_1\dotsb \mXVar_n]$ は $a\mBinOp \mXVar_0\mBinOp \mXVar_1\mBinOp\dotsb\mBinOp \mXVar_n$ を返す．
 \item 右畳み込み演算子 $\mFoldRight^{\mBinOp}_{a}[\mXVar_0,\mXVar_1\dotsb \mXVar_n]$ は$(\mXVar_0\mBinOp(\mXVar_1\mBinOp\dotsb\mBinOp(\mXVar_n\mBinOp a)))$ を返す．
 \item 平坦化演算子 $\mJoinList=\mFold_\mEmptyList^{\mAppend}$ はリストを平坦化する．
-\item 関数 $f\mIn\mProjEXP{\mA }{\mA }$ はマップ演算子 $\mMapList$ を用いて $f\mMapList[\mXVar_0,\mXVar_1\dotsb \mXVar_n]=[\mFFunc\mXVar_0,\mFFunc\mXVar_1\dotsb \mFFunc\mXVar_n]$ のようにリスト$[\mXVar_0,\mXVar_1\dotsb \mXVar_n]$ に適用できる．
+\item 関数 $\mFFunc\mIn\mProjEXP{\mA }{\mA }$ はマップ演算子 $\mMapList$ を用いて $\mFFunc\mMapList[\mXVar_0,\mXVar_1\dotsb \mXVar_n]=[\mFFunc\mXVar_0,\mFFunc\mXVar_1\dotsb \mFFunc\mXVar_n]$ のようにリスト$[\mXVar_0,\mXVar_1\dotsb \mXVar_n]$ に適用できる．
 \item マップ演算子$\mMapList$ の型は$\mProjEXP{(\mProjEXP{\mA }{\mB})}{\mProjEXP{\mA }{\mB }}$である．
 \item $\mHead(\mXVar:\mList{x})=x,\mTail(\mXVar:\mList{x})=\mList{x}$である．
 \end{enumerate}
@@ -2089,7 +2089,7 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
   &=\mFold^+_{(((\mZeroNumber+\mXVar_0)+\mXVar_1)+\mXVar_2)+\mXVar_3}{}\mEmptyList\\
   &=(((\mZeroNumber+\mXVar_0)+\mXVar_1)+\mXVar_2)+\mXVar_3
 \end{align}
-と展開される．遅延評価のために，\haskell 処理系は値ではなく式をメモリにストアしなければならないが，左畳み込み演算は大きなメモリを必要としがちである．もし例えば予め $\mZeroNumber+\mXVar_0$ を先に計算しておくなど左畳み込みだけ先に評価しておけば，大いにメモリの節約になる．そのために\haskell は「遅延評価無し」の左畳み込み演算子を用意している．\footnote{「遅延評価無し」の左畳み込み演算子を\haskell では \code{oldl'} と書く．}
+と展開される．遅延評価のために，\haskell 処理系は値ではなく式をメモリにストアしなければならないが，左畳み込み演算は大きなメモリを必要としがちである．もし例えば予め $\mZeroNumber+\mXVar_0$ を先に計算しておくなど左畳み込みだけ先に評価しておけば，大いにメモリの節約になる．そのために\haskell は「遅延評価無し」の左畳み込み演算子を用意している．\footnote{「遅延評価無し」の左畳み込み演算子を\haskell では \code{foldl'} と書く．}
 
 % \haskell には言語拡張として，\keyword{アンボックス化タプル}という機能がある．
 %
@@ -2162,11 +2162,11 @@ srt(\mXVar:xs) = srt as ++ [x] ++ srt bs where
 
 \section{Possibly}
 
-計算の途中で，計算にまつわる状態を残りの計算に引き継ぎたくなる場合がある．例えば，整数 $x,y,z$ があり $x=y/z$ なる値を続く計算で利用したいとする．だが $z\equiv0$ のときには $x$ は正しく計算されない．こんなときプログラマが取れる手段は
+計算の途中で，計算にまつわる状態を残りの計算に引き継ぎたくなる場合がある．例えば，整数 $\mXVar,\mYVar,\mZVar$ があり $\mXVar=\mYVar/\mZVar$ なる値を続く計算で利用したいとする．だが $\mZVar\equiv\mZeroNumber$ のときには $\mXVar$ は正しく計算されない．こんなときプログラマが取れる手段は
 \begin{itemize}
-\item $x=y/z$ を計算した時点で\keyword{ゼロ除算例外}を発生させ，プログラムの制御を他の場所へ移す（大域ジャンプを行う）
-\item グローバル変数にゼロ除算エラーが起こったことを記録しておき，$x$ にはとりあえずの数値，例えば $\mZeroNumber$ を代入しておいて，計算を続行させる
-\item $x$ にエラー状態を示す印を新たにつけておいて，計算を続行させる
+\item $\mXVar=\mYVar/\mZVar$ を計算した時点で\keyword{ゼロ除算例外}を発生させ，プログラムの制御を他の場所へ移す（大域ジャンプを行う）
+\item グローバル変数にゼロ除算エラーが起こったことを記録しておき，$\mXVar$ にはとりあえずの数値，例えば $\mZeroNumber$ を代入しておいて，計算を続行させる
+\item $\mXVar$ にエラー状態を示す印を新たにつけておいて，計算を続行させる
 \end{itemize}
 といったところだろう．
 
@@ -2194,10 +2194,10 @@ p = Possibly(False)
 \end{pythoncode}
 と初期化できる．
 
-ここで，引数に $\mOneNumber$ を加えて返す関数 \code{f} があるとしよう．関数 \code{f} の定義は次の通りである．
+ここで，引数に \code{1} を加えて返す関数 \code{f} があるとしよう．関数 \code{f} の定義は次の通りである．
 \begin{pythoncode}
 \begin{verbatim}
-f = lambda \mXVar: 1+x
+f = lambda x: 1+x
 \end{verbatim}
 \end{pythoncode}
 
@@ -2243,23 +2243,23 @@ def map_over(f, p):
 \end{equation}
 とする．\footnote{\haskell では表記上コンテナ型 $\mMaybeType{a}$ と型コンストラクタ式 $\mMaybeTypeConstructor\mA$ を区別せず，両者とも \code{Maybe a} と書く．}
 
-$\mA $ 型の変数を $\mMaybeType{a}$ 型の変数に代入するには，次の値コンストラクタ $\mJustWith{\dotsb}$ を用いて
+$\mA $ 型の変数を $\mMaybeType{a}$ 型の変数に代入するには，次のMaybe値コンストラクタを用いて
 \begin{equation}
   \mMaybe{u}
   =\mJustWith{x}
 \end{equation}
-と書く．\footnote{\haskell では $\mMaybe{u}=\mJustWith{x}$ を \code{u = Just x} と書く．Maybeを表す疑問符は省略する．}
+とする．\footnote{\haskell では $\mMaybe{u}=\mJustWith{x}$ を \code{u = Just x} と書く．Maybeを表す疑問符は省略する．}
 
 変数 $\mXVar$ が一度ゼロ除算の危険性に「汚染」された場合，その後ずっとMaybe変数に入れ続けなければいけない．そこで，普通の変数を引数にとる関数 $\mFFunc$ にMaybe変数 $\mMaybe{u}$ を食わせるには，リストの時と同じようなマップ演算子が必要になる．具体的には，変数 $\mXVar$ が $\mType{Int}$ 型として，Maybe変数 $\mMaybe{u}=\mJustWith{x}$ が与えられたとき
 \begin{equation}
-  f\mMapMaybe\mMaybe{u}
+  \mFFunc\mMapMaybe\mMaybe{u}
   =\mJustWith{\mFFunc\mXVar}
 \end{equation}
-となるようなMaybeバージョンのマップ演算子 $\mMapMaybe$ を用いる．ここに $f\mMapMaybe\mMaybe{u}$ の型は，もし $f\mIn\mProjEXP{\mIntType}{\mFloatType}$ ならば $\mMaybeType{\mFloatType}$ である．
+となるようなMaybeバージョンのマップ演算子 $\mMapMaybe$ を用いる．ここに $\mFFunc\mMapMaybe\mMaybe{u}$ の型は，もし $\mFFunc\mIn\mProjEXP{\mIntType}{\mFloatType}$ ならば $\mMaybeType{\mFloatType}$ である．
 
 実際には $\mMaybe{u}\equiv\mNothing$ の可能性も考えなければならないから，Maybeバージョンのマップ演算子は
 \begin{equation}
-  f\mMapMaybe\mMaybe{u}
+  \mFFunc\mMapMaybe\mMaybe{u}
   =\mCaseOf{\mMaybe{u}}
   \begin{cases}
     \mJustWith{x}
@@ -2272,9 +2272,9 @@ $\mA $ 型の変数を $\mMaybeType{a}$ 型の変数に代入するには，次�
 \begin{equation}
   \left\{
   \begin{aligned}
-    f\mMapMaybe\mJustWith{x}
+    \mFFunc\mMapMaybe\mJustWith{x}
     &=\mJustWith{\mFFunc\mXVar}\\
-    f\mMapMaybe\mNothing
+    \mFFunc\mMapMaybe\mNothing
     &=\mNothing
   \end{aligned}
   \right.
@@ -2289,7 +2289,7 @@ $\mA $ 型の変数を $\mMaybeType{a}$ 型の変数に代入するには，次�
 今後，普通の（引数にMaybeが来ることを想定していない）関数 $\mFFunc$ をMaybe型である変数 $\mMaybe{u}$ に適用させるときには，必ず
 \begin{equation}
   \mMaybe{v}
-  =f\mMapMaybe\mMaybe{u}
+  =\mFFunc\mMapMaybe\mMaybe{u}
 \end{equation}
 のようにMaybeバージョンのマップ演算子 $\mMapMaybe$ を用いることにする．これはプログラムの安全性のためである．変数が一旦ゼロ除算の可能性に汚染されたら，最後までMaybeに包んでおかねばならない．\footnote{\haskell ではMaybeバージョンのマップ演算子に特別な記号，関数名が与えられていない．その代わり第\ref{ch:functor}章で述べる一般マップ演算子 $\mMap$ に相当する \code{fmap} 関数を用い \code{v = fmap f u} または \code{v = f <\$> u} のように書く．\haskell は型推論を行なうため変数 \code{u} がMaybeであればMaybeバージョンのマップ演算子（関数）が適用され，もし \code{u} がリストであれば通常のマップ関数である \code{map} が適用される．}
 
@@ -2334,10 +2334,10 @@ maybe<b> map_over(fn f, maybe<a> u) {
 % （\cxxzerothree プログラマへの注意：関数 \code{f} の代わりに関数オブジェ
 %   クトを渡しても良い．）
 
-整数 $\mXVar$ からMaybe値 $\mMaybe{u}=\mJustWith{x}$ を作り，関数 $\mGFunc\mXVar=1+x$ をMaybe値 $\mMaybe{u}$ に食わせてMaybe値 $\mMaybe{v}$ ただし
+整数 $\mXVar$ からMaybe値 $\mMaybe{u}=\mJustWith{x}$ を作り，関数 $\mGFunc\mXVar=\mOneNumber+\mXVar$ をMaybe値 $\mMaybe{u}$ に食わせてMaybe値 $\mMaybe{v}$ ただし
 \begin{equation}
   \mMaybe{v}
-  =g\mMapMaybe\mMaybe{u}
+  =\mGFunc\mMapMaybe\mMaybe{u}
 \end{equation}
 を得ることを\cxx では次のように書くことになる．
 \begin{cxxcode}
@@ -2359,12 +2359,12 @@ maybe<int> v = map_over(g, u);
 関数 $\mFFunc$ をMayby値 $\mMaybe{u}$ に適用するために
 \begin{equation}
   \mMaybe{v}
-  =f\mMapMaybe\mMaybe{u}
+  =\mFFunc\mMapMaybe\mMaybe{u}
 \end{equation}
 のようなMaybeバージョンのマップ演算子 $(\mMapMaybe)$ を使った．一方で，同じ関数 $\mFFunc$ をリスト $\mList{x}$ に適用するには
 \begin{equation}
   \mList{y}
-  =f\mMapList\mList{x}
+  =\mFFunc\mMapList\mList{x}
 \end{equation}
 のようなリストバージョンのマップ演算子 $(\mMapList)$ を使った．
 
@@ -2463,7 +2463,7 @@ Either型は\clang の共有型 (\code{union}) や\cxx のバリアント型 (\c
 \item ある型 $\mA $ からそのMaybe型 $\mMaybeType{a}$ を作ることを $\mMaybeType{a}=\mMaybeTypeConstructor\mA $ と書く．ここに $\mMaybeTypeConstructor$ はMaybe型コンストラクタである．
 \item ある変数 $\mXVar$ からMaybe変数 $\mMaybe{u}$ を作るには $\mMaybe{u}=\mJustWith{x}$ とする．ここに $\mJustWith{\dotsb}$ はMaybe値コンストラクタである．
 \item Maybe変数は $\mJustWith{x}$ のような値か，かまたは $\mNothing$ なる「ナッシング」値のかどちらかを持つことができる．
-\item 普通の関数 $f\mIn\mProjEXP{\mA }{\mB }$をMaybe値に適用することはできない．関数 $\mFFunc$ をMaybe値に適用するには$f\mMapMaybe\mMaybe{u}$ のようにMaybeマップ演算子が必要であり，この関数適用の結果は $\mMaybeType{b}$ 型である．
+\item 普通の関数 $\mFFunc\mIn\mProjEXP{\mA }{\mB }$をMaybe値に適用することはできない．関数 $\mFFunc$ をMaybe値に適用するには$\mFFunc\mMapMaybe\mMaybe{u}$ のようにMaybeマップ演算子が必要であり，この関数適用の結果は $\mMaybeType{b}$ 型である．
 \item Either変数は二つの型のいずれかを持つことができ，$\mEither{e}=\mRightWith{x}$ または$\mEither{e}=\mLeftWith{x}$ のように生成する．
 \end{enumerate}
 
@@ -2476,22 +2476,22 @@ A...
 
 \section{圏と関手}
 
-$\mA $ 型の変数 $\mXVar,y\mIn\mA$ について，関数 $f\mIn\mA\mFuncArrow\mA$ があり
+$\mA $ 型の変数 $\mXVar,\mYVar\mIn\mA$ について，関数 $\mFFunc\mIn\mA\mFuncArrow\mA$ があり
 \begin{equation}
-  y
+  \mYVar
   =\mFFunc\mXVar
 \end{equation}
 であるとしよう．このように型 $\mA$ で閉じた世界を仮に $\mA$ 世界と呼ぶことにする．
 
 型 $\mMaybeType{a}$ の変数 $\mMaybe{u},\mMaybe{v}\mIn\mMaybeType{a}$ について，関数
 \begin{equation}
-  g
+  \mGFunc
   \mIn\mMaybeType{a}\mFuncArrow\mMaybeType{a}
 \end{equation}
 があり
 \begin{equation}
   \mMaybe{v}
-  =g\mMaybe{u}
+  =\mGFunc\mMaybe{u}
 \end{equation}
 であるとしよう．このように $\mMaybeType{a}$ で閉じた世界を仮に $\mMaybeType{a}$ 世界と呼ぶことにする．
 
@@ -2507,19 +2507,19 @@ $\mA $ 型の変数 $\mXVar,y\mIn\mA$ について，関数 $f\mIn\mA\mFuncArrow
 他に $\mA$ 世界から $\mMaybeType{a}$ 世界へジャンプさせるものがあるだろうか．よく考えてみると，マップ演算子もそうである．いま $\mMaybe{u}=\mJustWith{x},\mMaybe{v}=\mJustWith{y}$ なのだから，$\mA $ 世界の関数 $\mFFunc$ と $\mMaybeType{a}$ 世界の関数 $\mGFunc$ は無関係ではなく
 \begin{equation}
   \mMaybe{v}
-  =g\mMaybe{u}
-  =f\mMapMaybe\mMaybe{u}
+  =\mGFunc\mMaybe{u}
+  =\mFFunc\mMapMaybe\mMaybe{u}
 \end{equation}
 であり，
 \begin{equation}
-  g
-  =f\mMapMaybe
+  \mGFunc
+  =\mFFunc\mMapMaybe
 \end{equation}
 である．つまりマップ演算子 $\mMapMaybe$ が関数 $\mFFunc$ を $\mA$ 世界から $\mMaybeType{a}$ 世界へとジャンプさせているのである．
 
 いま「世界」と呼んだものを，数学者は\keyword{圏}と呼ぶ．圏とは\keyword{対象}と\keyword{射}の組み合わせである．本書では「対象」とは型のことであり，射とは関数だと思えば良い．（厳密にはコンテナに入れられた関数も射に含まれる．）そして，圏から圏へとジャンプさせるものを\keyword{関手}と呼ぶ．この例で言えば値コンストラクタ $\mJustWith{x}$ とマップ演算子 $\mMapMaybe$ が関手である．値コンストラクタ $\mJustWith{x}$ は $\mA\mFuncArrow\mMaybeType{a}$ という型を持ち，マップ演算子 $\mMapMaybe$ は $(\mA\mFuncArrow\mB)\mFuncArrow(\mMaybeType{a}\mFuncArrow\mMaybeType{b})$ という型を持つ．\footnote{関手は英語でファンクター(functor)と言うが，\cxx の関数オブジェクト (function object) もかつてはファンクター(functor)と呼ばれていた．\cxx のファンクターとはクロージャの代用品のことで，本書で述べる関手とは異なる概念である．混同しないように注意しよう．}
 
-同じことはリストにも言える．値コンストラクタ $[x]$ とマップ演算子 $\mMapList$ もまた関手である．この場合値コンストラクタは $\mA\mFuncArrow[\mA]$ という型を持ち，マップ演算子も同じく $(\mA\mFuncArrow\mB)\mFuncArrow([\mA]\mFuncArrow[\mB])$ という型を持つ．
+同じことはリストにも言える．値コンストラクタ $[\mXVar]$ とマップ演算子 $\mMapList$ もまた関手である．この場合値コンストラクタは $\mA\mFuncArrow[\mA]$ という型を持ち，マップ演算子も同じく $(\mA\mFuncArrow\mB)\mFuncArrow([\mA]\mFuncArrow[\mB])$ という型を持つ．
 
 \separator
 
@@ -2557,7 +2557,7 @@ $\mTypeConstructor{f}=\mMaybeTypeConstructor$ であれば
 \begin{center}
 \begin{tabular}{||c|c|c|c||}\hline
 型&型コンストラクタ&マップ&値コンストラクタ\\\hline\hline
-$[\mA]$&$\mListTypeConstructor$&$\mMapList$&$[x]$\\
+$[\mA]$&$\mListTypeConstructor$&$\mMapList$&$[\mXVar]$\\
 $\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mJustWith{x},\mNothing$\\\hline
 \end{tabular}
 \end{center}
@@ -2577,10 +2577,10 @@ $\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mJustWith{x},\mNothing$
 % ---
 
 % 一般マップ演算子 $(\mMap)$ は\keyword{多様的}である．この意味は，も
-% し $f\mMap\mList{x}$ と書いてあれば $f\mMapList\mList{x}$ のことであ
-% るし，もし $f\mMap\mMaybe{u}$ と書いてあれば $f\mMapMaybe\mMaybe{u}$
+% し $\mFFunc\mMap\mList{x}$ と書いてあれば $\mFFunc\mMapList\mList{x}$ のことであ
+% るし，もし $\mFFunc\mMap\mMaybe{u}$ と書いてあれば $\mFFunc\mMapMaybe\mMaybe{u}$
 % のことであると自動的に解釈することである．そして，何の飾りもつけられ
-% ていない変数 $\mXVar$ がふらっと現れ，目の前に $f\mMap x$という式が登場し
+% ていない変数 $\mXVar$ がふらっと現れ，目の前に $\mFFunc\mMap x$という式が登場し
 % ても，落ち着いて変数 $\mXVar$ の型を調べ，変数 $\mXVar$ がリストならば $\mMap$
 % の部分に $\mMapList$ を，変数 $\mXVar$ がMaybeならば $\mMap$ の部分に
 % $\mMapMaybe$ をはめ込むのだ．\footnote{\haskell では一般マップ演算子
@@ -2592,10 +2592,10 @@ $\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mJustWith{x},\mNothing$
 
 マップ演算子をさらに汎用性のあるものにするために新しく考え出された演算子が\keyword{アプリカティブマップ演算子}である．
 
-いま関数のリスト $[f,g,h]$ と変数のリスト $[x,\mYVar,\mZVar]$ があるとする．リストのアプリカティブマップ演算子 $\mAppMapList$ を次のように定義する．
+いま関数のリスト $[\mFFunc,\mGFunc,\mHFunc]$ と変数のリスト $[\mXVar,\mYVar,\mZVar]$ があるとする．リストのアプリカティブマップ演算子 $\mAppMapList$ を次のように定義する．
 \begin{equation}
-  [f,g,h]\mAppMapList[x,\mYVar,\mZVar]
-  =[\mFFunc\mXVar,fy,fz,\mGFunc\mXVar,gy,gz,hx,hy,hz]
+  [\mFFunc,\mGFunc,\mHFunc]\mAppMapList[\mXVar,\mYVar,\mZVar]
+  =[\mFFunc\mXVar,\mFFunc\mYVar,\mFFunc\mZVar,\mGFunc\mXVar,\mGFunc\mYVar,\mGFunc\mZVar,\mHFunc\mXVar,\mHFunc\mYVar,\mHFunc\mZVar]
 \end{equation}
 リストのアプリカティブマップ演算子はこのように，左引数のリスト内のすべての関数を順番に右引数のリスト内の変数に適用し，その結果をリストとして返す．
 
@@ -2603,26 +2603,26 @@ $\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mJustWith{x},\mNothing$
 $[\mA\mFuncArrow\mB]\mFuncArrow[\mA]\mFuncArrow[\mB]$ である．これは
 \begin{equation}
   \mAppMapList
-  \mIn\underbrace{\mA\mapsto\mB }_{[f_0,\mFFunc\dotsb f_n]}
+  \mIn\underbrace{[\mA\mapsto\mB]}_{[\mFFunc_0,\mFFunc_1\dotsb \mFFunc_n]}
   \mapsto\underbrace{[\mA]}_{[\mXVar_0,\mXVar_1\dotsb \mXVar_n]}
-  \mapsto\underbrace{[\mB]}_{[f_0\mXVar_0,f_0\mXVar_1\dotsb f_0\mXVar_n,\mFFunc \mXVar_0,\mFFunc \mXVar_1\dotsb f_n\mXVar_n]}
+  \mapsto\underbrace{[\mB]}_{[\mFFunc_0\mXVar_0,\mFFunc_0\mXVar_1\dotsb \mFFunc_0\mXVar_n,\mFFunc \mXVar_0,\mFFunc \mXVar_1\dotsb \mFFunc_n\mXVar_n]}
 \end{equation}
 と解釈すれば良い．
 
-リストバージョンのアプリカティブマップ演算子 $(\mAppMapList)$ の特別な場合として，左引数のリストの要素数が $\mOneNumber$ の場合を考えると
+リストバージョンのアプリカティブマップ演算子 $(\mAppMapList)$ の特別な場合として，左引数のリストの要素数が1の場合を考えると
 \begin{equation}
-  [f]\mAppMapList{}[x,\mYVar,\mZVar]
-  =[\mFFunc\mXVar,fy,fz]
+  [\mFFunc]\mAppMapList{}[\mXVar,\mYVar,\mZVar]
+  =[\mFFunc\mXVar,\mFFunc\mYVar,\mFFunc\mZVar]
 \end{equation}
 であり，通常のマップ演算子 $(\mMapList)$ を使ったマップすなわち
 \begin{equation}
-  f\mMapList{}[x,\mYVar,\mZVar]
-  =[\mFFunc\mXVar,fy,fz]
+  \mFFunc\mMapList{}[\mXVar,\mYVar,\mZVar]
+  =[\mFFunc\mXVar,\mFFunc\mYVar,\mFFunc\mZVar]
 \end{equation}
 と右辺が一致する．つまり，マップ演算子はアプリカティブマップ演算子の特別な場合と考えることができる．実際，リストマップ演算子はアプリカティブマップ演算子から
 \begin{equation}
-  f\mMapList\mList{x}
-  =[f]\mAppMapList\mList{x}
+  \mFFunc\mMapList\mList{x}
+  =[\mFFunc]\mAppMapList\mList{x}
 \end{equation}
 と定義できる．
 
@@ -2633,7 +2633,7 @@ $\mAppMapMaybe$ を
   =\mCaseOf{\mMaybe{i}}
   \begin{cases}
     \mJustWith{j}
-    &\mIfSo j\mMapMaybe\mMaybe{u}\\
+    &\mIfSo\mJFunc\mMapMaybe\mMaybe{u}\\
     \_
     &\mIfSo\mNothing
   \end{cases}
@@ -2650,7 +2650,7 @@ $\mAppMapMaybe$ を
 % \end{equation}
 で定義する．このMaybeバージョンのアプリカティブマップ演算子 $(\mAppMapMaybe)$ からMaybeバージョンのマップ演算子 $(\mMapMaybe)$ は
 \begin{equation}
-  f\mMapMaybe\mMaybe{u}
+  \mFFunc\mMapMaybe\mMaybe{u}
   =\mJustWith{f}\mAppMapMaybe\mMaybe{u}
 \end{equation}
 のように導出できる．
@@ -2658,7 +2658,7 @@ $\mAppMapMaybe$ を
 これらの関係を一般化して
 \begin{equation}
   \label{eq:general-applicative-map}
-  f\mMap\mVarContainer{w}
+  \mFFunc\mMap\mVarContainer{w}
   =\mPureWith{f}\mAppMap\mVarContainer{w}
 \end{equation}
 となるような\keyword{一般アプリカティブマップ演算子} $(\mAppMap)$ を考える．ここに $\mFFunc$ は関数，$\mVarContainer{w}$ はリストやMaybeといったコンテナ型の変数すなわち\keyword{コンテナ変数}である．一般アプリカティブマップ演算子 $(\mAppMap)$ から一般マップ演算子 $(\mMap)$ を導き出すには，式\eqref{eq:general-applicative-map} のように値コンストラクタが必要である．この一般化された値コンストラクタを\keyword{ピュア演算子}と呼ぶ．アプリカティブマップ演算子とピュア演算子を持つ型クラスを\keyword{アプリカティブ関手}と呼び，$\mApplicativeTypeClass$ 型クラスと定義する．\footnote{\haskell では一般アプリカティブマップ演算子を \code{<*>} と書く．}
@@ -2678,9 +2678,9 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
   \mVarContainer{w}
   =\mPureWith{f}\mAppMap\mVarContainer{u}\mAppMap\mVarContainer{v}
 \end{equation}
-のように使える．もし $u\equiv\mPureNothing$ もしくは $v\equiv\mPureNothing$ であれば式の値は $\mPureNothing$ になる．式\eqref{eq:applicative-style}からピュア演算子を消すには，最初のアプリカティブマップ演算子をマップ演算子に置き換えて
+のように使える．もし $\mVarContainer{u}\equiv\mPureNothing$ もしくは $\mVarContainer{v}\equiv\mPureNothing$ であれば式の値は $\mPureNothing$ になる．式\eqref{eq:applicative-style}からピュア演算子を消すには，最初のアプリカティブマップ演算子をマップ演算子に置き換えて
 \begin{equation}
-  \mVarContainer{w}=f\mMap\mVarContainer{u}\mAppMap\mVarContainer{v}
+  \mVarContainer{w}=\mFFunc\mMap\mVarContainer{u}\mAppMap\mVarContainer{v}
 \end{equation}
 とすれば良い．このようにアプリカティブマップ演算子を並べる書き方をアプリカティブスタイルと呼ぶ．
 
@@ -2690,12 +2690,12 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
 
 いま関数 $\mFFunc$ が
 \begin{equation}
-  f
+  \mFFunc
   \mIn\mR\mFuncArrow\mA
 \end{equation}
 という型を持っているとする．この式は $\mFuncArrow$ を二項演算子，すなわち2引数関数とみなせば
 \begin{equation}
-  f
+  \mFFunc
   \mIn(\mFuncArrow)\mR\,\mA
 \end{equation}
 と等価である．全く形式的に，$\mFuncTypeConstructor$ なる型コンストラクタがあるとして
@@ -2729,9 +2729,9 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
 \end{equation}
 のことである．
 
-いま関数 $f\mIn\mProjEXP{\mR}{\mA }$ とは別な関数 $g\mIn\mProjEXP{\mA }{\mB }$ があったとしよう．関数 $\mFFunc$ と関数 $\mGFunc$ の合成 $g\mCompFunc f$ の型は
+いま関数 $\mFFunc\mIn\mProjEXP{\mR}{\mA }$ とは別な関数 $g\mIn\mProjEXP{\mA }{\mB }$ があったとしよう．関数 $\mFFunc$ と関数 $\mGFunc$ の合成 $\mGFunc\mCompFunc\mFFunc$ の型は
 \begin{equation}
-g\mCompFunc f\mIn\mProjEXP{\mR}{\mB }
+\mGFunc\mCompFunc\mFFunc\mIn\mProjEXP{\mR}{\mB }
 \end{equation}
 であるから，
 \begin{equation}
@@ -2742,13 +2742,13 @@ g\mCompFunc f\mIn\mProjEXP{\mR}{\mB }
 
 幸い，我々は関数のマップ演算子の実装に関しては，型さえ守っていれば（そして第\ref{ch:monad}章で述べる関手則さえ守っていれば）自由に選べる．そこで
 \begin{equation}
-  g\mMapFunc f
-  =g\mCompFunc f
+  \mGFunc\mMapFunc\mFFunc
+  =\mGFunc\mCompFunc\mFFunc
 \end{equation}
 としておこう．これは
 \begin{equation}
-  g\mMapFunc f
-  =\mLambdaEXP{x}{g(\mFFunc\mXVar)}
+  \mGFunc\mMapFunc\mFFunc
+  =\mLambdaEXP{\mXVar}{\mGFunc(\mFFunc\mXVar)}
 \end{equation}
 と書いても同じことである．これが \haskell における関数のマップ演算子の定義である．
 
@@ -2759,7 +2759,7 @@ g\mCompFunc f\mIn\mProjEXP{\mR}{\mB }
 ピュア演算子は $\mProjEXP{\mA }{(\mProjEXP{\mR}{\mA })}$ 型を持たなければならない．従って関数版のピュア演算子は変数から関数を作るとも考えられる．我々は関数版のピュア演算子として
 \begin{equation}
   \mConstWith{x}
-  =\mLambdaEXP{\_}{x}
+  =\mLambdaEXP{\_}{\mXVar}
 \end{equation}
 を採用する．\footnote{\haskell では $\mConstWith{x}$ を \code{const x} と書く．}
 
@@ -2781,15 +2781,15 @@ g\mCompFunc f\mIn\mProjEXP{\mR}{\mB }
 
 我々は関数版アプリカティブマップ演算子として
 \begin{equation}
-g\mAppMapFunc f=\mLambdaEXP{x}{\mGFunc\mXVar(\mFFunc\mXVar)}
+\mGFunc\mAppMapFunc\mFFunc=\mLambdaEXP{\mXVar}{\mGFunc\mXVar(\mFFunc\mXVar)}
 \end{equation}
-とする．これは，関数版のピュア演算子の定義と，一般マップ演算子と一般アプリカティブマップ演算子の関係 $f\mMap w=\mPureWith{f}\mAppMap w$ から導かれる．すなわち
+とする．これは，関数版のピュア演算子の定義と，一般マップ演算子と一般アプリカティブマップ演算子の関係 $\mFFunc\mMap\mVarContainer{w}=\mPureWith{f}\mAppMap\mVarContainer{w}$ から導かれる．すなわち
 \begin{align}
-\mConstWith{g}\mAppMapFunc f
-&=\mLambdaEXP{x}{\mConstWith{g}x(\mFFunc\mXVar)}\\
-&=\mLambdaEXP{x}{(\mLambdaEXP{\_}{g})x(\mFFunc\mXVar)}\\
-&=\mLambdaEXP{x}{g(\mFFunc\mXVar)}\\
-&=g\mCompFunc f
+\mConstWith{g}\mAppMapFunc\mFFunc
+&=\mLambdaEXP{\mXVar}{\mConstWith{g}\mXVar(\mFFunc\mXVar)}\\
+&=\mLambdaEXP{\mXVar}{(\mLambdaEXP{\_}{\mGFunc})\mXVar(\mFFunc\mXVar)}\\
+&=\mLambdaEXP{\mXVar}{\mGFunc(\mFFunc\mXVar)}\\
+&=\mGFunc\mCompFunc\mFFunc
 \end{align}
 であるからである．
 
@@ -2802,7 +2802,7 @@ g\mAppMapFunc f=\mLambdaEXP{x}{\mGFunc\mXVar(\mFFunc\mXVar)}
     \mEmptyList\mAppMapList\mList{x}
     &=\mEmptyList\\
     (f:\mList{f})\mAppMapList\mList{x}
-    &=\mJoinList{}((f\mMapList\mList{x}):(\mList{f}\mAppMapList\mList{x}))
+    &=\mJoinList{}((\mFFunc\mMapList\mList{x}):(\mList{f}\mAppMapList\mList{x}))
   \end{aligned}
   \right.
 \end{equation}
@@ -2851,7 +2851,7 @@ Maybeのアプリカティブマップ演算子の定義は次の通り．
 
 一般マップ演算子をピュア演算子と一般アプリカティブマップ演算子に分解することで，式の見通しを良くすることができるアプリカティブスタイルという記法を採用できた．アプリカティブスタイルでは
 \begin{equation}
-  f\mMap\mVarContainer{u}\mAppMap\mVarContainer{v}\mAppMap\mVarContainer{w}
+  \mFFunc\mMap\mVarContainer{u}\mAppMap\mVarContainer{v}\mAppMap\mVarContainer{w}
 \end{equation}
 という風にコンテナ変数 $\mVarContainer{u},\mVarContainer{v},\mVarContainer{w}$ に関数 $\mFFunc$ を適用させることができる．コンテナ変数 $\mVarContainer{u},\mVarContainer{v},\mVarContainer{w}$ のいずれかが $\mPureNothing$ であれば式全体の値が$\mPureNothing$ になる．これは3個の計算を並列に行って，その結果をそれぞれ $\mVarContainer{u},\mVarContainer{v},\mVarContainer{w}$ に入れておき，最後に関数 $\mFFunc$ に投げるという\keyword{計算構造}を具現化したものである．（関数 $\mFFunc$ は\clang で言えば \code{main} 関数に相当するであろう．）
 
@@ -2868,7 +2868,7 @@ Maybeの例を思い出そう．Maybe型の変数 $\mMaybe{u}$ はラップさ�
 \begin{equation}
 \mMaybe{v}=\mGFunc\mXVar
 \end{equation}
-という風に結果をMaybe変数に保存しなければならない．今まで見てきた $y=\mFFunc\mXVar$ や $\mMaybe{v}=f\mMapMaybe\mMaybe{u}$ の関係とは異なることに注意しよう．
+という風に結果をMaybe変数に保存しなければならない．今まで見てきた $y=\mFFunc\mXVar$ や $\mMaybe{v}=\mFFunc\mMapMaybe\mMaybe{u}$ の関係とは異なることに注意しよう．
 
 関数 $\mGFunc$ の型は
 \begin{equation}
@@ -2880,7 +2880,7 @@ Maybeの例を思い出そう．Maybe型の変数 $\mMaybe{u}$ はラップさ�
 
 そこで，新しいマップ演算子を発明する．いまMaybe変数 $\mMaybe{u}$ を $\mMaybe{u}=\mJustWith{x}$ としよう．新しいマップ演算子 $\mBindMaybe$ を使って
 \begin{equation}
-  \mMaybe{v}=g\mBindMaybe\mMaybe{u}
+  \mMaybe{v}=\mGFunc\mBindMaybe\mMaybe{u}
 \end{equation}
 とする．この新しいマップ演算子 $\mBindMaybe$ のことをMaybeの\keyword{バインド演算子}と呼ぶ．ここで，もし計算が成功していたら $\mMaybe{v}=\mJustWith{\mGFunc\mXVar}$ であり，失敗していたら $\mMaybe{v}=\mNothing$ である．
 
@@ -2938,7 +2938,7 @@ $\mFunctorTypeClass$ 型クラスは一般マップ演算子 $(\mMap)$ を持っ
     &\mIfSo\mPureNothing
   \end{cases}
 \end{equation}
-ここに $\mXVar$ は非コンテナ変数で，関数 $\mFFunc$ も「普通の」（コンテナに入っていない）関数である．より厳密に言えば $\mXVar\mIn\mA$ かつ $f\mIn\mA\mFuncArrow\mB$ である．従って，関数 $\mVarContainer{i}$ の型は $\mA\mFuncArrow\mPureType{b}$ である．条件 $\mLovelyVar$ には任意の値を入れてよい．
+ここに $\mXVar$ は非コンテナ変数で，関数 $\mFFunc$ も「普通の」（コンテナに入っていない）関数である．より厳密に言えば $\mXVar\mIn\mA$ かつ $\mFFunc\mIn\mA\mFuncArrow\mB$ である．従って，関数 $\mVarContainer{i}$ の型は $\mA\mFuncArrow\mPureType{b}$ である．条件 $\mLovelyVar$ には任意の値を入れてよい．
 
 関数 $i$ をコンテナに入った変数 $u=\mPureWith{x}$ に適用させるのが一般バインド演算子 $(\mBind)$ の役割である．計算結果をコンテナ変数 $a$ に格納するとすると，関数 $i$ のコンテナ変数 $\mVarContainer{u}$ への適用は
 \begin{equation}
@@ -2949,7 +2949,7 @@ $\mFunctorTypeClass$ 型クラスは一般マップ演算子 $(\mMap)$ を持っ
 
 さて $\mVarContainer{u}=\mPureWith{x},\mVarContainer{v}=\mPureWith{y}$ として，かつ $y=\mFFunc\mXVar$ であるとき
 \begin{equation}
-\mVarContainer{v}=f\mMap\mVarContainer{u}=\mPureWith{f}\mAppMap\mVarContainer{u}
+\mVarContainer{v}=\mFFunc\mMap\mVarContainer{u}=\mPureWith{f}\mAppMap\mVarContainer{u}
 \end{equation}
 であった．
 
@@ -2962,7 +2962,7 @@ $\mFunctorTypeClass$ 型クラスは一般マップ演算子 $(\mMap)$ を持っ
 となる．いま $y=\mFFunc\mXVar$ であったから $\mVarContainer{a}=\mVarContainer{v}$ であり，最終的に
 \begin{equation}
 \mVarContainer{v}
-=f\mMap\mVarContainer{u}
+=\mFFunc\mMap\mVarContainer{u}
 =\mPureWith{f}\mAppMap\mVarContainer{u}
 =\mPureWith{f\mAnonParam}\mBind\mVarContainer{u}
 \end{equation}
@@ -2986,7 +2986,7 @@ $\mFunctorTypeClass$ 型クラスは一般マップ演算子 $(\mMap)$ を持っ
 
 \begin{equation}
   f\mBind\mList{x}
-  =\mJoinList(f\mMapList\mList{x})
+  =\mJoinList(\mFFunc\mMapList\mList{x})
 \end{equation}
 
 Maybeモナド
@@ -3017,7 +3017,7 @@ Maybeモナド
 \TK{To be written.}
 \begin{equation}
   f\mBindComp g
-  =f\mBind(g\mAnonParam)
+  =\mFFunc\mBind(g\mAnonParam)
 \end{equation}
 
 
@@ -3028,7 +3028,7 @@ Maybeモナド
 関手の一般マップ演算子 $(\mMap)$ は次の規則に従う．
 \begin{enumerate}
 \item 単位元の存在: $\mId\mMap u=u$
-\item 合成則: $(f\mCompFunc g)\mMap=(f\mMap)\mCompFunc{}(g\mMap)$%=f\mMap{}(g\mMap\mAnonParam)$
+\item 合成則: $(f\mCompFunc g)\mMap=(\mFFunc\mMap)\mCompFunc{}(g\mMap)$%=\mFFunc\mMap{}(g\mMap\mAnonParam)$
 \end{enumerate}
 ただし関数 $\mId$ は $\mId x=x$ で定義される．もちろん $\mId=\mAnonParam$ と定義しても同じである．
 
@@ -3038,10 +3038,10 @@ Maybeモナド
 
 合成則のほうは $\mList{x}=[x]$ を例に考えるとわかりやすく，
 \begin{align}
-  ((f\mMap)\mCompFunc(g\mMap))\mList{x}
-  &=(f\mMap{}(g\mMap\mAnonParam))\mList{x}\\
-  &=f\mMap{}(g\mMap\mList{x})\\
-  &=f\mMap{}[\mGFunc\mXVar]\\
+  ((\mFFunc\mMap)\mCompFunc(g\mMap))\mList{x}
+  &=(\mFFunc\mMap{}(g\mMap\mAnonParam))\mList{x}\\
+  &=\mFFunc\mMap{}(g\mMap\mList{x})\\
+  &=\mFFunc\mMap{}[\mGFunc\mXVar]\\
   &=[(f\mCompFunc g)x]\\
   &=(f\mCompFunc g)\mMap{}[x]\\
   &=(f\mCompFunc g)\mMap\mList{x}
@@ -3058,7 +3058,7 @@ Maybeモナド
 \item 準同型則: $\mPureWith{f}\mAppMap\mPureWith{x}=\mPureWith{\mFFunc\mXVar}$
 \item 合成則: $\mPureWith{(\mCompFunc)}\mAppMap\phi\mAppMap\psi\mAppMap v=\phi\mAppMap{}(\psi\mAppMap v)$
 \item 交換則: $\varphi\mAppMap\mPureWith{y}=\mPureWith{(\mApply y)}\mAppMap\varphi$
-% \item $f\mMap=\mPureWith{f}\mAppMap$ --- （上述の四つの法則から導かれる）
+% \item $\mFFunc\mMap=\mPureWith{f}\mAppMap$ --- （上述の四つの法則から導かれる）
 \end{enumerate}
 % https://en.wikibooks.org/wiki/Haskell/Applicative_functors#Applicative_functor_laws
 ここでも $\mId=\mAnonParam$ である．
@@ -3078,14 +3078,14 @@ f&\Big\downarrow&&\Big\downarrow&\mPureWith{f}\mAppMap\\
 \mPureWith{(\mCompFunc)}\mAppMap\phi\mAppMap\psi\mAppMap v
 &=\mPureWith{(\mCompFunc)g}\mAppMap\psi\mAppMap v\\
 &=\mPureWith{(\mCompFunc)gh}\mAppMap v\\
-&=\mPureWith{g\mCompFunc h}\mAppMap v\\
-&=\mPureWith{g\mCompFunc hz}
+&=\mPureWith{\mGFunc\mCompFunc\mHFunc}\mAppMap v\\
+&=\mPureWith{\mGFunc\mCompFunc\mHFunc\mZVar}
 \end{align}
 となる一方，合成則の右辺は
 \begin{align}
 \phi\mAppMap{}(\psi\mAppMap v)
 &=\phi\mAppMap\mPureWith{hz}\\
-&=\mPureWith{g\mCompFunc hz}
+&=\mPureWith{\mGFunc\mCompFunc\mHFunc\mZVar}
 \end{align}
 となり一致する．合成則とは，このような関係が満たされるように一般アプリカティブマップ演算子を定義しておきなさいという意味だ．
 
@@ -3244,8 +3244,8 @@ Maybe
 
 関数はアプリカティブ関手であった．関数のピュア演算子とアプリカティブマップ演算子はそれぞれ
 \begin{align}
-\mConstWith{x}&=\mLambdaEXP{\_}{x}\\
-g\mAppMapFunc f&=\mLambdaEXP{x}{\mGFunc\mXVar(\mFFunc\mXVar)}
+\mConstWith{x}&=\mLambdaEXP{\_}{\mXVar}\\
+\mGFunc\mAppMapFunc\mFFunc&=\mLambdaEXP{\mXVar}{\mGFunc\mXVar(\mFFunc\mXVar)}
 \end{align}
 であった．
 % 関数ピュア演算子は，任意の引数 $\mXVar$ を関数に置き換える．ただし，その関数は引数を捨てて元の変数 $\mXVar$ を返す．例えば
@@ -3265,16 +3265,16 @@ g\mBindFunc f=\mLambdaEXP{x}{g(\mFFunc\mXVar)x}
 &=\mLambdaEXP{x}{\mConstWith{g(\mFFunc\mXVar)}x}\\
 &=\mLambdaEXP{x}{(\mLambdaEXP{\_}{g(\mFFunc\mXVar)})x}\\
 &=\mLambdaEXP{x}{g(\mFFunc\mXVar)}\\
-&=g\mCompFunc f\\
-&=g\mMapFunc f
+&=\mGFunc\mCompFunc f\\
+&=\mGFunc\mMapFunc f
 \end{align}
 のように合成できる．
 
 まとめると
 \begin{align}
 \mConstWith{x}&=\mLambdaEXP{\_}{x}\\
-g\mMapFunc f&=\mLambdaEXP{x}{g(\mFFunc\mXVar)}=g\mCompFunc f\\
-g\mAppMapFunc f&=\mLambdaEXP{x}{\mGFunc\mXVar(\mFFunc\mXVar)}\\
+\mGFunc\mMapFunc\mFFunc&=\mLambdaEXP{x}{g(\mFFunc\mXVar)}=\mGFunc\mCompFunc f\\
+\mGFunc\mAppMapFunc\mFFunc&=\mLambdaEXP{x}{\mGFunc\mXVar(\mFFunc\mXVar)}\\
 g\mBindFunc f&=\mLambdaEXP{x}{g(\mFFunc\mXVar)x}
 \end{align}
 である．
@@ -3287,7 +3287,7 @@ g\mBindFunc f&=\mLambdaEXP{x}{g(\mFFunc\mXVar)x}
 
 関数はモノイドとしての性質も持つ．関数 $\mId=\mAnonParam$ とすると，任意の関数 $\mFFunc$ に対して
 \begin{equation}
-\mId\mCompFunc f=f\mCompFunc\mId=f
+\mId\mCompFunc f=\mFFunc\mCompFunc\mId=\mFFunc
 \end{equation}
 であるから，関数全体の集合を $\mFSet$ で表すと，組み合わせ $(\mFSet,\mCompFunc,\mId)$ はモノイドである．
 
@@ -3423,13 +3423,13 @@ do記法には $\mDoEq$ の他に，我々の $\mLetKeyword$ とよく似た $\m
 \mDo{\alpha x\mDoNext\beta y}=(\mLambdaEXP{\_}{\beta y})\mBind \alpha x\label{eq:do-alpha-beta}\\
 \mDo{\mDoLet{y}{\mFFunc\mXVar}\mDoNext\alpha y}=\alpha y\mWhereIsEXP{y}{\mFFunc\mXVar}\\
 \mDo{y\mDoEq\alpha x\mDoNext\mDoLet{z}{fy}\mDoNext\beta z}
-=\beta\mBind{}(f\mMap\alpha x)
+=\beta\mBind{}(\mFFunc\mMap\alpha x)
 \end{gather}
 より複雑な例も挙げる．
 \begin{multline}
 \mDo{y\mDoEq\alpha x\mDoNext y'\mDoEq\alpha'x'\mDoNext\mDoLet{z}{fyy'}
 \mDoNext\beta z}\\
-=\beta\mBind{}(f\mMap\alpha x\mAppMap\alpha'x')
+=\beta\mBind{}(\mFFunc\mMap\alpha x\mAppMap\alpha'x')
 \end{multline}
 最後にdo記法中に変数を2回以上使いまわす例を示す．
 \begin{multline}
@@ -3477,7 +3477,7 @@ y_2&=\mGFunc \mXVar_2
 \end{align}
 という式があった場合，関数 $\mFFunc$ と $\mGFunc$ のどちらが先に評価されるか，あるいは同時に評価されるかは\haskell では未定義である．\haskell で唯一計算順序が保証されているのは，関数適用である．例えば
 \begin{equation}
-y=g_2(g_1x)
+y=\mGFunc_2(g_1x)
 \end{equation}
 であれば，確実に関数 $g_1$ が関数 $g_2$ よりも先に評価される．
 
@@ -3911,8 +3911,8 @@ Maybe型の場合は
   \mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor
   \mWhere\left\{
   \begin{aligned}
-    f\mMap{}\mJustWith{x}&=\mJustWith{\mFFunc\mXVar}\\
-    f\mMap\mNothing&=\mNothing
+    \mFFunc\mMap{}\mJustWith{x}&=\mJustWith{\mFFunc\mXVar}\\
+    \mFFunc\mMap\mNothing&=\mNothing
   \end{aligned}
   \right.
 \end{equation}
@@ -3931,8 +3931,8 @@ Either型の場合は
   \mWhere{}
   \left\{
   \begin{aligned}
-    f\mMap{}\mRightWith{x}&=\mRightWith{\mFFunc\mXVar}\\
-    f\mMap{}\mLeftWith{x}&=\mLeftWith{x}
+    \mFFunc\mMap{}\mRightWith{x}&=\mRightWith{\mFFunc\mXVar}\\
+    \mFFunc\mMap{}\mLeftWith{x}&=\mLeftWith{x}
   \end{aligned}
   \right.
 \end{equation}
@@ -3950,15 +3950,15 @@ Either型の場合は
 
 リストに新しいマップ演算子 $\mZip$ を定義したいとしよう．この演算子 $\mZip$ は
 \begin{equation}
-  [f,g,h]\mZip[x,\mYVar,\mZVar]
+  [\mFFunc,\mGFunc,\mHFunc]\mZip[x,\mYVar,\mZVar]
   =[\mFFunc\mXVar,gy,hz]
 \end{equation}
 のように働くとする．新しいマップ演算子 $\mZip$ のことを我々は\keyword{ジップ演算子}と呼ぶことにする．
 
 ジップ演算子を定義するにはどうしたら良いだろうか．汎用性を考えると，ジップ演算子もまたリストのアプリカティブマップ演算子であって欲しい．ところが，リストには既に $\mAppMapList$ というアプリカティブマップ演算子が定義されている．念のためにアプリカティブマップ演算子を用いると
 \begin{equation}
-  [f,g,h]\mAppMapList[x,\mYVar,\mZVar]
-  =[\mFFunc\mXVar,fy,fz,\mGFunc\mXVar,gy,gz,hx,hy,hz]
+  [\mFFunc,\mGFunc,\mHFunc]\mAppMapList[x,\mYVar,\mZVar]
+  =[\mFFunc\mXVar,\mFFunc\mYVar,\mFFunc\mZVar,\mGFunc\mXVar,\mGFunc\mYVar,\mGFunc\mZVar,\mHFunc\mXVar,\mHFunc\mYVar,\mHFunc\mZVar]
 \end{equation}
 である．ある型のインスタンス化は一種類しか行えないので，リスト型に新しいアプリカティブマップ演算子を追加することは出来ない．
 
@@ -3981,7 +3981,7 @@ Either型の場合は
   \mInstanceDeclPolymorphic\;
   \mFunctorTypeClass\mSuperSet\mZipListTypeConstructor\\
   \mWhere
-  f\mMap{}\mZipListWith{\mList{x}}=\mZipListWith{f\mMapList\mList{x}}
+  \mFFunc\mMap{}\mZipListWith{\mList{x}}=\mZipListWith{\mFFunc\mMapList\mList{x}}
 \end{multline}
 および
 \begin{multline}
@@ -4024,12 +4024,12 @@ Either型の場合は
 任意のリスト $\mList{x}$ と任意の関数リスト $\mList{f}$ ただし
 \begin{align}
 \mList{x}&=[\mXVar_0,\mXVar_1,\dotsb]\\
-\mList{f}&=[f_0,\mFFunc,\dotsb]
+\mList{f}&=[\mFFunc_0,\mFFunc,\dotsb]
 \end{align}
 の両方をそれぞれ値コンストラクタで包んでアプリカティブマップ演算子を適用すると
 \begin{equation}
   \mZipListWith{\mList{f}}\mAppMap\mZipListWith{\mList{x}}
-  =[f_0\mXVar_0,\mFFunc \mXVar_1,\dotsb]
+  =[\mFFunc_0\mXVar_0,\mFFunc \mXVar_1,\dotsb]
 \end{equation}
 のようにジップ演算子を適用できる．
 
@@ -4057,7 +4057,7 @@ $\mNewTypeDeclPolymorphic$ に置き換えたことである．これは，字�
     \mZipWith\_\_\mEmptyList
     &=\mEmptyList\\
     \mZipWith f(\mXVar:\mList{x})(y:\mList{y})
-    &=f\mXVar\mYVar:\mZipWith f\mList{x}\mList{y}
+    &=\mFFunc\mXVar\mYVar:\mZipWith f\mList{x}\mList{y}
     \end{aligned}
     \right.
   \end{aligned}
@@ -4073,7 +4073,7 @@ $\mNewTypeDeclPolymorphic$ に置き換えたことである．これは，字�
 関数 $\mZipWith$ を再帰的に定義したが，再帰をリストのマップ演算子に押し込むこともできる．それには
 \begin{equation}
   \mZipWith f(\mXVar:\mList{x})(y:\mList{y})
-  =f'\mMapList\mList{z}
+  =\mFFunc'\mMapList\mList{z}
   \mWhere
   \left\{
   \begin{aligned}
@@ -4102,7 +4102,7 @@ $\mNewTypeDeclPolymorphic$ に置き換えたことである．これは，字�
     {}&\mUncurry\mIn{}
     \mProjEXP{(\mProjEXP{\mA }{\mProjEXP{\mB }{\mC }})}
           {\mProjEXP{(\mA ,\mB )}{\mC }}\\
-          {}&\mUncurry f\mXVar\mYVar=f(x,y)
+          {}&\mUncurry f\mXVar\mYVar=\mFFunc(x,y)
   \end{aligned}
   \right.
 \end{equation}
@@ -4396,7 +4396,7 @@ $(\mX\mFuncArrow[\mX])\mFuncArrow(\mX\mFuncArrow[\mX])\mFuncArrow(\mX\mFuncArrow
 をそのまま抽象化して
 \begin{equation}
   \label{eq:triplicate-duplicate-comp}
-  f\mCompCat g=\mJoinList\mCompFunc{}(f\mMapList)\mCompFunc g
+  f\mCompCat g=\mJoinList\mCompFunc{}(\mFFunc\mMapList)\mCompFunc g
 \end{equation}
 とすれば，そのまま使えそうである．
 
@@ -4414,7 +4414,7 @@ $\mCatTypeClass$ 型クラスのインスタンスにできる．ただし，式
     \mIdCat
     &=\mValueWith{NonDet}{\mLambdaEXP{x}{[x]}}\\
     \mValueWith{NonDet}{f}\mCompCat\mValueWith{NonDet}{g}
-    &=\mValueWith{NonDet}{\mJoinList\mCompFunc{}(f\mMapList)\mCompFunc g}
+    &=\mValueWith{NonDet}{\mJoinList\mCompFunc{}(\mFFunc\mMapList)\mCompFunc g}
   \end{aligned}
   \right.
 \end{multline}
@@ -4506,7 +4506,7 @@ y = run (triplicate' Cat.. duplicate') x
 ところで，リストのバインド演算子 $(\mBindList)$ は
 \begin{equation}
   f\mBindList\mList{x}
-  =\mJoinList{}(f\mMapList\mList{x})
+  =\mJoinList{}(\mFFunc\mMapList\mList{x})
   \label{eq:leftleftarrows}
 \end{equation}
 であった．関数 $\mFFunc$, $\mGFunc$ が $\mValueWith{NonDet}{f}$,
@@ -4517,10 +4517,10 @@ $(\mBindList)$ で確定する．
 
 そこでリストのバインド演算子を用いると
 \begin{align}
-  \mJoinList\mCompFunc{}(f\mMapList)\mCompFunc g
-  &=\mLambda x\mLambdaArrow\mJoinList{}(f\mMapList(\mGFunc\mXVar))\\
+  \mJoinList\mCompFunc{}(\mFFunc\mMapList)\mCompFunc g
+  &=\mLambda x\mLambdaArrow\mJoinList{}(\mFFunc\mMapList(\mGFunc\mXVar))\\
   &=\mLambda x\mLambdaArrow f\mBindList(\mGFunc\mXVar)\\
-  &=f\mBindComp g
+  &=\mFFunc\mBindComp g
 \end{align}
 であるから，式\eqref{eq:nondet-instance}の2行目は
 \begin{equation}
@@ -4554,8 +4554,8 @@ instance Cat.Category NonDet where
 \section{カテゴリ則*}
 
 \begin{align}
-\mIdCat\mCompCat f&=f\mCompCat\mIdCat=f\\
-(f\mCompCat g)\mCompCat h&=f\mCompCat(g\mCompCat h)
+\mIdCat\mCompCat f&=\mFFunc\mCompCat\mIdCat=\mFFunc\\
+(f\mCompCat g)\mCompCat h&=\mFFunc\mCompCat(g\mCompCat h)
 \end{align}
 
 \section{余談: Kleisli型*}
@@ -4585,7 +4585,7 @@ instance Cat.Category NonDet where
 
 \begin{equation}
   y
-  =\sharp\mCompFunc(f\mMapMaybe)\mCompFunc g\mApply x
+  =\sharp\mCompFunc(\mFFunc\mMapMaybe)\mCompFunc g\mApply x
 \end{equation}
 
 \begin{equation}
@@ -4715,7 +4715,7 @@ $\begin{bmatrix}\vdots\end{bmatrix}$ が是非とも必要である．この特�
 \begin{equation}
   \begin{bmatrix}
     f\mCompFunc f'\\
-    g\mCompFunc g'
+    \mGFunc\mCompFunc g'
   \end{bmatrix}
   =
   \begin{bmatrix}
@@ -5417,7 +5417,7 @@ int main(void) {
 副作用のないプログラムはひとつの関数で書ける．その関数を $\mMainFunc$
 と呼ぶことにすると，この $\mMainFunc$ 関数を
 \begin{equation}
-\mMainFunc=f_n\mCompFunc f_{n-1}\mCompFunc\dotsb\mCompFunc \mFFunc
+\mMainFunc=\mFFunc_n\mCompFunc f_{n-1}\mCompFunc\dotsb\mCompFunc \mFFunc
 \end{equation}
 と部分関数に分解することがプログラマの能力である．副作用のないプログラ
 ムとは，コマンドラインから引数 $\mXVar$ を受け取り，なんらかの処理を行い，
@@ -6014,7 +6014,7 @@ f&\mIn\mProjEXP{\mDoubleType}{\mDoubleType}\\
     y
     &\mIn{}[\mDoubleType]\\
     y
-    &=f\mMapList\mList{x}
+    &=\mFFunc\mMapList\mList{x}
   \end{aligned}
   \right.
 \end{equation}
@@ -6617,12 +6617,12 @@ I_\mSet{Z}\mIn\mMorph{\mSet{Z}}{\mSet{Z}}
 \end{equation}
 という写像もあるとしよう．ここで
 \begin{equation}
-I_\mSet{Y}\mCompProj f=f\mCompProj I_\mSet{X}
+I_\mSet{Y}\mCompProj f=\mFFunc\mCompProj I_\mSet{X}
 \end{equation}
 とすると，写像 $I_\mSet{X}$ と写像 $I_\mSet{Y}$ はそれぞれ写像の合成演
 算子 $\mCompProj$ に対して単位元のように振る舞う．写像 $\mGFunc$ については
 \begin{equation}
-I_\mSet{Z}\mCompProj g=g\mCompProj I_\mSet{Y}
+I_\mSet{Z}\mCompProj g=\mGFunc\mCompProj I_\mSet{Y}
 \end{equation}
 であるとする．このような写像 $I_\mSet{X},I_\mSet{Y},I_\mSet{Z}$ を
 \keyword{恒等写像}と呼ぶ．
@@ -6757,7 +6757,7 @@ f&=\mLambdaEXP{\mXVar\mYVar}{y}\\
 \mIfFunc t\mXVar\mYVar&=t\mXVar\mYVar\\
 &=(\mLambdaEXP{\mXVar\mYVar}{x})\mXVar\mYVar\\
 &=x\\
-\mIfFunc f\mXVar\mYVar&=f\mXVar\mYVar\\
+\mIfFunc f\mXVar\mYVar&=\mFFunc\mXVar\mYVar\\
 &=(\mLambdaEXP{\mXVar\mYVar}{y})\mXVar\mYVar\\
 &=y
 \end{align}
