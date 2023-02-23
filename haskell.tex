@@ -206,6 +206,7 @@
 % Functions
 \newcommand{\mFunc}[1]{\textcolor{\funcColor}{#1}}
 \newcommand{\mSpecialFunc}[1]{\textcolor{\funcColor}{\textrm{#1}}}
+\newcommand{\mSpecialSpecialFunc}[1]{\textcolor{\funcColor}{\textrm{#1}^\prime}}
 \newcommand{\mSpecialFuncSmall}[1]{\textcolor{\funcColor}{\textrm{#1}}}
 \newcommand{\mVarSpecialFunc}[1]{\mathfrak{#1}}
 
@@ -224,6 +225,7 @@
 \DeclareMathOperator{\mDuplicate}{\mSpecialFunc{duplicate}}
 \DeclareMathOperator{\mGetList}{\mSpecialFunc{getList}}
 \DeclareMathOperator{\mFact}{\mSpecialFunc{fact}}
+\DeclareMathOperator{\mFFact}{\mSpecialSpecialFunc{fact}}
 \DeclareMathOperator{\mFirst}{\mSpecialFunc{first}}
 \DeclareMathOperator{\mFst}{\mSpecialFunc{fst}}
 \DeclareMathOperator{\mFuncall}{\mSpecialFunc{funcall}}
@@ -1042,7 +1044,7 @@ $\mIf$ 節の中身は真理値を返す関数であれば良いので，関数 
 \begin{enumerate}
 \item 変数 $\mXVar$ に関数 $\mFFunc$ を適用することを $\mFFunc\mXVar$ と書く．\item 変数 $\mXVar,\mYVar$ に関数 $\mGFunc$ を適用することを $g\mXVar\mYVar$ と書く．関数適用は左結合するので $g\mXVar\mYVar=(\mGFunc\mXVar)y$ である．この関数 $(\mGFunc\mXVar)$ は部分適用された関数と呼ぶ．
 \item 関数はラムダ式で定義する．ラムダ式は $\mLambdaEXP{x}{(\sin x)/x}$ のように表記する．\item ラムダ式は $f\mAnonParam$ のように無名パラメタ $\mAnonParam$ を用いて表記しても良い．\item 関数定義 $f=\mLambdaEXP{x}{(\sin x)/x}$ は $\mFFunc\mXVar=(\sin x)/x$ と省略表記できる．
-\item 関数定義にはパタンマッチが使える．例えば $f'0=1;f'x=(\sin x)/x$ と定義できる．\item パタンマッチは関数本体に書いても良い．関数 $f'$ の例で言えば $f'=\mCaseOf{x}0\mIfSo1;\_\mIfSo(\sin x)/x$ と 定義できる．\item 関数定義にはガードが使える．例えば $f''\mGuard{x<0}=0;f''\mGuard{x\equiv0}=1;f''\mGuard{\mOtherwise}=(\sin x)/x$ と定義できる．\item 条件分岐は $\mIfThenElseEXP{\mXVar}{\mYVar}{z}$ と書き，$\mXVar\equiv\mTrue$ の時には $\mYVar$ が，$\mXVar\equiv\mFalse$ のときには $\mZVar$ が式の値になる．\item 局所変数は $y=\mLetInEXP{x'}{\dotsb}{\mFFunc\mXVar'}$ または$y=\mFFunc\mXVar'\mWhereIsEXP{x'}{\dotsb}$ という書き方で導入できる．
+\item 関数定義にはパタンマッチが使える．例えば $f'0=1;f'x=(\sin x)/x$ と定義できる．\item パタンマッチは関数本体に書いても良い．関数 $f'$ の例で言えば $f'=\mCaseOf{\mXVar}0\mIfSo\mOneNumber;\_\mIfSo(\sin x)/x$ と 定義できる．\item 関数定義にはガードが使える．例えば $f''\mGuard{x<0}=0;f''\mGuard{x\equiv0}=1;f''\mGuard{\mOtherwise}=(\sin x)/x$ と定義できる．\item 条件分岐は $\mIfThenElseEXP{\mXVar}{\mYVar}{z}$ と書き，$\mXVar\equiv\mTrue$ の時には $\mYVar$ が，$\mXVar\equiv\mFalse$ のときには $\mZVar$ が式の値になる．\item 局所変数は $y=\mLetInEXP{x'}{\dotsb}{\mFFunc\mXVar'}$ または$y=\mFFunc\mXVar'\mWhereIsEXP{x'}{\dotsb}$ という書き方で導入できる．
 \end{enumerate}
 
 % Irrefutable pattern
@@ -1980,15 +1982,15 @@ cons演算子 $(:)$ は右結合する．すなわち $\mXVar_0:\mXVar_1:\mXVar_
 
 \section{関数の再帰適用}
 
-関数は内部で自分自身を適用しても良い．例えば $\mXVar$ の階乗 $(x!)$ を返す関数 $\mFact$ は
+関数は内部で自分自身を適用しても良い．例えば $\mXVar$ の階乗 $(\mXVar!)$ を返す関数 $\mFact$ は
 \begin{equation}
-  \mFact x
-  =\mCaseOf{x}
+  \mFact\mXVar
+  =\mCaseOf{\mXVar}
   \begin{cases}
-    0
-    &\mIfSo1\\
+    \mZeroNumber
+    &\mIfSo\mOneNumber\\
     \_
-    &\mIfSo x*\mFact(x-1)
+    &\mIfSo\mXVar*\mFact(\mXVar-\mOneNumber)
   \end{cases}
 \end{equation}
 と定義できる．関数が自分自身を適用することを関数の\keyword{再帰適用}と呼ぶ．\footnote{\haskell では
@@ -2008,16 +2010,16 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
   \left\{
   \begin{aligned}
     \mSum\mEmptyList
-    &=0\\
+    &=\mZeroNumber\\
     \mSum(\mXVar:\mList{x})
-    &=x+\mSum\mList{x}
+    &=\mXVar+\mSum\mList{x}
   \end{aligned}
   \right.
 \end{equation}
 のようにも定義できるということである．\footnote{\haskell では
 \begin{verbatim}
   sum []     = 0
-  sum (\mXVar:xs) = x + sum xs
+  sum (x:xs) = x + sum xs
 \end{verbatim}
 と書く．}
 
@@ -2027,67 +2029,67 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
 
 計算機科学者は，同じ再帰でも\keyword{末尾再帰}という再帰のスタイルを好む．末尾再帰とは，関数の再帰適用を関数定義の末尾にすることである．この章に出てきた階乗関数 $\mFact$ を例にとろう．階乗関数 $\mFact$ は
 \begin{equation}
-  \mFact x
-  =\mCaseOf{x}\begin{cases}
-    0
-    &\mIfSo1\\
+  \mFact\mXVar
+  =\mCaseOf{\mXVar}\begin{cases}
+    \mZeroNumber
+    &\mIfSo\mOneNumber\\
     \_
-    &\mIfSo x*\mFact(x-1)
+    &\mIfSo\mXVar*\mFact(\mXVar-\mOneNumber)
   \end{cases}
 \end{equation}
 のような形をしていた．末尾の関数をよりはっきりさせるために演算子 $(*)$ を前置にして
 \begin{equation}
-  \mFact x
-  =\mCaseOf{x}
+  \mFact\mXVar
+  =\mCaseOf{\mXVar}
   \begin{cases}
-    0
-    &\mIfSo1\\
+    \mZeroNumber
+    &\mIfSo\mOneNumber\\
     \_
-    &\mIfSo(*)x(\mFact(x-1))
+    &\mIfSo(*)\mXVar(\mFact(\mXVar-\mOneNumber))
   \end{cases}
 \end{equation}
 と書いてみよう．この定義の末尾の式は
 \begin{equation}
-  (*)x(\mFact(x-1))
+  (*)\mXVar(\mFact(\mXVar-\mOneNumber))
 \end{equation}
 である．これだと末尾の関数は $\mFact$ ではなく演算子 $(*)$ なので，末尾に再帰適用を行ったことにはならない．
 
-そこで，次のように形を変えた階乗関数 $\mFact'$ を考えてみる．
+そこで，次のように形を変えた階乗関数 $\mFFact$ を考えてみる．
 \begin{equation}
-  \mFact'ax
-  =\mCaseOf{x}
+  \mFFact\mAVar\mXVar
+  =\mCaseOf{\mXVar}
   \begin{cases}
     0
-    &\mIfSo1\\
+    &\mIfSo\mOneNumber\\
     \_
-    &\mIfSo\mFact'(a*x)(x-1)
+    &\mIfSo\mFFact(\mAVar*\mXVar)(\mXVar-\mOneNumber)
   \end{cases}
 \end{equation}
-こうすれば末尾の関数がもとの $\mFact'$ と一致する．\footnote{\haskell では
+こうすれば末尾の関数がもとの $\mFFact$ と一致する．\footnote{\haskell では
 \begin{verbatim}
   fact a x = case x of 0 -> 1
                        _ -> fact' (a*x) (x-1)
 \end{verbatim}
 と書く．}
 
-関数 $\mFact$ と違い関数 $\mFact'$ は引数を2個とる．関数 $\mFact'$ を使って $\mXVar$ の階乗を求める場合は $\mFact'1x$ と第1引数に $1$ を与えることにする．この第1引数 $a$ はアキュムレータという．アキュムレータが演算の途中経過を引き渡していくイメージを描けば，末尾再帰の意味が理解できる
+関数 $\mFact$ と違い関数 $\mFFact$ は引数を2個とる．関数 $\mFFact$ を使って $\mXVar$ の階乗を求める場合は $\mFFact\,\mOneNumber\,x$ と第1引数に $\mOneNumber$ を与えることにする．この第1引数 $\mAVar$ はアキュムレータという．アキュムレータが演算の途中経過を引き渡していくイメージを描けば，末尾再帰の意味が理解できる
 だろう．
 
 計算機科学者が末尾再帰を好む理由は，\haskell を含む幾つかのプログラミング言語処理系が\keyword{末尾再帰最適化}を行うからである．末尾再帰最適化とは，一言で言うと再帰を計算機が扱いやすいループに置き換えることである．では最初から我々もループで関数を表現しておけば，と思われるかもしれないが，再帰以外の方法でループを表現する場合には必ず変数（ループカウンタ）への破壊的代入が必要になるため，我々は末尾再帰に慎ましくループを隠すのである．
 
 \section{遅延評価}
 
-\haskell は，意図しない限り遅延評価を行う．これは特に左畳み込み演算子 $(\mFold)$ を使う場合に問題となる．いま $\mList{x}=[\mXVar_0,\mXVar_1,\mXVar_2,\mXVar_3]$ とすると，左畳み込み演算 $\mFold^+_0\mList{x}$ は
+\haskell は，意図しない限り遅延評価を行う．これは特に左畳み込み演算子 $(\mFold)$ を使う場合に問題となる．いま $\mList{x}=[\mXVar_0,\mXVar_1,\mXVar_2,\mXVar_3]$ とすると，左畳み込み演算 $\mFold^+_\mZeroNumber\mList{x}$ は
 \begin{align}
-  \mFold^+_0\mList{x}
-  &=\mFold^+_0{}(\mXVar_0:\mXVar_1:\mXVar_2:\mEmptyList)\\
-  &=\mFold^+_{0+\mXVar_0}{}(\mXVar_1:\mXVar_2:\mXVar_3:\mEmptyList)\\
-  &=\mFold^+_{(0+\mXVar_0)+\mXVar_1}{}(\mXVar_2:\mXVar_3:\mEmptyList)\\
-  &=\mFold^+_{((0+\mXVar_0)+\mXVar_1)+\mXVar_2}{}(\mXVar_3:\mEmptyList)\\
-  &=\mFold^+_{(((0+\mXVar_0)+\mXVar_1)+\mXVar_2)+\mXVar_3}{}\mEmptyList\\
-  &=(((0+\mXVar_0)+\mXVar_1)+\mXVar_2)+\mXVar_3
+  \mFold^+_\mZeroNumber\mList{x}
+  &=\mFold^+_\mZeroNumber{}(\mXVar_0:\mXVar_1:\mXVar_2:\mEmptyList)\\
+  &=\mFold^+_{\mZeroNumber+\mXVar_0}{}(\mXVar_1:\mXVar_2:\mXVar_3:\mEmptyList)\\
+  &=\mFold^+_{(\mZeroNumber+\mXVar_0)+\mXVar_1}{}(\mXVar_2:\mXVar_3:\mEmptyList)\\
+  &=\mFold^+_{((\mZeroNumber+\mXVar_0)+\mXVar_1)+\mXVar_2}{}(\mXVar_3:\mEmptyList)\\
+  &=\mFold^+_{(((\mZeroNumber+\mXVar_0)+\mXVar_1)+\mXVar_2)+\mXVar_3}{}\mEmptyList\\
+  &=(((\mZeroNumber+\mXVar_0)+\mXVar_1)+\mXVar_2)+\mXVar_3
 \end{align}
-と展開される．遅延評価のために，\haskell 処理系は値ではなく式をメモリにストアしなければならないが，左畳み込み演算は大きなメモリを必要としがちである．もし例えば予め $0+\mXVar_0$ を先に計算しておくなど左畳み込みだけ先に評価しておけば，大いにメモリの節約になる．そのために\haskell は「遅延評価無し」の左畳み込み演算子を用意している．\footnote{「遅延評価無し」の左畳み込み演算子を\haskell では \code{oldl'} と書く．}
+と展開される．遅延評価のために，\haskell 処理系は値ではなく式をメモリにストアしなければならないが，左畳み込み演算は大きなメモリを必要としがちである．もし例えば予め $\mZeroNumber+\mXVar_0$ を先に計算しておくなど左畳み込みだけ先に評価しておけば，大いにメモリの節約になる．そのために\haskell は「遅延評価無し」の左畳み込み演算子を用意している．\footnote{「遅延評価無し」の左畳み込み演算子を\haskell では \code{oldl'} と書く．}
 
 % \haskell には言語拡張として，\keyword{アンボックス化タプル}という機能がある．
 %
@@ -2098,21 +2100,21 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
 
 ラムダ式をサポートするほとんどのプログラミング言語は，\keyword{レキシカルクロージャ}をサポートする．レキシカルクロージャとは，ラムダ式が定義された時点での，周囲の環境をラムダ式に埋め込む機構である．例えば
 \begin{align}
-  a
-  &=100\\
-  h
-  &=a+\mAnonParam
+  \mAVar
+  &=\mConstant{100}\\
+  \mFFunc
+  &=\mAVar+\mAnonParam
 \end{align}
-というラムダ式があるとする．当然我々は関数 $h$ がいつも $h=100+\mAnonParam$ であることを期待するし，\haskell においてはいつも保証される．\footnote{\haskell では
+というラムダ式があるとする．当然我々は関数 $\mFFunc$ がいつも $\mFFunc=\mConstant{100}+\mAnonParam$ であることを期待するし，\haskell においてはいつも保証される．\footnote{\haskell では
 \begin{verbatim}
   a = 100
-  h = \x -> a+x
+  f = \x -> a+x
 \end{verbatim}
 と書く．}
 
-ところが，参照透過性のない言語，言い換えると変数への破壊的代入が許されている言語では，変数 $a$ の値がいつ変わっても不思議ではない．そこで，それらの言語では関数 $h$ が定義された時点での $a$ の値を，関数 $h$ の定義に含めておく．これがレキシカルクロージャの考え方である．
+ところが，参照透過性のない言語，言い換えると変数への破壊的代入が許されている言語では，変数 $\mAVar$ の値がいつ変わっても不思議ではない．そこで，それらの言語では関数 $\mFFunc$ が定義された時点での $\mAVar$ の値を，関数 $\mFFunc$ の定義に含めておく．これがレキシカルクロージャの考え方である．
 
-\haskell ではそもそも変数への破壊的代入がないので，関数 $h$ がレキシカルクロージャであるかどうか悩む必要はない．あえて言えば，\haskell ではラムダ式はいつもレキシカルクロージャである．もしあなたのそばの\cxx プログラマが「え？\haskell にはレキシカルクロージャが無いの？」などと聞いてきたら，「ええ，\haskell には破壊的代入すらありませんから」と答えておこう．
+\haskell ではそもそも変数への破壊的代入がないので，関数 $\mFFunc$ がレキシカルクロージャであるかどうか悩む必要はない．あえて言えば，\haskell ではラムダ式はいつもレキシカルクロージャである．もしあなたのそばの\cxx プログラマが「え？\haskell にはレキシカルクロージャが無いの？」などと聞いてきたら，「ええ，\haskell には破壊的代入すらありませんから」と答えておこう．
 
 \section{この章のまとめ}
 
@@ -2929,7 +2931,7 @@ $\mFunctorTypeClass$ 型クラスは一般マップ演算子 $(\mMap)$ を持っ
 関数 $i$ が次の形をしているとする．
 \begin{equation}
   \label{eq:def-of-i}
-  ix=\mCaseOf{x}\begin{cases}
+  ix=\mCaseOf{\mXVar}\begin{cases}
     \mLovelyVar
     &\mIfSo\mPureWith{\mFFunc\mXVar}\\
     \_
@@ -5686,7 +5688,7 @@ do記法&\code{do}\\
 
 2次方程式の解とは，定数 $a,b,c$ が既知の式
 \begin{equation}
-a*x^2+b*x+c=0
+\mAVar*\mXVar^2+b*x+c=0
 \end{equation}
 において定数 $\mXVar$ が取り得る値のことである．なお $\mXVar^2$ は\haskell では
 \code{x**2} と書く．
@@ -5867,7 +5869,7 @@ $\mSq'$ 関数と $\sgn'$ 関数に置き換えたことで，
   \begin{aligned}
     &(\mComplexTimes)\mIn\mRealFloatTypeClass\mSuperSet\mA \mSuperClass
     \mProjEXP{\mA }{\mProjEXP{\mCompFunclexType{a}}{\mCompFunclexType{a}}}\\
-    &(\mComplexTimes)a(x\mComplexPlus y)=a*x\mComplexPlus a*y
+    &(\mComplexTimes)a(x\mComplexPlus y)=\mAVar*\mXVar\mComplexPlus a*y
   \end{aligned}
   \right.
 \end{equation}
