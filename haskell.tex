@@ -564,7 +564,7 @@ do記法中のキーワード&タイプライタ&$\mDoLetKeyword$\\
 リスト&ブラケットで包む&$[x,y]$\\
 集合&ブレースで包む&$\{x,y\}$\\
 タプル&丸括弧で包む&$\mPairWith{\mXVar}{\mYVar}$\\
-% アンボックス化タプル&丸括弧とシャープ記号で包む&$\mTupleUnboxedWith{x,y,z}$\\
+% アンボックス化タプル&丸括弧とシャープ記号で包む&$\mTupleUnboxedWith{x,\mYVar,\mZVar}$\\
 \hline
 \end{tabular}
 \end{center}
@@ -2162,11 +2162,11 @@ srt(\mXVar:xs) = srt as ++ [x] ++ srt bs where
 
 \section{Possibly}
 
-計算の途中で，計算にまつわる状態を残りの計算に引き継ぎたくなる場合がある．例えば，整数 $\mXVar,y,z$ があり $\mXVar=y/z$ なる値を続く計算で利用したいとする．だが $z\equiv0$ のときには $\mXVar$ は正しく計算されない．こんなときプログラマが取れる手段は
+計算の途中で，計算にまつわる状態を残りの計算に引き継ぎたくなる場合がある．例えば，整数 $x,\mYVar,\mZVar$ があり $x=y/z$ なる値を続く計算で利用したいとする．だが $z\equiv0$ のときには $x$ は正しく計算されない．こんなときプログラマが取れる手段は
 \begin{itemize}
-\item $\mXVar=y/z$ を計算した時点で\keyword{ゼロ除算例外}を発生させ，プログラムの制御を他の場所へ移す（大域ジャンプを行う）
-\item グローバル変数にゼロ除算エラーが起こったことを記録しておき，$\mXVar$ にはとりあえずの数値，例えば $0$ を代入しておいて，計算を続行させる
-\item $\mXVar$ にエラー状態を示す印を新たにつけておいて，計算を続行させる
+\item $x=y/z$ を計算した時点で\keyword{ゼロ除算例外}を発生させ，プログラムの制御を他の場所へ移す（大域ジャンプを行う）
+\item グローバル変数にゼロ除算エラーが起こったことを記録しておき，$x$ にはとりあえずの数値，例えば $0$ を代入しておいて，計算を続行させる
+\item $x$ にエラー状態を示す印を新たにつけておいて，計算を続行させる
 \end{itemize}
 といったところだろう．
 
@@ -2232,7 +2232,7 @@ def map_over(f, p):
 
 もう一度振り出しに戻る．
 
-整数 $\mXVar,y,z$ があり $\mXVar=y/z$ という式があるとする．この式は $z\equiv0$ のときにはゼロ除算エラーである．しかし「例外」は内部状態の書き換えであり，我々の計算に入れたくない．そこで変数 $\mXVar$ が正しく計算されたかもしれないし，されていないかもしれないということを $\mMaybe{u}$ のように?をつけた変数に入れて，忘れないようにしておこう．
+整数 $\mXVar,\mYVar,\mZVar$ があり $\mXVar=y/z$ という式があるとする．この式は $z\equiv0$ のときにはゼロ除算エラーである．しかし「例外」は内部状態の書き換えであり，我々の計算に入れたくない．そこで変数 $\mXVar$ が正しく計算されたかもしれないし，されていないかもしれないということを $\mMaybe{u}$ のように?をつけた変数に入れて，忘れないようにしておこう．
 
 ここで変数 $\mMaybe{u}$ が取り得る値は正しく計算された値 $\mXVar$ をラップしたものか，あるいはエラーを表す値 $\mNothing$ である．このように計算結果に「意味付け」をすることを\keyword{文脈}に入れると言う．定数 $\mNothing$ は「ナッシング」と呼ぶ．\footnote{\haskell では $\mNothing$ を \code{Nothing} と書く．}
 
@@ -2592,9 +2592,9 @@ $\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mJustWith{x},\mNothing$
 
 マップ演算子をさらに汎用性のあるものにするために新しく考え出された演算子が\keyword{アプリカティブマップ演算子}である．
 
-いま関数のリスト $[f,g,h]$ と変数のリスト $[x,y,z]$ があるとする．リストのアプリカティブマップ演算子 $\mAppMapList$ を次のように定義する．
+いま関数のリスト $[f,g,h]$ と変数のリスト $[x,\mYVar,\mZVar]$ があるとする．リストのアプリカティブマップ演算子 $\mAppMapList$ を次のように定義する．
 \begin{equation}
-  [f,g,h]\mAppMapList[x,y,z]
+  [f,g,h]\mAppMapList[x,\mYVar,\mZVar]
   =[\mFFunc\mXVar,fy,fz,\mGFunc\mXVar,gy,gz,hx,hy,hz]
 \end{equation}
 リストのアプリカティブマップ演算子はこのように，左引数のリスト内のすべての関数を順番に右引数のリスト内の変数に適用し，その結果をリストとして返す．
@@ -2611,12 +2611,12 @@ $[\mA\mFuncArrow\mB]\mFuncArrow[\mA]\mFuncArrow[\mB]$ である．これは
 
 リストバージョンのアプリカティブマップ演算子 $(\mAppMapList)$ の特別な場合として，左引数のリストの要素数が $1$ の場合を考えると
 \begin{equation}
-  [f]\mAppMapList{}[x,y,z]
+  [f]\mAppMapList{}[x,\mYVar,\mZVar]
   =[\mFFunc\mXVar,fy,fz]
 \end{equation}
 であり，通常のマップ演算子 $(\mMapList)$ を使ったマップすなわち
 \begin{equation}
-  f\mMapList{}[x,y,z]
+  f\mMapList{}[x,\mYVar,\mZVar]
   =[\mFFunc\mXVar,fy,fz]
 \end{equation}
 と右辺が一致する．つまり，マップ演算子はアプリカティブマップ演算子の特別な場合と考えることができる．実際，リストマップ演算子はアプリカティブマップ演算子から
@@ -3950,14 +3950,14 @@ Either型の場合は
 
 リストに新しいマップ演算子 $\mZip$ を定義したいとしよう．この演算子 $\mZip$ は
 \begin{equation}
-  [f,g,h]\mZip[x,y,z]
+  [f,g,h]\mZip[x,\mYVar,\mZVar]
   =[\mFFunc\mXVar,gy,hz]
 \end{equation}
 のように働くとする．新しいマップ演算子 $\mZip$ のことを我々は\keyword{ジップ演算子}と呼ぶことにする．
 
 ジップ演算子を定義するにはどうしたら良いだろうか．汎用性を考えると，ジップ演算子もまたリストのアプリカティブマップ演算子であって欲しい．ところが，リストには既に $\mAppMapList$ というアプリカティブマップ演算子が定義されている．念のためにアプリカティブマップ演算子を用いると
 \begin{equation}
-  [f,g,h]\mAppMapList[x,y,z]
+  [f,g,h]\mAppMapList[x,\mYVar,\mZVar]
   =[\mFFunc\mXVar,fy,fz,\mGFunc\mXVar,gy,gz,hx,hy,hz]
 \end{equation}
 である．ある型のインスタンス化は一種類しか行えないので，リスト型に新しいアプリカティブマップ演算子を追加することは出来ない．
@@ -6227,21 +6227,21 @@ main = do
 まず最初に，我々にとって一番身近な代数的構造である\keyword{数}を見てみ
 よう．数の代表例は\keyword{実数}であるから，実数を例にとって考えてみよ
 う．実数全体の集合を $\mRSet$ で表すことにする．また任意の実数を
-$\mXVar,y,z$ で表すこととする．このことを数学者は $\mXVar,y,z\in\mRSet$ と書くが，
+$\mXVar,\mYVar,\mZVar$ で表すこととする．このことを数学者は $\mXVar,\mYVar,\mZVar\in\mRSet$ と書くが，
 本書ではこれまで通り
 \begin{equation}
-x,y,z\mIn\mRSet
+x,\mYVar,\mZVar\mIn\mRSet
 \end{equation}
 と表すことにする．
 
 以下に実数の備える代数的性質を列挙する．どれも当たり前のことに見えるが，
-ひとつひとつ見ていこう．ここで $\mXVar,y,z\mIn\mRSet$ とする．
+ひとつひとつ見ていこう．ここで $\mXVar,\mYVar,\mZVar\mIn\mRSet$ とする．
 \begin{description}
 \item[実数の性質1. 加法の全域性] 任意の $\mXVar$ と任意の $\mYVar$ の\keyword{加
 法}（足し算）の結果すなわち\keyword{和} $\mXVar+y$ は $\mRSet$ の元すなわ
 ち実数である．演算の結果が同じ集合の元になることを\keyword{全域性}と
 呼ぶ．
-\item[実数の性質2. 加法の結合性] 任意の $\mXVar,y,z$ について
+\item[実数の性質2. 加法の結合性] 任意の $\mXVar,\mYVar,\mZVar$ について
 \begin{equation}
 (\mXVar+\mYVar)+\mZVar=x+(y+z)
 \end{equation}
@@ -6269,7 +6269,7 @@ $-x\mIn\mRSet$ があり
 \item[実数の性質6. 乗法] 任意の $\mXVar$ と任意の $\mYVar$ の\keyword{乗法}（掛
 け算）の結果すなわち\keyword{積} $\mXVar*y$ は $\mRSet$ の元すなわち実数
 である．
-\item[実数の性質7. 乗法の結合性] 任意の $\mXVar,y,z$ について
+\item[実数の性質7. 乗法の結合性] 任意の $\mXVar,\mYVar,\mZVar$ について
 \begin{equation}
 (x*y)*\mZVar=x*(y*z)
 \end{equation}
@@ -6383,12 +6383,12 @@ z\uparrow2&=z*z\\
 わせと「非可換・単位元あり・逆元なし」の組み合わせがペアになったもの
 （環）があることがわかる．
 
-いま集合 $\mSet{G}$ があり，$\mXVar,y,z\mIn\mSet{G}$ であるとし，二項演算子
+いま集合 $\mSet{G}$ があり，$\mXVar,\mYVar,\mZVar\mIn\mSet{G}$ であるとし，二項演算子
 を $\mBinOp$ と書くことにして，体の性質の前半分を書き下してみよう．
 \begin{description}
 \item[性質1.] 任意の $\mXVar$ と任意の $\mYVar$ の演算の結果 $\mXVar\mBinOp y$ は
 $\mSet{G}$ の元である．
-\item[性質2.] 任意の $\mXVar,y,z$ について
+\item[性質2.] 任意の $\mXVar,\mYVar,\mZVar$ について
 \begin{equation}
 (x\mBinOp y)\mBinOp \mZVar=x\mBinOp(y\mBinOp z)
 \end{equation}
@@ -6528,12 +6528,12 @@ $\mTupleWith{\mSet{V},+,\mVec{0},-}$ もまた可換群である．
 \end{center}
 \end{table}
 
-単位的半群の性質は次の三つである．ただし $\mXVar,y,z$ が集合 $\mSet{M}$ の
+単位的半群の性質は次の三つである．ただし $\mXVar,\mYVar,\mZVar$ が集合 $\mSet{M}$ の
 元であるとする．
 \begin{description}
 \item[単位的半群の性質1.] 任意の $\mXVar$ と任意の $\mYVar$ の演算の結果
 $\mXVar\mBinOp y$ は $\mSet{M}$ の元である．
-\item[単位的半群の性質2. 結合性] 任意の $\mXVar,y,z$ について
+\item[単位的半群の性質2. 結合性] 任意の $\mXVar,\mYVar,\mZVar$ について
 \begin{equation}
 (x\mBinOp y)\mBinOp \mZVar=x\mBinOp(y\mBinOp z)
 \end{equation}
