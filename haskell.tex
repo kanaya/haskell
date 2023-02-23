@@ -160,18 +160,21 @@
 \newcommand{\mThreeNumber}{\mConstant{3}}
 \newcommand{\mFourNumber}{\mConstant{4}}
 \newcommand{\mFiveNumber}{\mConstant{5}}
+\newcommand{\mSixNumber}{\mConstant{6}}
+\newcommand{\mSevenNumber}{\mConstant{7}}
+\newcommand{\mEightNumber}{\mConstant{8}}
+\newcommand{\mNineNumber}{\mConstant{9}}
 
 \newcommand{\mEmptyList}{{[\,]}}
 \newcommand{\mFalse}{\mSpecialConstant{False}}
 \newcommand{\mNothing}{\emptyset}
-\newcommand{\mNumZero}{\mSpecialConstant{Zero}}
 \newcommand{\mNumOne}{\mSpecialConstant{One}}
 \newcommand{\mNumTwo}{\mSpecialConstant{Two}}
 \newcommand{\mNumThree}{\mSpecialConstant{Three}}
 \newcommand{\mNumMany}{\mSpecialConstant{Many}}
 \newcommand{\mPureNothing}{\varnothing}
 \newcommand{\mTrue}{\mSpecialConstant{True}}
-\newcommand{\mZero}{\text{\O}}
+\newcommand{\mZero}{\mSpecialConstant{\O}}
 \newcommand{\mZeroLeft}{\mZero_\mLeft}
 \newcommand{\mZeroRight}{\mZero_\mRight}
 
@@ -208,7 +211,7 @@
 \newcommand{\mSpecialFunc}[1]{\textcolor{\funcColor}{\textrm{#1}}}
 \newcommand{\mSpecialSpecialFunc}[1]{\textcolor{\funcColor}{\textrm{#1}^\prime}}
 \newcommand{\mSpecialFuncSmall}[1]{\textcolor{\funcColor}{\textrm{#1}}}
-\newcommand{\mVarSpecialFunc}[1]{\mathfrak{#1}}
+\newcommand{\mVarSpecialFunc}[1]{\textcolor{\funcColor}{\mathfrak{#1}}}
 
 \newcommand{\mFFunc}{{\mFunc{f}}}
 \newcommand{\mGFunc}{\mFunc{g}}
@@ -343,7 +346,7 @@
 
 % Sets
 \newcommand{\mSet}[1]{\mathbf{#1}}
-\newcommand{\mSpecialSet}[1]{\mathbb{#1}}
+\newcommand{\mSpecialSet}[1]{\textcolor{\typeColor}{\mathbb{#1}}}
 
 \newcommand{\mASet}{\mSpecialSet{A}}
 \newcommand{\mBSet}{\mSpecialSet{B}}
@@ -412,7 +415,7 @@
 % Value constructors
 \newcommand{\mValueConstructor}[1]{\mathrm{#1}}
 
-\newcommand{\mValueWith}[2]{{}_\mValueConstructor{#1}\[#2\]}
+\newcommand{\mValueWith}[2]{{}_\mValueConstructor{#1}\[\mVar{#2}\]}
 \newcommand{\mValueRecordBeginWith}[1]{{}^\mValueConstructor{#1}\,\{}
 \newcommand{\mValueRecordEnd}{\}}
 \newcommand{\mValueRecordWith}[2]{\mValueRecordBeginWith{#1}{#2}\mValueRecordEnd}
@@ -424,9 +427,9 @@
 \newcommand{\mZipListRecordWith}[1]{\mValueRecordWith{ZipList}{#1}}
 
 % Famous value constructors
-\newcommand{\mArrowWith}[1]{\Langle#1\Rangle}
-\newcommand{\mConstWith}[1]{\langle#1\rangle}
-\newcommand{\mPureWith}[1]{\[#1\]}
+\newcommand{\mArrowWith}[1]{\Langle\mVar{#1}\Rangle}
+\newcommand{\mConstWith}[1]{\langle\mVar{#1}\rangle}
+\newcommand{\mPureWith}[1]{\[\mVar{#1}\]}
 
 % Built-in value constructors
 \newcommand{\mTupleWith}[1]{\left(#1\right)}
@@ -507,7 +510,6 @@
 \hline\hline
 定数&イタリック大文字（1文字）&$\mConstant{A},\mConstant{B},\mConstant{C}$\\
 有名な定数&ローマン大文字&$\mTrue,\mFalse$\\
-\hline
 単位元&ローマンに斜線&$\mZero$\\
 \hline
 変数&イタリック（1文字）&$\mVar{u},\mVar{v},\mVar{w},\mXVar,\mYVar,\mVar{z}$\\
@@ -520,7 +522,6 @@ Ether変数&$!$をつける&$\mEither{x}$\\
 関数&イタリック（1文字）&$\mFunc{f},\mFunc{g},\mFunc{h},\mFunc{i},\mFunc{j},\mFunc{k}$\\
 一般のコンテナ関数&$*$をつける&$\mFuncContainer{f}$\\
 有名な関数&ローマン&$\mId,\mSin,\mCos$\\
-\hline
 関手&フラクチュール&$\mIdCat$\\
 \hline
 アクション&ギリシア文字（1文字）&$\mAction{\alpha},\mAction{\omega}$\\
@@ -532,13 +533,12 @@ Ether変数&$!$をつける&$\mEither{x}$\\
 型クラス&ボールドイタリック大文字&$\mEqTypeClass,\mOrdTypeClass$\\
 多相型&左肩にコンテナ名をつける&$\mMaybeType{a}$\\
 有名な多相型&特別な括弧で包む&$[\mA],\mPureType{a}$\\
+% 集合&ボールド大文字（1文字）&$\mSet{A},\mSet{B},\mSet{C}$\\
+集合&ブラックボード大文字&$\mBSet,\mZSet,\mRSet$\\
 \hline
 型コンストラクタ&ボールドイタリック&$\mTypeConstructor{f},\mTypeConstructor{g},\mTypeConstructor{h}$\\
 有名な型コンストラクタ&ボールド大文字&$\mListTypeConstructor,\mMaybeTypeConstructor$\\
 % 有名な多相型 (2)&特別な矢印を用いる&$\mFuncType{a},\mCatType{r}{a}$\\
-\hline
-% 集合&ボールド大文字（1文字）&$\mSet{A},\mSet{B},\mSet{C}$\\
-集合&ブラックボード大文字&$\mBSet,\mZSet,\mRSet$\\
 \hline
 \end{tabular}
 \end{center}
@@ -552,7 +552,7 @@ Ether変数&$!$をつける&$\mEither{x}$\\
 種類&字体・表記法&例\\
 \hline\hline
 値コンストラクタ&名前付き括弧で包む&$\mRightWith{x},\mLeftWith{x}$\\
-有名な値コンストラクタ&特別な括弧で包む&$[x],\mPureWith{x},\mConstWith{x},\mArrowWith{x}$\\
+有名な値コンストラクタ&特別な括弧で包む&$[\mXVar],\mPureWith{x},\mConstWith{x},\mArrowWith{x}$\\
 \hline
 % 型コンストラクタ&ボールドイタリック&$\mTypeConstructor{f},\mTypeConstructor{g}$\\
 % 有名な型コンストラクタ&スラント大文字&$\mListTypeConstructor$, $\mMaybeTypeConstructor$\\
@@ -561,8 +561,8 @@ Ether変数&$!$をつける&$\mEither{x}$\\
 do記法中のキーワード&タイプライタ&$\mDoLetKeyword$\\
 % リストの構造&サンセリフ，大文字&$\mathFirst$, $\mathRest$\\
 \hline
-リスト&ブラケットで包む&$[x,y]$\\
-集合&ブレースで包む&$\{x,y\}$\\
+リスト&ブラケットで包む&$[\mXVar,\mYVar]$\\
+集合&ブレースで包む&$\{\mXVar,\mYVar\}$\\
 タプル&丸括弧で包む&$\mPairWith{\mXVar}{\mYVar}$\\
 % アンボックス化タプル&丸括弧とシャープ記号で包む&$\mTupleUnboxedWith{x,\mYVar,\mZVar}$\\
 \hline
@@ -626,7 +626,7 @@ $\mPureNothing$&空&\\
 記号&意味&\haskell 記号\\
 \hline\hline
 $\mPureWith{x}$&ピュア演算子&\code{pure x}\\
-$[x]$&リスト値コンストラクタ&\code{[x]}\\
+$[\mXVar]$&リスト値コンストラクタ&\code{[x]}\\
 $\mJustWith{x}$&Maybe値コンストラクタ&\code{Just x}\\
 $\mLeftWith{x},\mRightWith{x}$&Either値コンストラクタ&\code{Left x}, \code{Right x}\\
 % $\mFuncWith{x}$&関数値コンストラクタ&\code{r->x}\\
@@ -708,7 +708,7 @@ print("Hello, world.")
 
 関数型プログラミングとはプログラミングにおける一種のスローガンのようなもので，どの言語を用いたから関数型でどの言語を用いたから関数型ではない，というものではない．しかし，関数型プログラミングを強くサポートする言語と，そうでない言語とがある．ここら辺の事情はオブジェクト指向プログラミングとプログラミング言語の関係と似ている．\haskell は関数型プログラミングを強くサポートし，\python はほとんどサポートしない．
 
-関数型プログラミングの特徴を一言で言えば，プログラム中の\keyword{破壊的代入}を禁止することである．変数 $\mXVar$ に $1$ という数値が一度代入されたら，変数 $\mXVar$ の値をプログラム中に書き換える，すなわち破壊的代入をすることはできない．この結果，変数の値はプログラムのどこでも，どの時点で読み出しても同じであることが保証される．これを変数の\keyword{参照透過性}と呼ぶ．
+関数型プログラミングの特徴を一言で言えば，プログラム中の\keyword{破壊的代入}を禁止することである．変数 $\mXVar$ に $\mOneNumber$ という数値が一度代入されたら，変数 $\mXVar$ の値をプログラム中に書き換える，すなわち破壊的代入をすることはできない．この結果，変数の値はプログラムのどこでも，どの時点で読み出しても同じであることが保証される．これを変数の\keyword{参照透過性}と呼ぶ．
 
 プログラム全体に参照透過性があると，そのプログラムはブロックに分割しやすく，各々のブロックは再利用しやすい．またプログラムのどの断片から読み始めても，全体の構造を見失いにくい．これが関数型プログラミングとそれを強くサポートする\haskell を習得する理由である．
 
@@ -930,7 +930,7 @@ lambda \mXVar: 1+x
     \_&\mIfSo(\mSin\mXVar)/\mXVar
   \end{cases}
 \end{equation}
-のように書く．ここに $\_$ は任意の値の意味である．パタンマッチは上から順番にマッチングしていくため，この場合は $0$ 以外を意味する．
+のように書く．ここに $\_$ は任意の値の意味である．パタンマッチは上から順番にマッチングしていくため，この場合は $\mZeroNumber$ 以外を意味する．
 \footnote{\haskell では
 \begin{verbatim}
   f' x = case x of 0 -> 1
@@ -1092,7 +1092,7 @@ $(\mBinOp)$ も
   (\mBinOp)\mXVar\mYVar
   =((\mBinOp)\mXVar)\mYVar
 \end{equation}
-であるから，部分適用が可能である．式\eqref{eq:star-x-y}から第2引数 $\mYVar$ を取り除いて $(\mBinOp)x$ という「餓えた」1引数関数を取り出せる．例えば関数 $((+)1)$ は引数に $1$ を加える関数である．\footnote{\haskell では $((+)1)$ を \code{((+)1)} と書く．}
+であるから，部分適用が可能である．式\eqref{eq:star-x-y}から第2引数 $\mYVar$ を取り除いて $(\mBinOp)x$ という「餓えた」1引数関数を取り出せる．例えば関数 $((+)1)$ は引数に $\mOneNumber$ を加える関数である．\footnote{\haskell では $((+)1)$ を \code{((+)1)} と書く．}
 
 \separator
 
@@ -1103,7 +1103,7 @@ $(\mBinOp)$ も
   (\mXVar\mBinOp)
   &=\mXVar\mBinOp\mAnonParam=(\mBinOp)\mXVar
 \end{align}
-である．例えば $(\mOneNumber+)$ は $((+)\mOneNumber)$ と等価であり，これは $(+\mOneNumber)$ とも等価である．ただし，マイナス演算子$(-)$ だけは例外で，$(-\mOneNumber)$ はマイナス $1$ を表す．負の数をいつも括弧で包んでおくのは良いアイディアである．\footnote{\haskell では $(1+)$ を\code{(1+)} と書く．また \code{(-1)} はセクションではなくマイナス$1$を表す（\code{-1} というリテラルとみなされる）．ただし \code{(- 1)}のように空白を挟んでも同じくマイナス $1$ とみなされる（\code{1} というリテラルに単項マイナス演算子が適用される）．}
+である．例えば $(\mOneNumber+)$ は $((+)\mOneNumber)$ と等価であり，これは $(+\mOneNumber)$ とも等価である．ただし，マイナス演算子$(-)$ だけは例外で，$(-\mOneNumber)$ はマイナス $\mOneNumber$ を表す．負の数をいつも括弧で包んでおくのは良いアイディアである．\footnote{\haskell では $(1+)$ を\code{(1+)} と書く．また \code{(-1)} はセクションではなくマイナス$\mOneNumber$を表す（\code{-1} というリテラルとみなされる）．ただし \code{(- 1)}のように空白を挟んでも同じくマイナス $\mOneNumber$ とみなされる（\code{1} というリテラルに単項マイナス演算子が適用される）．}
 
 なお，二項演算子の結合性，すなわち左結合か右結合かは，演算子によって異なる．また演算の優先順位を明示的に与えるために括弧が用いられる．
 
@@ -1260,7 +1260,7 @@ z = g(f(x))
 \end{equation}
 と書く．数学者なら同じことを
 \begin{equation}
-  x
+  \mXVar
   \in\mBSet
 \end{equation}
 と書くところであるが，ここは\haskell の流儀に従おう．また型定義と値定義はよく一緒に行われるので，今後
@@ -1291,7 +1291,7 @@ z = g(f(x))
 
 もう一つ，計算機ならではの型がある．それは $\mIntType$ とよく似ているが，特別に文字を扱うために考えられた\keyword{文字型} $\mCharType$ である．文字といってもその中身は整数である．整数ではあるが，わざわざ別な型とするのには理由がある．\footnote{\haskell では $\mCharType$ を \code{Char} で表す．}
 
-理由の第一は，文字が小さな整数であるため，文字型を独立して定義しておくことでメモリを節約できるのである．特にメモリが高価であった時代はこれが唯一の理由であった．現在でも，整数が一般に64ビットを消費するのに対し，UTF8文字エンコードを用いている場合，アルファベットは8ビットしか消費しない．
+理由の第一は，文字が小さな整数であるため，文字型を独立して定義しておくことでメモリを節約できるのである．特にメモリが高価であった時代はこれが唯一の理由であった．現在でも，整数が一般に64ビットを消費するのに対し，UTF-8文字エンコードを用いている場合，アルファベットは8ビットしか消費しない．
 
 理由の第二は，単純に整数と文字が異なるからである．文字を表す変数に整数を代入するのは悪い兆しである．
 
@@ -1499,24 +1499,24 @@ $\mFromIntegral$ は
 
 整数全てからなる\keyword{集合}を $\mZSet$ で表すことにする．計算機科学で整数と言うと，本当の整数と，例えば $-2^{63}$ から $2^{63}-1$ までの間の整数の意味と両方あるが，今は前者の意味である．
 
-集合 $\mZSet$ の任意の\keyword{元}（\keyword{要素}）$z$ を
+集合 $\mZSet$ の任意の\keyword{元}（\keyword{要素}）$\mZVar$ を
 \begin{equation}
-  z
-  \in\mZSet
+  \mZVar
+  \mIn\mZSet
 \end{equation}
 と書く．
 
-二つの整数 $z_1,z_2\in\mZSet$ があるとしよう．両者の間には\keyword{足し算} $(+)$ が定義されており，その結果すなわち\keyword{和}もまた整数である．ここで
+二つの整数 $\mZVar_1,\mZVar_2\mIn\mZSet$ があるとしよう．両者の間には\keyword{足し算} $(+)$ が定義されており，その結果すなわち\keyword{和}もまた整数である．ここで
 \begin{equation}
-  z_1+z_2
-  \in\mZSet
+  \mZVar_1+\mZVar_2
+  \mIn\mZSet
 \end{equation}
 であるとき，演算子 $+$ が集合 $\mZSet$ に対して\keyword{全域性}を持つと言う．
 % ***CHECK***
-一般に集合 $\mASet$ の元に対して二項演算子 $\mBinOp$ が定義されていて，$a_1,a_2\mIn\mASet$ のときに
+一般に集合 $\mASet$ の元に対して二項演算子 $\mBinOp$ が定義されていて，$\mAVar_1,\mAVar_2\mIn\mASet$ のときに
 \begin{equation}
   \label{eq:totality}
-  a_1\mBinOp a_2
+  \mAVar_1\mBinOp \mAVar_2
   \in\mASet
 \end{equation}
 である場合，つまり演算子 $\mBinOp$ が集合 $\mASet$ に対して全域性を持つ場合，組み合わせ $\mTupleWith{\mASet,\mBinOp}$ を\keyword{マグマ}と呼ぶ．組み合わせ $\mTupleWith{\mZSet,+}$ はマグマの例であり，$\mTupleWith{\mZSet,*}$ もマグマの例である．
@@ -1527,29 +1527,29 @@ $\mFromIntegral$ は
 マグマのうち，演算を2回続ける場合，その順序によって結果が異ならない，つまり
 \begin{equation}
   \label{eq:associativity}
-  \left(a_1\mBinOp a_2\right)\mBinOp a_3
-  =a_1\mBinOp\left(a_2\mBinOp{a_3}\right)
+  \left(\mAVar_1\mBinOp \mAVar_2\right)\mBinOp \mAVar_3
+  =\mAVar_1\mBinOp\left(\mAVar_2\mBinOp{\mAVar_3}\right)
 \end{equation}
-ただし $a_1,a_2,a_3\mIn\mASet$ のとき，組み合わせ $\mTupleWith{\mASet,\mBinOp}$ のことを\keyword{半群}と呼ぶ．この式\eqref{eq:associativity}で表される性質を\keyword{結合性}と呼ぶ．組み合わせ $\mTupleWith{\mZSet,+}$, $\mTupleWith{\mZSet,*}$, $\mTupleWith{\mBSet,\mLogicalOr}$, $\mTupleWith{\mBSet,\mLogicalOr}$ はすべて半群である．
+ただし $\mAVar_1,\mAVar_2,\mAVar_3\mIn\mASet$ のとき，組み合わせ $\mTupleWith{\mASet,\mBinOp}$ のことを\keyword{半群}と呼ぶ．この式\eqref{eq:associativity}で表される性質を\keyword{結合性}と呼ぶ．組み合わせ $\mTupleWith{\mZSet,+}$, $\mTupleWith{\mZSet,*}$, $\mTupleWith{\mBSet,\mLogicalOr}$, $\mTupleWith{\mBSet,\mLogicalOr}$ はすべて半群である．
 
-ところで，整数全体の集合 $\mZSet$ には特別な元 $0\mIn\mZSet$ がある．この元 $0$ は $z\mIn\mZSet$ のとき
+ところで，整数全体の集合 $\mZSet$ には特別な元 $\mZeroNumber\mIn\mZSet$ がある．この元 $\mZeroNumber$ は $\mZVar\mIn\mZSet$ のとき
 \begin{equation}
-  0+z
-  =z+0
-  =z
+  \mZeroNumber+\mZVar
+  =\mZVar+\mZeroNumber
+  =\mZVar
 \end{equation}
-という性質を持つ．この $0$ を演算 $+$ における\keyword{単位元}と呼ぶ．足し算のことを\keyword{加法}とも言うので $0$ のことは\keyword{加法単位元}と呼ぶこともあるし，文字通り\keyword{零元}と呼ぶこともある．
+という性質を持つ．この $\mZeroNumber$ を演算 $+$ における\keyword{単位元}と呼ぶ．足し算のことを\keyword{加法}とも言うので $\mZeroNumber$ のことは\keyword{加法単位元}と呼ぶこともあるし，文字通り\keyword{零元}と呼ぶこともある．
 
-一般に，$a,\mZeroLeft,\mZeroRight\in\mASet$ として
+一般に，$\mAVar,\mZeroLeft,\mZeroRight\in\mASet$ として
 \begin{equation}
   \label{eq:identity}
-  \mZeroLeft\mPlus a
-  =a\mPlus\mZeroRight
-  =a
+  \mZeroLeft\mPlus\mAVar
+  =\mAVar\mPlus\mZeroRight
+  =\mAVar
 \end{equation}
 であるとき，元 $\mZeroLeft,\mZeroRight$ を単位元と呼ぶ．我々は多くの場合 $\mZeroLeft=\mZeroRight$ であるケースを扱うので，二つの単位元を区別する必要はほとんどないが，必要な場合は $\mZeroLeft$ を\keyword{左単位元}，$\mZeroRight$ を\keyword{右単位元}と呼ぶ．
 
-組み合わせ $\mTupleWith{\mASet,\mPlus,\mZeroLeft,\mZeroRight}$ のことを\keyword{モノイド}または\keyword{単位的半群}と呼ぶ．例えば $\mTupleWith{\mZSet,+,0,0}$ はモノイドであるし，$\mTupleWith{\mZSet,*,1,1}$, $\mTupleWith{\mBSet,\mLogicalOr,\mFalse,\mFalse}$, $\mTupleWith{\mBSet,\mLogicalAnd,\mTrue,\mTrue}$ もモノイドである．これらのモノイドは全て左単位元と右単位元が同じなので，それぞれ $\mTupleWith{\mZSet,+,0}$, $\mTupleWith{\mZSet,*,1}$, $\mTupleWith{\mBSet,\mLogicalOr,\mFalse}$, $\mTupleWith{\mBSet,\mLogicalAnd,\mTrue}$ とも書く．
+組み合わせ $\mTupleWith{\mASet,\mPlus,\mZeroLeft,\mZeroRight}$ のことを\keyword{モノイド}または\keyword{単位的半群}と呼ぶ．例えば $\mTupleWith{\mZSet,+,\mZeroNumber,\mZeroNumber}$ はモノイドであるし，$\mTupleWith{\mZSet,*,\mOneNumber,\mOneNumber}$, $\mTupleWith{\mBSet,\mLogicalOr,\mFalse,\mFalse}$, $\mTupleWith{\mBSet,\mLogicalAnd,\mTrue,\mTrue}$ もモノイドである．これらのモノイドは全て左単位元と右単位元が同じなので，それぞれ $\mTupleWith{\mZSet,+,\mZeroNumber}$, $\mTupleWith{\mZSet,*,\mOneNumber}$, $\mTupleWith{\mBSet,\mLogicalOr,\mFalse}$, $\mTupleWith{\mBSet,\mLogicalAnd,\mTrue}$ とも書く．
 
 このように，数学者は数の性質を抽象化し，集合とその集合に対する演算というものの見方をよく行う．プログラミングの言葉で言えば，複数のクラスに共通のインタフェースを定義するようなものである．
 
@@ -1563,15 +1563,15 @@ $\mFromIntegral$ は
 \hline 型&演算子&単位元\\\hline\hline
 $\mBoolType$ &$\vee$&$\mFalse$\\\hline
 $\mBoolType$ &$\wedge$ &$\mTrue$\\\hline\hline
-$\mIntType$ &$+$ &$0$\\\hline
-$\mIntType$ &$*$ &$1$\\\hline\hline
-$\mFloatType$ &$+$ &$0$\\\hline
-$\mFloatType$ &$*$ &$1$\\\hline
+$\mIntType$ &$+$ &$\mZeroNumber$\\\hline
+$\mIntType$ &$*$ &$\mOneNumber$\\\hline\hline
+$\mFloatType$ &$+$ &$\mZeroNumber$\\\hline
+$\mFloatType$ &$*$ &$\mOneNumber$\\\hline
 \end{tabular}
 \end{center}
 \end{table}
 
-組み合わせ $(\mIntType,+,0)$ はモノイドである．同様に $(\mIntType,*,1)$, $(\mFloatType,+,0)$, $(\mFloatType,*,1)$, $(\mBoolType,\mLogicalOr,\mFalse)$, $(\mBoolType,\mLogicalAnd,\mTrue)$ もモノイドである．
+組み合わせ $(\mIntType,+,\mZeroNumber)$ はモノイドである．同様に $(\mIntType,*,\mOneNumber)$, $(\mFloatType,+,\mZeroNumber)$, $(\mFloatType,*,\mOneNumber)$, $(\mBoolType,\mLogicalOr,\mFalse)$, $(\mBoolType,\mLogicalAnd,\mTrue)$ もモノイドである．
 
 % そこで，任意の型 $\mA $ について，組み合わせ $\mTupleWith{\mA ,\mPlus,\mZero}$ がモノイドである場合には
 % \begin{equation}
@@ -1586,8 +1586,8 @@ $\mFloatType$ &$*$ &$1$\\\hline
 \section{この章のまとめ*}
 
 \begin{enumerate}
-\item 集合 $\mASet$ の元 $a_1,a_2\mIn\mASet$ について，二項演算子 $\mBinOp$ があり $a_1\mBinOp a_2\mIn\mASet$ であるとき，すなわち演算子が全域性を有する場合 $(\mASet,\mBinOp)$ のことをマグマと呼ぶ．
-\item マグマ $\mASet$ の元 $a_1,a_2,a_3\mIn\mASet$ について $(a_1\mBinOp a_2)\mBinOp a_3=a_1\mBinOp(a_2\mBinOp a_3)$ である場合，すなわち演算子が結合性を有する場合 $\mASet$ を半群と呼ぶ．
+\item 集合 $\mASet$ の元 $\mAVar_1,\mAVar_2\mIn\mASet$ について，二項演算子 $\mBinOp$ があり $\mAVar_1\mBinOp \mAVar_2\mIn\mASet$ であるとき，すなわち演算子が全域性を有する場合 $(\mASet,\mBinOp)$ のことをマグマと呼ぶ．
+\item マグマ $\mASet$ の元 $\mAVar_1,\mAVar_2,\mAVar_3\mIn\mASet$ について $(\mAVar_1\mBinOp \mAVar_2)\mBinOp \mAVar_3=\mAVar_1\mBinOp(\mAVar_2\mBinOp \mAVar_3)$ である場合，すなわち演算子が結合性を有する場合 $\mASet$ を半群と呼ぶ．
 \item 半群のうち $\mZero\mIn\mASet$ なる元 $\mZero$ があり，任意の $a\mIn\mASet$ に対して $\mZero\mBinOp a=a\mBinOp\mZero=a$ である場合，すなわち単位元が存在する場合 $\mASet$ をモノイドと呼ぶ．
 \item 関数は集合 $\mASet$ から集合 $\mASet'$ への写像という型を持つ．
   %***写像***
@@ -1613,7 +1613,7 @@ ls = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 \end{pythoncode}
 のように定義できる．
 
-我々も $0$ から始まり $9$ まで続く整数のリストを $[0,1,2,3,4,5,6,7,8,9]$ と書くことにしよう．ただし，これでは冗長なので\keyword{等差数列}に限って簡略化した書き方を許す．例えば $0$ から $9$ までのリストは $[0,1\dots9]$ と書いても良い．\footnote{\haskell では \code{[0, 1..9]} と書く．ピリオドの数に注意しよう．}
+我々も $\mZeroNumber$ から始まり $\mNineNumber$ まで続く整数のリストを $[\mOneNumber,\mTwoNumber,\mThreeNumber,\mFourNumber,\mFiveNumber,\mSixNumber,\mSevenNumber,\mEightNumber,\mNineNumber]$ と書くことにしよう．ただし，これでは冗長なので\keyword{等差数列}に限って簡略化した書き方を許す．例えば $\mZeroNumber$ から $\mNineNumber$ までのリストは $[\mZeroNumber,\mOneNumber\dotsb\mNineNumber]$ と書いても良い．\footnote{\haskell では \code{[0, 1..9]} と書く．ピリオドの数に注意しよう．}
 
 リストの中身の一つ一つの値のことを\keyword{要素}と呼ぶ．要素のことは元と呼んでも良いが，本書では要素と呼ぶことにする．要素も元も英語のelementの和訳である．
 
@@ -1622,13 +1622,13 @@ ls = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 今後，リストを指す変数は，リストであることを忘れないように変数名にsをつけて
 \begin{equation}
   \mList{x}
-  =[0,1\dots9]
+  =[\mZeroNumber,\mOneNumber\dotsb\mNineNumber]
 \end{equation}
 のように書くことにしよう．なお，変数 $\mXVar$ とリスト変数 $\mList{x}$ は異なる変数であるとする．\footnote{\haskell では \code{s} を変数名にくっつけて \code{xs = [0, 1..9]} のように書く習慣がある．}
 
 \separator
 
-\python ではリスト内包表記が使える．例えば $0$ から $9$ までの倍数のリストは次のように作った．
+\python ではリスト内包表記が使える．例えば $\mZeroNumber$ から $\mNineNumber$ までの倍数のリストは次のように作った．
 \begin{pythoncode}
 \begin{verbatim}
 ls = [x*2 for x in range(0, 10)]
@@ -1639,23 +1639,23 @@ ls = [x*2 for x in range(0, 10)]
 我々も内包表記を
 \begin{equation}
   \mList{x}
-  =[\mXVar*2\mListComp\mXVar\mFrom[0,1\dots9]]
+  =[\mXVar*\mTwoNumber\mListComp\mXVar\mFrom[\mZeroNumber,\mOneNumber\dotsb\mNineNumber]]
 \end{equation}
-のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mFrom$を用いた．\footnote{\haskell では $\mList{x}=[\mXVar*2\mListComp\mXVar\mFrom[0,1\dots9]]$ を \code{xs = [x*2 | x<-[0,1..9]]} と書く．}
+のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mFrom$を用いた．\footnote{\haskell では $\mList{x}=[\mXVar*2\mListComp\mXVar\mFrom[\mZeroNumber,\mOneNumber\dotsb\mNineNumber]]$ を \code{xs = [x*2 | x<-[0,1..9]]} と書く．}
 
 内包表記の式は複数あっても良い．例えば
 \begin{equation}
   \mList{x}
-  =[\mXVar+\mYVar\mListComp\mXVar\mFrom[0,1\dots9],\,\mYVar\mFrom[0,1\dots5],\,\mXVar+\mYVar>3]
+  =[\mXVar+\mYVar\mListComp\mXVar\mFrom[\mZeroNumber,\mOneNumber\dotsb\mNineNumber],\,\mYVar\mFrom[\mZeroNumber,\mOneNumber\dotsb\mFiveNumber],\,\mXVar+\mYVar>\mThreeNumber]
 \end{equation}
-は $0\le\mXVar\le9$ かつ $0\le\mYVar\le5$ の範囲で $\mXVar+\mYVar>3$となる $\mXVar$ 及び $\mYVar$ から $\mXVar+\mYVar$ を並べたリストである．これは\python でいう
+は $\mZeroNumber\le\mXVar\le\mNineNumber$ かつ $\mZeroNumber\le\mYVar\le\mFiveNumber$ の範囲で $\mXVar+\mYVar>\mThreeNumber$となる $\mXVar$ 及び $\mYVar$ から $\mXVar+\mYVar$ を並べたリストである．これは\python でいう
 \begin{pythoncode}
 \begin{verbatim}
 ls = [x+y for x in range(0, 10) for y in range(0, 6) \
   if x+y > 3]
 \end{verbatim}
 \end{pythoncode}
-のことである．\footnote{\haskell では \code{xs = [x+y | x<-[0,1..9], y<-[0,1..5], x+y>3]} と書く．}
+のことである．\footnote{\haskell では \code{xs = [x+y | x<-[\mZeroNumber,\mOneNumber..9], y<-[\mZeroNumber,\mOneNumber..5], x+y>\mThreeNumber]} と書く．}
 
 % ...もっと内包表記．
 
@@ -1666,7 +1666,7 @@ ls = [x+y for x in range(0, 10) for y in range(0, 6) \
   [\mA]
   =\mListTypeConstructor\,\mA
 \end{equation}
-とする．\footnote{\haskell ではこの式の右辺を \code{[] a} とも書ける．}この等式の両辺は変数ではなく型名であることに注意しよう．型コンストラクタの概念は\python には無い（必要無い）が，静的型付け言語である\cxx の「クラステンプレート」が相当する．\footnote{\haskell では表記上コンテナ型 $[\mA]$ と型コンストラクタ式$\mListTypeConstructor\,\mA $ を区別せず，両者とも \code{[a]} と書く．}
+とする．この等式の両辺は変数ではなく型名であることに注意しよう．型コンストラクタの概念は\python には無い（必要無い）が，静的型付け言語である\cxx の「クラステンプレート」が相当する．\footnote{\haskell では表記上コンテナ型 $[\mA]$ と型コンストラクタ式$\mListTypeConstructor\,\mA $ を区別せず両者とも \code{[a]} と書くが，右辺は \code{[] a} とも書ける．}
 
 $[\mXVar]$ のように $\mA$ 型の変数 $\mXVar$ を入れた$[\mA]$ 型の変数を作る演算子を\keyword{リスト値コンストラクタ}と呼ぶ．$[\mA]$ 型の変数のことを\keyword{リスト変数}とも呼ぶ．$\mA$ 型の変数 $\mXVar$ からリスト値コンストラクタを使ってリスト$\mList{x}$ を作ることは
 \begin{equation}
@@ -1769,7 +1769,7 @@ s = reduce(lambda x, y: \mXVar+\mYVar, ls, 0)
 \begin{rubycode}
 \begin{verbatim}
 ls = [0, 1, 2, 3, 4, 5]
-s = ls.inject(0) { |x, y| \mXVar+\mYVar }
+s = ls.inject(0) { |x, y| x+y }
 \end{verbatim}
 \end{rubycode}
 と書ける．
@@ -1838,7 +1838,7 @@ map(f, ls)
 のように \code{map} 関数を用いる．例えば
 \begin{pythoncode}
 \begin{verbatim}
-f = lambda \mXVar: 100+x
+f = lambda x: 100+x
 ls = [1, 2, 3, 4, 5]
 ms = map(f, ls)
 \end{verbatim}
@@ -1885,7 +1885,7 @@ ms = map(f, ls)
 具体例を見てみよう．先程の\python コードの例にあわせて
 \begin{align}
   \mFFunc
-  &=\mLambda x\mLambdaArrow\mConstant{100}+\mXVar\\
+  &=\mLambda\mXVar\mLambdaArrow\mConstant{100}+\mXVar\\
   \mList{x}
   &=[\mOneNumber\dotsb\mFiveNumber]\\
   \mList{y}
@@ -1901,7 +1901,7 @@ ms = map(f, ls)
 \begin{equation}
   \mFirstVar:\mRestVar
 \end{equation}
-を用い，リファレンス $\mFirstVar$ はリストが保持する型，リファレンス $\mRestVar$ はリスト型であるとする．演算子 $:$ を\lisp に倣って\keyword{cons演算子}と呼ぶ．\footnote{\haskell でも要素 \code{x} をリスト \code{xs} の先頭に追加することを \code{\mXVar:xs} と書く．}
+を用い，リファレンス $\mFirstVar$ はリストが保持する型，リファレンス $\mRestVar$ はリスト型であるとする．演算子 $:$ を\lisp に倣って\keyword{cons演算子}と呼ぶ．\footnote{\haskell でも要素 \code{x} をリスト \code{xs} の先頭に追加することを \code{x:xs} と書く．}
 
 要素 $\mRestVar$ はリストまたは空リストであるから，一般にリストは次のように展開できることになる．
 \begin{align}
@@ -1954,8 +1954,8 @@ cons演算子 $(:)$ は右結合する．すなわち $\mXVar_0:\mXVar_1:\mXVar_
 
 \begin{enumerate}
 \item 配列はリストである．配列は $[\mXVar_0,\mXVar_1,\mXVar_2]$ のように表記する．
-\item 等差数列の配列は $[0,1\dotsb10]$ のように途中を $\dotsb$ で省略できる．
-\item 配列は無限長であってもよい．無限長配列は $[0,1\dotsb]$ のように表記する．
+\item 等差数列の配列は $[\mZeroNumber,\mOneNumber\dotsb10]$ のように途中を $\dotsb$ で省略できる．
+\item 配列は無限長であってもよい．無限長配列は $[\mZeroNumber,\mOneNumber\dotsb]$ のように表記する．
 \item 1要素のリストは $[x]$ のように表記する．この括弧をリスト値コンス
   トラクタと呼ぶ．
 \item 空リストは $\mEmptyList$ と表す．
@@ -2165,7 +2165,7 @@ srt(\mXVar:xs) = srt as ++ [x] ++ srt bs where
 計算の途中で，計算にまつわる状態を残りの計算に引き継ぎたくなる場合がある．例えば，整数 $x,y,z$ があり $x=y/z$ なる値を続く計算で利用したいとする．だが $z\equiv0$ のときには $x$ は正しく計算されない．こんなときプログラマが取れる手段は
 \begin{itemize}
 \item $x=y/z$ を計算した時点で\keyword{ゼロ除算例外}を発生させ，プログラムの制御を他の場所へ移す（大域ジャンプを行う）
-\item グローバル変数にゼロ除算エラーが起こったことを記録しておき，$x$ にはとりあえずの数値，例えば $0$ を代入しておいて，計算を続行させる
+\item グローバル変数にゼロ除算エラーが起こったことを記録しておき，$x$ にはとりあえずの数値，例えば $\mZeroNumber$ を代入しておいて，計算を続行させる
 \item $x$ にエラー状態を示す印を新たにつけておいて，計算を続行させる
 \end{itemize}
 といったところだろう．
@@ -2194,7 +2194,7 @@ p = Possibly(False)
 \end{pythoncode}
 と初期化できる．
 
-ここで，引数に $1$ を加えて返す関数 \code{f} があるとしよう．関数 \code{f} の定義は次の通りである．
+ここで，引数に $\mOneNumber$ を加えて返す関数 \code{f} があるとしよう．関数 \code{f} の定義は次の通りである．
 \begin{pythoncode}
 \begin{verbatim}
 f = lambda \mXVar: 1+x
@@ -2609,7 +2609,7 @@ $[\mA\mFuncArrow\mB]\mFuncArrow[\mA]\mFuncArrow[\mB]$ である．これは
 \end{equation}
 と解釈すれば良い．
 
-リストバージョンのアプリカティブマップ演算子 $(\mAppMapList)$ の特別な場合として，左引数のリストの要素数が $1$ の場合を考えると
+リストバージョンのアプリカティブマップ演算子 $(\mAppMapList)$ の特別な場合として，左引数のリストの要素数が $\mOneNumber$ の場合を考えると
 \begin{equation}
   [f]\mAppMapList{}[x,\mYVar,\mZVar]
   =[\mFFunc\mXVar,fy,fz]
@@ -3185,7 +3185,7 @@ k=i\mBind{}(j\mAnonParam)=\mPureWith{f\mCompFunc g\mAnonParam}
   &
   &
   &
-  &$0$
+  &$\mZeroNumber$
   &$+$\\
 \hline
 整数
@@ -3193,7 +3193,7 @@ k=i\mBind{}(j\mAnonParam)=\mPureWith{f\mCompFunc g\mAnonParam}
   &
   &
   &
-  &$1$
+  &$\mOneNumber$
   &$*$\\
 \hline\hline
 一般コンテナ
@@ -4791,7 +4791,7 @@ $(\mArrowArrow{\mTypeConstructor{a}})\mB\mC$ の中置記法バージョ
   \mArrow{\mFFunc}\mCompCat\mArrow{\mGFunc}
   =
   \begin{bmatrix}
-    f_{1,1}\mCompFunc f_{2,1}\\
+    f_{\mOneNumber,\mOneNumber}\mCompFunc f_{2,1}\\
     f_{1,2}\mCompFunc f_{2,2}
   \end{bmatrix}
 \end{equation}
@@ -5363,16 +5363,16 @@ main関数（\haskell では $\mMain$ アクション）の書き方だろう．
 型は $\mIOIntType$ である．
 
 UNIXおよびUNIXに影響を受けたOSでは，プログラムは終了時に整数値をOSへ返
-すことになっている．プログラムが $0$ を返せば，そのプログラムは正常終
+すことになっている．プログラムが $\mZeroNumber$ を返せば，そのプログラムは正常終
 了したとみなされる．例えばUNIXシェル（\filename{sh} や \filename{csh}
   のこと）で，
 \begin{verbatim}
 $ program1 && program2
 \end{verbatim}
-としたとき，\filename{program1} の戻り値が $0$ のときに限って
+としたとき，\filename{program1} の戻り値が $\mZeroNumber$ のときに限って
 \filename{program2} が実行される．
 
-何もせずにOSに $0$ を返すプログラムすなわち
+何もせずにOSに $\mZeroNumber$ を返すプログラムすなわち
 \begin{equation}
 \left\mBrace
 \begin{aligned}
@@ -5496,7 +5496,7 @@ $ ./sample
     \right.
 \end{align}
 である．この式は $\mPrint(\mFFunc\mXVar)$ がいかなる値を返そうとも，アクション
-$\mMain$ の値は $0$ になることを示している．
+$\mMain$ の値は $\mZeroNumber$ になることを示している．
 
 \section{余談：インタープリタ*}
 
@@ -5951,7 +5951,7 @@ $y=\mFFunc\mXVar$ ただし
 &\mGuard{\mOtherwise}=(\sin x)/x
 \end{aligned}
 \end{equation}
-とする．ここで $0\le x\le\pi$ の範囲で $\mYVar$ の値を求めたいとしよう．$\mXVar$
+とする．ここで $\mZeroNumber\le x\le\pi$ の範囲で $\mYVar$ の値を求めたいとしよう．$\mXVar$
 の範囲を $n+1$ 分割するとする．
 
 まず $n$ に具体的な型と値を与えておこう．これは次のようにする．
@@ -6096,8 +6096,8 @@ main = print ys >> pure 0
 yt&=\sum(\mLambdaEXP{x}{\mFst x*\mSnd x})\mMapList\mList{h}\\
 &\quad\mWhere\\
 &\qquad\mList{h}\mLetEq{}\mZipFunc\mList{f}\mList{g}\\
-&\qquad\mList{f}\mLetEq[\mFFunc\mXVar\mListComp x\mFrom[0,1\dotsb n]]\\
-&\qquad\mList{g}\mLetEq[g(t-x)\mListComp x\mFrom[0,1\dotsb n]]
+&\qquad\mList{f}\mLetEq[\mFFunc\mXVar\mListComp x\mFrom[\mZeroNumber,\mOneNumber\dotsb n]]\\
+&\qquad\mList{g}\mLetEq[g(t-x)\mListComp x\mFrom[\mZeroNumber,\mOneNumber\dotsb n]]
 \end{aligned}
 \end{equation}
 
@@ -6250,7 +6250,7 @@ x,\mYVar,\mZVar\mIn\mRSet
 \begin{equation}
 0+x=x+0=x
 \end{equation}
-である．この $0$ は足し算の\keyword{単位元}である．\keyword{零元}また
+である．この $\mZeroNumber$ は足し算の\keyword{単位元}である．\keyword{零元}また
 は\keyword{加法単位元}と呼ぶこともある．単位元が存在することを単位律と
 呼ぶこともある．
 \item[実数の性質4. 負元（加法逆元）の存在] 任意の $\mXVar$ に対して
@@ -6278,7 +6278,7 @@ $-x\mIn\mRSet$ があり
 \begin{equation}
 1*x=x*1=x
 \end{equation}
-である．この $1$ を乗法の単位元または\keyword{乗法単位元}と呼ぶ．
+である．この $\mOneNumber$ を乗法の単位元または\keyword{乗法単位元}と呼ぶ．
 \item[実数の性質9. 逆元の存在] 任意の $\mXVar$ に対して $\mXVar^{-1}\mIn\mRSet$
 があり
 \begin{equation}
@@ -6306,9 +6306,9 @@ x*y=y*x
 上述の12個の条件が当てはまる数には\keyword{有理数}や\keyword{複素数}が
 ある．この12個の性質をまとめて，数学では\keyword{体}と呼ぶ．
 
-体の要素は，集合 $\mKSet$，二項演算子 $+$，二項演算子 $+$ の単位元 $0$，
+体の要素は，集合 $\mKSet$，二項演算子 $+$，二項演算子 $+$ の単位元 $\mZeroNumber$，
 二項演算子 $+$ の逆元生成演算子 $-$，もう一つの二項演算子 $*$，二項演
-算子 $*$ の単位元 $1$，二項演算子 $*$ の逆元生成演算子 ${}^{-1}$ であ
+算子 $*$ の単位元 $\mOneNumber$，二項演算子 $*$ の逆元生成演算子 ${}^{-1}$ であ
 るから，体はそれらを列挙して $\mTupleWith{\mKSet,+,0,-,*,1,{}^{-1}}$
 と表現する．
 
@@ -6416,7 +6416,7 @@ $\mTupleWith{\mSet{G},\mBinOp,\mZero,\mMinus}$ を\keyword{可換群}また
 
 例えば $\mTupleWith{\mRSet,+,0,-}$ は可換群である．整数全体の集合を
 $\mZSet$ とすると $\mTupleWith{\mZSet,+,0,-}$ も可換群である．また，集
-合 $\mRSet$ から $0$ だけを取り除いた集合を $\mRSet\setminus0$ とする
+合 $\mRSet$ から $\mZeroNumber$ だけを取り除いた集合を $\mRSet\setminus0$ とする
 とき $\mTupleWith{\mRSet\setminus0,*,1,{}^{-1}}$ も可換群である．
 
 可換群は代表的な代数的構造のひとつであり，他にも数学のあちこちに顔を出
@@ -6437,7 +6437,7 @@ R_{t_1}\mCompRot R_{t_2}=R_{(t_1+t_2)}
 
 次にに回転変換に単位元があるかどうか調べてみよう．回転しない変換は
 \keyword{恒等変換}とも言い，しばしば $I$ で表す．何もしない回転変換は
-$0$ 度の回転であるから $I=R_0$ である．このとき式\eqref{eq:rotation}か
+$\mZeroNumber$ 度の回転であるから $I=R_0$ である．このとき式\eqref{eq:rotation}か
 ら
 \begin{equation}
 I\mCompRot R_t=R_t\mCompRot I=R_t
@@ -6859,9 +6859,9 @@ auto lambda_exp = [u = 1] { return u; };
 %double x_im = 2.0;
 %double y_re = 3.0;
 %double y_im = 4.0;
-%double z_re = x_re + y_re;
-%double z_im = x_im + y_im;
-%printf(“%f, %fn”, z_re, z_im);
+%double \mZVar_re = x_re + y_re;
+%double \mZVar_im = x_im + y_im;
+%printf(“%f, %fn”, \mZVar_re, \mZVar_im);
 %\end{verbatim}
 
 優秀なCプログラマならすぐに構造体と関数を導入するだろう．しかし，より
