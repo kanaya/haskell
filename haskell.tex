@@ -19,6 +19,7 @@
 % https://mathlandscape.com/latex-color/
 % \def\constantColor{Violet}
 \def\constantColor{WildStrawberry}
+\def\keywordColor{Sepia}
 \def\varColor{NavyBlue}
 \def\funcColor{BlueGreen}
 \def\actionColor{PineGreen}
@@ -92,9 +93,9 @@
 \newcommand{\mBrace}{\Vert}
 
 % Keywords
-\newcommand{\mKeyword}[1]{\mathsf{#1}}
-\newcommand{\mKeywordUnderline}[1]{\text{\underline{\textsf{#1}}}}
-\newcommand{\mVarKeyword}[1]{\texttt{#1}}
+\newcommand{\mKeyword}[1]{\textcolor{\keywordColor}{\mathsf{#1}}}
+\newcommand{\mKeywordUnderline}[1]{\textcolor{\keywordColor}{\text{\underline{\textsf{#1}}}}}
+\newcommand{\mVarKeyword}[1]{\textcolor{\keywordColor}{\texttt{#1}}}
 
 \newcommand{\mDataTypeKeyword}{\mKeywordUnderline{data}\mKeyword{type}}
 \newcommand{\mDerivingKeyword}{\mKeyword{deriving}}
@@ -863,7 +864,7 @@ $\mMax$ は
 例えば引数 $\mXVar$ をとり値 $1+\mXVar$ を返すラムダ式を\python では
 \begin{pythoncode}
 \begin{verbatim}
-lambda \mXVar: 1+x
+lambda x: 1+x
 \end{verbatim}
 \end{pythoncode}
 と書くが，我々はより簡潔に
