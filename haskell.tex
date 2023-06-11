@@ -1038,7 +1038,7 @@ $\mIf$ 節の中身は真理値を返す関数であれば良いので，関数 
   &=\mFFunc\mXXVar\mWhere\mXXVar\mWhereEq\mGFunc\mXVar\\
   &=(\mLambda\mXXVar\mLambdaArrow\mFFunc\mXXVar)(\mGFunc\mXVar)
 \end{align}
-である．ただし $\mLet$ 節が式であるのに対し，$\mWhere$ 節は式ではないことに気をつけよう．
+である．ただし $\mWhere$ 節は式ではないので，単独では使えないことに注意しよう．例えば $\mLet\mXXVar\mLetEq\mOneNumber+\mXVar\mLetIn\mFFunc\mXXVar$ は値を持つ式であるが，$\mWhere\mXXVar\mWhereEq\mOneNumber+\mXVar$ は値を持たない．
 
 \section{この章のまとめ}
 
