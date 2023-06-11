@@ -871,7 +871,7 @@ lambda x: 1+x
 \begin{equation}
   \mLambda\mXVar\mLambdaArrow\mOneNumber+\mXVar
 \end{equation}
-と書くことにする．この式は多くの書物で $\lambda\mXVar\mathbin{.}\mOneNumber+\mXVar$ と記述されるところである．しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号 $(.)$ が今後登場する二項演算子 $\cdot$ と紛らわしいため，上述の記法を用いる．\footnote{\haskell ではラムダ式 $\mLambda\mXVar\mLambdaArrow\mOneNumber+\mXVar$ を \code{\textbackslash x -> 1+x} と書く．ラムダ式は元々は $\Hat\mXVar\mathbin{.}\mXVar+\mOneNumber$ のように書かれていた．これが次第に $\mathop{\texttt{\textasciicircum}}\mXVar\mathbin{.}\mXVar+\mOneNumber$ となり，$\lambda\mXVar\mathbin{.}\mXVar+\mOneNumber$ に変化していったと言われている．\haskell が $\lambda$ の代わりに $\mLambda$ 記号を使うのは，その形が似ているからである．}
+と書くことにする．この式は多くの書物で $\lambda\mXVar\mathbin{.}\mOneNumber+\mXVar$ と記述されるところである．しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号 $(.)$ が今後登場する二項演算子 $\cdot$ と紛らわしいため，上述の記法を用いる．\footnote{\haskell ではラムダ式 $\mLambda\mXVar\mLambdaArrow\mOneNumber+\mXVar$ を \code{\textbackslash x -> 1+x} と書く．ラムダ式は元々は $\Hat\mXVar\mathbin{.}\mXVar+\mOneNumber$ のように書かれていた．これが次第に $\mathop{\texttt{\textasciicircum}}\mXVar\mathbin{.}\mXVar+\mOneNumber$ となり，$\Lambda\mXVar\mathbin{.}\mXVar+\mOneNumber$ そして $\lambda\mXVar\mathbin{.}\mXVar+\mOneNumber$ に変化していったと言われている．\haskell が $\lambda$ の代わりに $\mLambda$ 記号を使うのは，その形が似ているからである．}
 
 ラムダ式は関数である．ラムダ式を適用するには，ラムダ式を括弧で包む必要がある．例を挙げる．
 \begin{equation}
@@ -903,7 +903,7 @@ lambda x: 1+x
   \mFFunc\mXVar
   =(\mSin\mXVar)/\mXVar
 \end{equation}
-と書いても良い．この書き方は今後頻出するので，是非覚えておいてもらいたい．\footnote{\haskell では $\mFFunc=\mLambda\mXVar\mLambdaArrow(\mSin\mXVar)/\mXVar$ を \code{f = \textbackslash x -> (sin x)/x} と書き，一方 $\mFFunc\mXVar=(\mSin\mXVar)/\mXVar$ を\code{f x = (sin x)/x} と書く．}
+と書いても良い．この書き方を\keyword{ポイントフリースタイル}と呼ぶ．ポイントフリースタイルは今後頻出するので，是非覚えておいてもらいたい．\footnote{\haskell では $\mFFunc=\mLambda\mXVar\mLambdaArrow(\mSin\mXVar)/\mXVar$ を \code{f = \textbackslash x -> (sin x)/x} と書き，一方 $\mFFunc\mXVar=(\mSin\mXVar)/\mXVar$ を\code{f x = (sin x)/x} と書く．}
 
 \separator
 
