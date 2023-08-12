@@ -2477,24 +2477,38 @@ Either型は\clang の共有型 (\code{union}) や\cxx のバリアント型 (\c
 A...
 \end{leader}
 
-\begin{align}
-  y&=fx\\
-  \mathbf{y}&=\tilde{f}x\\
-  \mathbf{y}&=f\mathop{\texttt{<\$>}}\mathbf{x}\\
-  \mathbf{y}&=\tilde{f}\mathop{\texttt{=<<}}\mathbf{x}
-\end{align}
+「普通の」変数$x$に「普通の」関数$f$を適用する．
+$$
+y=fx
+$$
 
-\begin{align}
-  z&=gxy\\
-  \mathbf{z}&=\tilde{g}xy\\
-  \mathbf{z}&=g\mathop{\texttt{<\$>}}\mathbf{x}\mathop{\texttt{<*>}}\mathbf{y}\\
-  \mathbf{z}&=(\backslash y'\rightarrow(\backslash x'\rightarrow\tilde{g}x'y')\mathop{\texttt{=<<}\mathbf{x}})\mathop{\texttt{=<<}\mathbf{y}}\\
-    &=\mathop{\text{do}}\{x'\leftarrow\mathbf{x};\;y'\leftarrow\mathbf{y};\;\tilde{g}x'y'\}
-\end{align}
+「普通の」変数$x$にモナドを返す関数$\Tilde{f}$を適用する．
+$$
+\mathbf{y}=\Tilde{f}x
+$$
 
-\begin{align}
-  f\mathop{\texttt{<\$>}}\mathbf{x}&=\mathop{\text{pure}}f\mathop{\texttt{<*>}}\mathbf{x}
-\end{align}
+文脈を持つ変数$\mathbf{x}$に「普通の」関数$f$を適用する．
+$$
+\mathbf{y}=f\mathop{\texttt{<\$>}}\mathbf{x}
+$$
+
+2引数の場合．
+\begin{align*}
+\mathbf{z}&=g\mathop{\texttt{<\$>}}\mathbf{x}\mathop{\texttt{<*>}}\mathbf{y}\\
+&=\mathop{\text{pure}}g\mathop{\texttt{<*>}}\mathbf{x}\mathop{\texttt{<*>}}\mathbf{y}
+\end{align*}
+
+文脈を持つ変数$\mathbf{x}$にモナドを返す関数$\Tilde{f}$をMaybe値に適用する．
+$$
+\mathbf{y}=\Tilde{f}\mathop{\texttt{=<<}}\mathbf{x}
+$$
+
+2引数の場合．
+\begin{align*}
+  \mathbf{z}&=(\backslash y'\rightarrow(\backslash x'\rightarrow\Tilde{g}x'y')\mathop{\texttt{=<<}\mathbf{x}})\mathop{\texttt{=<<}\mathbf{y}}\\
+    &=\mathop{\text{do}}\{x'\leftarrow\mathbf{x};\;y'\leftarrow\mathbf{y};\;\Tilde{g}x'y'\}
+\end{align*}
+
 
 \section{圏と関手}
 
