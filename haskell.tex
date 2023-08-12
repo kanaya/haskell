@@ -1765,7 +1765,7 @@ $\mList{n}$ は
 \begin{verbatim}
 # Python 2.7
 ls = [0, 1, 2, 3, 4, 5]
-s = reduce(lambda x, y: \mXVar+\mYVar, ls, 0)
+s = reduce(lambda x, y: x+y, ls, 0)
 \end{verbatim}
 \end{pythoncode}
 のように求めることができる．この \code{reduce} 関数は\python バージョン3では非推奨になっているが，\ruby には受け継がれていて，\ruby では
@@ -1819,7 +1819,7 @@ s = ls.inject(0) { |x, y| x+y }
 
 畳み込み演算子の面白い応用例を示そう．リストの結合演算子 $(\mAppend)$ を使うと
 \begin{equation}
-  \mFold_\mEmptyList^{\mAppend}[[\mZeroNumber,\mOneNumber,\mTwoNumber,[\mThreeNumber,\mFourNumber,\mFiveNumber]\dotsb]
+  \mFold_\mEmptyList^{\mAppend}[[\mZeroNumber,\mOneNumber,\mTwoNumber],[\mThreeNumber,\mFourNumber,\mFiveNumber]\dotsb]
   =[\mZeroNumber,\mOneNumber,\mTwoNumber,\mThreeNumber,\mFourNumber,\mFiveNumber\dotsb]
 \end{equation}
 であるから，演算子 $\mFold_\mEmptyList^{\mAppend}$ はリストを平坦化する\keyword{平坦化演算子}である．平坦化演算子はconcat演算子とも呼ばれることもあるが，基本的な演算子であるため特別な記号をつけておこう．我々は
@@ -2476,6 +2476,25 @@ Either型は\clang の共有型 (\code{union}) や\cxx のバリアント型 (\c
 \begin{leader}
 A...
 \end{leader}
+
+\begin{align}
+  y&=fx\\
+  \mathbf{y}&=\mathbf{f}x\\
+  \mathbf{y}&=f\mathop{\texttt{<\$>}}\mathbf{x}\\
+  \mathbf{y}&=\mathbf{f}\mathop{\texttt{=<<}}\mathbf{x}
+\end{align}
+
+\begin{align}
+  z&=gxy\\
+  \mathbf{z}&=\mathbf{g}xy\\
+  \mathbf{z}&=g\mathop{\texttt{<\$>}}\mathbf{x}\mathop{\texttt{<*>}}\mathbf{y}\\
+  \mathbf{z}&=(\backslash y'\rightarrow(\backslash x'\rightarrow\mathbf{g}x'y')\mathop{\texttt{=<<}\mathbf{x}})\mathop{\texttt{=<<}\mathbf{y}}\\
+    &=\mathop{\text{do}}\{x'\leftarrow\mathbf{x};\;y'\leftarrow\mathbf{y};\;\mathbf{g}x'y'\}
+\end{align}
+
+\begin{align}
+  f\mathop{\texttt{<\$>}}\mathbf{x}&=\mathop{\text{pure}}f\mathop{\texttt{<*>}}\mathbf{x}
+\end{align}
 
 \section{圏と関手}
 
