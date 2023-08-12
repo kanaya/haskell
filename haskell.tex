@@ -1284,7 +1284,7 @@ z = g(f(x))
 \end{verbatim}
 と書く．}
 
-この場合変数 $\mXVar$ が $\mBoolType$ 型であることは自明であるため $\mXVar\mIn\mBoolType$ は省略できるが，可能な限り型を明記しておくことは良い習慣である．
+この場合変数 $\mXVar$ が $\mBoolType$ 型であることは自明であるため $\mXVar\mIn\mBoolType$ は省略できるが，可能な限り型を明記しておくことは良い習慣である．また必要に応じて変数に型名を注釈することがある．例えば $\mXVar=\mTrue\mIn\mBoolType$ のように書く場合がある．\footnote{\haskell では $\mXVar=\mTrue\mIn\mBoolType$ を \code{x = True :: Bool} と書く．}
 
 他に整数を表す\keyword{整数型}がある．整数型には2種類あって，その一つは $\mIntType$ である．この $\mIntType$ は\clang の \code{int} と似た「計算機にとって都合の良い整数」である．計算機にとって都合の良い整数とは，例えば64ビット計算機の場合 $-2^{63}$ から $2^{63}-1$ の間の整数という意味である．\footnote{\haskell では $\mIntType$ を \code{Int} で表す．}
 
