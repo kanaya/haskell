@@ -826,7 +826,7 @@ f(x)
 \begin{equation}
   \mFunc{f}\mXVar
 \end{equation}
-と書くことにする．\footnote{\haskell では関数 \code{f} に引数 \code{x}を適用させることを \code{f x} と書く．数学や物理学では $x$ をパラメタとする関数を $f(x)$ と書く場合もあるし，$f$ のようにパラメタを省略する場合もある．パラメタを省略した場合は，$fx_0$ の意味で $f\vert_{x=x_0}$ と書くことがある．}
+と書くことにする．\footnote{\haskell では関数 \code{f} に引数 \code{x}を適用させることを \code{f x} と書く．数学や物理学では $x$ をパラメタとする関数を $f(x)$ と書く場合もあるし，$f$ のようにパラメタを省略する場合もある．数学や物理学でパラメタを省略した場合は，$f(x_0)$ の意味で $f\vert_{x=x_0}$ と書くことがある．}
 
 % 本書では\python のコード片は上述のように囲みにいれることにする．
 
@@ -1142,7 +1142,7 @@ z = g(f(x))
   \mZVar
   =\mGFunc\mCompFunc\mFFunc\mXVar
 \end{equation}
-と書ける．\footnote{\haskell では関数 \code{f2} と関数 \code{f1} の合成は \code{f2.f1} である．式 $\mZVar=\mGFunc\mCompFunc \mFFunc x$ は \code{z = f2.f1 x} と書く．}
+と書ける．\footnote{\haskell では関数 \code{g} と関数 \code{f} の合成は \code{g.f} である．式 $\mZVar=\mGFunc\mCompFunc \mFFunc x$ は \code{z = g.f x} と書く．}
 
 関数合成演算子とは逆に，結合の優先順位の低い\keyword{関数適用演算子}も考えておくと便利なこともある．関数適用演算子 $\mApply$ を次のように定義しておく．
 \begin{equation}
@@ -1214,7 +1214,8 @@ z = g(f(x))
 \end{align}
 と定義できる．\footnote{\haskell では
 \begin{verbatim}
-  x^^.n | n <= 0 = 1 | otherwise = x^(x^^.(n-1))
+  x^^.n | n <= 0 = 1 
+        | otherwise = x^(x^^.(n-1))
 \end{verbatim}
 と書く．演算子 \code{\textasciicircum\textasciicircum} が予約済みのため \code{\textasciicircum\textasciicircum.} を使った．なお厳密には
 \begin{verbatim}
