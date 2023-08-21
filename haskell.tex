@@ -1,6 +1,6 @@
 \documentclass[a5paper,twoside,fleqn,draft]{jsbook}
 % \usepackage{eulervm}
-\usepackage{amsmath,amssymb,ascmac,bm,graphicx,latexsym,mathtools,multirow,okuverb}
+\usepackage{amsmath,amssymb,ascmac,stmaryrd,bm,graphicx,latexsym,mathtools,multirow,okuverb}
 \usepackage[dvipsnames]{xcolor}
 \makeindex
 
@@ -555,16 +555,13 @@ Ether変数&&$\hEitherDecor{\hVar{x}}$\\ %%% !!!
 種類&字体・表記法&例\\
 \hline\hline
 値コンストラクタ&名前付き括弧で包む&$\hLeftWith{\hVar{x}},\hRightWith{\hVar{x}}$\\
-有名な値コンストラクタ&特別な括弧で包む&$[\hVar{x}]$\\
+有名な値コンストラクタ&特別な括弧で包む&$\hListWith{\hVar{x}},\hPureWith{\hVar{x}},\hConstantWith{\hVar{x}}$\\
 \hline
-% 型コンストラクタ&ボールドイタリック&$\mTypeConstructor{f},\mTypeConstructor{g}$\\
-% 有名な型コンストラクタ&スラント大文字&$\mListTypeConstructor$, $\mMaybeTypeConstructor$\\
-% \hline
 キーワード&サンセリフ&$\hIf,\hOtherwise$\\
 do記法中のキーワード&タイプライタ&$\hDoLet$\\
 % リストの構造&サンセリフ，大文字&$\mathFirst$, $\mathRest$\\
 \hline
-リスト&ブラケットで包む&$[\hVar{x},\hVar{y}]$\\
+リスト&ブラケットで包む&$\hListWith{\hVar{x}},\hListWith{\hVar{y}}$\\
 集合&ブレースで包む&$\{\hVar{x},\hVar{y}\}$\\
 タプル&丸括弧で包む&$\hPairWith{\hVar{x}}{\hVar{y}}$\\
 % アンボックス化タプル&丸括弧とシャープ記号で包む&$\mTupleUnboxedWith{x,\mYVar,\mZVar}$\\
