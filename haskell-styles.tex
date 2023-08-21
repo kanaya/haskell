@@ -1,0 +1,160 @@
+% Colors
+\def\hDefaultColor{black}
+
+%% Red
+\def\hClassColor{Red}
+\def\hTypeColor{RedOrange}
+\def\hTypeConstructorColor{RedViolet}
+
+%% Green
+\def\hActionColor{PineGreen}
+\def\hFunctionColor{BlueGreen}
+
+%% Blue
+\def\hVarColor{NavyBlue}
+
+%% Pink
+\def\hConstantColor{WildStrawberry}
+\def\hValueConstructorColor{Magenta}
+
+%% Brown
+\def\hKeywordColor{Sepia}
+
+
+% Keywords
+\newcommand{\hKeyword}[1]{\textcolor{\hKeywordColor}{\textsf{#1}}}
+\newcommand{\hVarKeyword}[1]{\textcolor{\hKeywordColor}{\texttt{#1}}}
+\def\hDeclareMathOperator#1{\DeclareMathOperator{#1}{#1Keyword}}
+
+%% case, of, otherwise
+\newcommand{\hCaseKeyword}{\hKeyword{case}}
+\newcommand{\hOfKeyword}{\hKeyword{of}}
+\newcommand{\hOtherwiseKeyword}{\hKeyword{otherwise}}
+\hDeclareMathOperator{\hCase}
+\hDeclareMathOperator{\hOf}
+\hDeclareMathOperator{\hOtherwise}
+
+%% class, deriving, instance
+\newcommand{\hTypeClassKeyword}{\hKeyword{class}}
+\newcommand{\hDerivingKeyword}{\hKeyword{deriving}}
+\newcommand{\hInstanceKeyword}{\hKeyword{instance}}
+\hDeclareMathOperator{\hClass}
+\hDeclareMathOperator{\hDeriving}
+\hDeclareMathOperator{\hInstance}
+
+%% do
+\newcommand{\hDoKeyword}{\hKeyword{do}}
+\DeclareMathOperator{\hDo}{\hDoKeyword}
+
+%% let, in, where
+\newcommand{\hLetKeyword}{\hKeyword{let}}
+\newcommand{\hDoLetKeyword}{\hVarKeyword{let}}
+\newcommand{\hInKeyword}{\hKeyword{in}}
+\newcommand{\hWhereKeyword}{\hKeyword{where}}
+\hDeclareMathOperator{\hLet}
+\hDeclareMathOperator{\hDoLet}
+\hDeclareMathOperator{\hIn}
+\hDeclareMathOperator{\hWhere}
+
+%% if, then, else
+\newcommand{\hIfKeyword}{\hKeyword{if}}
+\newcommand{\hThenKeyword}{\hKeyword{then}}
+\newcommand{\hElseKeyword}{\hKeyword{else}}
+\hDeclareMathOperator{\hIf}
+\hDeclareMathOperator{\hThen}
+\hDeclareMathOperator{\hElse}
+
+%% infix, infixl, infixr
+\newcommand{\hInfixKeyword}{\hKeyword{infix}}
+\newcommand{\hInfixlKeyword}{\hKeyword{infixl}}
+\newcommand{\hInfixrKeyword}{\hKeyword{infixr}}
+\hDeclareMathOperator{\hInfix}
+\hDeclareMathOperator{\hInfixl}
+\hDeclareMathOperator{\hInfixr}
+
+%% type, data, newtype
+\newcommand{\hTypeKeyword}{\hKeyword{type}}
+\newcommand{\hDataKeyword}{\hKeyword{data}}
+\newcommand{\hNewtypeKeyword}{\hKeyword{newtype}}
+\hDeclareMathOperator{\hType}
+\hDeclareMathOperator{\hData}
+\hDeclareMathOperator{\hNewtype}
+
+%% Lambda
+\newcommand{\hLambda}{\backslash}
+\newcommand{\hLambdaArrow}{\mapsto}
+
+
+% Syntax
+\newcommand{\hCaseSyntax}[1]{\hCase#1\hOf}
+\newcommand{\hDoSyntax}[1]{\hDo\left\{#1\right\}}
+\newcommand{\hIfSyntax}[3]{\hIf#1\hThen#2\hElse#3}
+\newcommand{\hLambdaSyntax}[2]{\hLambda#1\hLambdaArrow#2}
+\newcommand{\hLetSyntax}[2]{\hLet#1\hIn#2}
+\newcommand{\hWhereSyntax}[2]{#1\hWhere#2}
+
+
+% Constant
+\newcommand{\hConstant}[1]{\textcolor{\hContstantColor}{#1}}
+\newcommand{\hSpecialConstant}[1]{\textcolor{\hConstantColor}{\mathrm{#1}}}
+
+%% Empty, Nothing, Zero
+\newcommand{\hEmptyList}{\hConstant{[\,]}}
+\newcommand{\hNothing}{\hConstant{\emptyset}}
+\newcommand{\hPureNothing}{\hConstan{\varnothing}}
+\newcommand{\hZero}{\hConstant{\0}}
+
+%% True, False
+\newcommand{\hTrue}{\hSpecialConstant{True}}
+\newcommand{\hFalse}{\hSpecialConstant{False}}
+
+%% String
+\newcommand{\hString}[1]{\text{#1}}
+
+
+% Variable
+\newcommand{\hVar}[1]{\textcolor{\hVarColor}{#1}}
+\newcommand{\hSpecialVar}[1]{\textcolor{\hVarColor}{\mathrm{#1}}}
+
+
+% Anonymous parameter
+\newcommand{\hAnonParam}{\diamond}
+
+
+% Function
+\newcommand{\hFunction}[1]{\textcolor{\hFunctionColor}{#1}}
+\newcommand{\hSpecialFunction}[1]{\mathop{\textcolor{\hFunctionColor}{\mathrm{#1}}}}
+
+
+% Action
+\newcommand{\hAction}[1]{\textcolor{\hActionColor}{#1}}
+\newcommand{\hSpecialAction}[1]{\textcolor{\hActionColor}{\mathrm{#1}}}
+
+
+% Type name, Type constructor, Type class
+\newcommand{\hTypeName}[1]{\textcolor{\hTypeColor}{\textbf{\textit{#1}}}}
+\newcommand{\hSpecialTypeName}[1]{\textcolor{\hTypeColor}{\mathbf{#1}}}
+\newcommand{\hTypeConstructor}[1]{\textcolor{\hTypeConstructorColor}{\textbf{\textit{#1}}}}
+\newcommand{\hSpecialTypeConstructor}[1]{\textcolor{\hTypeConstructorColor}{\mathbf{#1}}}
+\newcommand{\hTypeClass}[1]{\textcolor{\hClassColor}{\textsc{#1}}}
+
+
+% Value constructor
+\newcommand{\hValueConstructor}[1]{\textcolor{\hValueConstructorColor}{#1}}
+\newcommand{\hSpecialValueConstructor}[1]{\textcolor{\hValueConstructorColor}{\mathrm{#1}}}
+
+
+% Operator
+
+\DeclareMathOperator{\hAnyOp}{\star}
+\DeclareMathOperator{\hApplay}{\S}
+\DeclareMathOperator{\hCompose}{\cdot}
+\DeclareMathOperator*{\hFold}{\bigcup}
+\DeclareMathOperator*{\hFoldRight}{\bigsqcup}
+\DeclareMathOperator{\hIfSo}{\dashrightarrow}
+\DeclareMathOperator{\hIsTypeOf}{:\!:}
+\DeclareMathOperator{\hIsInSetOf}{\in}
+\DeclareMathOperator{\hLetEq}{\triangleeq}
+\DeclareMathOperator{\hMemberAt}{!!}
+\DeclareMathOperator{\hValueConstructorOr}{\curlyvee}
+
