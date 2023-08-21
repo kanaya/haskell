@@ -95,14 +95,14 @@
 
 
 % Constant
-\newcommand{\hConstant}[1]{\textcolor{\hContstantColor}{#1}}
+\newcommand{\hConstant}[1]{\textcolor{\hConstantColor}{#1}}
 \newcommand{\hSpecialConstant}[1]{\textcolor{\hConstantColor}{\mathrm{#1}}}
 
 %% Empty, Nothing, Zero
 \newcommand{\hEmptyList}{\hConstant{[\,]}}
 \newcommand{\hNothing}{\hConstant{\emptyset}}
 \newcommand{\hPureNothing}{\hConstan{\varnothing}}
-\newcommand{\hZero}{\hConstant{\0}}
+\newcommand{\hZero}{\hConstant{\O}}
 
 %% True, False
 \newcommand{\hTrue}{\hSpecialConstant{True}}
@@ -123,7 +123,13 @@
 
 % Function
 \newcommand{\hFunction}[1]{\textcolor{\hFunctionColor}{#1}}
+\newcommand{\hFunc}[1]{\hFunction{#1}}
 \newcommand{\hSpecialFunction}[1]{\mathop{\textcolor{\hFunctionColor}{\mathrm{#1}}}}
+
+%% id
+\newcommand{\hId}{\hSpecialFunction{id}}
+\newcommand{\hSin}{\hSpecialFunction{\sin}}
+\newcommand{\hCos}{\hSpecialFunction{\cos}}
 
 
 % Action
@@ -142,6 +148,13 @@
 % Value constructor
 \newcommand{\hValueConstructor}[1]{\textcolor{\hValueConstructorColor}{#1}}
 \newcommand{\hSpecialValueConstructor}[1]{\textcolor{\hValueConstructorColor}{\mathrm{#1}}}
+
+
+% Decoration
+\newcommand{\hListDecor}[1]{\Tilde{#1}}
+\newcommand{\hMaybeDecor}[1]{\Dot{#1}}
+\newcommand{\hEitherDecor}[1]{\Ddot{#1}}
+\newcommand{\hAnyContextDecor}[1]{\Hat{#1}}
 
 
 % Operator
