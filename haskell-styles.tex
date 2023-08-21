@@ -103,7 +103,7 @@
 %% Empty, Nothing, Zero
 \newcommand{\hEmptyList}{\hConstant{[\,]}}
 \newcommand{\hNothing}{\hConstant{\emptyset}}
-\newcommand{\hPureNothing}{\hConstan{\varnothing}}
+\newcommand{\hPureNothing}{\hConstant{\varnothing}}
 \newcommand{\hZero}{\hConstant{\O}}
 
 %% True, False
@@ -205,16 +205,28 @@
 
 
 % Operator
-
-\DeclareMathOperator{\hAnyOp}{\star}
-\DeclareMathOperator{\hApplay}{\S}
-\DeclareMathOperator{\hCompose}{\cdot}
-\DeclareMathOperator*{\hFold}{\bigcup}
-\DeclareMathOperator*{\hFoldRight}{\bigsqcup}
-\DeclareMathOperator{\hIfSo}{\dashrightarrow}
+%% Binary
+\DeclareMathOperator{\hAnyOp}{\bigstar}
+\DeclareMathOperator{\hApply}{\S}
+\DeclareMathOperator{\hFunctorApply}{\odot}
+\DeclareMathOperator{\hMap}{\times}
+\DeclareMathOperator{\hMaybeMap}{\boxtimes}
+\DeclareMathOperator{\hFunctorMap}{\otimes}
+\DeclareMathOperator{\hApplicativeMap}{\cilcledast}
+\DeclareMathOperator{\hMonadicBind}{\ast}
+\DeclareMathOperator{\hCompose}{\centerdot}
+\DeclareMathOperator{\hMonadicCompose}{\circ}
+\DeclareMathOperator{\hCategoryCompose}{\bullet}
 \DeclareMathOperator{\hIsTypeOf}{:\!:}
 \DeclareMathOperator{\hIsInSetOf}{\in}
 \DeclareMathOperator{\hLetEq}{\triangleeq}
 \DeclareMathOperator{\hMemberAt}{!!}
 \DeclareMathOperator{\hValueConstructorOr}{\curlyvee}
+\DeclareMathOperator{\hAppend}{\oplus}
 
+%% Arrow
+\DeclareMathOperator{\hIfSo}{\dashrightarrow}
+
+%% Fold
+\DeclareMathOperator*{\hFold}{\bigcup}
+\DeclareMathOperator*{\hFoldRight}{\bigsqcup}
