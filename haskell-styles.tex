@@ -3,19 +3,21 @@
 
 %% Red
 \def\hClassColor{Red}
-\def\hTypeColor{RedOrange}
-\def\hTypeConstructorColor{RedViolet}
+\def\hTypeColor{Red}
+\def\hTypeConstructorColor{RedOrange}
+\def\hSetColor{Red}
 
 %% Green
 \def\hActionColor{PineGreen}
 \def\hFunctionColor{BlueGreen}
+\def\hFunctorColor{BlueGreen}
 
 %% Blue
 \def\hVarColor{NavyBlue}
 
 %% Pink
 \def\hConstantColor{WildStrawberry}
-\def\hValueConstructorColor{Magenta}
+\def\hValueConstructorColor{WildStrawberry}
 
 %% Brown
 \def\hKeywordColor{Sepia}
@@ -30,17 +32,17 @@
 \newcommand{\hCaseKeyword}{\hKeyword{case}}
 \newcommand{\hOfKeyword}{\hKeyword{of}}
 \newcommand{\hOtherwiseKeyword}{\hKeyword{otherwise}}
-\hDeclareMathOperator{\hCase}
-\hDeclareMathOperator{\hOf}
-\hDeclareMathOperator{\hOtherwise}
+\DeclareMathOperator{\hCase}{\hCaseKeyword}
+\DeclareMathOperator{\hOf}{\hOfKeyword}
+\DeclareMathOperator{\hOtherwise}{\hOtherwiseKeyword}
 
 %% class, deriving, instance
-\newcommand{\hTypeClassKeyword}{\hKeyword{class}}
+\newcommand{\hClassKeyword}{\hKeyword{class}}
 \newcommand{\hDerivingKeyword}{\hKeyword{deriving}}
 \newcommand{\hInstanceKeyword}{\hKeyword{instance}}
-\hDeclareMathOperator{\hClass}
-\hDeclareMathOperator{\hDeriving}
-\hDeclareMathOperator{\hInstance}
+\DeclareMathOperator{\hClass}{\hClassKeyword}
+\DeclareMathOperator{\hDeriving}{\hDerivingKeyword}
+\DeclareMathOperator{\hInstance}{\hInstanceKeyword}
 
 %% do
 \newcommand{\hDoKeyword}{\hKeyword{do}}
@@ -51,34 +53,34 @@
 \newcommand{\hDoLetKeyword}{\hVarKeyword{let}}
 \newcommand{\hInKeyword}{\hKeyword{in}}
 \newcommand{\hWhereKeyword}{\hKeyword{where}}
-\hDeclareMathOperator{\hLet}
-\hDeclareMathOperator{\hDoLet}
-\hDeclareMathOperator{\hIn}
-\hDeclareMathOperator{\hWhere}
+\DeclareMathOperator{\hLet}{\hLetKeyword}
+\DeclareMathOperator{\hDoLet}{\hDoLetKeyword}
+\DeclareMathOperator{\hIn}{\hInKeyword}
+\DeclareMathOperator{\hWhere}{\hWhereKeyword}
 
 %% if, then, else
 \newcommand{\hIfKeyword}{\hKeyword{if}}
 \newcommand{\hThenKeyword}{\hKeyword{then}}
 \newcommand{\hElseKeyword}{\hKeyword{else}}
-\hDeclareMathOperator{\hIf}
-\hDeclareMathOperator{\hThen}
-\hDeclareMathOperator{\hElse}
+\DeclareMathOperator{\hIf}{\hIfKeyword}
+\DeclareMathOperator{\hThen}{\hThenKeyword}
+\DeclareMathOperator{\hElse}{\hElseKeyword}
 
 %% infix, infixl, infixr
 \newcommand{\hInfixKeyword}{\hKeyword{infix}}
 \newcommand{\hInfixlKeyword}{\hKeyword{infixl}}
 \newcommand{\hInfixrKeyword}{\hKeyword{infixr}}
-\hDeclareMathOperator{\hInfix}
-\hDeclareMathOperator{\hInfixl}
-\hDeclareMathOperator{\hInfixr}
+\DeclareMathOperator{\hInfix}{\hInfixKeyword}
+\DeclareMathOperator{\hInfixl}{\hInfixlKeyword}
+\DeclareMathOperator{\hInfixr}{\hInfixrKeyword}
 
 %% type, data, newtype
 \newcommand{\hTypeKeyword}{\hKeyword{type}}
 \newcommand{\hDataKeyword}{\hKeyword{data}}
 \newcommand{\hNewtypeKeyword}{\hKeyword{newtype}}
-\hDeclareMathOperator{\hType}
-\hDeclareMathOperator{\hData}
-\hDeclareMathOperator{\hNewtype}
+\DeclareMathOperator{\hType}{\hTypeKeyword}
+\DeclareMathOperator{\hData}{\hDataKeyword}
+\DeclareMathOperator{\hNewtype}{\hNewtypeKeyword}
 
 %% Lambda
 \newcommand{\hLambda}{\backslash}
@@ -109,7 +111,7 @@
 \newcommand{\hFalse}{\hSpecialConstant{False}}
 
 %% String
-\newcommand{\hString}[1]{\text{#1}}
+\newcommand{\hStringLiteral}[1]{\text{#1}}
 
 
 % Variable
@@ -126,7 +128,7 @@
 \newcommand{\hFunc}[1]{\hFunction{#1}}
 \newcommand{\hSpecialFunction}[1]{\mathop{\textcolor{\hFunctionColor}{\mathrm{#1}}}}
 
-%% id
+%% id, sin, cos
 \newcommand{\hId}{\hSpecialFunction{id}}
 \newcommand{\hSin}{\hSpecialFunction{\sin}}
 \newcommand{\hCos}{\hSpecialFunction{\cos}}
@@ -137,18 +139,59 @@
 \newcommand{\hSpecialAction}[1]{\textcolor{\hActionColor}{\mathrm{#1}}}
 
 
-% Type name, Type constructor, Type class
+% Functor
+\newcommand{\hFunctor}[1]{\textcolor{\hFunctorColor}{\mathfrak{#1}}}
+
+%% Id
+\newcommand{\hCatId}{\hFunctor{id}}
+
+
+% Type name, Type constructor, Type class, Set
 \newcommand{\hTypeName}[1]{\textcolor{\hTypeColor}{\textbf{\textit{#1}}}}
 \newcommand{\hSpecialTypeName}[1]{\textcolor{\hTypeColor}{\mathbf{#1}}}
 \newcommand{\hTypeConstructor}[1]{\textcolor{\hTypeConstructorColor}{\textbf{\textit{#1}}}}
 \newcommand{\hSpecialTypeConstructor}[1]{\textcolor{\hTypeConstructorColor}{\mathbf{#1}}}
-\newcommand{\hTypeClass}[1]{\textcolor{\hClassColor}{\textsc{#1}}}
+% \newcommand{\hTypeClass}[1]{\textcolor{\hClassColor}{\textsc{#1}}}
+\newcommand{\hSpecialTypeClass}[1]{\textcolor{\hClassColor}{\textsc{#1}}}
+\newcommand{\hSet}[1]{\textcolor{\hSetColor}{\mathbb{#1}}}
+
+%% Bool, Int
+\newcommand{\hBool}{\hSpecialTypeName{Bool}}
+\newcommand{\hInt}{\hSpecialTypeName{Int}}
+\newcommand{\hString}{\hSpecialTypeName{String}}
+
+%% List, Maybe
+\newcommand{\hList}{\hSpecialTypeConstructor{List}}
+\newcommand{\hMaybe}{\hSpecialTypeConstructor{Maybe}}
+
+%% Eq, Ord
+\newcommand{\hEq}{\hSpecialTypeClass{Eq}}
+\newcommand{\hOrd}{\hSpecialTypeClass{Ord}}
+
+
+% Type construct syntax
+\newcommand{\hTypeConstruct}[2]{{}^{#1}\langle#2\rangle}
+
+%% List, Maybe
+\newcommand{\hListConstruct}[1]{[#1]}
+\newcommand{\hVarListConstruct}[1]{\hTypeConstruct{\hList}{#1}}
+\newcommand{\hMaybeConstruct}[1]{\hTypeConstruct{\hMaybe}{#1}}
 
 
 % Value constructor
 \newcommand{\hValueConstructor}[1]{\textcolor{\hValueConstructorColor}{#1}}
 \newcommand{\hSpecialValueConstructor}[1]{\textcolor{\hValueConstructorColor}{\mathrm{#1}}}
 
+%% Left, Right
+\newcommand{\hLeftWith}[1]{{}_{\hSpecialValueConstructor{Left}}[\![#1]\!]}
+\newcommand{\hRightWith}[1]{{}_{\hSpecialValueConstructor{Right}}[\![#1]\!]}
+
+
+%% Tuple
+\newcommand{\hUnit}{(\,)}
+\newcommand{\hSingleTuppleWith}[1]{\left(#1\right)}
+\newcommand{\hPairWith}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
+\newcommand{\hTripleWith}[3]{\begin{pmatrix}#1\\#2\\#3\end{pmatrix}}
 
 % Decoration
 \newcommand{\hListDecor}[1]{\Tilde{#1}}
