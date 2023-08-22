@@ -2,501 +2,8 @@
 % \usepackage{eulervm}
 \usepackage{amsmath,amssymb,ascmac,stmaryrd,bm,graphicx,latexsym,mathtools,multirow,okuverb}
 \usepackage[dvipsnames]{xcolor}
+\usepackage{hskl,old-hskl}
 \makeindex
-
-\newcommand{\TK}[1]{\mask{\textbf{TK:}~#1}{C}}
-
-\def\[{[\![}
-\def\]{]\!]}
-\def\({\left(\!\left(}
-\def\){\right)\!\right)}
-\def\llangle{\langle\!\langle}
-\def\rrangle{\rangle\!\rangle}
-\DeclareMathOperator{\sgn}{sgn}
-
-\def\defaultColor{black}
-
-% https://mathlandscape.com/latex-color/
-% \def\constantColor{Violet}
-\def\constantColor{WildStrawberry}
-\def\keywordColor{Sepia}
-\def\varColor{NavyBlue}
-\def\funcColor{BlueGreen}
-\def\actionColor{PineGreen}
-\def\typeColor{RedOrange}
-\def\typeConstColor{Maroon}
-
-\def\specialColor{BlueGreen}
-\def\varSpecialColor{BrickRed}
-
-\newcommand{\Langle}{\llangle}
-\newcommand{\Rangle}{\rrangle}
-
-\newcommand{\separator}{\begin{center}$*$~$*$~$*$\end{center}}
-\newcommand{\textURL}[1]{\texttt{#1}}
-
-%% Programming Languages
-
-\newcommand{\programminglanguage}[1]{\textsf{#1}}
-\newcommand{\commonlisp}{\programminglanguage{Common~Lisp}}
-\newcommand{\clang}{\programminglanguage{C}}
-\newcommand{\clangkr}{\programminglanguage{K\&R~C}}
-\newcommand{\csharp}{\programminglanguage{C}\texttt{\#}}
-\newcommand{\cxx}{\programminglanguage{C}\texttt{++}}
-\newcommand{\cxxninetyeight}{\cxx\programminglanguage{98}}
-\newcommand{\cxxzerothree}{\cxx\programminglanguage{03}}
-\newcommand{\cxxeleven}{\cxx\programminglanguage{11}}
-\newcommand{\cxxfourteen}{\cxx\programminglanguage{14}}
-\newcommand{\cxxseventeen}{\cxx\programminglanguage{17}}
-\newcommand{\cxxtwelve}{\cxx\programminglanguage{20}}
-\newcommand{\haskell}{\programminglanguage{Haskell}}
-\newcommand{\java}{\programminglanguage{Java}}
-\newcommand{\lisp}{\programminglanguage{LISP}}
-\newcommand{\objectivec}{\programminglanguage{Objective-C}}
-\newcommand{\python}{\programminglanguage{Python}}
-\newcommand{\ruby}{\programminglanguage{Ruby}}
-\newcommand{\scheme}{\programminglanguage{Scheme}}
-\newcommand{\swift}{\programminglanguage{Swift}}
-
-%% Leaders and Key Points
-
-\newenvironment{keypoint}{\begin{screen}}{\end{screen}}
-\newenvironment{leader}{\begingroup\gt}{\endgroup}
-\newenvironment{note}[1]{\begin{boxnote}\begin{center}\textbf{#1}\end{center}}{\end{boxnote}}
-
-%% Keywords
-
-\newcommand{\keyword}[1]{{\underline{\textbf{#1}}}}
-
-%% Inline Codes (like `...` of Markdown doc)
-
-\newcommand{\code}[1]{\texttt{#1}}
-
-%% File name
-
-\newcommand{\filename}[1]{\texttt{#1}}
-
-%% Code Blocks (like ``` ... ``` of Markdown)
-
-\newenvironment{ccode}{\begin{itembox}[r]{\clang}}{\end{itembox}}
-\newenvironment{ckrcode}{\begin{itembox}[r]{\clangkr}}{\end{itembox}}
-\newenvironment{cxxcode}{\begin{itembox}[r]{\cxx}}{\end{itembox}}
-\newenvironment{javacode}{\begin{itembox}[r]{\java}}{\end{itembox}}
-\newenvironment{haskellcode}{\begin{itembox}[r]{\haskell}}{\end{itembox}}
-\newenvironment{pythoncode}{\begin{itembox}[r]{\python}}{\end{itembox}}
-\newenvironment{rubycode}{\begin{itembox}[r]{\ruby}}{\end{itembox}}
-\newenvironment{schemecode}{\begin{itembox}[r]{\scheme}}{\end{itembox}}
-
-%% Math-like Haskell (2024)
-
-\include{haskell-styles}
-
-%% Math (in Math-mode)
-
-% Brace
-\newcommand{\mBrace}{\Vert}
-
-% Keywords
-\newcommand{\mKeyword}[1]{\textcolor{\keywordColor}{\mathsf{#1}}}
-\newcommand{\mKeywordUnderline}[1]{\textcolor{\keywordColor}{\text{\underline{\textsf{#1}}}}}
-\newcommand{\mVarKeyword}[1]{\textcolor{\keywordColor}{\texttt{#1}}}
-
-\newcommand{\mDataTypeKeyword}{\mKeywordUnderline{data}\mKeyword{type}}
-\newcommand{\mDerivingKeyword}{\mKeyword{deriving}}
-\newcommand{\mDoKeyword}{\mKeyword{do}}
-\newcommand{\mDoLetKeyword}{\mVarKeyword{let}}
-\newcommand{\mIfKeyword}{\mKeyword{if}}
-\newcommand{\mCaseKeyword}{\mKeyword{case}}
-\newcommand{\mElseKeyword}{\mKeyword{else}}
-\newcommand{\mInKeyword}{\mKeyword{in}}
-\newcommand{\mInfixKeyword}{\mKeyword{infix}}
-\newcommand{\mInfixlKeyword}{\mKeyword{infixl}}
-\newcommand{\mInfixrKeyword}{\mKeyword{infixr}}
-\newcommand{\mInstanceDeclKeyword}{\mKeyword{instance}}
-\newcommand{\mLetKeyword}{\mKeyword{let}}
-\newcommand{\mNewTypeDeclKeyword}{\mKeyword{newtype}}
-\newcommand{\mOfKeyword}{\mKeyword{of}}
-\newcommand{\mOtherwiseKeyword}{\mKeyword{otherwise}}
-\newcommand{\mProcKeyword}{\mKeyword{proc}}
-\newcommand{\mThenKeyword}{\mKeyword{then}}
-\newcommand{\mTypeClassDeclKeyword}{\mKeyword{type}\mKeywordUnderline{class}}
-\newcommand{\mTypeSynonymDeclKeyword}{\mKeywordUnderline{type}\mKeyword{synonym}}
-\newcommand{\mWhereKeyword}{\mKeyword{where}}
-
-\newcommand{\mPolymorphic}[1]{{#1}^\dagger}
-
-\newcommand{\mTypeConstructor}[1]{\textcolor{\typeConstColor}{\textbf{\textit{#1}}}}
-\newcommand{\mSpecialTypeConstructor}[1]{\textcolor{\typeConstColor}{\textbf{#1}}}
-
-\DeclareMathOperator{\mCaseKW}{\mCaseKeyword}
-\DeclareMathOperator{\mDataType}{\mDataTypeKeyword}
-\DeclareMathOperator{\mDataTypePolymorphic}{\mDataTypeKeyword^\dagger}
-\DeclareMathOperator{\mDeriving}{\mDerivingKeyword}
-\DeclareMathOperator{\mDoKW}{\mDoKeyword}
-\DeclareMathOperator{\mElse}{\mElseKeyword}
-\DeclareMathOperator{\mIf}{\mIfKeyword}
-\DeclareMathOperator{\mInfix}{\mInfixKeyword}
-\DeclareMathOperator{\mInfixl}{\mInfixlKeyword}
-\DeclareMathOperator{\mInfixr}{\mInfixrKeyword}
-\DeclareMathOperator{\mInstanceDecl}{\mInstanceDeclKeyword}
-\DeclareMathOperator{\mInstanceDeclPolymorphic}{\mPolymorphic{\mInstanceDeclKeyword}}
-\DeclareMathOperator{\mLet}{\mLetKeyword}
-\DeclareMathOperator{\mLetIn}{\mInKeyword}
-\DeclareMathOperator{\mNewTypeDecl}{\mNewTypeDeclKeyword}
-\DeclareMathOperator{\mNewTypeDeclPolymorphic}{\mPolymorphic{\mNewTypeDeclKeyword}}
-\DeclareMathOperator{\mOfKW}{\mOfKeyword}
-\DeclareMathOperator{\mOtherwise}{\mOtherwiseKeyword}
-\DeclareMathOperator{\mProcKW}{\mProcKeyword}
-\DeclareMathOperator{\mSuperClass}{\;\Rightarrow\;}
-\DeclareMathOperator{\mSuperSet}{\supset}
-\DeclareMathOperator{\mThen}{\mThenKeyword}
-\DeclareMathOperator{\mTypeClassDecl}{\mTypeClassDeclKeyword}
-\DeclareMathOperator{\mTypeClassDeclPolymorphic}{\mPolymorphic{\mTypeClassDeclKeyword}}
-\DeclareMathOperator{\mTypeSynonymDecl}{\mTypeSynonymDeclKeyword}
-\DeclareMathOperator{\mWhere}{\mWhereKeyword}
-
-% Constants
-\newcommand{\mConstant}[1]{\textcolor{\constantColor}{#1}}
-\newcommand{\mSpecialConstant}[1]{\textcolor{\constantColor}{\textrm{#1}}}
-
-\newcommand{\mZeroNumber}{{\mConstant{0}}}
-\newcommand{\mOneNumber}{{\mConstant{1}}}
-\newcommand{\mTwoNumber}{\mConstant{2}}
-\newcommand{\mThreeNumber}{\mConstant{3}}
-\newcommand{\mFourNumber}{\mConstant{4}}
-\newcommand{\mFiveNumber}{\mConstant{5}}
-\newcommand{\mSixNumber}{\mConstant{6}}
-\newcommand{\mSevenNumber}{\mConstant{7}}
-\newcommand{\mEightNumber}{\mConstant{8}}
-\newcommand{\mNineNumber}{\mConstant{9}}
-
-\newcommand{\mEmptyList}{{\textcolor{\constantColor}{[\,]}}}
-\newcommand{\mFalse}{\mSpecialConstant{False}}
-\newcommand{\mNothing}{\textcolor{\constantColor}{\emptyset}}
-\newcommand{\mNumOne}{\mSpecialConstant{One}}
-\newcommand{\mNumTwo}{\mSpecialConstant{Two}}
-\newcommand{\mNumThree}{\mSpecialConstant{Three}}
-\newcommand{\mNumMany}{\mSpecialConstant{Many}}
-\newcommand{\mPureNothing}{\textcolor{\constantColor}{\varnothing}}
-\newcommand{\mTrue}{\mSpecialConstant{True}}
-\newcommand{\mZero}{\mSpecialConstant{\O}}
-\newcommand{\mZeroLeft}{\mZero_\mLeft}
-\newcommand{\mZeroRight}{\mZero_\mRight}
-
-% Strings
-\newcommand{\mString}[1]{\text{#1}}
-
-% Variables and special variables
-\newcommand{\mVar}[1]{\textcolor{\varColor}{#1}}
-\newcommand{\mSpecialVar}[1]{\textcolor{\varColor}{\textrm{#1}}}
-
-\newcommand{\mAnonParam}{\diamond}
-\newcommand{\mFirstVar}{\mSpecialVar{first}}
-\newcommand{\mLovelyVar}{\mSpecialVar{lovely}}
-\newcommand{\mRestVar}{\mSpecialVar{rest}}
-
-\newcommand{\mAVar}{{\mVar{a}}}
-\newcommand{\mMVar}{\mVar{m}}
-\newcommand{\mNVar}{\mVar{n}}
-\newcommand{\mUVar}{\mVar{u}}
-\newcommand{\mVVar}{\mVar{v}}
-\newcommand{\mWVar}{\mVar{w}}
-\newcommand{\mXVar}{\mVar{x}}
-\newcommand{\mYVar}{\mVar{y}}
-\newcommand{\mZVar}{\mVar{z}}
-\newcommand{\mXXVar}{\mVar{x'}}
-
-% Cast
-\newcommand{\mUpCast}{\bigtriangleup}
-
-\DeclareMathOperator{\mFromIntegral}{\mUpCast_\text{Integral}}
-
-% Functions
-\newcommand{\mFunc}[1]{\textcolor{\funcColor}{#1}}
-\newcommand{\mSpecialFunc}[1]{\textcolor{\funcColor}{\textrm{#1}}}
-\newcommand{\mSpecialSpecialFunc}[1]{\textcolor{\funcColor}{\textrm{#1}^\prime}}
-\newcommand{\mSpecialFuncSmall}[1]{\textcolor{\funcColor}{\textrm{#1}}}
-\newcommand{\mVarSpecialFunc}[1]{\textcolor{\funcColor}{\mathfrak{#1}}}
-
-\newcommand{\mFFunc}{{\mFunc{f}}}
-\newcommand{\mGFunc}{\mFunc{g}}
-\newcommand{\mHFunc}{\mFunc{h}}
-\newcommand{\mIFunc}{\mFunc{i}}
-\newcommand{\mJFunc}{\mFunc{j}}
-\newcommand{\mPFunc}{\mFunc{p}}
-\newcommand{\mFFFunc}{\mFunc{f'}}
-\newcommand{\mFFFFunc}{\mFunc{f''}}
-
-\DeclareMathOperator{\mConjugate}{\mSpecialFunc{conjugate}}
-\DeclareMathOperator{\mConst}{\mSpecialFunc{const}}
-\DeclareMathOperator{\mCos}{\mSpecialFunc{cos}}
-\DeclareMathOperator{\mCurry}{\mSpecialFunc{curry}}
-\DeclareMathOperator{\mDuplicate}{\mSpecialFunc{duplicate}}
-\DeclareMathOperator{\mGetList}{\mSpecialFunc{getList}}
-\DeclareMathOperator{\mFact}{\mSpecialFunc{fact}}
-\DeclareMathOperator{\mFFact}{\mSpecialSpecialFunc{fact}}
-\DeclareMathOperator{\mFirst}{\mSpecialFunc{first}}
-\DeclareMathOperator{\mFst}{\mSpecialFunc{fst}}
-\DeclareMathOperator{\mFuncall}{\mSpecialFunc{funcall}}
-\DeclareMathOperator{\mHead}{\mSpecialFunc{head}}
-\DeclareMathOperator{\mId}{\mSpecialFunc{id}}
-\DeclareMathOperator{\mIdCat}{\mVarSpecialFunc{id}}
-\DeclareMathOperator{\mIfFunc}{\mSpecialFunc{if}}
-\DeclareMathOperator{\mLength}{\mSpecialFunc{length}}
-\DeclareMathOperator{\mLiftATwo}{\mSpecialFunc{liftA}_2}
-\DeclareMathOperator{\mMainFunc}{\mSpecialFunc{main}}
-\DeclareMathOperator{\mMax}{\mSpecialFunc{max}}
-\DeclareMathOperator{\mMean}{\mSpecialFunc{mean}}
-\DeclareMathOperator{\mNull}{\mSpecialFunc{null}}
-\DeclareMathOperator{\mPred}{\mSpecialFunc{pred}}
-\DeclareMathOperator{\mRealPart}{\Re}
-\DeclareMathOperator{\mRepeat}{\mSpecialFunc{repeat}}
-\DeclareMathOperator{\mRun}{\mSpecialFunc{run}}
-\DeclareMathOperator{\mSecond}{\mSpecialFunc{second}}
-\DeclareMathOperator{\mSin}{\mSpecialFunc{sin}}
-\DeclareMathOperator{\mSnd}{\mSpecialFunc{snd}}
-\DeclareMathOperator{\mSeparate}{\mSpecialFunc{separate}}
-\DeclareMathOperator{\mSplit}{\mSpecialFunc{split}}
-\DeclareMathOperator{\mSq}{\mSpecialFunc{sq}}
-\DeclareMathOperator{\mSqrt}{\mSpecialFunc{sqrt}}
-\DeclareMathOperator{\mSqrts}{\mSpecialFunc{sqrts}}
-\DeclareMathOperator{\mSort}{\mSpecialFunc{srt}}
-\DeclareMathOperator{\mSucc}{\mSpecialFunc{succ}}
-\DeclareMathOperator{\mSum}{\mSpecialFunc{sum}}
-\DeclareMathOperator{\mSwap}{\mSpecialFunc{swap}}
-\DeclareMathOperator{\mTail}{\mSpecialFunc{tail}}
-\DeclareMathOperator{\mTake}{\mSpecialFunc{take}}
-\DeclareMathOperator{\mTriplicate}{\mSpecialFunc{triplicate}}
-\DeclareMathOperator{\mUncurry}{\mSpecialFunc{uncurry}}
-\DeclareMathOperator{\mUnsplit}{\mSpecialFunc{unsplit}}
-\DeclareMathOperator{\mZipFunc}{\mSpecialFunc{zip}}
-\DeclareMathOperator{\mZipWith}{\mSpecialFunc{zipWith}}
-
-% Actions
-\newcommand{\mAction}[1]{\textcolor{\actionColor}{#1}}
-\newcommand{\mActionLong}[1]{\textcolor{\actionColor}{\textsl{#1}}}
-
-\DeclareMathOperator{\mReadLn}{\mActionLong{readLn}}
-\DeclareMathOperator{\mMain}{\mActionLong{main}}
-\DeclareMathOperator{\mPrint}{\mActionLong{print}}
-\DeclareMathOperator{\mPutStr}{\mActionLong{putStr}}
-\DeclareMathOperator{\mRand}{\mActionLong{rand}}
-
-% Operators
-\newcommand{\mArrowArrow}[1]{\xrightarrow{#1}}
-\newcommand{\mCatArrow}[1]{\xrightarrow{#1}}
-
-\DeclareMathOperator{\mAppend}{\oplus}
-\DeclareMathOperator{\mApply}{\mathop{\S}} % {\$}
-\DeclareMathOperator{\mApplyRight}{\rightsquigarrow}
-\DeclareMathOperator{\mAppMap}{\times}
-\DeclareMathOperator{\mAppMapFunc}{\bowtie}
-\DeclareMathOperator{\mAppMapList}{\otimes}
-\DeclareMathOperator{\mAppMapMaybe}{\boxtimes}
-\DeclareMathOperator{\mArrowArrowA}{\mArrowArrow{\mTypeConstructor{a}}}
-\DeclareMathOperator{\mBind}{\heartsuit}
-\DeclareMathOperator{\mBindComp}{\maltese}
-\DeclareMathOperator{\mBindFunc}{\diamondsuit}
-\DeclareMathOperator{\mBindList}{\clubsuit}
-\DeclareMathOperator{\mBindMaybe}{\spadesuit}
-\DeclareMathOperator{\mBindRight}{\ooalign{$\longrightarrow$\crcr\hss$\mBind$\hss}}
-\DeclareMathOperator{\mBindRightIgnore}{\twoheadrightarrow}
-\DeclareMathOperator{\mBinOp}{\bigstar}
-\DeclareMathOperator{\mCatArrowC}{\mCatArrow{\mTypeConstructor{c}}}
-\DeclareMathOperator{\mCompFunc}{\centerdot}
-\DeclareMathOperator{\mCompCat}{\bullet}
-\DeclareMathOperator{\mCompProj}{\circledcirc}
-\DeclareMathOperator{\mCompRot}{\cdot} % !!! conflict
-\DeclareMathOperator{\mComplexPlus}{\dotplus}
-\DeclareMathOperator{\mComplexTimes}{\Dot\ast}
-\DeclareMathOperator{\mDefEq}{\stackrel{\mathrm{def}}{=}}
-\DeclareMathOperator{\mDoEq}{\leftarrow}
-\DeclareMathOperator{\mDoLetEq}{\mVarKeyword{=}}
-\DeclareMathOperator{\mDoNext}{;\;}
-\DeclareMathOperator*{\mFold}{\bigcup}
-\DeclareMathOperator*{\mFoldStrict}{\bigcup{}_\text{Strict}}
-\DeclareMathOperator*{\mFoldRight}{\bigsqcup}
-\DeclareMathOperator{\mFrom}{\in}
-\DeclareMathOperator{\mFuncArrow}{\rightarrow}
-\DeclareMathOperator{\mIfSo}{\dashrightarrow}
-\DeclareMathOperator{\mIn}{{:\!:}}
-\DeclareMathOperator{\mJoin}{\natural}
-\DeclareMathOperator{\mJoinList}{\flat} % also called concat
-\DeclareMathOperator{\mJoinMaybe}{\sharp}
-\DeclareMathOperator{\mLambda}{\backslash}
-\DeclareMathOperator{\mLambdaArrow}{\mapsto}
-\DeclareMathOperator{\mLetEq}{\triangleq}
-\DeclareMathOperator{\mListAt}{!!}
-\DeclareMathOperator{\mLogicalAnd}{\wedge}
-\DeclareMathOperator{\mLogicalNot}{\neg}
-\DeclareMathOperator{\mLogicalOr}{\vee}
-\DeclareMathOperator{\mMap}{\cdot}
-\DeclareMathOperator{\mMapFunc}{\circ}
-\DeclareMathOperator{\mMapList}{\odot}
-\DeclareMathOperator{\mMapMaybe}{\boxdot}
-\DeclareMathOperator{\mMinus}{\ominus}
-\DeclareMathOperator{\mMorphTo}{\rightarrowtail} % used?
-\DeclareMathOperator{\mPlus}{\bf{+}} % Ok?
-\DeclareMathOperator{\mSetTimes}{\bf{\times}} % better one?
-\DeclareMathOperator{\mSomeOp}{\square}
-\DeclareMathOperator{\mUnOp}{\star}
-\DeclareMathOperator{\mValueOr}{\curlyvee}
-\DeclareMathOperator{\mWhereEq}{\mLetEq}
-\DeclareMathOperator{\mZip}{\circledast}
-
-% Subscripts
-\newcommand{\mSpecialSub}[1]{\text{#1}}
-
-\newcommand{\mLeft}{\mSpecialSub{left}}
-\newcommand{\mRight}{\mSpecialSub{right}}
-
-% Sets
-\newcommand{\mSet}[1]{\mathbf{#1}}
-\newcommand{\mSpecialSet}[1]{\textcolor{\typeColor}{\mathbb{#1}}}
-
-\newcommand{\mASet}{\mSpecialSet{A}}
-\newcommand{\mBSet}{\mSpecialSet{B}}
-\newcommand{\mFSet}{\mSpecialSet{F}}
-\newcommand{\mKSet}{\mSpecialSet{K}}
-\newcommand{\mRSet}{\mSpecialSet{R}}
-\newcommand{\mZSet}{\mSpecialSet{Z}}
-
-% Type names
-\newcommand{\mType}[1]{\textcolor{\typeColor}{\mathbf{#1}}}
-\newcommand{\mPolymorphicTypeParameter}[1]{\textbf{\textit{#1}}}
-
-\newcommand{\mA}{\mType{a}}
-\newcommand{\mB}{\mType{b}}
-\newcommand{\mC}{\mType{c}}
-\newcommand{\mD}{\mType{d}}
-\newcommand{\mR}{\mType{r}}
-\newcommand{\mW}{\mType{w}}
-\newcommand{\mX}{\mType{x}}
-\newcommand{\mY}{\mType{y}}
-\newcommand{\mZ}{\mType{z}}
-
-\newcommand{\mBoolType}{\mType{Bool}}
-\newcommand{\mCharType}{\mType{Char}}
-\newcommand{\mFloatType}{\mType{Float}}
-\newcommand{\mDoubleType}{\mType{Double}}
-\newcommand{\mIntType}{\mType{Int}}
-\newcommand{\mIntegerType}{\mType{Integer}}
-\newcommand{\mStringType}{\mType{String}}
-\newcommand{\mUnitType}{\mType{()}}
-
-% Special polymorphic types
-\newcommand{\mCatType}[2]{\llangle\mType{#1}\mCatArrowC\mType{#2}\rrangle}
-\newcommand{\mPureType}[1]{\[\mType{#1}\]}
-
-% Polymorphic types
-\newcommand{\mTypeAssemble}[2]{{}^\mathrm{#1}\[\mType{#2}\]}
-\newcommand{\mTypeAssembleII}[3]{{}^\mathrm{#1}\[\mType{#2}\,\mType{#3}\]}
-\newcommand{\mPolymorphicTypeAssemble}[2]{{}^{#1}\[\mType{#2}\]}
-
-\newcommand{\mCompFunclexType}[1]{\mTypeAssemble{C}{#1}} % to be removed
-\newcommand{\mEitherType}[2]{\mTypeAssembleII{Either}{#1}{#2}}
-\newcommand{\mIOType}[1]{\mTypeAssemble{IO}{#1}}
-\newcommand{\mListType}[1]{\mTypeAssemble{List}{#1}}
-\newcommand{\mMaybeType}[1]{\mTypeAssemble{Maybe}{#1}}
-\newcommand{\mZipListType}[1]{\mTypeAssemble{ZL}{#1}}
-
-% Polymorphic types with specific data types
-\newcommand{\mCompFunclexDoubleType}{\mCompFunclexType{\mDoubleType}} % to be removed
-\newcommand{\mIODoubleType}{\mIOType{\mDoubleType}}
-\newcommand{\mIOIntType}{\mIOType{\mIntType}}
-\newcommand{\mIOStringType}{\mIOType{\mStringType}}
-\newcommand{\mIOUnitType}{\mIOType{\mUnitType}}
-
-% Type constructors
-\DeclareMathOperator{\mEitherTypeConstructor}{\mSpecialTypeConstructor{Either}}
-\DeclareMathOperator{\mFuncTypeConstructor}{((\rightarrow)\mType{r})}
-\DeclareMathOperator{\mListTypeConstructor}{\mSpecialTypeConstructor{List}}
-\DeclareMathOperator{\mMaybeTypeConstructor}{\mSpecialTypeConstructor{Maybe}}
-\DeclareMathOperator{\mZipListTypeConstructor}{\mSpecialTypeConstructor{ZipList}}
-
-\newcommand{\mFuncTypeAssemble}[1]{{}^{\mFuncTypeConstructor}\mType{#1}}
-\newcommand{\mFuncType}[1]{\mTypeAssemble{\mFuncTypeConstructor}{#1}}
-
-% Value constructors
-\newcommand{\mValueConstructor}[1]{\mathrm{#1}}
-
-\newcommand{\mValueWith}[2]{{}_\mValueConstructor{#1}\[\mVar{#2}\]}
-\newcommand{\mValueRecordBeginWith}[1]{{}^\mValueConstructor{#1}\,\{}
-\newcommand{\mValueRecordEnd}{\}}
-\newcommand{\mValueRecordWith}[2]{\mValueRecordBeginWith{#1}{#2}\mValueRecordEnd}
-
-\newcommand{\mLeftWith}[1]{\mValueWith{Left}{#1}}
-\newcommand{\mRightWith}[1]{\mValueWith{Right}{#1}}
-\newcommand{\mJustWith}[1]{\mValueWith{Just}{#1}}
-\newcommand{\mZipListWith}[1]{\mValueWith{ZipList}{#1}}
-\newcommand{\mZipListRecordWith}[1]{\mValueRecordWith{ZipList}{#1}}
-
-% Famous value constructors
-\newcommand{\mArrowWith}[1]{\Langle\mVar{#1}\Rangle}
-\newcommand{\mConstWith}[1]{\langle\mVar{#1}\rangle}
-\newcommand{\mPureWith}[1]{\[\mVar{#1}\]}
-
-% Built-in value constructors
-\newcommand{\mTupleWith}[1]{\left(#1\right)}
-\newcommand{\mPairWith}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
-\newcommand{\mTripleWith}[3]{\begin{pmatrix}#1\\#2\\#3\end{pmatrix}}
-
-% Functors
-\newcommand{\mSpecialFunctor}[1]{\mathcal{#1}} % Internal use
-
-\DeclareMathOperator{\mIdFunctor}{\mSpecialFunctor{ID}}
-
-% Type classes
-\newcommand{\mTypeClass}[1]{\textcolor{\typeColor}{\textbf{\textit{#1}}}}
-
-\newcommand{\mApplicativeTypeClass}{\mTypeClass{Applicative}}
-\newcommand{\mArrowTypeClass}{\mTypeClass{Arrow}}
-\newcommand{\mCatTypeClass}{\mTypeClass{Category}}
-\newcommand{\mEnumTypeClass}{\mTypeClass{Enum}}
-\newcommand{\mEqTypeClass}{\mTypeClass{Eq}}
-\newcommand{\mFunctorTypeClass}{\mTypeClass{Functor}}
-\newcommand{\mIntegralTypeClass}{\mTypeClass{Integral}}
-\newcommand{\mMonadTypeClass}{\mTypeClass{Monad}}
-\newcommand{\mMonadPlusTypeClass}{\mTypeClass{MonadPlus}}
-\newcommand{\mMonoidTypeClass}{\mTypeClass{Monoid}}
-\newcommand{\mNumTypeClass}{\mTypeClass{Num}}
-\newcommand{\mOrdTypeClass}{\mTypeClass{Ord}}
-\newcommand{\mRealTypeClass}{\mTypeClass{Real}}
-\newcommand{\mRealFloatTypeClass}{\mTypeClass{RealFloat}}
-
-% Decolations
-\newcommand{\mEither}[1]{\mVar{#1}_!}
-\newcommand{\mList}[1]{\mVar{#1}_\mathrm{s}}
-\newcommand{\mMaybe}[1]{\mVar{#1}_?}
-
-\newcommand{\mVarContainer}[1]{\mVar{#1}_*}
-\newcommand{\mFuncContainer}[1]{\mFunc{#1}_*}
-
-\newcommand{\mArrow}[1]{\Vec{#1}}
-\newcommand{\mVec}[1]{\Vec{#1}}
-
-% Guards
-\newcommand{\mGuard}[1]{\mathop{\mid_{#1}}}
-
-% List comprehension
-\DeclareMathOperator{\mListComp}{\shortmid}
-
-% Syntaxes
-\newcommand{\mCaseOf}[1]{\mCaseKW#1\mOfKW}
-\newcommand{\mDo}[1]{\mDoKW\left\{#1\right\}}
-\newcommand{\mDoLet}[2]{\mathop{\mDoLetKeyword}#1\mDoLetEq#2}
-
-\newcommand{\mIfThenElseEXP}[3]{\mIf{#1}\mThen{#2}\mElse{#3}} %%% TO BE REMOVED
-\newcommand{\mLambdaEXP}[2]{\mLambda{#1}\mLambdaArrow{#2}} %%% TO BE REMOVED
-\newcommand{\mLetInEXP}[3]{\mLet#1\mLetEq#2\mLetIn{#3}} %%% TO BE REMOVED
-\newcommand{\mMorph}[2]{#1\mMorphTo#2} %%% TO BE REMOVED
-\newcommand{\mProjEXP}[2]{#1\mFuncArrow#2} %%% TO BE REMOVED
-\newcommand{\mWhereIsEXP}[2]{\mathbin{\mWhereKeyword}#1\mLetEq#2} %%% TO BE REMOVED
-\newcommand{\mWhereIsIIEXP}[4]{\mathbin{\mWhereKeyword}#1\mLetEq#2,#3\mLetEq#4} %%% TO BE REMOVED
-
-\newcommand{\mLLL}{\triangleleft\!\!\!\triangleleft\!\!\!\triangleleft}
-
-\newcommand{\mAs}[2]{\overbrace{(#1)}^{#2}}
 
 \title{関数型プログラミングと代数構造}
 \author{金谷一朗}
@@ -564,7 +71,7 @@ do記法中のキーワード&タイプライタ&$\hDoLet$\\
 リスト&ブラケットで包む&$\hListWith{\hVar{x}},\hListWith{\hVar{y}}$\\
 集合&ブレースで包む&$\{\hVar{x},\hVar{y}\}$\\
 タプル&丸括弧で包む&$\hPairWith{\hVar{x}}{\hVar{y}}$\\
-% アンボックス化タプル&丸括弧とシャープ記号で包む&$\mTupleUnboxedWith{x,\mYVar,\mZVar}$\\
+% アンボックス化タプル&丸括弧とシャープ記号で包む&$\mTupleUnboxedWith{x,\hVar{y},\mZVar}$\\
 \hline
 \end{tabular}
 \end{center}
@@ -577,7 +84,7 @@ do記法中のキーワード&タイプライタ&$\hDoLet$\\
 \hline
 記号&意味&\haskell 記号\\
 \hline\hline
-$\hLambda, \hLambdaArrow$&ラムダ式&\verb|\|,\code{->}\\
+$\hLambda\hVar{x}\hLambdaArrow\hVar{x}$&ラムダ式&\verb|\x -> x|\\
 $\hAnonParam$&無名パラメタ&\\
 \hline
 $\hIsTypeOf$&型集合の元&\code{::}\\
@@ -585,11 +92,11 @@ $\hIsElementOf$&値集合の元&\code{<-}\\
 $\hFunctionArrow$&写像&\code{->}\\
 \hline
 $\hAnyOp$&任意の二項演算子&\\
-$+$&一般加法演算子&\\
+% $+$&一般加法演算子&\\
+% \hline
+% $\mComplexPlus$&複素数値コンストラクタ&\code{:+}\\  %%% !!!
 \hline
-$\mComplexPlus$&複素数値コンストラクタ&\code{:+}\\  %%% !!!
-\hline
-$\mFromIntegral$&型変換演算子&\code{fromIntegral}\\ %%% !!!
+$\hFromIntegral$&型変換演算子&\code{fromIntegral}\\ %%% !!!
 % $\star$&種&\code{*}\\ %%% !!!
 \hline
 % $\hCompose$&関数合成&\code{.}\\
@@ -658,8 +165,8 @@ $\hMonadicCompose$&モナドの合成&\code{<=<}\\
 $\hRightMonadicBind$&右バインド演算子&\code{>>=}\\
 $\hRightMonadicBindIgnore$&右バインド演算子（戻値無視）&\code{>>}\\
 \hline
-$\mLLL$&カテゴリ関数合成&\code{<<<}\\
-\hline
+% $\mLLL$&カテゴリ関数合成&\code{<<<}\\
+% \hline
 \end{tabular}
 \end{center}
 \end{table*}
@@ -703,7 +210,7 @@ print("Hello, world.")
 
 ところで，プログラムのソースコードは現代でもASCII文字セットの範囲で書くことが標準的である．Unicodeを利用したり，まして文字にカラーを指定したり，書体や装飾を指定することは一般的ではない．例えば変数 \code{a} のことを \textbf{a} と書いたり \underline{a} と書いたり $\Hat a$ と書いたりして区別することはない．
 
-\haskell プログラマもまた，多くの異なる概念を同じ貧弱な文字セットで表現しなければならない．これは，初めて\haskell コードを読むときに大きな問題になり得る．例えば\haskell では \code{[a]} という表記をよく扱う．この \code{[a]} は \code{a} という変数1要素からなるリストのこともあるし， \code{a} 型という仮の型から作ったリスト型の場合もあるが，字面からでは判断できない．もし変数はイタリック体，型はボールド体と決まっていれば，それぞれ $[\mVar{a}]$ および $[\mA]$ と区別出来たところである．
+\haskell プログラマもまた，多くの異なる概念を同じ貧弱な文字セットで表現しなければならない．これは，初めて\haskell コードを読むときに大きな問題になり得る．例えば\haskell では \code{[a]} という表記をよく扱う．この \code{[a]} は \code{a} という変数1要素からなるリストのこともあるし， \code{a} 型という仮の型から作ったリスト型の場合もあるが，字面からでは判断できない．もし変数はイタリック体，型はボールド体と決まっていれば，それぞれ $\hListWith{\hVar{a}}$ および $\hListConstruct{\hTypeName{a}}$ と区別出来たところである．
 
 本書は，異なる性質のものには異なる書体を割り当てるようにしている．ただし，どの表現もいつでも\haskell に翻訳できるように配慮している．実際，本書執筆の最大の困難点は，数学的に妥当で，かつ\haskell の記法とも矛盾しない記法を見つけることであった．
 
@@ -713,7 +220,7 @@ print("Hello, world.")
 
 関数型プログラミングとはプログラミングにおける一種のスローガンのようなもので，どの言語を用いたから関数型でどの言語を用いたから関数型ではない，というものではない．しかし，関数型プログラミングを強くサポートする言語と，そうでない言語とがある．ここら辺の事情はオブジェクト指向プログラミングとプログラミング言語の関係と似ている．\haskell は関数型プログラミングを強くサポートし，\python はほとんどサポートしない．
 
-関数型プログラミングの特徴を一言で言えば，プログラム中の\keyword{破壊的代入}を禁止することである．変数 $\mXVar$ に $\mOneNumber$ という数値が一度代入されたら，変数 $\mXVar$ の値をプログラム中に書き換える，すなわち破壊的代入をすることはできない．この結果，変数の値はプログラムのどこでも，どの時点で読み出しても同じであることが保証される．これを変数の\keyword{参照透過性}と呼ぶ．
+関数型プログラミングの特徴を一言で言えば，プログラム中の\keyword{破壊的代入}を禁止することである．変数 $\hVar{x}$ に $\hConstant{1}$ という数値が一度代入されたら，変数 $\hVar{x}$ の値をプログラム中に書き換える，すなわち破壊的代入をすることはできない．この結果，変数の値はプログラムのどこでも，どの時点で読み出しても同じであることが保証される．これを変数の\keyword{参照透過性}と呼ぶ．
 
 プログラム全体に参照透過性があると，そのプログラムはブロックに分割しやすく，各々のブロックは再利用しやすい．またプログラムのどの断片から読み始めても，全体の構造を見失いにくい．これが関数型プログラミングとそれを強くサポートする\haskell を習得する理由である．
 
@@ -820,7 +327,7 @@ print("Hello, world.")
 
 カリー風の書き方は数学の教科書やプログラミングの教科書で見かけるものとは若干違うが，圧倒的にシンプルで\haskell との親和性も高く，慣れてくると非常に読みやすいものなので，本書でも全面的に採用する．
 
-まずは\keyword{関数}から見ていくことにしよう．\python や一般的な数学書では引数 $\mXVar$ をとる関数 $\mFFunc$ を
+まずは\keyword{関数}から見ていくことにしよう．\python や一般的な数学書では引数 $\hVar{x}$ をとる関数 $\hFunc{f}$ を
 \begin{pythoncode}
 \begin{verbatim}
 f(x)
@@ -828,13 +335,13 @@ f(x)
 \end{pythoncode}
 と書くが，括弧は冗長なので今後は
 \begin{equation}
-  \mFunc{f}\mXVar
+  \hFunc{f}\hVar{x}
 \end{equation}
 と書くことにする．\footnote{\haskell では関数 \code{f} に引数 \code{x}を適用させることを \code{f x} と書く．数学や物理学では $x$ をパラメタとする関数を $f(x)$ と書く場合もあるし，$f$ のようにパラメタを省略する場合もある．数学や物理学でパラメタを省略した場合は，$f(x_0)$ の意味で $f\vert_{x=x_0}$ と書くことがある．}
 
 % 本書では\python のコード片は上述のように囲みにいれることにする．
 
-関数 $\mFunc{f}$ に引数 $\mXVar$を「食わせる」ことを\keyword{関数適用}と呼ぶ．もし $\mFunc{f}\mXVar$ と書いてあったら，それは $\mFunc{f}$ と $\mXVar$ の積，つまり $\mFunc{f}*\mXVar$ ではなく，従来の $\mFunc{f}(\mXVar)$ すなわち関数 $\mFunc{f}$ に引数 $\mXVar$ を与えているものと解釈する．高校生向けの数学書でも $\mSin\mXVar$ のように三角関数に限ってはカリー風に書くことになっているので，まるで馴染みがないということもないだろう．なお，関数はいつも引数の左側に書くことにする．これを「関数 $\mFunc{f}$ が変数 $\mXVar$ の\keyword{左から作用する}」と言い，また関数 $\mFunc{f}$ のことを\keyword{左作用素}とも呼ぶ．
+関数 $\hFunc{f}$ に引数 $\hVar{x}$を「食わせる」ことを\keyword{関数適用}と呼ぶ．もし $\hFunc{f}\hVar{x}$ と書いてあったら，それは $\hFunc{f}$ と $\hVar{x}$ の積，つまり $\hFunc{f}*\hVar{x}$ ではなく，従来の $\hFunc{f}(\hVar{x})$ すなわち関数 $\hFunc{f}$ に引数 $\hVar{x}$ を与えているものと解釈する．高校生向けの数学書でも $\sin x$ のように三角関数に限ってはカリー風に書くことになっているので，まるで馴染みがないということもないだろう．なお，関数はいつも引数の左側に書くことにする．これを「関数 $\hFunc{f}$ が変数 $\hVar{x}$ の\keyword{左から作用する}」と言い，また関数 $\hFunc{f}$ のことを\keyword{左作用素}とも呼ぶ．
 
 複数引数をとる関数を\python や一般的な数学の教科書では
 \begin{pythoncode}
@@ -842,30 +349,30 @@ f(x)
 g(x, y)
 \end{verbatim}
 \end{pythoncode}
-と書くが，これも括弧が冗長なので今後は $\mFunc{g}\mXVar\mYVar$ と書く．この場合式 $\mFunc{g}\mXVar\mYVar$ は左を優先して結合する．つまり
+と書くが，これも括弧が冗長なので今後は $\hFunc{g}\hVar{x}\hVar{y}$ と書く．この場合式 $\hFunc{g}\hVar{x}\hVar{y}$ は左を優先して結合する．つまり
 \begin{equation}
-  \mFunc{g}\mXVar\mYVar=(\mFunc{g}\mXVar)\mYVar
+  \hFunc{g}\hVar{x}\hVar{y}=(\hFunc{g}\hVar{x})\hVar{y}
 \end{equation}
-である．これは引数 $\mYVar$ に関数 $(\mFunc{g}\mXVar)$ が左から作用していると解釈する．関数 $(\mFunc{g}\mXVar)$ は引数 $\mXVar$ に関数 $\mFunc{g}$ を作用させて作った関数である．引数に「飢えた」関数 $(\mFunc{g}\mXVar)$ を\keyword{部分適用}された関数と呼ぶ．
+である．これは引数 $\hVar{y}$ に関数 $(\hFunc{g}\hVar{x})$ が左から作用していると解釈する．関数 $(\hFunc{g}\hVar{x})$ は引数 $\hVar{x}$ に関数 $\hFunc{g}$ を作用させて作った関数である．引数に「飢えた」関数 $(\hFunc{g}\hVar{x})$ を\keyword{部分適用}された関数と呼ぶ．
 
 このように式の左側を優先的に演算していくことを\keyword{左結合}と呼ぶ．\haskell の場合，関数適用はいつも左結合である．
 
 部分適用の例を見てみよう．例えばふたつの引数のうち大きい方を返す関数
-$\mMax$ は
+$\hMax$ は
 \begin{equation}
-  \mMax\mXVar\mYVar
+  \hMax\hVar{x}\hVar{y}
 \end{equation}
 として使われるが，関数適用は左結合であるから
 \begin{equation}
-  (\mMax\mXVar)\mYVar
+  (\hMax\hVar{x})\hVar{y}
 \end{equation}
-としても同じである．そこで $(\mMax\mXVar)$ だけ取り出すと，これは「引数が $\mXVar$ よりも小さければ $\mXVar$ を，そうでなければ引数を返す関数」とみなすことができる．\footnote{\haskell では $\mMax\mXVar\mYVar$ を \code{max x y} と書く．}
+としても同じである．そこで $(\hMax\hVar{x})$ だけ取り出すと，これは「引数が $\hVar{x}$ よりも小さければ $\hVar{x}$ を，そうでなければ引数を返す関数」とみなすことができる．\footnote{\haskell では $\hMax\hVar{x}\hVar{y}$ を \code{max x y} と書く．}
 
 \section{ラムダ式}
 
 関数の正体は\keyword{ラムダ式}である．ラムダ式とは，仮の引数をとり，その値をもとになにがしかの演算を行い，その結果を返す式である．ラムダ式は名前のない関数のようなものだ．それゆえ，無名関数と呼ばれることもある．
 
-例えば引数 $\mXVar$ をとり値 $1+\mXVar$ を返すラムダ式を\python では
+例えば引数 $\hVar{x}$ をとり値 $\hConstant{1}+\hVar{x}$ を返すラムダ式を\python では
 \begin{pythoncode}
 \begin{verbatim}
 lambda x: 1+x
@@ -873,50 +380,49 @@ lambda x: 1+x
 \end{pythoncode}
 と書くが，我々はより簡潔に
 \begin{equation}
-  \mLambda\mXVar\mLambdaArrow\mOneNumber+\mXVar
+  \hLambdaSyntax{\hVar{x}}{\hConstant{1}+\hVar{x}}
 \end{equation}
-と書くことにする．この式は多くの書物で $\lambda\mXVar\mathbin{.}\mOneNumber+\mXVar$ と記述されるところである．しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号 $(.)$ が今後登場する二項演算子 $\cdot$ と紛らわしいため，上述の記法を用いる．\footnote{\haskell ではラムダ式 $\mLambda\mXVar\mLambdaArrow\mOneNumber+\mXVar$ を \code{\textbackslash x -> 1+x} と書く．ラムダ式は元々は $\Hat\mXVar\mathbin{.}\mXVar+\mOneNumber$ のように書かれていた．これが次第に $\mathop{\texttt{\textasciicircum}}\mXVar\mathbin{.}\mXVar+\mOneNumber$ となり，$\Lambda\mXVar\mathbin{.}\mXVar+\mOneNumber$ そして $\lambda\mXVar\mathbin{.}\mXVar+\mOneNumber$ に変化していったと言われている．\haskell が $\lambda$ の代わりに $\mLambda$ 記号を使うのは，その形が似ているからである．}
+と書くことにする．この式は多くの書物で $\lambda x\mathbin{.}1+x$ と記述されるところである．しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号 $(.)$ が今後登場する二項演算子 $\cdot$ と紛らわしいため，上述の記法を用いる．\footnote{\haskell ではラムダ式 $\hLambdaSyntax{\hVar{x}}{\hConstant{1}+\hVar{x}}$ を \code{\textbackslash x -> 1+x} と書く．ラムダ式は元々は $\Hat{x}\mathbin{.}x+1$ のように書かれていた．これが次第に $\mathop{\texttt{\textasciicircum}}x\mathbin{.}x+1$ となり，$\Lambda x\mathbin{.}x+1$ そして $\lambda x\mathbin{.}x+1$ に変化していったと言われている．\haskell が $\lambda$ の代わりに $\hLambda$ 記号を使うのは，その形が似ているからである．}
 
 ラムダ式は関数である．ラムダ式を適用するには，ラムダ式を括弧で包む必要がある．例を挙げる．
 \begin{equation}
-  (\mLambda\mXVar\mLambdaArrow\mOneNumber+\mXVar)\,\mTwoNumber
+  (\hLambdaSyntax{\hVar{x}}{\hConstant{1}+\hVar{x}})\,\hConstant{2}
 \end{equation}
-この式は結果として $\mThreeNumber$ を返す．
+この式は結果として $\hConstant{3}$ を返す．
 
 複数引数をとるラムダ式は例えば
 \begin{equation}
-  \mLambda\mXVar\mYVar\mLambdaArrow\mXVar+\mYVar
+  \hLambdaSyntax{\hVar{x}\hVar{y}}{\hVar{x}+\hVar{y}}
 \end{equation}
 のように引数を並べて書く．
 
-本書では新たに，次のラムダ式記法も導入する．式中に記号 $\mAnonParam$ が現れた場合，その式全体がラムダ式であるとみなす．記号 $\mAnonParam$ の部分には引数が入る．第 $n$ 番目の $\mAnonParam$ には第 $n$ 番目の引数が入る．例えばラムダ式 $\mLambdaEXP{\mXVar\mYVar}{\mXVar+\mYVar}$ は
+本書では新たに，次のラムダ式記法も導入する．式中に記号 $\hAnonParam$ が現れた場合，その式全体がラムダ式であるとみなす．記号 $\hAnonParam$ の部分には引数が入る．第 $n$ 番目の $\hAnonParam$ には第 $n$ 番目の引数が入る．例えばラムダ式 $\hLambdaSyntax{\hVar{x}\hVar{y}}{\hVar{x}+\hVar{y}}$ は
 \begin{equation}
-  \mAnonParam+\mAnonParam
+  \hAnonParam+\hAnonParam
 \end{equation}
-と書いても良い．式を左から読んで1番目の $\mAnonParam$ が元々の $\mXVar$ すなわち第1引数を，2番目の $\mAnonParam$ が元々の $\mYVar$ すなわち第2引数を意味する．この省略記法はプログラミング言語\scheme における\code{cut}プロシジャに由来する．\footnote{この記法は\haskell にはない．}
+と書いても良い．式を左から読んで1番目の $\hAnonParam$ が元々の $\hVar{x}$ すなわち第1引数を，2番目の $\hAnonParam$ が元々の $\hVar{y}$ すなわち第2引数を意味する．この省略記法はプログラミング言語\scheme における\code{cut}プロシジャに由来する．\footnote{この記法は\haskell にはない．}
 
 \section{パタンマッチ・ガード・条件分岐}
 
-関数の定義は，基本的にはラムダ式の変数への代入である．引数 $\mXVar$ をとり値 $(\mSin\mXVar)/\mXVar$ を返す関数 $\mFFunc$ は
+関数の定義は，基本的にはラムダ式の変数への代入である．引数 $\hVar{x}$ をとり値 $(\hSin\hVar{x})/\hVar{x}$ を返す関数 $\hFunc{f}$ は
 \begin{equation}
-  \mFFunc
-  =\mLambda\mXVar\mLambdaArrow(\mSin\mXVar)/\mXVar
+  \hFunc{f}=\hLambdaSyntax{\hVar{x}}{\hSin\hVar{x})/\hVar{x}}
 \end{equation}
 と定義できる．ただし，この省略形として
 \begin{equation}
-  \mFFunc\mXVar
-  =(\mSin\mXVar)/\mXVar
+  \hFunc{f}\hVar{x}
+  =(\hSin\hVar{x})/\hVar{x}
 \end{equation}
-と書いても良い．この書き方を\keyword{ポイントフリースタイル}と呼ぶ．ポイントフリースタイルは今後頻出するので，是非覚えておいてもらいたい．\footnote{\haskell では $\mFFunc=\mLambda\mXVar\mLambdaArrow(\mSin\mXVar)/\mXVar$ を \code{f = \textbackslash x -> (sin x)/x} と書き，一方 $\mFFunc\mXVar=(\mSin\mXVar)/\mXVar$ を\code{f x = (sin x)/x} と書く．}
+と書いても良い．この書き方を\keyword{ポイントフリースタイル}と呼ぶ．ポイントフリースタイルは今後頻出するので，是非覚えておいてもらいたい．\footnote{\haskell では $\hFunc{f}=\hLambdaSyntax{\hVar{x}}{\hSin\hVar{x})/\hVar{x}}$ を \code{f = \textbackslash x -> (sin x)/x} と書き，一方 $\hFunc{f}\hVar{x}=(\hSin\hVar{x})/\hVar{x}$ を\code{f x = (sin x)/x} と書く．}
 
 \separator
 
-関数に\keyword{スペシャルバージョン}がある場合はそれらを列挙する．例えば引数が $\mZeroNumber$ の場合は特別に戻り値が $\mOneNumber$ であり，その他の場合は関数 $\mFFunc$ と同じ振る舞いをする関数 $\mFFFunc$ を考える．このとき $\mFFFunc$ は
+関数に\keyword{スペシャルバージョン}がある場合はそれらを列挙する．例えば引数が $\hConstant{0}$ の場合は特別に戻り値が $\hConstant{1}$ であり，その他の場合は関数 $\hFunc{f}$ と同じ振る舞いをする関数 $\hFunc{f'}$ を考える．このとき $\hFunc{f'}$ は
 \begin{equation}
   \left\{
   \begin{aligned}
-    \mFFFunc\mZeroNumber&=\mOneNumber\\
-    \mFFFunc\mXVar&=(\mSin\mXVar)/\mXVar
+    \hFunc{f'}\hConstant{0}&=\hConstant{1}\\
+    \hFunc{f'}\hVar{x}&=(\hSin\hVar{x})/\hVar{x}
   \end{aligned}
   \right.
 \end{equation}
@@ -930,13 +436,13 @@ lambda x: 1+x
 
 関数のパタンマッチは，関数の内部に書いても良い．関数内部にパタンマッチを書きたい場合は
 \begin{equation}
-  \mFFFunc\mXVar=\mCaseOf{\mXVar}
+  \hFunc{f'}\hVar{x}=\hCaseSyntax{\hVar{x}}
   \begin{cases}
-    \mZeroNumber&\mIfSo\mOneNumber\\
-    \_&\mIfSo(\mSin\mXVar)/\mXVar
+    \hConstant{0}&\hIfSo\hConstant{1}\\
+    \_&\hIfSo(\hSin\hVar{x})/\hVar{x}
   \end{cases}
 \end{equation}
-のように書く．ここに $\_$ は任意の値の意味である．パタンマッチは上から順番にマッチングしていくため，この場合は $\mZeroNumber$ 以外を意味する．
+のように書く．ここに $\_$ は任意の値の意味である．パタンマッチは上から順番にマッチングしていくため，この場合は $\hConstant{0}$ 以外を意味する．
 \footnote{\haskell では
 \begin{verbatim}
   f' x = case x of 0 -> 1
@@ -948,12 +454,12 @@ lambda x: 1+x
 
 \separator
 
-関数定義にパタンマッチではなく\keyword{場合分け}が必要な場合は\keyword{ガード}を用いる．例えば引数の値が負の場合は $\mZeroNumber$ を，$\mZeroNumber$ の場合は $\mOneNumber$ を，それ以外の場合は関数 $\mFFunc$ と同じ振る舞いをする関数 $\mFFFFunc$ は
+関数定義にパタンマッチではなく\keyword{場合分け}が必要な場合は\keyword{ガード}を用いる．例えば引数の値が負の場合は $\hConstant{0}$ を，$\hConstant{0}$ の場合は $\hConstant{1}$ を，それ以外の場合は関数 $\hFunc{f}$ と同じ振る舞いをする関数 $\hFunc{f''}$ は
 \begin{equation}
   \begin{aligned}
-    \mFFFFunc\mXVar&\mGuard{\mXVar<\mZeroNumber}=\mZeroNumber\\
-    &\mGuard{\mXVar\equiv\mZeroNumber}=\mOneNumber\\
-    &\mGuard{\mOtherwise}=(\mSin\mXVar)/\mXVar
+    \hFunc{f''}\hVar{x}&\hGuard{\hVar{x}<\hConstant{0}}=\hConstant{0}\\
+    &\hGuard{\hVar{x}\hIfEq\hConstant{0}}=\hConstant{1}\\
+    &\hGuard{\hOtherwise}=(\hSin\hVar{x})/\hVar{x}
   \end{aligned}
 \end{equation}
 という風に定義する．\footnote{\haskell では
@@ -980,33 +486,29 @@ def f(x):
 
 我々の条件式とは
 \begin{equation}
-  \mFFunc\mXVar
-  =\mIf\mXVar\equiv\mZeroNumber
-  \mThen\mOneNumber
-  \mElse{}(\mSin\mXVar)/\mXVar
+  \hFunc{f}\hVar{x}
+  =\hIfSyntax{\hVar{x}\hIfEq\hConstant{0}}{\hConstant{1}}{{}(\hSin\hVar{x})/\hVar{x}}
 \end{equation}
-のように $\mIf$ 節，$\mThen$ 節，及び $\mElse$ 節からなるものであって，$\mThen$ 節も $\mElse$ 節も省略できないものとする．$\mIf$ 節の式の値が真 $(\mTrue)$ であれば $\mThen$ 節の式が評価され，偽 $(\mFalse)$ であれば $\mElse$ 節の式が評価される．我々の条件式は\clang/\cxx における条件演算子（三項演算子）と等しく見えるが，\haskell の場合は遅延評価が行われ
-るため，結果として条件式の\keyword{短絡評価}が行われる点が異なる．\footnote{\haskell では $\mFFunc\mXVar=\mIfThenElseEXP{\mXVar\equiv\mZeroNumber}{\mOneNumber}{(\mSin\mXVar)/\mXVar}$ を \code{f x = if x==0 then 1 else (sin x)/x} と書く．}
+のように $\hIf$ 節，$\hThen$ 節，及び $\hElse$ 節からなるものであって，$\hThen$ 節も $\hElse$ 節も省略できないものとする．$\hIf$ 節の式の値が真 $(\hTrue)$ であれば $\mThen$ 節の式が評価され，偽 $(\hFalse)$ であれば $\hElse$ 節の式が評価される．我々の条件式は\clang/\cxx における条件演算子（三項演算子）と等しく見えるが，\haskell の場合は遅延評価が行われ
+るため，結果として条件式の\keyword{短絡評価}が行われる点が異なる．\footnote{\haskell では $\hFunc{f}\hVar{x}=\hIfSyntax{\hVar{x}\hIfEq\hConstant{0}}{\hConstant{1}}{{}(\hSin\hVar{x})/\hVar{x}}$ を \code{f x = if x==0 then 1 else (sin x)/x} と書く．}
 
-$\mIf$ 節の中身は真理値を返す関数であれば良いので，関数 $\mPFunc$ を
+$\hIf$ 節の中身は真理値を返す関数であれば良いので，関数 $\hFunc{p}$ を
 \begin{equation}
-  \mPFunc
-  =(\mAnonParam\equiv\mZeroNumber)
+  \hFunc{p}
+  =(\hAnonParam\hIfEq\hConstant{0})
 \end{equation}
 としておき，
 \begin{equation}
-  \mFFunc\mXVar
-  =\mIf\mPFunc\mXVar
-  \mThen\mOneNumber
-  \mElse{}(\mSin\mXVar)/\mXVar
+  \hFunc{f}\hVar{x}
+  =\hIfSyntax{\hFunc{p}\hVar{x}}{\hConstant{1}}{{}(\hSin\hVar{x})/\hVar{x}}
 \end{equation}
 と書く方法もしばしば用いられる．
 
 % 条件式は紙面が許せば次のように書いても良い．
 % \begin{equation}
-%   \mFFunc\mXVar=\begin{cases}
-%   1&\mIf x\equiv0\\
-%   (\sin x)/x&\mOtherwise
+%   \hFunc{f}\hVar{x}=\begin{cases}
+%   1&\mIf x\hIfEq0\\
+%   (\sin x)/x&\hOtherwise
 %   \end{cases}
 % \end{equation}
 % 左ブレース（中括弧）の位置が関数のスペシャルバージョンの定義の時と異なっ
@@ -1017,40 +519,39 @@ $\mIf$ 節の中身は真理値を返す関数であれば良いので，関数 
 
 数式が長く続くとき，読みやすさのために局所変数を導入すると便利である．例えば
 \begin{equation}
-  \mYVar
-  =\mFFunc(\mOneNumber+\mXVar)
+  \hVar{y}
+  =\hFunc{f}(\hConstant{1}+\hVar{x})
 \end{equation}
-という式のうち，先に $\mOneNumber+\mXVar$ の部分を計算して $\mXXVar$ のように名前をつけておきたいこともあるであろう．そんなときは
+という式のうち，先に $\hConstant{1}+\hVar{x}$ の部分を計算して $\hVar{x'}$ のように名前をつけておきたいこともあるであろう．そんなときは
 \begin{equation}
   \label{eq:letin}
-  \mYVar
-  =\mLet\mXXVar
-  \mLetEq\mOneNumber+\mXVar
-  \mLetIn\mFFunc\mXXVar
+  \hVar{y}
+  =\hLetSyntax{\hVar{x'}\hLetEq\hConstant{1}+\hVar{x}}{\hFunc{f}\hVar{x'}}
 \end{equation}
-と書くことにする．このようにして導入された $\mXXVar$ を\keyword{局所変数}と呼ぶ．\footnote{\haskell では $\mYVar=\mLet\mXXVar\mLetEq\mOneNumber+\mXVar\mLetIn\mFFunc\mXXVar$ を \code{y = let x' = 1+x in f x'} と書く．}
+と書くことにする．このようにして導入された $\hVar{x'}$ を\keyword{局所変数}と呼ぶ．\footnote{\haskell では $\hVar{y}=\hLetSyntax{\hVar{x'}\hLetEq\hConstant{1}+\hVar{x}}{\hFunc{f}\hVar{x'}}$ を \code{y = let x' = 1+x in f x'} と書く．}
 
 式\eqref{eq:letin}は局所変数を後ろに回して
 \begin{equation}
   \label{eq:where}
-  \mYVar=\mFFunc\mXXVar\mWhere\mXXVar\mWhereEq\mOneNumber+\mXVar
+  \hVar{y}
+  =\hWhereSyntax{\hFunc{f}\hVar{x'}}{\hVar{x'}\hLetEq\hConstant{1}+\hVar{x}}
 \end{equation}
-のように書いても良い．\footnote{\haskell では$\mYVar=\mFFunc\mXXVar\mWhere\mXXVar\mWhereEq\mOneNumber+\mXVar$ は \code{y = f x' where x' = 1+x} と書く．}
+のように書いても良い．\footnote{\haskell では $\hVar{y}=\hWhereSyntax{\hFunc{f}\hVar{x'}}{\hVar{x'}\hLetEq\hConstant{1}+\hVar{x}}$ は \code{y = f x' where x' = 1+x} と書く．}
 
 式\eqref{eq:letin}や式\eqref{eq:where}はラムダ式を使った\keyword{糖衣構文}（シンタックスシュガー）であり，一般に
 \begin{align}
-  \mLet\mXXVar\mLetEq\mGFunc\mXVar\mLetIn\mFFunc\mXXVar
-  &=\mFFunc\mXXVar\mWhere\mXXVar\mWhereEq\mGFunc\mXVar\\
-  &=(\mLambda\mXXVar\mLambdaArrow\mFFunc\mXXVar)(\mGFunc\mXVar)
+  \hLetSyntax{\hVar{x'}\hLetEq\hFunc{g}\hVar{x}}{\hFunc{f}\hVar{x'}}
+  &=\hWhereSyntax{\hFunc{f}\hVar{x'}}{\hVar{x'}\hLetEq\hFunc{g}\hVar{x}}\\
+  &=(\hLambdaSyntax{\hVar{x'}}{\hFunc{f}\hVar{x'}})(\hFunc{g}\hVar{x})
 \end{align}
-である．ただし $\mWhere$ 節は式ではないので，単独では使えないことに注意しよう．例えば $\mLet\mXXVar\mLetEq\mOneNumber+\mXVar\mLetIn\mFFunc\mXXVar$ は値を持つ式であるが，$\mWhere\mXXVar\mWhereEq\mOneNumber+\mXVar$ は値を持たない．
+である．ただし $\hWhere$ 節は式ではないので，単独では使えないことに注意しよう．例えば $\hLetSyntax{\hVar{x'}\hLetEq\hFunc{g}\hVar{x}}{\hFunc{f}\hVar{x'}}$ は値を持つ式であるが，$\hWhereSyntax{\hFunc{f}\hVar{x'}}{\hVar{x'}\hLetEq\hFunc{g}\hVar{x}}$ は値を持たない．
 
 \section{この章のまとめ}
 
 \begin{enumerate}
-\item 変数 $\mXVar$ に関数 $\mFFunc$ を適用することを $\mFFunc\mXVar$ と書く．\item 変数 $\mXVar,\mYVar$ に関数 $\mGFunc$ を適用することを $g\mXVar\mYVar$ と書く．関数適用は左結合するので $g\mXVar\mYVar=(\mGFunc\mXVar)y$ である．この関数 $(\mGFunc\mXVar)$ は部分適用された関数と呼ぶ．
-\item 関数はラムダ式で定義する．ラムダ式は $\mLambdaEXP{x}{(\sin x)/x}$ のように表記する．\item ラムダ式は $f\mAnonParam$ のように無名パラメタ $\mAnonParam$ を用いて表記しても良い．\item 関数定義 $f=\mLambdaEXP{x}{(\sin x)/x}$ は $\mFFunc\mXVar=(\sin x)/x$ と省略表記できる．
-\item 関数定義にはパタンマッチが使える．例えば $f'0=1;f'x=(\sin x)/x$ と定義できる．\item パタンマッチは関数本体に書いても良い．関数 $f'$ の例で言えば $f'=\mCaseOf{\mXVar}0\mIfSo\mOneNumber;\_\mIfSo(\sin x)/x$ と 定義できる．\item 関数定義にはガードが使える．例えば $f''\mGuard{x<0}=0;f''\mGuard{x\equiv0}=1;f''\mGuard{\mOtherwise}=(\sin x)/x$ と定義できる．\item 条件分岐は $\mIfThenElseEXP{\mXVar}{\mYVar}{z}$ と書き，$\mXVar\equiv\mTrue$ の時には $\mYVar$ が，$\mXVar\equiv\mFalse$ のときには $\mZVar$ が式の値になる．\item 局所変数は $y=\mLetInEXP{x'}{\dotsb}{\mFFunc\mXVar'}$ または$y=\mFFunc\mXVar'\mWhereIsEXP{x'}{\dotsb}$ という書き方で導入できる．
+\item 変数 $\hVar{x}$ に関数 $\hFunc{f}$ を適用することを $\hFunc{f}\hVar{x}$ と書く．\item 変数 $\hVar{x},\hVar{y}$ に関数 $\hFunc{g}$ を適用することを $g\hVar{x}\hVar{y}$ と書く．関数適用は左結合するので $g\hVar{x}\hVar{y}=(\hFunc{g}\hVar{x})y$ である．この関数 $(\hFunc{g}\hVar{x})$ は部分適用された関数と呼ぶ．
+\item 関数はラムダ式で定義する．ラムダ式は $\mLambdaEXP{x}{(\sin x)/x}$ のように表記する．\item ラムダ式は $f\hAnonParam$ のように無名パラメタ $\hAnonParam$ を用いて表記しても良い．\item 関数定義 $f=\mLambdaEXP{x}{(\sin x)/x}$ は $\hFunc{f}\hVar{x}=(\sin x)/x$ と省略表記できる．
+\item 関数定義にはパタンマッチが使える．例えば $f'0=1;f'x=(\sin x)/x$ と定義できる．\item パタンマッチは関数本体に書いても良い．関数 $f'$ の例で言えば $f'=\hCaseSyntax{\hVar{x}}0\hIfSo\hConstant{1};\_\hIfSo(\sin x)/x$ と 定義できる．\item 関数定義にはガードが使える．例えば $f''\hGuard{x<0}=0;f''\hGuard{x\hIfEq0}=1;f''\hGuard{\hOtherwise}=(\sin x)/x$ と定義できる．\item 条件分岐は $\mIfThenElseEXP{\hVar{x}}{\hVar{y}}{z}$ と書き，$\hVar{x}\hIfEq\hTrue$ の時には $\hVar{y}$ が，$\hVar{x}\hIfEq\hFalse$ のときには $\mZVar$ が式の値になる．\item 局所変数は $y=\mLetInEXP{x'}{\dotsb}{\hFunc{f}\hVar{x}'}$ または$y=\hFunc{f}\hVar{x}'\mWhereIsEXP{x'}{\dotsb}$ という書き方で導入できる．
 \end{enumerate}
 
 % Irrefutable pattern
@@ -1076,40 +577,40 @@ printf("%d, %d\n", ++i, ++i);
 
 \section{演算子}
 
-\keyword{演算子}は関数の特別な姿である．演算子は\keyword{作用素}と呼んでも良い．どちらも英語のoperatorの和訳である．演算子は普通アルファベット以外のシンボル1個で表現し，変数や関数の前に置いて直後の変数や関数に作用させるか，2個の変数や関数の中間に置いてその両者に作用させる．例えば $-\mXVar$ のマイナス記号 $(-)$ は変数の前に置いて直後の変数 $(\mXVar)$ に作用する演算子であり，$\mXVar+\mYVar$ のプラス記号 $(+)$ は2個の変数の間に置いてその両者 $(\mXVar,\mYVar)$ に作用する．
+\keyword{演算子}は関数の特別な姿である．演算子は\keyword{作用素}と呼んでも良い．どちらも英語のoperatorの和訳である．演算子は普通アルファベット以外のシンボル1個で表現し，変数や関数の前に置いて直後の変数や関数に作用させるか，2個の変数や関数の中間に置いてその両者に作用させる．例えば $-\hVar{x}$ のマイナス記号 $(-)$ は変数の前に置いて直後の変数 $(\hVar{x})$ に作用する演算子であり，$\hVar{x}+\hVar{y}$ のプラス記号 $(+)$ は2個の変数の間に置いてその両者 $(\hVar{x},\hVar{y})$ に作用する．
 
 1個の変数または関数に作用する演算子を\keyword{単項演算子}と呼び，2個の変数または関数に作用する演算子を\keyword{二項演算子}と呼ぶ．本書では単項演算子はすべて変数の前に置く，すなわち\keyword{前置}する．前置する演算子のことを\keyword{前置演算子}と呼ぶが，数学者は同じものを左作用素と呼ぶ．
 
 \haskell には単項マイナス $(-)$ を除いて他に単項演算子はない．
 
-二項演算子のうちよく使われるものは和 $(+)$，積 $(*)$，論理和 $(\mLogicalOr)$，論理積 $(\mLogicalAnd)$，同値 $(\equiv)$，大なり$(>)$，小なり $(<)$ 等である．二項演算子はたとえ積記号であっても省略できない．二項演算子は多数あるので，その都度説明する．\footnote{\haskell では $\mLogicalAnd$ を \code{\&\&} と書き，$\mLogicalOr$ を \code{||} と書く．}
+二項演算子のうちよく使われるものは和 $(+)$，積 $(*)$，論理和 $(\mLogicalOr)$，論理積 $(\mLogicalAnd)$，同値 $(\hIfEq)$，大なり$(>)$，小なり $(<)$ 等である．二項演算子はたとえ積記号であっても省略できない．二項演算子は多数あるので，その都度説明する．\footnote{\haskell では $\mLogicalAnd$ を \code{\&\&} と書き，$\mLogicalOr$ を \code{||} と書く．}
 
-二項演算子は\keyword{中置}することが基本であるが，括弧で包むことで前置することも可能である．任意の二項演算子 $\mBinOp$ について $\mXVar\mBinOp\mYVar$ 及び $(\mBinOp)\mXVar\mYVar$ は全く同じ意味である．すなわち
+二項演算子は\keyword{中置}することが基本であるが，括弧で包むことで前置することも可能である．任意の二項演算子 $\mBinOp$ について $\hVar{x}\mBinOp\hVar{y}$ 及び $(\mBinOp)\hVar{x}\hVar{y}$ は全く同じ意味である．すなわち
 \begin{equation}
-  \left(\mBinOp\right)\mXVar\mYVar
-  =\mXVar\mBinOp\mYVar
+  \left(\mBinOp\right)\hVar{x}\hVar{y}
+  =\hVar{x}\mBinOp\hVar{y}
 \end{equation}
-である．従って，二項演算子と2引数関数に本質的な差はない．本書では演算子と関数という用語は全く同じ意味で用いる．\footnote{\haskell では任意の二項演算子を括弧で包むことで前置演算子として使うことができる．例えば \code{\mXVar+\mYVar}と \code{(+)x y} は同じ結果を返す．逆に任意の2引数関数 \code{f}は \code{x `f` y} と書くことで中置することができる．}
+である．従って，二項演算子と2引数関数に本質的な差はない．本書では演算子と関数という用語は全く同じ意味で用いる．\footnote{\haskell では任意の二項演算子を括弧で包むことで前置演算子として使うことができる．例えば \code{\hVar{x}+\hVar{y}}と \code{(+)x y} は同じ結果を返す．逆に任意の2引数関数 \code{f}は \code{x `f` y} と書くことで中置することができる．}
 
 一般の関数が左結合であることを思い出すと，二項演算子を関数に見立てた
 $(\mBinOp)$ も
 \begin{equation}
   \label{eq:star-x-y}
-  (\mBinOp)\mXVar\mYVar
-  =((\mBinOp)\mXVar)\mYVar
+  (\mBinOp)\hVar{x}\hVar{y}
+  =((\mBinOp)\hVar{x})\hVar{y}
 \end{equation}
-であるから，部分適用が可能である．式\eqref{eq:star-x-y}から第2引数 $\mYVar$ を取り除いて $(\mBinOp)x$ という「餓えた」1引数関数を取り出せる．例えば関数 $((+)1)$ は引数に $\mOneNumber$ を加える関数である．\footnote{\haskell では $((+)1)$ を \code{((+)1)} と書く．}
+であるから，部分適用が可能である．式\eqref{eq:star-x-y}から第2引数 $\hVar{y}$ を取り除いて $(\mBinOp)x$ という「餓えた」1引数関数を取り出せる．例えば関数 $((+)1)$ は引数に $\hConstant{1}$ を加える関数である．\footnote{\haskell では $((+)1)$ を \code{((+)1)} と書く．}
 
 \separator
 
-二項演算子の部分適用に限って\keyword{セクション}と言う記法も用いられる．二項演算子 $\mBinOp$ に対して $(\mBinOp\mXVar)$ および $(\mXVar\mBinOp)$ はそれぞれ
+二項演算子の部分適用に限って\keyword{セクション}と言う記法も用いられる．二項演算子 $\mBinOp$ に対して $(\mBinOp\hVar{x})$ および $(\hVar{x}\mBinOp)$ はそれぞれ
 \begin{align}
-  (\mBinOp\mXVar)
-  &=\mAnonParam\mBinOp\mXVar\\
-  (\mXVar\mBinOp)
-  &=\mXVar\mBinOp\mAnonParam=(\mBinOp)\mXVar
+  (\mBinOp\hVar{x})
+  &=\hAnonParam\mBinOp\hVar{x}\\
+  (\hVar{x}\mBinOp)
+  &=\hVar{x}\mBinOp\hAnonParam=(\mBinOp)\hVar{x}
 \end{align}
-である．例えば $(\mOneNumber+)$ は $((+)\mOneNumber)$ と等価であり，これは $(+\mOneNumber)$ とも等価である．ただし，マイナス演算子$(-)$ だけは例外で，$(-\mOneNumber)$ はマイナス $\mOneNumber$ を表す．負の数をいつも括弧で包んでおくのは良いアイディアである．\footnote{\haskell では $(1+)$ を\code{(1+)} と書く．また \code{(-1)} はセクションではなくマイナス$\mOneNumber$を表す（\code{-1} というリテラルとみなされる）．ただし \code{(- 1)}のように空白を挟んでも同じくマイナス $\mOneNumber$ とみなされる（\code{1} というリテラルに単項マイナス演算子が適用される）．}
+である．例えば $(\hConstant{1}+)$ は $((+)\hConstant{1})$ と等価であり，これは $(+\hConstant{1})$ とも等価である．ただし，マイナス演算子$(-)$ だけは例外で，$(-\hConstant{1})$ はマイナス $\hConstant{1}$ を表す．負の数をいつも括弧で包んでおくのは良いアイディアである．\footnote{\haskell では $(1+)$ を\code{(1+)} と書く．また \code{(-1)} はセクションではなくマイナス$\hConstant{1}$を表す（\code{-1} というリテラルとみなされる）．ただし \code{(- 1)}のように空白を挟んでも同じくマイナス $\hConstant{1}$ とみなされる（\code{1} というリテラルに単項マイナス演算子が適用される）．}
 
 なお，二項演算子の結合性，すなわち左結合か右結合かは，演算子によって異なる．また演算の優先順位を明示的に与えるために括弧が用いられる．
 
@@ -1132,58 +633,58 @@ z = g(f(x))
 \begin{equation}
   \label{eq:ffx}
   \mZVar=
-  \mGFunc(\mFFunc\mXVar)
+  \hFunc{g}(\hFunc{f}\hVar{x})
 \end{equation}
-である．式\eqref{eq:ffx}から括弧を省略して $\mZVar=\mGFunc\mFFunc\mXVar$ としてしまうと，関数適用は左結合するから $\mZVar=(\mGFunc\mFFunc)\mXVar$ の意味になってしまう．関数 $\mGFunc$ が引数に関数を取るのでない限り $(\mGFunc\mFFunc)$ は無意味なので，式\eqref{eq:ffx}の括弧は省略できない．
+である．式\eqref{eq:ffx}から括弧を省略して $\mZVar=\hFunc{g}\hFunc{f}\hVar{x}$ としてしまうと，関数適用は左結合するから $\mZVar=(\hFunc{g}\hFunc{f})\hVar{x}$ の意味になってしまう．関数 $\hFunc{g}$ が引数に関数を取るのでない限り $(\hFunc{g}\hFunc{f})$ は無意味なので，式\eqref{eq:ffx}の括弧は省略できない．
 
-ここで，引数のことは忘れて，関数 $\mFFunc$ と関数 $\mGFunc$ を先に\keyword{合成}しておきたいとしよう．その合成を $\mGFunc\mCompFunc \mFFunc$ と書く．演算子 $\mCompFunc$ は\keyword{関数合成演算子}と呼ぶ．合成はラムダ式を使って
+ここで，引数のことは忘れて，関数 $\hFunc{f}$ と関数 $\hFunc{g}$ を先に\keyword{合成}しておきたいとしよう．その合成を $\hFunc{g}\mCompFunc \hFunc{f}$ と書く．演算子 $\mCompFunc$ は\keyword{関数合成演算子}と呼ぶ．合成はラムダ式を使って
 \begin{equation}
-  \mGFunc\mCompFunc \mFFunc
-  =\mGFunc(\mFFunc\mAnonParam)
+  \hFunc{g}\mCompFunc \hFunc{f}
+  =\hFunc{g}(\hFunc{f}\hAnonParam)
 \end{equation}
-と定義できる．関数合成演算子 $\mCompFunc$ は関数適用よりも優先順位が高く， $\left(\mGFunc\mCompFunc \mFFunc\right)\mXVar$ は単に $\mGFunc\mCompFunc\mFFunc\mXVar$ と書いても良い．この記法は括弧の数を減らすためにしばしば用いられる．式\eqref{eq:ffx}は関数合成演算子を用いると
+と定義できる．関数合成演算子 $\mCompFunc$ は関数適用よりも優先順位が高く， $\left(\hFunc{g}\mCompFunc \hFunc{f}\right)\hVar{x}$ は単に $\hFunc{g}\mCompFunc\hFunc{f}\hVar{x}$ と書いても良い．この記法は括弧の数を減らすためにしばしば用いられる．式\eqref{eq:ffx}は関数合成演算子を用いると
 \begin{equation}
   \mZVar
-  =\mGFunc\mCompFunc\mFFunc\mXVar
+  =\hFunc{g}\mCompFunc\hFunc{f}\hVar{x}
 \end{equation}
-と書ける．\footnote{\haskell では関数 \code{g} と関数 \code{f} の合成は \code{g.f} である．式 $\mZVar=\mGFunc\mCompFunc \mFFunc x$ は \code{z = g.f x} と書く．}
+と書ける．\footnote{\haskell では関数 \code{g} と関数 \code{f} の合成は \code{g.f} である．式 $\mZVar=\hFunc{g}\mCompFunc \hFunc{f} x$ は \code{z = g.f x} と書く．}
 
 関数合成演算子とは逆に，結合の優先順位の低い\keyword{関数適用演算子}も考えておくと便利なこともある．関数適用演算子 $\mApply$ を次のように定義しておく．
 \begin{equation}
-  \mFFunc\mApply\mXVar
-  =\mFFunc\mXVar
+  \hFunc{f}\mApply\hVar{x}
+  =\hFunc{f}\hVar{x}
 \end{equation}
 演算子 $\mApply$ の優先順位は関数適用も含めあらゆる演算子よりも低いものとする．関数適用演算子を用いて式\eqref{eq:ffx}を書き直すと
 \begin{equation}
   \mZVar
-  =\mGFunc\mApply\mFFunc\mXVar
+  =\hFunc{g}\mApply\hFunc{f}\hVar{x}
 \end{equation}
-となる．演算子 $\mApply$ の優先順位は足し算よりも低いので $\mFFunc(\mXVar+\mOneNumber)$ は $\mFFunc\mApply\mXVar+\mOneNumber$ と書くこともできる．演算子 $\mApply$ を閉じ括弧のいらない開き括弧と考えてもよい．\footnote{\haskell では $\mGFunc\mApply\mFFunc\mXVar$ を \code{g \$ f x} と書く．}
+となる．演算子 $\mApply$ の優先順位は足し算よりも低いので $\hFunc{f}(\hVar{x}+\hConstant{1})$ は $\hFunc{f}\mApply\hVar{x}+\hConstant{1}$ と書くこともできる．演算子 $\mApply$ を閉じ括弧のいらない開き括弧と考えてもよい．\footnote{\haskell では $\hFunc{g}\mApply\hFunc{f}\hVar{x}$ を \code{g \$ f x} と書く．}
 
-関数適用演算子のもう一つの興味深い使い方は，関数適用演算子の部分適用である．セクション $(\mApply\mXVar)$ を用いると
+関数適用演算子のもう一つの興味深い使い方は，関数適用演算子の部分適用である．セクション $(\mApply\hVar{x})$ を用いると
 \begin{equation}
-  (\mApply\mXVar)\mFFunc
-  =\mFFunc\mApply\mXVar
+  (\mApply\hVar{x})\hFunc{f}
+  =\hFunc{f}\mApply\hVar{x}
 \end{equation}
-であるから，関数適用演算子を用いて引数を関数に渡すことができる．\footnote{\haskell では $(\mApply\mXVar)\mFFunc$ を \code{(\$x)f} と書く．}
+であるから，関数適用演算子を用いて引数を関数に渡すことができる．\footnote{\haskell では $(\mApply\hVar{x})\hFunc{f}$ を \code{(\$x)f} と書く．}
 
 \section{高階関数}
 
 関数を引数に取ったり，あるいは関数を返す関数のことを\keyword{高階関数}と呼ぶことがある．関数合成演算子と関数適用演算子は高階関数の好例である．
 
-他に例えば，引数として整数 $\mAVar$ を取り，関数 $\mFFunc\mXVar=\mAVar+\mXVar$ を返すような関数 $\mGFunc$ を
+他に例えば，引数として整数 $\mAVar$ を取り，関数 $\hFunc{f}\hVar{x}=\mAVar+\hVar{x}$ を返すような関数 $\hFunc{g}$ を
 \begin{equation}
-  \mGFunc\mAVar
-  =\mAVar+\mAnonParam
+  \hFunc{g}\mAVar
+  =\mAVar+\hAnonParam
 \end{equation}
 のように定義することも可能である．このとき，
 \begin{align}
-  \mFFunc
-  &=\mGFunc\,\mConstant{100}\\
-  \mXVar
-  &=\mFFunc\,\mOneNumber
+  \hFunc{f}
+  &=\hFunc{g}\,\mConstant{100}\\
+  \hVar{x}
+  &=\hFunc{f}\,\hConstant{1}
 \end{align}
-とすれば $\mXVar=\mConstant{101}$ を得る．\footnote{\haskell では $ga=a+\mAnonParam$ を $ga=\mLambdaEXP{x}{a+x}$ と展開しておいて \code{g a = \textbackslash x -> a+x} と書く．}
+とすれば $\hVar{x}=\mConstant{101}$ を得る．\footnote{\haskell では $ga=a+\hAnonParam$ を $ga=\mLambdaEXP{x}{a+x}$ と展開しておいて \code{g a = \textbackslash x -> a+x} と書く．}
 
 高階関数は今後度々顔をだすことになる．第\ref{ch:list}章に登場するマップ演算子や畳込み演算子は高階関数の一種である．
 
@@ -1197,24 +698,24 @@ z = g(f(x))
 
 % http://qiita.com/techno-tanoC/items/1fa1c65db08da2440fc4
 
-計算機科学者ドナルド・クヌースは，整数 $\mXVar,\mYVar$ が与えられたとき $\mXVar$ の $\mYVar$ 乗を ${\mXVar}^{\mYVar}$ ではなく $\mXVar\uparrow\mYVar$ と書いた．これは
+計算機科学者ドナルド・クヌースは，整数 $\hVar{x},\hVar{y}$ が与えられたとき $\hVar{x}$ の $\hVar{y}$ 乗を ${\hVar{x}}^{\hVar{y}}$ ではなく $\hVar{x}\uparrow\hVar{y}$ と書いた．これは
 \begin{equation}
-  \mXVar\uparrow\mYVar
-  =\underbrace{\mXVar*\mXVar*\dotsb*\mXVar}_{\mYVar}
+  \hVar{x}\uparrow\hVar{y}
+  =\underbrace{\hVar{x}*\hVar{x}*\dotsb*\hVar{x}}_{\hVar{y}}
 \end{equation}
-という意味である．\footnote{\haskell では $\mXVar\uparrow\mYVar$ を \code{x\textasciicircum y} と書く．}
+という意味である．\footnote{\haskell では $\hVar{x}\uparrow\hVar{y}$ を \code{x\textasciicircum y} と書く．}
 
 クヌースはさらに演算子 $\uparrow\uparrow$ を
 \begin{equation}
-  \mXVar\uparrow\uparrow\mYVar
-  =\underbrace{\mXVar\uparrow\mXVar\uparrow\dotsb\uparrow\mXVar}_{\mYVar}
+  \hVar{x}\uparrow\uparrow\hVar{y}
+  =\underbrace{\hVar{x}\uparrow\hVar{x}\uparrow\dotsb\uparrow\hVar{x}}_{\hVar{y}}
 \end{equation}
 のように定義した．これを\keyword{クヌースの矢印}と呼ぶ．クヌースの矢印は
 \begin{align}
-  \mXVar\uparrow\uparrow\mNVar
-  &\mGuard{\mNVar\le\mZeroNumber}=\mOneNumber\\
-  &\mGuard{\mOtherwise}
-  =\mXVar\uparrow(\mXVar\uparrow\uparrow(\mNVar-\mOneNumber))
+  \hVar{x}\uparrow\uparrow\mNVar
+  &\hGuard{\mNVar\le\hConstant{0}}=\hConstant{1}\\
+  &\hGuard{\hOtherwise}
+  =\hVar{x}\uparrow(\hVar{x}\uparrow\uparrow(\mNVar-\hConstant{1}))
 \end{align}
 と定義できる．\footnote{\haskell では
 \begin{verbatim}
@@ -1233,10 +734,10 @@ z = g(f(x))
 
 \begin{enumerate}
 \item 関数と演算子は同じものである．
-\item 任意の二項演算子 $\mBinOp$ について $\mXVar\mBinOp y$ と $(\mBinOp)\mXVar\mYVar$ は全く同じ意味である．
-\item 任意の二項演算子 $\mBinOp$ について $(\mBinOp x)=\mAnonParam\mBinOp x$ であり，$(x\mBinOp)=x\mBinOp\mAnonParam$ である．これらの記法をセクション記法と呼ぶ．
-\item 関数 $\mFFunc$ と関数 $\mGFunc$ を合成した関数を $f\mCompFunc g$ と書く．
-\item 式 $f\mApply \mGFunc\mXVar$ は $f(\mGFunc\mXVar)$ の意味である．
+\item 任意の二項演算子 $\mBinOp$ について $\hVar{x}\mBinOp y$ と $(\mBinOp)\hVar{x}\hVar{y}$ は全く同じ意味である．
+\item 任意の二項演算子 $\mBinOp$ について $(\mBinOp x)=\hAnonParam\mBinOp x$ であり，$(x\mBinOp)=x\mBinOp\hAnonParam$ である．これらの記法をセクション記法と呼ぶ．
+\item 関数 $\hFunc{f}$ と関数 $\hFunc{g}$ を合成した関数を $f\mCompFunc g$ と書く．
+\item 式 $f\mApply \hFunc{g}\hVar{x}$ は $f(\hFunc{g}\hVar{x})$ の意味である．
 \item 関数を引数に取ったり，関数を返す関数のことを高階関数と呼ぶ．
 \item \haskell のラムダ式はいつもレキシカルクロージャである．
 \end{enumerate}
@@ -1260,24 +761,24 @@ z = g(f(x))
 
 \separator
 
-\haskell にはよく使う型が予め用意されている．例えば\keyword{論理型} は論理値すなわち真 $(\mTrue)$ または偽 $(\mFalse)$ という値をとる変数の型である．ある変数 $\mXVar$ が論理型であることを，\haskell では
+\haskell にはよく使う型が予め用意されている．例えば\keyword{論理型} は論理値すなわち真 $(\hTrue)$ または偽 $(\hFalse)$ という値をとる変数の型である．ある変数 $\hVar{x}$ が論理型であることを，\haskell では
 \begin{equation}
-  \mXVar
+  \hVar{x}
   \mIn\mBoolType
 \end{equation}
 と書く．数学者なら同じことを
 \begin{equation}
-  \mXVar
+  \hVar{x}
   \in\mBSet
 \end{equation}
 と書くところであるが，ここは\haskell の流儀に従おう．また型定義と値定義はよく一緒に行われるので，今後
 \begin{equation}
   \left\mBrace
   \begin{aligned}
-    \mXVar
+    \hVar{x}
     &\mIn\mBoolType\\
-    \mXVar
-    &=\mTrue
+    \hVar{x}
+    &=\hTrue
   \end{aligned}
   \right.
 \end{equation}
@@ -1288,7 +789,7 @@ z = g(f(x))
 \end{verbatim}
 と書く．}
 
-この場合変数 $\mXVar$ が $\mBoolType$ 型であることは自明であるため $\mXVar\mIn\mBoolType$ は省略できるが，可能な限り型を明記しておくことは良い習慣である．また必要に応じて変数に型名を注釈することがある．例えば $\mXVar=\mTrue\mIn\mBoolType$ のように書く場合がある．\footnote{\haskell では $\mXVar=\mTrue\mIn\mBoolType$ を \code{x = True :: Bool} と書く．}
+この場合変数 $\hVar{x}$ が $\mBoolType$ 型であることは自明であるため $\hVar{x}\mIn\mBoolType$ は省略できるが，可能な限り型を明記しておくことは良い習慣である．また必要に応じて変数に型名を注釈することがある．例えば $\hVar{x}=\hTrue\mIn\mBoolType$ のように書く場合がある．\footnote{\haskell では $\hVar{x}=\hTrue\mIn\mBoolType$ を \code{x = True :: Bool} と書く．}
 
 他に整数を表す\keyword{整数型}がある．整数型には2種類あって，その一つは $\mIntType$ である．この $\mIntType$ は\clang の \code{int} と似た「計算機にとって都合の良い整数」である．計算機にとって都合の良い整数とは，例えば64ビット計算機の場合 $-2^{63}$ から $2^{63}-1$ の間の整数という意味である．\footnote{\haskell では $\mIntType$ を \code{Int} で表す．}
 
@@ -1308,40 +809,40 @@ z = g(f(x))
 
 \separator
 
-関数にも型がある．例えば整数引数を一つ取り，整数を返す関数 $\mFFunc$ は
+関数にも型がある．例えば整数引数を一つ取り，整数を返す関数 $\hFunc{f}$ は
 \begin{equation}
-  \mFFunc
+  \hFunc{f}
   \mIn\mIntType
   \mFuncArrow\mIntType
 \end{equation}
 という型を持つ．上式は
 \begin{equation}
-  \mFFunc
-  \mIn\underbrace{\mIntType}_{\mXVar}
-  \mFuncArrow\underbrace{\mIntType}_{\mFFunc\mXVar}
+  \hFunc{f}
+  \mIn\underbrace{\mIntType}_{\hVar{x}}
+  \mFuncArrow\underbrace{\mIntType}_{\hFunc{f}\hVar{x}}
 \end{equation}
-のようにイメージすると良い．これは関数 $\mFFunc$ が集合 $\mIntType$ から集合 $\mIntType$ への\keyword{写像}であると読む．\footnote{\haskell では \code{f :: Int -> Int} と書く．}
+のようにイメージすると良い．これは関数 $\hFunc{f}$ が集合 $\mIntType$ から集合 $\mIntType$ への\keyword{写像}であると読む．\footnote{\haskell では \code{f :: Int -> Int} と書く．}
 
 \section{カリー化}
 
-\haskell では，どのような関数であれ引数は1個しかとらない．引数が2個あるように見える関数として，例えば $\mGFunc\mXVar\mYVar$ があったとしよう．ここに $\mGFunc$ は関数，$\mXVar,\mYVar$ は変数である．関数適用は左結合であるから，これは　$\left(\mGFunc\mXVar\right)\mYVar$ である．ここに $\left(\mGFunc\mXVar\right)$ は引数 $\mYVar$ をとる関数であると見ることができる．つまり，関数 $\mFFunc$ とは引数 $\mXVar$ をとり「引数 $\mYVar$ をとって値を返す関数 $\left(\mGFunc\mXVar\right)$ を返す」関数であると言える．
+\haskell では，どのような関数であれ引数は1個しかとらない．引数が2個あるように見える関数として，例えば $\hFunc{g}\hVar{x}\hVar{y}$ があったとしよう．ここに $\hFunc{g}$ は関数，$\hVar{x},\hVar{y}$ は変数である．関数適用は左結合であるから，これは　$\left(\hFunc{g}\hVar{x}\right)\hVar{y}$ である．ここに $\left(\hFunc{g}\hVar{x}\right)$ は引数 $\hVar{y}$ をとる関数であると見ることができる．つまり，関数 $\hFunc{f}$ とは引数 $\hVar{x}$ をとり「引数 $\hVar{y}$ をとって値を返す関数 $\left(\hFunc{g}\hVar{x}\right)$ を返す」関数であると言える．
 
-二項演算 $\mXVar+\mYVar$ は $(+)\mXVar\mYVar$ とも書けたことを思い出そう．これも左結合を思い出すと
+二項演算 $\hVar{x}+\hVar{y}$ は $(+)\hVar{x}\hVar{y}$ とも書けたことを思い出そう．これも左結合を思い出すと
 \begin{equation}
-  (+)\mXVar\mYVar
-  =\left((+)\mXVar\right)\mYVar
+  (+)\hVar{x}\hVar{y}
+  =\left((+)\hVar{x}\right)\hVar{y}
 \end{equation}
-であるから，$\mYVar$ という引数を $\left((+)x\right)$ という関数に食わせていると解釈できる．
+であるから，$\hVar{y}$ という引数を $\left((+)x\right)$ という関数に食わせていると解釈できる．
 
 ラムダ式の場合は話はもっと単純で，形式的に
 \begin{equation}
-  \mLambda\mXVar\mYVar\mLambdaArrow\mXVar+\mYVar
-  =\mLambda\mXVar\mLambdaArrow\left(\mLambda\mYVar\mLambdaArrow\mXVar+\mYVar\right)
+  \mLambda\hVar{x}\hVar{y}\mLambdaArrow\hVar{x}+\hVar{y}
+  =\mLambda\hVar{x}\mLambdaArrow\left(\mLambda\hVar{y}\mLambdaArrow\hVar{x}+\hVar{y}\right)
 \end{equation}
 のように展開すれば1引数にできる．矢印$\mLambdaArrow$は\keyword{右結合}である．そこでこのラムダ式は括弧を省略して
 \begin{equation}
-  \mLambda\mXVar\mYVar\mLambdaArrow\mXVar+\mYVar
-  =\mLambda\mXVar\mLambdaArrow\mLambda\mYVar\mLambdaArrow\mXVar+\mYVar
+  \mLambda\hVar{x}\hVar{y}\mLambdaArrow\hVar{x}+\hVar{y}
+  =\mLambda\hVar{x}\mLambdaArrow\mLambda\hVar{y}\mLambdaArrow\hVar{x}+\hVar{y}
 \end{equation}
 とも書かれる．
 
@@ -1349,51 +850,51 @@ z = g(f(x))
 
 % \section{関数の型}
 
-整数引数を二つ取り，整数を返す関数 $\mGFunc$ は
+整数引数を二つ取り，整数を返す関数 $\hFunc{g}$ は
 \begin{equation}
-  \mGFunc
+  \hFunc{g}
   \mIn\mIntType\mFuncArrow\mIntType\mFuncArrow\mIntType
 \end{equation}
 という型を持つ．写像の矢印記号は右結合するので，これは
 \begin{equation}
-  \mGFunc
+  \hFunc{g}
   \mIn\mIntType\mFuncArrow(\mIntType\mFuncArrow\mIntType)
 \end{equation}
 と同じ意味である．上式は
 \begin{equation*}
-  \mGFunc
-  \mIn\underbrace{\mIntType}_{\mXVar}
-  \mFuncArrow\underbrace{\overbrace{\mIntType}^{\mYVar}\mFuncArrow\overbrace{\mIntType}^{(\mGFunc\mXVar)\mYVar}}_{\mGFunc\mXVar}
+  \hFunc{g}
+  \mIn\underbrace{\mIntType}_{\hVar{x}}
+  \mFuncArrow\underbrace{\overbrace{\mIntType}^{\hVar{y}}\mFuncArrow\overbrace{\mIntType}^{(\hFunc{g}\hVar{x})\hVar{y}}}_{\hFunc{g}\hVar{x}}
 \end{equation*}
 のようにイメージすると良い．自然言語で考えると $\mIntType$ 型の引数を一つ取り，$\mIntType$ 型の引数を一つ取って $\mIntType$ 型の値を返す関数を返す，と読める．\footnote{関数の型に出てくる $\mFuncArrow$ は2引数をとる型コンストラクタである．型コンストラクタに関しては第XYZ章で詳しく述べる．例えば $\mA\mFuncArrow\mB$ という型は $(\mFuncArrow)\mA\mB$ の別名であり，型コンストラクタ $(\mFuncArrow)$ に引数 $\mA$ と $\mB$ を与えたものと読む．}
 
 \separator
 
-\haskell には\keyword{タプル}という型がある．タプルとは，複数の変数を組み合わせたもので，例えば変数 $\mXVar,\mYVar$ をひとまとめにした
+\haskell には\keyword{タプル}という型がある．タプルとは，複数の変数を組み合わせたもので，例えば変数 $\hVar{x},\hVar{y}$ をひとまとめにした
 \begin{equation}
-  \mPairWith{\mXVar}{\mYVar}
+  \mPairWith{\hVar{x}}{\hVar{y}}
 \end{equation}
-はタプルである．変数 $\mXVar$, $\mYVar$ の型は同じでも良いし，異なっても良い．\footnote{\haskell では $\mPairWith{\mXVar}{\mYVar}$ を \code{(x, y)} と書く．}
+はタプルである．変数 $\hVar{x}$, $\hVar{y}$ の型は同じでも良いし，異なっても良い．\footnote{\haskell では $\mPairWith{\hVar{x}}{\hVar{y}}$ を \code{(x, y)} と書く．}
 
 いまタプルを引数に取る関数
 \begin{equation}
-  f\mPairWith{\mXVar}{\mYVar}
-  =\mXVar+\mYVar
+  f\mPairWith{\hVar{x}}{\hVar{y}}
+  =\hVar{x}+\hVar{y}
 \end{equation}
 があったとしよう．\haskell にはタプルをとる関数をカリー化する関数 $\mCurry$ があり，
 \begin{equation}
-  (\mCurry\mFFunc)\mXVar\mYVar
+  (\mCurry\hFunc{f})\hVar{x}\hVar{y}
 \end{equation}
-は $\mXVar+\mYVar$ になる．
+は $\hVar{x}+\hVar{y}$ になる．
 
 逆に，カリー化された関数
 \begin{equation}
-  \mFFFunc\mXVar\mYVar
-  =\mXVar+\mYVar
+  \hFunc{f'}\hVar{x}\hVar{y}
+  =\hVar{x}+\hVar{y}
 \end{equation}
 に関しては
 \begin{equation}
-  (\mUncurry\mFFFunc)\mPairWith{\mXVar}{\mYVar}
+  (\mUncurry\hFunc{f'})\mPairWith{\hVar{x}}{\hVar{y}}
 \end{equation}
 のように\keyword{アンカリー化}することで，タプルに適用することができる．
 
@@ -1407,12 +908,12 @@ z = g(f(x))
 
 整数型の等値演算子は
 \begin{equation}
-  (\equiv)
+  (\hIfEq)
   \mIn\mIntType\mFuncArrow\mIntType\mFuncArrow\mBoolType
 \end{equation}
 であり，浮動小数点型の等値演算子は
 \begin{equation}
-  (\equiv)
+  (\hIfEq)
   \mIn\mFloatType\mFuncArrow\mFloatType\mFuncArrow\mBoolType
 \end{equation}
 である．
@@ -1422,7 +923,7 @@ z = g(f(x))
 具体的な型を指定せずに，仮の変数で表したものを\keyword{型パラメタ}と呼ぶ．我々は型パラメタをボールド体で表す．いま型を表す仮の変数を $\mA $ として，等値演算子の型を
 \begin{equation}
   \label{eq:equiv}
-  (\equiv)
+  (\hIfEq)
   \mIn\mA\mFuncArrow\mA\mFuncArrow\mBoolType
 \end{equation}
 と表現してみよう．このような型パラメタを用いた型を総称して\keyword{多相型}と呼ぶ．
@@ -1436,7 +937,7 @@ z = g(f(x))
 
 式\eqref{eq:equiv}に型クラスの制約を加えてみよう．型 $\mA$ は型クラス $\mEqTypeClass$ に属さなければならないから，新たな記号 $\mSuperClass$ を使って
 \begin{equation}
-  (\equiv)
+  (\hIfEq)
   \mIn{}\mEqTypeClass\mSuperSet\mA
   \mSuperClass\mA\mFuncArrow\mA\mFuncArrow\mBoolType
 \end{equation}
@@ -1473,23 +974,23 @@ $\mFromIntegral$ は
   {}
   &\left\mBrace
   \begin{aligned}
-    \mXVar
+    \hVar{x}
     &\mIn\mIntType\\
-    \mXVar
-    &=\mOneNumber
+    \hVar{x}
+    &=\hConstant{1}
   \end{aligned}
   \right.\\
     {}
     &\left\mBrace
     \begin{aligned}
-      \mYVar
+      \hVar{y}
       &\mIn\mDoubleType\\
-      \mYVar
-      &=\mFromIntegral\mXVar
+      \hVar{y}
+      &=\mFromIntegral\hVar{x}
     \end{aligned}
   \right.
 \end{align}
-とすることで，$\mIntType$ 型の変数 $\mXVar$ の値を $\mDoubleType$ 型の変数 $\mYVar$ へ代入することができる．\footnote{\haskell では
+とすることで，$\mIntType$ 型の変数 $\hVar{x}$ の値を $\mDoubleType$ 型の変数 $\hVar{y}$ へ代入することができる．\footnote{\haskell では
 \begin{verbatim}
   x :: Int
   x = 1
@@ -1529,7 +1030,7 @@ $\mFromIntegral$ は
 である場合，つまり演算子 $\mBinOp$ が集合 $\mASet$ に対して全域性を持つ場合，組み合わせ $\mTupleWith{\mASet,\mBinOp}$ を\keyword{マグマ}と呼ぶ．組み合わせ $\mTupleWith{\mZSet,+}$ はマグマの例であり，$\mTupleWith{\mZSet,*}$ もマグマの例である．
 % マグマはかつて亜群と呼ばれていたが，現在は亜群は別の意味(groupoid)の訳語に使われている．
 
-他に\keyword{論理集合} $\mBSet=\{\mTrue,\mFalse\}$ に対して，\keyword{論理和} $(\mLogicalOr)$ は全域性を持つから，組み合わせ $\mTupleWith{\mBSet,\mLogicalOr}$ はマグマであるし，同様に\keyword{論理積} $(\mLogicalAnd)$ も全域性を持つから，組み合わせ $\mTupleWith{\mBSet,\mLogicalAnd}$ もマグマである．論理集合 $\mBSet$ とは論理型 $\mBoolType$ を数学風に言い換えたものである．
+他に\keyword{論理集合} $\mBSet=\{\hTrue,\hFalse\}$ に対して，\keyword{論理和} $(\mLogicalOr)$ は全域性を持つから，組み合わせ $\mTupleWith{\mBSet,\mLogicalOr}$ はマグマであるし，同様に\keyword{論理積} $(\mLogicalAnd)$ も全域性を持つから，組み合わせ $\mTupleWith{\mBSet,\mLogicalAnd}$ もマグマである．論理集合 $\mBSet$ とは論理型 $\mBoolType$ を数学風に言い換えたものである．
 
 マグマのうち，演算を2回続ける場合，その順序によって結果が異ならない，つまり
 \begin{equation}
@@ -1539,13 +1040,13 @@ $\mFromIntegral$ は
 \end{equation}
 ただし $\mAVar_1,\mAVar_2,\mAVar_3\mIn\mASet$ のとき，組み合わせ $\mTupleWith{\mASet,\mBinOp}$ のことを\keyword{半群}と呼ぶ．この式\eqref{eq:associativity}で表される性質を\keyword{結合性}と呼ぶ．組み合わせ $\mTupleWith{\mZSet,+}$, $\mTupleWith{\mZSet,*}$, $\mTupleWith{\mBSet,\mLogicalOr}$, $\mTupleWith{\mBSet,\mLogicalOr}$ はすべて半群である．
 
-ところで，整数全体の集合 $\mZSet$ には特別な元 $\mZeroNumber\mIn\mZSet$ がある．この元 $\mZeroNumber$ は $\mZVar\mIn\mZSet$ のとき
+ところで，整数全体の集合 $\mZSet$ には特別な元 $\hConstant{0}\mIn\mZSet$ がある．この元 $\hConstant{0}$ は $\mZVar\mIn\mZSet$ のとき
 \begin{equation}
-  \mZeroNumber+\mZVar
-  =\mZVar+\mZeroNumber
+  \hConstant{0}+\mZVar
+  =\mZVar+\hConstant{0}
   =\mZVar
 \end{equation}
-という性質を持つ．この $\mZeroNumber$ を演算 $+$ における\keyword{単位元}と呼ぶ．足し算のことを\keyword{加法}とも言うので $\mZeroNumber$ のことは\keyword{加法単位元}と呼ぶこともあるし，文字通り\keyword{零元}と呼ぶこともある．
+という性質を持つ．この $\hConstant{0}$ を演算 $+$ における\keyword{単位元}と呼ぶ．足し算のことを\keyword{加法}とも言うので $\hConstant{0}$ のことは\keyword{加法単位元}と呼ぶこともあるし，文字通り\keyword{零元}と呼ぶこともある．
 
 一般に，$\mAVar,\mZeroLeft,\mZeroRight\in\mASet$ として
 \begin{equation}
@@ -1556,7 +1057,7 @@ $\mFromIntegral$ は
 \end{equation}
 であるとき，元 $\mZeroLeft,\mZeroRight$ を単位元と呼ぶ．我々は多くの場合 $\mZeroLeft=\mZeroRight$ であるケースを扱うので，二つの単位元を区別する必要はほとんどないが，必要な場合は $\mZeroLeft$ を\keyword{左単位元}，$\mZeroRight$ を\keyword{右単位元}と呼ぶ．
 
-組み合わせ $\mTupleWith{\mASet,\mPlus,\mZeroLeft,\mZeroRight}$ のことを\keyword{モノイド}または\keyword{単位的半群}と呼ぶ．例えば $\mTupleWith{\mZSet,+,\mZeroNumber,\mZeroNumber}$ はモノイドであるし，$\mTupleWith{\mZSet,*,\mOneNumber,\mOneNumber}$, $\mTupleWith{\mBSet,\mLogicalOr,\mFalse,\mFalse}$, $\mTupleWith{\mBSet,\mLogicalAnd,\mTrue,\mTrue}$ もモノイドである．これらのモノイドは全て左単位元と右単位元が同じなので，それぞれ $\mTupleWith{\mZSet,+,\mZeroNumber}$, $\mTupleWith{\mZSet,*,\mOneNumber}$, $\mTupleWith{\mBSet,\mLogicalOr,\mFalse}$, $\mTupleWith{\mBSet,\mLogicalAnd,\mTrue}$ とも書く．
+組み合わせ $\mTupleWith{\mASet,\mPlus,\mZeroLeft,\mZeroRight}$ のことを\keyword{モノイド}または\keyword{単位的半群}と呼ぶ．例えば $\mTupleWith{\mZSet,+,\hConstant{0},\hConstant{0}}$ はモノイドであるし，$\mTupleWith{\mZSet,*,\hConstant{1},\hConstant{1}}$, $\mTupleWith{\mBSet,\mLogicalOr,\hFalse,\hFalse}$, $\mTupleWith{\mBSet,\mLogicalAnd,\hTrue,\hTrue}$ もモノイドである．これらのモノイドは全て左単位元と右単位元が同じなので，それぞれ $\mTupleWith{\mZSet,+,\hConstant{0}}$, $\mTupleWith{\mZSet,*,\hConstant{1}}$, $\mTupleWith{\mBSet,\mLogicalOr,\hFalse}$, $\mTupleWith{\mBSet,\mLogicalAnd,\hTrue}$ とも書く．
 
 このように，数学者は数の性質を抽象化し，集合とその集合に対する演算というものの見方をよく行う．プログラミングの言葉で言えば，複数のクラスに共通のインタフェースを定義するようなものである．
 
@@ -1568,17 +1069,17 @@ $\mFromIntegral$ は
 \begin{center}
 \begin{tabular}{||c||c|c||}
 \hline 型&演算子&単位元\\\hline\hline
-$\mBoolType$ &$\vee$&$\mFalse$\\\hline
-$\mBoolType$ &$\wedge$ &$\mTrue$\\\hline\hline
-$\mIntType$ &$+$ &$\mZeroNumber$\\\hline
-$\mIntType$ &$*$ &$\mOneNumber$\\\hline\hline
-$\mFloatType$ &$+$ &$\mZeroNumber$\\\hline
-$\mFloatType$ &$*$ &$\mOneNumber$\\\hline
+$\mBoolType$ &$\vee$&$\hFalse$\\\hline
+$\mBoolType$ &$\wedge$ &$\hTrue$\\\hline\hline
+$\mIntType$ &$+$ &$\hConstant{0}$\\\hline
+$\mIntType$ &$*$ &$\hConstant{1}$\\\hline\hline
+$\mFloatType$ &$+$ &$\hConstant{0}$\\\hline
+$\mFloatType$ &$*$ &$\hConstant{1}$\\\hline
 \end{tabular}
 \end{center}
 \end{table}
 
-組み合わせ $(\mIntType,+,\mZeroNumber)$ はモノイドである．同様に $(\mIntType,*,\mOneNumber)$, $(\mFloatType,+,\mZeroNumber)$, $(\mFloatType,*,\mOneNumber)$, $(\mBoolType,\mLogicalOr,\mFalse)$, $(\mBoolType,\mLogicalAnd,\mTrue)$ もモノイドである．
+組み合わせ $(\mIntType,+,\hConstant{0})$ はモノイドである．同様に $(\mIntType,*,\hConstant{1})$, $(\mFloatType,+,\hConstant{0})$, $(\mFloatType,*,\hConstant{1})$, $(\mBoolType,\mLogicalOr,\hFalse)$, $(\mBoolType,\mLogicalAnd,\hTrue)$ もモノイドである．
 
 % そこで，任意の型 $\mA $ について，組み合わせ $\mTupleWith{\mA ,\mPlus,\mZero}$ がモノイドである場合には
 % \begin{equation}
@@ -1620,7 +1121,7 @@ ls = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 \end{pythoncode}
 のように定義できる．
 
-我々も $\mZeroNumber$ から始まり $\mNineNumber$ まで続く整数のリストを $[\mOneNumber,\mTwoNumber,\mThreeNumber,\mFourNumber,\mFiveNumber,\mSixNumber,\mSevenNumber,\mEightNumber,\mNineNumber]$ と書くことにしよう．ただし，これでは冗長なので\keyword{等差数列}に限って簡略化した書き方を許す．例えば $\mZeroNumber$ から $\mNineNumber$ までのリストは $[\mZeroNumber,\mOneNumber\dotsb\mNineNumber]$ と書いても良い．\footnote{\haskell では \code{[0, 1..9]} と書く．ピリオドの数に注意しよう．}
+我々も $\hConstant{0}$ から始まり $\mNineNumber$ まで続く整数のリストを $[\hConstant{1},\mTwoNumber,\mThreeNumber,\mFourNumber,\mFiveNumber,\mSixNumber,\mSevenNumber,\mEightNumber,\mNineNumber]$ と書くことにしよう．ただし，これでは冗長なので\keyword{等差数列}に限って簡略化した書き方を許す．例えば $\hConstant{0}$ から $\mNineNumber$ までのリストは $[\hConstant{0},\hConstant{1}\dotsb\mNineNumber]$ と書いても良い．\footnote{\haskell では \code{[0, 1..9]} と書く．ピリオドの数に注意しよう．}
 
 リストの中身の一つ一つの値のことを\keyword{要素}と呼ぶ．要素のことは元と呼んでも良いが，本書では要素と呼ぶことにする．要素も元も英語のelementの和訳である．
 
@@ -1629,13 +1130,13 @@ ls = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 今後，リストを指す変数は，リストであることを忘れないように変数名にsをつけて
 \begin{equation}
   \mList{x}
-  =[\mZeroNumber,\mOneNumber\dotsb\mNineNumber]
+  =[\hConstant{0},\hConstant{1}\dotsb\mNineNumber]
 \end{equation}
-のように書くことにしよう．なお，変数 $\mXVar$ とリスト変数 $\mList{x}$ は異なる変数であるとする．\footnote{\haskell では \code{s} を変数名にくっつけて \code{xs = [0, 1..9]} のように書く習慣がある．}
+のように書くことにしよう．なお，変数 $\hVar{x}$ とリスト変数 $\mList{x}$ は異なる変数であるとする．\footnote{\haskell では \code{s} を変数名にくっつけて \code{xs = [0, 1..9]} のように書く習慣がある．}
 
 \separator
 
-\python ではリスト内包表記が使える．例えば $\mZeroNumber$ から $\mNineNumber$ までの倍数のリストは次のように作った．
+\python ではリスト内包表記が使える．例えば $\hConstant{0}$ から $\mNineNumber$ までの倍数のリストは次のように作った．
 \begin{pythoncode}
 \begin{verbatim}
 ls = [x*2 for x in range(0, 10)]
@@ -1646,23 +1147,23 @@ ls = [x*2 for x in range(0, 10)]
 我々も内包表記を
 \begin{equation}
   \mList{x}
-  =[\mXVar*\mTwoNumber\mListComp\mXVar\mFrom[\mZeroNumber,\mOneNumber\dotsb\mNineNumber]]
+  =[\hVar{x}*\mTwoNumber\mListComp\hVar{x}\mFrom[\hConstant{0},\hConstant{1}\dotsb\mNineNumber]]
 \end{equation}
-のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mFrom$を用いた．\footnote{\haskell では $\mList{x}=[\mXVar*2\mListComp\mXVar\mFrom[\mZeroNumber,\mOneNumber\dotsb\mNineNumber]]$ を \code{xs = [x*2 | x<-[0,1..9]]} と書く．}
+のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mFrom$を用いた．\footnote{\haskell では $\mList{x}=[\hVar{x}*2\mListComp\hVar{x}\mFrom[\hConstant{0},\hConstant{1}\dotsb\mNineNumber]]$ を \code{xs = [x*2 | x<-[0,1..9]]} と書く．}
 
 内包表記の式は複数あっても良い．例えば
 \begin{equation}
   \mList{x}
-  =[\mXVar+\mYVar\mListComp\mXVar\mFrom[\mZeroNumber,\mOneNumber\dotsb\mNineNumber],\,\mYVar\mFrom[\mZeroNumber,\mOneNumber\dotsb\mFiveNumber],\,\mXVar+\mYVar>\mThreeNumber]
+  =[\hVar{x}+\hVar{y}\mListComp\hVar{x}\mFrom[\hConstant{0},\hConstant{1}\dotsb\mNineNumber],\,\hVar{y}\mFrom[\hConstant{0},\hConstant{1}\dotsb\mFiveNumber],\,\hVar{x}+\hVar{y}>\mThreeNumber]
 \end{equation}
-は $\mZeroNumber\le\mXVar\le\mNineNumber$ かつ $\mZeroNumber\le\mYVar\le\mFiveNumber$ の範囲で $\mXVar+\mYVar>\mThreeNumber$となる $\mXVar$ 及び $\mYVar$ から $\mXVar+\mYVar$ を並べたリストである．これは\python でいう
+は $\hConstant{0}\le\hVar{x}\le\mNineNumber$ かつ $\hConstant{0}\le\hVar{y}\le\mFiveNumber$ の範囲で $\hVar{x}+\hVar{y}>\mThreeNumber$となる $\hVar{x}$ 及び $\hVar{y}$ から $\hVar{x}+\hVar{y}$ を並べたリストである．これは\python でいう
 \begin{pythoncode}
 \begin{verbatim}
 ls = [x+y for x in range(0, 10) for y in range(0, 6) \
   if x+y > 3]
 \end{verbatim}
 \end{pythoncode}
-のことである．\footnote{\haskell では \code{xs = [x+y | x<-[\mZeroNumber,\mOneNumber..9], y<-[\mZeroNumber,\mOneNumber..5], x+y>\mThreeNumber]} と書く．}
+のことである．\footnote{\haskell では \code{xs = [x+y | x<-[\hConstant{0},\hConstant{1}..9], y<-[\hConstant{0},\hConstant{1}..5], x+y>\mThreeNumber]} と書く．}
 
 % ...もっと内包表記．
 
@@ -1675,14 +1176,14 @@ ls = [x+y for x in range(0, 10) for y in range(0, 6) \
 \end{equation}
 とする．この等式の両辺は変数ではなく型名であることに注意しよう．型コンストラクタの概念は\python には無い（必要無い）が，静的型付け言語である\cxx の「クラステンプレート」が相当する．\footnote{\haskell では表記上コンテナ型 $[\mA]$ と型コンストラクタ式$\mListTypeConstructor\,\mA $ を区別せず両者とも \code{[a]} と書くが，右辺は \code{[] a} とも書ける．}
 
-$[\mXVar]$ のように $\mA$ 型の変数 $\mXVar$ を入れた$[\mA]$ 型の変数を作る演算子を\keyword{リスト値コンストラクタ}と呼ぶ．$[\mA]$ 型の変数のことを\keyword{リスト変数}とも呼ぶ．$\mA$ 型の変数 $\mXVar$ からリスト値コンストラクタを使ってリスト$\mList{x}$ を作ることは
+$[\hVar{x}]$ のように $\mA$ 型の変数 $\hVar{x}$ を入れた$[\mA]$ 型の変数を作る演算子を\keyword{リスト値コンストラクタ}と呼ぶ．$[\mA]$ 型の変数のことを\keyword{リスト変数}とも呼ぶ．$\mA$ 型の変数 $\hVar{x}$ からリスト値コンストラクタを使ってリスト$\mList{x}$ を作ることは
 \begin{equation}
   \mList{x}
-  =[\mXVar]
+  =[\hVar{x}]
 \end{equation}
 と書く．\footnote{\haskell では \code{xs = [x]} と書く．}
 
-リスト型を表す $[\mA]$ と，1要素のリストである $[\mXVar]$ の違いにはいつも気をつけておこう．本書では中身がボールドローマン体ならばリスト型，中身がイタリック体ならリスト値である．
+リスト型を表す $[\mA]$ と，1要素のリストである $[\hVar{x}]$ の違いにはいつも気をつけておこう．本書では中身がボールドローマン体ならばリスト型，中身がイタリック体ならリスト値である．
 
 ある型を包み込んだ別の型を一般に\keyword{コンテナ型}または単に\keyword{コンテナ}と呼ぶ．コンテナ型の変数を\keyword{コンテナ変数}と呼ぶ．コンテナ型は多相型の一種である．
 
@@ -1710,7 +1211,7 @@ $\mList{y}$ を結合したリストは
 \begin{equation}
   \mNull\mList{x}
 \end{equation}
-は $\mTrue$ を，そうでなければ $\mFalse$ を返す．
+は $\hTrue$ を，そうでなければ $\hFalse$ を返す．
 
 \separator
 
@@ -1718,7 +1219,7 @@ $\mList{y}$ を結合したリストは
 $\mList{n}$ は
 \begin{equation*}
   \mList{n}
-  =[\mOneNumber,\mTwoNumber\dotsb]
+  =[\hConstant{1},\mTwoNumber\dotsb]
 \end{equation*}
 と書くことができる．\footnote{\haskell では$\mList{n}=[1,2\dots]$ を \code{ns = [1, 2..]} と書く．}
 
@@ -1729,7 +1230,7 @@ $\mList{n}$ は
   \mList{x}
   =\mTake\,\mFiveNumber\,\mList{n}
 \end{equation*}
-とすると，リスト $\mList{x}$ は $\mList{x}=[\mOneNumber,\mTwoNumber\dotsb\mFiveNumber]$ という値を持つ．\footnote{\haskell では \code{xs = take 5 ns} と書く．}
+とすると，リスト $\mList{x}$ は $\mList{x}=[\hConstant{1},\mTwoNumber\dotsb\mFiveNumber]$ という値を持つ．\footnote{\haskell では \code{xs = take 5 ns} と書く．}
 
 関数 $\mTake$ の型は
 \begin{equation}
@@ -1749,15 +1250,15 @@ $\mList{n}$ は
 \section{畳み込み}
 \label{sec:convolution}
 
-我々はよくリストの総和を表現するために総和演算子 $(\sum)$ を使う．総和演算子とはリスト $[\mXVar_0,\mXVar_1\dotsb\mXVar_n]$ に対して
+我々はよくリストの総和を表現するために総和演算子 $(\sum)$ を使う．総和演算子とはリスト $[\hVar{x}_0,\hVar{x}_1\dotsb\hVar{x}_n]$ に対して
 \begin{equation}
-  \sum[\mXVar_0,\mXVar_1\dotsb \mXVar_n]
-  =\mXVar_0+\mXVar_1+\dotsb+\mXVar_n
+  \sum[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]
+  =\hVar{x}_0+\hVar{x}_1+\dotsb+\hVar{x}_n
 \end{equation}
-で定義される演算子である．この表現を一般化してみよう．リスト $[\mXVar_0,\mXVar_1\dotsb \mXVar_n]$ が与えられたとき，任意の二項演算子を $\mBinOp$ として
+で定義される演算子である．この表現を一般化してみよう．リスト $[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]$ が与えられたとき，任意の二項演算子を $\mBinOp$ として
 \begin{equation}
-  \mFold^{\mBinOp}_a[\mXVar_0,\mXVar_1\dotsb \mXVar_n]
-  =a\mBinOp \mXVar_0\mBinOp \mXVar_1\mBinOp\dotsb\mBinOp \mXVar_n
+  \mFold^{\mBinOp}_a[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]
+  =a\mBinOp \hVar{x}_0\mBinOp \hVar{x}_1\mBinOp\dotsb\mBinOp \hVar{x}_n
 \end{equation}
 であると定義する．
 
@@ -1784,19 +1285,19 @@ s = ls.inject(0) { |x, y| x+y }
 リストの総和をとる演算子 $\sum$ は
 \begin{equation}
   \sum\mList{x}
-  =\mFold^+_\mZeroNumber\mList{x}
+  =\mFold^+_{\hConstant{0}}\mList{x}
 \end{equation}
 とすれば得られる．この式は両辺の $\mList{x}$ を省略して
 \begin{equation}
   \sum
-  =\mFold^+_\mZeroNumber
+  =\mFold^+_{\hConstant{0}}
 \end{equation}
 とも書く．このように，ラムダ式を使わずに引数を省略してしまう書き方を\keyword{ポイントフリースタイル}と呼ぶ．ポイントフリースタイルは今後も頻出するので，是非慣れておいてもらいたい．\footnote{\haskell はポイントフリースタイルをサポートする．}
 
 リストの要素のすべての積をとる演算子 $\prod$ は
 \begin{equation}
   \prod
-  =\mFold^*_\mOneNumber
+  =\mFold^*_{\hConstant{1}}
 \end{equation}
 とすれば得られる．
 
@@ -1814,8 +1315,8 @@ s = ls.inject(0) { |x, y| x+y }
 
 畳み込み演算子には次のようなもう一つのバリエーションがある．
 \begin{equation}
-  \mFoldRight^{\mBinOp}_\mAVar[\mXVar_0,\mXVar_1\dotsb \mXVar_n]
-  =(\mXVar_0\mBinOp(\mXVar_1\mBinOp\dotsb\mBinOp(\mXVar_n\mBinOp\mAVar)))
+  \mFoldRight^{\mBinOp}_\mAVar[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]
+  =(\hVar{x}_0\mBinOp(\hVar{x}_1\mBinOp\dotsb\mBinOp(\hVar{x}_n\mBinOp\mAVar)))
 \end{equation}
 これは\keyword{右畳み込み}と呼ばれる演算子である．\footnote{\haskell では $\mFoldRight^{*}_\mAVar\mList{x}$ を \code{foldr (*) xs a} と書く．引数の順序に注意しよう．}
 
@@ -1823,8 +1324,8 @@ s = ls.inject(0) { |x, y| x+y }
 
 畳み込み演算子の面白い応用例を示そう．リストの結合演算子 $(\mAppend)$ を使うと
 \begin{equation}
-  \mFold_\mEmptyList^{\mAppend}[[\mZeroNumber,\mOneNumber,\mTwoNumber],[\mThreeNumber,\mFourNumber,\mFiveNumber]\dotsb]
-  =[\mZeroNumber,\mOneNumber,\mTwoNumber,\mThreeNumber,\mFourNumber,\mFiveNumber\dotsb]
+  \mFold_\mEmptyList^{\mAppend}[[\hConstant{0},\hConstant{1},\mTwoNumber],[\mThreeNumber,\mFourNumber,\mFiveNumber]\dotsb]
+  =[\hConstant{0},\hConstant{1},\mTwoNumber,\mThreeNumber,\mFourNumber,\mFiveNumber\dotsb]
 \end{equation}
 であるから，演算子 $\mFold_\mEmptyList^{\mAppend}$ はリストを平坦化する\keyword{平坦化演算子}である．平坦化演算子はconcat演算子とも呼ばれることもあるが，基本的な演算子であるため特別な記号をつけておこう．我々は
 \begin{equation}
@@ -1852,12 +1353,12 @@ ms = map(f, ls)
 \end{pythoncode}
 とすると，結果として \code{ms} には \code{[101, 102, 103, 104, 105]} が入る．
 
-このように引数として関数 $\mFFunc$ とリスト $[\mXVar_0,\mXVar_1\dotsb \mXVar_n]$ を取り，戻り値として $[\mFFunc\mXVar_0,\mFFunc\mXVar_1\dotsb \mFFunc\mXVar_n]$ を返す演算子 $\mMapList$ を考えよう．このとき
+このように引数として関数 $\hFunc{f}$ とリスト $[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]$ を取り，戻り値として $[\hFunc{f}\hVar{x}_0,\hFunc{f}\hVar{x}_1\dotsb \hFunc{f}\hVar{x}_n]$ を返す演算子 $\mMapList$ を考えよう．このとき
 \begin{equation}
-  \mFFunc\mMapList[\mXVar_0,\mXVar_1\dotsb \mXVar_n]
-  =[\mFFunc\mXVar_0,\mFFunc\mXVar_1\dotsb \mFFunc\mXVar_n]
+  \hFunc{f}\mMapList[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]
+  =[\hFunc{f}\hVar{x}_0,\hFunc{f}\hVar{x}_1\dotsb \hFunc{f}\hVar{x}_n]
 \end{equation}
-であると定義する．この演算子 $\mMapList$ をリストの\keyword{マップ演算子}と呼ぶ．\footnote{\haskell では $\mFFunc\mMapList\mList{x}$ を\code{map f xs} または \code{f <\$> xs} と書く．ただし演算子 \code{<\$>} は \code{fmap} 演算子の中置バージョンである．}
+であると定義する．この演算子 $\mMapList$ をリストの\keyword{マップ演算子}と呼ぶ．\footnote{\haskell では $\hFunc{f}\mMapList\mList{x}$ を\code{map f xs} または \code{f <\$> xs} と書く．ただし演算子 \code{<\$>} は \code{fmap} 演算子の中置バージョンである．}
 
 リストのマップ演算子の型は
 \begin{equation}
@@ -1872,17 +1373,17 @@ ms = map(f, ls)
 の意味でもある．念のため上式に注釈を加えると
 \begin{equation}
   \mMapList
-  \mIn\underbrace{\left(\mA\mFuncArrow\mB\right)}_\mFFunc
-  \mFuncArrow\left(\underbrace{[\mA]}_{[\mXVar_0,\mXVar_1\dotsb \mXVar_n]}
-  \mFuncArrow\underbrace{[\mB]}_{[\mFFunc\mXVar_0,\mFFunc\mXVar_1\dotsb \mFFunc\mXVar_n]}\right)
+  \mIn\underbrace{\left(\mA\mFuncArrow\mB\right)}_{\hFunc{f}}
+  \mFuncArrow\left(\underbrace{[\mA]}_{[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]}
+  \mFuncArrow\underbrace{[\mB]}_{[\hFunc{f}\hVar{x}_0,\hFunc{f}\hVar{x}_1\dotsb \hFunc{f}\hVar{x}_n]}\right)
 \end{equation}
 である．
 
-ここで $\mFFunc$ と $\mFFunc\mMapList$ の型を並べてみると
+ここで $\hFunc{f}$ と $\hFunc{f}\mMapList$ の型を並べてみると
 \begin{align}
-  \mFFunc
+  \hFunc{f}
   &\mIn\mA\mFuncArrow\mB\\
-  \mFFunc\mMapList
+  \hFunc{f}\mMapList
   &\mIn{}[\mA]\mFuncArrow[\mB]
 \end{align}
 となり，マップ演算子が何をしているのか一目瞭然になる．
@@ -1891,12 +1392,12 @@ ms = map(f, ls)
 
 具体例を見てみよう．先程の\python コードの例にあわせて
 \begin{align}
-  \mFFunc
-  &=\mLambda\mXVar\mLambdaArrow\mConstant{100}+\mXVar\\
+  \hFunc{f}
+  &=\mLambda\hVar{x}\mLambdaArrow\mConstant{100}+\hVar{x}\\
   \mList{x}
-  &=[\mOneNumber\dotsb\mFiveNumber]\\
+  &=[\hConstant{1}\dotsb\mFiveNumber]\\
   \mList{y}
-  &=\mFFunc\mMapList\mList{x}
+  &=\hFunc{f}\mMapList\mList{x}
 \end{align}
 とすると $\mList{y}$ の値は $[\mConstant{101},\mConstant{102},\mConstant{103},\mConstant{104},\mConstant{105}]$ となる．
 
@@ -1912,21 +1413,21 @@ ms = map(f, ls)
 
 要素 $\mRestVar$ はリストまたは空リストであるから，一般にリストは次のように展開できることになる．
 \begin{align}
-  [\mXVar_0,\mXVar_1,\mXVar_2\dotsb \mXVar_n]
-  &=\mXVar_0:[\mXVar_1,\mXVar_2\dotsb \mXVar_n]\\
-  &=\mXVar_0:\mXVar_1:[\mXVar_2\dotsb \mXVar_n]\\
-  &=\mXVar_0:\mXVar_1:\mXVar_2:\dotsb:\mXVar_n:\mEmptyList
+  [\hVar{x}_0,\hVar{x}_1,\hVar{x}_2\dotsb \hVar{x}_n]
+  &=\hVar{x}_0:[\hVar{x}_1,\hVar{x}_2\dotsb \hVar{x}_n]\\
+  &=\hVar{x}_0:\hVar{x}_1:[\hVar{x}_2\dotsb \hVar{x}_n]\\
+  &=\hVar{x}_0:\hVar{x}_1:\hVar{x}_2:\dotsb:\hVar{x}_n:\mEmptyList
 \end{align}
-cons演算子 $(:)$ は右結合する．すなわち $\mXVar_0:\mXVar_1:\mXVar_2=\mXVar_0:(\mXVar_1:\mXVar_2)$ である．
+cons演算子 $(:)$ は右結合する．すなわち $\hVar{x}_0:\hVar{x}_1:\hVar{x}_2=\hVar{x}_0:(\hVar{x}_1:\hVar{x}_2)$ である．
 
-マップ演算子の実装は，リストの実装に踏み込めば簡単である．空でないリストは必ず $\mXVar:\mList{x}$ へと分解できるから
+マップ演算子の実装は，リストの実装に踏み込めば簡単である．空でないリストは必ず $\hVar{x}:\mList{x}$ へと分解できるから
 \begin{equation}
   \left\{
   \begin{aligned}
-    \mFFunc\mMapList\mEmptyList
+    \hFunc{f}\mMapList\mEmptyList
     &=\mEmptyList\\
-    \mFFunc\mMapList{}(\mXVar:\mList{x})
-    &=(\mFFunc\mXVar):(\mFFunc\mMapList\mList{x})
+    \hFunc{f}\mMapList{}(\hVar{x}:\mList{x})
+    &=(\hFunc{f}\hVar{x}):(\hFunc{f}\mMapList\mList{x})
   \end{aligned}
   \right.
 \end{equation}
@@ -1947,35 +1448,35 @@ cons演算子 $(:)$ は右結合する．すなわち $\mXVar_0:\mXVar_1:\mXVar_
 
 リストを引数にとる関数はいつでも
 \begin{equation}
-  f(\mXVar:\mList{x})
+  f(\hVar{x}:\mList{x})
   =\dotsb
 \end{equation}
-という風にパタンマッチを行えるが，式の右辺でリスト全体すなわち $(\mXVar:\mList{x})$ を参照したい場合もあるであろう．そのような場合は
+という風にパタンマッチを行えるが，式の右辺でリスト全体すなわち $(\hVar{x}:\mList{x})$ を参照したい場合もあるであろう．そのような場合は
 \begin{equation}
-  \mFFunc\mAs{\mXVar:\mList{x}}{\mList{a}}%\overbrace{(\mXVar:\mList{x})}^{\mList{a}}
+  \hFunc{f}\mAs{\hVar{x}:\mList{x}}{\mList{a}}%\overbrace{(\hVar{x}:\mList{x})}^{\mList{a}}
   =\dotsb
 \end{equation}
-として，変数 $\mList{a}$ でリスト全体を参照することも可能である．このような記法を\keyword{asパタン}と呼ぶ．\footnote{\haskell では $\mFFunc\mAs{\mXVar:\mList{x}}{\mList{a}}$ を \code{f as@(x:xs)} と書く．}
+として，変数 $\mList{a}$ でリスト全体を参照することも可能である．このような記法を\keyword{asパタン}と呼ぶ．\footnote{\haskell では $\hFunc{f}\mAs{\hVar{x}:\mList{x}}{\mList{a}}$ を \code{f as@(x:xs)} と書く．}
 
 \section{この章のまとめ}
 
 \begin{enumerate}
-\item 配列はリストである．配列は $[\mXVar_0,\mXVar_1,\mXVar_2]$ のように表記する．
-\item 等差数列の配列は $[\mZeroNumber,\mOneNumber\dotsb10]$ のように途中を $\dotsb$ で省略できる．
-\item 配列は無限長であってもよい．無限長配列は $[\mZeroNumber,\mOneNumber\dotsb]$ のように表記する．
+\item 配列はリストである．配列は $[\hVar{x}_0,\hVar{x}_1,\hVar{x}_2]$ のように表記する．
+\item 等差数列の配列は $[\hConstant{0},\hConstant{1}\dotsb10]$ のように途中を $\dotsb$ で省略できる．
+\item 配列は無限長であってもよい．無限長配列は $[\hConstant{0},\hConstant{1}\dotsb]$ のように表記する．
 \item 1要素のリストは $[x]$ のように表記する．この括弧をリスト値コンス
   トラクタと呼ぶ．
 \item 空リストは $\mEmptyList$ と表す．
 \item $\mA $型のリストを $[\mA]$ 型で表す．
 \item リスト型コンストラクタ$\mListTypeConstructor$ は型パラメタ $\mA$ に作用して$[\mA]$ を生成する．
-\item リストは先頭要素と続くリストから定義される．先頭要素を $\mXVar$ とし，続くリストを $\mList{x}$ とすると$\mXVar:\mList{x}$ はリストである．ここに演算子 $:$ は結合(cons)演算子である．
+\item リストは先頭要素と続くリストから定義される．先頭要素を $\hVar{x}$ とし，続くリストを $\mList{x}$ とすると$\hVar{x}:\mList{x}$ はリストである．ここに演算子 $:$ は結合(cons)演算子である．
 \item リストはリスト結合(append)できる．リスト $\mList{y}$ とリスト $\mList{z}$ のリスト結合は $\mList{y}\mAppend\mList{z}$ である．
-\item 左畳み込み演算子$\mFold^{\mBinOp}_a[\mXVar_0,\mXVar_1\dotsb \mXVar_n]$ は $a\mBinOp \mXVar_0\mBinOp \mXVar_1\mBinOp\dotsb\mBinOp \mXVar_n$ を返す．
-\item 右畳み込み演算子 $\mFoldRight^{\mBinOp}_{a}[\mXVar_0,\mXVar_1\dotsb \mXVar_n]$ は$(\mXVar_0\mBinOp(\mXVar_1\mBinOp\dotsb\mBinOp(\mXVar_n\mBinOp a)))$ を返す．
+\item 左畳み込み演算子$\mFold^{\mBinOp}_a[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]$ は $a\mBinOp \hVar{x}_0\mBinOp \hVar{x}_1\mBinOp\dotsb\mBinOp \hVar{x}_n$ を返す．
+\item 右畳み込み演算子 $\mFoldRight^{\mBinOp}_{a}[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]$ は$(\hVar{x}_0\mBinOp(\hVar{x}_1\mBinOp\dotsb\mBinOp(\hVar{x}_n\mBinOp a)))$ を返す．
 \item 平坦化演算子 $\mJoinList=\mFold_\mEmptyList^{\mAppend}$ はリストを平坦化する．
-\item 関数 $\mFFunc\mIn\mProjEXP{\mA }{\mA }$ はマップ演算子 $\mMapList$ を用いて $\mFFunc\mMapList[\mXVar_0,\mXVar_1\dotsb \mXVar_n]=[\mFFunc\mXVar_0,\mFFunc\mXVar_1\dotsb \mFFunc\mXVar_n]$ のようにリスト$[\mXVar_0,\mXVar_1\dotsb \mXVar_n]$ に適用できる．
+\item 関数 $\hFunc{f}\mIn\mProjEXP{\mA }{\mA }$ はマップ演算子 $\mMapList$ を用いて $\hFunc{f}\mMapList[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]=[\hFunc{f}\hVar{x}_0,\hFunc{f}\hVar{x}_1\dotsb \hFunc{f}\hVar{x}_n]$ のようにリスト$[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]$ に適用できる．
 \item マップ演算子$\mMapList$ の型は$\mProjEXP{(\mProjEXP{\mA }{\mB})}{\mProjEXP{\mA }{\mB }}$である．
-\item $\mHead(\mXVar:\mList{x})=x,\mTail(\mXVar:\mList{x})=\mList{x}$である．
+\item $\mHead(\hVar{x}:\mList{x})=x,\mTail(\hVar{x}:\mList{x})=\mList{x}$である．
 \end{enumerate}
 
 % 型パラメタの話はどこが初出？
@@ -1989,15 +1490,15 @@ cons演算子 $(:)$ は右結合する．すなわち $\mXVar_0:\mXVar_1:\mXVar_
 
 \section{関数の再帰適用}
 
-関数は内部で自分自身を適用しても良い．例えば $\mXVar$ の階乗 $(\mXVar!)$ を返す関数 $\mFact$ は
+関数は内部で自分自身を適用しても良い．例えば $\hVar{x}$ の階乗 $(\hVar{x}!)$ を返す関数 $\mFact$ は
 \begin{equation}
-  \mFact\mXVar
-  =\mCaseOf{\mXVar}
+  \mFact\hVar{x}
+  =\hCaseSyntax{\hVar{x}}
   \begin{cases}
-    \mZeroNumber
-    &\mIfSo\mOneNumber\\
+    \hConstant{0}
+    &\hIfSo\hConstant{1}\\
     \_
-    &\mIfSo\mXVar*\mFact(\mXVar-\mOneNumber)
+    &\hIfSo\hVar{x}*\mFact(\hVar{x}-\hConstant{1})
   \end{cases}
 \end{equation}
 と定義できる．関数が自分自身を適用することを関数の\keyword{再帰適用}と呼ぶ．\footnote{\haskell では
@@ -2017,9 +1518,9 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
   \left\{
   \begin{aligned}
     \mSum\mEmptyList
-    &=\mZeroNumber\\
-    \mSum(\mXVar:\mList{x})
-    &=\mXVar+\mSum\mList{x}
+    &=\hConstant{0}\\
+    \mSum(\hVar{x}:\mList{x})
+    &=\hVar{x}+\mSum\mList{x}
   \end{aligned}
   \right.
 \end{equation}
@@ -2036,40 +1537,40 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
 
 計算機科学者は，同じ再帰でも\keyword{末尾再帰}という再帰のスタイルを好む．末尾再帰とは，関数の再帰適用を関数定義の末尾にすることである．この章に出てきた階乗関数 $\mFact$ を例にとろう．階乗関数 $\mFact$ は
 \begin{equation}
-  \mFact\mXVar
-  =\mCaseOf{\mXVar}\begin{cases}
-    \mZeroNumber
-    &\mIfSo\mOneNumber\\
+  \mFact\hVar{x}
+  =\hCaseSyntax{\hVar{x}}\begin{cases}
+    \hConstant{0}
+    &\hIfSo\hConstant{1}\\
     \_
-    &\mIfSo\mXVar*\mFact(\mXVar-\mOneNumber)
+    &\hIfSo\hVar{x}*\mFact(\hVar{x}-\hConstant{1})
   \end{cases}
 \end{equation}
 のような形をしていた．末尾の関数をよりはっきりさせるために演算子 $(*)$ を前置にして
 \begin{equation}
-  \mFact\mXVar
-  =\mCaseOf{\mXVar}
+  \mFact\hVar{x}
+  =\hCaseSyntax{\hVar{x}}
   \begin{cases}
-    \mZeroNumber
-    &\mIfSo\mOneNumber\\
+    \hConstant{0}
+    &\hIfSo\hConstant{1}\\
     \_
-    &\mIfSo(*)\mXVar(\mFact(\mXVar-\mOneNumber))
+    &\hIfSo(*)\hVar{x}(\mFact(\hVar{x}-\hConstant{1}))
   \end{cases}
 \end{equation}
 と書いてみよう．この定義の末尾の式は
 \begin{equation}
-  (*)\mXVar(\mFact(\mXVar-\mOneNumber))
+  (*)\hVar{x}(\mFact(\hVar{x}-\hConstant{1}))
 \end{equation}
 である．これだと末尾の関数は $\mFact$ ではなく演算子 $(*)$ なので，末尾に再帰適用を行ったことにはならない．
 
 そこで，次のように形を変えた階乗関数 $\mFFact$ を考えてみる．
 \begin{equation}
-  \mFFact\mAVar\mXVar
-  =\mCaseOf{\mXVar}
+  \mFFact\mAVar\hVar{x}
+  =\hCaseSyntax{\hVar{x}}
   \begin{cases}
     0
-    &\mIfSo\mOneNumber\\
+    &\hIfSo\hConstant{1}\\
     \_
-    &\mIfSo\mFFact(\mAVar*\mXVar)(\mXVar-\mOneNumber)
+    &\hIfSo\mFFact(\mAVar*\hVar{x})(\hVar{x}-\hConstant{1})
   \end{cases}
 \end{equation}
 こうすれば末尾の関数がもとの $\mFFact$ と一致する．\footnote{\haskell では
@@ -2079,24 +1580,24 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
 \end{verbatim}
 と書く．}
 
-関数 $\mFact$ と違い関数 $\mFFact$ は引数を2個とる．関数 $\mFFact$ を使って $\mXVar$ の階乗を求める場合は $\mFFact\,\mOneNumber\,x$ と第1引数に $\mOneNumber$ を与えることにする．この第1引数 $\mAVar$ はアキュムレータという．アキュムレータが演算の途中経過を引き渡していくイメージを描けば，末尾再帰の意味が理解できる
+関数 $\mFact$ と違い関数 $\mFFact$ は引数を2個とる．関数 $\mFFact$ を使って $\hVar{x}$ の階乗を求める場合は $\mFFact\,\hConstant{1}\,x$ と第1引数に $\hConstant{1}$ を与えることにする．この第1引数 $\mAVar$ はアキュムレータという．アキュムレータが演算の途中経過を引き渡していくイメージを描けば，末尾再帰の意味が理解できる
 だろう．
 
 計算機科学者が末尾再帰を好む理由は，\haskell を含む幾つかのプログラミング言語処理系が\keyword{末尾再帰最適化}を行うからである．末尾再帰最適化とは，一言で言うと再帰を計算機が扱いやすいループに置き換えることである．では最初から我々もループで関数を表現しておけば，と思われるかもしれないが，再帰以外の方法でループを表現する場合には必ず変数（ループカウンタ）への破壊的代入が必要になるため，我々は末尾再帰に慎ましくループを隠すのである．
 
 \section{遅延評価}
 
-\haskell は，意図しない限り遅延評価を行う．これは特に左畳み込み演算子 $(\mFold)$ を使う場合に問題となる．いま $\mList{x}=[\mXVar_0,\mXVar_1,\mXVar_2,\mXVar_3]$ とすると，左畳み込み演算 $\mFold^+_\mZeroNumber\mList{x}$ は
+\haskell は，意図しない限り遅延評価を行う．これは特に左畳み込み演算子 $(\mFold)$ を使う場合に問題となる．いま $\mList{x}=[\hVar{x}_0,\hVar{x}_1,\hVar{x}_2,\hVar{x}_3]$ とすると，左畳み込み演算 $\mFold^+_{\hConstant{0}}\mList{x}$ は
 \begin{align}
-  \mFold^+_\mZeroNumber\mList{x}
-  &=\mFold^+_\mZeroNumber{}(\mXVar_0:\mXVar_1:\mXVar_2:\mEmptyList)\\
-  &=\mFold^+_{\mZeroNumber+\mXVar_0}{}(\mXVar_1:\mXVar_2:\mXVar_3:\mEmptyList)\\
-  &=\mFold^+_{(\mZeroNumber+\mXVar_0)+\mXVar_1}{}(\mXVar_2:\mXVar_3:\mEmptyList)\\
-  &=\mFold^+_{((\mZeroNumber+\mXVar_0)+\mXVar_1)+\mXVar_2}{}(\mXVar_3:\mEmptyList)\\
-  &=\mFold^+_{(((\mZeroNumber+\mXVar_0)+\mXVar_1)+\mXVar_2)+\mXVar_3}{}\mEmptyList\\
-  &=(((\mZeroNumber+\mXVar_0)+\mXVar_1)+\mXVar_2)+\mXVar_3
+  \mFold^+_{\hConstant{0}}\mList{x}
+  &=\mFold^+_{\hConstant{0}}{}(\hVar{x}_0:\hVar{x}_1:\hVar{x}_2:\mEmptyList)\\
+  &=\mFold^+_{\hConstant{0}+\hVar{x}_0}{}(\hVar{x}_1:\hVar{x}_2:\hVar{x}_3:\mEmptyList)\\
+  &=\mFold^+_{(\hConstant{0}+\hVar{x}_0)+\hVar{x}_1}{}(\hVar{x}_2:\hVar{x}_3:\mEmptyList)\\
+  &=\mFold^+_{((\hConstant{0}+\hVar{x}_0)+\hVar{x}_1)+\hVar{x}_2}{}(\hVar{x}_3:\mEmptyList)\\
+  &=\mFold^+_{(((\hConstant{0}+\hVar{x}_0)+\hVar{x}_1)+\hVar{x}_2)+\hVar{x}_3}{}\mEmptyList\\
+  &=(((\hConstant{0}+\hVar{x}_0)+\hVar{x}_1)+\hVar{x}_2)+\hVar{x}_3
 \end{align}
-と展開される．遅延評価のために，\haskell 処理系は値ではなく式をメモリにストアしなければならないが，左畳み込み演算は大きなメモリを必要としがちである．もし例えば予め $\mZeroNumber+\mXVar_0$ を先に計算しておくなど左畳み込みだけ先に評価しておけば，大いにメモリの節約になる．そのために\haskell は「遅延評価無し」の左畳み込み演算子を用意している．\footnote{「遅延評価無し」の左畳み込み演算子を\haskell では \code{foldl'} と書く．}
+と展開される．遅延評価のために，\haskell 処理系は値ではなく式をメモリにストアしなければならないが，左畳み込み演算は大きなメモリを必要としがちである．もし例えば予め $\hConstant{0}+\hVar{x}_0$ を先に計算しておくなど左畳み込みだけ先に評価しておけば，大いにメモリの節約になる．そのために\haskell は「遅延評価無し」の左畳み込み演算子を用意している．\footnote{「遅延評価無し」の左畳み込み演算子を\haskell では \code{foldl'} と書く．}
 
 % \haskell には言語拡張として，\keyword{アンボックス化タプル}という機能がある．
 %
@@ -2109,19 +1610,19 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
 \begin{align}
   \mAVar
   &=\mConstant{100}\\
-  \mFFunc
-  &=\mAVar+\mAnonParam
+  \hFunc{f}
+  &=\mAVar+\hAnonParam
 \end{align}
-というラムダ式があるとする．当然我々は関数 $\mFFunc$ がいつも $\mFFunc=\mConstant{100}+\mAnonParam$ であることを期待するし，\haskell においてはいつも保証される．\footnote{\haskell では
+というラムダ式があるとする．当然我々は関数 $\hFunc{f}$ がいつも $\hFunc{f}=\mConstant{100}+\hAnonParam$ であることを期待するし，\haskell においてはいつも保証される．\footnote{\haskell では
 \begin{verbatim}
   a = 100
   f = \x -> a+x
 \end{verbatim}
 と書く．}
 
-ところが，参照透過性のない言語，言い換えると変数への破壊的代入が許されている言語では，変数 $\mAVar$ の値がいつ変わっても不思議ではない．そこで，それらの言語では関数 $\mFFunc$ が定義された時点での $\mAVar$ の値を，関数 $\mFFunc$ の定義に含めておく．これがレキシカルクロージャの考え方である．
+ところが，参照透過性のない言語，言い換えると変数への破壊的代入が許されている言語では，変数 $\mAVar$ の値がいつ変わっても不思議ではない．そこで，それらの言語では関数 $\hFunc{f}$ が定義された時点での $\mAVar$ の値を，関数 $\hFunc{f}$ の定義に含めておく．これがレキシカルクロージャの考え方である．
 
-\haskell ではそもそも変数への破壊的代入がないので，関数 $\mFFunc$ がレキシカルクロージャであるかどうか悩む必要はない．あえて言えば，\haskell ではラムダ式はいつもレキシカルクロージャである．もしあなたのそばの\cxx プログラマが「え？\haskell にはレキシカルクロージャが無いの？」などと聞いてきたら，「ええ，\haskell には破壊的代入すらありませんから」と答えておこう．
+\haskell ではそもそも変数への破壊的代入がないので，関数 $\hFunc{f}$ がレキシカルクロージャであるかどうか悩む必要はない．あえて言えば，\haskell ではラムダ式はいつもレキシカルクロージャである．もしあなたのそばの\cxx プログラマが「え？\haskell にはレキシカルクロージャが無いの？」などと聞いてきたら，「ええ，\haskell には破壊的代入すらありませんから」と答えておこう．
 
 \section{この章のまとめ}
 
@@ -2138,7 +1639,7 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
   \begin{aligned}
     \mSort\mEmptyList
     &=\mEmptyList\\
-    \mSort(\mXVar:\mList{x})
+    \mSort(\hVar{x}:\mList{x})
     &=(\mSort\mList{a})\mAppend[x]\mAppend{}(\mSort\mList{b})\\
     &\quad\mWhere\left\{\begin{aligned}
     \mList{a}&\mLetEq{}[a\mListComp a\mFrom\mList{x},a\le x]\\
@@ -2152,7 +1653,7 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
 \begin{haskellcode}
 \begin{verbatim}
 srt[] = []
-srt(\mXVar:xs) = srt as ++ [x] ++ srt bs where
+srt(\hVar{x}:xs) = srt as ++ [x] ++ srt bs where
   as = [a| a<-xs, a<=x]
   bs = [b| b<-xs, b>x]
 \end{verbatim}
@@ -2169,11 +1670,11 @@ srt(\mXVar:xs) = srt as ++ [x] ++ srt bs where
 
 \section{Possibly}
 
-計算の途中で，計算にまつわる状態を残りの計算に引き継ぎたくなる場合がある．例えば，整数 $\mXVar,\mYVar,\mZVar$ があり $\mXVar=\mYVar/\mZVar$ なる値を続く計算で利用したいとする．だが $\mZVar\equiv\mZeroNumber$ のときには $\mXVar$ は正しく計算されない．こんなときプログラマが取れる手段は
+計算の途中で，計算にまつわる状態を残りの計算に引き継ぎたくなる場合がある．例えば，整数 $\hVar{x},\hVar{y},\mZVar$ があり $\hVar{x}=\hVar{y}/\mZVar$ なる値を続く計算で利用したいとする．だが $\mZVar\hIfEq\hConstant{0}$ のときには $\hVar{x}$ は正しく計算されない．こんなときプログラマが取れる手段は
 \begin{itemize}
-\item $\mXVar=\mYVar/\mZVar$ を計算した時点で\keyword{ゼロ除算例外}を発生させ，プログラムの制御を他の場所へ移す（大域ジャンプを行う）
-\item グローバル変数にゼロ除算エラーが起こったことを記録しておき，$\mXVar$ にはとりあえずの数値，例えば $\mZeroNumber$ を代入しておいて，計算を続行させる
-\item $\mXVar$ にエラー状態を示す印を新たにつけておいて，計算を続行させる
+\item $\hVar{x}=\hVar{y}/\mZVar$ を計算した時点で\keyword{ゼロ除算例外}を発生させ，プログラムの制御を他の場所へ移す（大域ジャンプを行う）
+\item グローバル変数にゼロ除算エラーが起こったことを記録しておき，$\hVar{x}$ にはとりあえずの数値，例えば $\hConstant{0}$ を代入しておいて，計算を続行させる
+\item $\hVar{x}$ にエラー状態を示す印を新たにつけておいて，計算を続行させる
 \end{itemize}
 といったところだろう．
 
@@ -2239,9 +1740,9 @@ def map_over(f, p):
 
 もう一度振り出しに戻る．
 
-整数 $\mXVar,\mYVar,\mZVar$ があり $\mXVar=\mYVar/\mZVar$ という式があるとする．この式は $\mZVar\equiv0$ のときにはゼロ除算エラーである．しかし「例外」は内部状態の書き換えであり，我々の計算に入れたくない．そこで変数 $\mXVar$ が正しく計算されたかもしれないし，されていないかもしれないということを $\mMaybe{u}$ のように?をつけた変数に入れて，忘れないようにしておこう．
+整数 $\hVar{x},\hVar{y},\mZVar$ があり $\hVar{x}=\hVar{y}/\mZVar$ という式があるとする．この式は $\mZVar\hIfEq0$ のときにはゼロ除算エラーである．しかし「例外」は内部状態の書き換えであり，我々の計算に入れたくない．そこで変数 $\hVar{x}$ が正しく計算されたかもしれないし，されていないかもしれないということを $\mMaybe{u}$ のように?をつけた変数に入れて，忘れないようにしておこう．
 
-ここで変数 $\mMaybe{u}$ が取り得る値は正しく計算された値 $\mXVar$ をラップしたものか，あるいはエラーを表す値 $\mNothing$ である．このように計算結果に「意味付け」をすることを\keyword{文脈}に入れると言う．定数 $\mNothing$ は「ナッシング」と呼ぶ．\footnote{\haskell では $\mNothing$ を \code{Nothing} と書く．}
+ここで変数 $\mMaybe{u}$ が取り得る値は正しく計算された値 $\hVar{x}$ をラップしたものか，あるいはエラーを表す値 $\mNothing$ である．このように計算結果に「意味付け」をすることを\keyword{文脈}に入れると言う．定数 $\mNothing$ は「ナッシング」と呼ぶ．\footnote{\haskell では $\mNothing$ を \code{Nothing} と書く．}
 
 この変数 $\mMaybe{u}$ はもはや整数 $(\mIntType)$ 型とは言えない．そこでこの $\mMaybe{u}$ の型を $\mMaybeType{\mIntType}$ と表して「Maybe整数（おそらく整数）」型と呼ぶことにしよう．型 $\mA $ から型 $\mMaybeType{a}$ を生成するこには\keyword{型コンストラクタ} $\mMaybeTypeConstructor$ を用いて
 \begin{equation}
@@ -2257,31 +1758,31 @@ $\mA $ 型の変数を $\mMaybeType{a}$ 型の変数に代入するには，次�
 \end{equation}
 とする．\footnote{\haskell では $\mMaybe{u}=\mJustWith{x}$ を \code{u = Just x} と書く．Maybeを表す疑問符は省略する．}
 
-変数 $\mXVar$ が一度ゼロ除算の危険性に「汚染」された場合，その後ずっとMaybe変数に入れ続けなければいけない．そこで，普通の変数を引数にとる関数 $\mFFunc$ にMaybe変数 $\mMaybe{u}$ を食わせるには，リストの時と同じようなマップ演算子が必要になる．具体的には，変数 $\mXVar$ が $\mType{Int}$ 型として，Maybe変数 $\mMaybe{u}=\mJustWith{x}$ が与えられたとき
+変数 $\hVar{x}$ が一度ゼロ除算の危険性に「汚染」された場合，その後ずっとMaybe変数に入れ続けなければいけない．そこで，普通の変数を引数にとる関数 $\hFunc{f}$ にMaybe変数 $\mMaybe{u}$ を食わせるには，リストの時と同じようなマップ演算子が必要になる．具体的には，変数 $\hVar{x}$ が $\mType{Int}$ 型として，Maybe変数 $\mMaybe{u}=\mJustWith{x}$ が与えられたとき
 \begin{equation}
-  \mFFunc\mMapMaybe\mMaybe{u}
-  =\mJustWith{\mFFunc\mXVar}
+  \hFunc{f}\mMapMaybe\mMaybe{u}
+  =\mJustWith{\hFunc{f}\hVar{x}}
 \end{equation}
-となるようなMaybeバージョンのマップ演算子 $\mMapMaybe$ を用いる．ここに $\mFFunc\mMapMaybe\mMaybe{u}$ の型は，もし $\mFFunc\mIn\mProjEXP{\mIntType}{\mFloatType}$ ならば $\mMaybeType{\mFloatType}$ である．
+となるようなMaybeバージョンのマップ演算子 $\mMapMaybe$ を用いる．ここに $\hFunc{f}\mMapMaybe\mMaybe{u}$ の型は，もし $\hFunc{f}\mIn\mProjEXP{\mIntType}{\mFloatType}$ ならば $\mMaybeType{\mFloatType}$ である．
 
-実際には $\mMaybe{u}\equiv\mNothing$ の可能性も考えなければならないから，Maybeバージョンのマップ演算子は
+実際には $\mMaybe{u}\hIfEq\mNothing$ の可能性も考えなければならないから，Maybeバージョンのマップ演算子は
 \begin{equation}
-  \mFFunc\mMapMaybe\mMaybe{u}
-  =\mCaseOf{\mMaybe{u}}
+  \hFunc{f}\mMapMaybe\mMaybe{u}
+  =\hCaseSyntax{\mMaybe{u}}
   \begin{cases}
     \mJustWith{x}
-    &\mIfSo\mJustWith{\mFFunc\mXVar}\\
+    &\hIfSo\mJustWith{\hFunc{f}\hVar{x}}\\
     \_
-    &\mIfSo\mNothing
+    &\hIfSo\mNothing
   \end{cases}
 \end{equation}
 でなければならない．このMaybeバージョンのマップ演算子 $\mMapMaybe$ は
 \begin{equation}
   \left\{
   \begin{aligned}
-    \mFFunc\mMapMaybe\mJustWith{x}
-    &=\mJustWith{\mFFunc\mXVar}\\
-    \mFFunc\mMapMaybe\mNothing
+    \hFunc{f}\mMapMaybe\mJustWith{x}
+    &=\mJustWith{\hFunc{f}\hVar{x}}\\
+    \hFunc{f}\mMapMaybe\mNothing
     &=\mNothing
   \end{aligned}
   \right.
@@ -2293,10 +1794,10 @@ $\mA $ 型の変数を $\mMaybeType{a}$ 型の変数に代入するには，次�
 \end{verbatim}
 と書く．}
 
-今後，普通の（引数にMaybeが来ることを想定していない）関数 $\mFFunc$ をMaybe型である変数 $\mMaybe{u}$ に適用させるときには，必ず
+今後，普通の（引数にMaybeが来ることを想定していない）関数 $\hFunc{f}$ をMaybe型である変数 $\mMaybe{u}$ に適用させるときには，必ず
 \begin{equation}
   \mMaybe{v}
-  =\mFFunc\mMapMaybe\mMaybe{u}
+  =\hFunc{f}\mMapMaybe\mMaybe{u}
 \end{equation}
 のようにMaybeバージョンのマップ演算子 $\mMapMaybe$ を用いることにする．これはプログラムの安全性のためである．変数が一旦ゼロ除算の可能性に汚染されたら，最後までMaybeに包んでおかねばならない．\footnote{\haskell ではMaybeバージョンのマップ演算子に特別な記号，関数名が与えられていない．その代わり第\ref{ch:functor}章で述べる一般マップ演算子 $\mMap$ に相当する \code{fmap} 関数を用い \code{v = fmap f u} または \code{v = f <\$> u} のように書く．\haskell は型推論を行なうため変数 \code{u} がMaybeであればMaybeバージョンのマップ演算子（関数）が適用され，もし \code{u} がリストであれば通常のマップ関数である \code{map} が適用される．}
 
@@ -2341,10 +1842,10 @@ maybe<b> map_over(fn f, maybe<a> u) {
 % （\cxxzerothree プログラマへの注意：関数 \code{f} の代わりに関数オブジェ
 %   クトを渡しても良い．）
 
-整数 $\mXVar$ からMaybe値 $\mMaybe{u}=\mJustWith{x}$ を作り，関数 $\mGFunc\mXVar=\mOneNumber+\mXVar$ をMaybe値 $\mMaybe{u}$ に食わせてMaybe値 $\mMaybe{v}$ ただし
+整数 $\hVar{x}$ からMaybe値 $\mMaybe{u}=\mJustWith{x}$ を作り，関数 $\hFunc{g}\hVar{x}=\hConstant{1}+\hVar{x}$ をMaybe値 $\mMaybe{u}$ に食わせてMaybe値 $\mMaybe{v}$ ただし
 \begin{equation}
   \mMaybe{v}
-  =\mGFunc\mMapMaybe\mMaybe{u}
+  =\hFunc{g}\mMapMaybe\mMaybe{u}
 \end{equation}
 を得ることを\cxx では次のように書くことになる．
 \begin{cxxcode}
@@ -2363,15 +1864,15 @@ maybe<int> v = map_over(g, u);
 
 \section{リストとMaybe*}
 
-関数 $\mFFunc$ をMayby値 $\mMaybe{u}$ に適用するために
+関数 $\hFunc{f}$ をMayby値 $\mMaybe{u}$ に適用するために
 \begin{equation}
   \mMaybe{v}
-  =\mFFunc\mMapMaybe\mMaybe{u}
+  =\hFunc{f}\mMapMaybe\mMaybe{u}
 \end{equation}
-のようなMaybeバージョンのマップ演算子 $(\mMapMaybe)$ を使った．一方で，同じ関数 $\mFFunc$ をリスト $\mList{x}$ に適用するには
+のようなMaybeバージョンのマップ演算子 $(\mMapMaybe)$ を使った．一方で，同じ関数 $\hFunc{f}$ をリスト $\mList{x}$ に適用するには
 \begin{equation}
   \mList{y}
-  =\mFFunc\mMapList\mList{x}
+  =\hFunc{f}\mMapList\mList{x}
 \end{equation}
 のようなリストバージョンのマップ演算子 $(\mMapList)$ を使った．
 
@@ -2468,9 +1969,9 @@ Either型は\clang の共有型 (\code{union}) や\cxx のバリアント型 (\c
 
 \begin{enumerate}
 \item ある型 $\mA $ からそのMaybe型 $\mMaybeType{a}$ を作ることを $\mMaybeType{a}=\mMaybeTypeConstructor\mA $ と書く．ここに $\mMaybeTypeConstructor$ はMaybe型コンストラクタである．
-\item ある変数 $\mXVar$ からMaybe変数 $\mMaybe{u}$ を作るには $\mMaybe{u}=\mJustWith{x}$ とする．ここに $\mJustWith{\dotsb}$ はMaybe値コンストラクタである．
+\item ある変数 $\hVar{x}$ からMaybe変数 $\mMaybe{u}$ を作るには $\mMaybe{u}=\mJustWith{x}$ とする．ここに $\mJustWith{\dotsb}$ はMaybe値コンストラクタである．
 \item Maybe変数は $\mJustWith{x}$ のような値か，かまたは $\mNothing$ なる「ナッシング」値のかどちらかを持つことができる．
-\item 普通の関数 $\mFFunc\mIn\mProjEXP{\mA }{\mB }$をMaybe値に適用することはできない．関数 $\mFFunc$ をMaybe値に適用するには$\mFFunc\mMapMaybe\mMaybe{u}$ のようにMaybeマップ演算子が必要であり，この関数適用の結果は $\mMaybeType{b}$ 型である．
+\item 普通の関数 $\hFunc{f}\mIn\mProjEXP{\mA }{\mB }$をMaybe値に適用することはできない．関数 $\hFunc{f}$ をMaybe値に適用するには$\hFunc{f}\mMapMaybe\mMaybe{u}$ のようにMaybeマップ演算子が必要であり，この関数適用の結果は $\mMaybeType{b}$ 型である．
 \item Either変数は二つの型のいずれかを持つことができ，$\mEither{e}=\mRightWith{x}$ または$\mEither{e}=\mLeftWith{x}$ のように生成する．
 \end{enumerate}
 
@@ -2516,26 +2017,26 @@ $$
 
 \section{圏と関手}
 
-$\mA $ 型の変数 $\mXVar,\mYVar\mIn\mA$ について，関数 $\mFFunc\mIn\mA\mFuncArrow\mA$ があり
+$\mA $ 型の変数 $\hVar{x},\hVar{y}\mIn\mA$ について，関数 $\hFunc{f}\mIn\mA\mFuncArrow\mA$ があり
 \begin{equation}
-  \mYVar
-  =\mFFunc\mXVar
+  \hVar{y}
+  =\hFunc{f}\hVar{x}
 \end{equation}
 であるとしよう．このように型 $\mA$ で閉じた世界を仮に $\mA$ 世界と呼ぶことにする．
 
 型 $\mMaybeType{a}$ の変数 $\mMaybe{u},\mMaybe{v}\mIn\mMaybeType{a}$ について，関数
 \begin{equation}
-  \mGFunc
+  \hFunc{g}
   \mIn\mMaybeType{a}\mFuncArrow\mMaybeType{a}
 \end{equation}
 があり
 \begin{equation}
   \mMaybe{v}
-  =\mGFunc\mMaybe{u}
+  =\hFunc{g}\mMaybe{u}
 \end{equation}
 であるとしよう．このように $\mMaybeType{a}$ で閉じた世界を仮に $\mMaybeType{a}$ 世界と呼ぶことにする．
 
-ここで，変数 $\mXVar,\mYVar$ とMaybe変数 $\mMaybe{u},\mMaybe{v}$ はMaybe値コンストラクタによって
+ここで，変数 $\hVar{x},\hVar{y}$ とMaybe変数 $\mMaybe{u},\mMaybe{v}$ はMaybe値コンストラクタによって
 \begin{align}
   \mMaybe{u}
   &=\mJustWith{x}\\
@@ -2544,22 +2045,22 @@ $\mA $ 型の変数 $\mXVar,\mYVar\mIn\mA$ について，関数 $\mFFunc\mIn\mA
 \end{align}
 の関係にあるとしよう．値コンストラクタは値を $\mA$ 世界から $\mMaybeType{a}$ 世界へとジャンプさせる機能を持っている．
 
-他に $\mA$ 世界から $\mMaybeType{a}$ 世界へジャンプさせるものがあるだろうか．よく考えてみると，マップ演算子もそうである．いま $\mMaybe{u}=\mJustWith{x},\mMaybe{v}=\mJustWith{y}$ なのだから，$\mA $ 世界の関数 $\mFFunc$ と $\mMaybeType{a}$ 世界の関数 $\mGFunc$ は無関係ではなく
+他に $\mA$ 世界から $\mMaybeType{a}$ 世界へジャンプさせるものがあるだろうか．よく考えてみると，マップ演算子もそうである．いま $\mMaybe{u}=\mJustWith{x},\mMaybe{v}=\mJustWith{y}$ なのだから，$\mA $ 世界の関数 $\hFunc{f}$ と $\mMaybeType{a}$ 世界の関数 $\hFunc{g}$ は無関係ではなく
 \begin{equation}
   \mMaybe{v}
-  =\mGFunc\mMaybe{u}
-  =\mFFunc\mMapMaybe\mMaybe{u}
+  =\hFunc{g}\mMaybe{u}
+  =\hFunc{f}\mMapMaybe\mMaybe{u}
 \end{equation}
 であり，
 \begin{equation}
-  \mGFunc
-  =\mFFunc\mMapMaybe
+  \hFunc{g}
+  =\hFunc{f}\mMapMaybe
 \end{equation}
-である．つまりマップ演算子 $\mMapMaybe$ が関数 $\mFFunc$ を $\mA$ 世界から $\mMaybeType{a}$ 世界へとジャンプさせているのである．
+である．つまりマップ演算子 $\mMapMaybe$ が関数 $\hFunc{f}$ を $\mA$ 世界から $\mMaybeType{a}$ 世界へとジャンプさせているのである．
 
 いま「世界」と呼んだものを，数学者は\keyword{圏}と呼ぶ．圏とは\keyword{対象}と\keyword{射}の組み合わせである．本書では「対象」とは型のことであり，射とは関数だと思えば良い．（厳密にはコンテナに入れられた関数も射に含まれる．）そして，圏から圏へとジャンプさせるものを\keyword{関手}と呼ぶ．この例で言えば値コンストラクタ $\mJustWith{x}$ とマップ演算子 $\mMapMaybe$ が関手である．値コンストラクタ $\mJustWith{x}$ は $\mA\mFuncArrow\mMaybeType{a}$ という型を持ち，マップ演算子 $\mMapMaybe$ は $(\mA\mFuncArrow\mB)\mFuncArrow(\mMaybeType{a}\mFuncArrow\mMaybeType{b})$ という型を持つ．\footnote{関手は英語でファンクター(functor)と言うが，\cxx の関数オブジェクト (function object) もかつてはファンクター(functor)と呼ばれていた．\cxx のファンクターとはクロージャの代用品のことで，本書で述べる関手とは異なる概念である．混同しないように注意しよう．}
 
-同じことはリストにも言える．値コンストラクタ $[\mXVar]$ とマップ演算子 $\mMapList$ もまた関手である．この場合値コンストラクタは $\mA\mFuncArrow[\mA]$ という型を持ち，マップ演算子も同じく $(\mA\mFuncArrow\mB)\mFuncArrow([\mA]\mFuncArrow[\mB])$ という型を持つ．
+同じことはリストにも言える．値コンストラクタ $[\hVar{x}]$ とマップ演算子 $\mMapList$ もまた関手である．この場合値コンストラクタは $\mA\mFuncArrow[\mA]$ という型を持ち，マップ演算子も同じく $(\mA\mFuncArrow\mB)\mFuncArrow([\mA]\mFuncArrow[\mB])$ という型を持つ．
 
 \separator
 
@@ -2597,7 +2098,7 @@ $\mTypeConstructor{f}=\mMaybeTypeConstructor$ であれば
 \begin{center}
 \begin{tabular}{||c|c|c|c||}\hline
 型&型コンストラクタ&マップ&値コンストラクタ\\\hline\hline
-$[\mA]$&$\mListTypeConstructor$&$\mMapList$&$[\mXVar]$\\
+$[\mA]$&$\mListTypeConstructor$&$\mMapList$&$[\hVar{x}]$\\
 $\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mJustWith{x},\mNothing$\\\hline
 \end{tabular}
 \end{center}
@@ -2617,12 +2118,12 @@ $\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mJustWith{x},\mNothing$
 % ---
 
 % 一般マップ演算子 $(\mMap)$ は\keyword{多様的}である．この意味は，も
-% し $\mFFunc\mMap\mList{x}$ と書いてあれば $\mFFunc\mMapList\mList{x}$ のことであ
-% るし，もし $\mFFunc\mMap\mMaybe{u}$ と書いてあれば $\mFFunc\mMapMaybe\mMaybe{u}$
+% し $\hFunc{f}\mMap\mList{x}$ と書いてあれば $\hFunc{f}\mMapList\mList{x}$ のことであ
+% るし，もし $\hFunc{f}\mMap\mMaybe{u}$ と書いてあれば $\hFunc{f}\mMapMaybe\mMaybe{u}$
 % のことであると自動的に解釈することである．そして，何の飾りもつけられ
-% ていない変数 $\mXVar$ がふらっと現れ，目の前に $\mFFunc\mMap x$という式が登場し
-% ても，落ち着いて変数 $\mXVar$ の型を調べ，変数 $\mXVar$ がリストならば $\mMap$
-% の部分に $\mMapList$ を，変数 $\mXVar$ がMaybeならば $\mMap$ の部分に
+% ていない変数 $\hVar{x}$ がふらっと現れ，目の前に $\hFunc{f}\mMap x$という式が登場し
+% ても，落ち着いて変数 $\hVar{x}$ の型を調べ，変数 $\hVar{x}$ がリストならば $\mMap$
+% の部分に $\mMapList$ を，変数 $\hVar{x}$ がMaybeならば $\mMap$ の部分に
 % $\mMapMaybe$ をはめ込むのだ．\footnote{\haskell では一般マップ演算子
 % $(\mMap)$ は \code{fmap} である．ただしその実装は与えられず，対象と
 % する型に応じて定義されるものとする．例えばリストに対しては
@@ -2632,10 +2133,10 @@ $\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mJustWith{x},\mNothing$
 
 マップ演算子をさらに汎用性のあるものにするために新しく考え出された演算子が\keyword{アプリカティブマップ演算子}である．
 
-いま関数のリスト $[\mFFunc,\mGFunc,\mHFunc]$ と変数のリスト $[\mXVar,\mYVar,\mZVar]$ があるとする．リストのアプリカティブマップ演算子 $\mAppMapList$ を次のように定義する．
+いま関数のリスト $[\hFunc{f},\hFunc{g},\mHFunc]$ と変数のリスト $[\hVar{x},\hVar{y},\mZVar]$ があるとする．リストのアプリカティブマップ演算子 $\mAppMapList$ を次のように定義する．
 \begin{equation}
-  [\mFFunc,\mGFunc,\mHFunc]\mAppMapList[\mXVar,\mYVar,\mZVar]
-  =[\mFFunc\mXVar,\mFFunc\mYVar,\mFFunc\mZVar,\mGFunc\mXVar,\mGFunc\mYVar,\mGFunc\mZVar,\mHFunc\mXVar,\mHFunc\mYVar,\mHFunc\mZVar]
+  [\hFunc{f},\hFunc{g},\mHFunc]\mAppMapList[\hVar{x},\hVar{y},\mZVar]
+  =[\hFunc{f}\hVar{x},\hFunc{f}\hVar{y},\hFunc{f}\mZVar,\hFunc{g}\hVar{x},\hFunc{g}\hVar{y},\hFunc{g}\mZVar,\mHFunc\hVar{x},\mHFunc\hVar{y},\mHFunc\mZVar]
 \end{equation}
 リストのアプリカティブマップ演算子はこのように，左引数のリスト内のすべての関数を順番に右引数のリスト内の変数に適用し，その結果をリストとして返す．
 
@@ -2643,26 +2144,26 @@ $\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mJustWith{x},\mNothing$
 $[\mA\mFuncArrow\mB]\mFuncArrow[\mA]\mFuncArrow[\mB]$ である．これは
 \begin{equation}
   \mAppMapList
-  \mIn\underbrace{[\mA\mapsto\mB]}_{[\mFFunc_0,\mFFunc_1\dotsb \mFFunc_n]}
-  \mapsto\underbrace{[\mA]}_{[\mXVar_0,\mXVar_1\dotsb \mXVar_n]}
-  \mapsto\underbrace{[\mB]}_{[\mFFunc_0\mXVar_0,\mFFunc_0\mXVar_1\dotsb \mFFunc_0\mXVar_n,\mFFunc \mXVar_0,\mFFunc \mXVar_1\dotsb \mFFunc_n\mXVar_n]}
+  \mIn\underbrace{[\mA\mapsto\mB]}_{[\hFunc{f}_0,\hFunc{f}_1\dotsb \hFunc{f}_n]}
+  \mapsto\underbrace{[\mA]}_{[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]}
+  \mapsto\underbrace{[\mB]}_{[\hFunc{f}_0\hVar{x}_0,\hFunc{f}_0\hVar{x}_1\dotsb \hFunc{f}_0\hVar{x}_n,\hFunc{f} \hVar{x}_0,\hFunc{f} \hVar{x}_1\dotsb \hFunc{f}_n\hVar{x}_n]}
 \end{equation}
 と解釈すれば良い．
 
 リストバージョンのアプリカティブマップ演算子 $(\mAppMapList)$ の特別な場合として，左引数のリストの要素数が1の場合を考えると
 \begin{equation}
-  [\mFFunc]\mAppMapList{}[\mXVar,\mYVar,\mZVar]
-  =[\mFFunc\mXVar,\mFFunc\mYVar,\mFFunc\mZVar]
+  [\hFunc{f}]\mAppMapList{}[\hVar{x},\hVar{y},\mZVar]
+  =[\hFunc{f}\hVar{x},\hFunc{f}\hVar{y},\hFunc{f}\mZVar]
 \end{equation}
 であり，通常のマップ演算子 $(\mMapList)$ を使ったマップすなわち
 \begin{equation}
-  \mFFunc\mMapList{}[\mXVar,\mYVar,\mZVar]
-  =[\mFFunc\mXVar,\mFFunc\mYVar,\mFFunc\mZVar]
+  \hFunc{f}\mMapList{}[\hVar{x},\hVar{y},\mZVar]
+  =[\hFunc{f}\hVar{x},\hFunc{f}\hVar{y},\hFunc{f}\mZVar]
 \end{equation}
 と右辺が一致する．つまり，マップ演算子はアプリカティブマップ演算子の特別な場合と考えることができる．実際，リストマップ演算子はアプリカティブマップ演算子から
 \begin{equation}
-  \mFFunc\mMapList\mList{x}
-  =[\mFFunc]\mAppMapList\mList{x}
+  \hFunc{f}\mMapList\mList{x}
+  =[\hFunc{f}]\mAppMapList\mList{x}
 \end{equation}
 と定義できる．
 
@@ -2670,27 +2171,27 @@ Maybeバージョンについても考えてみよう．Maybeに包まれた関�
 $\mAppMapMaybe$ を
 \begin{equation}
   \mMaybe{i}\mAppMapMaybe\mMaybe{u}
-  =\mCaseOf{\mMaybe{i}}
+  =\hCaseSyntax{\mMaybe{i}}
   \begin{cases}
     \mJustWith{j}
-    &\mIfSo\mJFunc\mMapMaybe\mMaybe{u}\\
+    &\hIfSo\mJFunc\mMapMaybe\mMaybe{u}\\
     \_
-    &\mIfSo\mNothing
+    &\hIfSo\mNothing
   \end{cases}
 \end{equation}
 % \begin{equation}
 % \mMaybe{i}\mAppMapMaybe\mMaybe{u}
 % =\begin{cases}
-% \mJustWith{\mFFunc\mXVar}
-% &\mIf\left(\mMaybe{i}\equiv\mJustWith{f}\right)
+% \mJustWith{\hFunc{f}\hVar{x}}
+% &\mIf\left(\mMaybe{i}\hIfEq\mJustWith{f}\right)
 % \mLogicalAnd
-% \left(\mMaybe{u}\equiv\mJustWith{x}\right)\\
-% \mNothing&\mOtherwise
+% \left(\mMaybe{u}\hIfEq\mJustWith{x}\right)\\
+% \mNothing&\hOtherwise
 % \end{cases}
 % \end{equation}
 で定義する．このMaybeバージョンのアプリカティブマップ演算子 $(\mAppMapMaybe)$ からMaybeバージョンのマップ演算子 $(\mMapMaybe)$ は
 \begin{equation}
-  \mFFunc\mMapMaybe\mMaybe{u}
+  \hFunc{f}\mMapMaybe\mMaybe{u}
   =\mJustWith{f}\mAppMapMaybe\mMaybe{u}
 \end{equation}
 のように導出できる．
@@ -2698,12 +2199,12 @@ $\mAppMapMaybe$ を
 これらの関係を一般化して
 \begin{equation}
   \label{eq:general-applicative-map}
-  \mFFunc\mMap\mVarContainer{w}
+  \hFunc{f}\mMap\mVarContainer{w}
   =\mPureWith{f}\mAppMap\mVarContainer{w}
 \end{equation}
-となるような\keyword{一般アプリカティブマップ演算子} $(\mAppMap)$ を考える．ここに $\mFFunc$ は関数，$\mVarContainer{w}$ はリストやMaybeといったコンテナ型の変数すなわち\keyword{コンテナ変数}である．一般アプリカティブマップ演算子 $(\mAppMap)$ から一般マップ演算子 $(\mMap)$ を導き出すには，式\eqref{eq:general-applicative-map} のように値コンストラクタが必要である．この一般化された値コンストラクタを\keyword{ピュア演算子}と呼ぶ．アプリカティブマップ演算子とピュア演算子を持つ型クラスを\keyword{アプリカティブ関手}と呼び，$\mApplicativeTypeClass$ 型クラスと定義する．\footnote{\haskell では一般アプリカティブマップ演算子を \code{<*>} と書く．}
+となるような\keyword{一般アプリカティブマップ演算子} $(\mAppMap)$ を考える．ここに $\hFunc{f}$ は関数，$\mVarContainer{w}$ はリストやMaybeといったコンテナ型の変数すなわち\keyword{コンテナ変数}である．一般アプリカティブマップ演算子 $(\mAppMap)$ から一般マップ演算子 $(\mMap)$ を導き出すには，式\eqref{eq:general-applicative-map} のように値コンストラクタが必要である．この一般化された値コンストラクタを\keyword{ピュア演算子}と呼ぶ．アプリカティブマップ演算子とピュア演算子を持つ型クラスを\keyword{アプリカティブ関手}と呼び，$\mApplicativeTypeClass$ 型クラスと定義する．\footnote{\haskell では一般アプリカティブマップ演算子を \code{<*>} と書く．}
 
-ピュア演算子をピュア値コンストラクタと呼ばないのは，単純に「ピュア値」というものがないからである．$\mFunctorTypeClass$ 型クラスはリスト型やMaybe型を抽象化したものであって，直接変数を生成できない．型クラスは，\cxx の用語で言えば純粋仮想クラスのようなものであるし，\objectivec の用語で言えばメタクラスであるからである．もちろんリストのピュア演算子は $[x]$ であるし，Maybeのピュア演算子は $\mJustWith{x}$ であり，それぞれ具体的な変数を生成する．しかし変数 $\mXVar$ にピュア演算子を適用した
+ピュア演算子をピュア値コンストラクタと呼ばないのは，単純に「ピュア値」というものがないからである．$\mFunctorTypeClass$ 型クラスはリスト型やMaybe型を抽象化したものであって，直接変数を生成できない．型クラスは，\cxx の用語で言えば純粋仮想クラスのようなものであるし，\objectivec の用語で言えばメタクラスであるからである．もちろんリストのピュア演算子は $[x]$ であるし，Maybeのピュア演算子は $\mJustWith{x}$ であり，それぞれ具体的な変数を生成する．しかし変数 $\hVar{x}$ にピュア演算子を適用した
 $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在しない．\footnote{\haskell は一般のピュア演算子の実装を与えていない．変数の型に応じて対応する関数が適用される．}
 
 一般アプリカティブマップ演算子 $(\mAppMap)$ は多様性によってそれぞれリストバージョンのアプリカティブマップ演算子 $(\mAppMapList)$ やMaybeバージョンのアプリカティブマップ演算子 $(\mAppMapMaybe)$ にオーバーライドされ，それぞれリスト値コンストラクタ $([x])$, Maybe値コンストラクタ $(\mJustWith{x})$ を用いることでリストバージョンのマップ演算子 $(\mMapList)$, Maybeバージョンのマップ演算子 $(\mMapMaybe)$ を生成することができる．リスト値コンストラクタ，Maybe値コンストラクタはそれぞれピュア演算子 $(\mPureWith{x})$ をオーバーライドしたものであるから，結局，一般アプリカティブマップ演算子とピュア演算子のふたつがあれば，任意のクラスのマップ演算子を生成することができる．
@@ -2718,9 +2219,9 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
   \mVarContainer{w}
   =\mPureWith{f}\mAppMap\mVarContainer{u}\mAppMap\mVarContainer{v}
 \end{equation}
-のように使える．もし $\mVarContainer{u}\equiv\mPureNothing$ もしくは $\mVarContainer{v}\equiv\mPureNothing$ であれば式の値は $\mPureNothing$ になる．式\eqref{eq:applicative-style}からピュア演算子を消すには，最初のアプリカティブマップ演算子をマップ演算子に置き換えて
+のように使える．もし $\mVarContainer{u}\hIfEq\mPureNothing$ もしくは $\mVarContainer{v}\hIfEq\mPureNothing$ であれば式の値は $\mPureNothing$ になる．式\eqref{eq:applicative-style}からピュア演算子を消すには，最初のアプリカティブマップ演算子をマップ演算子に置き換えて
 \begin{equation}
-  \mVarContainer{w}=\mFFunc\mMap\mVarContainer{u}\mAppMap\mVarContainer{v}
+  \mVarContainer{w}=\hFunc{f}\mMap\mVarContainer{u}\mAppMap\mVarContainer{v}
 \end{equation}
 とすれば良い．このようにアプリカティブマップ演算子を並べる書き方をアプリカティブスタイルと呼ぶ．
 
@@ -2728,14 +2229,14 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
 
 関数は関手である．関手とはマップ演算子を持つ型クラスのことであった．そこで，関数がどのようなマップ演算子を持つのか考えてみる．
 
-いま関数 $\mFFunc$ が
+いま関数 $\hFunc{f}$ が
 \begin{equation}
-  \mFFunc
+  \hFunc{f}
   \mIn\mR\mFuncArrow\mA
 \end{equation}
 という型を持っているとする．この式は $\mFuncArrow$ を二項演算子，すなわち2引数関数とみなせば
 \begin{equation}
-  \mFFunc
+  \hFunc{f}
   \mIn(\mFuncArrow)\mR\,\mA
 \end{equation}
 と等価である．全く形式的に，$\mFuncTypeConstructor$ なる型コンストラクタがあるとして
@@ -2769,9 +2270,9 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
 \end{equation}
 のことである．
 
-いま関数 $\mFFunc\mIn\mProjEXP{\mR}{\mA }$ とは別な関数 $g\mIn\mProjEXP{\mA }{\mB }$ があったとしよう．関数 $\mFFunc$ と関数 $\mGFunc$ の合成 $\mGFunc\mCompFunc\mFFunc$ の型は
+いま関数 $\hFunc{f}\mIn\mProjEXP{\mR}{\mA }$ とは別な関数 $g\mIn\mProjEXP{\mA }{\mB }$ があったとしよう．関数 $\hFunc{f}$ と関数 $\hFunc{g}$ の合成 $\hFunc{g}\mCompFunc\hFunc{f}$ の型は
 \begin{equation}
-\mGFunc\mCompFunc\mFFunc\mIn\mProjEXP{\mR}{\mB }
+\hFunc{g}\mCompFunc\hFunc{f}\mIn\mProjEXP{\mR}{\mB }
 \end{equation}
 であるから，
 \begin{equation}
@@ -2782,13 +2283,13 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
 
 幸い，我々は関数のマップ演算子の実装に関しては，型さえ守っていれば（そして第\ref{ch:monad}章で述べる関手則さえ守っていれば）自由に選べる．そこで
 \begin{equation}
-  \mGFunc\mMapFunc\mFFunc
-  =\mGFunc\mCompFunc\mFFunc
+  \hFunc{g}\mMapFunc\hFunc{f}
+  =\hFunc{g}\mCompFunc\hFunc{f}
 \end{equation}
 としておこう．これは
 \begin{equation}
-  \mGFunc\mMapFunc\mFFunc
-  =\mLambdaEXP{\mXVar}{\mGFunc(\mFFunc\mXVar)}
+  \hFunc{g}\mMapFunc\hFunc{f}
+  =\mLambdaEXP{\hVar{x}}{\hFunc{g}(\hFunc{f}\hVar{x})}
 \end{equation}
 と書いても同じことである．これが \haskell における関数のマップ演算子の定義である．
 
@@ -2799,7 +2300,7 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
 ピュア演算子は $\mProjEXP{\mA }{(\mProjEXP{\mR}{\mA })}$ 型を持たなければならない．従って関数版のピュア演算子は変数から関数を作るとも考えられる．我々は関数版のピュア演算子として
 \begin{equation}
   \mConstWith{x}
-  =\mLambdaEXP{\_}{\mXVar}
+  =\mLambdaEXP{\_}{\hVar{x}}
 \end{equation}
 を採用する．\footnote{\haskell では $\mConstWith{x}$ を \code{const x} と書く．}
 
@@ -2821,15 +2322,15 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
 
 我々は関数版アプリカティブマップ演算子として
 \begin{equation}
-\mGFunc\mAppMapFunc\mFFunc=\mLambdaEXP{\mXVar}{\mGFunc\mXVar(\mFFunc\mXVar)}
+\hFunc{g}\mAppMapFunc\hFunc{f}=\mLambdaEXP{\hVar{x}}{\hFunc{g}\hVar{x}(\hFunc{f}\hVar{x})}
 \end{equation}
-とする．これは，関数版のピュア演算子の定義と，一般マップ演算子と一般アプリカティブマップ演算子の関係 $\mFFunc\mMap\mVarContainer{w}=\mPureWith{f}\mAppMap\mVarContainer{w}$ から導かれる．すなわち
+とする．これは，関数版のピュア演算子の定義と，一般マップ演算子と一般アプリカティブマップ演算子の関係 $\hFunc{f}\mMap\mVarContainer{w}=\mPureWith{f}\mAppMap\mVarContainer{w}$ から導かれる．すなわち
 \begin{align}
-\mConstWith{g}\mAppMapFunc\mFFunc
-&=\mLambdaEXP{\mXVar}{\mConstWith{g}\mXVar(\mFFunc\mXVar)}\\
-&=\mLambdaEXP{\mXVar}{(\mLambdaEXP{\_}{\mGFunc})\mXVar(\mFFunc\mXVar)}\\
-&=\mLambdaEXP{\mXVar}{\mGFunc(\mFFunc\mXVar)}\\
-&=\mGFunc\mCompFunc\mFFunc
+\mConstWith{g}\mAppMapFunc\hFunc{f}
+&=\mLambdaEXP{\hVar{x}}{\mConstWith{g}\hVar{x}(\hFunc{f}\hVar{x})}\\
+&=\mLambdaEXP{\hVar{x}}{(\mLambdaEXP{\_}{\hFunc{g}})\hVar{x}(\hFunc{f}\hVar{x})}\\
+&=\mLambdaEXP{\hVar{x}}{\hFunc{g}(\hFunc{f}\hVar{x})}\\
+&=\hFunc{g}\mCompFunc\hFunc{f}
 \end{align}
 であるからである．
 
@@ -2842,7 +2343,7 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
     \mEmptyList\mAppMapList\mList{x}
     &=\mEmptyList\\
     (f:\mList{f})\mAppMapList\mList{x}
-    &=\mJoinList{}((\mFFunc\mMapList\mList{x}):(\mList{f}\mAppMapList\mList{x}))
+    &=\mJoinList{}((\hFunc{f}\mMapList\mList{x}):(\mList{f}\mAppMapList\mList{x}))
   \end{aligned}
   \right.
 \end{equation}
@@ -2852,10 +2353,10 @@ Maybeのアプリカティブマップ演算子の定義は次の通り．
 \begin{equation}
 \label{eq:maybe-applicative-map-by-maybe-map}
 \mMaybe{g}\mAppMapMaybe\mMaybe{u}
-=\mCaseOf{\mMaybe{g}}
+=\hCaseSyntax{\mMaybe{g}}
 \begin{cases}
-\mJustWith{h}&\mIfSo h\mMapMaybe\mMaybe{u}\\
-\_&\mIfSo\mNothing
+\mJustWith{h}&\hIfSo h\mMapMaybe\mMaybe{u}\\
+\_&\hIfSo\mNothing
 \end{cases}
 \end{equation}
 ここに $\mMaybe{g}$ はMaybeコンテナに入れられた関数，$\mMaybe{u}$ はMaybe変数である．
@@ -2865,15 +2366,15 @@ Maybeのアプリカティブマップ演算子の定義は次の通り．
 % &=\begin{cases}
 % \left\{
 % \begin{array}{ll}
-% \mJustWith{\mFFunc\mXVar}&\mIf\mMaybe{u}\equiv\mJustWith{x}\\
-% \mNothing&\mOtherwise
+% \mJustWith{\hFunc{f}\hVar{x}}&\mIf\mMaybe{u}\hIfEq\mJustWith{x}\\
+% \mNothing&\hOtherwise
 % \end{array}\right\}
-% &\mIf\mMaybe{h}\equiv\mJustWith{f}\\
-% \mNothing&\mOtherwise
+% &\mIf\mMaybe{h}\hIfEq\mJustWith{f}\\
+% \mNothing&\hOtherwise
 % \end{cases}\\
 % &=\begin{cases}
-% \mJustWith{\mFFunc\mXVar}&\mIf\left(\mMaybe{u}\equiv\mJustWith{x}\right)\mLogicalAnd\left(\mMaybe{h}\equiv\mJustWith{f}\right)\\
-% \mNothing&\mOtherwise
+% \mJustWith{\hFunc{f}\hVar{x}}&\mIf\left(\mMaybe{u}\hIfEq\mJustWith{x}\right)\mLogicalAnd\left(\mMaybe{h}\hIfEq\mJustWith{f}\right)\\
+% \mNothing&\hOtherwise
 % \end{cases}
 % \end{align}
 % である．
@@ -2891,38 +2392,38 @@ Maybeのアプリカティブマップ演算子の定義は次の通り．
 
 一般マップ演算子をピュア演算子と一般アプリカティブマップ演算子に分解することで，式の見通しを良くすることができるアプリカティブスタイルという記法を採用できた．アプリカティブスタイルでは
 \begin{equation}
-  \mFFunc\mMap\mVarContainer{u}\mAppMap\mVarContainer{v}\mAppMap\mVarContainer{w}
+  \hFunc{f}\mMap\mVarContainer{u}\mAppMap\mVarContainer{v}\mAppMap\mVarContainer{w}
 \end{equation}
-という風にコンテナ変数 $\mVarContainer{u},\mVarContainer{v},\mVarContainer{w}$ に関数 $\mFFunc$ を適用させることができる．コンテナ変数 $\mVarContainer{u},\mVarContainer{v},\mVarContainer{w}$ のいずれかが $\mPureNothing$ であれば式全体の値が$\mPureNothing$ になる．これは3個の計算を並列に行って，その結果をそれぞれ $\mVarContainer{u},\mVarContainer{v},\mVarContainer{w}$ に入れておき，最後に関数 $\mFFunc$ に投げるという\keyword{計算構造}を具現化したものである．（関数 $\mFFunc$ は\clang で言えば \code{main} 関数に相当するであろう．）
+という風にコンテナ変数 $\mVarContainer{u},\mVarContainer{v},\mVarContainer{w}$ に関数 $\hFunc{f}$ を適用させることができる．コンテナ変数 $\mVarContainer{u},\mVarContainer{v},\mVarContainer{w}$ のいずれかが $\mPureNothing$ であれば式全体の値が$\mPureNothing$ になる．これは3個の計算を並列に行って，その結果をそれぞれ $\mVarContainer{u},\mVarContainer{v},\mVarContainer{w}$ に入れておき，最後に関数 $\hFunc{f}$ に投げるという\keyword{計算構造}を具現化したものである．（関数 $\hFunc{f}$ は\clang で言えば \code{main} 関数に相当するであろう．）
 
 しかしながら，アプリカティブスタイルでは変数に文脈を与えるタイミングがコンテナ変数を作るときのそれぞれ1回に限られている．そこで，任意のタイミングで変数に文脈を与えられるように，別な方法で一般マップ演算子を分解してみよう．
 
-Maybeの例を思い出そう．Maybe型の変数 $\mMaybe{u}$ はラップされた値 $\mJustWith{x}$ を持つのか，エラーを表す $\mNothing$ を持つのかを選べる．そこで，引数 $\mXVar$ をとり何らかの計算をする関数 $\mGFunc$ を考えよう．この関数 $\mGFunc$ は引数 $\mXVar$ の値次第ではエラーを表す $\mNothing$ を返す．例えば
+Maybeの例を思い出そう．Maybe型の変数 $\mMaybe{u}$ はラップされた値 $\mJustWith{x}$ を持つのか，エラーを表す $\mNothing$ を持つのかを選べる．そこで，引数 $\hVar{x}$ をとり何らかの計算をする関数 $\hFunc{g}$ を考えよう．この関数 $\hFunc{g}$ は引数 $\hVar{x}$ の値次第ではエラーを表す $\mNothing$ を返す．例えば
 \begin{equation}
   \begin{aligned}
-    \mGFunc\mXVar&\mGuard{x\neq0}=\mJustWith{1/x}\\
-    &\mGuard{\mOtherwise}=\mNothing
+    \hFunc{g}\hVar{x}&\hGuard{x\neq0}=\mJustWith{1/x}\\
+    &\hGuard{\hOtherwise}=\mNothing
   \end{aligned}
 \end{equation}
-といった関数が考えられる．変数 $\mXVar$ は文脈を持っていないが，関数 $\mGFunc$ を適用した結果である $\mGFunc\mXVar$ は文脈を持っていることに注意しよう．いま $\mGFunc\mXVar$ はMaybeという文脈を持っているから，我々は
+といった関数が考えられる．変数 $\hVar{x}$ は文脈を持っていないが，関数 $\hFunc{g}$ を適用した結果である $\hFunc{g}\hVar{x}$ は文脈を持っていることに注意しよう．いま $\hFunc{g}\hVar{x}$ はMaybeという文脈を持っているから，我々は
 \begin{equation}
-\mMaybe{v}=\mGFunc\mXVar
+\mMaybe{v}=\hFunc{g}\hVar{x}
 \end{equation}
-という風に結果をMaybe変数に保存しなければならない．今まで見てきた $y=\mFFunc\mXVar$ や $\mMaybe{v}=\mFFunc\mMapMaybe\mMaybe{u}$ の関係とは異なることに注意しよう．
+という風に結果をMaybe変数に保存しなければならない．今まで見てきた $y=\hFunc{f}\hVar{x}$ や $\mMaybe{v}=\hFunc{f}\mMapMaybe\mMaybe{u}$ の関係とは異なることに注意しよう．
 
-関数 $\mGFunc$ の型は
+関数 $\hFunc{g}$ の型は
 \begin{equation}
   g\mIn\mProjEXP{\mA }{\mMaybeType{a}}
 \end{equation}
-である．ということは，関数 $\mGFunc$ をMaybe変数に適用させるようと思っても，我々が既に知っているマップ演算子 $\mMapMaybe$ やアプリカティブマップ演算子 $\mAppMapMaybe$ が使えないということである．前者は第1引数に $\mProjEXP{\mA }{\mB }$ 型の関数を取るし，後者は第1引数に $\mJustWith{(\mProjEXP{\mA }{\mB })}$ 型の関数（Maybe関数）を取るからである．
+である．ということは，関数 $\hFunc{g}$ をMaybe変数に適用させるようと思っても，我々が既に知っているマップ演算子 $\mMapMaybe$ やアプリカティブマップ演算子 $\mAppMapMaybe$ が使えないということである．前者は第1引数に $\mProjEXP{\mA }{\mB }$ 型の関数を取るし，後者は第1引数に $\mJustWith{(\mProjEXP{\mA }{\mB })}$ 型の関数（Maybe関数）を取るからである．
 
 % ***CHECK***
 
 そこで，新しいマップ演算子を発明する．いまMaybe変数 $\mMaybe{u}$ を $\mMaybe{u}=\mJustWith{x}$ としよう．新しいマップ演算子 $\mBindMaybe$ を使って
 \begin{equation}
-  \mMaybe{v}=\mGFunc\mBindMaybe\mMaybe{u}
+  \mMaybe{v}=\hFunc{g}\mBindMaybe\mMaybe{u}
 \end{equation}
-とする．この新しいマップ演算子 $\mBindMaybe$ のことをMaybeの\keyword{バインド演算子}と呼ぶ．ここで，もし計算が成功していたら $\mMaybe{v}=\mJustWith{\mGFunc\mXVar}$ であり，失敗していたら $\mMaybe{v}=\mNothing$ である．
+とする．この新しいマップ演算子 $\mBindMaybe$ のことをMaybeの\keyword{バインド演算子}と呼ぶ．ここで，もし計算が成功していたら $\mMaybe{v}=\mJustWith{\hFunc{g}\hVar{x}}$ であり，失敗していたら $\mMaybe{v}=\mNothing$ である．
 
 演算 $g\mBindMaybe\mMaybe{u}$ の結果はMaybe値であるから，バインド演算子は連続して用いることができる．通常の引数を取ってMaybe値を返すもう一つの関数 $h$ があるとすると
 \begin{equation}
@@ -2935,18 +2436,18 @@ Maybeの例を思い出そう．Maybe型の変数 $\mMaybe{u}$ はラップさ�
 \end{equation}
 のように簡潔に書ける．このスタイルなら演算子もすべて統一できていて，かつどの関数でも戻り値を $\mNothing$ に切り替えられるので，アプリカティブスタイルよりも強力と言える．
 
-具体例で考えてみよう．関数 $\mGFunc$ を
+具体例で考えてみよう．関数 $\hFunc{g}$ を
 \begin{equation}
   \begin{aligned}
-    \mGFunc\mXVar&\mGuard{x\neq0}=\mJustWith{1/x}\\
-    &\mGuard{\mOtherwise}=\mNothing
+    \hFunc{g}\hVar{x}&\hGuard{x\neq0}=\mJustWith{1/x}\\
+    &\hGuard{\hOtherwise}=\mNothing
   \end{aligned}
 \end{equation}
 とする．また，関数 $h$ を
 \begin{equation}
   \begin{aligned}
-    hy&\mGuard{-\frac{\pi}{2}<y<\frac{\pi}{2}}=\mJustWith{\tan y}\\
-    &\mGuard{\mOtherwise}=\mNothing
+    hy&\hGuard{-\frac{\pi}{2}<y<\frac{\pi}{2}}=\mJustWith{\tan y}\\
+    &\hGuard{\hOtherwise}=\mNothing
   \end{aligned}
 \end{equation}
 とする．このとき $\mMaybe{u}=\mJustWith{4/\pi}$ とすると
@@ -2971,40 +2472,40 @@ $\mFunctorTypeClass$ 型クラスは一般マップ演算子 $(\mMap)$ を持っ
 関数 $i$ が次の形をしているとする．
 \begin{equation}
   \label{eq:def-of-i}
-  ix=\mCaseOf{\mXVar}\begin{cases}
+  ix=\hCaseSyntax{\hVar{x}}\begin{cases}
     \mLovelyVar
-    &\mIfSo\mPureWith{\mFFunc\mXVar}\\
+    &\hIfSo\mPureWith{\hFunc{f}\hVar{x}}\\
     \_
-    &\mIfSo\mPureNothing
+    &\hIfSo\mPureNothing
   \end{cases}
 \end{equation}
-ここに $\mXVar$ は非コンテナ変数で，関数 $\mFFunc$ も「普通の」（コンテナに入っていない）関数である．より厳密に言えば $\mXVar\mIn\mA$ かつ $\mFFunc\mIn\mA\mFuncArrow\mB$ である．従って，関数 $\mVarContainer{i}$ の型は $\mA\mFuncArrow\mPureType{b}$ である．条件 $\mLovelyVar$ には任意の値を入れてよい．
+ここに $\hVar{x}$ は非コンテナ変数で，関数 $\hFunc{f}$ も「普通の」（コンテナに入っていない）関数である．より厳密に言えば $\hVar{x}\mIn\mA$ かつ $\hFunc{f}\mIn\mA\mFuncArrow\mB$ である．従って，関数 $\mVarContainer{i}$ の型は $\mA\mFuncArrow\mPureType{b}$ である．条件 $\mLovelyVar$ には任意の値を入れてよい．
 
 関数 $i$ をコンテナに入った変数 $u=\mPureWith{x}$ に適用させるのが一般バインド演算子 $(\mBind)$ の役割である．計算結果をコンテナ変数 $a$ に格納するとすると，関数 $i$ のコンテナ変数 $\mVarContainer{u}$ への適用は
 \begin{equation}
 \label{eq:i-love-u}
 \mVarContainer{a}=i\mBind\mVarContainer{u}
 \end{equation}
-と書ける．うまく行けば $\mVarContainer{a}=\mPureWith{\mFFunc\mXVar}$ となるし，そうでなければ $\mVarContainer{a}=\mPureNothing$ となる．
+と書ける．うまく行けば $\mVarContainer{a}=\mPureWith{\hFunc{f}\hVar{x}}$ となるし，そうでなければ $\mVarContainer{a}=\mPureNothing$ となる．
 
-さて $\mVarContainer{u}=\mPureWith{x},\mVarContainer{v}=\mPureWith{y}$ として，かつ $y=\mFFunc\mXVar$ であるとき
+さて $\mVarContainer{u}=\mPureWith{x},\mVarContainer{v}=\mPureWith{y}$ として，かつ $y=\hFunc{f}\hVar{x}$ であるとき
 \begin{equation}
-\mVarContainer{v}=\mFFunc\mMap\mVarContainer{u}=\mPureWith{f}\mAppMap\mVarContainer{u}
+\mVarContainer{v}=\hFunc{f}\mMap\mVarContainer{u}=\mPureWith{f}\mAppMap\mVarContainer{u}
 \end{equation}
 であった．
 
 \TK{CHECK}
 
-式\eqref{eq:def-of-i}から $ix=\mPureWith{\mFFunc\mXVar}$ すなわち $i=\mPureWith{f\mAnonParam}$ の関係を抜き出すと式\eqref{eq:i-love-u}は
+式\eqref{eq:def-of-i}から $ix=\mPureWith{\hFunc{f}\hVar{x}}$ すなわち $i=\mPureWith{f\hAnonParam}$ の関係を抜き出すと式\eqref{eq:i-love-u}は
 \begin{equation}
-\mVarContainer{a}=\mPureWith{f\mAnonParam}\mBind\mVarContainer{u}
+\mVarContainer{a}=\mPureWith{f\hAnonParam}\mBind\mVarContainer{u}
 \end{equation}
-となる．いま $y=\mFFunc\mXVar$ であったから $\mVarContainer{a}=\mVarContainer{v}$ であり，最終的に
+となる．いま $y=\hFunc{f}\hVar{x}$ であったから $\mVarContainer{a}=\mVarContainer{v}$ であり，最終的に
 \begin{equation}
 \mVarContainer{v}
-=\mFFunc\mMap\mVarContainer{u}
+=\hFunc{f}\mMap\mVarContainer{u}
 =\mPureWith{f}\mAppMap\mVarContainer{u}
-=\mPureWith{f\mAnonParam}\mBind\mVarContainer{u}
+=\mPureWith{f\hAnonParam}\mBind\mVarContainer{u}
 \end{equation}
 を得る．これが一般バインド演算子と一般アプリカティブマップ演算子，一般マップ演算子の関係である．
 
@@ -3026,7 +2527,7 @@ $\mFunctorTypeClass$ 型クラスは一般マップ演算子 $(\mMap)$ を持っ
 
 \begin{equation}
   f\mBind\mList{x}
-  =\mJoinList(\mFFunc\mMapList\mList{x})
+  =\mJoinList(\hFunc{f}\mMapList\mList{x})
 \end{equation}
 
 Maybeモナド
@@ -3043,12 +2544,12 @@ Maybeモナド
 
 \begin{equation}
   f\mBind\mMaybe{u}
-  =\mCaseOf{\mMaybe{u}}
+  =\hCaseSyntax{\mMaybe{u}}
   \begin{cases}
     \mJustWith{x}
-    &\mIfSo\mJustWith{\mFFunc\mXVar}\\
+    &\hIfSo\mJustWith{\hFunc{f}\hVar{x}}\\
     \_
-    &\mIfSo\mNothing
+    &\hIfSo\mNothing
   \end{cases}
 \end{equation}
 
@@ -3057,7 +2558,7 @@ Maybeモナド
 \TK{To be written.}
 \begin{equation}
   f\mBindComp g
-  =\mFFunc\mBind(g\mAnonParam)
+  =\hFunc{f}\mBind(g\hAnonParam)
 \end{equation}
 
 
@@ -3068,9 +2569,9 @@ Maybeモナド
 関手の一般マップ演算子 $(\mMap)$ は次の規則に従う．
 \begin{enumerate}
 \item 単位元の存在: $\mId\mMap u=u$
-\item 合成則: $(f\mCompFunc g)\mMap=(\mFFunc\mMap)\mCompFunc{}(g\mMap)$%=\mFFunc\mMap{}(g\mMap\mAnonParam)$
+\item 合成則: $(f\mCompFunc g)\mMap=(\hFunc{f}\mMap)\mCompFunc{}(g\mMap)$%=\hFunc{f}\mMap{}(g\mMap\hAnonParam)$
 \end{enumerate}
-ただし関数 $\mId$ は $\mId x=x$ で定義される．もちろん $\mId=\mAnonParam$ と定義しても同じである．
+ただし関数 $\mId$ は $\mId x=x$ で定義される．もちろん $\mId=\hAnonParam$ と定義しても同じである．
 
 % https://en.wikibooks.org/wiki/Haskell/The_Functor_class#The_functor_laws
 
@@ -3078,10 +2579,10 @@ Maybeモナド
 
 合成則のほうは $\mList{x}=[x]$ を例に考えるとわかりやすく，
 \begin{align}
-  ((\mFFunc\mMap)\mCompFunc(g\mMap))\mList{x}
-  &=(\mFFunc\mMap{}(g\mMap\mAnonParam))\mList{x}\\
-  &=\mFFunc\mMap{}(g\mMap\mList{x})\\
-  &=\mFFunc\mMap{}[\mGFunc\mXVar]\\
+  ((\hFunc{f}\mMap)\mCompFunc(g\mMap))\mList{x}
+  &=(\hFunc{f}\mMap{}(g\mMap\hAnonParam))\mList{x}\\
+  &=\hFunc{f}\mMap{}(g\mMap\mList{x})\\
+  &=\hFunc{f}\mMap{}[\hFunc{g}\hVar{x}]\\
   &=[(f\mCompFunc g)x]\\
   &=(f\mCompFunc g)\mMap{}[x]\\
   &=(f\mCompFunc g)\mMap\mList{x}
@@ -3095,37 +2596,37 @@ Maybeモナド
 アプリカティブ関手の一般アプリカティブマップ演算子 $(\mAppMap)$ およびピュア演算子は次の規則に従う．
 \begin{enumerate}
 \item 単位元の存在: $\mPureWith{\mId}\mAppMap u=u$
-\item 準同型則: $\mPureWith{f}\mAppMap\mPureWith{x}=\mPureWith{\mFFunc\mXVar}$
+\item 準同型則: $\mPureWith{f}\mAppMap\mPureWith{x}=\mPureWith{\hFunc{f}\hVar{x}}$
 \item 合成則: $\mPureWith{(\mCompFunc)}\mAppMap\phi\mAppMap\psi\mAppMap v=\phi\mAppMap{}(\psi\mAppMap v)$
 \item 交換則: $\varphi\mAppMap\mPureWith{y}=\mPureWith{(\mApply y)}\mAppMap\varphi$
-% \item $\mFFunc\mMap=\mPureWith{f}\mAppMap$ --- （上述の四つの法則から導かれる）
+% \item $\hFunc{f}\mMap=\mPureWith{f}\mAppMap$ --- （上述の四つの法則から導かれる）
 \end{enumerate}
 % https://en.wikibooks.org/wiki/Haskell/Applicative_functors#Applicative_functor_laws
-ここでも $\mId=\mAnonParam$ である．
+ここでも $\mId=\hAnonParam$ である．
 
-アプリカティブマップ演算子の準同型則は $w=\mPureWith{\mFFunc\mXVar}$ とした時に，
+アプリカティブマップ演算子の準同型則は $w=\mPureWith{\hFunc{f}\hVar{x}}$ とした時に，
 \begin{equation}
 \begin{matrix}
 &x&\xrightarrow{\mPureWith{\dotsb}}&\mPureWith{x}\\
 f&\Big\downarrow&&\Big\downarrow&\mPureWith{f}\mAppMap\\
-&\mFFunc\mXVar&\xrightarrow{\mPureWith{\dotsb}}&w
+&\hFunc{f}\hVar{x}&\xrightarrow{\mPureWith{\dotsb}}&w
 \end{matrix}
 \end{equation}
-のように $\mXVar$ からスタートして，どちらのルートを辿っても $w$ に行き着くという意味である．
+のように $\hVar{x}$ からスタートして，どちらのルートを辿っても $w$ に行き着くという意味である．
 
 アプリカティブマップ演算子の合成則も注釈が必要であろう．仮に $\phi=\mPureWith{g},\psi=\mPureWith{h},v=\mPureWith{z}$ とすると，合成則の左辺は
 \begin{align}
 \mPureWith{(\mCompFunc)}\mAppMap\phi\mAppMap\psi\mAppMap v
 &=\mPureWith{(\mCompFunc)g}\mAppMap\psi\mAppMap v\\
 &=\mPureWith{(\mCompFunc)gh}\mAppMap v\\
-&=\mPureWith{\mGFunc\mCompFunc\mHFunc}\mAppMap v\\
-&=\mPureWith{\mGFunc\mCompFunc\mHFunc\mZVar}
+&=\mPureWith{\hFunc{g}\mCompFunc\mHFunc}\mAppMap v\\
+&=\mPureWith{\hFunc{g}\mCompFunc\mHFunc\mZVar}
 \end{align}
 となる一方，合成則の右辺は
 \begin{align}
 \phi\mAppMap{}(\psi\mAppMap v)
 &=\phi\mAppMap\mPureWith{hz}\\
-&=\mPureWith{\mGFunc\mCompFunc\mHFunc\mZVar}
+&=\mPureWith{\hFunc{g}\mCompFunc\mHFunc\mZVar}
 \end{align}
 となり一致する．合成則とは，このような関係が満たされるように一般アプリカティブマップ演算子を定義しておきなさいという意味だ．
 
@@ -3135,7 +2636,7 @@ f&\Big\downarrow&&\Big\downarrow&\mPureWith{f}\mAppMap\\
 \begin{enumerate}
 \item 右単位元の存在: $i\mBind{}\mPureWith{x}=ix$
 \item 左単位元の存在: $\mPureWith{\mId}\mBind u=u$
-\item 結合則: $i\mBind{}(j\mBind v)=(i\mBind{}(j\mAnonParam))\mBind v$
+\item 結合則: $i\mBind{}(j\mBind v)=(i\mBind{}(j\hAnonParam))\mBind v$
   % または $i\mBind{}(j\mBind v)=(i\mBindComp j)\mBind v$
 \end{enumerate}
 % https://wiki.haskell.org/Monad_laws
@@ -3153,27 +2654,27 @@ i\mBind(j\mBind v)&=i\mBind\mPureWith{gy}\\
 &=\mPureWith{f(gy)}\\
 &=\mPureWith{f\mCompFunc gy}
 \end{align}
-である一方，$k=i\mBind{}(j\mAnonParam)$ とすると
+である一方，$k=i\mBind{}(j\hAnonParam)$ とすると
 \begin{align}
-kz&=(i\mBind(j\mAnonParam))z\\
+kz&=(i\mBind(j\hAnonParam))z\\
 &=i\mBind(jz)\\
 &=\mPureWith{f(gz)}\\
 &=\mPureWith{f\mCompFunc gz}
 \end{align}
 であるから
 \begin{equation}
-k=i\mBind{}(j\mAnonParam)=\mPureWith{f\mCompFunc g\mAnonParam}
+k=i\mBind{}(j\hAnonParam)=\mPureWith{f\mCompFunc g\hAnonParam}
 \end{equation}
 を得る．ここで
 \begin{align}
-\mPureWith{f\mCompFunc g\mAnonParam}\mBind v
+\mPureWith{f\mCompFunc g\hAnonParam}\mBind v
 &=(f\mCompFunc g)\mMap v\\
 &=\mPureWith{f\mCompFunc gy}
 \end{align}
 であるから，結合則
 \begin{align}
   i\mBind{}(j\mBind v)
-  &=(i\mBind{}(j\mAnonParam))\mBind v\\
+  &=(i\mBind{}(j\hAnonParam))\mBind v\\
   &=(i\mBindComp j)\mBind v
 \end{align}
 を得ることになる．
@@ -3225,7 +2726,7 @@ k=i\mBind{}(j\mAnonParam)=\mPureWith{f\mCompFunc g\mAnonParam}
   &
   &
   &
-  &$\mZeroNumber$
+  &$\hConstant{0}$
   &$+$\\
 \hline
 整数
@@ -3233,7 +2734,7 @@ k=i\mBind{}(j\mAnonParam)=\mPureWith{f\mCompFunc g\mAnonParam}
   &
   &
   &
-  &$\mOneNumber$
+  &$\hConstant{1}$
   &$*$\\
 \hline\hline
 一般コンテナ
@@ -3258,14 +2759,14 @@ Maybe
   &$\mAppMapMaybe$
   &$\mMapMaybe$
   &$\mNothing$
-  &（$\mXVar$ の型に依存）\\
+  &（$\hVar{x}$ の型に依存）\\
 \hline
 関数
   &$\mBindFunc$
   &$\mConstWith{x}$
   &$\mAppMapFunc$
   &$\mMapFunc$
-  &$\mAnonParam$
+  &$\hAnonParam$
   &$\mCompFunc$\\
 \hline
 % \hline
@@ -3284,38 +2785,38 @@ Maybe
 
 関数はアプリカティブ関手であった．関数のピュア演算子とアプリカティブマップ演算子はそれぞれ
 \begin{align}
-\mConstWith{x}&=\mLambdaEXP{\_}{\mXVar}\\
-\mGFunc\mAppMapFunc\mFFunc&=\mLambdaEXP{\mXVar}{\mGFunc\mXVar(\mFFunc\mXVar)}
+\mConstWith{x}&=\mLambdaEXP{\_}{\hVar{x}}\\
+\hFunc{g}\mAppMapFunc\hFunc{f}&=\mLambdaEXP{\hVar{x}}{\hFunc{g}\hVar{x}(\hFunc{f}\hVar{x})}
 \end{align}
 であった．
-% 関数ピュア演算子は，任意の引数 $\mXVar$ を関数に置き換える．ただし，その関数は引数を捨てて元の変数 $\mXVar$ を返す．例えば
+% 関数ピュア演算子は，任意の引数 $\hVar{x}$ を関数に置き換える．ただし，その関数は引数を捨てて元の変数 $\hVar{x}$ を返す．例えば
 % \begin{equation}
 % x=\mFuncWith{x}y
 % \end{equation}
-% と，ダミー変数 $\mYVar$ を使って中身の $\mXVar$ を取り出せる．
+% と，ダミー変数 $\hVar{y}$ を使って中身の $\hVar{x}$ を取り出せる．
 
 関数のバインド演算子 $\mBindFunc$ を考えておこう．関数のバインド演算子は
 \begin{equation}
-g\mBindFunc f=\mLambdaEXP{x}{g(\mFFunc\mXVar)x}
+g\mBindFunc f=\mLambdaEXP{x}{g(\hFunc{f}\hVar{x})x}
 \end{equation}
 と定義する．ピュア演算子とバインド演算子から，関数のマップ演算子を
 \begin{align}
-\mConstWith{g\mAnonParam}\mBindFunc f
-&=\mLambdaEXP{x}{\mConstWith{g\mAnonParam}(\mFFunc\mXVar)x}\\
-&=\mLambdaEXP{x}{\mConstWith{g(\mFFunc\mXVar)}x}\\
-&=\mLambdaEXP{x}{(\mLambdaEXP{\_}{g(\mFFunc\mXVar)})x}\\
-&=\mLambdaEXP{x}{g(\mFFunc\mXVar)}\\
-&=\mGFunc\mCompFunc f\\
-&=\mGFunc\mMapFunc f
+\mConstWith{g\hAnonParam}\mBindFunc f
+&=\mLambdaEXP{x}{\mConstWith{g\hAnonParam}(\hFunc{f}\hVar{x})x}\\
+&=\mLambdaEXP{x}{\mConstWith{g(\hFunc{f}\hVar{x})}x}\\
+&=\mLambdaEXP{x}{(\mLambdaEXP{\_}{g(\hFunc{f}\hVar{x})})x}\\
+&=\mLambdaEXP{x}{g(\hFunc{f}\hVar{x})}\\
+&=\hFunc{g}\mCompFunc f\\
+&=\hFunc{g}\mMapFunc f
 \end{align}
 のように合成できる．
 
 まとめると
 \begin{align}
 \mConstWith{x}&=\mLambdaEXP{\_}{x}\\
-\mGFunc\mMapFunc\mFFunc&=\mLambdaEXP{x}{g(\mFFunc\mXVar)}=\mGFunc\mCompFunc f\\
-\mGFunc\mAppMapFunc\mFFunc&=\mLambdaEXP{x}{\mGFunc\mXVar(\mFFunc\mXVar)}\\
-g\mBindFunc f&=\mLambdaEXP{x}{g(\mFFunc\mXVar)x}
+\hFunc{g}\mMapFunc\hFunc{f}&=\mLambdaEXP{x}{g(\hFunc{f}\hVar{x})}=\hFunc{g}\mCompFunc f\\
+\hFunc{g}\mAppMapFunc\hFunc{f}&=\mLambdaEXP{x}{\hFunc{g}\hVar{x}(\hFunc{f}\hVar{x})}\\
+g\mBindFunc f&=\mLambdaEXP{x}{g(\hFunc{f}\hVar{x})x}
 \end{align}
 である．
 
@@ -3325,9 +2826,9 @@ g\mBindFunc f&=\mLambdaEXP{x}{g(\mFFunc\mXVar)x}
 
 \separator
 
-関数はモノイドとしての性質も持つ．関数 $\mId=\mAnonParam$ とすると，任意の関数 $\mFFunc$ に対して
+関数はモノイドとしての性質も持つ．関数 $\mId=\hAnonParam$ とすると，任意の関数 $\hFunc{f}$ に対して
 \begin{equation}
-\mId\mCompFunc f=\mFFunc\mCompFunc\mId=\mFFunc
+\mId\mCompFunc f=\hFunc{f}\mCompFunc\mId=\hFunc{f}
 \end{equation}
 であるから，関数全体の集合を $\mFSet$ で表すと，組み合わせ $(\mFSet,\mCompFunc,\mId)$ はモノイドである．
 
@@ -3368,11 +2869,11 @@ A...
 
 ここに $\alpha$ はアクションであり，変数ではない．一方で，アクション $\mPutStr$ は変数を受け取る．つまり，アクションから何らかの方法で値を「安全に」抜き取らないといけない．ここで安全性にこだわるのは，アクション $\alpha$ が副作用を持つからである．副作用を参照透過な変数へ伝播させてはいけない．副作用を持つアクションは，副作用を持つアクションへのみ受け継がれなければならない．
 
-この話は何かと似ていないだろうか．そう，Maybeである．一度ゼロ除算の可能性に汚染されたコンテナ変数は，コンテナから出すことが許されないのである．Maybeを返す関数$\mFFunc$の戻り値
+この話は何かと似ていないだろうか．そう，Maybeである．一度ゼロ除算の可能性に汚染されたコンテナ変数は，コンテナから出すことが許されないのである．Maybeを返す関数$\hFunc{f}$の戻り値
 \begin{equation}
   \begin{aligned}
-    \mFFunc\mXVar&\mGuard{x\neq0}=\mJustWith{1/x}\\
-    &\mGuard{\mOtherwise}=\mNothing
+    \hFunc{f}\hVar{x}&\hGuard{x\neq0}=\mJustWith{1/x}\\
+    &\hGuard{\hOtherwise}=\mNothing
   \end{aligned}
 \end{equation}
 を，別の関数
@@ -3381,7 +2882,7 @@ A...
 \end{equation}
 に渡そうと思ったら，
 \begin{equation}
-  g\mBind \mFFunc\mXVar
+  g\mBind \hFunc{f}\hVar{x}
 \end{equation}
 のようにバインド演算子で合成しなければならなかった．
 
@@ -3452,7 +2953,7 @@ define main:
 
 do記法には $\mDoEq$ の他に，我々の $\mLetKeyword$ とよく似た $\mDoLetKeyword$ という構文が用意されている．この $\mDoLetKeyword$ は局所変数の導入に用いられて，例えば
 \begin{equation}
-\omega=\mDo{\mDoLet{y}{\mFFunc\mXVar}\mDoNext\alpha y}
+\omega=\mDo{\mDoLet{y}{\hFunc{f}\hVar{x}}\mDoNext\alpha y}
 \end{equation}
 のように使う．
 
@@ -3461,15 +2962,15 @@ do記法には $\mDoEq$ の他に，我々の $\mLetKeyword$ とよく似た $\m
 \mDo{\alpha x}=\alpha x\\
 \mDo{y\mDoEq\alpha x\mDoNext\beta y}=\beta\mBind\alpha x\\
 \mDo{\alpha x\mDoNext\beta y}=(\mLambdaEXP{\_}{\beta y})\mBind \alpha x\label{eq:do-alpha-beta}\\
-\mDo{\mDoLet{y}{\mFFunc\mXVar}\mDoNext\alpha y}=\alpha y\mWhereIsEXP{y}{\mFFunc\mXVar}\\
+\mDo{\mDoLet{y}{\hFunc{f}\hVar{x}}\mDoNext\alpha y}=\alpha y\mWhereIsEXP{y}{\hFunc{f}\hVar{x}}\\
 \mDo{y\mDoEq\alpha x\mDoNext\mDoLet{z}{fy}\mDoNext\beta z}
-=\beta\mBind{}(\mFFunc\mMap\alpha x)
+=\beta\mBind{}(\hFunc{f}\mMap\alpha x)
 \end{gather}
 より複雑な例も挙げる．
 \begin{multline}
 \mDo{y\mDoEq\alpha x\mDoNext y'\mDoEq\alpha'x'\mDoNext\mDoLet{z}{fyy'}
 \mDoNext\beta z}\\
-=\beta\mBind{}(\mFFunc\mMap\alpha x\mAppMap\alpha'x')
+=\beta\mBind{}(\hFunc{f}\mMap\alpha x\mAppMap\alpha'x')
 \end{multline}
 最後にdo記法中に変数を2回以上使いまわす例を示す．
 \begin{multline}
@@ -3512,12 +3013,12 @@ IOモナドの変数値を読み出すために行われる関数呼び出しは
 
 もうひとつ，アクションが関数でなければならない理由がある．\haskell はいつも遅延評価を行うことを思い出してもらいたい．\python であれば，式は書かれた順に評価される．しかし，例えば
 \begin{align}
-y_1&=\mFFunc \mXVar_1\\
-y_2&=\mGFunc \mXVar_2
+y_1&=\hFunc{f} \hVar{x}_1\\
+y_2&=\hFunc{g} \hVar{x}_2
 \end{align}
-という式があった場合，関数 $\mFFunc$ と $\mGFunc$ のどちらが先に評価されるか，あるいは同時に評価されるかは\haskell では未定義である．\haskell で唯一計算順序が保証されているのは，関数適用である．例えば
+という式があった場合，関数 $\hFunc{f}$ と $\hFunc{g}$ のどちらが先に評価されるか，あるいは同時に評価されるかは\haskell では未定義である．\haskell で唯一計算順序が保証されているのは，関数適用である．例えば
 \begin{equation}
-y=\mGFunc_2(g_1x)
+y=\hFunc{g}_2(g_1x)
 \end{equation}
 であれば，確実に関数 $g_1$ が関数 $g_2$ よりも先に評価される．
 
@@ -3577,7 +3078,7 @@ $\mType{Num}$ を
 
 \separator
 
-新しいデータ型がある型クラスに属すとき，$\mDataType$ 文でそれを同時に宣言できる．例えば $\mType{Num}$ 型は同値演算子 $(\equiv)$ を持つことが自然である．型 $\mType{Num}$ が $\mEqTypeClass$ 型クラスに属すとき，
+新しいデータ型がある型クラスに属すとき，$\mDataType$ 文でそれを同時に宣言できる．例えば $\mType{Num}$ 型は同値演算子 $(\hIfEq)$ を持つことが自然である．型 $\mType{Num}$ が $\mEqTypeClass$ 型クラスに属すとき，
 \begin{equation}
   \mDataType\;
   \mType{Num}
@@ -3586,7 +3087,7 @@ $\mType{Num}$ を
 \end{equation}
 のように書く．\footnote{\haskell では \code{data Num = One | Two | Three | Many deriving Eq} と書く．}
 
-型 $\mType{Num}$ の同値演算子 $(\equiv)$ の実装は\ref{sec:type-class-and-instance}節で見ることにする．
+型 $\mType{Num}$ の同値演算子 $(\hIfEq)$ の実装は\ref{sec:type-class-and-instance}節で見ることにする．
 
 \section{レコード構文}
 
@@ -3687,15 +3188,15 @@ $\mType{Rectangle}$ 型から中身を取り出すには，次のような関数
 \section{型クラスとインスタンス化}
 \label{sec:type-class-and-instance}
 
-型クラスとは，複数の型が持つ共通のインタフェースである．その複数の型をいま $\mA$ で表すこととして，型 $\mA$ が型クラス$\mEqTypeClass$ に属すとしよう．型クラス $\mEqTypeClass$ は等号$(\equiv)$ と不等号 $(\neq)$ をインタフェースとして持つ．このことを
+型クラスとは，複数の型が持つ共通のインタフェースである．その複数の型をいま $\mA$ で表すこととして，型 $\mA$ が型クラス$\mEqTypeClass$ に属すとしよう．型クラス $\mEqTypeClass$ は等号$(\hIfEq)$ と不等号 $(\neq)$ をインタフェースとして持つ．このことを
 \begin{equation}
   \mTypeClassDecl\mathop{\mEqTypeClass}\mSuperSet\mA\mWhere{}
   \left\{
   \begin{aligned}
-    &(\equiv)\mIn\mProjEXP{\mA }{\mProjEXP{\mA }{\mBoolType}}\\
+    &(\hIfEq)\mIn\mProjEXP{\mA }{\mProjEXP{\mA }{\mBoolType}}\\
     &(\neq)\mIn\mProjEXP{\mA }{\mProjEXP{\mA }{\mBoolType}}\\
-    &x\equiv y=\neg(x\neq y)\\
-    &x\neq y=\neg(x\equiv y)
+    &x\hIfEq y=\neg(x\neq y)\\
+    &x\neq y=\neg(x\hIfEq y)
   \end{aligned}
   \right.
 \end{equation}
@@ -3719,11 +3220,11 @@ $\mType{Rectangle}$ 型から中身を取り出すには，次のような関数
   \mWhere{}
   \left\{
   \begin{aligned}
-    \mNumOne\equiv\mNumOne&=\mTrue\\
-    \mNumTwo\equiv\mNumTwo&=\mTrue\\
-    \mNumThree\equiv\mNumThree&=\mTrue\\
-    \mNumMany\equiv\mNumMany&=\mTrue\\
-    \_\equiv\_&=\mFalse
+    \mNumOne\hIfEq\mNumOne&=\hTrue\\
+    \mNumTwo\hIfEq\mNumTwo&=\hTrue\\
+    \mNumThree\hIfEq\mNumThree&=\hTrue\\
+    \mNumMany\hIfEq\mNumMany&=\hTrue\\
+    \_\hIfEq\_&=\hFalse
   \end{aligned}
   \right.
 \end{equation}
@@ -3773,17 +3274,17 @@ $\mType{Rectangle}$ 型から中身を取り出すには，次のような関数
   \mWhere{}
   \left\{
   \begin{aligned}
-    \mNumOne\le\mNumOne&=\mTrue\\
-    \mNumOne\le\mNumTwo&=\mTrue\\
-    \mNumOne\le\mNumThree&=\mTrue\\
-    \mNumOne\le\mNumMany&=\mTrue\\
-    \mNumTwo\le\mNumTwo&=\mTrue\\
-    \mNumTwo\le\mNumThree&=\mTrue\\
-    \mNumTwo\le\mNumMany&=\mTrue\\
-    \mNumThree\le\mNumThree&=\mTrue\\
-    \mNumThree\le\mNumMany&=\mTrue\\
-    \mNumMany\le\mNumMany&=\mTrue\\
-    \_\le\_&=\mFalse
+    \mNumOne\le\mNumOne&=\hTrue\\
+    \mNumOne\le\mNumTwo&=\hTrue\\
+    \mNumOne\le\mNumThree&=\hTrue\\
+    \mNumOne\le\mNumMany&=\hTrue\\
+    \mNumTwo\le\mNumTwo&=\hTrue\\
+    \mNumTwo\le\mNumThree&=\hTrue\\
+    \mNumTwo\le\mNumMany&=\hTrue\\
+    \mNumThree\le\mNumThree&=\hTrue\\
+    \mNumThree\le\mNumMany&=\hTrue\\
+    \mNumMany\le\mNumMany&=\hTrue\\
+    \_\le\_&=\hFalse
   \end{aligned}
   \right.
 \end{equation}
@@ -3846,16 +3347,16 @@ Maybeが型クラス $\mEqTypeClass$ に属すものとして，$\mEqTypeClass$ 
   \mWhere
   \left\{
   \begin{aligned}
-    \mJustWith{x}\equiv\mJustWith{y}
-    &=x\equiv y\\
-    \mNothing\equiv\mNothing
-    &=\mTrue\\
-    \_\equiv\_
-    &=\mFalse
+    \mJustWith{x}\hIfEq\mJustWith{y}
+    &=x\hIfEq y\\
+    \mNothing\hIfEq\mNothing
+    &=\hTrue\\
+    \_\hIfEq\_
+    &=\hFalse
   \end{aligned}
   \right.
 \end{equation}
-残念ながら，この式は $\mA $ 型の変数 $\mXVar,\mYVar$ の間に等号 $(\equiv)$ が定義されていることが隠れた前提になっているため，正しくない．我々は $\mA $ が型クラス $\mEqTypeClass$ に属すことを要求するので，次のように言い換える．
+残念ながら，この式は $\mA $ 型の変数 $\hVar{x},\hVar{y}$ の間に等号 $(\hIfEq)$ が定義されていることが隠れた前提になっているため，正しくない．我々は $\mA $ が型クラス $\mEqTypeClass$ に属すことを要求するので，次のように言い換える．
 \begin{multline}
 \mInstanceDeclPolymorphic\;
 \mEqTypeClass\mSuperSet\mA
@@ -3864,9 +3365,9 @@ Maybeが型クラス $\mEqTypeClass$ に属すものとして，$\mEqTypeClass$ 
 \mWhere
 \left\{
 \begin{aligned}
-\mJustWith{x}\equiv\mJustWith{y}&=x\equiv y\\
-\mNothing\equiv\mNothing&=\mTrue\\
-\_\equiv\_&=\mFalse
+\mJustWith{x}\hIfEq\mJustWith{y}&=x\hIfEq y\\
+\mNothing\hIfEq\mNothing&=\hTrue\\
+\_\hIfEq\_&=\hFalse
 \end{aligned}
 \right.
 \end{multline}
@@ -3879,9 +3380,9 @@ Maybeが型クラス $\mEqTypeClass$ に属すものとして，$\mEqTypeClass$ 
 \end{verbatim}
 と書く．}
 
-Maybeの間に新たに定義された等号 $(\equiv)$ は次の型を持つ．
+Maybeの間に新たに定義された等号 $(\hIfEq)$ は次の型を持つ．
 \begin{equation}
-(\equiv)
+(\hIfEq)
 \mIn{}\mEqTypeClass\mSuperSet\mA
 \mSuperClass\mProjEXP{\mMaybeType{a}}{\mProjEXP{\mMaybeType{a}}{\mBoolType}}
 \end{equation}
@@ -3951,8 +3452,8 @@ Maybe型の場合は
   \mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor
   \mWhere\left\{
   \begin{aligned}
-    \mFFunc\mMap{}\mJustWith{x}&=\mJustWith{\mFFunc\mXVar}\\
-    \mFFunc\mMap\mNothing&=\mNothing
+    \hFunc{f}\mMap{}\mJustWith{x}&=\mJustWith{\hFunc{f}\hVar{x}}\\
+    \hFunc{f}\mMap\mNothing&=\mNothing
   \end{aligned}
   \right.
 \end{equation}
@@ -3971,8 +3472,8 @@ Either型の場合は
   \mWhere{}
   \left\{
   \begin{aligned}
-    \mFFunc\mMap{}\mRightWith{x}&=\mRightWith{\mFFunc\mXVar}\\
-    \mFFunc\mMap{}\mLeftWith{x}&=\mLeftWith{x}
+    \hFunc{f}\mMap{}\mRightWith{x}&=\mRightWith{\hFunc{f}\hVar{x}}\\
+    \hFunc{f}\mMap{}\mLeftWith{x}&=\mLeftWith{x}
   \end{aligned}
   \right.
 \end{equation}
@@ -3990,15 +3491,15 @@ Either型の場合は
 
 リストに新しいマップ演算子 $\mZip$ を定義したいとしよう．この演算子 $\mZip$ は
 \begin{equation}
-  [\mFFunc,\mGFunc,\mHFunc]\mZip[x,\mYVar,\mZVar]
-  =[\mFFunc\mXVar,gy,hz]
+  [\hFunc{f},\hFunc{g},\mHFunc]\mZip[x,\hVar{y},\mZVar]
+  =[\hFunc{f}\hVar{x},gy,hz]
 \end{equation}
 のように働くとする．新しいマップ演算子 $\mZip$ のことを我々は\keyword{ジップ演算子}と呼ぶことにする．
 
 ジップ演算子を定義するにはどうしたら良いだろうか．汎用性を考えると，ジップ演算子もまたリストのアプリカティブマップ演算子であって欲しい．ところが，リストには既に $\mAppMapList$ というアプリカティブマップ演算子が定義されている．念のためにアプリカティブマップ演算子を用いると
 \begin{equation}
-  [\mFFunc,\mGFunc,\mHFunc]\mAppMapList[x,\mYVar,\mZVar]
-  =[\mFFunc\mXVar,\mFFunc\mYVar,\mFFunc\mZVar,\mGFunc\mXVar,\mGFunc\mYVar,\mGFunc\mZVar,\mHFunc\mXVar,\mHFunc\mYVar,\mHFunc\mZVar]
+  [\hFunc{f},\hFunc{g},\mHFunc]\mAppMapList[x,\hVar{y},\mZVar]
+  =[\hFunc{f}\hVar{x},\hFunc{f}\hVar{y},\hFunc{f}\mZVar,\hFunc{g}\hVar{x},\hFunc{g}\hVar{y},\hFunc{g}\mZVar,\mHFunc\hVar{x},\mHFunc\hVar{y},\mHFunc\mZVar]
 \end{equation}
 である．ある型のインスタンス化は一種類しか行えないので，リスト型に新しいアプリカティブマップ演算子を追加することは出来ない．
 
@@ -4021,7 +3522,7 @@ Either型の場合は
   \mInstanceDeclPolymorphic\;
   \mFunctorTypeClass\mSuperSet\mZipListTypeConstructor\\
   \mWhere
-  \mFFunc\mMap{}\mZipListWith{\mList{x}}=\mZipListWith{\mFFunc\mMapList\mList{x}}
+  \hFunc{f}\mMap{}\mZipListWith{\mList{x}}=\mZipListWith{\hFunc{f}\mMapList\mList{x}}
 \end{multline}
 および
 \begin{multline}
@@ -4044,7 +3545,7 @@ Either型の場合は
   \begin{aligned}
     (\mZip)\_\mEmptyList&=\mEmptyList\\
     (\mZip)\mEmptyList\_&=\mEmptyList\\
-    (\mZip)(\mXVar:\mList{x})(y:\mList{y})&=(x\mApply y):\mList{x}\mZip\mList{y}
+    (\mZip)(\hVar{x}:\mList{x})(y:\mList{y})&=(x\mApply y):\mList{x}\mZip\mList{y}
   \end{aligned}
   \right.
 \end{equation}
@@ -4055,7 +3556,7 @@ Either型の場合は
   \left\mBrace
   \begin{aligned}
     &\mRepeat\mIn{}\mProjEXP{[\mA]}{[\mA]}\\
-    &\mRepeat x=\mXVar:\mRepeat x
+    &\mRepeat x=\hVar{x}:\mRepeat x
   \end{aligned}
   \right.
 \end{equation}
@@ -4063,13 +3564,13 @@ Either型の場合は
 
 任意のリスト $\mList{x}$ と任意の関数リスト $\mList{f}$ ただし
 \begin{align}
-\mList{x}&=[\mXVar_0,\mXVar_1,\dotsb]\\
-\mList{f}&=[\mFFunc_0,\mFFunc,\dotsb]
+\mList{x}&=[\hVar{x}_0,\hVar{x}_1,\dotsb]\\
+\mList{f}&=[\hFunc{f}_0,\hFunc{f},\dotsb]
 \end{align}
 の両方をそれぞれ値コンストラクタで包んでアプリカティブマップ演算子を適用すると
 \begin{equation}
   \mZipListWith{\mList{f}}\mAppMap\mZipListWith{\mList{x}}
-  =[\mFFunc_0\mXVar_0,\mFFunc \mXVar_1,\dotsb]
+  =[\hFunc{f}_0\hVar{x}_0,\hFunc{f} \hVar{x}_1,\dotsb]
 \end{equation}
 のようにジップ演算子を適用できる．
 
@@ -4096,8 +3597,8 @@ $\mNewTypeDeclPolymorphic$ に置き換えたことである．これは，字�
     &=\mEmptyList\\
     \mZipWith\_\_\mEmptyList
     &=\mEmptyList\\
-    \mZipWith f(\mXVar:\mList{x})(y:\mList{y})
-    &=\mFFunc\mXVar\mYVar:\mZipWith f\mList{x}\mList{y}
+    \mZipWith f(\hVar{x}:\mList{x})(y:\mList{y})
+    &=\hFunc{f}\hVar{x}\hVar{y}:\mZipWith f\mList{x}\mList{y}
     \end{aligned}
     \right.
   \end{aligned}
@@ -4112,8 +3613,8 @@ $\mNewTypeDeclPolymorphic$ に置き換えたことである．これは，字�
 
 関数 $\mZipWith$ を再帰的に定義したが，再帰をリストのマップ演算子に押し込むこともできる．それには
 \begin{equation}
-  \mZipWith f(\mXVar:\mList{x})(y:\mList{y})
-  =\mFFunc'\mMapList\mList{z}
+  \mZipWith f(\hVar{x}:\mList{x})(y:\mList{y})
+  =\hFunc{f}'\mMapList\mList{z}
   \mWhere
   \left\{
   \begin{aligned}
@@ -4131,7 +3632,7 @@ $\mNewTypeDeclPolymorphic$ に置き換えたことである．これは，字�
     {}&\mZipFunc\mIn{}\mProjEXP{[\mA]}
     {\mProjEXP{[\mB]}
       {([\mA],[\mB])}}\\
-    {}&\mZipFunc \mXVar\mYVar=(x,y)
+    {}&\mZipFunc \hVar{x}\hVar{y}=(x,y)
   \end{aligned}
   \right.
 \end{equation}
@@ -4142,14 +3643,14 @@ $\mNewTypeDeclPolymorphic$ に置き換えたことである．これは，字�
     {}&\mUncurry\mIn{}
     \mProjEXP{(\mProjEXP{\mA }{\mProjEXP{\mB }{\mC }})}
           {\mProjEXP{(\mA ,\mB )}{\mC }}\\
-          {}&\mUncurry f\mXVar\mYVar=\mFFunc(x,y)
+          {}&\mUncurry f\hVar{x}\hVar{y}=\hFunc{f}(x,y)
   \end{aligned}
   \right.
 \end{equation}
 である．\footnote{\haskell では $\mZipWith$ 関数を
 \begin{verbatim}
   zipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
-  zipWith f (\mXVar:xs) (y:ys) = f' `map` zs where
+  zipWith f (\hVar{x}:xs) (y:ys) = f' `map` zs where
     f' = uncurry f
     zs = zip xs ys
 \end{verbatim}
@@ -4169,7 +3670,7 @@ $\mNewTypeDeclPolymorphic$ に置き換えたことである．これは，字�
 \section{多値*}
 
 \haskell の関数の引数は常にひとつであり，戻り値も常にひとつである．しか
-し，複数の戻り値を返したい場合もある．例えば実数 $\mXVar$ の平方根は
+し，複数の戻り値を返したい場合もある．例えば実数 $\hVar{x}$ の平方根は
 $\sqrt{x}$ および $-\sqrt{x}$ のふたつである．そこで次のような関数
 $\mSqrts$ ただし
 \begin{equation}
@@ -4275,7 +3776,7 @@ $\mMapList$ を使う．
 と書く．}
 
 このふたつの関数 $\mDuplicate$ と $\mTriplicate$ をもし合成できるとし
-たら，合成された関数は $\mXVar$ を引数に取り $[x,x,x,x,x,x]$ を返すものと考
+たら，合成された関数は $\hVar{x}$ を引数に取り $[x,x,x,x,x,x]$ を返すものと考
 えるのが自然であろう．しかし，どのように合成したら良いだろうか．
 
 いま欲しいのは，
@@ -4414,7 +3915,7 @@ $\mCompCat=\mCompFunc$ になるので，圏は関数を何やら拡張したも
   =\mX\mFuncArrow[\mY]
 \end{equation}
 と考えてみよう．つまり
-$\mTypeConstructor{c}=((\mFuncArrow)\mAnonParam[\mAnonParam])$
+$\mTypeConstructor{c}=((\mFuncArrow)\hAnonParam[\hAnonParam])$
 と考えるわけである．
 
 そうすると，まず $\mIdCat$ は $\mA\mFuncArrow[\mA]$ 型でなければならないか
@@ -4436,7 +3937,7 @@ $(\mX\mFuncArrow[\mX])\mFuncArrow(\mX\mFuncArrow[\mX])\mFuncArrow(\mX\mFuncArrow
 をそのまま抽象化して
 \begin{equation}
   \label{eq:triplicate-duplicate-comp}
-  f\mCompCat g=\mJoinList\mCompFunc{}(\mFFunc\mMapList)\mCompFunc g
+  f\mCompCat g=\mJoinList\mCompFunc{}(\hFunc{f}\mMapList)\mCompFunc g
 \end{equation}
 とすれば，そのまま使えそうである．
 
@@ -4454,7 +3955,7 @@ $\mCatTypeClass$ 型クラスのインスタンスにできる．ただし，式
     \mIdCat
     &=\mValueWith{NonDet}{\mLambdaEXP{x}{[x]}}\\
     \mValueWith{NonDet}{f}\mCompCat\mValueWith{NonDet}{g}
-    &=\mValueWith{NonDet}{\mJoinList\mCompFunc{}(\mFFunc\mMapList)\mCompFunc g}
+    &=\mValueWith{NonDet}{\mJoinList\mCompFunc{}(\hFunc{f}\mMapList)\mCompFunc g}
   \end{aligned}
   \right.
 \end{multline}
@@ -4546,21 +4047,21 @@ y = run (triplicate' Cat.. duplicate') x
 ところで，リストのバインド演算子 $(\mBindList)$ は
 \begin{equation}
   f\mBindList\mList{x}
-  =\mJoinList{}(\mFFunc\mMapList\mList{x})
+  =\mJoinList{}(\hFunc{f}\mMapList\mList{x})
   \label{eq:leftleftarrows}
 \end{equation}
-であった．関数 $\mFFunc$, $\mGFunc$ が $\mValueWith{NonDet}{f}$,
-$\mValueWith{NonDet}{g}$ として与えられることを考えると，関数 $\mFFunc$, $\mGFunc$
+であった．関数 $\hFunc{f}$, $\hFunc{g}$ が $\mValueWith{NonDet}{f}$,
+$\mValueWith{NonDet}{g}$ として与えられることを考えると，関数 $\hFunc{f}$, $\hFunc{g}$
 の型は $\mA\mFuncArrow[\mA]$ で確定するので，式\eqref{eq:leftleftarrows}
 の中のバインド演算子 $(\mBind)$ はリストのバインド演算子
 $(\mBindList)$ で確定する．
 
 そこでリストのバインド演算子を用いると
 \begin{align}
-  \mJoinList\mCompFunc{}(\mFFunc\mMapList)\mCompFunc g
-  &=\mLambda x\mLambdaArrow\mJoinList{}(\mFFunc\mMapList(\mGFunc\mXVar))\\
-  &=\mLambda x\mLambdaArrow f\mBindList(\mGFunc\mXVar)\\
-  &=\mFFunc\mBindComp g
+  \mJoinList\mCompFunc{}(\hFunc{f}\mMapList)\mCompFunc g
+  &=\mLambda x\mLambdaArrow\mJoinList{}(\hFunc{f}\mMapList(\hFunc{g}\hVar{x}))\\
+  &=\mLambda x\mLambdaArrow f\mBindList(\hFunc{g}\hVar{x})\\
+  &=\hFunc{f}\mBindComp g
 \end{align}
 であるから，式\eqref{eq:nondet-instance}の2行目は
 \begin{equation}
@@ -4594,8 +4095,8 @@ instance Cat.Category NonDet where
 \section{カテゴリ則*}
 
 \begin{align}
-\mIdCat\mCompCat f&=\mFFunc\mCompCat\mIdCat=\mFFunc\\
-(f\mCompCat g)\mCompCat h&=\mFFunc\mCompCat(g\mCompCat h)
+\mIdCat\mCompCat f&=\hFunc{f}\mCompCat\mIdCat=\hFunc{f}\\
+(f\mCompCat g)\mCompCat h&=\hFunc{f}\mCompCat(g\mCompCat h)
 \end{align}
 
 \section{余談: Kleisli型*}
@@ -4614,9 +4115,9 @@ instance Cat.Category NonDet where
     \mSuperClass\mA\mFuncArrow\mA\\
     &
     \begin{aligned}
-      \mathop{\mathrm{rec}}x&\mGuard{x\neq0}
+      \mathop{\mathrm{rec}}x&\hGuard{x\neq0}
       =\mJustWith{1/x}\\
-      &\mGuard{\mOtherwise}
+      &\hGuard{\hOtherwise}
       =\mNothing
     \end{aligned}
   \end{aligned}
@@ -4625,7 +4126,7 @@ instance Cat.Category NonDet where
 
 \begin{equation}
   y
-  =\sharp\mCompFunc(\mFFunc\mMapMaybe)\mCompFunc g\mApply x
+  =\sharp\mCompFunc(\hFunc{f}\mMapMaybe)\mCompFunc g\mApply x
 \end{equation}
 
 \begin{equation}
@@ -4662,8 +4163,8 @@ instance Cat.Category NonDet where
 \begin{leader}
   カテゴリが抽象化したのは関数の合成すなわち関数の分解方法である．モナ
   ドもカテゴリの一種である．% *** CHECK!!! ***
-  ただし関数 $\mGFunc$ の値が関数 $\mFFunc$ の引数に依存する場合は
-  $\mGFunc\mCompCat \mFFunc$ のように両者を合成できない．そこで考えられたのが
+  ただし関数 $\hFunc{g}$ の値が関数 $\hFunc{f}$ の引数に依存する場合は
+  $\hFunc{g}\mCompCat \hFunc{f}$ のように両者を合成できない．そこで考えられたのが
   アローである．
 \end{leader}
 
@@ -4693,13 +4194,13 @@ instance Cat.Category NonDet where
   \label{eq:mean}
   \mMean\mList{x}
   =
-  \left(\mLambda\mPairWith{\mXVar}{\mYVar}\mLambdaArrow x/y\right)\mPairWith{\mSum\mList{x}}{\mLength\mList{x}}
+  \left(\mLambda\mPairWith{\hVar{x}}{\hVar{y}}\mLambdaArrow x/y\right)\mPairWith{\mSum\mList{x}}{\mLength\mList{x}}
 \end{equation}
 幸いカリー化された2引数関数をペアを引数にとる関数へ変換する
 $\mUncurry$ 関数があり，
 \begin{equation}
   \mUncurry(\mBinOp)
-  =\mLambda\mPairWith{\mXVar}{\mYVar}\mLambdaArrow x\mBinOp y
+  =\mLambda\mPairWith{\hVar{x}}{\hVar{y}}\mLambdaArrow x\mBinOp y
 \end{equation}
 であるから，式\eqref{eq:mean}の第1項（前半の括弧）は $\mUncurry(/)$ と
 出来る．
@@ -4738,16 +4239,16 @@ $\begin{bmatrix}\vdots\end{bmatrix}$ だけの問題になる．
 \end{equation}
 という形に持っていきたい．それには
 \begin{equation}
-  \mPairWith{\mFFunc\mXVar}{gy}
+  \mPairWith{\hFunc{f}\hVar{x}}{gy}
   =
   \begin{bmatrix}
     f\\
     g
   \end{bmatrix}
   % \mathop{\square}{}
-  \mPairWith{\mXVar}{\mYVar}
+  \mPairWith{\hVar{x}}{\hVar{y}}
 \end{equation}
-となるような関数 $\mFFunc$ と関数 $\mGFunc$ の合成
+となるような関数 $\hFunc{f}$ と関数 $\hFunc{g}$ の合成
 $\begin{bmatrix}\vdots\end{bmatrix}$ が是非とも必要である．この特殊な
   関数合成を仮に\keyword{ブラケット}と呼ぶことにしよう．
 
@@ -4755,7 +4256,7 @@ $\begin{bmatrix}\vdots\end{bmatrix}$ が是非とも必要である．この特�
 \begin{equation}
   \begin{bmatrix}
     f\mCompFunc f'\\
-    \mGFunc\mCompFunc g'
+    \hFunc{g}\mCompFunc g'
   \end{bmatrix}
   =
   \begin{bmatrix}
@@ -4771,13 +4272,13 @@ $\begin{bmatrix}\vdots\end{bmatrix}$ が是非とも必要である．この特�
 なる合成演算子 $(\mCompCat)$ も同時に考えておく必要がある．と言うのも，
 ブラケットの合成が自由にできるようになると
 \begin{equation}
-  \mPairWith{\mFFunc\mXVar}{y}
+  \mPairWith{\hFunc{f}\hVar{x}}{y}
   =
   \begin{bmatrix}
     f\\
     \mId
   \end{bmatrix}
-  \mPairWith{\mXVar}{\mYVar}
+  \mPairWith{\hVar{x}}{\hVar{y}}
 \end{equation}
 のようにペアの片側だけに作用するブラケットだけを考えておけば良くなるか
 らである．
@@ -4793,8 +4294,8 @@ $\begin{bmatrix}\vdots\end{bmatrix}$ が是非とも必要である．この特�
 $\mTypeConstructor{a}$ は型コンストラクタである．
 
 $\mTypeConstructor{a}$ 型コンストラクタによって作られる値を
-\keyword{アロー}と呼ぶ．アローは関数から作られるものとする．関数 $\mFFunc$
-が $\mB\mFuncArrow\mC$ という型を持つとき，関数 $\mFFunc$ から作られたアロー
+\keyword{アロー}と呼ぶ．アローは関数から作られるものとする．関数 $\hFunc{f}$
+が $\mB\mFuncArrow\mC$ という型を持つとき，関数 $\hFunc{f}$ から作られたアロー
 を $\mArrow{f}$ と書き，アロー $\mArrow{f}$ は
 $\mB\mArrowArrow{\mTypeConstructor{a}}\mC$ という型を持つとす
 る．
@@ -4807,7 +4308,7 @@ $(\mArrowArrow{\mTypeConstructor{a}})\mB\mC$ の中置記法バージョ
 
 \separator
 
-関数 $\mFFunc$ をアロー $\mArrow{f}$ にする演算子（アロー演算子）を用意しよ
+関数 $\hFunc{f}$ をアロー $\mArrow{f}$ にする演算子（アロー演算子）を用意しよ
 う．これを
 \begin{equation}
   \mArrow{f}
@@ -4828,10 +4329,10 @@ $(\mArrowArrow{\mTypeConstructor{a}})\mB\mC$ の中置記法バージョ
 
 ふたつのアローを合成する演算子を
 \begin{equation}
-  \mArrow{\mFFunc}\mCompCat\mArrow{\mGFunc}
+  \mArrow{\hFunc{f}}\mCompCat\mArrow{\hFunc{g}}
   =
   \begin{bmatrix}
-    f_{\mOneNumber,\mOneNumber}\mCompFunc f_{2,1}\\
+    f_{\hConstant{1},\hConstant{1}}\mCompFunc f_{2,1}\\
     f_{1,2}\mCompFunc f_{2,2}
   \end{bmatrix}
 \end{equation}
@@ -4892,7 +4393,7 @@ $\mArrowTypeClass$ のインスタンスにしてみよう．
     \mArrowWith{f}
     &=\mValueWith{SimpleFunc}{f}\\
     \mFirst\mValueWith{SimpleFunc}{f}
-    &=\mValueWith{SimpleFunc}{\mLambda\mPairWith{\mXVar}{\mYVar}\mLambdaArrow\mPairWith{\mFFunc\mXVar}{y}}
+    &=\mValueWith{SimpleFunc}{\mLambda\mPairWith{\hVar{x}}{\hVar{y}}\mLambdaArrow\mPairWith{\hFunc{f}\hVar{x}}{y}}
   \end{aligned}
   \right.
 \end{multline}
@@ -4944,7 +4445,7 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
 \begin{equation}
   \mSecond
   =\mArrowWith{\mSwap}\mCompCat\mFirst
-  \mWhere\mSwap\mPairWith{\mXVar}{\mYVar}\mLetEq\mPairWith{y}{x}
+  \mWhere\mSwap\mPairWith{\hVar{x}}{\hVar{y}}\mLetEq\mPairWith{y}{x}
 \end{equation}
 が与えられており，この $\mSecond$ を使ってブラケットの定義
 \begin{equation}
@@ -5005,7 +4506,7 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
 
 \begin{equation}
   \begin{pmatrix}
-    \mFFunc\mXVar\\
+    \hFunc{f}\hVar{x}\\
     gy
   \end{pmatrix}
   =
@@ -5040,8 +4541,8 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
   \mArrow{f}\mCompCat\mArrow{g}
   =
   \begin{bmatrix}
-    \mFFunc\mCompFunc g_1\\
-    \mGFunc\mCompFunc g_2
+    \hFunc{f}\mCompFunc g_1\\
+    \hFunc{g}\mCompFunc g_2
   \end{bmatrix}
   \mWhere...
 \end{equation}
@@ -5050,13 +4551,13 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
 
 議論を簡単にするために
 \begin{equation}
-  \mPairWith{\mFFunc\mXVar}{y}
+  \mPairWith{\hFunc{f}\hVar{x}}{y}
   =\begin{bmatrix}
   f\\
   \mId
   \end{bmatrix}
   % \mathop{\square}{}
-  \mPairWith{\mXVar}{\mYVar}
+  \mPairWith{\hVar{x}}{\hVar{y}}
 \end{equation}
 と
 \begin{equation}
@@ -5065,12 +4566,12 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
   \mId\\
   g
   \end{bmatrix}
-  \mPairWith{\mXVar}{\mYVar}
+  \mPairWith{\hVar{x}}{\hVar{y}}
 \end{equation}
 を考えよう．この二つを合成すると
 \begin{equation}
   \begin{bmatrix}
-    \mFFunc\mXVar\\
+    \hFunc{f}\hVar{x}\\
     gy
   \end{bmatrix}
   =
@@ -5083,7 +4584,7 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
     f\\
     \mId
   \end{bmatrix}
-  \mPairWith{\mXVar}{\mYVar}
+  \mPairWith{\hVar{x}}{\hVar{y}}
 \end{equation}
 であるとする．つまり，合成則も一緒に考えておくのである．
 
@@ -5136,7 +4637,7 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
 
 これをアローと呼ぶ．
 
-ならば $\mFFunc$ もアローであるべきだ．
+ならば $\hFunc{f}$ もアローであるべきだ．
 
 これまでの関数の型は $\mA\mFuncArrow\mB$ であった．
 これから新しい「関数風」の型 $\mA\mCatArrowC\mB$ を考える．
@@ -5148,7 +4649,7 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
 
 \begin{equation}
   \mFirst\Vec{f}
-  =\mLambda{\mPairWith{x}{z}}\mLambdaArrow\mPairWith{\mFFunc\mXVar}{z}
+  =\mLambda{\mPairWith{x}{z}}\mLambdaArrow\mPairWith{\hFunc{f}\hVar{x}}{z}
 \end{equation}
 
 \begin{equation}
@@ -5170,15 +4671,15 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
 
 より抽象度の高い議論を行うと
 \begin{equation}
-  \mPairWith{\mFFunc\mXVar}{y}
+  \mPairWith{\hFunc{f}\hVar{x}}{y}
   =\begin{bmatrix}f\\g\end{bmatrix}
-  \mPairWith{\mXVar}{\mYVar}
+  \mPairWith{\hVar{x}}{\hVar{y}}
 \end{equation}
 さえあれば良いことがわかる．
 
 
-ただし $\Vec{\mFFunc}$, $\Vec{\mGFunc}$ はもはや関数ではなく，
-$\Vec{\mFFunc}***\Vec{\mGFunc}$ も関数ではない．
+ただし $\Vec{\hFunc{f}}$, $\Vec{\hFunc{g}}$ はもはや関数ではなく，
+$\Vec{\hFunc{f}}***\Vec{\hFunc{g}}$ も関数ではない．
 
 ---
 
@@ -5200,11 +4701,11 @@ $\Vec{\mFFunc}***\Vec{\mGFunc}$ も関数ではない．
 \end{multline}
 
 \begin{equation}
-  \mZVar=\mGFunc\mCompFunc \mFFunc x
+  \mZVar=\hFunc{g}\mCompFunc \hFunc{f} x
 \end{equation}
 
 \begin{equation}
-  \mZVar=\mathop{\mathrm{app}}\mPairWith{\mArrowWith{\mUncurry \mGFunc}\mCompCat\mFirstFunc\mArrowWith{\mFFunc}\mCompCat{}\mArrowWith{\left(\mLambda x\mLambdaArrow\mPairWith{x}{x}\right)}}{x}
+  \mZVar=\mathop{\mathrm{app}}\mPairWith{\mArrowWith{\mUncurry \hFunc{g}}\mCompCat\mFirstFunc\mArrowWith{\hFunc{f}}\mCompCat{}\mArrowWith{\left(\mLambda x\mLambdaArrow\mPairWith{x}{x}\right)}}{x}
 \end{equation}
 
 ---
@@ -5229,11 +4730,11 @@ $\Vec{\mFFunc}***\Vec{\mGFunc}$ も関数ではない．
   \begin{aligned}
     \mIdCat
     &=\mCircuitWith{\mLambda x\mLambdaArrow(\mIdCat,x)}\\
-    \mCircuitWith{\mGFunc}\mCompCat\mCircuitWith{\mFFunc}
-    &={}^{\textrm{Circ}}[[\mLambda x\mLambdaArrow(\mGFunc'\mCompCat \mFFunc',z)\\
+    \mCircuitWith{\hFunc{g}}\mCompCat\mCircuitWith{\hFunc{f}}
+    &={}^{\textrm{Circ}}[[\mLambda x\mLambdaArrow(\hFunc{g}'\mCompCat \hFunc{f}',z)\\
     &\quad\mWhere{}\left\{
-    \mPairWith{\mFFunc'}{y}\mLetEq \mFFunc x;
-    \mPairWith{\mGFunc'}{z}\mLetEq \mGFunc y\right\}]]
+    \mPairWith{\hFunc{f}'}{y}\mLetEq \hFunc{f} x;
+    \mPairWith{\hFunc{g}'}{z}\mLetEq \hFunc{g} y\right\}]]
   \end{aligned}
   \right.
 \end{multline}
@@ -5244,10 +4745,10 @@ $\Vec{\mFFunc}***\Vec{\mGFunc}$ も関数ではない．
   \mWhere\left\{
   \begin{aligned}
     \mArrowWith{f}
-    &=\mCircuitWith{\mLambda x\mLambdaArrow\mPairWith{\mArrowWith{f}}{\mFFunc\mXVar}}\\
+    &=\mCircuitWith{\mLambda x\mLambdaArrow\mPairWith{\mArrowWith{f}}{\hFunc{f}\hVar{x}}}\\
     \mFirstFunc\mCircuitWith{f}
-    &={}^{\mathrm{Circ}}\[\mLambda \mXVar\mYVar\mLambdaArrow\mPairWith{\mFirstFunc f'}{\mPairWith{z}{y}}
-    \mWhere{}\mPairWith{f'}{z}\mLetEq \mFFunc\mXVar\]
+    &={}^{\mathrm{Circ}}\[\mLambda \hVar{x}\hVar{y}\mLambdaArrow\mPairWith{\mFirstFunc f'}{\mPairWith{z}{y}}
+    \mWhere{}\mPairWith{f'}{z}\mLetEq \hFunc{f}\hVar{x}\]
   \end{aligned}
   \right.
 \end{multline}
@@ -5257,7 +4758,7 @@ $\Vec{\mFFunc}***\Vec{\mGFunc}$ も関数ではない．
 \begin{align}
   \mRunCircuit&\mIn\mCircuitType\,\mA\,\mB\mFuncArrow[\mA]\mFuncArrow[\mB]\\
   \mRunCircuit\_\mEmptyList&=\mEmptyList\\
-  \mRunCircuit c(\mXVar:\mList{x})&=x':\mRunCircuit c'\mList{x}\\
+  \mRunCircuit c(\hVar{x}:\mList{x})&=x':\mRunCircuit c'\mList{x}\\
   &\quad\mWhere{}(c',x')\mLetEq\mUncircuit cx
 \end{align}
 
@@ -5268,7 +4769,7 @@ $\Vec{\mFFunc}***\Vec{\mGFunc}$ も関数ではない．
   &=\mCircuitWith{\mLambda x\mLambdaArrow(\mAccum a'\mBinOp,y)
     \mWhere{}(y',a')\mLetEq x\mBinOp a}\\
   {\mAccum}' a\mBinOp
-  &=\mAccum a(\mLambda \mXVar\mYVar\mLambdaArrow(y',y')
+  &=\mAccum a(\mLambda \hVar{x}\hVar{y}\mLambdaArrow(y',y')
   \mWhere y'\mLetEq x\mBinOp y)
 \end{align}
 
@@ -5300,22 +4801,22 @@ $\Vec{\mFFunc}***\Vec{\mGFunc}$ も関数ではない．
 
 \begin{equation}
   \mLambda x\mLambdaArrow((\mLambda y\mLambdaArrow\mJustWith{y*2})\mBind{}\mJustWith{x*3}))
-  =(\mJustWith{\mAnonParam}\mCompFunc(*2))\mBindComp(\mJustWith{\mAnonParam}\mCompFunc(*3))
+  =(\mJustWith{\hAnonParam}\mCompFunc(*2))\mBindComp(\mJustWith{\hAnonParam}\mCompFunc(*3))
 \end{equation}
 
 \begin{multline}
   \mLambda x\mLambdaArrow((\mLambda y\mLambdaArrow\mJustWith{y*x})\mBind{}\mJustWith{x*2})\\
-  =(\mJustWith{\mAnonParam}\mCompFunc\mUncurry(*))\mBindComp(\mJustWith{\mAnonParam}\mCompFunc{}((*2),\mId))
+  =(\mJustWith{\hAnonParam}\mCompFunc\mUncurry(*))\mBindComp(\mJustWith{\hAnonParam}\mCompFunc{}((*2),\mId))
 \end{multline}
 
 ---
 
 \begin{equation}
-  \left(f\bigvee g\right)\mPairWith{\mXVar}{\mYVar}=\mPairWith{\mFFunc\mXVar}{gy}
+  \left(f\bigvee g\right)\mPairWith{\hVar{x}}{\hVar{y}}=\mPairWith{\hFunc{f}\hVar{x}}{gy}
 \end{equation}
 
 \begin{equation}
-  \left(f\bigwedge g\right)x=\mPairWith{\mFFunc\mXVar}{\mGFunc\mXVar}
+  \left(f\bigwedge g\right)x=\mPairWith{\hFunc{f}\hVar{x}}{\hFunc{g}\hVar{x}}
 \end{equation}
 
 ---
@@ -5326,7 +4827,7 @@ $\Vec{\mFFunc}***\Vec{\mGFunc}$ も関数ではない．
 % http://qiita.com/CyLomw/items/a874cee33c69653f53c6
 % http://qiita.com/CyLomw/items/688942f19a5bc3a25037
 % http://www.kotha.net/ghcguide_ja/7.6.2/arrow-notation.html
-% http://d.hatena.ne.jp/haxis_\mFFunc\mXVar/20110720/1311149995
+% http://d.hatena.ne.jp/haxis_\hFunc{f}\hVar{x}/20110720/1311149995
 % http://d.hatena.ne.jp/r-west/20070720/1184946510
 % http://d.hatena.ne.jp/r-west/20070531/1180630841
 % http://d.hatena.ne.jp/r-west/20070604/1180976373
@@ -5362,7 +4863,7 @@ A...
 
 また計算機科学者たちの絶えざる努力にもかかわらず，プログラム中の文字の
 装飾はこれまでほとんど受け入れられていない．我々は本書で \textrm{f},
-\textit{f}, \textsl{f}, \textbf{f}, \textbf{\textit{f}}, $\mFFunc$,
+\textit{f}, \textsl{f}, \textbf{f}, \textbf{\textit{f}}, $\hFunc{f}$,
 $\mathfrak{f}$ を使い分けてきたが，\haskell プログラム中では全て
 \code{f} と書く．
 
@@ -5403,16 +4904,16 @@ main関数（\haskell では $\mMain$ アクション）の書き方だろう．
 型は $\mIOIntType$ である．
 
 UNIXおよびUNIXに影響を受けたOSでは，プログラムは終了時に整数値をOSへ返
-すことになっている．プログラムが $\mZeroNumber$ を返せば，そのプログラムは正常終
+すことになっている．プログラムが $\hConstant{0}$ を返せば，そのプログラムは正常終
 了したとみなされる．例えばUNIXシェル（\filename{sh} や \filename{csh}
   のこと）で，
 \begin{verbatim}
 $ program1 && program2
 \end{verbatim}
-としたとき，\filename{program1} の戻り値が $\mZeroNumber$ のときに限って
+としたとき，\filename{program1} の戻り値が $\hConstant{0}$ のときに限って
 \filename{program2} が実行される．
 
-何もせずにOSに $\mZeroNumber$ を返すプログラムすなわち
+何もせずにOSに $\hConstant{0}$ を返すプログラムすなわち
 \begin{equation}
 \left\mBrace
 \begin{aligned}
@@ -5457,10 +4958,10 @@ int main(void) {
 副作用のないプログラムはひとつの関数で書ける．その関数を $\mMainFunc$
 と呼ぶことにすると，この $\mMainFunc$ 関数を
 \begin{equation}
-\mMainFunc=\mFFunc_n\mCompFunc f_{n-1}\mCompFunc\dotsb\mCompFunc \mFFunc
+\mMainFunc=\hFunc{f}_n\mCompFunc f_{n-1}\mCompFunc\dotsb\mCompFunc \hFunc{f}
 \end{equation}
 と部分関数に分解することがプログラマの能力である．副作用のないプログラ
-ムとは，コマンドラインから引数 $\mXVar$ を受け取り，なんらかの処理を行い，
+ムとは，コマンドラインから引数 $\hVar{x}$ を受け取り，なんらかの処理を行い，
 OSに終了値を返すだけのプログラムである．このようなプログラムは普通役に
 立たないが，議論が簡単になるので少し見てみよう．
 
@@ -5531,12 +5032,12 @@ $ ./sample
   {}&\left\mBrace
     \begin{aligned}
       \mMain&\mIn{}\mIODoubleType\\
-      \mMain&=\mPrint(\mFFunc\mXVar)\mBindRightIgnore\mPureWith{0}
+      \mMain&=\mPrint(\hFunc{f}\hVar{x})\mBindRightIgnore\mPureWith{0}
     \end{aligned}
     \right.
 \end{align}
-である．この式は $\mPrint(\mFFunc\mXVar)$ がいかなる値を返そうとも，アクション
-$\mMain$ の値は $\mZeroNumber$ になることを示している．
+である．この式は $\mPrint(\hFunc{f}\hVar{x})$ がいかなる値を返そうとも，アクション
+$\mMain$ の値は $\hConstant{0}$ になることを示している．
 
 \section{余談：インタープリタ*}
 
@@ -5633,10 +5134,10 @@ $\mMain$ の値は $\mZeroNumber$ になることを示している．
 \code{=}&定義 $(=)$\\
 \code{=>}&インスタンス定義 $(\mSuperClass)$\\
 \code{->}&関数型コンストラクタ $(\mapsto)$，ラムダ式の矢印 $(\rightarrow)$，\\
-&case式の矢印 $(\mIfSo)$\\
+&case式の矢印 $(\hIfSo)$\\
 \code{<-}&リスト内包表記 $(\mFrom)$，do記法中の代入 $(\mDoEq)$\\
 \code{@}&asパタン $(@)$\\
-\code{|}&ガード $(\mGuard{})$，リスト内包 $(\mListComp)$，データ型の和演算 $(\mValueOr)$\\
+\code{|}&ガード $(\hGuard{})$，リスト内包 $(\mListComp)$，データ型の和演算 $(\mValueOr)$\\
 \code{,}&リストの値の区切り，リスト内包表記の区切り，\\
 &タプルの値の区切り\\
 % \code{-<}&（アロー表記用）\\
@@ -5728,14 +5229,14 @@ do記法&\code{do}\\
 
 2次方程式の解とは，定数 $a,b,c$ が既知の式
 \begin{equation}
-\mAVar*\mXVar^2+b*x+c=0
+\mAVar*\hVar{x}^2+b*x+c=0
 \end{equation}
-において定数 $\mXVar$ が取り得る値のことである．なお $\mXVar^2$ は\haskell では
+において定数 $\hVar{x}$ が取り得る値のことである．なお $\hVar{x}^2$ は\haskell では
 \code{x**2} と書く．
 
 2次方程式の解法は知られており，
 \begin{multline}
-  (\mXVar_0,\mXVar_1)=(q/a,c/q)\\
+  (\hVar{x}_0,\hVar{x}_1)=(q/a,c/q)\\
   \mWhere q\mLetEq\frac{\left(b+(\sgn b)*\sqrt{\mSq b-4*a*c}\right)}{2}
 \end{multline}
 である．ここに関数 $\mSq$ は
@@ -5763,20 +5264,20 @@ do記法&\code{do}\\
     \mSuperClass\mProjEXP{\mA }{\mA }\\
     {}&
     \begin{aligned}
-      \sgn x&\mGuard{x<0}=-1\\
-      &\mGuard{\mOtherwise}=1
+      \sgn x&\hGuard{x<0}=-1\\
+      &\hGuard{\hOtherwise}=1
     \end{aligned}
   \end{aligned}
   \right.
 \end{equation}
 である．
 
-最後にタプル $(\mXVar_0,\mXVar_1)$ を画面に表示すれば完了なので
+最後にタプル $(\hVar{x}_0,\hVar{x}_1)$ を画面に表示すれば完了なので
 \begin{equation}
   \left\mBrace
   \begin{aligned}
     {}&\mMain\mIn\mIOIntType\\
-    {}&\mMain=\mPrint(\mXVar_0,\mXVar_1)\mBindRightIgnore\mPureWith{0}
+    {}&\mMain=\mPrint(\hVar{x}_0,\hVar{x}_1)\mBindRightIgnore\mPureWith{0}
   \end{aligned}
   \right.
 \end{equation}
@@ -5803,7 +5304,7 @@ main = print (x0, x1) >> pure 0
 
 なお，2次方程式のよく知られた解法，すなわち
 \begin{equation}
-  (\mXVar_0,\mXVar_1)=\left(\frac{-b+d}{2*a},\frac{-b-d}{2*a}\right)
+  (\hVar{x}_0,\hVar{x}_1)=\left(\frac{-b+d}{2*a},\frac{-b-d}{2*a}\right)
   \mWhereIsEXP{d}{\sqrt{b^2-4*a*c}}
 \end{equation}
 は定数 $a$ または $c$ の値が小さい場合には計算誤差が大きくなるため，推
@@ -5842,7 +5343,7 @@ a = ar :+ ai
 
 複素数の場合の2次方程式の解は，実数の場合とほぼ同じで
 \begin{equation}
-  (\mXVar_0,\mXVar_1)=(q/a,c/q)\mWhere\left\{
+  (\hVar{x}_0,\hVar{x}_1)=(q/a,c/q)\mWhere\left\{
   \begin{aligned}
     &q\mLetEq\left(b+\sgn'abc*r\right)/2\\
     &r\mLetEq\mSqrt'{(\mSq'b-4*a*c)}
@@ -5878,9 +5379,9 @@ $\mSq'$ 関数と $\sgn'$ 関数に置き換えたことで，
      \end{aligned}\\
     &\begin{aligned}
        \sgn'abc
-       &\mGuard{\mRealPart((\mConjugate b)*\mSqrt'{(\mSq' b-4\mComplexTimes a*c)})<0}
+       &\hGuard{\mRealPart((\mConjugate b)*\mSqrt'{(\mSq' b-4\mComplexTimes a*c)})<0}
        =-1\\
-       &\mGuard{\mOtherwise}
+       &\hGuard{\hOtherwise}
        =1
      \end{aligned}
   \end{aligned}
@@ -5909,7 +5410,7 @@ $\mSq'$ 関数と $\sgn'$ 関数に置き換えたことで，
   \begin{aligned}
     &(\mComplexTimes)\mIn\mRealFloatTypeClass\mSuperSet\mA \mSuperClass
     \mProjEXP{\mA }{\mProjEXP{\mCompFunclexType{a}}{\mCompFunclexType{a}}}\\
-    &(\mComplexTimes)a(x\mComplexPlus y)=\mAVar*\mXVar\mComplexPlus a*y
+    &(\mComplexTimes)a(x\mComplexPlus y)=\mAVar*\hVar{x}\mComplexPlus a*y
   \end{aligned}
   \right.
 \end{equation}
@@ -5959,11 +5460,11 @@ sgn' a b c
   | otherwise                                       = 1:+0
 
 sqrt' :: RealFloat a => Complex a -> Complex a
-sqrt' (\mXVar:+y) = (sqrt 2)/2*((sqrt(d+x)):+sgn(y)*(sqrt(d-x)))
+sqrt' (\hVar{x}:+y) = (sqrt 2)/2*((sqrt(d+x)):+sgn(y)*(sqrt(d-x)))
   where d = sqrt(sq x + sq y)
 
 (*.) :: Real a => a -> Complex a -> Complex a
-(*.) a (\mXVar:+y) = a*\mXVar:+a*y
+(*.) a (\hVar{x}:+y) = a*\hVar{x}:+a*y
 
 (x0, x1) = (q/a, c/q) where
   q = (b + sgn' a b c * r) / 2
@@ -5984,14 +5485,14 @@ main = print a >> pure 0
 
 \section{数学関数の演算*}
 
-$y=\mFFunc\mXVar$ ただし
+$y=\hFunc{f}\hVar{x}$ ただし
 \begin{equation}
 \begin{aligned}
-\mFFunc\mXVar&\mGuard{x\equiv0}=1\\
-&\mGuard{\mOtherwise}=(\sin x)/x
+\hFunc{f}\hVar{x}&\hGuard{x\hIfEq0}=1\\
+&\hGuard{\hOtherwise}=(\sin x)/x
 \end{aligned}
 \end{equation}
-とする．ここで $\mZeroNumber\le x\le\pi$ の範囲で $\mYVar$ の値を求めたいとしよう．$\mXVar$
+とする．ここで $\hConstant{0}\le x\le\pi$ の範囲で $\hVar{y}$ の値を求めたいとしよう．$\hVar{x}$
 の範囲を $n+1$ 分割するとする．
 
 まず $n$ に具体的な型と値を与えておこう．これは次のようにする．
@@ -6004,18 +5505,18 @@ n&=100
 \right.
 \end{equation}
 
-次に，関数 $\mFFunc$ を定義しておこう．
+次に，関数 $\hFunc{f}$ を定義しておこう．
 \begin{equation}
 \left\mBrace
 \begin{aligned}
 f&\mIn\mProjEXP{\mDoubleType}{\mDoubleType}\\
-\mFFunc\mXVar&\mGuard{x\equiv0}=1\\
-&\mGuard{\mOtherwise}=(\sin x)/x
+\hFunc{f}\hVar{x}&\hGuard{x\hIfEq0}=1\\
+&\hGuard{\hOtherwise}=(\sin x)/x
 \end{aligned}
 \right.
 \end{equation}
 
-関数 $\mFFunc$ に与える引数 $\mXVar$ のリストを定義する．
+関数 $\hFunc{f}$ に与える引数 $\hVar{x}$ のリストを定義する．
 \begin{equation*}
   \left\mBrace
   \begin{aligned}
@@ -6047,14 +5548,14 @@ f&\mIn\mProjEXP{\mDoubleType}{\mDoubleType}\\
 \end{equation}
 となる．
 
-最後に，関数 $\mFFunc$ をリスト $\mList{x}$ に適用して結果を得る．
+最後に，関数 $\hFunc{f}$ をリスト $\mList{x}$ に適用して結果を得る．
 \begin{equation}
   \left\mBrace
   \begin{aligned}
     y
     &\mIn{}[\mDoubleType]\\
     y
-    &=\mFFunc\mMapList\mList{x}
+    &=\hFunc{f}\mMapList\mList{x}
   \end{aligned}
   \right.
 \end{equation}
@@ -6128,7 +5629,7 @@ main = print ys >> pure 0
 ---
 
 \begin{equation}
-(f\circledcirc g)t=\sum_x\mFFunc\mXVar*g(t-x)
+(f\circledcirc g)t=\sum_x\hFunc{f}\hVar{x}*g(t-x)
 \end{equation}
 
 \begin{equation}
@@ -6136,8 +5637,8 @@ main = print ys >> pure 0
 yt&=\sum(\mLambdaEXP{x}{\mFst x*\mSnd x})\mMapList\mList{h}\\
 &\quad\mWhere\\
 &\qquad\mList{h}\mLetEq{}\mZipFunc\mList{f}\mList{g}\\
-&\qquad\mList{f}\mLetEq[\mFFunc\mXVar\mListComp x\mFrom[\mZeroNumber,\mOneNumber\dotsb n]]\\
-&\qquad\mList{g}\mLetEq[g(t-x)\mListComp x\mFrom[\mZeroNumber,\mOneNumber\dotsb n]]
+&\qquad\mList{f}\mLetEq[\hFunc{f}\hVar{x}\mListComp x\mFrom[\hConstant{0},\hConstant{1}\dotsb n]]\\
+&\qquad\mList{g}\mLetEq[g(t-x)\mListComp x\mFrom[\hConstant{0},\hConstant{1}\dotsb n]]
 \end{aligned}
 \end{equation}
 
@@ -6157,7 +5658,7 @@ yt&=\sum(\mLambdaEXP{x}{\mFst x*\mSnd x})\mMapList\mList{h}\\
 \end{equation}
 
 \begin{equation}
-f\circledcirc g=\mLambdaEXP{t}{\sum \mFFunc\mXVar*g(t-x)}
+f\circledcirc g=\mLambdaEXP{t}{\sum \hFunc{f}\hVar{x}*g(t-x)}
 \end{equation}
 
 
@@ -6167,11 +5668,11 @@ $$
 
 
 $$
-yt=\sum_x\mFFunc\mXVar*g(t-x)
+yt=\sum_x\hFunc{f}\hVar{x}*g(t-x)
 $$
 
 $$
-y=\sum_x\mFFunc\mXVar*g(\mAnonParam-x)
+y=\sum_x\hFunc{f}\hVar{x}*g(\hAnonParam-x)
 $$
 
 \section{行列演算*}
@@ -6267,49 +5768,49 @@ main = do
 まず最初に，我々にとって一番身近な代数的構造である\keyword{数}を見てみ
 よう．数の代表例は\keyword{実数}であるから，実数を例にとって考えてみよ
 う．実数全体の集合を $\mRSet$ で表すことにする．また任意の実数を
-$\mXVar,\mYVar,\mZVar$ で表すこととする．このことを数学者は $\mXVar,\mYVar,\mZVar\in\mRSet$ と書くが，
+$\hVar{x},\hVar{y},\mZVar$ で表すこととする．このことを数学者は $\hVar{x},\hVar{y},\mZVar\in\mRSet$ と書くが，
 本書ではこれまで通り
 \begin{equation}
-x,\mYVar,\mZVar\mIn\mRSet
+x,\hVar{y},\mZVar\mIn\mRSet
 \end{equation}
 と表すことにする．
 
 以下に実数の備える代数的性質を列挙する．どれも当たり前のことに見えるが，
-ひとつひとつ見ていこう．ここで $\mXVar,\mYVar,\mZVar\mIn\mRSet$ とする．
+ひとつひとつ見ていこう．ここで $\hVar{x},\hVar{y},\mZVar\mIn\mRSet$ とする．
 \begin{description}
-\item[実数の性質1. 加法の全域性] 任意の $\mXVar$ と任意の $\mYVar$ の\keyword{加
-法}（足し算）の結果すなわち\keyword{和} $\mXVar+y$ は $\mRSet$ の元すなわ
+\item[実数の性質1. 加法の全域性] 任意の $\hVar{x}$ と任意の $\hVar{y}$ の\keyword{加
+法}（足し算）の結果すなわち\keyword{和} $\hVar{x}+y$ は $\mRSet$ の元すなわ
 ち実数である．演算の結果が同じ集合の元になることを\keyword{全域性}と
 呼ぶ．
-\item[実数の性質2. 加法の結合性] 任意の $\mXVar,\mYVar,\mZVar$ について
+\item[実数の性質2. 加法の結合性] 任意の $\hVar{x},\hVar{y},\mZVar$ について
 \begin{equation}
-(\mXVar+\mYVar)+\mZVar=x+(y+z)
+(\hVar{x}+\hVar{y})+\mZVar=x+(y+z)
 \end{equation}
 である．これを加法の\keyword{結合性}（結合律）と呼ぶ．
 \item[実数の性質3. 零元（加法単位元）の存在] 特別な実数 $0\mIn\mRSet$ があり
 \begin{equation}
 0+x=x+0=x
 \end{equation}
-である．この $\mZeroNumber$ は足し算の\keyword{単位元}である．\keyword{零元}また
+である．この $\hConstant{0}$ は足し算の\keyword{単位元}である．\keyword{零元}また
 は\keyword{加法単位元}と呼ぶこともある．単位元が存在することを単位律と
 呼ぶこともある．
-\item[実数の性質4. 負元（加法逆元）の存在] 任意の $\mXVar$ に対して
+\item[実数の性質4. 負元（加法逆元）の存在] 任意の $\hVar{x}$ に対して
 $-x\mIn\mRSet$ があり
 \begin{equation}
 -x+x=0
 \end{equation}
-である．この $-x$ は $\mXVar$ の加法の\keyword{逆元}である．\keyword{負元}
+である．この $-x$ は $\hVar{x}$ の加法の\keyword{逆元}である．\keyword{負元}
 または\keyword{加法逆元}と呼ぶこともある．逆元が存在することを消約律と
 呼ぶこともある．
-\item[実数の性質5. 加法の可換性] 任意の $\mXVar,\mYVar$ について
+\item[実数の性質5. 加法の可換性] 任意の $\hVar{x},\hVar{y}$ について
 \begin{equation}
-\mXVar+\mYVar=y+x
+\hVar{x}+\hVar{y}=y+x
 \end{equation}
 である．このことを加法の\keyword{可換性}（可換律）と呼ぶ．
-\item[実数の性質6. 乗法] 任意の $\mXVar$ と任意の $\mYVar$ の\keyword{乗法}（掛
-け算）の結果すなわち\keyword{積} $\mXVar*y$ は $\mRSet$ の元すなわち実数
+\item[実数の性質6. 乗法] 任意の $\hVar{x}$ と任意の $\hVar{y}$ の\keyword{乗法}（掛
+け算）の結果すなわち\keyword{積} $\hVar{x}*y$ は $\mRSet$ の元すなわち実数
 である．
-\item[実数の性質7. 乗法の結合性] 任意の $\mXVar,\mYVar,\mZVar$ について
+\item[実数の性質7. 乗法の結合性] 任意の $\hVar{x},\hVar{y},\mZVar$ について
 \begin{equation}
 (x*y)*\mZVar=x*(y*z)
 \end{equation}
@@ -6318,16 +5819,16 @@ $-x\mIn\mRSet$ があり
 \begin{equation}
 1*x=x*1=x
 \end{equation}
-である．この $\mOneNumber$ を乗法の単位元または\keyword{乗法単位元}と呼ぶ．
-\item[実数の性質9. 逆元の存在] 任意の $\mXVar$ に対して $\mXVar^{-1}\mIn\mRSet$
+である．この $\hConstant{1}$ を乗法の単位元または\keyword{乗法単位元}と呼ぶ．
+\item[実数の性質9. 逆元の存在] 任意の $\hVar{x}$ に対して $\hVar{x}^{-1}\mIn\mRSet$
 があり
 \begin{equation}
 x^{-1}*x=1
 \end{equation}
-である．この $\mXVar^{-1}$ は $\mXVar$ の乗法の逆元である．\keyword{乗法逆元}と
+である．この $\hVar{x}^{-1}$ は $\hVar{x}$ の乗法の逆元である．\keyword{乗法逆元}と
 呼ぶこともある．ただし性質11で述べる通り，加法単位元については逆元がな
 くても良い．
-\item[実数の性質10. 乗法の可換性] 任意の $\mXVar,\mYVar$ について
+\item[実数の性質10. 乗法の可換性] 任意の $\hVar{x},\hVar{y}$ について
 \begin{equation}
 x*y=y*x
 \end{equation}
@@ -6336,7 +5837,7 @@ x*y=y*x
 は存在しなくても良い．（つまり $0^{-1}$ のことは考えなくて良い．）
 \item[実数の性質12. 分配律] 加法と乗法が混在する場合
 \begin{equation}
-(\mXVar+\mYVar)*\mZVar=(x*z)+(y*z)
+(\hVar{x}+\hVar{y})*\mZVar=(x*z)+(y*z)
 \end{equation}
 と乗法を\keyword{分配}する．
 \end{description}
@@ -6346,9 +5847,9 @@ x*y=y*x
 上述の12個の条件が当てはまる数には\keyword{有理数}や\keyword{複素数}が
 ある．この12個の性質をまとめて，数学では\keyword{体}と呼ぶ．
 
-体の要素は，集合 $\mKSet$，二項演算子 $+$，二項演算子 $+$ の単位元 $\mZeroNumber$，
+体の要素は，集合 $\mKSet$，二項演算子 $+$，二項演算子 $+$ の単位元 $\hConstant{0}$，
 二項演算子 $+$ の逆元生成演算子 $-$，もう一つの二項演算子 $*$，二項演
-算子 $*$ の単位元 $\mOneNumber$，二項演算子 $*$ の逆元生成演算子 ${}^{-1}$ であ
+算子 $*$ の単位元 $\hConstant{1}$，二項演算子 $*$ の逆元生成演算子 ${}^{-1}$ であ
 るから，体はそれらを列挙して $\mTupleWith{\mKSet,+,0,-,*,1,{}^{-1}}$
 と表現する．
 
@@ -6361,19 +5862,19 @@ $\mZVar$ を体の元，$n$ を自然数とした．さて $z\uparrow2$ は
 \begin{equation}
 z\uparrow2=z*z
 \end{equation}
-であるから，いま $\mZVar=\mXVar+\mYVar$ とすると
+であるから，いま $\mZVar=\hVar{x}+\hVar{y}$ とすると
 \begin{align}
 z\uparrow2&=z*z\\
-&=z*(\mXVar+\mYVar)\\
+&=z*(\hVar{x}+\hVar{y})\\
 &=z*x+z*y\;\text{---分配律}\\
-&=(\mXVar+\mYVar)*x+(\mXVar+\mYVar)*y\\
-&=x*\mXVar+\mYVar*x+x*y+y*y\;\text{---分配律}\\
-&=x\uparrow2+x*y+y*\mXVar+\mYVar\uparrow2
+&=(\hVar{x}+\hVar{y})*x+(\hVar{x}+\hVar{y})*y\\
+&=x*\hVar{x}+\hVar{y}*x+x*y+y*y\;\text{---分配律}\\
+&=x\uparrow2+x*y+y*\hVar{x}+\hVar{y}\uparrow2
 \end{align}
 となり
 \begin{equation}
 \label{eq:xysq}
-(\mXVar+\mYVar)\uparrow2=x\uparrow2+x*y+y*\mXVar+\mYVar\uparrow2
+(\hVar{x}+\hVar{y})\uparrow2=x\uparrow2+x*y+y*\hVar{x}+\hVar{y}\uparrow2
 \end{equation}
 を得る．式\eqref{eq:xysq}は体の性質だけを使って導いた関係なので，実数
 だけでなく有理数や複素数にもそのまま使える．実際には式\eqref{eq:xysq}
@@ -6423,12 +5924,12 @@ z\uparrow2&=z*z\\
 わせと「非可換・単位元あり・逆元なし」の組み合わせがペアになったもの
 （環）があることがわかる．
 
-いま集合 $\mSet{G}$ があり，$\mXVar,\mYVar,\mZVar\mIn\mSet{G}$ であるとし，二項演算子
+いま集合 $\mSet{G}$ があり，$\hVar{x},\hVar{y},\mZVar\mIn\mSet{G}$ であるとし，二項演算子
 を $\mBinOp$ と書くことにして，体の性質の前半分を書き下してみよう．
 \begin{description}
-\item[性質1.] 任意の $\mXVar$ と任意の $\mYVar$ の演算の結果 $\mXVar\mBinOp y$ は
+\item[性質1.] 任意の $\hVar{x}$ と任意の $\hVar{y}$ の演算の結果 $\hVar{x}\mBinOp y$ は
 $\mSet{G}$ の元である．
-\item[性質2.] 任意の $\mXVar,\mYVar,\mZVar$ について
+\item[性質2.] 任意の $\hVar{x},\hVar{y},\mZVar$ について
 \begin{equation}
 (x\mBinOp y)\mBinOp \mZVar=x\mBinOp(y\mBinOp z)
 \end{equation}
@@ -6438,12 +5939,12 @@ $\mSet{G}$ の元である．
 \mZero\mBinOp x=x\mBinOp\mZero=x
 \end{equation}
 である．
-\item[性質4.] 任意の $\mXVar$ に対して $\mMinus x\mIn\mSet{G}$ があり
+\item[性質4.] 任意の $\hVar{x}$ に対して $\mMinus x\mIn\mSet{G}$ があり
 \begin{equation}
 \mMinus x\mBinOp x=\mZero
 \end{equation}
 である．
-\item[性質5.] 任意の $\mXVar,\mYVar$ について
+\item[性質5.] 任意の $\hVar{x},\hVar{y}$ について
 \begin{equation}
 x\mBinOp y=y\mBinOp x
 \end{equation}
@@ -6456,7 +5957,7 @@ $\mTupleWith{\mSet{G},\mBinOp,\mZero,\mMinus}$ を\keyword{可換群}また
 
 例えば $\mTupleWith{\mRSet,+,0,-}$ は可換群である．整数全体の集合を
 $\mZSet$ とすると $\mTupleWith{\mZSet,+,0,-}$ も可換群である．また，集
-合 $\mRSet$ から $\mZeroNumber$ だけを取り除いた集合を $\mRSet\setminus0$ とする
+合 $\mRSet$ から $\hConstant{0}$ だけを取り除いた集合を $\mRSet\setminus0$ とする
 とき $\mTupleWith{\mRSet\setminus0,*,1,{}^{-1}}$ も可換群である．
 
 可換群は代表的な代数的構造のひとつであり，他にも数学のあちこちに顔を出
@@ -6477,7 +5978,7 @@ R_{t_1}\mCompRot R_{t_2}=R_{(t_1+t_2)}
 
 次にに回転変換に単位元があるかどうか調べてみよう．回転しない変換は
 \keyword{恒等変換}とも言い，しばしば $I$ で表す．何もしない回転変換は
-$\mZeroNumber$ 度の回転であるから $I=R_0$ である．このとき式\eqref{eq:rotation}か
+$\hConstant{0}$ 度の回転であるから $I=R_0$ である．このとき式\eqref{eq:rotation}か
 ら
 \begin{equation}
 I\mCompRot R_t=R_t\mCompRot I=R_t
@@ -6541,7 +6042,7 @@ $\mVec{0}$ で表すことにしよう．ここでも矢印はベクトルであ
 $\mTupleWith{\mSet{V},+,\mVec{0},-}$ もまた可換群である．
 
 可換群の性質のうち最初の4項目だけを満たすものを群と呼ぶ．可換群は群の
-特別な場合である．現代の数学では $\mXVar\mBinOp y\neq y\mBinOp x$ のように
+特別な場合である．現代の数学では $\hVar{x}\mBinOp y\neq y\mBinOp x$ のように
 演算子の前後を入れ替えると結果が異なるような演算をよく取り扱うので，一
 般の群は可換群よりもよく取り上げられ，それ故より短い名前が付けられてい
 る．
@@ -6568,12 +6069,12 @@ $\mTupleWith{\mSet{V},+,\mVec{0},-}$ もまた可換群である．
 \end{center}
 \end{table}
 
-単位的半群の性質は次の三つである．ただし $\mXVar,\mYVar,\mZVar$ が集合 $\mSet{M}$ の
+単位的半群の性質は次の三つである．ただし $\hVar{x},\hVar{y},\mZVar$ が集合 $\mSet{M}$ の
 元であるとする．
 \begin{description}
-\item[単位的半群の性質1.] 任意の $\mXVar$ と任意の $\mYVar$ の演算の結果
-$\mXVar\mBinOp y$ は $\mSet{M}$ の元である．
-\item[単位的半群の性質2. 結合性] 任意の $\mXVar,\mYVar,\mZVar$ について
+\item[単位的半群の性質1.] 任意の $\hVar{x}$ と任意の $\hVar{y}$ の演算の結果
+$\hVar{x}\mBinOp y$ は $\mSet{M}$ の元である．
+\item[単位的半群の性質2. 結合性] 任意の $\hVar{x},\hVar{y},\mZVar$ について
 \begin{equation}
 (x\mBinOp y)\mBinOp \mZVar=x\mBinOp(y\mBinOp z)
 \end{equation}
@@ -6605,8 +6106,8 @@ $\mXVar\mBinOp y$ は $\mSet{M}$ の元である．
 \section{圏}
 
 これまでは集合の元同士に対する二項演算を考えてきた．集合$\mSet{M}$が単
-位的半群であるとき，集合$\mSet{M}$の元$\mXVar,y\mIn\mSet{M}$に対して
-$\mXVar\mBinOp y\mIn\mSet{M}$であった．見方を変えると，演算子$\mBinOp$とは
+位的半群であるとき，集合$\mSet{M}$の元$\hVar{x},y\mIn\mSet{M}$に対して
+$\hVar{x}\mBinOp y\mIn\mSet{M}$であった．見方を変えると，演算子$\mBinOp$とは
 集合$\mSet{M}$の元2個から出発して，集合$\mSet{M}$の元1個へとジャンプさ
 せる\keyword{写像}であると言える．これを
 \begin{equation}
@@ -6635,14 +6136,14 @@ $\mRSet$ として，実数のパラメタを $r$ としたときに
 このようにとある集合（例えば $\mSet{M}\mSetTimes\mSet{M}$ や
 $\mRSet\mSetTimes\mSet{V}$）から異なる別な集合（例えば $\mSet{M}$ や
 $\mSet{V}$）へという写像を一般化するとどうなるだろうか．いま，集合
-$\mSet{X}$ から集合 $\mSet{Y}$ への写像 $\mFFunc$ があり，集合 $\mSet{Y}$ か
-ら集合 $\mSet{Z}$ への写像 $\mGFunc$ があるとする．すなわち
+$\mSet{X}$ から集合 $\mSet{Y}$ への写像 $\hFunc{f}$ があり，集合 $\mSet{Y}$ か
+ら集合 $\mSet{Z}$ への写像 $\hFunc{g}$ があるとする．すなわち
 \begin{align}
 f&\mIn\mMorph{\mSet{X}}{\mSet{Y}}\\
 g&\mIn\mMorph{\mSet{Y}}{\mSet{Z}}
 \end{align}
 があるとする．また写像同士を二項演算子 $\mCompProj$ で\keyword{合成}で
-きるものとする．例えば $\mFFunc$ と $\mGFunc$ の合成写像は $\mSet{X}$ を出発点に
+きるものとする．例えば $\hFunc{f}$ と $\hFunc{g}$ の合成写像は $\mSet{X}$ を出発点に
 $\mSet{Y}$ を経由して $\mSet{Z}$ へと行くので
 \begin{equation}
 f\mCompProj g\mIn\mMorph{\mSet{X}}{\mSet{Z}}
@@ -6657,19 +6158,19 @@ I_\mSet{Z}\mIn\mMorph{\mSet{Z}}{\mSet{Z}}
 \end{equation}
 という写像もあるとしよう．ここで
 \begin{equation}
-I_\mSet{Y}\mCompProj f=\mFFunc\mCompProj I_\mSet{X}
+I_\mSet{Y}\mCompProj f=\hFunc{f}\mCompProj I_\mSet{X}
 \end{equation}
 とすると，写像 $I_\mSet{X}$ と写像 $I_\mSet{Y}$ はそれぞれ写像の合成演
-算子 $\mCompProj$ に対して単位元のように振る舞う．写像 $\mGFunc$ については
+算子 $\mCompProj$ に対して単位元のように振る舞う．写像 $\hFunc{g}$ については
 \begin{equation}
-I_\mSet{Z}\mCompProj g=\mGFunc\mCompProj I_\mSet{Y}
+I_\mSet{Z}\mCompProj g=\hFunc{g}\mCompProj I_\mSet{Y}
 \end{equation}
 であるとする．このような写像 $I_\mSet{X},I_\mSet{Y},I_\mSet{Z}$ を
 \keyword{恒等写像}と呼ぶ．
 
 集合 $\mSet{X}$，集合 $\mSet{Y}$，集合 $\mSet{Z}$ の集合
-$\mSet{C}=\{\mSet{X},\mSet{Y},\mSet{Z}\}$ と，写像 $\mFFunc$ と写像
-$\mGFunc$ の集合 $\mSet{P}=\{f,g\}$ と，写像合成演算子 $\mCompProj$
+$\mSet{C}=\{\mSet{X},\mSet{Y},\mSet{Z}\}$ と，写像 $\hFunc{f}$ と写像
+$\hFunc{g}$ の集合 $\mSet{P}=\{f,g\}$ と，写像合成演算子 $\mCompProj$
 と，恒等写像の集合 $\mSet{I}$ の組み合わせ
 $\mTupleWith{\mSet{C},\mSet{P},\mCompProj,\mSet{I}}$ を\keyword{圏}と
 呼ぶ．写像合成演算子 $(\mCompProj)$ と恒等写像の集合 $(\mSet{I})$ は自
@@ -6788,17 +6289,17 @@ $\mu$再帰関数
 条件式は一種のシンタックスシュガーである．次のように関数
 $t,f,\mIfFunc$ を定義すると，それぞれ真，偽，条件分岐のように振る舞う．
 \begin{align}
-t&=\mLambdaEXP{\mXVar\mYVar}{x}\\
-f&=\mLambdaEXP{\mXVar\mYVar}{y}\\
-\mIfFunc p\mXVar\mYVar&=p\mXVar\mYVar
+t&=\mLambdaEXP{\hVar{x}\hVar{y}}{x}\\
+f&=\mLambdaEXP{\hVar{x}\hVar{y}}{y}\\
+\mIfFunc p\hVar{x}\hVar{y}&=p\hVar{x}\hVar{y}
 \end{align}
 本当かどうか試してみよう．
 \begin{align}
-\mIfFunc t\mXVar\mYVar&=t\mXVar\mYVar\\
-&=(\mLambdaEXP{\mXVar\mYVar}{x})\mXVar\mYVar\\
+\mIfFunc t\hVar{x}\hVar{y}&=t\hVar{x}\hVar{y}\\
+&=(\mLambdaEXP{\hVar{x}\hVar{y}}{x})\hVar{x}\hVar{y}\\
 &=x\\
-\mIfFunc f\mXVar\mYVar&=\mFFunc\mXVar\mYVar\\
-&=(\mLambdaEXP{\mXVar\mYVar}{y})\mXVar\mYVar\\
+\mIfFunc f\hVar{x}\hVar{y}&=\hFunc{f}\hVar{x}\hVar{y}\\
+&=(\mLambdaEXP{\hVar{x}\hVar{y}}{y})\hVar{x}\hVar{y}\\
 &=y
 \end{align}
 確かに $\mIfFunc t$ は1番目の引数だけを，$\mIfFunc f$ は2番目の引数だ
@@ -6876,7 +6377,7 @@ int main(void) {
 \cxxfourteen
 \begin{verbatim}
 auto lambda_exp
-  = [](auto x, auto y) { return \mXVar+\mYVar; };
+  = [](auto x, auto y) { return \hVar{x}+\hVar{y}; };
 \end{verbatim}
 
 \begin{verbatim}
