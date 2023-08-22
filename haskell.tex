@@ -535,12 +535,12 @@ Ether変数&&$\hEitherDecor{\hVar{x}}$\\ %%% !!!
 型&ボールド（1文字）&$\hTypeName{a},\hTypeName{b},\hTypeName{c}$\\
 有名な型&ボールド大文字&$\hBool,\hInt$\\
 型クラス&ボールドイタリック大文字&$\hEq,\hOrd$\\
-多相型&&$\hTypeConstruct{\hTypeConstructor{f}}{\hTypeName{a}}$\\
+多相型&&$\hTypeConstruct{\hTypeConstructor{m}}{\hTypeName{a}}$\\
 有名な多相型&&$\hMaybeConstruct{\hTypeName{a}}$\\
 有名な多相型&特別な括弧で包む&$[\hTypeName{a}]$\\
 集合&ブラックボード大文字&$\hSet{B},\hSet{Z},\hSet{R}$\\
 \hline
-型コンストラクタ&ボールドイタリック&$\hTypeConstructor{f},\hTypeConstructor{g},\hTypeConstructor{h}$\\
+型コンストラクタ&ボールドイタリック&$\hTypeConstructor{m},\hTypeConstructor{n}$\\
 有名な型コンストラクタ&ボールド大文字&$\hList,\hMaybe$\\
 \hline
 \end{tabular}
@@ -555,7 +555,7 @@ Ether変数&&$\hEitherDecor{\hVar{x}}$\\ %%% !!!
 種類&字体・表記法&例\\
 \hline\hline
 値コンストラクタ&名前付き括弧で包む&$\hLeftWith{\hVar{x}},\hRightWith{\hVar{x}}$\\
-有名な値コンストラクタ&特別な括弧で包む&$\hListWith{\hVar{x}},\hPureWith{\hVar{x}},\hConstantWith{\hVar{x}}$\\
+有名な値コンストラクタ&特別な括弧で包む&$\hListWith{\hVar{x}},\hPureWith{\hVar{x}},\hReturnWith{\hVar{x}}$\\
 \hline
 キーワード&サンセリフ&$\hIf,\hOtherwise$\\
 do記法中のキーワード&タイプライタ&$\hDoLet$\\
@@ -565,6 +565,11 @@ do記法中のキーワード&タイプライタ&$\hDoLet$\\
 集合&ブレースで包む&$\{\hVar{x},\hVar{y}\}$\\
 タプル&丸括弧で包む&$\hPairWith{\hVar{x}}{\hVar{y}}$\\
 % アンボックス化タプル&丸括弧とシャープ記号で包む&$\mTupleUnboxedWith{x,\mYVar,\mZVar}$\\
+\hline
+ユニット&&$\hUnit$\\
+空リスト&&$\hEmptyList$\\
+ナッシング&&$\hNothing$\\
+空&&$\hPureNothing$\\
 \hline
 \end{tabular}
 \end{center}
@@ -610,10 +615,6 @@ $\hAppend$&結合演算子&\code{++}\\
 % $\mJoin$&ジョイン演算子&\code{join}\\
 % % $\mathMaybeAppend$&Maybe結合\\
 % \hline
-$\hEmptyList$&空リスト&\code{[]}\\
-$\hNothing$&空Maybe（ナッシング）&\code{Nothing}\\
-$\hPureNothing$&空&\\
-\hline
 \end{tabular}
 \end{center}
 \end{table*}
@@ -625,30 +626,37 @@ $\hPureNothing$&空&\\
 \hline
 記号&意味&\haskell 記号\\
 \hline\hline
-$\mPureWith{x}$&ピュア演算子&\code{pure x}\\
-$[\mXVar]$&リスト値コンストラクタ&\code{[x]}\\
-$\mJustWith{x}$&Maybe値コンストラクタ&\code{Just x}\\
-$\mLeftWith{x},\mRightWith{x}$&Either値コンストラクタ&\code{Left x}, \code{Right x}\\
-% $\mFuncWith{x}$&関数値コンストラクタ&\code{r->x}\\
-$\mConstWith{x}$&定数演算子&\code{const x}\\
-$\mArrowWith{x}$&アロー演算子&\code{arr x}\\
+$\hListWith{\hVar{x}}$&リスト値コンストラクタ&\code{[x]}\\
+$\hJustWith{\hVar{x}}$&Maybe値コンストラクタ&\code{Just x}\\
+$\hLeftWith{\hVar{x}},\hRightWith{\hVar{x}}$&Either値コンストラクタ&\code{Left x}, \code{Right x}\\
 \hline
-$\mMap$&一般マップ&\code{<\$>}\\
-$\mMapList$&リストのマップ&\code{<\$>}\\
-$\mMapMaybe$&Maybeのマップ&\code{<\$>}\\
-$\mMapFunc$&関数のマップ&\code{<\$>}\\
+$\hPureWith{\hVar{x}}$&ピュア演算子&\code{pure x}\\  %%% ???
+$\hReturnWith{\hVar{x}}$&&\code{return x}\\  %%% ???
+% % $\mFuncWith{x}$&関数値コンストラクタ&\code{r->x}\\
+% $\mConstWith{x}$&定数演算子&\code{const x}\\
+% $\mArrowWith{x}$&アロー演算子&\code{arr x}\\
 \hline
-$\mAppMap$&一般アプリカティブマップ&\code{<*>}\\
-$\mAppMapList$&リストのアプリカティブマップ&\code{<*>}\\
-$\mAppMapMaybe$&Maybeのアプリカティブマップ&\code{<*>}\\
-$\mAppMapFunc$&関数のアプリカティブマップ&\code{<*>}\\
+% $\mMap$&一般マップ&\code{<\$>}\\
+$\hMap$&リストのマップ&\code{`map`}\\
+$\hMapM$&文脈付きリストのマップ&\code{`mapM`}\\
+$\hFunctorMap$&一般のマップ&\code{<\$>}\\
+% $\mMapFunc$&関数のマップ&\code{<\$>}\\
 \hline
-$\mBind$&一般バインド演算子&\code{=<<}\\
-$\mBindList$&リストのバインド演算子&\code{=<<}\\
-$\mBindMaybe$&Maybeのバインド演算子&\code{=<<}\\
-$\mBindFunc$&関数のバインド演算子&\code{=<<}\\
+$\hApplicativeMap$&アプリカティブマップ&\code{<*>}\\
+% $\mAppMapList$&リストのアプリカティブマップ&\code{<*>}\\
+% $\mAppMapMaybe$&Maybeのアプリカティブマップ&\code{<*>}\\
+% $\mAppMapFunc$&関数のアプリカティブマップ&\code{<*>}\\
 \hline
-$\mBindComp$&バインド・合成演算子&\code{<=<}\\
+$\hMonadicBind$&一般バインド演算子&\code{=<<}\\
+% $\mBindList$&リストのバインド演算子&\code{=<<}\\
+% $\mBindMaybe$&Maybeのバインド演算子&\code{=<<}\\
+% $\mBindFunc$&関数のバインド演算子&\code{=<<}\\
+\hline
+$\hApply$&関数の適用&\code{\$}\\
+$\hFunctorApply$&関手の適用&\code{<\$>}\\
+\hline
+$\hCompose$&関数の合成&\code{.}\\
+$\hMonadicCompose$&モナドの合成&\code{<=<}\\
 \hline
 $\mBindRight$&右バインド演算子&\code{>>=}\\
 $\mBindRightIgnore$&右バインド演算子（戻値無視）&\code{>>}\\

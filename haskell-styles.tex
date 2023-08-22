@@ -26,7 +26,6 @@
 % Keywords
 \newcommand{\hKeyword}[1]{\textcolor{\hKeywordColor}{\textsf{#1}}}
 \newcommand{\hVarKeyword}[1]{\textcolor{\hKeywordColor}{\texttt{#1}}}
-\def\hDeclareMathOperator#1{\DeclareMathOperator{#1}{#1Keyword}}
 
 %% case, of, otherwise
 \newcommand{\hCaseKeyword}{\hKeyword{case}}
@@ -104,6 +103,8 @@
 \newcommand{\hEmptyList}{\hConstant{[\,]}}
 \newcommand{\hNothing}{\hConstant{\emptyset}}
 \newcommand{\hPureNothing}{\hConstant{\varnothing}}
+\newcommand{\hUnit}{\hConstant{(\,)}}
+
 \newcommand{\hZero}{\hConstant{\O}}
 
 %% True, False
@@ -183,16 +184,17 @@
 \newcommand{\hSpecialValueConstructor}[1]{\textcolor{\hValueConstructorColor}{\mathrm{#1}}}
 
 %% Left, Right
+\newcommand{\hJustWith}[1]{{}_{\hSpecialValueConstructor{Just}}[\![#1]\!]}
 \newcommand{\hLeftWith}[1]{{}_{\hSpecialValueConstructor{Left}}[\![#1]\!]}
 \newcommand{\hRightWith}[1]{{}_{\hSpecialValueConstructor{Right}}[\![#1]\!]}
+
 
 %% List, Pure, Constant
 \newcommand{\hListWith}[1]{[#1]}
 \newcommand{\hPureWith}[1]{\llbracket#1\rrbracket}
-\newcommand{\hConstantWith}[1]{\llparenthesis#1\rrparenthesis}
+\newcommand{\hReturnWith}[1]{\llparenthesis#1\rrparenthesis}
 
 %% Tuple
-\newcommand{\hUnit}{(\,)}
 \newcommand{\hSingleTuppleWith}[1]{\left(#1\right)}
 \newcommand{\hPairWith}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
 \newcommand{\hTripleWith}[3]{\begin{pmatrix}#1\\#2\\#3\end{pmatrix}}
@@ -210,9 +212,10 @@
 \DeclareMathOperator{\hApply}{\S}
 \DeclareMathOperator{\hFunctorApply}{\odot}
 \DeclareMathOperator{\hMap}{\times}
-\DeclareMathOperator{\hMaybeMap}{\boxtimes}
+\DeclareMathOperator{\hMapM}{\boxtimes}
+\DeclareMathOperator{\hMaybeMap}{\boxtimes} %%% ???
 \DeclareMathOperator{\hFunctorMap}{\otimes}
-\DeclareMathOperator{\hApplicativeMap}{\cilcledast}
+\DeclareMathOperator{\hApplicativeMap}{\circledast}
 \DeclareMathOperator{\hMonadicBind}{\ast}
 \DeclareMathOperator{\hCompose}{\centerdot}
 \DeclareMathOperator{\hMonadicCompose}{\circ}
