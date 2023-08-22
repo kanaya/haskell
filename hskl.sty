@@ -201,7 +201,11 @@
 \newcommand{\hSin}{\hSpecialFunction{\sin}}
 \newcommand{\hCos}{\hSpecialFunction{\cos}}
 \newcommand{\hMax}{\hSpecialFunction{\max}}
-
+\newcommand{\hMin}{\hSpecialFunction{\min}}
+\newcommand{\hSucc}{\hSpecialFunction{succ}}
+\newcommand{\hPred}{\hSpecialFunction{pred}}
+\newcommand{\hCurry}{\hSpecialFunction{curry}}
+\newcommand{\hUncurry}{\hSpecialFunction{uncurry}}
 
 % Action
 \newcommand{\hAction}[1]{\textcolor{\hActionColor}{#1}}
@@ -224,9 +228,13 @@
 \newcommand{\hSpecialTypeClass}[1]{\textcolor{\hClassColor}{\textsc{#1}}}
 \newcommand{\hSet}[1]{\textcolor{\hSetColor}{\mathbb{#1}}}
 
-%% Bool, Int
+%% Bool, Int, Integer, Float, Double, Char, String
 \newcommand{\hBool}{\hSpecialTypeName{Bool}}
 \newcommand{\hInt}{\hSpecialTypeName{Int}}
+\newcommand{\hInteger}{\hSpecialTypeName{Integer}}
+\newcommand{\hFloat}{\hSpecialTypeName{Float}}
+\newcommand{\hDouble}{\hSpecialTypeName{Double}}
+\newcommand{\hChar}{\hSpecialTypeName{Char}}
 \newcommand{\hString}{\hSpecialTypeName{String}}
 
 %% List, Maybe
@@ -237,6 +245,9 @@
 \newcommand{\hEq}{\hSpecialTypeClass{Eq}}
 \newcommand{\hOrd}{\hSpecialTypeClass{Ord}}
 \newcommand{\hIntegral}{\hSpecialTypeClass{Integral}}
+\newcommand{\hNum}{\hSpecialTypeClass{Num}}
+\newcommand{\hReal}{\hSpecialTypeClass{Real}}
+\newcommand{\hEnum}{\hSpecialTypeClass{Enum}}
 
 
 % Type construct syntax
@@ -301,6 +312,8 @@
 %% Set
 \DeclareMathOperator{\hIsTypeOf}{:\!:}
 \DeclareMathOperator{\hIsElementOf}{\in}
+\DeclareMathOperator{\hHasElementsOf}{\supset}
+\DeclareMathOperator{\hAndThen}{\Rightarrow}
 
 %% Equal, Arraw
 \DeclareMathOperator{\hIfEq}{\equiv}

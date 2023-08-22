@@ -755,7 +755,7 @@ z = g(f(x))
 
 変数に型の制約を設ける理由は，プログラム上のエラーが減ることを期待するためである．例えば真理値が必要とされるところに整数値の変数が来ることは悪い予兆である．一方で\clang 言語のように全ての変数にいちいち型を明記していくのも骨が折れる．
 
-数学者や物理学者は変数に型の制約を求める一方，新しい変数の型は明記せず読者に推論させる方法をしばしばとる．例えば，質量 $\mMVar$ は「スカラー」という型を持つし，速度 $\mVVar$ は「3次元ベクトル」という型を持つ．スカラーと3次元ベクトルの間に足し算は定義されていないため，例えば $\mMVar+\mVVar$という表記を見たときに，両者の型を知っていれば直ちにエラーであることがわかる．
+数学者や物理学者は変数に型の制約を求める一方，新しい変数の型は明記せず読者に推論させる方法をしばしばとる．例えば，質量 $m$ は「スカラー」という型を持つし，速度 $v$ は「3次元ベクトル」という型を持つ．スカラーと3次元ベクトルの間に足し算は定義されていないため，例えば $m+v$という表記を見たときに，両者の型を知っていれば直ちにエラーであることがわかる．
 
 \haskell はコンパイラが型推論を行うことで，型が自明の場合は型を省略することが出来る．
 
@@ -764,19 +764,19 @@ z = g(f(x))
 \haskell にはよく使う型が予め用意されている．例えば\keyword{論理型} は論理値すなわち真 $(\hTrue)$ または偽 $(\hFalse)$ という値をとる変数の型である．ある変数 $\hVar{x}$ が論理型であることを，\haskell では
 \begin{equation}
   \hVar{x}
-  \mIn\mBoolType
+  \hIsTypeOf\hBool
 \end{equation}
 と書く．数学者なら同じことを
 \begin{equation}
   \hVar{x}
-  \in\mBSet
+  \in\hSet{B}
 \end{equation}
 と書くところであるが，ここは\haskell の流儀に従おう．また型定義と値定義はよく一緒に行われるので，今後
 \begin{equation}
-  \left\mBrace
+  \left\{
   \begin{aligned}
     \hVar{x}
-    &\mIn\mBoolType\\
+    &\hIsTypeOf\hBool\\
     \hVar{x}
     &=\hTrue
   \end{aligned}
@@ -789,15 +789,15 @@ z = g(f(x))
 \end{verbatim}
 と書く．}
 
-この場合変数 $\hVar{x}$ が $\mBoolType$ 型であることは自明であるため $\hVar{x}\mIn\mBoolType$ は省略できるが，可能な限り型を明記しておくことは良い習慣である．また必要に応じて変数に型名を注釈することがある．例えば $\hVar{x}=\hTrue\mIn\mBoolType$ のように書く場合がある．\footnote{\haskell では $\hVar{x}=\hTrue\mIn\mBoolType$ を \code{x = True :: Bool} と書く．}
+この場合変数 $\hVar{x}$ が $\hBool$ 型であることは自明であるため $\hVar{x}\hIsTypeOf\hBool$ は省略できるが，可能な限り型を明記しておくことは良い習慣である．また必要に応じて変数に型名を注釈することがある．例えば $\hVar{x}=\hTrue\hIsTypeOf\hBool$ のように書く場合がある．\footnote{\haskell では $\hVar{x}=\hTrue\hIsTypeOf\hBool$ を \code{x = True :: Bool} と書く．}
 
-他に整数を表す\keyword{整数型}がある．整数型には2種類あって，その一つは $\mIntType$ である．この $\mIntType$ は\clang の \code{int} と似た「計算機にとって都合の良い整数」である．計算機にとって都合の良い整数とは，例えば64ビット計算機の場合 $-2^{63}$ から $2^{63}-1$ の間の整数という意味である．\footnote{\haskell では $\mIntType$ を \code{Int} で表す．}
+他に整数を表す\keyword{整数型}がある．整数型には2種類あって，その一つは $\hInt$ である．この $\hInt$ は\clang の \code{int} と似た「計算機にとって都合の良い整数」である．計算機にとって都合の良い整数とは，例えば64ビット計算機の場合 $-2^{63}$ から $2^{63}-1$ の間の整数という意味である．\footnote{\haskell では $\hInt$ を \code{Int} で表す．}
 
-整数型には $\mIntegerType$ もある．この $\mIntegerType$ は計算機にとっては非常識なぐらい大きな，あるいは小さな値を表すことができる．\footnote{\haskell では $\mIntegerType$ を \code{Integer} で表す．}
+整数型には $\hInteger$ もある．この $\hInteger$ は計算機にとっては非常識なぐらい大きな，あるいは小さな値を表すことができる．\footnote{\haskell では $\hInteger$ を \code{Integer} で表す．}
 
-計算機は残念ながら無限精度の実数を扱えない．そこで標準精度（単精度）の\keyword{浮動小数点数型}である $\mFloatType$ と，\keyword{倍精度浮動小数点型}である $\mDoubleType$ が提供される．\footnote{\haskell では $\mFloatType$, $\mDoubleType$ をそれぞれ \code{Float}, \code{Double} で表す．}
+計算機は残念ながら無限精度の実数を扱えない．そこで標準精度（単精度）の\keyword{浮動小数点数型}である $\hFloat$ と，\keyword{倍精度浮動小数点型}である $\hDouble$ が提供される．\footnote{\haskell では $\hFloat$, $\hDouble$ をそれぞれ \code{Float}, \code{Double} で表す．}
 
-もう一つ，計算機ならではの型がある．それは $\mIntType$ とよく似ているが，特別に文字を扱うために考えられた\keyword{文字型} $\mCharType$ である．文字といってもその中身は整数である．整数ではあるが，わざわざ別な型とするのには理由がある．\footnote{\haskell では $\mCharType$ を \code{Char} で表す．}
+もう一つ，計算機ならではの型がある．それは $\hInt$ とよく似ているが，特別に文字を扱うために考えられた\keyword{文字型} $\hChar$ である．文字といってもその中身は整数である．整数ではあるが，わざわざ別な型とするのには理由がある．\footnote{\haskell では $\hChar$ を \code{Char} で表す．}
 
 理由の第一は，文字が小さな整数であるため，文字型を独立して定義しておくことでメモリを節約できるのである．特にメモリが高価であった時代はこれが唯一の理由であった．現在でも，整数が一般に64ビットを消費するのに対し，UTF-8文字エンコードを用いている場合，アルファベットは8ビットしか消費しない．
 
@@ -812,16 +812,16 @@ z = g(f(x))
 関数にも型がある．例えば整数引数を一つ取り，整数を返す関数 $\hFunc{f}$ は
 \begin{equation}
   \hFunc{f}
-  \mIn\mIntType
-  \mFuncArrow\mIntType
+  \hIsTypeOf\hInt
+  \hFunctionArrow\hInt
 \end{equation}
 という型を持つ．上式は
 \begin{equation}
   \hFunc{f}
-  \mIn\underbrace{\mIntType}_{\hVar{x}}
-  \mFuncArrow\underbrace{\mIntType}_{\hFunc{f}\hVar{x}}
+  \hIsTypeOf\underbrace{\hInt}_{\hVar{x}}
+  \hFunctionArrow\underbrace{\hInt}_{\hFunc{f}\hVar{x}}
 \end{equation}
-のようにイメージすると良い．これは関数 $\hFunc{f}$ が集合 $\mIntType$ から集合 $\mIntType$ への\keyword{写像}であると読む．\footnote{\haskell では \code{f :: Int -> Int} と書く．}
+のようにイメージすると良い．これは関数 $\hFunc{f}$ が集合 $\hInt$ から集合 $\hInt$ への\keyword{写像}であると読む．\footnote{\haskell では \code{f :: Int -> Int} と書く．}
 
 \section{カリー化}
 
@@ -836,13 +836,13 @@ z = g(f(x))
 
 ラムダ式の場合は話はもっと単純で，形式的に
 \begin{equation}
-  \mLambda\hVar{x}\hVar{y}\mLambdaArrow\hVar{x}+\hVar{y}
-  =\mLambda\hVar{x}\mLambdaArrow\left(\mLambda\hVar{y}\mLambdaArrow\hVar{x}+\hVar{y}\right)
+  \hLambdaSyntax{\hVar{x}\hVar{y}}{\hVar{x}+\hVar{y}}
+  =\hLambdaSyntax{\hVar{x}}{\left(\hLambdaSyntax{\hVar{y}}{\hVar{x}+\hVar{y}}\right)}
 \end{equation}
-のように展開すれば1引数にできる．矢印$\mLambdaArrow$は\keyword{右結合}である．そこでこのラムダ式は括弧を省略して
+のように展開すれば1引数にできる．矢印$\hLambdaArrow$は\keyword{右結合}である．そこでこのラムダ式は括弧を省略して
 \begin{equation}
-  \mLambda\hVar{x}\hVar{y}\mLambdaArrow\hVar{x}+\hVar{y}
-  =\mLambda\hVar{x}\mLambdaArrow\mLambda\hVar{y}\mLambdaArrow\hVar{x}+\hVar{y}
+  \hLambdaSyntax{\hVar{x}\hVar{y}}{\hVar{x}+\hVar{y}}
+  =\hLambda\hVar{x}\hLambdaArrow\hLambda\hVar{y}\hLambdaArrow\hVar{x}+\hVar{y}
 \end{equation}
 とも書かれる．
 
@@ -853,37 +853,37 @@ z = g(f(x))
 整数引数を二つ取り，整数を返す関数 $\hFunc{g}$ は
 \begin{equation}
   \hFunc{g}
-  \mIn\mIntType\mFuncArrow\mIntType\mFuncArrow\mIntType
+  \hIsTypeOf\hInt\hFunctionArrow\hInt\hFunctionArrow\hInt
 \end{equation}
 という型を持つ．写像の矢印記号は右結合するので，これは
 \begin{equation}
   \hFunc{g}
-  \mIn\mIntType\mFuncArrow(\mIntType\mFuncArrow\mIntType)
+  \hIsTypeOf\hInt\hFunctionArrow(\hInt\hFunctionArrow\hInt)
 \end{equation}
 と同じ意味である．上式は
 \begin{equation*}
   \hFunc{g}
-  \mIn\underbrace{\mIntType}_{\hVar{x}}
-  \mFuncArrow\underbrace{\overbrace{\mIntType}^{\hVar{y}}\mFuncArrow\overbrace{\mIntType}^{(\hFunc{g}\hVar{x})\hVar{y}}}_{\hFunc{g}\hVar{x}}
+  \hIsTypeOf\underbrace{\hInt}_{\hVar{x}}
+  \hFunctionArrow\underbrace{\overbrace{\hInt}^{\hVar{y}}\hFunctionArrow\overbrace{\hInt}^{(\hFunc{g}\hVar{x})\hVar{y}}}_{\hFunc{g}\hVar{x}}
 \end{equation*}
-のようにイメージすると良い．自然言語で考えると $\mIntType$ 型の引数を一つ取り，$\mIntType$ 型の引数を一つ取って $\mIntType$ 型の値を返す関数を返す，と読める．\footnote{関数の型に出てくる $\mFuncArrow$ は2引数をとる型コンストラクタである．型コンストラクタに関しては第XYZ章で詳しく述べる．例えば $\mA\mFuncArrow\mB$ という型は $(\mFuncArrow)\mA\mB$ の別名であり，型コンストラクタ $(\mFuncArrow)$ に引数 $\mA$ と $\mB$ を与えたものと読む．}
+のようにイメージすると良い．自然言語で考えると $\hInt$ 型の引数を一つ取り，$\hInt$ 型の引数を一つ取って $\hInt$ 型の値を返す関数を返す，と読める．\footnote{関数の型に出てくる $\hFunctionArrow$ は2引数をとる型コンストラクタである．型コンストラクタに関しては第XYZ章で詳しく述べる．例えば $\hTypeName{a}\hFunctionArrow\hTypeName{b}$ という型は $(\hFunctionArrow)\hTypeName{a}\hTypeName{b}$ の別名であり，型コンストラクタ $(\hFunctionArrow)$ に引数 $\hTypeName{a}$ と $\hTypeName{b}$ を与えたものと読む．}
 
 \separator
 
 \haskell には\keyword{タプル}という型がある．タプルとは，複数の変数を組み合わせたもので，例えば変数 $\hVar{x},\hVar{y}$ をひとまとめにした
 \begin{equation}
-  \mPairWith{\hVar{x}}{\hVar{y}}
+  \hPairWith{\hVar{x}}{\hVar{y}}
 \end{equation}
-はタプルである．変数 $\hVar{x}$, $\hVar{y}$ の型は同じでも良いし，異なっても良い．\footnote{\haskell では $\mPairWith{\hVar{x}}{\hVar{y}}$ を \code{(x, y)} と書く．}
+はタプルである．変数 $\hVar{x}$, $\hVar{y}$ の型は同じでも良いし，異なっても良い．\footnote{\haskell では $\hPairWith{\hVar{x}}{\hVar{y}}$ を \code{(x, y)} と書く．}
 
 いまタプルを引数に取る関数
 \begin{equation}
-  f\mPairWith{\hVar{x}}{\hVar{y}}
+  f\hPairWith{\hVar{x}}{\hVar{y}}
   =\hVar{x}+\hVar{y}
 \end{equation}
-があったとしよう．\haskell にはタプルをとる関数をカリー化する関数 $\mCurry$ があり，
+があったとしよう．\haskell にはタプルをとる関数をカリー化する関数 $\hCurry$ があり，
 \begin{equation}
-  (\mCurry\hFunc{f})\hVar{x}\hVar{y}
+  (\hCurry\hFunc{f})\hVar{x}\hVar{y}
 \end{equation}
 は $\hVar{x}+\hVar{y}$ になる．
 
@@ -894,103 +894,103 @@ z = g(f(x))
 \end{equation}
 に関しては
 \begin{equation}
-  (\mUncurry\hFunc{f'})\mPairWith{\hVar{x}}{\hVar{y}}
+  (\hUncurry\hFunc{f'})\hPairWith{\hVar{x}}{\hVar{y}}
 \end{equation}
 のように\keyword{アンカリー化}することで，タプルに適用することができる．
 
 \separator
 
-タプルの中身の個数は0個または2個以上でなければならず，上限は処理系によって定められている．2個の変数からなるタプルを特別にペア，3個の変数からなるタプルを特別にトリプルと呼ぶ．中身が0個のタプルすなわち $()$ は特別に\keyword{ユニット}と呼ぶ．\footnote{GHC v8.2.1 は最大62個の変数からなるタプルまで生成できる．}
+タプルの中身の個数は0個または2個以上でなければならず，上限は処理系によって定められている．2個の変数からなるタプルを特別にペア，3個の変数からなるタプルを特別にトリプルと呼ぶ．中身が0個のタプルすなわち $\hUnit$ は特別に\keyword{ユニット}と呼ぶ．\footnote{GHC v8.2.1 は最大62個の変数からなるタプルまで生成できる．}
 
 \section{多相型と型クラス*}
 
-整数型 $(\mIntType)$ と浮動小数点型 $(\mFloatType)$ はよく似ている．どちらも値同士を比較可能で，それ故どちらにも等値演算子が定義されている．
+整数型 $(\hInt)$ と浮動小数点型 $(\hFloat)$ はよく似ている．どちらも値同士を比較可能で，それ故どちらにも等値演算子が定義されている．
 
 整数型の等値演算子は
 \begin{equation}
   (\hIfEq)
-  \mIn\mIntType\mFuncArrow\mIntType\mFuncArrow\mBoolType
+  \hIsTypeOf\hInt\hFunctionArrow\hInt\hFunctionArrow\hBool
 \end{equation}
 であり，浮動小数点型の等値演算子は
 \begin{equation}
   (\hIfEq)
-  \mIn\mFloatType\mFuncArrow\mFloatType\mFuncArrow\mBoolType
+  \hIsTypeOf\hFloat\hFunctionArrow\hFloat\hFunctionArrow\hBool
 \end{equation}
 である．
 
 このように型が異なっても（だいたい）同じ意味で定義されている演算子のことを\keyword{多相的}な演算子と呼ぶ．等値演算子は多相的な演算子の例である．
 
-具体的な型を指定せずに，仮の変数で表したものを\keyword{型パラメタ}と呼ぶ．我々は型パラメタをボールド体で表す．いま型を表す仮の変数を $\mA $ として，等値演算子の型を
+具体的な型を指定せずに，仮の変数で表したものを\keyword{型パラメタ}と呼ぶ．我々は型パラメタをボールド体で表す．いま型を表す仮の変数を $\hTypeName{a}$ として，等値演算子の型を
 \begin{equation}
   \label{eq:equiv}
   (\hIfEq)
-  \mIn\mA\mFuncArrow\mA\mFuncArrow\mBoolType
+  \hIsTypeOf\hTypeName{a}\hFunctionArrow\hTypeName{a}\hFunctionArrow\hBool
 \end{equation}
 と表現してみよう．このような型パラメタを用いた型を総称して\keyword{多相型}と呼ぶ．
 
-実は式\eqref{eq:equiv}は不完全なものである．このままでは型 $\mA $に何の制約もないため，等値演算の定義されていない型が来るかもしれないからである．そこで，型自身が所属する，より大きな型があるとしよう．そのような型を我々は\keyword{型クラス}と呼ぶ．例えば型 $\mBoolType,\mIntType,\mIntegerType,\mFloatType,\mDoubleType$ は全て等値演算が定義できるので，型クラス $\mEqTypeClass$ に属すとする．この関係を我々は
+実は式\eqref{eq:equiv}は不完全なものである．このままでは型 $\hTypeName{a}$に何の制約もないため，等値演算の定義されていない型が来るかもしれないからである．そこで，型自身が所属する，より大きな型があるとしよう．そのような型を我々は\keyword{型クラス}と呼ぶ．例えば型 $\hBool,\hInt,\hInteger,\hFloat,\hDouble$ は全て等値演算が定義できるので，型クラス $\hEq$ に属すとする．この関係を我々は
 \begin{equation}
-  \mEqTypeClass
-  \mSuperSet\mBoolType,\mIntType,\mIntegerType,\mFloatType,\mDoubleType
+  \hEq
+  \hHasElementsOf\hBool,\hInt,\hInteger,\hFloat,\hDouble
 \end{equation}
-と書く．ここに $\mEqTypeClass\mSuperSet\mA$ と書いて「型 $\mA$ は型クラス $\mEqTypeClass$ の\keyword{インスタンス}である」と読む．
+と書く．ここに $\hEq\hHasElementsOf\hTypeName{a}$ と書いて「型 $\hTypeName{a}$ は型クラス $\hEq$ の\keyword{インスタンス}である」と読む．
 
-式\eqref{eq:equiv}に型クラスの制約を加えてみよう．型 $\mA$ は型クラス $\mEqTypeClass$ に属さなければならないから，新たな記号 $\mSuperClass$ を使って
+式\eqref{eq:equiv}に型クラスの制約を加えてみよう．型 $\hTypeName{a}$ は型クラス $\hEq$ に属さなければならないから，新たな記号 $\hAndThen$ を使って
 \begin{equation}
   (\hIfEq)
-  \mIn{}\mEqTypeClass\mSuperSet\mA
-  \mSuperClass\mA\mFuncArrow\mA\mFuncArrow\mBoolType
+  \mIn{}\hEq\hHasElementsOf\mA
+  \hAndThen\hTypeName{a}\hFunctionArrow\hTypeName{a}\hFunctionArrow\hBool
 \end{equation}
-と書くことにする．\footnote{\haskell では \code{(==) :: Eq a => a -> a -> Bool} と書く．記号 $\mSuperSet$ は省略する．}
+と書くことにする．\footnote{\haskell では \code{(==) :: Eq a => a -> a -> Bool} と書く．記号 $\hHasElementsOf$ は省略する．}
 
-型 $\mA$ の変数同士の間で大小関係が定義されている場合，かつその型が型クラス $\mEqTypeClass$ に属する場合，その型は型クラス $\mOrdTypeClass$ にも属する．型クラス $\mOrdTypeClass$ に属する型は比較演算子 $<,\le,\ge,>$ を提供する．例えば型 $\mIntType$ は型クラス $\mOrdTypeClass$ に属すが，型 $\mBoolType$ は型クラス $\mOrdTypeClass$ に属さない．
+型 $\hTypeName{a}$ の変数同士の間で大小関係が定義されている場合，かつその型が型クラス $\hEq$ に属する場合，その型は型クラス $\hOrd$ にも属する．型クラス $\hOrd$ に属する型は比較演算子 $<,\le,\ge,>$ を提供する．例えば型 $\hInt$ は型クラス $\hOrd$ に属すが，型 $\hBool$ は型クラス $\hOrd$ に属さない．
 
-型 $\mA$ の変数同士の間で四則演算関係が定義されている場合，かつその型が型クラス $\mEqTypeClass$ に属する場合，その型は型クラス $\mNumTypeClass$ にも属する．型クラス $\mNumTypeClass$ に属する型は二項演算子 $+,-,*,/$ を提供する．ここに$-$は二項演算子のマイナスである．
+型 $\hTypeName{a}$ の変数同士の間で四則演算関係が定義されている場合，かつその型が型クラス $\hEq$ に属する場合，その型は型クラス $\hNum$ にも属する．型クラス $\hNum$ に属する型は二項演算子 $+,-,*,/$ を提供する．ここに$-$は二項演算子のマイナスである．
 
-型 $\mA$ が型クラス $\mOrdTypeClass$ 及び型クラス$\mNumTypeClass$ に属しているとき，かつそのときに限り，型 $\mA$は型クラス $\mRealTypeClass$ にも属する．
+型 $\hTypeName{a}$ が型クラス $\hOrd$ 及び型クラス$\hNum$ に属しているとき，かつそのときに限り，型 $\hTypeName{a}$は型クラス $\hReal$ にも属する．
 
-型 $\mA$ の変数について，一つ小さい値を返す関数 $\mPred$ と一つ大きい値を返す関数 $\mSucc$ が定義されているとき，かつそのときに限り，型 $\mA$ は型クラス $\mEnumTypeClass$ に属する．
+型 $\hTypeName{a}$ の変数について，一つ小さい値を返す関数 $\hPred$ と一つ大きい値を返す関数 $\hSucc$ が定義されているとき，かつそのときに限り，型 $\hTypeName{a}$ は型クラス $\hEnum$ に属する．
 
-型 $\mA$ が型クラス $\mRealTypeClass$ 及び型クラス$\mEnumTypeClass$ に属しているとき，かつそのときに限り，型 $\mA$ は型クラス $\mIntegralTypeClass$ にも属する．
+型 $\hTypeName{a}$ が型クラス $\hReal$ 及び型クラス$\hEnum$ に属しているとき，かつそのときに限り，型 $\hTypeName{a}$ は型クラス $\hIntegral$ にも属する．
 
 % これらの関係を表にまとめたものが表\ref{tab:type-and-typeclass}である．
-% この表から，型 $\mIntType$ は型クラス $\mIntegralTypeClass$,
-% $\mRealTypeClass$, $\mOrdTypeClass$, $\mNumTypeClass$,
-% $\mEnumTypeClass$, $\mEqTypeClass$ に属しているのに対し，型
-% $\mBoolType$ は $\mOrdTypeClass$, $\mEnumTypeClass$, $\mEqTypeClass$
+% この表から，型 $\hInt$ は型クラス $\hIntegral$,
+% $\hReal$, $\hOrd$, $\hNum$,
+% $\hEnum$, $\hEq$ に属しているのに対し，型
+% $\hBool$ は $\hOrd$, $\hEnum$, $\hEq$
 % にのみ属しているのがわかる．
 
 \separator
 
 便利な型変換演算子をひとつ紹介しておこう．型変換演算子
-$\mFromIntegral$ は
+$\hFromIntegral$ は
 \begin{equation}
-  \mFromIntegral
-  \mIn{}\mIntegralTypeClass\mSuperSet\mA
-  \mSuperClass\mA\mFuncArrow\mB
+  \hFromIntegral
+  \mIn{}\hIntegral\hHasElementsOf\mA
+  \hAndThen\hTypeName{a}\hFunctionArrow\mB
 \end{equation}
-という型を持ち，$\mIntegralTypeClass$ 型クラスの型の変数を，任意の型へ変換する．例えば
+という型を持ち，$\hIntegral$ 型クラスの型の変数を，任意の型へ変換する．例えば
 \begin{align}
   {}
-  &\left\mBrace
+  &\left\{
   \begin{aligned}
     \hVar{x}
-    &\mIn\mIntType\\
+    &\hIsTypeOf\hInt\\
     \hVar{x}
     &=\hConstant{1}
   \end{aligned}
   \right.\\
     {}
-    &\left\mBrace
+    &\left\{
     \begin{aligned}
       \hVar{y}
-      &\mIn\mDoubleType\\
+      &\hIsTypeOf\hDouble\\
       \hVar{y}
-      &=\mFromIntegral\hVar{x}
+      &=\hFromIntegral\hVar{x}
     \end{aligned}
   \right.
 \end{align}
-とすることで，$\mIntType$ 型の変数 $\hVar{x}$ の値を $\mDoubleType$ 型の変数 $\hVar{y}$ へ代入することができる．\footnote{\haskell では
+とすることで，$\hInt$ 型の変数 $\hVar{x}$ の値を $\hDouble$ 型の変数 $\hVar{y}$ へ代入することができる．\footnote{\haskell では
 \begin{verbatim}
   x :: Int
   x = 1
@@ -1005,32 +1005,32 @@ $\mFromIntegral$ は
 
 \section{余談：モノイド}
 
-整数全てからなる\keyword{集合}を $\mZSet$ で表すことにする．計算機科学で整数と言うと，本当の整数と，例えば $-2^{63}$ から $2^{63}-1$ までの間の整数の意味と両方あるが，今は前者の意味である．
+整数全てからなる\keyword{集合}を $\hSet{Z}$ で表すことにする．計算機科学で整数と言うと，本当の整数と，例えば $-2^{63}$ から $2^{63}-1$ までの間の整数の意味と両方あるが，今は前者の意味である．
 
-集合 $\mZSet$ の任意の\keyword{元}（\keyword{要素}）$\hVar{z}$ を
+集合 $\hSet{Z}$ の任意の\keyword{元}（\keyword{要素}）$\hVar{z}$ を
 \begin{equation}
   \hVar{z}
-  \mIn\mZSet
+  \hIsTypeOf\hSet{Z}
 \end{equation}
 と書く．
 
-二つの整数 $\hVar{z}_1,\hVar{z}_2\mIn\mZSet$ があるとしよう．両者の間には\keyword{足し算} $(+)$ が定義されており，その結果すなわち\keyword{和}もまた整数である．ここで
+二つの整数 $\hVar{z}_1,\hVar{z}_2\hIsTypeOf\hSet{Z}$ があるとしよう．両者の間には\keyword{足し算} $(+)$ が定義されており，その結果すなわち\keyword{和}もまた整数である．ここで
 \begin{equation}
   \hVar{z}_1+\hVar{z}_2
-  \mIn\mZSet
+  \hIsTypeOf\hSet{Z}
 \end{equation}
-であるとき，演算子 $+$ が集合 $\mZSet$ に対して\keyword{全域性}を持つと言う．
+であるとき，演算子 $+$ が集合 $\hSet{Z}$ に対して\keyword{全域性}を持つと言う．
 % ***CHECK***
-一般に集合 $\mASet$ の元に対して二項演算子 $\hAnyBinOp$ が定義されていて，$\hVar{a}_1,\hVar{a}_2\mIn\mASet$ のときに
+一般に集合 $\hSet{A}$ の元に対して二項演算子 $\hAnyBinOp$ が定義されていて，$\hVar{a}_1,\hVar{a}_2\hIsTypeOf\hSet{A}$ のときに
 \begin{equation}
   \label{eq:totality}
   \hVar{a}_1\hAnyBinOp \hVar{a}_2
-  \in\mASet
+  \in\hSet{A}
 \end{equation}
-である場合，つまり演算子 $\hAnyBinOp$ が集合 $\mASet$ に対して全域性を持つ場合，組み合わせ $\mTupleWith{\mASet,\hAnyBinOp}$ を\keyword{マグマ}と呼ぶ．組み合わせ $\mTupleWith{\mZSet,+}$ はマグマの例であり，$\mTupleWith{\mZSet,*}$ もマグマの例である．
+である場合，つまり演算子 $\hAnyBinOp$ が集合 $\hSet{A}$ に対して全域性を持つ場合，組み合わせ $\hSingleTuppleWith{\hSet{A},\hAnyBinOp}$ を\keyword{マグマ}と呼ぶ．組み合わせ $\hSingleTuppleWith{\hSet{Z},+}$ はマグマの例であり，$\hSingleTuppleWith{\hSet{Z},*}$ もマグマの例である．
 % マグマはかつて亜群と呼ばれていたが，現在は亜群は別の意味(groupoid)の訳語に使われている．
 
-他に\keyword{論理集合} $\mBSet=\{\hTrue,\hFalse\}$ に対して，\keyword{論理和} $(\mLogicalOr)$ は全域性を持つから，組み合わせ $\mTupleWith{\mBSet,\mLogicalOr}$ はマグマであるし，同様に\keyword{論理積} $(\mLogicalAnd)$ も全域性を持つから，組み合わせ $\mTupleWith{\mBSet,\mLogicalAnd}$ もマグマである．論理集合 $\mBSet$ とは論理型 $\mBoolType$ を数学風に言い換えたものである．
+他に\keyword{論理集合} $\hSet{B}=\{\hTrue,\hFalse\}$ に対して，\keyword{論理和} $(\hLogicalOr)$ は全域性を持つから，組み合わせ $\hSingleTuppleWith{\hSet{B},\hLogicalOr}$ はマグマであるし，同様に\keyword{論理積} $(\hLogicalAnd)$ も全域性を持つから，組み合わせ $\hSingleTuppleWith{\hSet{B},\hLogicalAnd}$ もマグマである．論理集合 $\hSet{B}$ とは論理型 $\hBool$ を数学風に言い換えたものである．
 
 マグマのうち，演算を2回続ける場合，その順序によって結果が異ならない，つまり
 \begin{equation}
@@ -1038,9 +1038,9 @@ $\mFromIntegral$ は
   \left(\hVar{a}_1\hAnyBinOp \hVar{a}_2\right)\hAnyBinOp \hVar{a}_3
   =\hVar{a}_1\hAnyBinOp\left(\hVar{a}_2\hAnyBinOp{\hVar{a}_3}\right)
 \end{equation}
-ただし $\hVar{a}_1,\hVar{a}_2,\hVar{a}_3\mIn\mASet$ のとき，組み合わせ $\mTupleWith{\mASet,\hAnyBinOp}$ のことを\keyword{半群}と呼ぶ．この式\eqref{eq:associativity}で表される性質を\keyword{結合性}と呼ぶ．組み合わせ $\mTupleWith{\mZSet,+}$, $\mTupleWith{\mZSet,*}$, $\mTupleWith{\mBSet,\mLogicalOr}$, $\mTupleWith{\mBSet,\mLogicalOr}$ はすべて半群である．
+ただし $\hVar{a}_1,\hVar{a}_2,\hVar{a}_3\hIsTypeOf\hSet{A}$ のとき，組み合わせ $\hSingleTuppleWith{\hSet{A},\hAnyBinOp}$ のことを\keyword{半群}と呼ぶ．この式\eqref{eq:associativity}で表される性質を\keyword{結合性}と呼ぶ．組み合わせ $\hSingleTuppleWith{\hSet{Z},+}$, $\hSingleTuppleWith{\hSet{Z},*}$, $\hSingleTuppleWith{\hSet{B},\hLogicalOr}$, $\hSingleTuppleWith{\hSet{B},\hLogicalOr}$ はすべて半群である．
 
-ところで，整数全体の集合 $\mZSet$ には特別な元 $\hConstant{0}\mIn\mZSet$ がある．この元 $\hConstant{0}$ は $\hVar{z}\mIn\mZSet$ のとき
+ところで，整数全体の集合 $\hSet{Z}$ には特別な元 $\hConstant{0}\hIsTypeOf\hSet{Z}$ がある．この元 $\hConstant{0}$ は $\hVar{z}\hIsTypeOf\hSet{Z}$ のとき
 \begin{equation}
   \hConstant{0}+\hVar{z}
   =\hVar{z}+\hConstant{0}
@@ -1048,7 +1048,7 @@ $\mFromIntegral$ は
 \end{equation}
 という性質を持つ．この $\hConstant{0}$ を演算 $+$ における\keyword{単位元}と呼ぶ．足し算のことを\keyword{加法}とも言うので $\hConstant{0}$ のことは\keyword{加法単位元}と呼ぶこともあるし，文字通り\keyword{零元}と呼ぶこともある．
 
-一般に，$\hVar{a},\mZeroLeft,\mZeroRight\in\mASet$ として
+一般に，$\hVar{a},\mZeroLeft,\mZeroRight\in\hSet{A}$ として
 \begin{equation}
   \label{eq:identity}
   \mZeroLeft\mPlus\hVar{a}
@@ -1057,7 +1057,7 @@ $\mFromIntegral$ は
 \end{equation}
 であるとき，元 $\mZeroLeft,\mZeroRight$ を単位元と呼ぶ．我々は多くの場合 $\mZeroLeft=\mZeroRight$ であるケースを扱うので，二つの単位元を区別する必要はほとんどないが，必要な場合は $\mZeroLeft$ を\keyword{左単位元}，$\mZeroRight$ を\keyword{右単位元}と呼ぶ．
 
-組み合わせ $\mTupleWith{\mASet,\mPlus,\mZeroLeft,\mZeroRight}$ のことを\keyword{モノイド}または\keyword{単位的半群}と呼ぶ．例えば $\mTupleWith{\mZSet,+,\hConstant{0},\hConstant{0}}$ はモノイドであるし，$\mTupleWith{\mZSet,*,\hConstant{1},\hConstant{1}}$, $\mTupleWith{\mBSet,\mLogicalOr,\hFalse,\hFalse}$, $\mTupleWith{\mBSet,\mLogicalAnd,\hTrue,\hTrue}$ もモノイドである．これらのモノイドは全て左単位元と右単位元が同じなので，それぞれ $\mTupleWith{\mZSet,+,\hConstant{0}}$, $\mTupleWith{\mZSet,*,\hConstant{1}}$, $\mTupleWith{\mBSet,\mLogicalOr,\hFalse}$, $\mTupleWith{\mBSet,\mLogicalAnd,\hTrue}$ とも書く．
+組み合わせ $\hSingleTuppleWith{\hSet{A},\mPlus,\mZeroLeft,\mZeroRight}$ のことを\keyword{モノイド}または\keyword{単位的半群}と呼ぶ．例えば $\hSingleTuppleWith{\hSet{Z},+,\hConstant{0},\hConstant{0}}$ はモノイドであるし，$\hSingleTuppleWith{\hSet{Z},*,\hConstant{1},\hConstant{1}}$, $\hSingleTuppleWith{\hSet{B},\hLogicalOr,\hFalse,\hFalse}$, $\hSingleTuppleWith{\hSet{B},\hLogicalAnd,\hTrue,\hTrue}$ もモノイドである．これらのモノイドは全て左単位元と右単位元が同じなので，それぞれ $\hSingleTuppleWith{\hSet{Z},+,\hConstant{0}}$, $\hSingleTuppleWith{\hSet{Z},*,\hConstant{1}}$, $\hSingleTuppleWith{\hSet{B},\hLogicalOr,\hFalse}$, $\hSingleTuppleWith{\hSet{B},\hLogicalAnd,\hTrue}$ とも書く．
 
 このように，数学者は数の性質を抽象化し，集合とその集合に対する演算というものの見方をよく行う．プログラミングの言葉で言えば，複数のクラスに共通のインタフェースを定義するようなものである．
 
@@ -1069,35 +1069,35 @@ $\mFromIntegral$ は
 \begin{center}
 \begin{tabular}{||c||c|c||}
 \hline 型&演算子&単位元\\\hline\hline
-$\mBoolType$ &$\vee$&$\hFalse$\\\hline
-$\mBoolType$ &$\wedge$ &$\hTrue$\\\hline\hline
-$\mIntType$ &$+$ &$\hConstant{0}$\\\hline
-$\mIntType$ &$*$ &$\hConstant{1}$\\\hline\hline
-$\mFloatType$ &$+$ &$\hConstant{0}$\\\hline
-$\mFloatType$ &$*$ &$\hConstant{1}$\\\hline
+$\hBool$ &$\vee$&$\hFalse$\\\hline
+$\hBool$ &$\wedge$ &$\hTrue$\\\hline\hline
+$\hInt$ &$+$ &$\hConstant{0}$\\\hline
+$\hInt$ &$*$ &$\hConstant{1}$\\\hline\hline
+$\hFloat$ &$+$ &$\hConstant{0}$\\\hline
+$\hFloat$ &$*$ &$\hConstant{1}$\\\hline
 \end{tabular}
 \end{center}
 \end{table}
 
-組み合わせ $(\mIntType,+,\hConstant{0})$ はモノイドである．同様に $(\mIntType,*,\hConstant{1})$, $(\mFloatType,+,\hConstant{0})$, $(\mFloatType,*,\hConstant{1})$, $(\mBoolType,\mLogicalOr,\hFalse)$, $(\mBoolType,\mLogicalAnd,\hTrue)$ もモノイドである．
+組み合わせ $(\hInt,+,\hConstant{0})$ はモノイドである．同様に $(\hInt,*,\hConstant{1})$, $(\hFloat,+,\hConstant{0})$, $(\hFloat,*,\hConstant{1})$, $(\hBool,\hLogicalOr,\hFalse)$, $(\hBool,\hLogicalAnd,\hTrue)$ もモノイドである．
 
-% そこで，任意の型 $\mA $ について，組み合わせ $\mTupleWith{\mA ,\mPlus,\mZero}$ がモノイドである場合には
+% そこで，任意の型 $\hTypeName{a}$ について，組み合わせ $\hSingleTuppleWith{\mA ,\mPlus,\mZero}$ がモノイドである場合には
 % \begin{equation}
-% \mTupleWith{\mA ,\mPlus,\mZero}\mIn\mMonoidTypeClass
+% \hSingleTuppleWith{\mA ,\mPlus,\mZero}\hIsTypeOf\mMonoidTypeClass
 % \end{equation}
 % と書くことにする．二項演算子，単位元が自明な場合は簡略化して
 % \begin{equation}
-% \mA \mIn\mMonoidTypeClass
+% \mA \hIsTypeOf\mMonoidTypeClass
 % \end{equation}
 % と書くことにする．\footnote{\haskell では $\mPlus$ を \code{<|>} と書き，$\mZero$ を \code{mzero} と書く．}
 
 \section{この章のまとめ*}
 
 \begin{enumerate}
-\item 集合 $\mASet$ の元 $\hVar{a}_1,\hVar{a}_2\mIn\mASet$ について，二項演算子 $\hAnyBinOp$ があり $\hVar{a}_1\hAnyBinOp \hVar{a}_2\mIn\mASet$ であるとき，すなわち演算子が全域性を有する場合 $(\mASet,\hAnyBinOp)$ のことをマグマと呼ぶ．
-\item マグマ $\mASet$ の元 $\hVar{a}_1,\hVar{a}_2,\hVar{a}_3\mIn\mASet$ について $(\hVar{a}_1\hAnyBinOp \hVar{a}_2)\hAnyBinOp \hVar{a}_3=\hVar{a}_1\hAnyBinOp(\hVar{a}_2\hAnyBinOp \hVar{a}_3)$ である場合，すなわち演算子が結合性を有する場合 $\mASet$ を半群と呼ぶ．
-\item 半群のうち $\mZero\mIn\mASet$ なる元 $\mZero$ があり，任意の $a\mIn\mASet$ に対して $\mZero\hAnyBinOp a=a\hAnyBinOp\mZero=a$ である場合，すなわち単位元が存在する場合 $\mASet$ をモノイドと呼ぶ．
-\item 関数は集合 $\mASet$ から集合 $\mASet'$ への写像という型を持つ．
+\item 集合 $\hSet{A}$ の元 $\hVar{a}_1,\hVar{a}_2\hIsTypeOf\hSet{A}$ について，二項演算子 $\hAnyBinOp$ があり $\hVar{a}_1\hAnyBinOp \hVar{a}_2\hIsTypeOf\hSet{A}$ であるとき，すなわち演算子が全域性を有する場合 $(\hSet{A},\hAnyBinOp)$ のことをマグマと呼ぶ．
+\item マグマ $\hSet{A}$ の元 $\hVar{a}_1,\hVar{a}_2,\hVar{a}_3\hIsTypeOf\hSet{A}$ について $(\hVar{a}_1\hAnyBinOp \hVar{a}_2)\hAnyBinOp \hVar{a}_3=\hVar{a}_1\hAnyBinOp(\hVar{a}_2\hAnyBinOp \hVar{a}_3)$ である場合，すなわち演算子が結合性を有する場合 $\hSet{A}$ を半群と呼ぶ．
+\item 半群のうち $\mZero\hIsTypeOf\hSet{A}$ なる元 $\mZero$ があり，任意の $a\hIsTypeOf\hSet{A}$ に対して $\mZero\hAnyBinOp a=a\hAnyBinOp\mZero=a$ である場合，すなわち単位元が存在する場合 $\hSet{A}$ をモノイドと呼ぶ．
+\item 関数は集合 $\hSet{A}$ から集合 $\hSet{A}'$ への写像という型を持つ．
   %***写像***
 \item 複数引数を取る関数はカリー化によって，1引数をとる複数の関数へ分解される．
 \item 型のインタフェースをまとめたものを型クラスと呼ぶ．
@@ -1167,16 +1167,16 @@ ls = [x+y for x in range(0, 10) for y in range(0, 6) \
 
 % ...もっと内包表記．
 
-整数型 $(\mIntType)$ のリストは $[\mIntType]$ と書き，整数のリスト型と呼ぶ．一般に $\mA$ 型のリストを $[\mA]$ と書く．仮の型である $\mA$ の事を \keyword{型パラメタ}と呼ぶ．
+整数型 $(\hInt)$ のリストは $[\hInt]$ と書き，整数のリスト型と呼ぶ．一般に $\hTypeName{a}$ 型のリストを $[\mA]$ と書く．仮の型である $\hTypeName{a}$ の事を \keyword{型パラメタ}と呼ぶ．
 
-型 $\mA$ から型 $[\mA]$ を生成する演算子を\keyword{リスト型コンストラクタ}と呼んで$\mListTypeConstructor$ と書き
+型 $\hTypeName{a}$ から型 $[\mA]$ を生成する演算子を\keyword{リスト型コンストラクタ}と呼んで$\mListTypeConstructor$ と書き
 \begin{equation}
   [\mA]
   =\mListTypeConstructor\,\mA
 \end{equation}
 とする．この等式の両辺は変数ではなく型名であることに注意しよう．型コンストラクタの概念は\python には無い（必要無い）が，静的型付け言語である\cxx の「クラステンプレート」が相当する．\footnote{\haskell では表記上コンテナ型 $[\mA]$ と型コンストラクタ式$\mListTypeConstructor\,\mA $ を区別せず両者とも \code{[a]} と書くが，右辺は \code{[] a} とも書ける．}
 
-$[\hVar{x}]$ のように $\mA$ 型の変数 $\hVar{x}$ を入れた$[\mA]$ 型の変数を作る演算子を\keyword{リスト値コンストラクタ}と呼ぶ．$[\mA]$ 型の変数のことを\keyword{リスト変数}とも呼ぶ．$\mA$ 型の変数 $\hVar{x}$ からリスト値コンストラクタを使ってリスト$\mList{x}$ を作ることは
+$[\hVar{x}]$ のように $\hTypeName{a}$ 型の変数 $\hVar{x}$ を入れた$[\mA]$ 型の変数を作る演算子を\keyword{リスト値コンストラクタ}と呼ぶ．$[\mA]$ 型の変数のことを\keyword{リスト変数}とも呼ぶ．$\hTypeName{a}$ 型の変数 $\hVar{x}$ からリスト値コンストラクタを使ってリスト$\mList{x}$ を作ることは
 \begin{equation}
   \mList{x}
   =[\hVar{x}]
@@ -1187,7 +1187,7 @@ $[\hVar{x}]$ のように $\mA$ 型の変数 $\hVar{x}$ を入れた$[\mA]$ 型�
 
 ある型を包み込んだ別の型を一般に\keyword{コンテナ型}または単に\keyword{コンテナ}と呼ぶ．コンテナ型の変数を\keyword{コンテナ変数}と呼ぶ．コンテナ型は多相型の一種である．
 
-% なお，リスト型，結合演算子，空リストの組み合わせ $\mTupleWith{[\mA],\mAppend,\mEmptyList}$ はモノイドである．
+% なお，リスト型，結合演算子，空リストの組み合わせ $\hSingleTuppleWith{[\mA],\mAppend,\mEmptyList}$ はモノイドである．
 
 \separator
 
@@ -1199,7 +1199,7 @@ $\mList{y}$ を結合したリストは
 と表現する．リストの結合演算子の型は
 \begin{equation}
   (\mAppend)
-  \mIn[\mA]\mFuncArrow[\mA]\mFuncArrow[\mA]
+  \mIn[\mA]\hFunctionArrow[\mA]\hFunctionArrow[\mA]
 \end{equation}
 である．\footnote{\haskell では $\mList{x}\mAppend\mList{y}$ を \code{xs++ys} と書く．}
 
@@ -1235,7 +1235,7 @@ $\mList{n}$ は
 関数 $\mTake$ の型は
 \begin{equation}
   \mTake
-  \mIn\mIntType\mFuncArrow[\mA]\mFuncArrow[\mA]
+  \hIsTypeOf\hInt\hFunctionArrow[\mA]\hFunctionArrow[\mA]
 \end{equation}
 である．
 
@@ -1301,13 +1301,13 @@ s = ls.inject(0) { |x, y| x+y }
 \end{equation}
 とすれば得られる．
 
-畳み込み演算子は第1（上）引数に $\mA$ 型と $\mB$ 型の引数を取り $\mA$ 型の戻り値を返す二項演算子，第2（下）引数に$\mA$ 型，第3（右）引数に $\mB$ 型のリストすなわち$[\mB]$ 型を取り，$\mA$ 型の値を返す．従って畳み込み演算子の型は
+畳み込み演算子は第1（上）引数に $\hTypeName{a}$ 型と $\hTypeName{b}$ 型の引数を取り $\hTypeName{a}$ 型の戻り値を返す二項演算子，第2（下）引数に$\hTypeName{a}$ 型，第3（右）引数に $\hTypeName{b}$ 型のリストすなわち$[\mB]$ 型を取り，$\hTypeName{a}$ 型の値を返す．従って畳み込み演算子の型は
 \begin{equation}
   \mFold
-  \mIn(\mA\mFuncArrow\mB\mFuncArrow\mA)
-  \mFuncArrow\mA
-  \mFuncArrow[\mB]
-  \mFuncArrow\mA
+  \mIn(\hTypeName{a}\hFunctionArrow\hTypeName{b}\hFunctionArrow\mA)
+  \hFunctionArrow\mA
+  \hFunctionArrow[\mB]
+  \hFunctionArrow\mA
 \end{equation}
 である．
 
@@ -1363,28 +1363,28 @@ ms = map(f, ls)
 リストのマップ演算子の型は
 \begin{equation}
   \mMapList
-  \mIn{}(\mA\mFuncArrow\mB)\mFuncArrow[\mA]\mFuncArrow[\mB]
+  \mIn{}(\hTypeName{a}\hFunctionArrow\mB)\hFunctionArrow[\mA]\hFunctionArrow[\mB]
 \end{equation}
-である．矢印 $\mFuncArrow$ は右結合なので，これは
+である．矢印 $\hFunctionArrow$ は右結合なので，これは
 \begin{equation}
   \mMapList
-  \mIn{}(\mA\mFuncArrow\mB)\mFuncArrow([\mA]\mFuncArrow[\mB])
+  \mIn{}(\hTypeName{a}\hFunctionArrow\mB)\hFunctionArrow([\mA]\hFunctionArrow[\mB])
 \end{equation}
 の意味でもある．念のため上式に注釈を加えると
 \begin{equation}
   \mMapList
-  \mIn\underbrace{\left(\mA\mFuncArrow\mB\right)}_{\hFunc{f}}
-  \mFuncArrow\left(\underbrace{[\mA]}_{[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]}
-  \mFuncArrow\underbrace{[\mB]}_{[\hFunc{f}\hVar{x}_0,\hFunc{f}\hVar{x}_1\dotsb \hFunc{f}\hVar{x}_n]}\right)
+  \hIsTypeOf\underbrace{\left(\hTypeName{a}\hFunctionArrow\hTypeName{b}\right)}_{\hFunc{f}}
+  \hFunctionArrow\left(\underbrace{[\mA]}_{[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]}
+  \hFunctionArrow\underbrace{[\mB]}_{[\hFunc{f}\hVar{x}_0,\hFunc{f}\hVar{x}_1\dotsb \hFunc{f}\hVar{x}_n]}\right)
 \end{equation}
 である．
 
 ここで $\hFunc{f}$ と $\hFunc{f}\mMapList$ の型を並べてみると
 \begin{align}
   \hFunc{f}
-  &\mIn\mA\mFuncArrow\mB\\
+  &\hIsTypeOf\hTypeName{a}\hFunctionArrow\hTypeName{b}\\
   \hFunc{f}\mMapList
-  &\mIn{}[\mA]\mFuncArrow[\mB]
+  &\mIn{}[\mA]\hFunctionArrow[\mB]
 \end{align}
 となり，マップ演算子が何をしているのか一目瞭然になる．
 
@@ -1467,14 +1467,14 @@ cons演算子 $(:)$ は右結合する．すなわち $\hVar{x}_0:\hVar{x}_1:\hV
 \item 1要素のリストは $[x]$ のように表記する．この括弧をリスト値コンス
   トラクタと呼ぶ．
 \item 空リストは $\mEmptyList$ と表す．
-\item $\mA $型のリストを $[\mA]$ 型で表す．
-\item リスト型コンストラクタ$\mListTypeConstructor$ は型パラメタ $\mA$ に作用して$[\mA]$ を生成する．
+\item $\hTypeName{a}$型のリストを $[\mA]$ 型で表す．
+\item リスト型コンストラクタ$\mListTypeConstructor$ は型パラメタ $\hTypeName{a}$ に作用して$[\mA]$ を生成する．
 \item リストは先頭要素と続くリストから定義される．先頭要素を $\hVar{x}$ とし，続くリストを $\mList{x}$ とすると$\hVar{x}:\mList{x}$ はリストである．ここに演算子 $:$ は結合(cons)演算子である．
 \item リストはリスト結合(append)できる．リスト $\mList{y}$ とリスト $\mList{z}$ のリスト結合は $\mList{y}\mAppend\mList{z}$ である．
 \item 左畳み込み演算子$\mFold^{\hAnyBinOp}_a[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]$ は $a\hAnyBinOp \hVar{x}_0\hAnyBinOp \hVar{x}_1\hAnyBinOp\dotsb\hAnyBinOp \hVar{x}_n$ を返す．
 \item 右畳み込み演算子 $\mFoldRight^{\hAnyBinOp}_{a}[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]$ は$(\hVar{x}_0\hAnyBinOp(\hVar{x}_1\hAnyBinOp\dotsb\hAnyBinOp(\hVar{x}_n\hAnyBinOp a)))$ を返す．
 \item 平坦化演算子 $\mJoinList=\mFold_\mEmptyList^{\mAppend}$ はリストを平坦化する．
-\item 関数 $\hFunc{f}\mIn\mProjEXP{\mA }{\mA }$ はマップ演算子 $\mMapList$ を用いて $\hFunc{f}\mMapList[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]=[\hFunc{f}\hVar{x}_0,\hFunc{f}\hVar{x}_1\dotsb \hFunc{f}\hVar{x}_n]$ のようにリスト$[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]$ に適用できる．
+\item 関数 $\hFunc{f}\hIsTypeOf\mProjEXP{\mA }{\mA }$ はマップ演算子 $\mMapList$ を用いて $\hFunc{f}\mMapList[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]=[\hFunc{f}\hVar{x}_0,\hFunc{f}\hVar{x}_1\dotsb \hFunc{f}\hVar{x}_n]$ のようにリスト$[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]$ に適用できる．
 \item マップ演算子$\mMapList$ の型は$\mProjEXP{(\mProjEXP{\mA }{\mB})}{\mProjEXP{\mA }{\mB }}$である．
 \item $\mHead(\hVar{x}:\mList{x})=x,\mTail(\hVar{x}:\mList{x})=\mList{x}$である．
 \end{enumerate}
@@ -1744,14 +1744,14 @@ def map_over(f, p):
 
 ここで変数 $\mMaybe{u}$ が取り得る値は正しく計算された値 $\hVar{x}$ をラップしたものか，あるいはエラーを表す値 $\mNothing$ である．このように計算結果に「意味付け」をすることを\keyword{文脈}に入れると言う．定数 $\mNothing$ は「ナッシング」と呼ぶ．\footnote{\haskell では $\mNothing$ を \code{Nothing} と書く．}
 
-この変数 $\mMaybe{u}$ はもはや整数 $(\mIntType)$ 型とは言えない．そこでこの $\mMaybe{u}$ の型を $\mMaybeType{\mIntType}$ と表して「Maybe整数（おそらく整数）」型と呼ぶことにしよう．型 $\mA $ から型 $\mMaybeType{a}$ を生成するこには\keyword{型コンストラクタ} $\mMaybeTypeConstructor$ を用いて
+この変数 $\mMaybe{u}$ はもはや整数 $(\hInt)$ 型とは言えない．そこでこの $\mMaybe{u}$ の型を $\mMaybeType{\hInt}$ と表して「Maybe整数（おそらく整数）」型と呼ぶことにしよう．型 $\hTypeName{a}$ から型 $\mMaybeType{a}$ を生成するこには\keyword{型コンストラクタ} $\mMaybeTypeConstructor$ を用いて
 \begin{equation}
   \mMaybeType{a}
   =\mMaybeTypeConstructor\,\mA
 \end{equation}
-とする．\footnote{\haskell では表記上コンテナ型 $\mMaybeType{a}$ と型コンストラクタ式 $\mMaybeTypeConstructor\mA$ を区別せず，両者とも \code{Maybe a} と書く．}
+とする．\footnote{\haskell では表記上コンテナ型 $\mMaybeType{a}$ と型コンストラクタ式 $\mMaybeTypeConstructor\hTypeName{a}$ を区別せず，両者とも \code{Maybe a} と書く．}
 
-$\mA $ 型の変数を $\mMaybeType{a}$ 型の変数に代入するには，次のMaybe値コンストラクタを用いて
+$\hTypeName{a}$ 型の変数を $\mMaybeType{a}$ 型の変数に代入するには，次のMaybe値コンストラクタを用いて
 \begin{equation}
   \mMaybe{u}
   =\mJustWith{x}
@@ -1763,7 +1763,7 @@ $\mA $ 型の変数を $\mMaybeType{a}$ 型の変数に代入するには，次�
   \hFunc{f}\mMapMaybe\mMaybe{u}
   =\mJustWith{\hFunc{f}\hVar{x}}
 \end{equation}
-となるようなMaybeバージョンのマップ演算子 $\mMapMaybe$ を用いる．ここに $\hFunc{f}\mMapMaybe\mMaybe{u}$ の型は，もし $\hFunc{f}\mIn\mProjEXP{\mIntType}{\mFloatType}$ ならば $\mMaybeType{\mFloatType}$ である．
+となるようなMaybeバージョンのマップ演算子 $\mMapMaybe$ を用いる．ここに $\hFunc{f}\mMapMaybe\mMaybe{u}$ の型は，もし $\hFunc{f}\hIsTypeOf\mProjEXP{\hInt}{\hFloat}$ ならば $\mMaybeType{\hFloat}$ である．
 
 実際には $\mMaybe{u}\hIfEq\mNothing$ の可能性も考えなければならないから，Maybeバージョンのマップ演算子は
 \begin{equation}
@@ -1933,17 +1933,17 @@ X<b> map_over(fn f, X<a> x, b dummy);
 
 \section{余談: Either}
 
-Maybeとよく似た型にEitherがある．Maybeが $\mA $ 型または $\mNothing$ のいずれかの値をとったように，Eitherは $\mA $ 型または $\mB $ 型のいずれかの値を取る．$\mA $ 型または $\mB$ 型を取るEither型の変数 $\mEither{e}$ があるとすると，
+Maybeとよく似た型にEitherがある．Maybeが $\hTypeName{a}$ 型または $\mNothing$ のいずれかの値をとったように，Eitherは $\hTypeName{a}$ 型または $\hTypeName{b}$ 型のいずれかの値を取る．$\hTypeName{a}$ 型または $\hTypeName{b}$ 型を取るEither型の変数 $\mEither{e}$ があるとすると，
 \begin{equation}
   \mEither{e}
   \mIn{}\mEitherType{a}{b}
 \end{equation}
-と書く．Either型は型 $\mA $ および $\mB $ から型コンストラクタを用いて
+と書く．Either型は型 $\hTypeName{a}$ および $\hTypeName{b}$ から型コンストラクタを用いて
 \begin{equation}
   \mEitherType{a}{b}
   =\mEitherTypeConstructor\,\mA \,\mB
 \end{equation}
-のように作られる．\footnote{\haskell では $\mEitherType{a}{b}$ も $\mEitherTypeConstructor\,\mA\,\mB $ も区別せずに\code{Either a b} と書く．}
+のように作られる．\footnote{\haskell では $\mEitherType{a}{b}$ も $\mEitherTypeConstructor\,\hTypeName{a}\,\mB $ も区別せずに\code{Either a b} と書く．}
 
 Etherには値コンストラクタが2種類あり，それぞれ $\mRightWith{x}$ と $\mLeftWith{x}$ である．値コンストラクタは
 \begin{equation}
@@ -1968,10 +1968,10 @@ Either型は\clang の共有型 (\code{union}) や\cxx のバリアント型 (\c
 \section{この章のまとめ}
 
 \begin{enumerate}
-\item ある型 $\mA $ からそのMaybe型 $\mMaybeType{a}$ を作ることを $\mMaybeType{a}=\mMaybeTypeConstructor\mA $ と書く．ここに $\mMaybeTypeConstructor$ はMaybe型コンストラクタである．
+\item ある型 $\hTypeName{a}$ からそのMaybe型 $\mMaybeType{a}$ を作ることを $\mMaybeType{a}=\mMaybeTypeConstructor\mA $ と書く．ここに $\mMaybeTypeConstructor$ はMaybe型コンストラクタである．
 \item ある変数 $\hVar{x}$ からMaybe変数 $\mMaybe{u}$ を作るには $\mMaybe{u}=\mJustWith{x}$ とする．ここに $\mJustWith{\dotsb}$ はMaybe値コンストラクタである．
 \item Maybe変数は $\mJustWith{x}$ のような値か，かまたは $\mNothing$ なる「ナッシング」値のかどちらかを持つことができる．
-\item 普通の関数 $\hFunc{f}\mIn\mProjEXP{\mA }{\mB }$をMaybe値に適用することはできない．関数 $\hFunc{f}$ をMaybe値に適用するには$\hFunc{f}\mMapMaybe\mMaybe{u}$ のようにMaybeマップ演算子が必要であり，この関数適用の結果は $\mMaybeType{b}$ 型である．
+\item 普通の関数 $\hFunc{f}\hIsTypeOf\mProjEXP{\mA }{\mB }$をMaybe値に適用することはできない．関数 $\hFunc{f}$ をMaybe値に適用するには$\hFunc{f}\mMapMaybe\mMaybe{u}$ のようにMaybeマップ演算子が必要であり，この関数適用の結果は $\mMaybeType{b}$ 型である．
 \item Either変数は二つの型のいずれかを持つことができ，$\mEither{e}=\mRightWith{x}$ または$\mEither{e}=\mLeftWith{x}$ のように生成する．
 \end{enumerate}
 
@@ -2017,17 +2017,17 @@ $$
 
 \section{圏と関手}
 
-$\mA $ 型の変数 $\hVar{x},\hVar{y}\mIn\mA$ について，関数 $\hFunc{f}\mIn\mA\mFuncArrow\mA$ があり
+$\hTypeName{a}$ 型の変数 $\hVar{x},\hVar{y}\hIsTypeOf\hTypeName{a}$ について，関数 $\hFunc{f}\hIsTypeOf\hTypeName{a}\hFunctionArrow\hTypeName{a}$ があり
 \begin{equation}
   \hVar{y}
   =\hFunc{f}\hVar{x}
 \end{equation}
-であるとしよう．このように型 $\mA$ で閉じた世界を仮に $\mA$ 世界と呼ぶことにする．
+であるとしよう．このように型 $\hTypeName{a}$ で閉じた世界を仮に $\hTypeName{a}$ 世界と呼ぶことにする．
 
-型 $\mMaybeType{a}$ の変数 $\mMaybe{u},\mMaybe{v}\mIn\mMaybeType{a}$ について，関数
+型 $\mMaybeType{a}$ の変数 $\mMaybe{u},\mMaybe{v}\hIsTypeOf\mMaybeType{a}$ について，関数
 \begin{equation}
   \hFunc{g}
-  \mIn\mMaybeType{a}\mFuncArrow\mMaybeType{a}
+  \hIsTypeOf\mMaybeType{a}\hFunctionArrow\mMaybeType{a}
 \end{equation}
 があり
 \begin{equation}
@@ -2043,9 +2043,9 @@ $\mA $ 型の変数 $\hVar{x},\hVar{y}\mIn\mA$ について，関数 $\hFunc{f}\
   \mMaybe{v}
   &=\mJustWith{y}
 \end{align}
-の関係にあるとしよう．値コンストラクタは値を $\mA$ 世界から $\mMaybeType{a}$ 世界へとジャンプさせる機能を持っている．
+の関係にあるとしよう．値コンストラクタは値を $\hTypeName{a}$ 世界から $\mMaybeType{a}$ 世界へとジャンプさせる機能を持っている．
 
-他に $\mA$ 世界から $\mMaybeType{a}$ 世界へジャンプさせるものがあるだろうか．よく考えてみると，マップ演算子もそうである．いま $\mMaybe{u}=\mJustWith{x},\mMaybe{v}=\mJustWith{y}$ なのだから，$\mA $ 世界の関数 $\hFunc{f}$ と $\mMaybeType{a}$ 世界の関数 $\hFunc{g}$ は無関係ではなく
+他に $\hTypeName{a}$ 世界から $\mMaybeType{a}$ 世界へジャンプさせるものがあるだろうか．よく考えてみると，マップ演算子もそうである．いま $\mMaybe{u}=\mJustWith{x},\mMaybe{v}=\mJustWith{y}$ なのだから，$\hTypeName{a}$ 世界の関数 $\hFunc{f}$ と $\mMaybeType{a}$ 世界の関数 $\hFunc{g}$ は無関係ではなく
 \begin{equation}
   \mMaybe{v}
   =\hFunc{g}\mMaybe{u}
@@ -2056,11 +2056,11 @@ $\mA $ 型の変数 $\hVar{x},\hVar{y}\mIn\mA$ について，関数 $\hFunc{f}\
   \hFunc{g}
   =\hFunc{f}\mMapMaybe
 \end{equation}
-である．つまりマップ演算子 $\mMapMaybe$ が関数 $\hFunc{f}$ を $\mA$ 世界から $\mMaybeType{a}$ 世界へとジャンプさせているのである．
+である．つまりマップ演算子 $\mMapMaybe$ が関数 $\hFunc{f}$ を $\hTypeName{a}$ 世界から $\mMaybeType{a}$ 世界へとジャンプさせているのである．
 
-いま「世界」と呼んだものを，数学者は\keyword{圏}と呼ぶ．圏とは\keyword{対象}と\keyword{射}の組み合わせである．本書では「対象」とは型のことであり，射とは関数だと思えば良い．（厳密にはコンテナに入れられた関数も射に含まれる．）そして，圏から圏へとジャンプさせるものを\keyword{関手}と呼ぶ．この例で言えば値コンストラクタ $\mJustWith{x}$ とマップ演算子 $\mMapMaybe$ が関手である．値コンストラクタ $\mJustWith{x}$ は $\mA\mFuncArrow\mMaybeType{a}$ という型を持ち，マップ演算子 $\mMapMaybe$ は $(\mA\mFuncArrow\mB)\mFuncArrow(\mMaybeType{a}\mFuncArrow\mMaybeType{b})$ という型を持つ．\footnote{関手は英語でファンクター(functor)と言うが，\cxx の関数オブジェクト (function object) もかつてはファンクター(functor)と呼ばれていた．\cxx のファンクターとはクロージャの代用品のことで，本書で述べる関手とは異なる概念である．混同しないように注意しよう．}
+いま「世界」と呼んだものを，数学者は\keyword{圏}と呼ぶ．圏とは\keyword{対象}と\keyword{射}の組み合わせである．本書では「対象」とは型のことであり，射とは関数だと思えば良い．（厳密にはコンテナに入れられた関数も射に含まれる．）そして，圏から圏へとジャンプさせるものを\keyword{関手}と呼ぶ．この例で言えば値コンストラクタ $\mJustWith{x}$ とマップ演算子 $\mMapMaybe$ が関手である．値コンストラクタ $\mJustWith{x}$ は $\hTypeName{a}\hFunctionArrow\mMaybeType{a}$ という型を持ち，マップ演算子 $\mMapMaybe$ は $(\hTypeName{a}\hFunctionArrow\mB)\hFunctionArrow(\mMaybeType{a}\hFunctionArrow\mMaybeType{b})$ という型を持つ．\footnote{関手は英語でファンクター(functor)と言うが，\cxx の関数オブジェクト (function object) もかつてはファンクター(functor)と呼ばれていた．\cxx のファンクターとはクロージャの代用品のことで，本書で述べる関手とは異なる概念である．混同しないように注意しよう．}
 
-同じことはリストにも言える．値コンストラクタ $[\hVar{x}]$ とマップ演算子 $\mMapList$ もまた関手である．この場合値コンストラクタは $\mA\mFuncArrow[\mA]$ という型を持ち，マップ演算子も同じく $(\mA\mFuncArrow\mB)\mFuncArrow([\mA]\mFuncArrow[\mB])$ という型を持つ．
+同じことはリストにも言える．値コンストラクタ $[\hVar{x}]$ とマップ演算子 $\mMapList$ もまた関手である．この場合値コンストラクタは $\hTypeName{a}\hFunctionArrow[\mA]$ という型を持ち，マップ演算子も同じく $(\hTypeName{a}\hFunctionArrow\mB)\hFunctionArrow([\mA]\hFunctionArrow[\mB])$ という型を持つ．
 
 \separator
 
@@ -2070,23 +2070,23 @@ $\mA $ 型の変数 $\hVar{x},\hVar{y}\mIn\mA$ について，関数 $\hFunc{f}\
 \begin{equation}
   (\mMap)
   \mIn{}\mFunctorTypeClass
-  \mSuperSet\mTypeConstructor{f}
-  \mSuperClass(\mA\mFuncArrow\mB)
-  \mFuncArrow\mPolymorphicTypeAssemble{f}{a}
-  \mFuncArrow\mPolymorphicTypeAssemble{f}{b}
+  \hHasElementsOf\mTypeConstructor{f}
+  \hAndThen(\hTypeName{a}\hFunctionArrow\mB)
+  \hFunctionArrow\mPolymorphicTypeAssemble{f}{a}
+  \hFunctionArrow\mPolymorphicTypeAssemble{f}{b}
 \end{equation}
-という型を持つ．ここに $\mFunctorTypeClass\mSuperSet\mTypeConstructor{f}$ は，$\mTypeConstructor{f}$ が $\mFunctorTypeClass$ 型クラスに属すという制約を表している．また $\mTypeConstructor{f}$ は型コンストラクタであり，$\mPolymorphicTypeAssemble{f}{a}$ は $\mTypeConstructor{f}$ 型コンストラクタと$\mA$ 型によって作られたコンテナ型である．
+という型を持つ．ここに $\mFunctorTypeClass\hHasElementsOf\mTypeConstructor{f}$ は，$\mTypeConstructor{f}$ が $\mFunctorTypeClass$ 型クラスに属すという制約を表している．また $\mTypeConstructor{f}$ は型コンストラクタであり，$\mPolymorphicTypeAssemble{f}{a}$ は $\mTypeConstructor{f}$ 型コンストラクタと$\hTypeName{a}$ 型によって作られたコンテナ型である．
 
 もし型コンストラクタがリスト型コンストラクタであれば，つまり $\mTypeConstructor{f}=\mListTypeConstructor$ であれば
 \begin{equation}
   (\mMapList)
-  \mIn{}(\mA\mFuncArrow\mB)\mFuncArrow[\mA]\mFuncArrow[\mB]
+  \mIn{}(\hTypeName{a}\hFunctionArrow\mB)\hFunctionArrow[\mA]\hFunctionArrow[\mB]
 \end{equation}
 であるし，もし型コンストラクタがMaybe型コンストラクタであれば，つまり
 $\mTypeConstructor{f}=\mMaybeTypeConstructor$ であれば
 \begin{equation}
   (\mMapMaybe)
-  \mIn{}(\mA\mFuncArrow\mB)\mFuncArrow\mMaybeType{a}\mFuncArrow\mMaybeType{b}
+  \mIn{}(\hTypeName{a}\hFunctionArrow\mB)\hFunctionArrow\mMaybeType{a}\hFunctionArrow\mMaybeType{b}
 \end{equation}
 である．
 
@@ -2141,10 +2141,10 @@ $\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mJustWith{x},\mNothing$
 リストのアプリカティブマップ演算子はこのように，左引数のリスト内のすべての関数を順番に右引数のリスト内の変数に適用し，その結果をリストとして返す．
 
 リストのアプリカティブマップ演算子 $\mAppMapList$ の型は
-$[\mA\mFuncArrow\mB]\mFuncArrow[\mA]\mFuncArrow[\mB]$ である．これは
+$[\hTypeName{a}\hFunctionArrow\mB]\hFunctionArrow[\mA]\hFunctionArrow[\mB]$ である．これは
 \begin{equation}
   \mAppMapList
-  \mIn\underbrace{[\mA\mapsto\mB]}_{[\hFunc{f}_0,\hFunc{f}_1\dotsb \hFunc{f}_n]}
+  \hIsTypeOf\underbrace{[\hTypeName{a}\mapsto\mB]}_{[\hFunc{f}_0,\hFunc{f}_1\dotsb \hFunc{f}_n]}
   \mapsto\underbrace{[\mA]}_{[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]}
   \mapsto\underbrace{[\mB]}_{[\hFunc{f}_0\hVar{x}_0,\hFunc{f}_0\hVar{x}_1\dotsb \hFunc{f}_0\hVar{x}_n,\hFunc{f} \hVar{x}_0,\hFunc{f} \hVar{x}_1\dotsb \hFunc{f}_n\hVar{x}_n]}
 \end{equation}
@@ -2184,7 +2184,7 @@ $\mAppMapMaybe$ を
 % =\begin{cases}
 % \mJustWith{\hFunc{f}\hVar{x}}
 % &\mIf\left(\mMaybe{i}\hIfEq\mJustWith{f}\right)
-% \mLogicalAnd
+% \hLogicalAnd
 % \left(\mMaybe{u}\hIfEq\mJustWith{x}\right)\\
 % \mNothing&\hOtherwise
 % \end{cases}
@@ -2232,47 +2232,47 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
 いま関数 $\hFunc{f}$ が
 \begin{equation}
   \hFunc{f}
-  \mIn\mR\mFuncArrow\mA
+  \hIsTypeOf\mR\hFunctionArrow\mA
 \end{equation}
-という型を持っているとする．この式は $\mFuncArrow$ を二項演算子，すなわち2引数関数とみなせば
+という型を持っているとする．この式は $\hFunctionArrow$ を二項演算子，すなわち2引数関数とみなせば
 \begin{equation}
   \hFunc{f}
-  \mIn(\mFuncArrow)\mR\,\mA
+  \mIn(\hFunctionArrow)\mR\,\mA
 \end{equation}
 と等価である．全く形式的に，$\mFuncTypeConstructor$ なる型コンストラクタがあるとして
 \begin{equation}
-  \mR\mFuncArrow\mA=\mFuncTypeConstructor\mA
+  \mR\hFunctionArrow\mA=\mFuncTypeConstructor\mA
 \end{equation}
-であると考えてみる．型 $\mA$ から型コンストラクタ $\mFuncTypeConstructor$ によって型 $(\mProjEXP{\mR}{\mA})$ が作られると考えるのだ．\footnote{\haskell では $\mFuncTypeConstructor$ を \code{((->)r)} と書く．}
+であると考えてみる．型 $\hTypeName{a}$ から型コンストラクタ $\mFuncTypeConstructor$ によって型 $(\mProjEXP{\mR}{\mA})$ が作られると考えるのだ．\footnote{\haskell では $\mFuncTypeConstructor$ を \code{((->)r)} と書く．}
 
 マップ演算子の型は，$\mFuncTypeConstructor\mA=\mFuncType{a}$ とすると
 % $\mFuncTypeConstructor\mA=\mPolymorphicTypeAssemble{\mFuncTypeConstructor}{\mA}$ とすると
 \begin{equation}
   (\mMap)
-  \mIn{}\mFunctorTypeClass\mSuperSet\mTypeConstructor{f}
-  \mSuperClass(\mA\mFuncArrow\mB)
-  \mFuncArrow\mFuncType{a}
-  \mFuncArrow\mFuncType{b}
+  \mIn{}\mFunctorTypeClass\hHasElementsOf\mTypeConstructor{f}
+  \hAndThen(\hTypeName{a}\hFunctionArrow\mB)
+  \hFunctionArrow\mFuncType{a}
+  \hFunctionArrow\mFuncType{b}
 \end{equation}
 であって，関数のマップ演算子を $\mMapFunc$ とすると
 \begin{equation}
   (\mMapFunc)
-  \mIn{}(\mA\mFuncArrow\mB)
-  \mFuncArrow\mFuncType{a}
-  \mFuncArrow\mFuncType{b}
+  \mIn{}(\hTypeName{a}\hFunctionArrow\mB)
+  \hFunctionArrow\mFuncType{a}
+  \hFunctionArrow\mFuncType{b}
 \end{equation}
 であり，これはすなわち
 \begin{equation}
   (\mMapFunc)
-  \mIn{}(\mA\mFuncArrow\mB)
-  \mFuncArrow(\mR\mFuncArrow\mA)
-  \mFuncArrow(\mR\mFuncArrow\mB)
+  \mIn{}(\hTypeName{a}\hFunctionArrow\mB)
+  \hFunctionArrow(\mR\hFunctionArrow\mA)
+  \hFunctionArrow(\mR\hFunctionArrow\mB)
 \end{equation}
 のことである．
 
-いま関数 $\hFunc{f}\mIn\mProjEXP{\mR}{\mA }$ とは別な関数 $g\mIn\mProjEXP{\mA }{\mB }$ があったとしよう．関数 $\hFunc{f}$ と関数 $\hFunc{g}$ の合成 $\hFunc{g}\hCompose\hFunc{f}$ の型は
+いま関数 $\hFunc{f}\hIsTypeOf\mProjEXP{\mR}{\mA }$ とは別な関数 $g\hIsTypeOf\mProjEXP{\mA }{\mB }$ があったとしよう．関数 $\hFunc{f}$ と関数 $\hFunc{g}$ の合成 $\hFunc{g}\hCompose\hFunc{f}$ の型は
 \begin{equation}
-\hFunc{g}\hCompose\hFunc{f}\mIn\mProjEXP{\mR}{\mB }
+\hFunc{g}\hCompose\hFunc{f}\hIsTypeOf\mProjEXP{\mR}{\mB }
 \end{equation}
 であるから，
 \begin{equation}
@@ -2307,16 +2307,16 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
 関数版のアプリカティブマップ演算子を $\mAppMapFunc$ とすると，その型は
 \begin{equation}
   (\mAppMapFunc)
-  \mIn\mFuncType{\mA\mFuncArrow\mB}
-  \mFuncArrow\mFuncType{\mA}
-  \mFuncArrow\mFuncType{\mB}
+  \hIsTypeOf\mFuncType{\hTypeName{a}\hFunctionArrow\mB}
+  \hFunctionArrow\mFuncType{\mA}
+  \hFunctionArrow\mFuncType{\mB}
 \end{equation}
 つまり
 \begin{equation}
   (\mAppMapFunc)
-  \mIn{}(\mR\mFuncArrow\mA\mFuncArrow\mB)
-  \mFuncArrow(\mR\mFuncArrow\mA)
-  \mFuncArrow(\mR\mFuncArrow\mB)
+  \mIn{}(\mR\hFunctionArrow\hTypeName{a}\hFunctionArrow\mB)
+  \hFunctionArrow(\mR\hFunctionArrow\mA)
+  \hFunctionArrow(\mR\hFunctionArrow\mB)
 \end{equation}
 である．
 
@@ -2373,7 +2373,7 @@ Maybeのアプリカティブマップ演算子の定義は次の通り．
 % \mNothing&\hOtherwise
 % \end{cases}\\
 % &=\begin{cases}
-% \mJustWith{\hFunc{f}\hVar{x}}&\mIf\left(\mMaybe{u}\hIfEq\mJustWith{x}\right)\mLogicalAnd\left(\mMaybe{h}\hIfEq\mJustWith{f}\right)\\
+% \mJustWith{\hFunc{f}\hVar{x}}&\mIf\left(\mMaybe{u}\hIfEq\mJustWith{x}\right)\hLogicalAnd\left(\mMaybe{h}\hIfEq\mJustWith{f}\right)\\
 % \mNothing&\hOtherwise
 % \end{cases}
 % \end{align}
@@ -2413,7 +2413,7 @@ Maybeの例を思い出そう．Maybe型の変数 $\mMaybe{u}$ はラップさ�
 
 関数 $\hFunc{g}$ の型は
 \begin{equation}
-  g\mIn\mProjEXP{\mA }{\mMaybeType{a}}
+  g\hIsTypeOf\mProjEXP{\mA }{\mMaybeType{a}}
 \end{equation}
 である．ということは，関数 $\hFunc{g}$ をMaybe変数に適用させるようと思っても，我々が既に知っているマップ演算子 $\mMapMaybe$ やアプリカティブマップ演算子 $\mAppMapMaybe$ が使えないということである．前者は第1引数に $\mProjEXP{\mA }{\mB }$ 型の関数を取るし，後者は第1引数に $\mJustWith{(\mProjEXP{\mA }{\mB })}$ 型の関数（Maybe関数）を取るからである．
 
@@ -2479,7 +2479,7 @@ $\mFunctorTypeClass$ 型クラスは一般マップ演算子 $(\mMap)$ を持っ
     &\hIfSo\mPureNothing
   \end{cases}
 \end{equation}
-ここに $\hVar{x}$ は非コンテナ変数で，関数 $\hFunc{f}$ も「普通の」（コンテナに入っていない）関数である．より厳密に言えば $\hVar{x}\mIn\mA$ かつ $\hFunc{f}\mIn\mA\mFuncArrow\mB$ である．従って，関数 $\mVarContainer{i}$ の型は $\mA\mFuncArrow\mPureType{b}$ である．条件 $\mLovelyVar$ には任意の値を入れてよい．
+ここに $\hVar{x}$ は非コンテナ変数で，関数 $\hFunc{f}$ も「普通の」（コンテナに入っていない）関数である．より厳密に言えば $\hVar{x}\hIsTypeOf\hTypeName{a}$ かつ $\hFunc{f}\hIsTypeOf\hTypeName{a}\hFunctionArrow\hTypeName{b}$ である．従って，関数 $\mVarContainer{i}$ の型は $\hTypeName{a}\hFunctionArrow\mPureType{b}$ である．条件 $\mLovelyVar$ には任意の値を入れてよい．
 
 関数 $i$ をコンテナに入った変数 $u=\mPureWith{x}$ に適用させるのが一般バインド演算子 $(\mBind)$ の役割である．計算結果をコンテナ変数 $a$ に格納するとすると，関数 $i$ のコンテナ変数 $\mVarContainer{u}$ への適用は
 \begin{equation}
@@ -2522,7 +2522,7 @@ $\mFunctorTypeClass$ 型クラスは一般マップ演算子 $(\mMap)$ を持っ
 
 \begin{equation}
   f
-  \mIn{}\mA\mFuncArrow[\mA]
+  \mIn{}\hTypeName{a}\hFunctionArrow[\mA]
 \end{equation}
 
 \begin{equation}
@@ -2539,7 +2539,7 @@ Maybeモナド
 
 \begin{equation}
   f
-  \mIn\mA\mFuncArrow\mMaybeType{a}
+  \hIsTypeOf\hTypeName{a}\hFunctionArrow\mMaybeType{a}
 \end{equation}
 
 \begin{equation}
@@ -2834,7 +2834,7 @@ g\mBindFunc f&=\hLambdaSyntax{x}{g(\hFunc{f}\hVar{x})x}
 
 モナドでありモノイドである型クラスを\keyword{モナドプラス}と呼ぶ．関数はモナドプラスである．
 
-今まで出てきた型と型クラスの関係を表\ref{tab:monadplus}に示す．Maybeに関しては $\mA $ 型がモノイドである場合に限って $\mMaybeType{a}$ 型もモノイドである．
+今まで出てきた型と型クラスの関係を表\ref{tab:monadplus}に示す．Maybeに関しては $\hTypeName{a}$ 型がモノイドである場合に限って $\mMaybeType{a}$ 型もモノイドである．
 
 \section{この章のまとめ*}
 
@@ -2894,9 +2894,9 @@ A...
 
 \section{IOモナド}
 
-ある関数 $c$ が引数を取らず，いつも決まった $\mDoubleType$ 型の数を返すとしよう．そうすると，関数 $c$ の型は単純に $\mDoubleType$ である．
+ある関数 $c$ が引数を取らず，いつも決まった $\hDouble$ 型の数を返すとしよう．そうすると，関数 $c$ の型は単純に $\hDouble$ である．
 
-呼び出すたびに異なる擬似乱数を返すアクション $\mRand$ もまた毎回 $\mDoubleType$ 型の数を返す．そこで $\mRand$ も $\mDoubleType$ 型としたいところだが，こちらは関数ではなくアクションである．そこを区別するために，$\mRand$ の型は $\mIODoubleType$ 型と $\mIOType{\dotsb}$ に入れ
+呼び出すたびに異なる擬似乱数を返すアクション $\mRand$ もまた毎回 $\hDouble$ 型の数を返す．そこで $\mRand$ も $\hDouble$ 型としたいところだが，こちらは関数ではなくアクションである．そこを区別するために，$\mRand$ の型は $\mIODoubleType$ 型と $\mIOType{\dotsb}$ に入れ
 て区別する．\footnote{\haskell では $\mIODoubleType$ のことを \code{IO Double} と書く．}
 
 呼び出しても何も返さないアクションはどのような型を持つべきだろう．何も返さない関数というものは無意味だが，アクションは副作用を持つので，何も返さないものがあっても良いのである．何も返さないことを「空っぽ」を返すと読み替えて，何も返さないアクションの型を $\mIOUnitType$ 型としよう．ここに $\mUnitType$ は「空っぽ」の意味で，ユニット型と読む．$\mIOUnitType$ 型のアクションの例は，画面に値を出力する $\mPutStr$ アクションである．\footnote{\haskell では $\mIOUnitType$ のことを \code{IO ()} と書く．}
@@ -2905,7 +2905,7 @@ A...
 
 アクション $\mPutStr,\mReadLn,\mRand$ は計算機の状態を変化させる．アクション $\mPutStr,\mReadLn$ はOSのシステムコールを発行して，前者ならビデオメモリの値を書き換えるし，後者ならシリアルインタフェースの入力バッファをフラッシュする．アクション $\mRand$ は呼ばれるたびに内部のカウンタ値を一つ進める．これらのアクションは参照透過性を破壊する．そのために，プログラムの他の部分から隔離されねばならない．その隔離のメカニズムを提供するのがモナドである．
 
-$[\mA]$ 型が $\mA $ 型のリストであるように，$\mIOType{a}$ 型は $\mA $ 型の\keyword{IO}である．そしてリストがモナドであるように，IOもまたモナドである．モナドには，バインド演算子と，アプリカティブ関手から引き継いだピュア演算子の二つが必要であった．アプリカティブ関手から引き継いだアプリカティブマップ演算子はバインド演算子とピュア演算子の二つから合成できるし，関手から引き継いだマップ演算子もまたアプリカティブマップ演算子とピュア演算子から合成できるから，アプリカティブマップ演算子とマップ演算子は改めて実装しておく必要はない．
+$[\mA]$ 型が $\hTypeName{a}$ 型のリストであるように，$\mIOType{a}$ 型は $\hTypeName{a}$ 型の\keyword{IO}である．そしてリストがモナドであるように，IOもまたモナドである．モナドには，バインド演算子と，アプリカティブ関手から引き継いだピュア演算子の二つが必要であった．アプリカティブ関手から引き継いだアプリカティブマップ演算子はバインド演算子とピュア演算子の二つから合成できるし，関手から引き継いだマップ演算子もまたアプリカティブマップ演算子とピュア演算子から合成できるから，アプリカティブマップ演算子とマップ演算子は改めて実装しておく必要はない．
 
 $\mIOUnitType$ 型の場合，ピュア演算子は何も返す必要がないから
 \begin{equation}
@@ -2913,7 +2913,7 @@ $\mIOUnitType$ 型の場合，ピュア演算子は何も返す必要がない�
 \end{equation}
 であるとする．
 
-% ここに $\mTupleWith{}$ は空のタプルで，「ユニット」と呼ぶ．一方で
+% ここに $\hSingleTuppleWith{}$ は空のタプルで，「ユニット」と呼ぶ．一方で
 % $\mIOUnitType$ 型のバインド演算子は，処理系の奥深くに隠されている．
 
 % 実装依存である．
@@ -3061,7 +3061,7 @@ y=\hFunc{g}_2(g_1x)
 \begin{equation}
 \mSet{Num}\mDefEq\{\mNumOne,\mNumTwo,\mNumThree,\mNumMany\}
 \end{equation}
-を考えることがあるだろう．集合 $\mSet{Num}$ の元 $n\mIn\mSet{Num}$ は $\mNumOne$, $\mNumTwo$, $\mNumThree$, $\mNumMany$ のいずれかの値を取ることになる．
+を考えることがあるだろう．集合 $\mSet{Num}$ の元 $n\hIsTypeOf\mSet{Num}$ は $\mNumOne$, $\mNumTwo$, $\mNumThree$, $\mNumMany$ のいずれかの値を取ることになる．
 
 数学者は新しい集合を定義するが，\haskell プログラマは新しいデータ型を定義する．集合 $\mSet{Num}$ の定義の代わりに，我々はデータ型
 $\mType{Num}$ を
@@ -3078,12 +3078,12 @@ $\mType{Num}$ を
 
 \separator
 
-新しいデータ型がある型クラスに属すとき，$\mDataType$ 文でそれを同時に宣言できる．例えば $\mType{Num}$ 型は同値演算子 $(\hIfEq)$ を持つことが自然である．型 $\mType{Num}$ が $\mEqTypeClass$ 型クラスに属すとき，
+新しいデータ型がある型クラスに属すとき，$\mDataType$ 文でそれを同時に宣言できる．例えば $\mType{Num}$ 型は同値演算子 $(\hIfEq)$ を持つことが自然である．型 $\mType{Num}$ が $\hEq$ 型クラスに属すとき，
 \begin{equation}
   \mDataType\;
   \mType{Num}
   =\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany
-  \mDeriving\mEqTypeClass
+  \mDeriving\hEq
 \end{equation}
 のように書く．\footnote{\haskell では \code{data Num = One | Two | Three | Many deriving Eq} と書く．}
 
@@ -3091,14 +3091,14 @@ $\mType{Num}$ を
 
 \section{レコード構文}
 
-データ型の定義では，値コンストラクタにパラメタを与えることもできる．例えば $\mType{Rectangle}$ という型を考えよう．この型は，始点の平面座標と幅，高さで合計4個の $\mFloatType$ のパラメタを取るものとする．このとき
+データ型の定義では，値コンストラクタにパラメタを与えることもできる．例えば $\mType{Rectangle}$ という型を考えよう．この型は，始点の平面座標と幅，高さで合計4個の $\hFloat$ のパラメタを取るものとする．このとき
 \begin{multline}
   \label{eq:rectangle}
   \mDataType\;
   \mType{Rectangle}\\
   =\mValueWith{Rectangle}
-  {\mFloatType\,\mFloatType\,\mFloatType\,\mFloatType}
-  \mDeriving\mEqTypeClass
+  {\hFloat\,\hFloat\,\hFloat\,\hFloat}
+  \mDeriving\hEq
 \end{multline}
 という風にデータ型の定義を行う．\footnote{\haskell では \code{data Rectangle = Rectangle Float Float Float Float} と書く．}
 
@@ -3106,7 +3106,7 @@ $\mType{Rencatngle}$ 型の変数は次のように初期化する．
 \begin{equation}
   \left\mBrace
   \begin{aligned}
-    r&\mIn\mType{Rectangle}\\
+    r&\hIsTypeOf\mType{Rectangle}\\
     r&=\mValueWith{Rectangle}{1\,2\,3\,4}
   \end{aligned}
   \right.
@@ -3143,12 +3143,12 @@ $\mType{Rectangle}$ 型から中身を取り出すには，次のような関数
 \begin{multline}
   \mDataType\;\mType{Rectangle}\\
   =\mValueRecordBeginWith{Rectangle}
-  x\mIn\mFloatType,
-  y\mIn\mFloatType,
-  width\mIn\mFloatType,
-  height\mIn\mFloatType
+  x\hIsTypeOf\hFloat,
+  y\hIsTypeOf\hFloat,
+  width\hIsTypeOf\hFloat,
+  height\hIsTypeOf\hFloat
   \mValueRecordEnd\\
-  \mDeriving\mEqTypeClass
+  \mDeriving\hEq
 \end{multline}
 のように書き直すことができる．\footnote{\haskell では
 \begin{verbatim}
@@ -3179,28 +3179,28 @@ $\mType{Rectangle}$ 型から中身を取り出すには，次のような関数
 データ型の定義には，複数の値コンストラクタを指定できる．そのため
 \begin{multline}
 \mDataType\;\mType{Shape}
-=\mValueWith{Circle}{\mFloatType\,\mFloatType}\\
+=\mValueWith{Circle}{\hFloat\,\hFloat}\\
 \mValueOr
-\mValueWith{Triangle}{\mFloatType\,\mFloatType\,\mFloatType}
+\mValueWith{Triangle}{\hFloat\,\hFloat\,\hFloat}
 \end{multline}
-のようなデータ型の定義も可能である．この例では型 $\mType{Shape}$ は値コンストラクタ $\mValueConstructor{Circle}$ または $\mValueConstructor{Triangle}$ によって初期化され，それぞれ2個または3個の $\mFloatType$ 型のパラメタを取る．\footnote{\haskell では \code{data Shape = Circle Float Float | Triangle Float Float Float} と書く．}
+のようなデータ型の定義も可能である．この例では型 $\mType{Shape}$ は値コンストラクタ $\mValueConstructor{Circle}$ または $\mValueConstructor{Triangle}$ によって初期化され，それぞれ2個または3個の $\hFloat$ 型のパラメタを取る．\footnote{\haskell では \code{data Shape = Circle Float Float | Triangle Float Float Float} と書く．}
 
 \section{型クラスとインスタンス化}
 \label{sec:type-class-and-instance}
 
-型クラスとは，複数の型が持つ共通のインタフェースである．その複数の型をいま $\mA$ で表すこととして，型 $\mA$ が型クラス$\mEqTypeClass$ に属すとしよう．型クラス $\mEqTypeClass$ は等号$(\hIfEq)$ と不等号 $(\neq)$ をインタフェースとして持つ．このことを
+型クラスとは，複数の型が持つ共通のインタフェースである．その複数の型をいま $\hTypeName{a}$ で表すこととして，型 $\hTypeName{a}$ が型クラス$\hEq$ に属すとしよう．型クラス $\hEq$ は等号$(\hIfEq)$ と不等号 $(\neq)$ をインタフェースとして持つ．このことを
 \begin{equation}
-  \mTypeClassDecl\mathop{\mEqTypeClass}\mSuperSet\mA\mWhere{}
+  \mTypeClassDecl\mathop{\hEq}\hHasElementsOf\hTypeName{a}\mWhere{}
   \left\{
   \begin{aligned}
-    &(\hIfEq)\mIn\mProjEXP{\mA }{\mProjEXP{\mA }{\mBoolType}}\\
-    &(\neq)\mIn\mProjEXP{\mA }{\mProjEXP{\mA }{\mBoolType}}\\
+    &(\hIfEq)\hIsTypeOf\mProjEXP{\mA }{\mProjEXP{\mA }{\hBool}}\\
+    &(\neq)\hIsTypeOf\mProjEXP{\mA }{\mProjEXP{\mA }{\hBool}}\\
     &x\hIfEq y=\neg(x\neq y)\\
     &x\neq y=\neg(x\hIfEq y)
   \end{aligned}
   \right.
 \end{equation}
-と書く．\footnote{\haskell では$\mTypeClassDecl$ を \code{class} と書く．また $\mSuperSet$ を省略して，
+と書く．\footnote{\haskell では$\mTypeClassDecl$ を \code{class} と書く．また $\hHasElementsOf$ を省略して，
 \begin{verbatim}
   class Eq a where
     (==) :: a -> a -> Bool
@@ -3214,9 +3214,9 @@ $\mType{Rectangle}$ 型から中身を取り出すには，次のような関数
 
 ここで宣言したのは等号，不等号というインタフェースが「ある」という事だけで，その実装は未定義である．等号，不等号の実装は次に述べる $\mInstanceDecl$ 文を使う．
 
-型クラス $\mEqTypeClass$ に属す型 $\mA $ は等号と不等号を持つ．我々の型 $\mType{Num}$ が型クラス $\mEqTypeClass$ に属すことを宣言し，型クラス $\mEqTypeClass$ が備えるべき等号，不等号を実装するには
+型クラス $\hEq$ に属す型 $\hTypeName{a}$ は等号と不等号を持つ．我々の型 $\mType{Num}$ が型クラス $\hEq$ に属すことを宣言し，型クラス $\hEq$ が備えるべき等号，不等号を実装するには
 \begin{equation}
-  \mInstanceDecl\;\mEqTypeClass\mSuperSet\mType{Num}
+  \mInstanceDecl\;\hEq\hHasElementsOf\mType{Num}
   \mWhere{}
   \left\{
   \begin{aligned}
@@ -3242,13 +3242,13 @@ $\mType{Rectangle}$ 型から中身を取り出すには，次のような関数
 
 \TK{$\mInstanceDecl$ による具象型のインスタンス宣言．}
 
-型クラスは\keyword{継承関係}を持てる．型クラス $\mOrdTypeClass$ は型クラス $\mEqTypeClass$ から等号，不等号を継承し「小なりイコール」 $(\le)$ を追加する．
+型クラスは\keyword{継承関係}を持てる．型クラス $\hOrd$ は型クラス $\hEq$ から等号，不等号を継承し「小なりイコール」 $(\le)$ を追加する．
 \begin{equation}
-  \mTypeClassDecl\;\mEqTypeClass\mSuperSet\mA
-  \mSuperClass\mathop{\mOrdTypeClass}\mSuperSet\mA
-  \mWhere{}(\le)\mIn\mProjEXP{\mA }{\mProjEXP{\mA }{\mBoolType}}
+  \mTypeClassDecl\;\hEq\hHasElementsOf\mA
+  \hAndThen\mathop{\hOrd}\hHasElementsOf\mA
+  \mWhere{}(\le)\hIsTypeOf\mProjEXP{\mA }{\mProjEXP{\mA }{\hBool}}
 \end{equation}
-型クラス $\mOrdTypeClass$ に属する型は，等号，不等号，小なりイコールと，それらから派生させることのできる大なり $(>)$，大なりイコール $(\ge)$，小なり $(<)$，および最大値をとる関数 $\max$ と最小値をとる関数 $\min$を持つ．\footnote{\haskell では
+型クラス $\hOrd$ に属する型は，等号，不等号，小なりイコールと，それらから派生させることのできる大なり $(>)$，大なりイコール $(\ge)$，小なり $(<)$，および最大値をとる関数 $\max$ と最小値をとる関数 $\min$を持つ．\footnote{\haskell では
 \begin{verbatim}
   class (Eq a) => Ord a where (<=) :: a -> a -> Bool
 \end{verbatim}
@@ -3256,11 +3256,11 @@ $\mType{Rectangle}$ 型から中身を取り出すには，次のような関数
 
 \separator
 
-型は複数の型クラスに同時に属すことができる．例えば型 $\mType{Num}$ は型クラス $\mEqTypeClass$ と同時に型クラス $\mOrdTypeClass$ に属すこともできる．それには
+型は複数の型クラスに同時に属すことができる．例えば型 $\mType{Num}$ は型クラス $\hEq$ と同時に型クラス $\hOrd$ に属すこともできる．それには
 \begin{equation}
 \mDataType\;\mType{Num}
 =\mNumOne\mValueOr\mNumTwo\mValueOr\mNumThree\mValueOr\mNumMany
-\mDeriving{}(\mEqTypeClass,\mOrdTypeClass)
+\mDeriving{}(\hEq,\hOrd)
 \end{equation}
 とする．\footnote{\haskell では
 \begin{verbatim}
@@ -3268,9 +3268,9 @@ $\mType{Rectangle}$ 型から中身を取り出すには，次のような関数
 \end{verbatim}
 と書く．}
 
-型クラス $\mOrdTypeClass$ のインスタンスは小なりイコール演算子 $(\le)$ が定義されていなければならない．我々は
+型クラス $\hOrd$ のインスタンスは小なりイコール演算子 $(\le)$ が定義されていなければならない．我々は
 \begin{equation}
-  \mInstanceDecl\;\mOrdTypeClass\mSuperSet\mType{Num}
+  \mInstanceDecl\;\hOrd\hHasElementsOf\mType{Num}
   \mWhere{}
   \left\{
   \begin{aligned}
@@ -3300,11 +3300,11 @@ $\mType{Rectangle}$ 型から中身を取り出すには，次のような関数
 
 \TK{Move to 12.4}
 
-データ型には\keyword{シノニム}（別名）がつけられる．例えば $\mCharType$ のリスト $[\mCharType]$ は
+データ型には\keyword{シノニム}（別名）がつけられる．例えば $\hChar$ のリスト $[\hChar]$ は
 \begin{equation}
   \mTypeSynonymDecl\;
   \mStringType
-  =[\mCharType]
+  =[\hChar]
 \end{equation}
 とすることで，別名 $\mStringType$ を与えることができる．\haskell では$\mTypeSynonymDecl$ を \code{type} と省略してしまう．これは残念なことだが，\clang の \code{typedef} のようなものだと思って割り切るしかない．\footnote{\haskell では \code{type String = [Char]} と書く．}
 
@@ -3336,14 +3336,14 @@ Maybeのように型パラメタを取る型を\keyword{多相型}と呼ぶ．�
   =\mJustWith{\mA}\mValueOr\mNothing
 \end{equation}
 のように，やはり $\mDataType$ を使って定義される．念のため型パラメタを取る場合は $\mDataTypePolymorphic$ と区別しておこう．\footnote{\haskell は $\mDataType$ と $\mDataTypePolymorphic$ を区別せず，$\mDataTypePolymorphic\;\mMaybeTypeConstructor\mA=\mJustWith{\mA }\mValueOr\mNothing$ を \code{data Maybe a = Just a | Nothing} と書く．}
-% この $\mJustWith{\mA}$ は $\mA $ のMaybe型 $(\mMaybeType{a})$ という
-% 意味ではなく，$\mA$ 型の変数を型コンストラクタ $\mJustWith{\dotsb}$
+% この $\mJustWith{\mA}$ は $\hTypeName{a}$ のMaybe型 $(\mMaybeType{a})$ という
+% 意味ではなく，$\hTypeName{a}$ 型の変数を型コンストラクタ $\mJustWith{\dotsb}$
 % に入れなさいという意味．
 
-Maybeが型クラス $\mEqTypeClass$ に属すものとして，$\mEqTypeClass$ からのインスタンス化をしておこう．ここでも型パラメタ付きの $\mInstanceDecl$ を仮に $\mInstanceDeclPolymorphic$ とすると次のように書けそうである．
+Maybeが型クラス $\hEq$ に属すものとして，$\hEq$ からのインスタンス化をしておこう．ここでも型パラメタ付きの $\mInstanceDecl$ を仮に $\mInstanceDeclPolymorphic$ とすると次のように書けそうである．
 \begin{equation}
   \mInstanceDeclPolymorphic\;
-  \mEqTypeClass\mSuperSet{}(\mMaybeTypeConstructor\,\mA)
+  \hEq\hHasElementsOf{}(\mMaybeTypeConstructor\,\mA)
   \mWhere
   \left\{
   \begin{aligned}
@@ -3356,12 +3356,12 @@ Maybeが型クラス $\mEqTypeClass$ に属すものとして，$\mEqTypeClass$ 
   \end{aligned}
   \right.
 \end{equation}
-残念ながら，この式は $\mA $ 型の変数 $\hVar{x},\hVar{y}$ の間に等号 $(\hIfEq)$ が定義されていることが隠れた前提になっているため，正しくない．我々は $\mA $ が型クラス $\mEqTypeClass$ に属すことを要求するので，次のように言い換える．
+残念ながら，この式は $\hTypeName{a}$ 型の変数 $\hVar{x},\hVar{y}$ の間に等号 $(\hIfEq)$ が定義されていることが隠れた前提になっているため，正しくない．我々は $\hTypeName{a}$ が型クラス $\hEq$ に属すことを要求するので，次のように言い換える．
 \begin{multline}
 \mInstanceDeclPolymorphic\;
-\mEqTypeClass\mSuperSet\mA
-\mSuperClass
-\mEqTypeClass\mSuperSet{}(\mMaybeTypeConstructor\,\mA )\\
+\hEq\hHasElementsOf\mA
+\hAndThen
+\hEq\hHasElementsOf{}(\mMaybeTypeConstructor\,\mA )\\
 \mWhere
 \left\{
 \begin{aligned}
@@ -3371,7 +3371,7 @@ Maybeが型クラス $\mEqTypeClass$ に属すものとして，$\mEqTypeClass$ 
 \end{aligned}
 \right.
 \end{multline}
-この $\mEqTypeClass\mSuperSet\mA \mSuperClass$ の部分が「以下 $\mA$ 型は $\mEqTypeClass$ 型クラスに属すものとして」という意味になる．\footnote{\haskell では
+この $\hEq\hHasElementsOf\mA \hAndThen$ の部分が「以下 $\hTypeName{a}$ 型は $\hEq$ 型クラスに属すものとして」という意味になる．\footnote{\haskell では
 \begin{verbatim}
   instance Eq a => Eq (Maybe a) where
     Just x == Just y = x==y
@@ -3383,8 +3383,8 @@ Maybeが型クラス $\mEqTypeClass$ に属すものとして，$\mEqTypeClass$ 
 Maybeの間に新たに定義された等号 $(\hIfEq)$ は次の型を持つ．
 \begin{equation}
 (\hIfEq)
-\mIn{}\mEqTypeClass\mSuperSet\mA
-\mSuperClass\mProjEXP{\mMaybeType{a}}{\mProjEXP{\mMaybeType{a}}{\mBoolType}}
+\mIn{}\hEq\hHasElementsOf\mA
+\hAndThen\mProjEXP{\mMaybeType{a}}{\mProjEXP{\mMaybeType{a}}{\hBool}}
 \end{equation}
 
 \separator
@@ -3412,12 +3412,12 @@ Maybeの間に新たに定義された等号 $(\hIfEq)$ は次の型を持つ．
 
 \begin{equation}
   \mTypeClassDeclPolymorphic\;
-  \mFunctorTypeClass\mSuperSet\mTypeConstructor{f}
+  \mFunctorTypeClass\hHasElementsOf\mTypeConstructor{f}
   \mWhere{}
   (\mMap)
-  \mIn{}(\mA\mFuncArrow\mB)
-  \mFuncArrow\mPolymorphicTypeAssemble{f}{a}
-  \mFuncArrow\mPolymorphicTypeAssemble{f}{b}
+  \mIn{}(\hTypeName{a}\hFunctionArrow\mB)
+  \hFunctionArrow\mPolymorphicTypeAssemble{f}{a}
+  \hFunctionArrow\mPolymorphicTypeAssemble{f}{b}
 \end{equation}
 
 \TK{$\mTypeClassDeclPolymorphic$ による型コンストラクタの型クラス宣言．}
@@ -3426,7 +3426,7 @@ Maybeの間に新たに定義された等号 $(\hIfEq)$ は次の型を持つ．
 スト型は $\mFunctorTypeClass$ 型クラスのインスタンスなので，
 \begin{equation}
   \mInstanceDeclPolymorphic\;
-  \mFunctorTypeClass\mSuperSet\mListTypeConstructor{}
+  \mFunctorTypeClass\hHasElementsOf\mListTypeConstructor{}
   \mWhere{}
   (\mMap)
   =(\mMapList)
@@ -3449,7 +3449,7 @@ Maybeの間に新たに定義された等号 $(\hIfEq)$ は次の型を持つ．
 Maybe型の場合は
 \begin{equation}
   \mInstanceDeclPolymorphic\;
-  \mFunctorTypeClass\mSuperSet\mMaybeTypeConstructor
+  \mFunctorTypeClass\hHasElementsOf\mMaybeTypeConstructor
   \mWhere\left\{
   \begin{aligned}
     \hFunc{f}\mMap{}\mJustWith{x}&=\mJustWith{\hFunc{f}\hVar{x}}\\
@@ -3468,7 +3468,7 @@ Maybe型の場合は
 Either型の場合は
 \begin{equation}
   \mInstanceDeclPolymorphic\;
-  \mFunctorTypeClass\mSuperSet{}(\mEitherTypeConstructor\,\mA)
+  \mFunctorTypeClass\hHasElementsOf{}(\mEitherTypeConstructor\,\mA)
   \mWhere{}
   \left\{
   \begin{aligned}
@@ -3520,14 +3520,14 @@ Either型の場合は
 こうしておいて，あとは
 \begin{multline}
   \mInstanceDeclPolymorphic\;
-  \mFunctorTypeClass\mSuperSet\mZipListTypeConstructor\\
+  \mFunctorTypeClass\hHasElementsOf\mZipListTypeConstructor\\
   \mWhere
   \hFunc{f}\mMap{}\mZipListWith{\mList{x}}=\mZipListWith{\hFunc{f}\mMapList\mList{x}}
 \end{multline}
 および
 \begin{multline}
   \mInstanceDeclPolymorphic\;
-  \mApplicativeTypeClass\mSuperSet\mZipListTypeConstructor\\
+  \mApplicativeTypeClass\hHasElementsOf\mZipListTypeConstructor\\
   \mWhere
   \left\{
   \begin{aligned}
@@ -3619,7 +3619,7 @@ $\mNewTypeDeclPolymorphic$ に置き換えたことである．これは，字�
   \left\{
   \begin{aligned}
     f'
-    &\mLetEq\mUncurry f\\
+    &\mLetEq\hUncurry f\\
     \mList{z}
     &\mLetEq\mZipFunc\mList{x}\mList{y}
   \end{aligned}
@@ -3636,14 +3636,14 @@ $\mNewTypeDeclPolymorphic$ に置き換えたことである．これは，字�
   \end{aligned}
   \right.
 \end{equation}
-であり，$\mUncurry$ 関数は
+であり，$\hUncurry$ 関数は
 \begin{equation}
   \left\mBrace
   \begin{aligned}
-    {}&\mUncurry\mIn{}
+    {}&\hUncurry\mIn{}
     \mProjEXP{(\mProjEXP{\mA }{\mProjEXP{\mB }{\mC }})}
           {\mProjEXP{(\mA ,\mB )}{\mC }}\\
-          {}&\mUncurry f\hVar{x}\hVar{y}=\hFunc{f}(x,y)
+          {}&\hUncurry f\hVar{x}\hVar{y}=\hFunc{f}(x,y)
   \end{aligned}
   \right.
 \end{equation}
@@ -3676,8 +3676,8 @@ $\mSqrts$ ただし
 \begin{equation}
   \left\mBrace
   \begin{aligned}
-    &\mSqrts\mIn{}\mRealTypeClass\mSuperSet\mA \mSuperClass
-    \mA\mFuncArrow[\mA]\\
+    &\mSqrts\mIn{}\hReal\hHasElementsOf\mA \hAndThen
+    \hTypeName{a}\hFunctionArrow[\mA]\\
     &\mSqrts x=[\mSqrt x,(-\mSqrt x)]
   \end{aligned}
   \right.
@@ -3689,15 +3689,15 @@ $\mSqrts$ ただし
 \end{verbatim}
 と書く．}
 
-ここで型 $\mA\mFuncArrow[\mA]$ に別名を与えよう．別名を与えるには型シノニ
+ここで型 $\hTypeName{a}\hFunctionArrow[\mA]$ に別名を与えよう．別名を与えるには型シノニ
 ムを定義する方法と，$\mNewTypeDecl$ を用いる方法とがある．前者は単に読
 みやすさの向上のためだけであるが，後者は第\ref{ch:polymorphic-data-type}章
 で見たように特定の型クラスの新しいインスタンスとしてその型を定義するた
 めである．我々は後者を選択することにして
 \begin{equation}
   \mNewTypeDecl\;
-  \mTypeConstructor{NonDet}\,\mA\,\mB
-  =\mValueRecordWith{NonDet}{\mRun\mIn\mA\mFuncArrow[\mB]}
+  \mTypeConstructor{NonDet}\,\hTypeName{a}\,\mB
+  =\mValueRecordWith{NonDet}{\mRun\hIsTypeOf\hTypeName{a}\hFunctionArrow[\mB]}
 \end{equation}
 とする．\footnote{\haskell では
 \begin{verbatim}
@@ -3706,14 +3706,14 @@ $\mSqrts$ ただし
 と書く．}
 
 型コンストラクタ $\mTypeConstructor{NonDet}$ によって作られる型
-$\mTypeAssemble{NonDet}{\mA\,\mB}$ は型 $\mA\mFuncArrow[\mA]$ とは異な
+$\mTypeAssemble{NonDet}{\hTypeName{a}\,\mB}$ は型 $\hTypeName{a}\hFunctionArrow[\mA]$ とは異な
 る型であるため，関数 $\mSqrts$ の新しいバージョンが必要になる．そこで
 \begin{equation}
   \left\mBrace
   \begin{aligned}
     &\mSqrts'
-    \mIn\mRealTypeClass\mSuperSet\mA
-    \mSuperClass\mTypeAssemble{NonDet}{\mA\,\mA}\\
+    \hIsTypeOf\hReal\hHasElementsOf\mA
+    \hAndThen\mTypeAssemble{NonDet}{\hTypeName{a}\,\mA}\\
     &\mSqrts'
     =\mValueWith{NonDet}{\mSqrts}
   \end{aligned}
@@ -3759,7 +3759,7 @@ $\mMapList$ を使う．
   \left\mBrace
   \begin{aligned}
     &\mDuplicate,\mTriplicate
-    \mIn\mA\mFuncArrow[\mA]\\
+    \hIsTypeOf\hTypeName{a}\hFunctionArrow[\mA]\\
     &\mDuplicate x
     =[x,x]\\
     &\mTriplicate x
@@ -3826,25 +3826,25 @@ $(\mMapMaybe)$ がそれらである．同じように，関数合成 $(\hCompos
 $\mCatTypeClass$ で表される型クラスである．
 
 カテゴリ型クラスの定義に立ち入る前に，新しい表記を導入しておこう．これ
-まで型 $\mA$ の引数をひとつ取り，型 $\mB$ の戻り値を返す関数の型を
-$\mA\mFuncArrow\mB$ または $(\mFuncArrow)\mA\mB$ と書いてきた．これか
-ら導入する型は，やはり型 $\mA$ の引数を取り，型 $\mB$ の戻り値を返す．
-この新しい型を $\mA\mCatArrowC\mB$ または $(\mCatArrowC)\mA\mB$ と書こ
+まで型 $\hTypeName{a}$ の引数をひとつ取り，型 $\hTypeName{b}$ の戻り値を返す関数の型を
+$\hTypeName{a}\hFunctionArrow\hTypeName{b}$ または $(\hFunctionArrow)\hTypeName{a}\hTypeName{b}$ と書いてきた．これか
+ら導入する型は，やはり型 $\hTypeName{a}$ の引数を取り，型 $\hTypeName{b}$ の戻り値を返す．
+この新しい型を $\hTypeName{a}\mCatArrowC\hTypeName{b}$ または $(\mCatArrowC)\hTypeName{a}\hTypeName{b}$ と書こ
 う．ここに $\mTypeConstructor{c}$ は型コンストラクタであり，
-カテゴリ型クラスのインスタンスである．型 $(\mCatArrowC)\mA\mB$ の値は
+カテゴリ型クラスのインスタンスである．型 $(\mCatArrowC)\hTypeName{a}\hTypeName{b}$ の値は
 関数ではなく\keyword{射}と呼ぶ．\footnote{\haskell では
-  $(\mCatArrowC)\mA\mB$ を \code{c a b} と書く．}
+  $(\mCatArrowC)\hTypeName{a}\hTypeName{b}$ を \code{c a b} と書く．}
 
 カテゴリ型クラス $(\mCatTypeClass)$ は次のように定義されている．
 \begin{equation}
   \mTypeClassDeclPolymorphic\;
-  \mCatTypeClass\mSuperSet\mTypeConstructor{c}
+  \mCatTypeClass\hHasElementsOf\mTypeConstructor{c}
   \mWhere\left\{
   \begin{aligned}
     \mIdCat
-    &\mIn\mX\mCatArrowC\mY\\
+    &\hIsTypeOf\mX\mCatArrowC\mY\\
     (\mCompCat)
-    &\mIn{}(\mX\mCatArrowC\mY)\mFuncArrow(\mX\mCatArrowC\mY)\mFuncArrow(\mX\mCatArrowC\mY)
+    &\mIn{}(\mX\mCatArrowC\mY)\hFunctionArrow(\mX\mCatArrowC\mY)\hFunctionArrow(\mX\mCatArrowC\mY)
   \end{aligned}
   \right.
 \end{equation}
@@ -3853,7 +3853,7 @@ $\mA\mFuncArrow\mB$ または $(\mFuncArrow)\mA\mB$ と書いてきた．これ�
 
 \begin{equation}
   \mCatArrow{\mTypeConstructor{NonDet}}{}
-  =\mA\mFuncArrow[\mA]
+  =\hTypeName{a}\hFunctionArrow[\mA]
 \end{equation}
 としよう．\footnote{\haskell では
 \begin{verbatim}
@@ -3866,18 +3866,18 @@ $\mA\mFuncArrow\mB$ または $(\mFuncArrow)\mA\mB$ と書いてきた．これ�
 
 \begin{align}
   \mIdCat
-  &\mIn{}\mA\mCatArrowC\mB\\
+  &\mIn{}\hTypeName{a}\mCatArrowC\hTypeName{b}\\
   (\mCompCat)
-  &\mIn{}(\mB\mCatArrowC\mC)
-  \mFuncArrow(\mA\mCatArrowC\mB)
-  \mFuncArrow(\mA\mCatArrowC\mC)
+  &\mIn{}(\hTypeName{b}\mCatArrowC\mC)
+  \hFunctionArrow(\hTypeName{a}\mCatArrowC\mB)
+  \hFunctionArrow(\hTypeName{a}\mCatArrowC\mC)
 \end{align}
 
 e.g.
 
 \begin{equation}
-  \mA\mCatArrowC\mB
-  =\mA\mFuncArrow[\mA]
+  \hTypeName{a}\mCatArrowC\mB
+  =\hTypeName{a}\hFunctionArrow[\mA]
 \end{equation}
 
 ---
@@ -3889,19 +3889,19 @@ $\mCatTypeClass$ 型クラスである．
 $\mCatTypeClass$ 型クラスは次のように定義されている．
 \begin{equation}
   \mTypeClassDeclPolymorphic\;
-  \mCatTypeClass\mSuperSet\mTypeConstructor{c}
+  \mCatTypeClass\hHasElementsOf\mTypeConstructor{c}
   \mWhere\left\{
   \begin{aligned}
-    \mIdCat&\mIn\mTypeConstructor{c}\,\mX\,\mX\\
+    \mIdCat&\hIsTypeOf\mTypeConstructor{c}\,\mX\,\mX\\
     (\mCompCat)
-    &\mIn\mTypeConstructor{c}\,\mX\,\mY
-    \mFuncArrow\mTypeConstructor{c}\,\mX\,\mY
-    \mFuncArrow\mTypeConstructor{c}\,\mX\,\mY
+    &\hIsTypeOf\mTypeConstructor{c}\,\mX\,\mY
+    \hFunctionArrow\mTypeConstructor{c}\,\mX\,\mY
+    \hFunctionArrow\mTypeConstructor{c}\,\mX\,\mY
   \end{aligned}
   \right.
 \end{equation}
 型パラメタ $\mTypeConstructor{c}$ が
-$\mTypeConstructor{c}=(\mFuncArrow)$ のとき$\mIdCat=\mId$ かつ
+$\mTypeConstructor{c}=(\hFunctionArrow)$ のとき$\mIdCat=\mId$ かつ
 $\mCompCat=\hCompose$ になるので，圏は関数を何やら拡張したものであること
 がわかる．
 
@@ -3912,13 +3912,13 @@ $\mCompCat=\hCompose$ になるので，圏は関数を何やら拡張したも�
 我々は $\mDuplicate$ や $\mTriplicate$ の型を考えて
 \begin{equation}
   \mTypeConstructor{c}\,\mX\,\mY
-  =\mX\mFuncArrow[\mY]
+  =\mX\hFunctionArrow[\mY]
 \end{equation}
 と考えてみよう．つまり
-$\mTypeConstructor{c}=((\mFuncArrow)\hAnonParam[\hAnonParam])$
+$\mTypeConstructor{c}=((\hFunctionArrow)\hAnonParam[\hAnonParam])$
 と考えるわけである．
 
-そうすると，まず $\mIdCat$ は $\mA\mFuncArrow[\mA]$ 型でなければならないか
+そうすると，まず $\mIdCat$ は $\hTypeName{a}\hFunctionArrow[\mA]$ 型でなければならないか
 ら
 \begin{equation}
   \label{eq:id-category}
@@ -3928,7 +3928,7 @@ $\mTypeConstructor{c}=((\mFuncArrow)\hAnonParam[\hAnonParam])$
 となる．
 
 次に $(\mCompCat)$ であるが，$\mX=\mY$ とすると，型は
-$(\mX\mFuncArrow[\mX])\mFuncArrow(\mX\mFuncArrow[\mX])\mFuncArrow(\mX\mFuncArrow[\mX])$
+$(\mX\hFunctionArrow[\mX])\hFunctionArrow(\mX\hFunctionArrow[\mX])\hFunctionArrow(\mX\hFunctionArrow[\mX])$
 であるから，式\eqref{eq:triplicate-duplicate}から
 \begin{equation}
   \mTriplicate\mCompCat\mDuplicate
@@ -3944,12 +3944,12 @@ $(\mX\mFuncArrow[\mX])\mFuncArrow(\mX\mFuncArrow[\mX])\mFuncArrow(\mX\mFuncArrow
 これで，我々の型コンストラクタ $\mTypeConstructor{NonDet}$ を
 $\mCatTypeClass$ 型クラスのインスタンスにできる．ただし，式
 \eqref{eq:id-category} ならびに式 \eqref{eq:triplicate-duplicate-comp}
-は型 $\mTypeAssemble{NonDet}{\mA\,\mB}$ に対応していないので，次
+は型 $\mTypeAssemble{NonDet}{\hTypeName{a}\,\mB}$ に対応していないので，次
 のように値コンストラクタで包んだ上でインスタンス化を行う．
 \begin{multline}
   \label{eq:nondet-instance}
   \mInstanceDeclPolymorphic\;
-  \mTypeClass{Category}\mSuperSet\mTypeConstructor{NonDet}\\
+  \mTypeClass{Category}\hHasElementsOf\mTypeConstructor{NonDet}\\
   \mWhere\left\{
   \begin{aligned}
     \mIdCat
@@ -3959,13 +3959,13 @@ $\mCatTypeClass$ 型クラスのインスタンスにできる．ただし，式
   \end{aligned}
   \right.
 \end{multline}
-続けて，$\mTypeAssemble{NonDet}{\mA\,\mB}$ 型バージョンの
+続けて，$\mTypeAssemble{NonDet}{\hTypeName{a}\,\mB}$ 型バージョンの
 $\mDuplicate$ と $\mTriplicate$ を定義しておこう．
 \begin{align}
   &\left\mBrace
   \begin{aligned}
     &\mDuplicate'
-    \mIn\mTypeAssemble{NonDet}{\mA\,\mA}\\
+    \hIsTypeOf\mTypeAssemble{NonDet}{\hTypeName{a}\,\mA}\\
     &\mDuplicate'
     =\mValueWith{NonDet}{\mDuplicate}
   \end{aligned}
@@ -3973,7 +3973,7 @@ $\mDuplicate$ と $\mTriplicate$ を定義しておこう．
   &\left\mBrace
   \begin{aligned}
     &\mTriplicate'
-    \mIn\mTypeAssemble{NonDet}{\mA\,\mA}\\
+    \hIsTypeOf\mTypeAssemble{NonDet}{\hTypeName{a}\,\mA}\\
     &\mTriplicate'
     =\mValueWith{NonDet}{\mTriplicate}
   \end{aligned}
@@ -4052,7 +4052,7 @@ y = run (triplicate' Cat.. duplicate') x
 \end{equation}
 であった．関数 $\hFunc{f}$, $\hFunc{g}$ が $\mValueWith{NonDet}{f}$,
 $\mValueWith{NonDet}{g}$ として与えられることを考えると，関数 $\hFunc{f}$, $\hFunc{g}$
-の型は $\mA\mFuncArrow[\mA]$ で確定するので，式\eqref{eq:leftleftarrows}
+の型は $\hTypeName{a}\hFunctionArrow[\mA]$ で確定するので，式\eqref{eq:leftleftarrows}
 の中のバインド演算子 $(\mBind)$ はリストのバインド演算子
 $(\mBindList)$ で確定する．
 
@@ -4072,7 +4072,7 @@ $(\mBindList)$ で確定する．
 % pureも説明!!
 \begin{multline}
   \mInstanceDeclPolymorphic\;
-  \mCatTypeClass\mSuperSet\mTypeConstructor{NonDet}\\
+  \mCatTypeClass\hHasElementsOf\mTypeConstructor{NonDet}\\
   \mWhere\left\{
   \begin{aligned}
     \mIdCat x
@@ -4103,16 +4103,16 @@ instance Cat.Category NonDet where
 
 \begin{equation}
   \mNewTypeDecl\;
-  \mTypeConstructor{ItCouldBe}\,\mA\,\mB
-  =\mValueRecordWith{ItCouldBe}{\mathrm{runIt}\mIn\mA\mFuncArrow\mMaybeType{b}}
+  \mTypeConstructor{ItCouldBe}\,\hTypeName{a}\,\mB
+  =\mValueRecordWith{ItCouldBe}{\mathrm{runIt}\hIsTypeOf\hTypeName{a}\hFunctionArrow\mMaybeType{b}}
 \end{equation}
 
 \begin{equation}
   \left\mBrace
   \begin{aligned}
     &\mathrm{rec}
-    \mIn{}(\mRealTypeClass\mSuperSet\mA)
-    \mSuperClass\mA\mFuncArrow\mA\\
+    \mIn{}(\hReal\hHasElementsOf\mA)
+    \hAndThen\hTypeName{a}\hFunctionArrow\hTypeName{a}\\
     &
     \begin{aligned}
       \mathop{\mathrm{rec}}x&\hGuard{x\neq0}
@@ -4138,23 +4138,23 @@ instance Cat.Category NonDet where
 
 \begin{align}
   \mNewTypeDecl\;
-  &\mTypeConstructor{NonDet}\,\mA\,\mB
-  =\mValueWith{NonDet}{\mA\mFuncArrow[\mB]}\\
+  &\mTypeConstructor{NonDet}\,\hTypeName{a}\,\mB
+  =\mValueWith{NonDet}{\hTypeName{a}\hFunctionArrow[\mB]}\\
   \mNewTypeDecl\;
-  &\mTypeConstructor{ItCouldBe}\,\mA\,\mB
-  =\mValueWith{ItCouldBe}{\mA\mFuncArrow\mMaybeType{b}}
+  &\mTypeConstructor{ItCouldBe}\,\hTypeName{a}\,\mB
+  =\mValueWith{ItCouldBe}{\hTypeName{a}\hFunctionArrow\mMaybeType{b}}
 \end{align}
 
 \begin{equation}
   \mNewTypeDecl\;
-  \mTypeConstructor{Kleisli}\,\mTypeConstructor{m}\,\mA\,\mB
-  =\mValueWith{Kleisli}{\mA\mFuncArrow\mTypeAssemble{m}{\mB}}
+  \mTypeConstructor{Kleisli}\,\mTypeConstructor{m}\,\hTypeName{a}\,\mB
+  =\mValueWith{Kleisli}{\hTypeName{a}\hFunctionArrow\mTypeAssemble{m}{\mB}}
 \end{equation}
 
 \begin{equation}
   \mTypeSynonymDecl\;
-  \mTypeConstructor{ItCouldBe}\,\mA\,\mB
-  =\mTypeConstructor{Kleisli}\,\mA\,\mB
+  \mTypeConstructor{ItCouldBe}\,\hTypeName{a}\,\mB
+  =\mTypeConstructor{Kleisli}\,\hTypeName{a}\,\mB
 \end{equation}
 
 \chapter{アロー*}
@@ -4194,31 +4194,31 @@ instance Cat.Category NonDet where
   \label{eq:mean}
   \mMean\mList{x}
   =
-  \left(\mLambda\mPairWith{\hVar{x}}{\hVar{y}}\mLambdaArrow x/y\right)\mPairWith{\mSum\mList{x}}{\mLength\mList{x}}
+  \left(\mLambda\hPairWith{\hVar{x}}{\hVar{y}}\mLambdaArrow x/y\right)\hPairWith{\mSum\mList{x}}{\mLength\mList{x}}
 \end{equation}
 幸いカリー化された2引数関数をペアを引数にとる関数へ変換する
-$\mUncurry$ 関数があり，
+$\hUncurry$ 関数があり，
 \begin{equation}
-  \mUncurry(\hAnyBinOp)
-  =\mLambda\mPairWith{\hVar{x}}{\hVar{y}}\mLambdaArrow x\hAnyBinOp y
+  \hUncurry(\hAnyBinOp)
+  =\mLambda\hPairWith{\hVar{x}}{\hVar{y}}\mLambdaArrow x\hAnyBinOp y
 \end{equation}
-であるから，式\eqref{eq:mean}の第1項（前半の括弧）は $\mUncurry(/)$ と
+であるから，式\eqref{eq:mean}の第1項（前半の括弧）は $\hUncurry(/)$ と
 出来る．
 
 式\eqref{eq:mean}の第2項（後半の括弧）は
 \begin{equation}
-  \mPairWith{\mSum\mList{x}}{\mLength\mList{x}}
+  \hPairWith{\mSum\mList{x}}{\mLength\mList{x}}
   =\begin{bmatrix}
   \mSum\\
   \mLength
   \end{bmatrix}
   % \mathop{\square}{}
-  \mPairWith{\mList{x}}{\mList{x}}
+  \hPairWith{\mList{x}}{\mList{x}}
 \end{equation}
 という形にしたい．そうすれば
 \begin{equation}
   \mSplit x
-  =\mPairWith{x}{x}
+  =\hPairWith{x}{x}
 \end{equation}
 なる関数 $\mSplit$ を用意すると，後は新しく導入したブラケット
 $\begin{bmatrix}\vdots\end{bmatrix}$ だけの問題になる．
@@ -4226,7 +4226,7 @@ $\begin{bmatrix}\vdots\end{bmatrix}$ だけの問題になる．
 問題を整理すると，式\eqref{eq:mean}を
 \begin{equation}
   \mMean\mList{x}
-  =\mUncurry(/)
+  =\hUncurry(/)
   \hCompose
   \begin{bmatrix}
     \mSum\\
@@ -4239,14 +4239,14 @@ $\begin{bmatrix}\vdots\end{bmatrix}$ だけの問題になる．
 \end{equation}
 という形に持っていきたい．それには
 \begin{equation}
-  \mPairWith{\hFunc{f}\hVar{x}}{gy}
+  \hPairWith{\hFunc{f}\hVar{x}}{gy}
   =
   \begin{bmatrix}
     f\\
     g
   \end{bmatrix}
   % \mathop{\square}{}
-  \mPairWith{\hVar{x}}{\hVar{y}}
+  \hPairWith{\hVar{x}}{\hVar{y}}
 \end{equation}
 となるような関数 $\hFunc{f}$ と関数 $\hFunc{g}$ の合成
 $\begin{bmatrix}\vdots\end{bmatrix}$ が是非とも必要である．この特殊な
@@ -4272,13 +4272,13 @@ $\begin{bmatrix}\vdots\end{bmatrix}$ が是非とも必要である．この特�
 なる合成演算子 $(\mCompCat)$ も同時に考えておく必要がある．と言うのも，
 ブラケットの合成が自由にできるようになると
 \begin{equation}
-  \mPairWith{\hFunc{f}\hVar{x}}{y}
+  \hPairWith{\hFunc{f}\hVar{x}}{y}
   =
   \begin{bmatrix}
     f\\
     \mId
   \end{bmatrix}
-  \mPairWith{\hVar{x}}{\hVar{y}}
+  \hPairWith{\hVar{x}}{\hVar{y}}
 \end{equation}
 のようにペアの片側だけに作用するブラケットだけを考えておけば良くなるか
 らである．
@@ -4295,14 +4295,14 @@ $\mTypeConstructor{a}$ は型コンストラクタである．
 
 $\mTypeConstructor{a}$ 型コンストラクタによって作られる値を
 \keyword{アロー}と呼ぶ．アローは関数から作られるものとする．関数 $\hFunc{f}$
-が $\mB\mFuncArrow\mC$ という型を持つとき，関数 $\hFunc{f}$ から作られたアロー
+が $\hTypeName{b}\hFunctionArrow\mC$ という型を持つとき，関数 $\hFunc{f}$ から作られたアロー
 を $\mArrow{f}$ と書き，アロー $\mArrow{f}$ は
-$\mB\mArrowArrow{\mTypeConstructor{a}}\mC$ という型を持つとす
+$\hTypeName{b}\mArrowArrow{\mTypeConstructor{a}}\mC$ という型を持つとす
 る．
 
-型 $\mB\mFuncArrow\mC$ は $(\mFuncArrow)\mB\mC$ の中置記法バージョンで
-あった．我々の $\mB\mArrowArrow{\mTypeConstructor{a}}\mC$ も
-$(\mArrowArrow{\mTypeConstructor{a}})\mB\mC$ の中置記法バージョ
+型 $\hTypeName{b}\hFunctionArrow\mC$ は $(\hFunctionArrow)\hTypeName{b}\mC$ の中置記法バージョンで
+あった．我々の $\hTypeName{b}\mArrowArrow{\mTypeConstructor{a}}\mC$ も
+$(\mArrowArrow{\mTypeConstructor{a}})\hTypeName{b}\mC$ の中置記法バージョ
 ンである．ただし $(\mArrowArrow{\mTypeConstructor{a}})$ は単
 純に $\mTypeConstructor{a}$ と書いて良い．
 
@@ -4350,19 +4350,19 @@ $(\mArrowArrow{\mTypeConstructor{a}})\mB\mC$ の中置記法バージョ
 これらの実装を与える．アロー型クラスは次のように定義されている．
 \begin{multline}
   \mTypeClassDeclPolymorphic\;
-  \mCatTypeClass\mSuperSet\mTypeConstructor{a}
-  \mSuperClass
-  \mArrowTypeClass\mSuperSet\mTypeConstructor{a}\\
+  \mCatTypeClass\hHasElementsOf\mTypeConstructor{a}
+  \hAndThen
+  \mArrowTypeClass\hHasElementsOf\mTypeConstructor{a}\\
   \mWhere{}
   \left\{
   \begin{aligned}
     \mArrowWith{}
-    &\mIn{}(\mB\mFuncArrow\mC)
-    \mFuncArrow(\mB\mArrowArrow{\mTypeConstructor{a}}\mC)\\
+    &\mIn{}(\hTypeName{b}\hFunctionArrow\mC)
+    \hFunctionArrow(\hTypeName{b}\mArrowArrow{\mTypeConstructor{a}}\mC)\\
     \mFirst
-    &\mIn{}(\mB\mArrowArrow{\mTypeConstructor{a}}\mC)
-    \mFuncArrow\left(\mPairWith{\mB}{\mD}
-    \mArrowArrow{\mTypeConstructor{a}}\mPairWith{\mC}{\mD}\right)
+    &\mIn{}(\hTypeName{b}\mArrowArrow{\mTypeConstructor{a}}\mC)
+    \hFunctionArrow\left(\hPairWith{\mB}{\mD}
+    \mArrowArrow{\mTypeConstructor{a}}\hPairWith{\mC}{\mD}\right)
   \end{aligned}
   \right.
 \end{multline}
@@ -4375,10 +4375,10 @@ $(\mArrowArrow{\mTypeConstructor{a}})\mB\mC$ の中置記法バージョ
 $\mTypeConstructor{SimpleFunc}$ を考えてみる．
 \begin{equation}
   \mNewTypeDecl\;
-  \mTypeConstructor{SimpleFunc}\,\mA\,\mB
-  =\mValueRecordWith{SimlpeFunc}{\mFuncall\mIn\mA\mFuncArrow\mB}
+  \mTypeConstructor{SimpleFunc}\,\hTypeName{a}\,\mB
+  =\mValueRecordWith{SimlpeFunc}{\mFuncall\hIsTypeOf\hTypeName{a}\hFunctionArrow\mB}
 \end{equation}
-型 $\mTypeConstructor{SimpleFunc}\,\mA\,\mB$ は $\mA\mFuncArrow\mB$ 型
+型 $\mTypeConstructor{SimpleFunc}\,\hTypeName{a}\,\hTypeName{b}$ は $\hTypeName{a}\hFunctionArrow\hTypeName{b}$ 型
 の変数を唯一のメンバに持つ型で，つまりは1引数1戻値の関数をラップしただ
 けのものである．
 
@@ -4386,14 +4386,14 @@ $\mTypeConstructor{SimpleFunc}$ を考えてみる．
 $\mArrowTypeClass$ のインスタンスにしてみよう．
 \begin{multline}
   \mInstanceDeclPolymorphic\;
-  \mArrowTypeClass\mSuperSet\mTypeConstructor{SimpleFunc}\\
+  \mArrowTypeClass\hHasElementsOf\mTypeConstructor{SimpleFunc}\\
   \mWhere{}
   \left\{
   \begin{aligned}
     \mArrowWith{f}
     &=\mValueWith{SimpleFunc}{f}\\
     \mFirst\mValueWith{SimpleFunc}{f}
-    &=\mValueWith{SimpleFunc}{\mLambda\mPairWith{\hVar{x}}{\hVar{y}}\mLambdaArrow\mPairWith{\hFunc{f}\hVar{x}}{y}}
+    &=\mValueWith{SimpleFunc}{\mLambda\hPairWith{\hVar{x}}{\hVar{y}}\mLambdaArrow\hPairWith{\hFunc{f}\hVar{x}}{y}}
   \end{aligned}
   \right.
 \end{multline}
@@ -4404,7 +4404,7 @@ $\mArrowTypeClass$ のインスタンスにしてみよう．
 $\mArrowTypeClass$ のインスタンスでもなければならないので，
 \begin{multline}
   \mInstanceDeclPolymorphic\;
-  \mCatTypeClass\mSuperSet\mTypeConstructor{SimpleFunc}\\
+  \mCatTypeClass\hHasElementsOf\mTypeConstructor{SimpleFunc}\\
   \mWhere{}
   \left\{
   \begin{aligned}
@@ -4423,8 +4423,8 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
   &\left\mBrace
   \begin{aligned}
     &\mSplit'
-    \mIn\mArrowTypeClass\mSuperSet\mTypeConstructor{a}
-    \mSuperClass\mB\mArrowArrow{\mTypeConstructor{a}}(\mB,\mB)\\
+    \hIsTypeOf\mArrowTypeClass\hHasElementsOf\mTypeConstructor{a}
+    \hAndThen\hTypeName{b}\mArrowArrow{\mTypeConstructor{a}}(\mB,\mB)\\
     &\mSplit'
     =\mArrowWith{\mSplit}
   \end{aligned}
@@ -4432,9 +4432,9 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
   &\left\mBrace
   \begin{aligned}
     &\mUnsplit'
-    \mIn\mArrowTypeClass\mSuperSet\mTypeConstructor{a}
-    \mSuperClass{}(\mB\mFuncArrow\mC\mFuncArrow\mD)
-    \mFuncArrow\left(\mPairWith{\mB}{\mC}\mArrowArrow{\mTypeConstructor{a}}\mD\right)\\
+    \hIsTypeOf\mArrowTypeClass\hHasElementsOf\mTypeConstructor{a}
+    \hAndThen{}(\hTypeName{b}\hFunctionArrow\mC\hFunctionArrow\mD)
+    \hFunctionArrow\left(\hPairWith{\mB}{\mC}\mArrowArrow{\mTypeConstructor{a}}\mD\right)\\
     &\mUnsplit'
     =\mArrowWith{\mUnsplit}
   \end{aligned}
@@ -4445,7 +4445,7 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
 \begin{equation}
   \mSecond
   =\mArrowWith{\mSwap}\mCompCat\mFirst
-  \mWhere\mSwap\mPairWith{\hVar{x}}{\hVar{y}}\mLetEq\mPairWith{y}{x}
+  \mWhere\mSwap\hPairWith{\hVar{x}}{\hVar{y}}\mLetEq\hPairWith{y}{x}
 \end{equation}
 が与えられており，この $\mSecond$ を使ってブラケットの定義
 \begin{equation}
@@ -4468,7 +4468,7 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
 使ってみる．
 
 \begin{align}
-  f,g&\mIn\mValueWith{SimpleFunc}{\mIntType\,\mIntType}\\
+  f,g&\hIsTypeOf\mValueWith{SimpleFunc}{\hInt\,\hInt}\\
   f&=\mArrowWith{(/2)}\\
   g&=\mArrowWith{\mLambda x\mLambdaArrow x*3+1}\\
   h&=\mLiftATwo(+)fg\\
@@ -4551,22 +4551,22 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
 
 議論を簡単にするために
 \begin{equation}
-  \mPairWith{\hFunc{f}\hVar{x}}{y}
+  \hPairWith{\hFunc{f}\hVar{x}}{y}
   =\begin{bmatrix}
   f\\
   \mId
   \end{bmatrix}
   % \mathop{\square}{}
-  \mPairWith{\hVar{x}}{\hVar{y}}
+  \hPairWith{\hVar{x}}{\hVar{y}}
 \end{equation}
 と
 \begin{equation}
-  \mPairWith{x}{gy}
+  \hPairWith{x}{gy}
   =\begin{bmatrix}
   \mId\\
   g
   \end{bmatrix}
-  \mPairWith{\hVar{x}}{\hVar{y}}
+  \hPairWith{\hVar{x}}{\hVar{y}}
 \end{equation}
 を考えよう．この二つを合成すると
 \begin{equation}
@@ -4584,7 +4584,7 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
     f\\
     \mId
   \end{bmatrix}
-  \mPairWith{\hVar{x}}{\hVar{y}}
+  \hPairWith{\hVar{x}}{\hVar{y}}
 \end{equation}
 であるとする．つまり，合成則も一緒に考えておくのである．
 
@@ -4639,8 +4639,8 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
 
 ならば $\hFunc{f}$ もアローであるべきだ．
 
-これまでの関数の型は $\mA\mFuncArrow\mB$ であった．
-これから新しい「関数風」の型 $\mA\mCatArrowC\mB$ を考える．
+これまでの関数の型は $\hTypeName{a}\hFunctionArrow\hTypeName{b}$ であった．
+これから新しい「関数風」の型 $\hTypeName{a}\mCatArrowC\hTypeName{b}$ を考える．
 
 \begin{equation}
   \Vec{f}
@@ -4649,7 +4649,7 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
 
 \begin{equation}
   \mFirst\Vec{f}
-  =\mLambda{\mPairWith{x}{z}}\mLambdaArrow\mPairWith{\hFunc{f}\hVar{x}}{z}
+  =\mLambda{\hPairWith{x}{z}}\mLambdaArrow\hPairWith{\hFunc{f}\hVar{x}}{z}
 \end{equation}
 
 \begin{equation}
@@ -4671,9 +4671,9 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
 
 より抽象度の高い議論を行うと
 \begin{equation}
-  \mPairWith{\hFunc{f}\hVar{x}}{y}
+  \hPairWith{\hFunc{f}\hVar{x}}{y}
   =\begin{bmatrix}f\\g\end{bmatrix}
-  \mPairWith{\hVar{x}}{\hVar{y}}
+  \hPairWith{\hVar{x}}{\hVar{y}}
 \end{equation}
 さえあれば良いことがわかる．
 
@@ -4687,15 +4687,15 @@ $\Vec{\hFunc{f}}***\Vec{\hFunc{g}}$ も関数ではない．
 
 \begin{multline}
   \mTypeClassDeclPolymorphic\;
-  (\mCatTypeClass\mSuperSet\mTypeConstructor{c})
-  \mSuperClass(\mArrowTypeClass\mSuperSet\mTypeConstructor{c})\\
+  (\mCatTypeClass\hHasElementsOf\mTypeConstructor{c})
+  \hAndThen(\mArrowTypeClass\hHasElementsOf\mTypeConstructor{c})\\
   \mWhere{}\left\{
   \begin{aligned}
     \mArrowWith{\dotsb}
-    &\mIn{}(\mX\mFuncArrow\mY)\mFuncArrow\mTypeConstructor{c}\,\mX\,\mY\\
+    &\mIn{}(\mX\hFunctionArrow\mY)\hFunctionArrow\mTypeConstructor{c}\,\mX\,\mY\\
     \mFirstFunc
     &\mIn{}\mTypeConstructor{c}\,\mX\,\mY
-    \mFuncArrow\mTypeConstructor{c}\,\mPairWith{\mX}{\mZ}\,\mPairWith{\mY}{\mZ}
+    \hFunctionArrow\mTypeConstructor{c}\,\hPairWith{\mX}{\mZ}\,\hPairWith{\mY}{\mZ}
   \end{aligned}
   \right.
 \end{multline}
@@ -4705,7 +4705,7 @@ $\Vec{\hFunc{f}}***\Vec{\hFunc{g}}$ も関数ではない．
 \end{equation}
 
 \begin{equation}
-  \hVar{z}=\mathop{\mathrm{app}}\mPairWith{\mArrowWith{\mUncurry \hFunc{g}}\mCompCat\mFirstFunc\mArrowWith{\hFunc{f}}\mCompCat{}\mArrowWith{\left(\mLambda x\mLambdaArrow\mPairWith{x}{x}\right)}}{x}
+  \hVar{z}=\mathop{\mathrm{app}}\hPairWith{\mArrowWith{\hUncurry \hFunc{g}}\mCompCat\mFirstFunc\mArrowWith{\hFunc{f}}\mCompCat{}\mArrowWith{\left(\mLambda x\mLambdaArrow\hPairWith{x}{x}\right)}}{x}
 \end{equation}
 
 ---
@@ -4718,13 +4718,13 @@ $\Vec{\hFunc{f}}***\Vec{\hFunc{g}}$ も関数ではない．
 
 \begin{equation}
   \mNewTypeDecl\;
-  \mCircuitType\,\mA\,\mB
-  =\mCircuitWith{\mUncircuit\mIn\mA\mFuncArrow(\mCircuitType\,\mA\,\mB,\mB)}
+  \mCircuitType\,\hTypeName{a}\,\mB
+  =\mCircuitWith{\mUncircuit\hIsTypeOf\hTypeName{a}\hFunctionArrow(\mCircuitType\,\hTypeName{a}\,\mB,\mB)}
 \end{equation}
 
 \begin{multline}
   \mInstanceDecl\;
-  \mTypeClass{Category}\mSuperSet\mCircuitType\\
+  \mTypeClass{Category}\hHasElementsOf\mCircuitType\\
   \mWhere
   \left\{
   \begin{aligned}
@@ -4733,22 +4733,22 @@ $\Vec{\hFunc{f}}***\Vec{\hFunc{g}}$ も関数ではない．
     \mCircuitWith{\hFunc{g}}\mCompCat\mCircuitWith{\hFunc{f}}
     &={}^{\textrm{Circ}}[[\mLambda x\mLambdaArrow(\hFunc{g}'\mCompCat \hFunc{f}',z)\\
     &\quad\mWhere{}\left\{
-    \mPairWith{\hFunc{f}'}{y}\mLetEq \hFunc{f} x;
-    \mPairWith{\hFunc{g}'}{z}\mLetEq \hFunc{g} y\right\}]]
+    \hPairWith{\hFunc{f}'}{y}\mLetEq \hFunc{f} x;
+    \hPairWith{\hFunc{g}'}{z}\mLetEq \hFunc{g} y\right\}]]
   \end{aligned}
   \right.
 \end{multline}
 
 \begin{multline}
   \mInstanceDecl\;
-  \mTypeClass{Arrow}\mSuperSet\mCircuitType\\
+  \mTypeClass{Arrow}\hHasElementsOf\mCircuitType\\
   \mWhere\left\{
   \begin{aligned}
     \mArrowWith{f}
-    &=\mCircuitWith{\mLambda x\mLambdaArrow\mPairWith{\mArrowWith{f}}{\hFunc{f}\hVar{x}}}\\
+    &=\mCircuitWith{\mLambda x\mLambdaArrow\hPairWith{\mArrowWith{f}}{\hFunc{f}\hVar{x}}}\\
     \mFirstFunc\mCircuitWith{f}
-    &={}^{\mathrm{Circ}}\[\mLambda \hVar{x}\hVar{y}\mLambdaArrow\mPairWith{\mFirstFunc f'}{\mPairWith{z}{y}}
-    \mWhere{}\mPairWith{f'}{z}\mLetEq \hFunc{f}\hVar{x}\]
+    &={}^{\mathrm{Circ}}\[\mLambda \hVar{x}\hVar{y}\mLambdaArrow\hPairWith{\mFirstFunc f'}{\hPairWith{z}{y}}
+    \mWhere{}\hPairWith{f'}{z}\mLetEq \hFunc{f}\hVar{x}\]
   \end{aligned}
   \right.
 \end{multline}
@@ -4756,7 +4756,7 @@ $\Vec{\hFunc{f}}***\Vec{\hFunc{g}}$ も関数ではない．
 \newcommand{\mRunCircuit}{\mathop{\mathrm{runCircuit}}}
 
 \begin{align}
-  \mRunCircuit&\mIn\mCircuitType\,\mA\,\mB\mFuncArrow[\mA]\mFuncArrow[\mB]\\
+  \mRunCircuit&\hIsTypeOf\mCircuitType\,\hTypeName{a}\,\hTypeName{b}\hFunctionArrow[\mA]\hFunctionArrow[\mB]\\
   \mRunCircuit\_\mEmptyList&=\mEmptyList\\
   \mRunCircuit c(\hVar{x}:\mList{x})&=x':\mRunCircuit c'\mList{x}\\
   &\quad\mWhere{}(c',x')\mLetEq\mUncircuit cx
@@ -4776,15 +4776,15 @@ $\Vec{\hFunc{f}}***\Vec{\hFunc{g}}$ も関数ではない．
 \newcommand{\mTotal}{\mathop{\mathrm{total}}}
 
 \begin{align}
-  \mTotal&\mIn\mCircuitType\,\mA\,\mA\\
+  \mTotal&\hIsTypeOf\mCircuitType\,\hTypeName{a}\,\hTypeName{a}\\
   \mTotal&={\mAccum}'0(+)
 \end{align}
 
 % \newcommand{\mMean}{\mathop{\mathrm{mean}}}
 
 \begin{align}
-  \mMean&\mIn\mCircuitType\,\mA\,\mA\\
-  \mMean&=(\mTotal\mathbin{\bigvee}\mArrowWith{\mConst1}\Rrightarrow\mTotal)\Rrightarrow\mArrowWith{\mUncurry(/)}
+  \mMean&\hIsTypeOf\mCircuitType\,\hTypeName{a}\,\hTypeName{a}\\
+  \mMean&=(\mTotal\mathbin{\bigvee}\mArrowWith{\mConst1}\Rrightarrow\mTotal)\Rrightarrow\mArrowWith{\hUncurry(/)}
 \end{align}
 
 ---
@@ -4795,8 +4795,8 @@ $\Vec{\hFunc{f}}***\Vec{\hFunc{g}}$ も関数ではない．
 
 \begin{equation}
   \mNewTypeDecl\;
-  \mKleisliType\,\mTypeConstructor{m}\,\mA\,\mB
-  =\mKleisliWith{\mRunKleisli\mIn\mA\mFuncArrow\mTypeAssemble{m}{b}}
+  \mKleisliType\,\mTypeConstructor{m}\,\hTypeName{a}\,\mB
+  =\mKleisliWith{\mRunKleisli\hIsTypeOf\hTypeName{a}\hFunctionArrow\mTypeAssemble{m}{b}}
 \end{equation}
 
 \begin{equation}
@@ -4806,17 +4806,17 @@ $\Vec{\hFunc{f}}***\Vec{\hFunc{g}}$ も関数ではない．
 
 \begin{multline}
   \mLambda x\mLambdaArrow((\mLambda y\mLambdaArrow\mJustWith{y*x})\mBind{}\mJustWith{x*2})\\
-  =(\mJustWith{\hAnonParam}\hCompose\mUncurry(*))\mBindComp(\mJustWith{\hAnonParam}\hCompose{}((*2),\mId))
+  =(\mJustWith{\hAnonParam}\hCompose\hUncurry(*))\mBindComp(\mJustWith{\hAnonParam}\hCompose{}((*2),\mId))
 \end{multline}
 
 ---
 
 \begin{equation}
-  \left(f\bigvee g\right)\mPairWith{\hVar{x}}{\hVar{y}}=\mPairWith{\hFunc{f}\hVar{x}}{gy}
+  \left(f\bigvee g\right)\hPairWith{\hVar{x}}{\hVar{y}}=\hPairWith{\hFunc{f}\hVar{x}}{gy}
 \end{equation}
 
 \begin{equation}
-  \left(f\bigwedge g\right)x=\mPairWith{\hFunc{f}\hVar{x}}{\hFunc{g}\hVar{x}}
+  \left(f\bigwedge g\right)x=\hPairWith{\hFunc{f}\hVar{x}}{\hFunc{g}\hVar{x}}
 \end{equation}
 
 ---
@@ -5019,13 +5019,13 @@ $ ./sample
 \begin{align}
   {}&\left\mBrace
     \begin{aligned}
-      x&\mIn\mDoubleType\\
+      x&\hIsTypeOf\hDouble\\
       x&=\dots\\
     \end{aligned}
     \right.\\
   {}&\left\mBrace
     \begin{aligned}
-      f&\mIn{}\mProjEXP{\mDoubleType}{\mDoubleType}\\
+      f&\mIn{}\mProjEXP{\hDouble}{\hDouble}\\
       f&=\dots\\
     \end{aligned}
     \right.\\
@@ -5132,7 +5132,7 @@ $\mMain$ の値は $\hConstant{0}$ になることを示している．
 \code{::}&型の宣言 $(\mIn)$\\
 \code{..}&等差数列\\
 \code{=}&定義 $(=)$\\
-\code{=>}&インスタンス定義 $(\mSuperClass)$\\
+\code{=>}&インスタンス定義 $(\hAndThen)$\\
 \code{->}&関数型コンストラクタ $(\mapsto)$，ラムダ式の矢印 $(\rightarrow)$，\\
 &case式の矢印 $(\hIfSo)$\\
 \code{<-}&リスト内包表記 $(\mFrom)$，do記法中の代入 $(\mDoEq)$\\
@@ -5247,8 +5247,8 @@ do記法&\code{do}\\
 \begin{equation}
   \left\mBrace
   \begin{aligned}
-    &\mSq\mIn\mRealTypeClass\mSuperSet\mA
-    \mSuperClass\mProjEXP{\mA}{\mA}\\
+    &\mSq\hIsTypeOf\hReal\hHasElementsOf\mA
+    \hAndThen\mProjEXP{\mA}{\mA}\\
     &\mSq x=x*x
   \end{aligned}
   \right.
@@ -5260,8 +5260,8 @@ do記法&\code{do}\\
 \begin{equation}
   \left\mBrace
   \begin{aligned}
-    {}&\sgn\mIn{}\mRealTypeClass\mSuperSet\mA
-    \mSuperClass\mProjEXP{\mA }{\mA }\\
+    {}&\sgn\mIn{}\hReal\hHasElementsOf\mA
+    \hAndThen\mProjEXP{\mA }{\mA }\\
     {}&
     \begin{aligned}
       \sgn x&\hGuard{x<0}=-1\\
@@ -5276,7 +5276,7 @@ do記法&\code{do}\\
 \begin{equation}
   \left\mBrace
   \begin{aligned}
-    {}&\mMain\mIn\mIOIntType\\
+    {}&\mMain\hIsTypeOf\mIOIntType\\
     {}&\mMain=\mPrint(\hVar{x}_0,\hVar{x}_1)\mBindRightIgnore\mPureWith{0}
   \end{aligned}
   \right.
@@ -5337,8 +5337,8 @@ a = ar :+ ai
 \begin{equation}
   \mCompFunclexType{a}=\mathop{\mTypeConstructor{Complex}}\mA
 \end{equation}
-の型パラメタ $\mA $ に $\mFloatType$ 型または $\mDoubleType$ 型を
-当てはめて構築した型を用いる．$\mFloatType$ 型および $\mDoubleType$ 型
+の型パラメタ $\hTypeName{a}$ に $\hFloat$ 型または $\hDouble$ 型を
+当てはめて構築した型を用いる．$\hFloat$ 型および $\hDouble$ 型
 は $\mRealFloatTypeClass$ 型クラスに属する．
 
 複素数の場合の2次方程式の解は，実数の場合とほぼ同じで
@@ -5356,10 +5356,10 @@ $\mSq'$ 関数と $\sgn'$ 関数に置き換えたことで，
   \left\mBrace
   \begin{aligned}
     &\mSq'
-    \mIn\mRealFloatTypeClass\mSuperSet\mA
-    \mSuperClass\mA
-    \mFuncArrow\mCompFunclexType{a}
-    \mFuncArrow\mCompFunclexType{a}\\
+    \hIsTypeOf\mRealFloatTypeClass\hHasElementsOf\mA
+    \hAndThen\mA
+    \hFunctionArrow\mCompFunclexType{a}
+    \hFunctionArrow\mCompFunclexType{a}\\
     &\mSq'x
     =x*x
   \end{aligned}
@@ -5371,11 +5371,11 @@ $\mSq'$ 関数と $\sgn'$ 関数に置き換えたことで，
   \begin{aligned}
     &\begin{aligned}
        \sgn'
-       &\mIn\mRealFloatTypeClass\mSuperSet\mA\\
-       &\quad\mSuperClass\mCompFunclexType{a}
-       \mFuncArrow\mCompFunclexType{a}
-       \mFuncArrow\mCompFunclexType{a}
-       \mFuncArrow\mA
+       &\hIsTypeOf\mRealFloatTypeClass\hHasElementsOf\hTypeName{a}\\
+       &\quad\hAndThen\mCompFunclexType{a}
+       \hFunctionArrow\mCompFunclexType{a}
+       \hFunctionArrow\mCompFunclexType{a}
+       \hFunctionArrow\mA
      \end{aligned}\\
     &\begin{aligned}
        \sgn'abc
@@ -5394,8 +5394,8 @@ $\mSq'$ 関数と $\sgn'$ 関数に置き換えたことで，
 \begin{equation}
   \left\mBrace
   \begin{aligned}
-    &\mSqrt'\mIn\mRealFloatTypeClass\mSuperSet\mA
-    \mSuperClass\mProjEXP{\mA }{\mA }\\
+    &\mSqrt'\hIsTypeOf\mRealFloatTypeClass\hHasElementsOf\mA
+    \hAndThen\mProjEXP{\mA }{\mA }\\
     &\begin{aligned}
        \mSqrt'(x\mComplexPlus y)
        &=\frac{\sqrt{2}}{2}*\left(\sqrt{d+x}\mComplexPlus(\sgn y)*\sqrt{d-x}\right)\\
@@ -5408,7 +5408,7 @@ $\mSq'$ 関数と $\sgn'$ 関数に置き換えたことで，
 \begin{equation}
   \left\mBrace
   \begin{aligned}
-    &(\mComplexTimes)\mIn\mRealFloatTypeClass\mSuperSet\mA \mSuperClass
+    &(\mComplexTimes)\hIsTypeOf\mRealFloatTypeClass\hHasElementsOf\mA \hAndThen
     \mProjEXP{\mA }{\mProjEXP{\mCompFunclexType{a}}{\mCompFunclexType{a}}}\\
     &(\mComplexTimes)a(x\mComplexPlus y)=\hVar{a}*\hVar{x}\mComplexPlus a*y
   \end{aligned}
@@ -5499,7 +5499,7 @@ $y=\hFunc{f}\hVar{x}$ ただし
 \begin{equation}
 \left\mBrace
 \begin{aligned}
-n&\mIn\mIntType\\
+n&\hIsTypeOf\hInt\\
 n&=100
 \end{aligned}
 \right.
@@ -5509,7 +5509,7 @@ n&=100
 \begin{equation}
 \left\mBrace
 \begin{aligned}
-f&\mIn\mProjEXP{\mDoubleType}{\mDoubleType}\\
+f&\hIsTypeOf\mProjEXP{\hDouble}{\hDouble}\\
 \hFunc{f}\hVar{x}&\hGuard{x\hIfEq0}=1\\
 &\hGuard{\hOtherwise}=(\sin x)/x
 \end{aligned}
@@ -5521,23 +5521,23 @@ f&\mIn\mProjEXP{\mDoubleType}{\mDoubleType}\\
   \left\mBrace
   \begin{aligned}
     \mList{x}
-    &\mIn{}[\mDoubleType]\\
+    &\mIn{}[\hDouble]\\
     \mList{x}
     &=[i/n*\pi\mListComp i\mFrom[0\dotsb n]]
   \end{aligned}
   \right.
 \end{equation*}
-実はこのままではまずい．変数 $i$ も変数 $n$ も $\mIntType$ 型なので，
-割り算が出来ないのだ．そこで型変換のための関数 $\mFromIntegral$ を使お
-う．関数 $\mFromIntegral$ は $\mIntegralTypeClass$ 型クラスの型の変数
-を，任意の型へと変換する．関数 $\mFromIntegral$ を使って書き直すと
+実はこのままではまずい．変数 $i$ も変数 $n$ も $\hInt$ 型なので，
+割り算が出来ないのだ．そこで型変換のための関数 $\hFromIntegral$ を使お
+う．関数 $\hFromIntegral$ は $\hIntegral$ 型クラスの型の変数
+を，任意の型へと変換する．関数 $\hFromIntegral$ を使って書き直すと
 \begin{equation}
   \left\mBrace
   \begin{aligned}
     \mList{x}
-    &\mIn{}[\mDoubleType]\\
+    &\mIn{}[\hDouble]\\
     \mList{x}
-    &=[(\mFromIntegral i)/(\mFromIntegral n)*\pi\mListComp i\mFrom[0\dotsb n]]
+    &=[(\hFromIntegral i)/(\hFromIntegral n)*\pi\mListComp i\mFrom[0\dotsb n]]
   \end{aligned}
   \right.
 \end{equation}
@@ -5553,7 +5553,7 @@ f&\mIn\mProjEXP{\mDoubleType}{\mDoubleType}\\
   \left\mBrace
   \begin{aligned}
     y
-    &\mIn{}[\mDoubleType]\\
+    &\mIn{}[\hDouble]\\
     y
     &=\hFunc{f}\mMapList\mList{x}
   \end{aligned}
@@ -5595,12 +5595,12 @@ main = print ys >> pure 0
 \hline
 名前&型名\\
 \hline\hline
-\code{Bool}&論理型 $(\mBoolType)$\\
-\code{Char}&文字型 $(\mCharType)$\\
-\code{Int}&整数型 $(\mIntType)$\\
-\code{Integer}&整数型 $(\mIntegerType)$\\
-\code{Float}&単精度浮動小数点型 $(\mFloatType)$\\
-\code{Double}&倍精度浮動小数点型 $(\mDoubleType)$\\
+\code{Bool}&論理型 $(\hBool)$\\
+\code{Char}&文字型 $(\hChar)$\\
+\code{Int}&整数型 $(\hInt)$\\
+\code{Integer}&整数型 $(\hInteger)$\\
+\code{Float}&単精度浮動小数点型 $(\hFloat)$\\
+\code{Double}&倍精度浮動小数点型 $(\hDouble)$\\
 \code{String}&\code{[Char]} の型シノニム\\
 \hline
 \end{tabular}
@@ -5647,7 +5647,7 @@ yt&=\sum(\hLambdaSyntax{x}{\mFst x*\mSnd x})\mMapList\mList{h}\\
 ---
 
 \begin{equation}
-(\circledcirc)\mIn{}(\mNumTypeClass\mSuperSet\mA )\mSuperClass{}
+(\circledcirc)\mIn{}(\hNum\hHasElementsOf\mA )\hAndThen{}
 \mProjEXP{
   (\mProjEXP{\mA }{\mA })
 }
@@ -5771,12 +5771,12 @@ main = do
 $\hVar{x},\hVar{y},\hVar{z}$ で表すこととする．このことを数学者は $\hVar{x},\hVar{y},\hVar{z}\in\mRSet$ と書くが，
 本書ではこれまで通り
 \begin{equation}
-x,\hVar{y},\hVar{z}\mIn\mRSet
+x,\hVar{y},\hVar{z}\hIsTypeOf\mRSet
 \end{equation}
 と表すことにする．
 
 以下に実数の備える代数的性質を列挙する．どれも当たり前のことに見えるが，
-ひとつひとつ見ていこう．ここで $\hVar{x},\hVar{y},\hVar{z}\mIn\mRSet$ とする．
+ひとつひとつ見ていこう．ここで $\hVar{x},\hVar{y},\hVar{z}\hIsTypeOf\mRSet$ とする．
 \begin{description}
 \item[実数の性質1. 加法の全域性] 任意の $\hVar{x}$ と任意の $\hVar{y}$ の\keyword{加
 法}（足し算）の結果すなわち\keyword{和} $\hVar{x}+y$ は $\mRSet$ の元すなわ
@@ -5787,7 +5787,7 @@ x,\hVar{y},\hVar{z}\mIn\mRSet
 (\hVar{x}+\hVar{y})+\hVar{z}=x+(y+z)
 \end{equation}
 である．これを加法の\keyword{結合性}（結合律）と呼ぶ．
-\item[実数の性質3. 零元（加法単位元）の存在] 特別な実数 $0\mIn\mRSet$ があり
+\item[実数の性質3. 零元（加法単位元）の存在] 特別な実数 $0\hIsTypeOf\mRSet$ があり
 \begin{equation}
 0+x=x+0=x
 \end{equation}
@@ -5795,7 +5795,7 @@ x,\hVar{y},\hVar{z}\mIn\mRSet
 は\keyword{加法単位元}と呼ぶこともある．単位元が存在することを単位律と
 呼ぶこともある．
 \item[実数の性質4. 負元（加法逆元）の存在] 任意の $\hVar{x}$ に対して
-$-x\mIn\mRSet$ があり
+$-x\hIsTypeOf\mRSet$ があり
 \begin{equation}
 -x+x=0
 \end{equation}
@@ -5815,12 +5815,12 @@ $-x\mIn\mRSet$ があり
 (x*y)*\hVar{z}=x*(y*z)
 \end{equation}
 である．
-\item[実数の性質8. 単位元の存在] 特別な実数 $1\mIn\mRSet$ があり
+\item[実数の性質8. 単位元の存在] 特別な実数 $1\hIsTypeOf\mRSet$ があり
 \begin{equation}
 1*x=x*1=x
 \end{equation}
 である．この $\hConstant{1}$ を乗法の単位元または\keyword{乗法単位元}と呼ぶ．
-\item[実数の性質9. 逆元の存在] 任意の $\hVar{x}$ に対して $\hVar{x}^{-1}\mIn\mRSet$
+\item[実数の性質9. 逆元の存在] 任意の $\hVar{x}$ に対して $\hVar{x}^{-1}\hIsTypeOf\mRSet$
 があり
 \begin{equation}
 x^{-1}*x=1
@@ -5850,7 +5850,7 @@ x*y=y*x
 体の要素は，集合 $\mKSet$，二項演算子 $+$，二項演算子 $+$ の単位元 $\hConstant{0}$，
 二項演算子 $+$ の逆元生成演算子 $-$，もう一つの二項演算子 $*$，二項演
 算子 $*$ の単位元 $\hConstant{1}$，二項演算子 $*$ の逆元生成演算子 ${}^{-1}$ であ
-るから，体はそれらを列挙して $\mTupleWith{\mKSet,+,0,-,*,1,{}^{-1}}$
+るから，体はそれらを列挙して $\hSingleTuppleWith{\mKSet,+,0,-,*,1,{}^{-1}}$
 と表現する．
 
 体の性質から言えることを一つ紹介しよう．これから
@@ -5924,7 +5924,7 @@ z\uparrow2&=z*z\\
 わせと「非可換・単位元あり・逆元なし」の組み合わせがペアになったもの
 （環）があることがわかる．
 
-いま集合 $\mSet{G}$ があり，$\hVar{x},\hVar{y},\hVar{z}\mIn\mSet{G}$ であるとし，二項演算子
+いま集合 $\mSet{G}$ があり，$\hVar{x},\hVar{y},\hVar{z}\hIsTypeOf\mSet{G}$ であるとし，二項演算子
 を $\hAnyBinOp$ と書くことにして，体の性質の前半分を書き下してみよう．
 \begin{description}
 \item[性質1.] 任意の $\hVar{x}$ と任意の $\hVar{y}$ の演算の結果 $\hVar{x}\hAnyBinOp y$ は
@@ -5934,12 +5934,12 @@ $\mSet{G}$ の元である．
 (x\hAnyBinOp y)\hAnyBinOp \hVar{z}=x\hAnyBinOp(y\hAnyBinOp z)
 \end{equation}
 である．
-\item[性質3.] 特別な元 $\mZero\mIn\mSet{G}$ があり
+\item[性質3.] 特別な元 $\mZero\hIsTypeOf\mSet{G}$ があり
 \begin{equation}
 \mZero\hAnyBinOp x=x\hAnyBinOp\mZero=x
 \end{equation}
 である．
-\item[性質4.] 任意の $\hVar{x}$ に対して $\mMinus x\mIn\mSet{G}$ があり
+\item[性質4.] 任意の $\hVar{x}$ に対して $\mMinus x\hIsTypeOf\mSet{G}$ があり
 \begin{equation}
 \mMinus x\hAnyBinOp x=\mZero
 \end{equation}
@@ -5951,14 +5951,14 @@ x\hAnyBinOp y=y\hAnyBinOp x
 である．
 \end{description}
 このような性質が満たされる時，組み合わせ
-$\mTupleWith{\mSet{G},\hAnyBinOp,\mZero,\mMinus}$ を\keyword{可換群}また
+$\hSingleTuppleWith{\mSet{G},\hAnyBinOp,\mZero,\mMinus}$ を\keyword{可換群}また
 は\keyword{加群}と呼ぶ．この可換群が最初の構成要素「可換・単位元あり・
 逆元あり」の正体である．
 
-例えば $\mTupleWith{\mRSet,+,0,-}$ は可換群である．整数全体の集合を
-$\mZSet$ とすると $\mTupleWith{\mZSet,+,0,-}$ も可換群である．また，集
+例えば $\hSingleTuppleWith{\mRSet,+,0,-}$ は可換群である．整数全体の集合を
+$\hSet{Z}$ とすると $\hSingleTuppleWith{\hSet{Z},+,0,-}$ も可換群である．また，集
 合 $\mRSet$ から $\hConstant{0}$ だけを取り除いた集合を $\mRSet\setminus0$ とする
-とき $\mTupleWith{\mRSet\setminus0,*,1,{}^{-1}}$ も可換群である．
+とき $\hSingleTuppleWith{\mRSet\setminus0,*,1,{}^{-1}}$ も可換群である．
 
 可換群は代表的な代数的構造のひとつであり，他にも数学のあちこちに顔を出
 している．例えば回転角を $t$ とする二次元の回転変換を $R_t$ として，回
@@ -5996,7 +5996,7 @@ R_{-t}\mCompRot R_t=R_t\mCompRot R_{-t}=I
 \end{equation}
 として $R_t$ の逆元 ${R_t}^{-1}$ を定義することができる．
 
-このように，組み合わせ $\mTupleWith{\mRSet,\mCompRot,I,{}^{-1}}$ も可
+このように，組み合わせ $\hSingleTuppleWith{\mRSet,\mCompRot,I,{}^{-1}}$ も可
 換群である．（回転 $R_t$ 全体の集合 $\mSet{R}$ が群を形成することは，
 パラメタ $t$ が所属する実数全体の集合 $\mRSet$ が群を形成することに
 大いに頼っている．この部分を詳細に調べるとリー群という美しい代数的構
@@ -6039,7 +6039,7 @@ R_t=\cos t+I\sin t
 $\mVec{0}$ で表すことにしよう．ここでも矢印はベクトルであることを忘れ
 ないようにするための飾りである．ベクトル同士の加算を二項演算子 $+$ で
 表し，向きを反転させた逆ベクトル作る演算子を $-$ とすると，組み合わせ
-$\mTupleWith{\mSet{V},+,\mVec{0},-}$ もまた可換群である．
+$\hSingleTuppleWith{\mSet{V},+,\mVec{0},-}$ もまた可換群である．
 
 可換群の性質のうち最初の4項目だけを満たすものを群と呼ぶ．可換群は群の
 特別な場合である．現代の数学では $\hVar{x}\hAnyBinOp y\neq y\hAnyBinOp x$ のように
@@ -6047,7 +6047,7 @@ $\mTupleWith{\mSet{V},+,\mVec{0},-}$ もまた可換群である．
 般の群は可換群よりもよく取り上げられ，それ故より短い名前が付けられてい
 る．
 
-もう一度組み合わせ $\mTupleWith{\mSet{G},\hAnyBinOp,O,\mMinus}$ が群であ
+もう一度組み合わせ $\hSingleTuppleWith{\mSet{G},\hAnyBinOp,O,\mMinus}$ が群であ
 る条件を少し緩め，逆元が存在しなくても良い「緩やかな群」を考えてみる．
 この「緩やかな群」のことを\keyword{単位的半群}または\keyword{モノイド}
 と呼ぶ．これが構成要素「非可換・単位元あり・逆元なし」の正体である．
@@ -6079,13 +6079,13 @@ $\hVar{x}\hAnyBinOp y$ は $\mSet{M}$ の元である．
 (x\hAnyBinOp y)\hAnyBinOp \hVar{z}=x\hAnyBinOp(y\hAnyBinOp z)
 \end{equation}
 である．
-\item[単位的半群の性質3. 単位元の存在] 特別な元 $\mZero\mIn\mSet{M}$ があり
+\item[単位的半群の性質3. 単位元の存在] 特別な元 $\mZero\hIsTypeOf\mSet{M}$ があり
 \begin{equation}
 \mZero\hAnyBinOp x=x\hAnyBinOp\mZero=x
 \end{equation}
 である．
 \end{description}
-このとき，組み合わせ $\mTupleWith{\mSet{M},\hAnyBinOp,\mZero}$ が単位的半
+このとき，組み合わせ $\hSingleTuppleWith{\mSet{M},\hAnyBinOp,\mZero}$ が単位的半
 群である．可換群とこの単位的半群を組み合わせたのが環，可換群二つを組み
 合わせたのが体であった．
 
@@ -6106,8 +6106,8 @@ $\hVar{x}\hAnyBinOp y$ は $\mSet{M}$ の元である．
 \section{圏}
 
 これまでは集合の元同士に対する二項演算を考えてきた．集合$\mSet{M}$が単
-位的半群であるとき，集合$\mSet{M}$の元$\hVar{x},y\mIn\mSet{M}$に対して
-$\hVar{x}\hAnyBinOp y\mIn\mSet{M}$であった．見方を変えると，演算子$\hAnyBinOp$とは
+位的半群であるとき，集合$\mSet{M}$の元$\hVar{x},y\hIsTypeOf\mSet{M}$に対して
+$\hVar{x}\hAnyBinOp y\hIsTypeOf\mSet{M}$であった．見方を変えると，演算子$\hAnyBinOp$とは
 集合$\mSet{M}$の元2個から出発して，集合$\mSet{M}$の元1個へとジャンプさ
 せる\keyword{写像}であると言える．これを
 \begin{equation}
@@ -6120,7 +6120,7 @@ $\mSet{Y}$ の\keyword{直積集合}である．直積集合と元の集合は�
 写像は $\mMorph{\mSet{M}\mSetTimes\mSet{M}}{\mSet{M}}$ に限ったもの出
 はなく，集合 $\mSet{M}$ から集合 $\mSet{M}$ への写像 $\mUnOp$ ただし
 \begin{equation}
-\mUnOp\mIn\mMorph{\mSet{M}}{\mSet{M}}
+\mUnOp\hIsTypeOf\mMorph{\mSet{M}}{\mSet{M}}
 \end{equation}
 があっても良い．実はこれまでにも登場した逆元を作る演算子はまさに
 $\mMorph{\mSet{M}}{\mSet{M}}$ という写像である．
@@ -6139,22 +6139,22 @@ $\mSet{V}$）へという写像を一般化するとどうなるだろうか．�
 $\mSet{X}$ から集合 $\mSet{Y}$ への写像 $\hFunc{f}$ があり，集合 $\mSet{Y}$ か
 ら集合 $\mSet{Z}$ への写像 $\hFunc{g}$ があるとする．すなわち
 \begin{align}
-f&\mIn\mMorph{\mSet{X}}{\mSet{Y}}\\
-g&\mIn\mMorph{\mSet{Y}}{\mSet{Z}}
+f&\hIsTypeOf\mMorph{\mSet{X}}{\mSet{Y}}\\
+g&\hIsTypeOf\mMorph{\mSet{Y}}{\mSet{Z}}
 \end{align}
 があるとする．また写像同士を二項演算子 $\mCompProj$ で\keyword{合成}で
 きるものとする．例えば $\hFunc{f}$ と $\hFunc{g}$ の合成写像は $\mSet{X}$ を出発点に
 $\mSet{Y}$ を経由して $\mSet{Z}$ へと行くので
 \begin{equation}
-f\mCompProj g\mIn\mMorph{\mSet{X}}{\mSet{Z}}
+f\mCompProj g\hIsTypeOf\mMorph{\mSet{X}}{\mSet{Z}}
 \end{equation}
 と書ける．ここで合成演算子は結合性を満たすものとしておこう．
 
 さらに
 \begin{equation}
-I_\mSet{X}\mIn\mMorph{\mSet{X}}{\mSet{X}},\;
-I_\mSet{Y}\mIn\mMorph{\mSet{Y}}{\mSet{Y}},\;
-I_\mSet{Z}\mIn\mMorph{\mSet{Z}}{\mSet{Z}}
+I_\mSet{X}\hIsTypeOf\mMorph{\mSet{X}}{\mSet{X}},\;
+I_\mSet{Y}\hIsTypeOf\mMorph{\mSet{Y}}{\mSet{Y}},\;
+I_\mSet{Z}\hIsTypeOf\mMorph{\mSet{Z}}{\mSet{Z}}
 \end{equation}
 という写像もあるとしよう．ここで
 \begin{equation}
@@ -6172,14 +6172,14 @@ I_\mSet{Z}\mCompProj g=\hFunc{g}\mCompProj I_\mSet{Y}
 $\mSet{C}=\{\mSet{X},\mSet{Y},\mSet{Z}\}$ と，写像 $\hFunc{f}$ と写像
 $\hFunc{g}$ の集合 $\mSet{P}=\{f,g\}$ と，写像合成演算子 $\mCompProj$
 と，恒等写像の集合 $\mSet{I}$ の組み合わせ
-$\mTupleWith{\mSet{C},\mSet{P},\mCompProj,\mSet{I}}$ を\keyword{圏}と
+$\hSingleTuppleWith{\mSet{C},\mSet{P},\mCompProj,\mSet{I}}$ を\keyword{圏}と
 呼ぶ．写像合成演算子 $(\mCompProj)$ と恒等写像の集合 $(\mSet{I})$ は自
 明であるためしばしば省略され，組み合わせ
-$\mTupleWith{\mSet{C},\mSet{P}}$ を圏とする書き方もよくされる．
+$\hSingleTuppleWith{\mSet{C},\mSet{P}}$ を圏とする書き方もよくされる．
 
 圏を考えるとき，変換や写像は全て\keyword{射}と呼ぶ決まりである．
 
-いまある単位的半群 $\mTupleWith{\mSet{M},\hAnyBinOp,O}$ があるとする．集
+いまある単位的半群 $\hSingleTuppleWith{\mSet{M},\hAnyBinOp,O}$ があるとする．集
 合 $\mSet{C}$ を $\mSet{M}$ 及び $\mSet{M}\mSetTimes\mSet{M}$ を元とす
 る集合すなわち
 \begin{equation}
@@ -6189,7 +6189,7 @@ $\mTupleWith{\mSet{C},\mSet{P}}$ を圏とする書き方もよくされる．
 \begin{equation}
 \mSet{P}=\{\hAnyBinOp\}
 \end{equation}
-とすると，組み合わせ $\mTupleWith{\mSet{C},\mSet{P}}$ は圏になっている．
+とすると，組み合わせ $\hSingleTuppleWith{\mSet{C},\mSet{P}}$ は圏になっている．
 
 ---
 
