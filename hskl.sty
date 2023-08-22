@@ -1,0 +1,333 @@
+
+\newcommand{\TK}[1]{\mask{\textbf{TK:}~#1}{C}}
+
+\def\({\left(\!\left(}
+\def\){\right)\!\right)}
+\def\llangle{\langle\!\langle}
+\def\rrangle{\rangle\!\rangle}
+\DeclareMathOperator{\sgn}{sgn}
+
+\newcommand{\Langle}{\llangle}
+\newcommand{\Rangle}{\rrangle}
+
+\newcommand{\separator}{\begin{center}$*$~$*$~$*$\end{center}}
+\newcommand{\textURL}[1]{\texttt{#1}}
+
+%% Programming Languages
+
+\newcommand{\programminglanguage}[1]{\textsf{#1}}
+\newcommand{\commonlisp}{\programminglanguage{Common~Lisp}}
+\newcommand{\clang}{\programminglanguage{C}}
+\newcommand{\clangkr}{\programminglanguage{K\&R~C}}
+\newcommand{\csharp}{\programminglanguage{C}\texttt{\#}}
+\newcommand{\cxx}{\programminglanguage{C}\texttt{++}}
+\newcommand{\cxxninetyeight}{\cxx\programminglanguage{98}}
+\newcommand{\cxxzerothree}{\cxx\programminglanguage{03}}
+\newcommand{\cxxeleven}{\cxx\programminglanguage{11}}
+\newcommand{\cxxfourteen}{\cxx\programminglanguage{14}}
+\newcommand{\cxxseventeen}{\cxx\programminglanguage{17}}
+\newcommand{\cxxtwelve}{\cxx\programminglanguage{20}}
+\newcommand{\haskell}{\programminglanguage{Haskell}}
+\newcommand{\java}{\programminglanguage{Java}}
+\newcommand{\lisp}{\programminglanguage{LISP}}
+\newcommand{\objectivec}{\programminglanguage{Objective-C}}
+\newcommand{\python}{\programminglanguage{Python}}
+\newcommand{\ruby}{\programminglanguage{Ruby}}
+\newcommand{\scheme}{\programminglanguage{Scheme}}
+\newcommand{\swift}{\programminglanguage{Swift}}
+
+%% Leaders and Key Points
+
+\newenvironment{keypoint}{\begin{screen}}{\end{screen}}
+\newenvironment{leader}{\begingroup\gt}{\endgroup}
+\newenvironment{note}[1]{\begin{boxnote}\begin{center}\textbf{#1}\end{center}}{\end{boxnote}}
+
+%% Keywords
+
+\newcommand{\keyword}[1]{{\underline{\textbf{#1}}}}
+
+%% Inline Codes (like `...` of Markdown doc)
+
+\newcommand{\code}[1]{\texttt{#1}}
+
+%% File name
+
+\newcommand{\filename}[1]{\texttt{#1}}
+
+%% Code Blocks (like ``` ... ``` of Markdown)
+
+\newenvironment{ccode}{\begin{itembox}[r]{\clang}}{\end{itembox}}
+\newenvironment{ckrcode}{\begin{itembox}[r]{\clangkr}}{\end{itembox}}
+\newenvironment{cxxcode}{\begin{itembox}[r]{\cxx}}{\end{itembox}}
+\newenvironment{javacode}{\begin{itembox}[r]{\java}}{\end{itembox}}
+\newenvironment{haskellcode}{\begin{itembox}[r]{\haskell}}{\end{itembox}}
+\newenvironment{pythoncode}{\begin{itembox}[r]{\python}}{\end{itembox}}
+\newenvironment{rubycode}{\begin{itembox}[r]{\ruby}}{\end{itembox}}
+\newenvironment{schemecode}{\begin{itembox}[r]{\scheme}}{\end{itembox}}
+
+% Colors
+\def\hDefaultColor{black}
+
+%% Red
+\def\hClassColor{Red}
+\def\hTypeColor{Red}
+\def\hTypeConstructorColor{RedOrange}
+\def\hSetColor{Red}
+
+%% Green
+\def\hActionColor{PineGreen}
+\def\hFunctionColor{BlueGreen}
+\def\hFunctorColor{BlueGreen}
+
+%% Blue
+\def\hVarColor{NavyBlue}
+
+%% Pink
+\def\hConstantColor{WildStrawberry}
+\def\hValueConstructorColor{WildStrawberry}
+
+%% Brown
+\def\hKeywordColor{Sepia}
+
+
+% Keywords
+\newcommand{\hKeyword}[1]{\textcolor{\hKeywordColor}{\textsf{#1}}}
+\newcommand{\hVarKeyword}[1]{\textcolor{\hKeywordColor}{\texttt{#1}}}
+
+%% case, of, otherwise
+\newcommand{\hCaseKeyword}{\hKeyword{case}}
+\newcommand{\hOfKeyword}{\hKeyword{of}}
+\newcommand{\hOtherwiseKeyword}{\hKeyword{otherwise}}
+\DeclareMathOperator{\hCase}{\hCaseKeyword}
+\DeclareMathOperator{\hOf}{\hOfKeyword}
+\DeclareMathOperator{\hOtherwise}{\hOtherwiseKeyword}
+
+%% class, deriving, instance
+\newcommand{\hClassKeyword}{\hKeyword{class}}
+\newcommand{\hDerivingKeyword}{\hKeyword{deriving}}
+\newcommand{\hInstanceKeyword}{\hKeyword{instance}}
+\DeclareMathOperator{\hClass}{\hClassKeyword}
+\DeclareMathOperator{\hDeriving}{\hDerivingKeyword}
+\DeclareMathOperator{\hInstance}{\hInstanceKeyword}
+
+%% do
+\newcommand{\hDoKeyword}{\hKeyword{do}}
+\DeclareMathOperator{\hDo}{\hDoKeyword}
+
+%% let, in, where
+\newcommand{\hLetKeyword}{\hKeyword{let}}
+\newcommand{\hDoLetKeyword}{\hVarKeyword{let}}
+\newcommand{\hInKeyword}{\hKeyword{in}}
+\newcommand{\hWhereKeyword}{\hKeyword{where}}
+\DeclareMathOperator{\hLet}{\hLetKeyword}
+\DeclareMathOperator{\hDoLet}{\hDoLetKeyword}
+\DeclareMathOperator{\hIn}{\hInKeyword}
+\DeclareMathOperator{\hWhere}{\hWhereKeyword}
+
+%% if, then, else
+\newcommand{\hIfKeyword}{\hKeyword{if}}
+\newcommand{\hThenKeyword}{\hKeyword{then}}
+\newcommand{\hElseKeyword}{\hKeyword{else}}
+\DeclareMathOperator{\hIf}{\hIfKeyword}
+\DeclareMathOperator{\hThen}{\hThenKeyword}
+\DeclareMathOperator{\hElse}{\hElseKeyword}
+
+%% infix, infixl, infixr
+\newcommand{\hInfixKeyword}{\hKeyword{infix}}
+\newcommand{\hInfixlKeyword}{\hKeyword{infixl}}
+\newcommand{\hInfixrKeyword}{\hKeyword{infixr}}
+\DeclareMathOperator{\hInfix}{\hInfixKeyword}
+\DeclareMathOperator{\hInfixl}{\hInfixlKeyword}
+\DeclareMathOperator{\hInfixr}{\hInfixrKeyword}
+
+%% type, data, newtype
+\newcommand{\hTypeKeyword}{\hKeyword{type}}
+\newcommand{\hDataKeyword}{\hKeyword{data}}
+\newcommand{\hNewtypeKeyword}{\hKeyword{newtype}}
+\DeclareMathOperator{\hType}{\hTypeKeyword}
+\DeclareMathOperator{\hData}{\hDataKeyword}
+\DeclareMathOperator{\hNewtype}{\hNewtypeKeyword}
+
+%% Lambda
+\newcommand{\hLambda}{\backslash}
+\newcommand{\hLambdaArrow}{\mapsto}
+
+
+% Syntax
+\newcommand{\hCaseSyntax}[1]{\hCase#1\hOf}
+\newcommand{\hDoSyntax}[1]{\hDo\left\{#1\right\}}
+\newcommand{\hIfSyntax}[3]{\hIf#1\hThen#2\hElse#3}
+\newcommand{\hLambdaSyntax}[2]{\hLambda#1\hLambdaArrow#2}
+\newcommand{\hLetSyntax}[2]{\hLet#1\hIn#2}
+\newcommand{\hWhereSyntax}[2]{#1\hWhere#2}
+
+
+% Constant
+\newcommand{\hConstant}[1]{\textcolor{\hConstantColor}{#1}}
+\newcommand{\hSpecialConstant}[1]{\textcolor{\hConstantColor}{\mathrm{#1}}}
+
+%% Empty, Nothing, Zero
+\newcommand{\hEmptyList}{\hConstant{[\,]}}
+\newcommand{\hNothing}{\hConstant{\emptyset}}
+\newcommand{\hPureNothing}{\hConstant{\varnothing}}
+\newcommand{\hUnit}{\hConstant{(\,)}}
+
+\newcommand{\hZero}{\hConstant{\O}}
+
+%% True, False
+\newcommand{\hTrue}{\hSpecialConstant{True}}
+\newcommand{\hFalse}{\hSpecialConstant{False}}
+
+%% String
+\newcommand{\hStringLiteral}[1]{\text{#1}}
+
+
+% Variable
+\newcommand{\hVar}[1]{\textcolor{\hVarColor}{#1}}
+\newcommand{\hSpecialVar}[1]{\textcolor{\hVarColor}{\mathrm{#1}}}
+
+
+% Anonymous parameter
+\newcommand{\hAnonParam}{\diamond}
+
+
+% Function
+\newcommand{\hFunction}[1]{\textcolor{\hFunctionColor}{#1}}
+\newcommand{\hFunc}[1]{\hFunction{#1}}
+\newcommand{\hSpecialFunction}[1]{\mathop{\textcolor{\hFunctionColor}{\mathrm{#1}}}}
+
+%% id, sin, cos
+\newcommand{\hId}{\hSpecialFunction{id}}
+\newcommand{\hSin}{\hSpecialFunction{\sin}}
+\newcommand{\hCos}{\hSpecialFunction{\cos}}
+\newcommand{\hMax}{\hSpecialFunction{\max}}
+
+
+% Action
+\newcommand{\hAction}[1]{\textcolor{\hActionColor}{#1}}
+\newcommand{\hSpecialAction}[1]{\textcolor{\hActionColor}{\mathrm{#1}}}
+
+
+% Functor
+\newcommand{\hFunctor}[1]{\textcolor{\hFunctorColor}{\mathfrak{#1}}}
+
+%% Id
+\newcommand{\hCatId}{\hFunctor{id}}
+
+
+% Type name, Type constructor, Type class, Set
+\newcommand{\hTypeName}[1]{\textcolor{\hTypeColor}{\textbf{\textit{#1}}}}
+\newcommand{\hSpecialTypeName}[1]{\textcolor{\hTypeColor}{\mathbf{#1}}}
+\newcommand{\hTypeConstructor}[1]{\textcolor{\hTypeConstructorColor}{\textbf{\textit{#1}}}}
+\newcommand{\hSpecialTypeConstructor}[1]{\textcolor{\hTypeConstructorColor}{\mathbf{#1}}}
+% \newcommand{\hTypeClass}[1]{\textcolor{\hClassColor}{\textsc{#1}}}
+\newcommand{\hSpecialTypeClass}[1]{\textcolor{\hClassColor}{\textsc{#1}}}
+\newcommand{\hSet}[1]{\textcolor{\hSetColor}{\mathbb{#1}}}
+
+%% Bool, Int
+\newcommand{\hBool}{\hSpecialTypeName{Bool}}
+\newcommand{\hInt}{\hSpecialTypeName{Int}}
+\newcommand{\hString}{\hSpecialTypeName{String}}
+
+%% List, Maybe
+\newcommand{\hList}{\hSpecialTypeConstructor{List}}
+\newcommand{\hMaybe}{\hSpecialTypeConstructor{Maybe}}
+
+%% Eq, Ord, Integral
+\newcommand{\hEq}{\hSpecialTypeClass{Eq}}
+\newcommand{\hOrd}{\hSpecialTypeClass{Ord}}
+\newcommand{\hIntegral}{\hSpecialTypeClass{Integral}}
+
+
+% Type construct syntax
+\newcommand{\hTypeConstruct}[2]{{}^{#1}\langle#2\rangle}
+
+%% List, Maybe
+\newcommand{\hListConstruct}[1]{[#1]}
+\newcommand{\hVarListConstruct}[1]{\hTypeConstruct{\hList}{#1}}
+\newcommand{\hMaybeConstruct}[1]{\hTypeConstruct{\hMaybe}{#1}}
+
+
+% Value constructor
+\newcommand{\hValueConstructor}[1]{\textcolor{\hValueConstructorColor}{#1}}
+\newcommand{\hSpecialValueConstructor}[1]{\textcolor{\hValueConstructorColor}{\mathrm{#1}}}
+
+%% Left, Right
+\newcommand{\hJustWith}[1]{{}_{\hSpecialValueConstructor{Just}}[\![#1]\!]}
+\newcommand{\hLeftWith}[1]{{}_{\hSpecialValueConstructor{Left}}[\![#1]\!]}
+\newcommand{\hRightWith}[1]{{}_{\hSpecialValueConstructor{Right}}[\![#1]\!]}
+
+
+%% List, Pure, Constant
+\newcommand{\hListWith}[1]{[#1]}
+\newcommand{\hPureWith}[1]{\llbracket#1\rrbracket}
+\newcommand{\hReturnWith}[1]{\llparenthesis#1\rrparenthesis}
+
+%% Tuple
+\newcommand{\hSingleTuppleWith}[1]{\left(#1\right)}
+\newcommand{\hPairWith}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
+\newcommand{\hTripleWith}[3]{\begin{pmatrix}#1\\#2\\#3\end{pmatrix}}
+
+% Decoration
+\newcommand{\hListDecor}[1]{\Tilde{#1}}
+\newcommand{\hMaybeDecor}[1]{\Dot{#1}}
+\newcommand{\hEitherDecor}[1]{\Ddot{#1}}
+\newcommand{\hAnyContextDecor}[1]{\Hat{#1}}
+
+
+% Operator
+%% Any
+\DeclareMathOperator{\hAnyOp}{\circledR}
+
+%% Apply
+\DeclareMathOperator{\hApply}{\S}
+\DeclareMathOperator{\hFunctorApply}{\odot}
+
+%% Map, Bind
+\DeclareMathOperator{\hMap}{\times}
+% \DeclareMathOperator{\hMapM}{\boxtimes}
+\DeclareMathOperator{\hMaybeMap}{\boxtimes}
+\DeclareMathOperator{\hFunctorMap}{\otimes}
+\DeclareMathOperator{\hApplicativeMap}{\circledast}
+\DeclareMathOperator{\hMonadicBind}{\star}
+\DeclareMathOperator{\hRightMonadicBind}{\xrightarrow{\star}}
+\DeclareMathOperator{\hRightMonadicBindIgnore}{\twoheadrightarrow}
+
+%% Compose
+\DeclareMathOperator{\hCompose}{\centerdot}
+\DeclareMathOperator{\hMonadicCompose}{\circ}
+\DeclareMathOperator{\hCategoryCompose}{\bullet}
+
+%% Set
+\DeclareMathOperator{\hIsTypeOf}{:\!:}
+\DeclareMathOperator{\hIsElementOf}{\in}
+
+%% Equal, Arraw
+\DeclareMathOperator{\hIfEq}{\equiv}
+\DeclareMathOperator{\hLetEq}{\triangleq}
+\DeclareMathOperator{\hIfSo}{\dashrightarrow}
+\DeclareMathOperator{\hFunctionArrow}{\rightarrow}
+\DeclareMathOperator{\hDoLeftArrow}{\leftharpoonup}
+
+%% List op
+\DeclareMathOperator{\hMemberAt}{!!}
+\DeclareMathOperator{\hAppend}{\oplus}
+\DeclareMathOperator{\hCons}{:}
+
+%% Other binary
+\DeclareMathOperator{\hValueConstructorOr}{\curlyvee}
+
+%% Fold
+\DeclareMathOperator*{\hFold}{\bigcup}
+\DeclareMathOperator*{\hFoldRight}{\bigsqcup}
+
+
+% Type conversion
+\newcommand{\hFromClass}[1]{\vartriangleleft_{#1}}
+
+%% From Integral
+\DeclareMathOperator{\hFromIntegral}{\hFromClass{\hIntegral}}
+
+
+% Guard
+\newcommand{\hGuard}[1]{\mathop{\mid_{#1}}}

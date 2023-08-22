@@ -1,0 +1,424 @@
+%% Math (in Math-mode)
+
+\def\[{[\![}
+\def\]{]\!]}
+
+\def\defaultColor{black}
+
+% https://mathlandscape.com/latex-color/
+% \def\constantColor{Violet}
+\def\constantColor{WildStrawberry}
+\def\keywordColor{Sepia}
+\def\varColor{NavyBlue}
+\def\funcColor{BlueGreen}
+\def\actionColor{PineGreen}
+\def\typeColor{RedOrange}
+\def\typeConstColor{Maroon}
+
+\def\specialColor{BlueGreen}
+\def\varSpecialColor{BrickRed}
+
+% Brace
+\newcommand{\mBrace}{\Vert}
+
+% Keywords
+\newcommand{\mKeyword}[1]{\textcolor{\keywordColor}{\mathsf{#1}}}
+\newcommand{\mKeywordUnderline}[1]{\textcolor{\keywordColor}{\text{\underline{\textsf{#1}}}}}
+\newcommand{\mVarKeyword}[1]{\textcolor{\keywordColor}{\texttt{#1}}}
+
+\newcommand{\mDataTypeKeyword}{\mKeywordUnderline{data}\mKeyword{type}}
+\newcommand{\mDerivingKeyword}{\mKeyword{deriving}}
+\newcommand{\mDoKeyword}{\mKeyword{do}}
+\newcommand{\mDoLetKeyword}{\mVarKeyword{let}}
+\newcommand{\mIfKeyword}{\mKeyword{if}}
+\newcommand{\mCaseKeyword}{\mKeyword{case}}
+\newcommand{\mElseKeyword}{\mKeyword{else}}
+\newcommand{\mInKeyword}{\mKeyword{in}}
+\newcommand{\mInfixKeyword}{\mKeyword{infix}}
+\newcommand{\mInfixlKeyword}{\mKeyword{infixl}}
+\newcommand{\mInfixrKeyword}{\mKeyword{infixr}}
+\newcommand{\mInstanceDeclKeyword}{\mKeyword{instance}}
+\newcommand{\mLetKeyword}{\mKeyword{let}}
+\newcommand{\mNewTypeDeclKeyword}{\mKeyword{newtype}}
+\newcommand{\mOfKeyword}{\mKeyword{of}}
+\newcommand{\mOtherwiseKeyword}{\mKeyword{otherwise}}
+\newcommand{\mProcKeyword}{\mKeyword{proc}}
+\newcommand{\mThenKeyword}{\mKeyword{then}}
+\newcommand{\mTypeClassDeclKeyword}{\mKeyword{type}\mKeywordUnderline{class}}
+\newcommand{\mTypeSynonymDeclKeyword}{\mKeywordUnderline{type}\mKeyword{synonym}}
+\newcommand{\mWhereKeyword}{\mKeyword{where}}
+
+\newcommand{\mPolymorphic}[1]{{#1}^\dagger}
+
+\newcommand{\mTypeConstructor}[1]{\textcolor{\typeConstColor}{\textbf{\textit{#1}}}}
+\newcommand{\mSpecialTypeConstructor}[1]{\textcolor{\typeConstColor}{\textbf{#1}}}
+
+\DeclareMathOperator{\mCaseKW}{\mCaseKeyword}
+\DeclareMathOperator{\mDataType}{\mDataTypeKeyword}
+\DeclareMathOperator{\mDataTypePolymorphic}{\mDataTypeKeyword^\dagger}
+\DeclareMathOperator{\mDeriving}{\mDerivingKeyword}
+\DeclareMathOperator{\mDoKW}{\mDoKeyword}
+\DeclareMathOperator{\mElse}{\mElseKeyword}
+\DeclareMathOperator{\mIf}{\mIfKeyword}
+\DeclareMathOperator{\mInfix}{\mInfixKeyword}
+\DeclareMathOperator{\mInfixl}{\mInfixlKeyword}
+\DeclareMathOperator{\mInfixr}{\mInfixrKeyword}
+\DeclareMathOperator{\mInstanceDecl}{\mInstanceDeclKeyword}
+\DeclareMathOperator{\mInstanceDeclPolymorphic}{\mPolymorphic{\mInstanceDeclKeyword}}
+\DeclareMathOperator{\mLet}{\mLetKeyword}
+\DeclareMathOperator{\mLetIn}{\mInKeyword}
+\DeclareMathOperator{\mNewTypeDecl}{\mNewTypeDeclKeyword}
+\DeclareMathOperator{\mNewTypeDeclPolymorphic}{\mPolymorphic{\mNewTypeDeclKeyword}}
+\DeclareMathOperator{\mOfKW}{\mOfKeyword}
+\DeclareMathOperator{\mOtherwise}{\mOtherwiseKeyword}
+\DeclareMathOperator{\mProcKW}{\mProcKeyword}
+\DeclareMathOperator{\mSuperClass}{\;\Rightarrow\;}
+\DeclareMathOperator{\mSuperSet}{\supset}
+\DeclareMathOperator{\mThen}{\mThenKeyword}
+\DeclareMathOperator{\mTypeClassDecl}{\mTypeClassDeclKeyword}
+\DeclareMathOperator{\mTypeClassDeclPolymorphic}{\mPolymorphic{\mTypeClassDeclKeyword}}
+\DeclareMathOperator{\mTypeSynonymDecl}{\mTypeSynonymDeclKeyword}
+\DeclareMathOperator{\mWhere}{\mWhereKeyword}
+
+% Constants
+\newcommand{\mConstant}[1]{\textcolor{\constantColor}{#1}}
+\newcommand{\mSpecialConstant}[1]{\textcolor{\constantColor}{\textrm{#1}}}
+
+\newcommand{\mZeroNumber}{{\mConstant{0}}}
+\newcommand{\mOneNumber}{{\mConstant{1}}}
+\newcommand{\mTwoNumber}{\mConstant{2}}
+\newcommand{\mThreeNumber}{\mConstant{3}}
+\newcommand{\mFourNumber}{\mConstant{4}}
+\newcommand{\mFiveNumber}{\mConstant{5}}
+\newcommand{\mSixNumber}{\mConstant{6}}
+\newcommand{\mSevenNumber}{\mConstant{7}}
+\newcommand{\mEightNumber}{\mConstant{8}}
+\newcommand{\mNineNumber}{\mConstant{9}}
+
+\newcommand{\mEmptyList}{{\textcolor{\constantColor}{[\,]}}}
+\newcommand{\mFalse}{\mSpecialConstant{False}}
+\newcommand{\mNothing}{\textcolor{\constantColor}{\emptyset}}
+\newcommand{\mNumOne}{\mSpecialConstant{One}}
+\newcommand{\mNumTwo}{\mSpecialConstant{Two}}
+\newcommand{\mNumThree}{\mSpecialConstant{Three}}
+\newcommand{\mNumMany}{\mSpecialConstant{Many}}
+\newcommand{\mPureNothing}{\textcolor{\constantColor}{\varnothing}}
+\newcommand{\mTrue}{\mSpecialConstant{True}}
+\newcommand{\mZero}{\mSpecialConstant{\O}}
+\newcommand{\mZeroLeft}{\mZero_\mLeft}
+\newcommand{\mZeroRight}{\mZero_\mRight}
+
+% Strings
+\newcommand{\mString}[1]{\text{#1}}
+
+% Variables and special variables
+\newcommand{\mVar}[1]{\textcolor{\varColor}{#1}}
+\newcommand{\mSpecialVar}[1]{\textcolor{\varColor}{\textrm{#1}}}
+
+\newcommand{\mAnonParam}{\diamond}
+\newcommand{\mFirstVar}{\mSpecialVar{first}}
+\newcommand{\mLovelyVar}{\mSpecialVar{lovely}}
+\newcommand{\mRestVar}{\mSpecialVar{rest}}
+
+\newcommand{\mAVar}{{\mVar{a}}}
+\newcommand{\mMVar}{\mVar{m}}
+\newcommand{\mNVar}{\mVar{n}}
+\newcommand{\mUVar}{\mVar{u}}
+\newcommand{\mVVar}{\mVar{v}}
+\newcommand{\mWVar}{\mVar{w}}
+\newcommand{\mXVar}{\mVar{x}}
+\newcommand{\mYVar}{\mVar{y}}
+\newcommand{\mZVar}{\mVar{z}}
+\newcommand{\mXXVar}{\mVar{x'}}
+
+% Cast
+\newcommand{\mUpCast}{\bigtriangleup}
+
+\DeclareMathOperator{\mFromIntegral}{\mUpCast_\text{Integral}}
+
+% Functions
+\newcommand{\mFunc}[1]{\textcolor{\funcColor}{#1}}
+\newcommand{\mSpecialFunc}[1]{\textcolor{\funcColor}{\textrm{#1}}}
+\newcommand{\mSpecialSpecialFunc}[1]{\textcolor{\funcColor}{\textrm{#1}^\prime}}
+\newcommand{\mSpecialFuncSmall}[1]{\textcolor{\funcColor}{\textrm{#1}}}
+\newcommand{\mVarSpecialFunc}[1]{\textcolor{\funcColor}{\mathfrak{#1}}}
+
+\newcommand{\mFFunc}{{\mFunc{f}}}
+\newcommand{\mGFunc}{\mFunc{g}}
+\newcommand{\mHFunc}{\mFunc{h}}
+\newcommand{\mIFunc}{\mFunc{i}}
+\newcommand{\mJFunc}{\mFunc{j}}
+\newcommand{\mPFunc}{\mFunc{p}}
+\newcommand{\mFFFunc}{\mFunc{f'}}
+\newcommand{\mFFFFunc}{\mFunc{f''}}
+
+\DeclareMathOperator{\mConjugate}{\mSpecialFunc{conjugate}}
+\DeclareMathOperator{\mConst}{\mSpecialFunc{const}}
+\DeclareMathOperator{\mCos}{\mSpecialFunc{cos}}
+\DeclareMathOperator{\mCurry}{\mSpecialFunc{curry}}
+\DeclareMathOperator{\mDuplicate}{\mSpecialFunc{duplicate}}
+\DeclareMathOperator{\mGetList}{\mSpecialFunc{getList}}
+\DeclareMathOperator{\mFact}{\mSpecialFunc{fact}}
+\DeclareMathOperator{\mFFact}{\mSpecialSpecialFunc{fact}}
+\DeclareMathOperator{\mFirst}{\mSpecialFunc{first}}
+\DeclareMathOperator{\mFst}{\mSpecialFunc{fst}}
+\DeclareMathOperator{\mFuncall}{\mSpecialFunc{funcall}}
+\DeclareMathOperator{\mHead}{\mSpecialFunc{head}}
+\DeclareMathOperator{\mId}{\mSpecialFunc{id}}
+\DeclareMathOperator{\mIdCat}{\mVarSpecialFunc{id}}
+\DeclareMathOperator{\mIfFunc}{\mSpecialFunc{if}}
+\DeclareMathOperator{\mLength}{\mSpecialFunc{length}}
+\DeclareMathOperator{\mLiftATwo}{\mSpecialFunc{liftA}_2}
+\DeclareMathOperator{\mMainFunc}{\mSpecialFunc{main}}
+\DeclareMathOperator{\mMax}{\mSpecialFunc{max}}
+\DeclareMathOperator{\mMean}{\mSpecialFunc{mean}}
+\DeclareMathOperator{\mNull}{\mSpecialFunc{null}}
+\DeclareMathOperator{\mPred}{\mSpecialFunc{pred}}
+\DeclareMathOperator{\mRealPart}{\Re}
+\DeclareMathOperator{\mRepeat}{\mSpecialFunc{repeat}}
+\DeclareMathOperator{\mRun}{\mSpecialFunc{run}}
+\DeclareMathOperator{\mSecond}{\mSpecialFunc{second}}
+\DeclareMathOperator{\mSin}{\mSpecialFunc{sin}}
+\DeclareMathOperator{\mSnd}{\mSpecialFunc{snd}}
+\DeclareMathOperator{\mSeparate}{\mSpecialFunc{separate}}
+\DeclareMathOperator{\mSplit}{\mSpecialFunc{split}}
+\DeclareMathOperator{\mSq}{\mSpecialFunc{sq}}
+\DeclareMathOperator{\mSqrt}{\mSpecialFunc{sqrt}}
+\DeclareMathOperator{\mSqrts}{\mSpecialFunc{sqrts}}
+\DeclareMathOperator{\mSort}{\mSpecialFunc{srt}}
+\DeclareMathOperator{\mSucc}{\mSpecialFunc{succ}}
+\DeclareMathOperator{\mSum}{\mSpecialFunc{sum}}
+\DeclareMathOperator{\mSwap}{\mSpecialFunc{swap}}
+\DeclareMathOperator{\mTail}{\mSpecialFunc{tail}}
+\DeclareMathOperator{\mTake}{\mSpecialFunc{take}}
+\DeclareMathOperator{\mTriplicate}{\mSpecialFunc{triplicate}}
+\DeclareMathOperator{\mUncurry}{\mSpecialFunc{uncurry}}
+\DeclareMathOperator{\mUnsplit}{\mSpecialFunc{unsplit}}
+\DeclareMathOperator{\mZipFunc}{\mSpecialFunc{zip}}
+\DeclareMathOperator{\mZipWith}{\mSpecialFunc{zipWith}}
+
+% Actions
+\newcommand{\mAction}[1]{\textcolor{\actionColor}{#1}}
+\newcommand{\mActionLong}[1]{\textcolor{\actionColor}{\textsl{#1}}}
+
+\DeclareMathOperator{\mReadLn}{\mActionLong{readLn}}
+\DeclareMathOperator{\mMain}{\mActionLong{main}}
+\DeclareMathOperator{\mPrint}{\mActionLong{print}}
+\DeclareMathOperator{\mPutStr}{\mActionLong{putStr}}
+\DeclareMathOperator{\mRand}{\mActionLong{rand}}
+
+% Operators
+\newcommand{\mArrowArrow}[1]{\xrightarrow{#1}}
+\newcommand{\mCatArrow}[1]{\xrightarrow{#1}}
+
+\DeclareMathOperator{\mAppend}{\oplus}
+\DeclareMathOperator{\mApply}{\mathop{\S}} % {\$}
+\DeclareMathOperator{\mApplyRight}{\rightsquigarrow}
+\DeclareMathOperator{\mAppMap}{\times}
+\DeclareMathOperator{\mAppMapFunc}{\bowtie}
+\DeclareMathOperator{\mAppMapList}{\otimes}
+\DeclareMathOperator{\mAppMapMaybe}{\boxtimes}
+\DeclareMathOperator{\mArrowArrowA}{\mArrowArrow{\mTypeConstructor{a}}}
+\DeclareMathOperator{\mBind}{\heartsuit}
+\DeclareMathOperator{\mBindComp}{\maltese}
+\DeclareMathOperator{\mBindFunc}{\diamondsuit}
+\DeclareMathOperator{\mBindList}{\clubsuit}
+\DeclareMathOperator{\mBindMaybe}{\spadesuit}
+\DeclareMathOperator{\mBindRight}{\ooalign{$\longrightarrow$\crcr\hss$\mBind$\hss}}
+\DeclareMathOperator{\mBindRightIgnore}{\twoheadrightarrow}
+\DeclareMathOperator{\mBinOp}{\bigstar}
+\DeclareMathOperator{\mCatArrowC}{\mCatArrow{\mTypeConstructor{c}}}
+\DeclareMathOperator{\mCompFunc}{\centerdot}
+\DeclareMathOperator{\mCompCat}{\bullet}
+\DeclareMathOperator{\mCompProj}{\circledcirc}
+\DeclareMathOperator{\mCompRot}{\cdot} % !!! conflict
+\DeclareMathOperator{\mComplexPlus}{\dotplus}
+\DeclareMathOperator{\mComplexTimes}{\Dot\ast}
+\DeclareMathOperator{\mDefEq}{\stackrel{\mathrm{def}}{=}}
+\DeclareMathOperator{\mDoEq}{\leftarrow}
+\DeclareMathOperator{\mDoLetEq}{\mVarKeyword{=}}
+\DeclareMathOperator{\mDoNext}{;\;}
+\DeclareMathOperator*{\mFold}{\bigcup}
+\DeclareMathOperator*{\mFoldStrict}{\bigcup{}_\text{Strict}}
+\DeclareMathOperator*{\mFoldRight}{\bigsqcup}
+\DeclareMathOperator{\mFrom}{\in}
+\DeclareMathOperator{\mFuncArrow}{\rightarrow}
+\DeclareMathOperator{\mIfSo}{\dashrightarrow}
+\DeclareMathOperator{\mIn}{{:\!:}}
+\DeclareMathOperator{\mJoin}{\natural}
+\DeclareMathOperator{\mJoinList}{\flat} % also called concat
+\DeclareMathOperator{\mJoinMaybe}{\sharp}
+\DeclareMathOperator{\mLambda}{\backslash}
+\DeclareMathOperator{\mLambdaArrow}{\mapsto}
+\DeclareMathOperator{\mLetEq}{\triangleq}
+\DeclareMathOperator{\mListAt}{!!}
+\DeclareMathOperator{\mLogicalAnd}{\wedge}
+\DeclareMathOperator{\mLogicalNot}{\neg}
+\DeclareMathOperator{\mLogicalOr}{\vee}
+\DeclareMathOperator{\mMap}{\cdot}
+\DeclareMathOperator{\mMapFunc}{\circ}
+\DeclareMathOperator{\mMapList}{\odot}
+\DeclareMathOperator{\mMapMaybe}{\boxdot}
+\DeclareMathOperator{\mMinus}{\ominus}
+\DeclareMathOperator{\mMorphTo}{\rightarrowtail} % used?
+\DeclareMathOperator{\mPlus}{\bf{+}} % Ok?
+\DeclareMathOperator{\mSetTimes}{\bf{\times}} % better one?
+\DeclareMathOperator{\mSomeOp}{\square}
+\DeclareMathOperator{\mUnOp}{\star}
+\DeclareMathOperator{\mValueOr}{\curlyvee}
+\DeclareMathOperator{\mWhereEq}{\mLetEq}
+\DeclareMathOperator{\mZip}{\circledast}
+
+% Subscripts
+\newcommand{\mSpecialSub}[1]{\text{#1}}
+
+\newcommand{\mLeft}{\mSpecialSub{left}}
+\newcommand{\mRight}{\mSpecialSub{right}}
+
+% Sets
+\newcommand{\mSet}[1]{\mathbf{#1}}
+\newcommand{\mSpecialSet}[1]{\textcolor{\typeColor}{\mathbb{#1}}}
+
+\newcommand{\mASet}{\mSpecialSet{A}}
+\newcommand{\mBSet}{\mSpecialSet{B}}
+\newcommand{\mFSet}{\mSpecialSet{F}}
+\newcommand{\mKSet}{\mSpecialSet{K}}
+\newcommand{\mRSet}{\mSpecialSet{R}}
+\newcommand{\mZSet}{\mSpecialSet{Z}}
+
+% Type names
+\newcommand{\mType}[1]{\textcolor{\typeColor}{\mathbf{#1}}}
+\newcommand{\mPolymorphicTypeParameter}[1]{\textbf{\textit{#1}}}
+
+\newcommand{\mA}{\mType{a}}
+\newcommand{\mB}{\mType{b}}
+\newcommand{\mC}{\mType{c}}
+\newcommand{\mD}{\mType{d}}
+\newcommand{\mR}{\mType{r}}
+\newcommand{\mW}{\mType{w}}
+\newcommand{\mX}{\mType{x}}
+\newcommand{\mY}{\mType{y}}
+\newcommand{\mZ}{\mType{z}}
+
+\newcommand{\mBoolType}{\mType{Bool}}
+\newcommand{\mCharType}{\mType{Char}}
+\newcommand{\mFloatType}{\mType{Float}}
+\newcommand{\mDoubleType}{\mType{Double}}
+\newcommand{\mIntType}{\mType{Int}}
+\newcommand{\mIntegerType}{\mType{Integer}}
+\newcommand{\mStringType}{\mType{String}}
+\newcommand{\mUnitType}{\mType{()}}
+
+% Special polymorphic types
+\newcommand{\mCatType}[2]{\llangle\mType{#1}\mCatArrowC\mType{#2}\rrangle}
+\newcommand{\mPureType}[1]{\[\mType{#1}\]}
+
+% Polymorphic types
+\newcommand{\mTypeAssemble}[2]{{}^\mathrm{#1}\[\mType{#2}\]}
+\newcommand{\mTypeAssembleII}[3]{{}^\mathrm{#1}\[\mType{#2}\,\mType{#3}\]}
+\newcommand{\mPolymorphicTypeAssemble}[2]{{}^{#1}\[\mType{#2}\]}
+
+\newcommand{\mCompFunclexType}[1]{\mTypeAssemble{C}{#1}} % to be removed
+\newcommand{\mEitherType}[2]{\mTypeAssembleII{Either}{#1}{#2}}
+\newcommand{\mIOType}[1]{\mTypeAssemble{IO}{#1}}
+\newcommand{\mListType}[1]{\mTypeAssemble{List}{#1}}
+\newcommand{\mMaybeType}[1]{\mTypeAssemble{Maybe}{#1}}
+\newcommand{\mZipListType}[1]{\mTypeAssemble{ZL}{#1}}
+
+% Polymorphic types with specific data types
+\newcommand{\mCompFunclexDoubleType}{\mCompFunclexType{\mDoubleType}} % to be removed
+\newcommand{\mIODoubleType}{\mIOType{\mDoubleType}}
+\newcommand{\mIOIntType}{\mIOType{\mIntType}}
+\newcommand{\mIOStringType}{\mIOType{\mStringType}}
+\newcommand{\mIOUnitType}{\mIOType{\mUnitType}}
+
+% Type constructors
+\DeclareMathOperator{\mEitherTypeConstructor}{\mSpecialTypeConstructor{Either}}
+\DeclareMathOperator{\mFuncTypeConstructor}{((\rightarrow)\mType{r})}
+\DeclareMathOperator{\mListTypeConstructor}{\mSpecialTypeConstructor{List}}
+\DeclareMathOperator{\mMaybeTypeConstructor}{\mSpecialTypeConstructor{Maybe}}
+\DeclareMathOperator{\mZipListTypeConstructor}{\mSpecialTypeConstructor{ZipList}}
+
+\newcommand{\mFuncTypeAssemble}[1]{{}^{\mFuncTypeConstructor}\mType{#1}}
+\newcommand{\mFuncType}[1]{\mTypeAssemble{\mFuncTypeConstructor}{#1}}
+
+% Value constructors
+\newcommand{\mValueConstructor}[1]{\mathrm{#1}}
+
+\newcommand{\mValueWith}[2]{{}_\mValueConstructor{#1}\[\mVar{#2}\]}
+\newcommand{\mValueRecordBeginWith}[1]{{}^\mValueConstructor{#1}\,\{}
+\newcommand{\mValueRecordEnd}{\}}
+\newcommand{\mValueRecordWith}[2]{\mValueRecordBeginWith{#1}{#2}\mValueRecordEnd}
+
+\newcommand{\mLeftWith}[1]{\mValueWith{Left}{#1}}
+\newcommand{\mRightWith}[1]{\mValueWith{Right}{#1}}
+\newcommand{\mJustWith}[1]{\mValueWith{Just}{#1}}
+\newcommand{\mZipListWith}[1]{\mValueWith{ZipList}{#1}}
+\newcommand{\mZipListRecordWith}[1]{\mValueRecordWith{ZipList}{#1}}
+
+% Famous value constructors
+\newcommand{\mArrowWith}[1]{\Langle\mVar{#1}\Rangle}
+\newcommand{\mConstWith}[1]{\langle\mVar{#1}\rangle}
+\newcommand{\mPureWith}[1]{\[\mVar{#1}\]}
+
+% Built-in value constructors
+\newcommand{\mTupleWith}[1]{\left(#1\right)}
+\newcommand{\mPairWith}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
+\newcommand{\mTripleWith}[3]{\begin{pmatrix}#1\\#2\\#3\end{pmatrix}}
+
+% Functors
+\newcommand{\mSpecialFunctor}[1]{\mathcal{#1}} % Internal use
+
+\DeclareMathOperator{\mIdFunctor}{\mSpecialFunctor{ID}}
+
+% Type classes
+\newcommand{\mTypeClass}[1]{\textcolor{\typeColor}{\textbf{\textit{#1}}}}
+
+\newcommand{\mApplicativeTypeClass}{\mTypeClass{Applicative}}
+\newcommand{\mArrowTypeClass}{\mTypeClass{Arrow}}
+\newcommand{\mCatTypeClass}{\mTypeClass{Category}}
+\newcommand{\mEnumTypeClass}{\mTypeClass{Enum}}
+\newcommand{\mEqTypeClass}{\mTypeClass{Eq}}
+\newcommand{\mFunctorTypeClass}{\mTypeClass{Functor}}
+\newcommand{\mIntegralTypeClass}{\mTypeClass{Integral}}
+\newcommand{\mMonadTypeClass}{\mTypeClass{Monad}}
+\newcommand{\mMonadPlusTypeClass}{\mTypeClass{MonadPlus}}
+\newcommand{\mMonoidTypeClass}{\mTypeClass{Monoid}}
+\newcommand{\mNumTypeClass}{\mTypeClass{Num}}
+\newcommand{\mOrdTypeClass}{\mTypeClass{Ord}}
+\newcommand{\mRealTypeClass}{\mTypeClass{Real}}
+\newcommand{\mRealFloatTypeClass}{\mTypeClass{RealFloat}}
+
+% Decolations
+\newcommand{\mEither}[1]{\mVar{#1}_!}
+\newcommand{\mList}[1]{\mVar{#1}_\mathrm{s}}
+\newcommand{\mMaybe}[1]{\mVar{#1}_?}
+
+\newcommand{\mVarContainer}[1]{\mVar{#1}_*}
+\newcommand{\mFuncContainer}[1]{\mFunc{#1}_*}
+
+\newcommand{\mArrow}[1]{\Vec{#1}}
+\newcommand{\mVec}[1]{\Vec{#1}}
+
+% Guards
+\newcommand{\mGuard}[1]{\mathop{\mid_{#1}}}
+
+% List comprehension
+\DeclareMathOperator{\mListComp}{\shortmid}
+
+% Syntaxes
+\newcommand{\mCaseOf}[1]{\mCaseKW#1\mOfKW}
+\newcommand{\mDo}[1]{\mDoKW\left\{#1\right\}}
+\newcommand{\mDoLet}[2]{\mathop{\mDoLetKeyword}#1\mDoLetEq#2}
+
+\newcommand{\mIfThenElseEXP}[3]{\mIf{#1}\mThen{#2}\mElse{#3}} %%% TO BE REMOVED
+\newcommand{\mLambdaEXP}[2]{\mLambda{#1}\mLambdaArrow{#2}} %%% TO BE REMOVED
+\newcommand{\mLetInEXP}[3]{\mLet#1\mLetEq#2\mLetIn{#3}} %%% TO BE REMOVED
+\newcommand{\mMorph}[2]{#1\mMorphTo#2} %%% TO BE REMOVED
+\newcommand{\mProjEXP}[2]{#1\mFuncArrow#2} %%% TO BE REMOVED
+\newcommand{\mWhereIsEXP}[2]{\mathbin{\mWhereKeyword}#1\mLetEq#2} %%% TO BE REMOVED
+\newcommand{\mWhereIsIIEXP}[4]{\mathbin{\mWhereKeyword}#1\mLetEq#2,#3\mLetEq#4} %%% TO BE REMOVED
+
+\newcommand{\mLLL}{\triangleleft\!\!\!\triangleleft\!\!\!\triangleleft}
+
+\newcommand{\mAs}[2]{\overbrace{(#1)}^{#2}}
