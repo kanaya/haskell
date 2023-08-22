@@ -566,11 +566,6 @@ do記法中のキーワード&タイプライタ&$\hDoLet$\\
 タプル&丸括弧で包む&$\hPairWith{\hVar{x}}{\hVar{y}}$\\
 % アンボックス化タプル&丸括弧とシャープ記号で包む&$\mTupleUnboxedWith{x,\mYVar,\mZVar}$\\
 \hline
-ユニット&&$\hUnit$\\
-空リスト&&$\hEmptyList$\\
-ナッシング&&$\hNothing$\\
-空&&$\hPureNothing$\\
-\hline
 \end{tabular}
 \end{center}
 \end{table*}
@@ -586,8 +581,8 @@ $\hLambda, \hLambdaArrow$&ラムダ式&\verb|\|,\code{->}\\
 $\hAnonParam$&無名パラメタ&\\
 \hline
 $\hIsTypeOf$&型集合の元&\code{::}\\
-$\in$&値集合の元&\code{<-}\\
-$\rightarrow$&写像&\code{->}\\
+$\hIsElementOf$&値集合の元&\code{<-}\\
+$\hFunctionArrow$&写像&\code{->}\\
 \hline
 $\hAnyOp$&任意の二項演算子&\\
 $+$&一般加法演算子&\\
@@ -595,7 +590,7 @@ $+$&一般加法演算子&\\
 $\mComplexPlus$&複素数値コンストラクタ&\code{:+}\\  %%% !!!
 \hline
 $\mFromIntegral$&型変換演算子&\code{fromIntegral}\\ %%% !!!
-$\star$&種&\code{*}\\ %%% !!!
+% $\star$&種&\code{*}\\ %%% !!!
 \hline
 % $\hCompose$&関数合成&\code{.}\\
 % $\hMonadicCompose$&モナド関数の合成&\code{<=<}\\
@@ -606,7 +601,7 @@ $\star$&種&\code{*}\\ %%% !!!
 $\hFold$&左畳み込み&\code{foldl}\\
 $\hFoldRight$&右畳み込み&\code{foldr}\\
 \hline
-$:$&cons演算子&\code{:}\\
+$\hCons$&cons演算子&\code{:}\\
 $\hAppend$&結合演算子&\code{++}\\
 % $\mZip$&ジップ演算子&\code{zip}\\
 \hline
@@ -615,6 +610,12 @@ $\hAppend$&結合演算子&\code{++}\\
 % $\mJoin$&ジョイン演算子&\code{join}\\
 % % $\mathMaybeAppend$&Maybe結合\\
 % \hline
+$\hUnit$&ユニット&\code{()}\\
+$\hEmptyList$&空リスト&\code{[]}\\
+$\hNothing$&ナッシング&\code{Nothing}\\
+$\hPureNothing$&空&\\
+\hline
+
 \end{tabular}
 \end{center}
 \end{table*}
@@ -654,8 +655,8 @@ $\hApply$&関数の適用&\code{\$}\\
 $\hCompose$&関数の合成&\code{.}\\
 $\hMonadicCompose$&モナドの合成&\code{<=<}\\
 \hline
-$\mBindRight$&右バインド演算子&\code{>>=}\\
-$\mBindRightIgnore$&右バインド演算子（戻値無視）&\code{>>}\\
+$\hRightMonadicBind$&右バインド演算子&\code{>>=}\\
+$\hRightMonadicBindIgnore$&右バインド演算子（戻値無視）&\code{>>}\\
 \hline
 $\mLLL$&カテゴリ関数合成&\code{<<<}\\
 \hline

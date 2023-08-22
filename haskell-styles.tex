@@ -207,28 +207,44 @@
 
 
 % Operator
-%% Binary
-\DeclareMathOperator{\hAnyOp}{\bigstar}
+%% Any
+\DeclareMathOperator{\hAnyOp}{\circledR}
+
+%% Apply
 \DeclareMathOperator{\hApply}{\S}
 \DeclareMathOperator{\hFunctorApply}{\odot}
+
+%% Map, Bind
 \DeclareMathOperator{\hMap}{\times}
-\DeclareMathOperator{\hMapM}{\boxtimes}
-\DeclareMathOperator{\hMaybeMap}{\boxtimes} %%% ???
+% \DeclareMathOperator{\hMapM}{\boxtimes}
+\DeclareMathOperator{\hMaybeMap}{\boxtimes}
 \DeclareMathOperator{\hFunctorMap}{\otimes}
 \DeclareMathOperator{\hApplicativeMap}{\circledast}
-\DeclareMathOperator{\hMonadicBind}{\ast}
+\DeclareMathOperator{\hMonadicBind}{\star}
+\DeclareMathOperator{\hRightMonadicBind}{\xrightarrow{\star}}
+\DeclareMathOperator{\hRightMonadicBindIgnore}{\twoheadrightarrow}
+
+%% Compose
 \DeclareMathOperator{\hCompose}{\centerdot}
 \DeclareMathOperator{\hMonadicCompose}{\circ}
 \DeclareMathOperator{\hCategoryCompose}{\bullet}
-\DeclareMathOperator{\hIsTypeOf}{:\!:}
-\DeclareMathOperator{\hIsInSetOf}{\in}
-\DeclareMathOperator{\hLetEq}{\triangleeq}
-\DeclareMathOperator{\hMemberAt}{!!}
-\DeclareMathOperator{\hValueConstructorOr}{\curlyvee}
-\DeclareMathOperator{\hAppend}{\oplus}
 
-%% Arrow
+%% Set
+\DeclareMathOperator{\hIsTypeOf}{:\!:}
+\DeclareMathOperator{\hIsElementOf}{\in}
+
+%% Equal, Arraw
+\DeclareMathOperator{\hLetEq}{\triangleeq}
 \DeclareMathOperator{\hIfSo}{\dashrightarrow}
+\DeclareMathOperator{\hFunctionArrow}{\rightarrow}
+
+%% List op
+\DeclareMathOperator{\hMemberAt}{!!}
+\DeclareMathOperator{\hAppend}{\oplus}
+\DeclareMathOperator{\hCons}{:}
+
+%% Other binary
+\DeclareMathOperator{\hValueConstructorOr}{\curlyvee}
 
 %% Fold
 \DeclareMathOperator*{\hFold}{\bigcup}
