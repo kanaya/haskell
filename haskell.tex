@@ -518,10 +518,10 @@
 単位元&ローマンに斜線&$\hZero$\\
 \hline
 変数&イタリック（1文字）&$\hVar{u},\hVar{v},\hVar{w},\hVar{x},\hVar{y},\hVar{z}$\\
-リスト変数&&$\hListDecor{\hVar{x}}$\\ %%% !!!
-Maybe変数&&$\hMaybeDecor{\hVar{x}}$\\ %%% !!!
-Ether変数&&$\hEitherDecor{\hVar{x}}$\\ %%% !!!
-一般のコンテナ変数&&$\hAnyContextDecor{\hVar{x}}$\\
+リスト変数&チルダをつける&$\hListDecor{\hVar{x}}$\\ %%% !!!
+Maybe変数&ドットをつける&$\hMaybeDecor{\hVar{x}}$\\ %%% !!!
+Ether変数&ダブルドットをつける&$\hEitherDecor{\hVar{x}}$\\ %%% !!!
+一般のコンテナ変数&ハットをつける&$\hAnyContextDecor{\hVar{x}}$\\
 有名な変数&ローマン&$\hSpecialVar{first},\hSpecialVar{rest}$\\
 \hline
 関数&イタリック（1文字）&$\hFunc{f},\hFunc{g},\hFunc{h}$\\
@@ -530,13 +530,13 @@ Ether変数&&$\hEitherDecor{\hVar{x}}$\\ %%% !!!
 関手&フラクチュール&$\hCatId$\\
 \hline
 アクション&ギリシア文字（1文字）&$\hAction{\alpha},\hAction{\omega}$\\
-有名なアクション&&$\hSpecialAction{main},\hSpecialAction{print}$\\ %%% !!!
+有名なアクション&ローマン&$\hSpecialAction{main},\hSpecialAction{print}$\\ %%% !!!
 \hline
 型&ボールド（1文字）&$\hTypeName{a},\hTypeName{b},\hTypeName{c}$\\
 有名な型&ボールド大文字&$\hBool,\hInt$\\
 型クラス&ボールドイタリック大文字&$\hEq,\hOrd$\\
-多相型&&$\hTypeConstruct{\hTypeConstructor{m}}{\hTypeName{a}}$\\
-有名な多相型&&$\hMaybeConstruct{\hTypeName{a}}$\\
+多相型&型コンストラクタ名と型名&$\hTypeConstruct{\hTypeConstructor{m}}{\hTypeName{a}}$\\
+有名な多相型&同上&$\hMaybeConstruct{\hTypeName{a}}$\\
 有名な多相型&特別な括弧で包む&$[\hTypeName{a}]$\\
 集合&ブラックボード大文字&$\hSet{B},\hSet{Z},\hSet{R}$\\
 \hline
@@ -630,31 +630,27 @@ $\hListWith{\hVar{x}}$&リスト値コンストラクタ&\code{[x]}\\
 $\hJustWith{\hVar{x}}$&Maybe値コンストラクタ&\code{Just x}\\
 $\hLeftWith{\hVar{x}},\hRightWith{\hVar{x}}$&Either値コンストラクタ&\code{Left x}, \code{Right x}\\
 \hline
-$\hPureWith{\hVar{x}}$&ピュア演算子&\code{pure x}\\  %%% ???
-$\hReturnWith{\hVar{x}}$&&\code{return x}\\  %%% ???
+$\hPureWith{\hVar{x}}$&関手のピュア演算子&\code{pure x}\\  %%% ???
+$\hReturnWith{\hVar{x}}$&モナドのピュア演算子&\code{return x}\\  %%% ???
 % % $\mFuncWith{x}$&関数値コンストラクタ&\code{r->x}\\
 % $\mConstWith{x}$&定数演算子&\code{const x}\\
 % $\mArrowWith{x}$&アロー演算子&\code{arr x}\\
 \hline
 % $\mMap$&一般マップ&\code{<\$>}\\
 $\hMap$&リストのマップ&\code{`map`}\\
-$\hMapM$&文脈付きリストのマップ&\code{`mapM`}\\
-$\hFunctorMap$&一般のマップ&\code{<\$>}\\
+% $\hMapM$&文脈付きリストのマップ&\code{`mapM`}\\
+$\hFunctorMap$&関手のマップ&\code{<\$>}, \code{`fmap`}\\
 % $\mMapFunc$&関数のマップ&\code{<\$>}\\
-\hline
-$\hApplicativeMap$&アプリカティブマップ&\code{<*>}\\
+$\hApplicativeMap$&アプリカティブマップ&\code{<*>}, \code{`ap`}\\
 % $\mAppMapList$&リストのアプリカティブマップ&\code{<*>}\\
 % $\mAppMapMaybe$&Maybeのアプリカティブマップ&\code{<*>}\\
 % $\mAppMapFunc$&関数のアプリカティブマップ&\code{<*>}\\
-\hline
-$\hMonadicBind$&一般バインド演算子&\code{=<<}\\
+$\hMonadicBind$&モナドのバインド&\code{=<<}\\
 % $\mBindList$&リストのバインド演算子&\code{=<<}\\
 % $\mBindMaybe$&Maybeのバインド演算子&\code{=<<}\\
 % $\mBindFunc$&関数のバインド演算子&\code{=<<}\\
 \hline
 $\hApply$&関数の適用&\code{\$}\\
-$\hFunctorApply$&関手の適用&\code{<\$>}\\
-\hline
 $\hCompose$&関数の合成&\code{.}\\
 $\hMonadicCompose$&モナドの合成&\code{<=<}\\
 \hline
