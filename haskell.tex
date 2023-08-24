@@ -146,6 +146,7 @@ $\hReturnWith{\hVar{x}}$&モナドのピュア演算子&\code{return x}\\  %%% ?
 \hline
 % $\mMap$&一般マップ&\code{<\$>}\\
 $\hMap$&リストのマップ&\code{`map`}\\
+$\hMaybeMap$&Maybeのマップ&\\
 % $\hMapM$&文脈付きリストのマップ&\code{`mapM`}\\
 $\hFunctorMap$&関手のマップ&\code{<\$>}, \code{`fmap`}\\
 % $\mMapFunc$&関数のマップ&\code{<\$>}\\
@@ -698,17 +699,17 @@ z = g(f(x))
 
 % http://qiita.com/techno-tanoC/items/1fa1c65db08da2440fc4
 
-計算機科学者ドナルド・クヌースは，整数 $\hVar{x},\hVar{y}$ が与えられたとき $\hVar{x}$ の $\hVar{y}$ 乗を ${\hVar{x}}^{\hVar{y}}$ ではなく $\hVar{x}\uparrow\hVar{y}$ と書いた．これは
+計算機科学者ドナルド・クヌースは，整数 $\hVar{x},\hVar{n}$ が与えられたとき $\hVar{x}$ の $\hVar{n}$ 乗を ${\hVar{x}}^{\hVar{n}}$ ではなく $\hVar{x}\uparrow\hVar{n}$ と書いた．これは
 \begin{equation}
-  \hVar{x}\uparrow\hVar{y}
-  =\underbrace{\hVar{x}*\hVar{x}*\dotsb*\hVar{x}}_{\hVar{y}}
+  \hVar{x}\uparrow\hVar{n}
+  =\underbrace{\hVar{x}*\hVar{x}*\dotsb*\hVar{x}}_{\hVar{n}}
 \end{equation}
-という意味である．\footnote{\haskell では $\hVar{x}\uparrow\hVar{y}$ を \code{x\textasciicircum y} と書く．}
+という意味である．\footnote{\haskell では $\hVar{x}\uparrow\hVar{n}$ を \code{x\textasciicircum n} と書く．}
 
 クヌースはさらに演算子 $\uparrow\uparrow$ を
 \begin{equation}
-  \hVar{x}\uparrow\uparrow\hVar{y}
-  =\underbrace{\hVar{x}\uparrow\hVar{x}\uparrow\dotsb\uparrow\hVar{x}}_{\hVar{y}}
+  \hVar{x}\uparrow\uparrow\hVar{n}
+  =\underbrace{\hVar{x}\uparrow\hVar{x}\uparrow\dotsb\uparrow\hVar{x}}_{\hVar{n}}
 \end{equation}
 のように定義した．これを\keyword{クヌースの矢印}と呼ぶ．クヌースの矢印は
 \begin{align}
@@ -832,7 +833,7 @@ z = g(f(x))
   (+)\hVar{x}\hVar{y}
   =\left((+)\hVar{x}\right)\hVar{y}
 \end{equation}
-であるから，$\hVar{y}$ という引数を $\left((+)x\right)$ という関数に食わせていると解釈できる．
+であるから，$\hVar{y}$ という引数を $\left((+)\hVar{x}\right)$ という関数に食わせていると解釈できる．
 
 ラムダ式の場合は話はもっと単純で，形式的に
 \begin{equation}
@@ -878,7 +879,7 @@ z = g(f(x))
 
 いまタプルを引数に取る関数
 \begin{equation}
-  f\hPairWith{\hVar{x}}{\hVar{y}}
+  \hFunc{f}\hPairWith{\hVar{x}}{\hVar{y}}
   =\hVar{x}+\hVar{y}
 \end{equation}
 があったとしよう．\haskell にはタプルをとる関数をカリー化する関数 $\hCurry$ があり，
@@ -938,7 +939,7 @@ z = g(f(x))
 式\eqref{eq:equiv}に型クラスの制約を加えてみよう．型 $\hTypeName{a}$ は型クラス $\hEq$ に属さなければならないから，新たな記号 $\hAndThen$ を使って
 \begin{equation}
   (\hIfEq)
-  \mIn{}\hEq\hHasElementsOf\mA
+  \hIsTypeOf{}\hEq\hHasElementsOf\mA
   \hAndThen\hTypeName{a}\hFunctionArrow\hTypeName{a}\hFunctionArrow\hBool
 \end{equation}
 と書くことにする．\footnote{\haskell では \code{(==) :: Eq a => a -> a -> Bool} と書く．記号 $\hHasElementsOf$ は省略する．}
@@ -1121,22 +1122,22 @@ ls = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 \end{pythoncode}
 のように定義できる．
 
-我々も $\hConstant{0}$ から始まり $\mNineNumber$ まで続く整数のリストを $[\hConstant{1},\mTwoNumber,\mThreeNumber,\mFourNumber,\mFiveNumber,\mSixNumber,\mSevenNumber,\mEightNumber,\mNineNumber]$ と書くことにしよう．ただし，これでは冗長なので\keyword{等差数列}に限って簡略化した書き方を許す．例えば $\hConstant{0}$ から $\mNineNumber$ までのリストは $[\hConstant{0},\hConstant{1}\dotsb\mNineNumber]$ と書いても良い．\footnote{\haskell では \code{[0, 1..9]} と書く．ピリオドの数に注意しよう．}
+我々も $\hConstant{0}$ から始まり $\hConstant{9}$ まで続く整数のリストを $[\hConstant{1},\hConstant{2},\hConstant{3},\hConstant{4},\hConstant{5},\hConstant{6},\hConstant{7},\hConstant{8},\hConstant{9}]$ と書くことにしよう．ただし，これでは冗長なので\keyword{等差数列}に限って簡略化した書き方を許す．例えば $\hConstant{0}$ から $\hConstant{9}$ までのリストは $[\hConstant{0},\hConstant{1}\dotsb\hConstant{9}]$ と書いても良い．\footnote{\haskell では \code{[0, 1..9]} と書く．ピリオドの数に注意しよう．}
 
 リストの中身の一つ一つの値のことを\keyword{要素}と呼ぶ．要素のことは元と呼んでも良いが，本書では要素と呼ぶことにする．要素も元も英語のelementの和訳である．
 
 複数の型の要素が混在してもよい配列のことをヘテロジニアスな配列と呼び，ホモジニアスな配列とは区別する．
 
-今後，リストを指す変数は，リストであることを忘れないように変数名にsをつけて
+今後，リストを指す変数は，リストであることを忘れないように変数名にチルダをつけて
 \begin{equation}
-  \mList{x}
-  =[\hConstant{0},\hConstant{1}\dotsb\mNineNumber]
+  \hListDecor{\hVar{x}}
+  =\hListWith{\hConstant{0},\hConstant{1}\dotsb\hConstant{9}}
 \end{equation}
-のように書くことにしよう．なお，変数 $\hVar{x}$ とリスト変数 $\mList{x}$ は異なる変数であるとする．\footnote{\haskell では \code{s} を変数名にくっつけて \code{xs = [0, 1..9]} のように書く習慣がある．}
+のように書くことにしよう．なお，変数 $\hVar{x}$ とリスト変数 $\hListDecor{\hVar{x}}$ は異なる変数であるとする．\footnote{\haskell では \code{s} を変数名にくっつけて \code{xs = [0, 1..9]} のように書く習慣がある．}
 
 \separator
 
-\python ではリスト内包表記が使える．例えば $\hConstant{0}$ から $\mNineNumber$ までの倍数のリストは次のように作った．
+\python ではリスト内包表記が使える．例えば $\hConstant{0}$ から $\hConstant{9}$ までの倍数のリストは次のように作った．
 \begin{pythoncode}
 \begin{verbatim}
 ls = [x*2 for x in range(0, 10)]
@@ -1146,24 +1147,25 @@ ls = [x*2 for x in range(0, 10)]
 
 我々も内包表記を
 \begin{equation}
-  \mList{x}
-  =[\hVar{x}*\mTwoNumber\mListComp\hVar{x}\mFrom[\hConstant{0},\hConstant{1}\dotsb\mNineNumber]]
+  \hListDecor{\hVar{x}}
+  =\hListWith{\hVar{x}*\hConstant{2}\hListComprehension\hVar{x}\hFrom\hListWith{\hConstant{0},\hConstant{1}\dotsb\hConstant{9}}}
 \end{equation}
-のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\mFrom$を用いた．\footnote{\haskell では $\mList{x}=[\hVar{x}*2\mListComp\hVar{x}\mFrom[\hConstant{0},\hConstant{1}\dotsb\mNineNumber]]$ を \code{xs = [x*2 | x<-[0,1..9]]} と書く．}
+のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\hFrom$を用いた．\footnote{\haskell では $  \hListDecor{\hVar{x}}=\hListWith{\hVar{x}*\hConstant{2}\hListComprehension\hVar{x}\hFrom\hListWith{\hConstant{0},\hConstant{1}\dotsb\hConstant{9}}}
+$ を \code{xs = [x*2 | x<-[0,1..9]]} と書く．}
 
 内包表記の式は複数あっても良い．例えば
 \begin{equation}
   \mList{x}
-  =[\hVar{x}+\hVar{y}\mListComp\hVar{x}\mFrom[\hConstant{0},\hConstant{1}\dotsb\mNineNumber],\,\hVar{y}\mFrom[\hConstant{0},\hConstant{1}\dotsb\mFiveNumber],\,\hVar{x}+\hVar{y}>\mThreeNumber]
+  =[\hVar{x}+\hVar{y}\mListComp\hVar{x}\mFrom[\hConstant{0},\hConstant{1}\dotsb\hConstant{9}],\,\hVar{y}\mFrom[\hConstant{0},\hConstant{1}\dotsb\hConstant{5}],\,\hVar{x}+\hVar{y}>\hConstant{3}]
 \end{equation}
-は $\hConstant{0}\le\hVar{x}\le\mNineNumber$ かつ $\hConstant{0}\le\hVar{y}\le\mFiveNumber$ の範囲で $\hVar{x}+\hVar{y}>\mThreeNumber$となる $\hVar{x}$ 及び $\hVar{y}$ から $\hVar{x}+\hVar{y}$ を並べたリストである．これは\python でいう
+は $\hConstant{0}\le\hVar{x}\le\hConstant{9}$ かつ $\hConstant{0}\le\hVar{y}\le\hConstant{5}$ の範囲で $\hVar{x}+\hVar{y}>\hConstant{3}$となる $\hVar{x}$ 及び $\hVar{y}$ から $\hVar{x}+\hVar{y}$ を並べたリストである．これは\python でいう
 \begin{pythoncode}
 \begin{verbatim}
 ls = [x+y for x in range(0, 10) for y in range(0, 6) \
   if x+y > 3]
 \end{verbatim}
 \end{pythoncode}
-のことである．\footnote{\haskell では \code{xs = [x+y | x<-[\hConstant{0},\hConstant{1}..9], y<-[\hConstant{0},\hConstant{1}..5], x+y>\mThreeNumber]} と書く．}
+のことである．\footnote{\haskell では \code{xs = [x+y | x<-[\hConstant{0},\hConstant{1}..9], y<-[\hConstant{0},\hConstant{1}..5], x+y>\hConstant{3}]} と書く．}
 
 % ...もっと内包表記．
 
@@ -1219,7 +1221,7 @@ $\mList{y}$ を結合したリストは
 $\mList{n}$ は
 \begin{equation*}
   \mList{n}
-  =[\hConstant{1},\mTwoNumber\dotsb]
+  =[\hConstant{1},\hConstant{2}\dotsb]
 \end{equation*}
 と書くことができる．\footnote{\haskell では$\mList{n}=[1,2\dots]$ を \code{ns = [1, 2..]} と書く．}
 
@@ -1228,9 +1230,9 @@ $\mList{n}$ は
 もし本当に無限リストを計算機の上で再現する必要があったなら，計算機には無限のメモリが必要になってしまう．しかし我々は，計算が必要になるまで評価を行わないので，無限リストの中から有限個の要素が取り出されるのを待つことができるのである．例えば関数 $\mTake\hVar{n}\,\mList{n}$ はリスト $\mList{n}$ から最初の $\hVar{n}$ 個の要素からなるリストを返す．いま
 \begin{equation*}
   \mList{x}
-  =\mTake\,\mFiveNumber\,\mList{n}
+  =\mTake\,\hConstant{5}\,\mList{n}
 \end{equation*}
-とすると，リスト $\mList{x}$ は $\mList{x}=[\hConstant{1},\mTwoNumber\dotsb\mFiveNumber]$ という値を持つ．\footnote{\haskell では \code{xs = take 5 ns} と書く．}
+とすると，リスト $\mList{x}$ は $\mList{x}=[\hConstant{1},\hConstant{2}\dotsb\hConstant{5}]$ という値を持つ．\footnote{\haskell では \code{xs = take 5 ns} と書く．}
 
 関数 $\mTake$ の型は
 \begin{equation}
@@ -1324,8 +1326,8 @@ s = ls.inject(0) { |x, y| x+y }
 
 畳み込み演算子の面白い応用例を示そう．リストの結合演算子 $(\mAppend)$ を使うと
 \begin{equation}
-  \mFold_\mEmptyList^{\mAppend}[[\hConstant{0},\hConstant{1},\mTwoNumber],[\mThreeNumber,\mFourNumber,\mFiveNumber]\dotsb]
-  =[\hConstant{0},\hConstant{1},\mTwoNumber,\mThreeNumber,\mFourNumber,\mFiveNumber\dotsb]
+  \mFold_\mEmptyList^{\mAppend}[[\hConstant{0},\hConstant{1},\hConstant{2}],[\hConstant{3},\hConstant{4},\hConstant{5}]\dotsb]
+  =[\hConstant{0},\hConstant{1},\hConstant{2},\hConstant{3},\hConstant{4},\hConstant{5}\dotsb]
 \end{equation}
 であるから，演算子 $\mFold_\mEmptyList^{\mAppend}$ はリストを平坦化する\keyword{平坦化演算子}である．平坦化演算子はconcat演算子とも呼ばれることもあるが，基本的な演算子であるため特別な記号をつけておこう．我々は
 \begin{equation}
@@ -1395,7 +1397,7 @@ ms = map(f, ls)
   \hFunc{f}
   &=\mLambda\hVar{x}\mLambdaArrow\hConstant{100}+\hVar{x}\\
   \mList{x}
-  &=[\hConstant{1}\dotsb\mFiveNumber]\\
+  &=[\hConstant{1}\dotsb\hConstant{5}]\\
   \mList{y}
   &=\hFunc{f}\mMapList\mList{x}
 \end{align}
