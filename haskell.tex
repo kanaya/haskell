@@ -25,10 +25,10 @@
 単位元&ローマンに斜線&$\hZero$\\
 \hline
 変数&イタリック（1文字）&$\hVar{u},\hVar{v},\hVar{w},\hVar{x},\hVar{y},\hVar{z}$\\
-リスト変数&チルダをつける&$\hListDecor{\hVar{x}}$\\ %%% !!!
+リスト変数&バーをつける&$\hListVarWith{x}$\\ %%% !!!
 Maybe変数&ドットをつける&$\hMaybeDecor{\hVar{x}}$\\ %%% !!!
 Ether変数&ダブルドットをつける&$\hEitherDecor{\hVar{x}}$\\ %%% !!!
-一般のコンテナ変数&ハットをつける&$\hAnyContextDecor{\hVar{x}}$\\
+一般のコンテナ変数&チルダをつける&$\hAnyContextDecor{\hVar{x}}$\\
 有名な変数&ローマン&$\hSpecialVar{first},\hSpecialVar{rest}$\\
 \hline
 関数&イタリック（1文字）&$\hFunc{f},\hFunc{g},\hFunc{h}$\\
@@ -1117,7 +1117,7 @@ $\hFloat$ &$*$ &$\hConstant{1}$\\\hline
 同じ型の値を一列に並べたもの，つまりホモジニアスな配列のことを\keyword{リスト}と呼ぶ．\python ではリスト \code{ls} を
 \begin{pythoncode}
 \begin{verbatim}
-ls = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+xs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 \end{verbatim}
 \end{pythoncode}
 のように定義できる．
@@ -1128,40 +1128,40 @@ ls = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 複数の型の要素が混在してもよい配列のことをヘテロジニアスな配列と呼び，ホモジニアスな配列とは区別する．
 
-今後，リストを指す変数は，リストであることを忘れないように変数名にチルダをつけて
+今後，リストを指す変数は，リストであることを忘れないように変数名にバーをつけて
 \begin{equation}
-  \hListDecor{\hVar{x}}
+  \hListVarWith{x}
   =\hListWith{\hConstant{0},\hConstant{1}\dotsb\hConstant{9}}
 \end{equation}
-のように書くことにしよう．なお，変数 $\hVar{x}$ とリスト変数 $\hListDecor{\hVar{x}}$ は異なる変数であるとする．\footnote{\haskell では \code{s} を変数名にくっつけて \code{xs = [0, 1..9]} のように書く習慣がある．}
+のように書くことにしよう．なお，変数 $\hVar{x}$ とリスト変数 $\hListVarWith{x}$ は異なる変数であるとする．\footnote{\haskell では \code{s} を変数名にくっつけて \code{xs = [0, 1..9]} のように書く習慣がある．}
 
 \separator
 
 \python ではリスト内包表記が使える．例えば $\hConstant{0}$ から $\hConstant{9}$ までの倍数のリストは次のように作った．
 \begin{pythoncode}
 \begin{verbatim}
-ls = [x*2 for x in range(0, 10)]
+xs = [x*2 for x in range(0, 10)]
 \end{verbatim}
 \end{pythoncode}
 ここに \code{range(a, b)} は \code{a} から増加する方向に連続する \code{b} 個の整数からなるリストを返す\python の関数である．
 
 我々も内包表記を
 \begin{equation}
-  \hListDecor{\hVar{x}}
+  \hListVarWith{x}
   =\hListWith{\hVar{x}*\hConstant{2}\hListComprehension\hVar{x}\hFrom\hListWith{\hConstant{0},\hConstant{1}\dotsb\hConstant{9}}}
 \end{equation}
-のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\hFrom$を用いた．\footnote{\haskell では $  \hListDecor{\hVar{x}}=\hListWith{\hVar{x}*\hConstant{2}\hListComprehension\hVar{x}\hFrom\hListWith{\hConstant{0},\hConstant{1}\dotsb\hConstant{9}}}
+のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\hFrom$を用いた．\footnote{\haskell では $  \hListVarWith{x}=\hListWith{\hVar{x}*\hConstant{2}\hListComprehension\hVar{x}\hFrom\hListWith{\hConstant{0},\hConstant{1}\dotsb\hConstant{9}}}
 $ を \code{xs = [x*2 | x<-[0,1..9]]} と書く．}
 
 内包表記の式は複数あっても良い．例えば
 \begin{equation}
-  \mList{x}
+  \hListVarWith{x}
   =[\hVar{x}+\hVar{y}\mListComp\hVar{x}\mFrom[\hConstant{0},\hConstant{1}\dotsb\hConstant{9}],\,\hVar{y}\mFrom[\hConstant{0},\hConstant{1}\dotsb\hConstant{5}],\,\hVar{x}+\hVar{y}>\hConstant{3}]
 \end{equation}
 は $\hConstant{0}\le\hVar{x}\le\hConstant{9}$ かつ $\hConstant{0}\le\hVar{y}\le\hConstant{5}$ の範囲で $\hVar{x}+\hVar{y}>\hConstant{3}$となる $\hVar{x}$ 及び $\hVar{y}$ から $\hVar{x}+\hVar{y}$ を並べたリストである．これは\python でいう
 \begin{pythoncode}
 \begin{verbatim}
-ls = [x+y for x in range(0, 10) for y in range(0, 6) \
+xs = [x+y for x in range(0, 10) for y in range(0, 6) \
   if x+y > 3]
 \end{verbatim}
 \end{pythoncode}
@@ -1169,23 +1169,23 @@ ls = [x+y for x in range(0, 10) for y in range(0, 6) \
 
 % ...もっと内包表記．
 
-整数型 $(\hInt)$ のリストは $[\hInt]$ と書き，整数のリスト型と呼ぶ．一般に $\hTypeName{a}$ 型のリストを $[\mA]$ と書く．仮の型である $\hTypeName{a}$ の事を \keyword{型パラメタ}と呼ぶ．
+整数型 $(\hInt)$ のリストは $\hListConstruct{\hInt}$ と書き，整数のリスト型と呼ぶ．一般に $\hTypeName{a}$ 型のリストを $\hListConstruct{\hTypeName{a}}$ と書く．仮の型である $\hTypeName{a}$ の事を \keyword{型パラメタ}と呼ぶ．
 
-型 $\hTypeName{a}$ から型 $[\mA]$ を生成する演算子を\keyword{リスト型コンストラクタ}と呼んで$\mListTypeConstructor$ と書き
+型 $\hTypeName{a}$ から型 $\hListConstruct{\hTypeName{a}}$ を生成する演算子を\keyword{リスト型コンストラクタ}と呼んで$\hList$ と書き
 \begin{equation}
-  [\mA]
-  =\mListTypeConstructor\,\mA
+  \hListConstruct{\hTypeName{a}}
+  =\hList\,\hTypeName{a}
 \end{equation}
-とする．この等式の両辺は変数ではなく型名であることに注意しよう．型コンストラクタの概念は\python には無い（必要無い）が，静的型付け言語である\cxx の「クラステンプレート」が相当する．\footnote{\haskell では表記上コンテナ型 $[\mA]$ と型コンストラクタ式$\mListTypeConstructor\,\mA $ を区別せず両者とも \code{[a]} と書くが，右辺は \code{[] a} とも書ける．}
+とする．この等式の両辺は変数ではなく型名であることに注意しよう．型コンストラクタの概念は\python には無い（必要無い）が，静的型付け言語である\cxx の「クラステンプレート」が相当する．\footnote{\haskell では表記上コンテナ型 $\hListConstruct{\hTypeName{a}}$ と型コンストラクタ式$\hList\,\hTypeName{a}$ を区別せず両者とも \code{[a]} と書くが，右辺は \code{[] a} とも書ける．}
 
-$[\hVar{x}]$ のように $\hTypeName{a}$ 型の変数 $\hVar{x}$ を入れた$[\mA]$ 型の変数を作る演算子を\keyword{リスト値コンストラクタ}と呼ぶ．$[\mA]$ 型の変数のことを\keyword{リスト変数}とも呼ぶ．$\hTypeName{a}$ 型の変数 $\hVar{x}$ からリスト値コンストラクタを使ってリスト$\mList{x}$ を作ることは
+$\hListVarWith{x}$ のように $\hTypeName{a}$ 型の変数 $\hVar{x}$ を入れた$\hListConstruct{\hTypeName{a}}$ 型の変数を作る演算子を\keyword{リスト値コンストラクタ}と呼ぶ．$\hListConstruct{\hTypeName{a}}$ 型の変数のことを\keyword{リスト変数}とも呼ぶ．$\hTypeName{a}$ 型の変数 $\hVar{x}$ からリスト値コンストラクタを使ってリスト$\hListVarWith{x}$ を作ることは
 \begin{equation}
-  \mList{x}
-  =[\hVar{x}]
+  \hListVarWith{x}
+  =\hListWith{\hVar{x}}
 \end{equation}
 と書く．\footnote{\haskell では \code{xs = [x]} と書く．}
 
-リスト型を表す $[\mA]$ と，1要素のリストである $[\hVar{x}]$ の違いにはいつも気をつけておこう．本書では中身がボールドローマン体ならばリスト型，中身がイタリック体ならリスト値である．
+リスト型を表す $\hListConstruct{\hTypeName{a}}$ と，1要素のリストである $\hListVarWith{x}$ の違いにはいつも気をつけておこう．本書では中身がボールドローマン体ならばリスト型，中身がイタリック体ならリスト値である．
 
 ある型を包み込んだ別の型を一般に\keyword{コンテナ型}または単に\keyword{コンテナ}と呼ぶ．コンテナ型の変数を\keyword{コンテナ変数}と呼ぶ．コンテナ型は多相型の一種である．
 
@@ -1193,46 +1193,46 @@ $[\hVar{x}]$ のように $\hTypeName{a}$ 型の変数 $\hVar{x}$ を入れた$[
 
 \separator
 
-リストは\keyword{結合}できる．例えばリスト$\mList{x}$ とリスト
-$\mList{y}$ を結合したリストは
+リストは\keyword{結合}できる．例えばリスト$\hListVarWith{x}$ とリスト
+$\hListVarWith{y}$ を結合したリストは
 \begin{equation}
-  \mList{x}\mAppend\mList{y}
+  \hListVarWith{x}\mAppend\hListVarWith{y}
 \end{equation}
 と表現する．リストの結合演算子の型は
 \begin{equation}
   (\mAppend)
   \mIn[\mA]\hFunctionArrow[\mA]\hFunctionArrow[\mA]
 \end{equation}
-である．\footnote{\haskell では $\mList{x}\mAppend\mList{y}$ を \code{xs++ys} と書く．}
+である．\footnote{\haskell では $\hListVarWith{x}\mAppend\hListVarWith{y}$ を \code{xs++ys} と書く．}
 
 \separator
 
 リストは空でもよい．\keyword{空リスト}は$\mEmptyList$で表す．\footnote{\haskell では空リストを \code{[]} で表す．}
 
-関数 $\mNull$ はリストが空リストかどうかを判定する．リスト $\mList{x}$が空リストの場合
+関数 $\mNull$ はリストが空リストかどうかを判定する．リスト $\hListVarWith{x}$が空リストの場合
 \begin{equation}
-  \mNull\mList{x}
+  \mNull\hListVarWith{x}
 \end{equation}
 は $\hTrue$ を，そうでなければ $\hFalse$ を返す．
 
 \separator
 
 我々は無限リストを持つことができる．例えば自然数を表すリスト
-$\mList{n}$ は
+$\hListVarWith{n}$ は
 \begin{equation*}
-  \mList{n}
+  \hListVarWith{n}
   =[\hConstant{1},\hConstant{2}\dotsb]
 \end{equation*}
-と書くことができる．\footnote{\haskell では$\mList{n}=[1,2\dots]$ を \code{ns = [1, 2..]} と書く．}
+と書くことができる．\footnote{\haskell では$\hListVarWith{n}=[1,2\dots]$ を \code{ns = [1, 2..]} と書く．}
 
 無限リストを扱えるのは，我々がいつも遅延評価を行うからである．遅延評価とは，本当の計算は必要になるまで行わないという方式のことである．
 
-もし本当に無限リストを計算機の上で再現する必要があったなら，計算機には無限のメモリが必要になってしまう．しかし我々は，計算が必要になるまで評価を行わないので，無限リストの中から有限個の要素が取り出されるのを待つことができるのである．例えば関数 $\mTake\hVar{n}\,\mList{n}$ はリスト $\mList{n}$ から最初の $\hVar{n}$ 個の要素からなるリストを返す．いま
+もし本当に無限リストを計算機の上で再現する必要があったなら，計算機には無限のメモリが必要になってしまう．しかし我々は，計算が必要になるまで評価を行わないので，無限リストの中から有限個の要素が取り出されるのを待つことができるのである．例えば関数 $\mTake\hVar{n}\,\hListVarWith{n}$ はリスト $\hListVarWith{n}$ から最初の $\hVar{n}$ 個の要素からなるリストを返す．いま
 \begin{equation*}
-  \mList{x}
-  =\mTake\,\hConstant{5}\,\mList{n}
+  \hListVarWith{x}
+  =\mTake\,\hConstant{5}\,\hListVarWith{n}
 \end{equation*}
-とすると，リスト $\mList{x}$ は $\mList{x}=[\hConstant{1},\hConstant{2}\dotsb\hConstant{5}]$ という値を持つ．\footnote{\haskell では \code{xs = take 5 ns} と書く．}
+とすると，リスト $\hListVarWith{x}$ は $\hListVarWith{x}=[\hConstant{1},\hConstant{2}\dotsb\hConstant{5}]$ という値を持つ．\footnote{\haskell では \code{xs = take 5 ns} と書く．}
 
 関数 $\mTake$ の型は
 \begin{equation}
@@ -1243,11 +1243,11 @@ $\mList{n}$ は
 
 \separator
 
-リスト $\mList{x}$ の $\hVar{n}$ 番目の要素には
+リスト $\hListVarWith{x}$ の $\hVar{n}$ 番目の要素には
 \begin{equation}
-  \mList{x}\mListAt\hVar{n}
+  \hListVarWith{x}\mListAt\hVar{n}
 \end{equation}
-とすることでアクセスできる．\footnote{\haskell では $\mList{x}\mListAt\hVar{n}$ を \code{xs!!n} と書く．}
+とすることでアクセスできる．\footnote{\haskell では $\hListVarWith{x}\mListAt\hVar{n}$ を \code{xs!!n} と書く．}
 
 \section{畳み込み}
 \label{sec:convolution}
@@ -1264,7 +1264,7 @@ $\mList{n}$ は
 \end{equation}
 であると定義する．
 
-この新しい演算子 $\mFold$ は\keyword{畳み込み演算子}と呼ばれる．変数 $a$ は\keyword{アキュムレータ}と呼ぶ．アキュムレータは右側の引数が空であった場合のデフォルト値と考えても良い．\footnote{\haskell では $\mFold^*_a\mList{x}$ を \code{foldl (*) a xs} と書く．}
+この新しい演算子 $\mFold$ は\keyword{畳み込み演算子}と呼ばれる．変数 $a$ は\keyword{アキュムレータ}と呼ぶ．アキュムレータは右側の引数が空であった場合のデフォルト値と考えても良い．\footnote{\haskell では $\mFold^*_a\hListVarWith{x}$ を \code{foldl (*) a xs} と書く．}
 % ***CHECK***
 
 \python\ 2.7 には畳み込み演算子に相当する \code{reduce} 関数があり，リスト \code{ls} の総和 \code{s} を
@@ -1286,10 +1286,10 @@ s = ls.inject(0) { |x, y| x+y }
 
 リストの総和をとる演算子 $\sum$ は
 \begin{equation}
-  \sum\mList{x}
-  =\mFold^+_{\hConstant{0}}\mList{x}
+  \sum\hListVarWith{x}
+  =\mFold^+_{\hConstant{0}}\hListVarWith{x}
 \end{equation}
-とすれば得られる．この式は両辺の $\mList{x}$ を省略して
+とすれば得られる．この式は両辺の $\hListVarWith{x}$ を省略して
 \begin{equation}
   \sum
   =\mFold^+_{\hConstant{0}}
@@ -1320,7 +1320,7 @@ s = ls.inject(0) { |x, y| x+y }
   \mFoldRight^{\hAnyBinOp}_{\hVar{a}}[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]
   =(\hVar{x}_0\hAnyBinOp(\hVar{x}_1\hAnyBinOp\dotsb\hAnyBinOp(\hVar{x}_n\hAnyBinOp\hVar{a})))
 \end{equation}
-これは\keyword{右畳み込み}と呼ばれる演算子である．\footnote{\haskell では $\mFoldRight^{*}_{\hVar{a}}\mList{x}$ を \code{foldr (*) xs a} と書く．引数の順序に注意しよう．}
+これは\keyword{右畳み込み}と呼ばれる演算子である．\footnote{\haskell では $\mFoldRight^{*}_{\hVar{a}}\hListVarWith{x}$ を \code{foldr (*) xs a} と書く．引数の順序に注意しよう．}
 
 \separator
 
@@ -1360,7 +1360,7 @@ ms = map(f, ls)
   \hFunc{f}\mMapList[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]
   =[\hFunc{f}\hVar{x}_0,\hFunc{f}\hVar{x}_1\dotsb \hFunc{f}\hVar{x}_n]
 \end{equation}
-であると定義する．この演算子 $\mMapList$ をリストの\keyword{マップ演算子}と呼ぶ．\footnote{\haskell では $\hFunc{f}\mMapList\mList{x}$ を\code{map f xs} または \code{f <\$> xs} と書く．ただし演算子 \code{<\$>} は \code{fmap} 演算子の中置バージョンである．}
+であると定義する．この演算子 $\mMapList$ をリストの\keyword{マップ演算子}と呼ぶ．\footnote{\haskell では $\hFunc{f}\mMapList\hListVarWith{x}$ を\code{map f xs} または \code{f <\$> xs} と書く．ただし演算子 \code{<\$>} は \code{fmap} 演算子の中置バージョンである．}
 
 リストのマップ演算子の型は
 \begin{equation}
@@ -1396,12 +1396,12 @@ ms = map(f, ls)
 \begin{align}
   \hFunc{f}
   &=\mLambda\hVar{x}\mLambdaArrow\hConstant{100}+\hVar{x}\\
-  \mList{x}
+  \hListVarWith{x}
   &=[\hConstant{1}\dotsb\hConstant{5}]\\
-  \mList{y}
-  &=\hFunc{f}\mMapList\mList{x}
+  \hListVarWith{y}
+  &=\hFunc{f}\mMapList\hListVarWith{x}
 \end{align}
-とすると $\mList{y}$ の値は $[\hConstant{101},\hConstant{102},\hConstant{103},\hConstant{104},\hConstant{105}]$ となる．
+とすると $\hListVarWith{y}$ の値は $[\hConstant{101},\hConstant{102},\hConstant{103},\hConstant{104},\hConstant{105}]$ となる．
 
 \section{余談：リストの実装}
 
@@ -1422,25 +1422,25 @@ ms = map(f, ls)
 \end{align}
 cons演算子 $(:)$ は右結合する．すなわち $\hVar{x}_0:\hVar{x}_1:\hVar{x}_2=\hVar{x}_0:(\hVar{x}_1:\hVar{x}_2)$ である．
 
-マップ演算子の実装は，リストの実装に踏み込めば簡単である．空でないリストは必ず $\hVar{x}:\mList{x}$ へと分解できるから
+マップ演算子の実装は，リストの実装に踏み込めば簡単である．空でないリストは必ず $\hVar{x}:\hListVarWith{x}$ へと分解できるから
 \begin{equation}
   \left\{
   \begin{aligned}
     \hFunc{f}\mMapList\mEmptyList
     &=\mEmptyList\\
-    \hFunc{f}\mMapList{}(\hVar{x}:\mList{x})
-    &=(\hFunc{f}\hVar{x}):(\hFunc{f}\mMapList\mList{x})
+    \hFunc{f}\mMapList{}(\hVar{x}:\hListVarWith{x})
+    &=(\hFunc{f}\hVar{x}):(\hFunc{f}\mMapList\hListVarWith{x})
   \end{aligned}
   \right.
 \end{equation}
 とマップ演算子 $(\mMapList)$ を定義できる．つまりマップ演算子 $(\mMapList)$ はcons演算子 $(:)$ から作ることができる．換言すれば，マップ演算子はシンタックスシュガーである．
 
-\haskell では任意のリスト $\mList{x}$ に対し，次の関数が用意されている．
+\haskell では任意のリスト $\hListVarWith{x}$ に対し，次の関数が用意されている．
 \begin{align*}
-  \mHead\mList{x}
-  &\dots\text{$\mList{x}$の先頭要素}\\
-  \mTail\mList{x}
-  &\dots\text{$\mList{x}$の2番目以降の要素からなるリスト}
+  \mHead\hListVarWith{x}
+  &\dots\text{$\hListVarWith{x}$の先頭要素}\\
+  \mTail\hListVarWith{x}
+  &\dots\text{$\hListVarWith{x}$の2番目以降の要素からなるリスト}
 \end{align*}
 これらは\lisp の \code{car} 関数，\code{cdr} 関数と同じものであり，この二者を用いればどのようなリストの処理も可能である．
 
@@ -1450,15 +1450,15 @@ cons演算子 $(:)$ は右結合する．すなわち $\hVar{x}_0:\hVar{x}_1:\hV
 
 リストを引数にとる関数はいつでも
 \begin{equation}
-  f(\hVar{x}:\mList{x})
+  f(\hVar{x}:\hListVarWith{x})
   =\dotsb
 \end{equation}
-という風にパタンマッチを行えるが，式の右辺でリスト全体すなわち $(\hVar{x}:\mList{x})$ を参照したい場合もあるであろう．そのような場合は
+という風にパタンマッチを行えるが，式の右辺でリスト全体すなわち $(\hVar{x}:\hListVarWith{x})$ を参照したい場合もあるであろう．そのような場合は
 \begin{equation}
-  \hFunc{f}\mAs{\hVar{x}:\mList{x}}{\mList{a}}%\overbrace{(\hVar{x}:\mList{x})}^{\mList{a}}
+  \hFunc{f}\mAs{\hVar{x}:\hListVarWith{x}}{\hListVarWith{a}}%\overbrace{(\hVar{x}:\hListVarWith{x})}^{\hListVarWith{a}}
   =\dotsb
 \end{equation}
-として，変数 $\mList{a}$ でリスト全体を参照することも可能である．このような記法を\keyword{asパタン}と呼ぶ．\footnote{\haskell では $\hFunc{f}\mAs{\hVar{x}:\mList{x}}{\mList{a}}$ を \code{f as@(x:xs)} と書く．}
+として，変数 $\hListVarWith{a}$ でリスト全体を参照することも可能である．このような記法を\keyword{asパタン}と呼ぶ．\footnote{\haskell では $\hFunc{f}\mAs{\hVar{x}:\hListVarWith{x}}{\hListVarWith{a}}$ を \code{f as@(x:xs)} と書く．}
 
 \section{この章のまとめ}
 
@@ -1471,14 +1471,14 @@ cons演算子 $(:)$ は右結合する．すなわち $\hVar{x}_0:\hVar{x}_1:\hV
 \item 空リストは $\mEmptyList$ と表す．
 \item $\hTypeName{a}$型のリストを $[\mA]$ 型で表す．
 \item リスト型コンストラクタ$\mListTypeConstructor$ は型パラメタ $\hTypeName{a}$ に作用して$[\mA]$ を生成する．
-\item リストは先頭要素と続くリストから定義される．先頭要素を $\hVar{x}$ とし，続くリストを $\mList{x}$ とすると$\hVar{x}:\mList{x}$ はリストである．ここに演算子 $:$ は結合(cons)演算子である．
-\item リストはリスト結合(append)できる．リスト $\mList{y}$ とリスト $\mList{z}$ のリスト結合は $\mList{y}\mAppend\mList{z}$ である．
+\item リストは先頭要素と続くリストから定義される．先頭要素を $\hVar{x}$ とし，続くリストを $\hListVarWith{x}$ とすると$\hVar{x}:\hListVarWith{x}$ はリストである．ここに演算子 $:$ は結合(cons)演算子である．
+\item リストはリスト結合(append)できる．リスト $\hListVarWith{y}$ とリスト $\hListVarWith{z}$ のリスト結合は $\hListVarWith{y}\mAppend\hListVarWith{z}$ である．
 \item 左畳み込み演算子$\mFold^{\hAnyBinOp}_a[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]$ は $a\hAnyBinOp \hVar{x}_0\hAnyBinOp \hVar{x}_1\hAnyBinOp\dotsb\hAnyBinOp \hVar{x}_n$ を返す．
 \item 右畳み込み演算子 $\mFoldRight^{\hAnyBinOp}_{a}[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]$ は$(\hVar{x}_0\hAnyBinOp(\hVar{x}_1\hAnyBinOp\dotsb\hAnyBinOp(\hVar{x}_n\hAnyBinOp a)))$ を返す．
 \item 平坦化演算子 $\mJoinList=\mFold_\mEmptyList^{\mAppend}$ はリストを平坦化する．
 \item 関数 $\hFunc{f}\hIsTypeOf\mProjEXP{\mA }{\mA }$ はマップ演算子 $\mMapList$ を用いて $\hFunc{f}\mMapList[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]=[\hFunc{f}\hVar{x}_0,\hFunc{f}\hVar{x}_1\dotsb \hFunc{f}\hVar{x}_n]$ のようにリスト$[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]$ に適用できる．
 \item マップ演算子$\mMapList$ の型は$\mProjEXP{(\mProjEXP{\mA }{\mB})}{\mProjEXP{\mA }{\mB }}$である．
-\item $\mHead(\hVar{x}:\mList{x})=x,\mTail(\hVar{x}:\mList{x})=\mList{x}$である．
+\item $\mHead(\hVar{x}:\hListVarWith{x})=x,\mTail(\hVar{x}:\hListVarWith{x})=\hListVarWith{x}$である．
 \end{enumerate}
 
 % 型パラメタの話はどこが初出？
@@ -1521,8 +1521,8 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
   \begin{aligned}
     \mSum\mEmptyList
     &=\hConstant{0}\\
-    \mSum(\hVar{x}:\mList{x})
-    &=\hVar{x}+\mSum\mList{x}
+    \mSum(\hVar{x}:\hListVarWith{x})
+    &=\hVar{x}+\mSum\hListVarWith{x}
   \end{aligned}
   \right.
 \end{equation}
@@ -1589,9 +1589,9 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
 
 \section{遅延評価}
 
-\haskell は，意図しない限り遅延評価を行う．これは特に左畳み込み演算子 $(\mFold)$ を使う場合に問題となる．いま $\mList{x}=[\hVar{x}_0,\hVar{x}_1,\hVar{x}_2,\hVar{x}_3]$ とすると，左畳み込み演算 $\mFold^+_{\hConstant{0}}\mList{x}$ は
+\haskell は，意図しない限り遅延評価を行う．これは特に左畳み込み演算子 $(\mFold)$ を使う場合に問題となる．いま $\hListVarWith{x}=[\hVar{x}_0,\hVar{x}_1,\hVar{x}_2,\hVar{x}_3]$ とすると，左畳み込み演算 $\mFold^+_{\hConstant{0}}\hListVarWith{x}$ は
 \begin{align}
-  \mFold^+_{\hConstant{0}}\mList{x}
+  \mFold^+_{\hConstant{0}}\hListVarWith{x}
   &=\mFold^+_{\hConstant{0}}{}(\hVar{x}_0:\hVar{x}_1:\hVar{x}_2:\mEmptyList)\\
   &=\mFold^+_{\hConstant{0}+\hVar{x}_0}{}(\hVar{x}_1:\hVar{x}_2:\hVar{x}_3:\mEmptyList)\\
   &=\mFold^+_{(\hConstant{0}+\hVar{x}_0)+\hVar{x}_1}{}(\hVar{x}_2:\hVar{x}_3:\mEmptyList)\\
@@ -1641,11 +1641,11 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
   \begin{aligned}
     \mSort\mEmptyList
     &=\mEmptyList\\
-    \mSort(\hVar{x}:\mList{x})
-    &=(\mSort\mList{a})\mAppend[x]\mAppend{}(\mSort\mList{b})\\
+    \mSort(\hVar{x}:\hListVarWith{x})
+    &=(\mSort\hListVarWith{a})\mAppend[x]\mAppend{}(\mSort\hListVarWith{b})\\
     &\quad\mWhere\left\{\begin{aligned}
-    \mList{a}&\mLetEq{}[a\mListComp a\mFrom\mList{x},a\le x]\\
-    \mList{b}&\mLetEq{}[b\mListComp b\mFrom\mList{x},b>x]
+    \hListVarWith{a}&\mLetEq{}[a\mListComp a\mFrom\hListVarWith{x},a\le x]\\
+    \hListVarWith{b}&\mLetEq{}[b\mListComp b\mFrom\hListVarWith{x},b>x]
     \end{aligned}
     \right.
   \end{aligned}
@@ -1871,10 +1871,10 @@ maybe<int> v = map_over(g, u);
   \mMaybe{v}
   =\hFunc{f}\mMapMaybe\mMaybe{u}
 \end{equation}
-のようなMaybeバージョンのマップ演算子 $(\mMapMaybe)$ を使った．一方で，同じ関数 $\hFunc{f}$ をリスト $\mList{x}$ に適用するには
+のようなMaybeバージョンのマップ演算子 $(\mMapMaybe)$ を使った．一方で，同じ関数 $\hFunc{f}$ をリスト $\hListVarWith{x}$ に適用するには
 \begin{equation}
-  \mList{y}
-  =\hFunc{f}\mMapList\mList{x}
+  \hListVarWith{y}
+  =\hFunc{f}\mMapList\hListVarWith{x}
 \end{equation}
 のようなリストバージョンのマップ演算子 $(\mMapList)$ を使った．
 
@@ -2120,7 +2120,7 @@ $\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mJustWith{x},\mNothing$
 % ---
 
 % 一般マップ演算子 $(\mMap)$ は\keyword{多様的}である．この意味は，も
-% し $\hFunc{f}\mMap\mList{x}$ と書いてあれば $\hFunc{f}\mMapList\mList{x}$ のことであ
+% し $\hFunc{f}\mMap\hListVarWith{x}$ と書いてあれば $\hFunc{f}\mMapList\hListVarWith{x}$ のことであ
 % るし，もし $\hFunc{f}\mMap\mMaybe{u}$ と書いてあれば $\hFunc{f}\mMapMaybe\mMaybe{u}$
 % のことであると自動的に解釈することである．そして，何の飾りもつけられ
 % ていない変数 $\hVar{x}$ がふらっと現れ，目の前に $\hFunc{f}\mMap x$という式が登場し
@@ -2164,8 +2164,8 @@ $[\hTypeName{a}\hFunctionArrow\mB]\hFunctionArrow[\mA]\hFunctionArrow[\mB]$ で�
 \end{equation}
 と右辺が一致する．つまり，マップ演算子はアプリカティブマップ演算子の特別な場合と考えることができる．実際，リストマップ演算子はアプリカティブマップ演算子から
 \begin{equation}
-  \hFunc{f}\mMapList\mList{x}
-  =[\hFunc{f}]\mAppMapList\mList{x}
+  \hFunc{f}\mMapList\hListVarWith{x}
+  =[\hFunc{f}]\mAppMapList\hListVarWith{x}
 \end{equation}
 と定義できる．
 
@@ -2342,14 +2342,14 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
 \begin{equation}
   \left\{
   \begin{aligned}
-    \mEmptyList\mAppMapList\mList{x}
+    \mEmptyList\mAppMapList\hListVarWith{x}
     &=\mEmptyList\\
-    (f:\mList{f})\mAppMapList\mList{x}
-    &=\mJoinList{}((\hFunc{f}\mMapList\mList{x}):(\mList{f}\mAppMapList\mList{x}))
+    (f:\hListVarWith{f})\mAppMapList\hListVarWith{x}
+    &=\mJoinList{}((\hFunc{f}\mMapList\hListVarWith{x}):(\hListVarWith{f}\mAppMapList\hListVarWith{x}))
   \end{aligned}
   \right.
 \end{equation}
-ここに $(f:\mList{f})$ は関数のリストであり， $\mList{x}$ はリスト変数である．
+ここに $(f:\hListVarWith{f})$ は関数のリストであり， $\hListVarWith{x}$ はリスト変数である．
 
 Maybeのアプリカティブマップ演算子の定義は次の通り．
 \begin{equation}
@@ -2528,8 +2528,8 @@ $\mFunctorTypeClass$ 型クラスは一般マップ演算子 $(\mMap)$ を持っ
 \end{equation}
 
 \begin{equation}
-  f\mBind\mList{x}
-  =\mJoinList(\hFunc{f}\mMapList\mList{x})
+  f\mBind\hListVarWith{x}
+  =\mJoinList(\hFunc{f}\mMapList\hListVarWith{x})
 \end{equation}
 
 Maybeモナド
@@ -2577,17 +2577,17 @@ Maybeモナド
 
 % https://en.wikibooks.org/wiki/Haskell/The_Functor_class#The_functor_laws
 
-例えば $\mId\mMap\mList{x}$ は $\mId\mList{x}$ であり，結局は $\mList{x}$ である．単位元の存在とは，そのような関数 $\mId$ があるという規則である．
+例えば $\mId\mMap\hListVarWith{x}$ は $\mId\hListVarWith{x}$ であり，結局は $\hListVarWith{x}$ である．単位元の存在とは，そのような関数 $\mId$ があるという規則である．
 
-合成則のほうは $\mList{x}=[x]$ を例に考えるとわかりやすく，
+合成則のほうは $\hListVarWith{x}=[x]$ を例に考えるとわかりやすく，
 \begin{align}
-  ((\hFunc{f}\mMap)\hCompose(g\mMap))\mList{x}
-  &=(\hFunc{f}\mMap{}(g\mMap\hAnonParam))\mList{x}\\
-  &=\hFunc{f}\mMap{}(g\mMap\mList{x})\\
+  ((\hFunc{f}\mMap)\hCompose(g\mMap))\hListVarWith{x}
+  &=(\hFunc{f}\mMap{}(g\mMap\hAnonParam))\hListVarWith{x}\\
+  &=\hFunc{f}\mMap{}(g\mMap\hListVarWith{x})\\
   &=\hFunc{f}\mMap{}[\hFunc{g}\hVar{x}]\\
   &=[(f\hCompose g)x]\\
   &=(f\hCompose g)\mMap{}[x]\\
-  &=(f\hCompose g)\mMap\mList{x}
+  &=(f\hCompose g)\mMap\hListVarWith{x}
 \end{align}
 のような関係を一般化したものだと考えれば良い．
 
@@ -3524,7 +3524,7 @@ Either型の場合は
   \mInstanceDeclPolymorphic\;
   \mFunctorTypeClass\hHasElementsOf\mZipListTypeConstructor\\
   \mWhere
-  \hFunc{f}\mMap{}\mZipListWith{\mList{x}}=\mZipListWith{\hFunc{f}\mMapList\mList{x}}
+  \hFunc{f}\mMap{}\mZipListWith{\hListVarWith{x}}=\mZipListWith{\hFunc{f}\mMapList\hListVarWith{x}}
 \end{multline}
 および
 \begin{multline}
@@ -3535,8 +3535,8 @@ Either型の場合は
   \begin{aligned}
     \mPureWith{x}
     &=\mZipListWith{\mRepeat x}\\
-    \mZipListWith{\mList{f}}\mAppMap\mZipListWith{\mList{x}}
-    &=\mZipListWith{\mList{f}\mZip\mList{x}}
+    \mZipListWith{\hListVarWith{f}}\mAppMap\mZipListWith{\hListVarWith{x}}
+    &=\mZipListWith{\hListVarWith{f}\mZip\hListVarWith{x}}
   \end{aligned}
   \right.
 \end{multline}
@@ -3547,7 +3547,7 @@ Either型の場合は
   \begin{aligned}
     (\mZip)\_\mEmptyList&=\mEmptyList\\
     (\mZip)\mEmptyList\_&=\mEmptyList\\
-    (\mZip)(\hVar{x}:\mList{x})(y:\mList{y})&=(x\hApply y):\mList{x}\mZip\mList{y}
+    (\mZip)(\hVar{x}:\hListVarWith{x})(y:\hListVarWith{y})&=(x\hApply y):\hListVarWith{x}\mZip\hListVarWith{y}
   \end{aligned}
   \right.
 \end{equation}
@@ -3564,14 +3564,14 @@ Either型の場合は
 \end{equation}
 である．
 
-任意のリスト $\mList{x}$ と任意の関数リスト $\mList{f}$ ただし
+任意のリスト $\hListVarWith{x}$ と任意の関数リスト $\hListVarWith{f}$ ただし
 \begin{align}
-\mList{x}&=[\hVar{x}_0,\hVar{x}_1,\dotsb]\\
-\mList{f}&=[\hFunc{f}_0,\hFunc{f},\dotsb]
+\hListVarWith{x}&=[\hVar{x}_0,\hVar{x}_1,\dotsb]\\
+\hListVarWith{f}&=[\hFunc{f}_0,\hFunc{f},\dotsb]
 \end{align}
 の両方をそれぞれ値コンストラクタで包んでアプリカティブマップ演算子を適用すると
 \begin{equation}
-  \mZipListWith{\mList{f}}\mAppMap\mZipListWith{\mList{x}}
+  \mZipListWith{\hListVarWith{f}}\mAppMap\mZipListWith{\hListVarWith{x}}
   =[\hFunc{f}_0\hVar{x}_0,\hFunc{f} \hVar{x}_1,\dotsb]
 \end{equation}
 のようにジップ演算子を適用できる．
@@ -3599,8 +3599,8 @@ $\mNewTypeDeclPolymorphic$ に置き換えたことである．これは，字�
     &=\mEmptyList\\
     \mZipWith\_\_\mEmptyList
     &=\mEmptyList\\
-    \mZipWith f(\hVar{x}:\mList{x})(y:\mList{y})
-    &=\hFunc{f}\hVar{x}\hVar{y}:\mZipWith f\mList{x}\mList{y}
+    \mZipWith f(\hVar{x}:\hListVarWith{x})(y:\hListVarWith{y})
+    &=\hFunc{f}\hVar{x}\hVar{y}:\mZipWith f\hListVarWith{x}\hListVarWith{y}
     \end{aligned}
     \right.
   \end{aligned}
@@ -3615,15 +3615,15 @@ $\mNewTypeDeclPolymorphic$ に置き換えたことである．これは，字�
 
 関数 $\mZipWith$ を再帰的に定義したが，再帰をリストのマップ演算子に押し込むこともできる．それには
 \begin{equation}
-  \mZipWith f(\hVar{x}:\mList{x})(y:\mList{y})
-  =\hFunc{f}'\mMapList\mList{z}
+  \mZipWith f(\hVar{x}:\hListVarWith{x})(y:\hListVarWith{y})
+  =\hFunc{f}'\mMapList\hListVarWith{z}
   \mWhere
   \left\{
   \begin{aligned}
     f'
     &\mLetEq\hUncurry f\\
-    \mList{z}
-    &\mLetEq\mZipFunc\mList{x}\mList{y}
+    \hListVarWith{z}
+    &\mLetEq\mZipFunc\hListVarWith{x}\hListVarWith{y}
   \end{aligned}
   \right.
 \end{equation}
@@ -4048,8 +4048,8 @@ y = run (triplicate' Cat.. duplicate') x
 
 ところで，リストのバインド演算子 $(\mBindList)$ は
 \begin{equation}
-  f\mBindList\mList{x}
-  =\mJoinList{}(\hFunc{f}\mMapList\mList{x})
+  f\mBindList\hListVarWith{x}
+  =\mJoinList{}(\hFunc{f}\mMapList\hListVarWith{x})
   \label{eq:leftleftarrows}
 \end{equation}
 であった．関数 $\hFunc{f}$, $\hFunc{g}$ が $\mValueWith{NonDet}{f}$,
@@ -4172,17 +4172,17 @@ instance Cat.Category NonDet where
 
 \section{アロー*}
 
-数値のリスト $\mList{x}$ の平均をとる関数 $\mMean$ を考えてみよう．実装は単純で
+数値のリスト $\hListVarWith{x}$ の平均をとる関数 $\mMean$ を考えてみよう．実装は単純で
 \begin{equation}
-  \mMean\mList{x}
-  =\mSum\mList{x}/\mLength\mList{x}
+  \mMean\hListVarWith{x}
+  =\mSum\hListVarWith{x}/\mLength\hListVarWith{x}
 \end{equation}
 である．
 
 問題はここからである．関数 $\mMean$ を関数 $\mSum$ と関数 $\mLength$ の合成の形にできるだろうか．つまり
 \begin{equation}
-  \mMean\mList{x}
-  =(\mSum\mSomeOp\mLength)\mList{x}
+  \mMean\hListVarWith{x}
+  =(\mSum\mSomeOp\mLength)\hListVarWith{x}
 \end{equation}
 あるいは
 \begin{equation}
@@ -4191,12 +4191,12 @@ instance Cat.Category NonDet where
 \end{equation}
 の形に分解するような関数合成演算子は存在するだろうか．
 
-残念なことに関数 $\mSum$ も $\mLength$ も同じ引数 $(\mList{x})$ をとる必要がある．そのため従来の方法では関数を合成出来ない．しかし次のように演算の結果をペアに収めることが出来れば何とかなりそうである．
+残念なことに関数 $\mSum$ も $\mLength$ も同じ引数 $(\hListVarWith{x})$ をとる必要がある．そのため従来の方法では関数を合成出来ない．しかし次のように演算の結果をペアに収めることが出来れば何とかなりそうである．
 \begin{equation}
   \label{eq:mean}
-  \mMean\mList{x}
+  \mMean\hListVarWith{x}
   =
-  \left(\mLambda\hPairWith{\hVar{x}}{\hVar{y}}\mLambdaArrow x/y\right)\hPairWith{\mSum\mList{x}}{\mLength\mList{x}}
+  \left(\mLambda\hPairWith{\hVar{x}}{\hVar{y}}\mLambdaArrow x/y\right)\hPairWith{\mSum\hListVarWith{x}}{\mLength\hListVarWith{x}}
 \end{equation}
 幸いカリー化された2引数関数をペアを引数にとる関数へ変換する
 $\hUncurry$ 関数があり，
@@ -4209,13 +4209,13 @@ $\hUncurry$ 関数があり，
 
 式\eqref{eq:mean}の第2項（後半の括弧）は
 \begin{equation}
-  \hPairWith{\mSum\mList{x}}{\mLength\mList{x}}
+  \hPairWith{\mSum\hListVarWith{x}}{\mLength\hListVarWith{x}}
   =\begin{bmatrix}
   \mSum\\
   \mLength
   \end{bmatrix}
   % \mathop{\square}{}
-  \hPairWith{\mList{x}}{\mList{x}}
+  \hPairWith{\hListVarWith{x}}{\hListVarWith{x}}
 \end{equation}
 という形にしたい．そうすれば
 \begin{equation}
@@ -4227,7 +4227,7 @@ $\begin{bmatrix}\vdots\end{bmatrix}$ だけの問題になる．
 
 問題を整理すると，式\eqref{eq:mean}を
 \begin{equation}
-  \mMean\mList{x}
+  \mMean\hListVarWith{x}
   =\hUncurry(/)
   \hCompose
   \begin{bmatrix}
@@ -4237,7 +4237,7 @@ $\begin{bmatrix}\vdots\end{bmatrix}$ だけの問題になる．
   \hCompose{}
   \mSplit
   \hApply
-  \mList{x}
+  \hListVarWith{x}
 \end{equation}
 という形に持っていきたい．それには
 \begin{equation}
@@ -4500,7 +4500,7 @@ $\mArrowTypeClass$ のインスタンスでもなければならないので，
 
 \begin{equation}
   m
-  =\mFuncall\mMean'\mList{x}
+  =\mFuncall\mMean'\hListVarWith{x}
 \end{equation}
 
 
@@ -4760,7 +4760,7 @@ $\Vec{\hFunc{f}}***\Vec{\hFunc{g}}$ も関数ではない．
 \begin{align}
   \mRunCircuit&\hIsTypeOf\mCircuitType\,\hTypeName{a}\,\hTypeName{b}\hFunctionArrow[\mA]\hFunctionArrow[\mB]\\
   \mRunCircuit\_\mEmptyList&=\mEmptyList\\
-  \mRunCircuit c(\hVar{x}:\mList{x})&=x':\mRunCircuit c'\mList{x}\\
+  \mRunCircuit c(\hVar{x}:\hListVarWith{x})&=x':\mRunCircuit c'\hListVarWith{x}\\
   &\quad\mWhere{}(c',x')\mLetEq\mUncircuit cx
 \end{align}
 
@@ -5522,9 +5522,9 @@ f&\hIsTypeOf\mProjEXP{\hDouble}{\hDouble}\\
 \begin{equation*}
   \left\mBrace
   \begin{aligned}
-    \mList{x}
+    \hListVarWith{x}
     &\mIn{}[\hDouble]\\
-    \mList{x}
+    \hListVarWith{x}
     &=[i/n*\pi\mListComp i\mFrom[0\dotsb n]]
   \end{aligned}
   \right.
@@ -5536,33 +5536,33 @@ f&\hIsTypeOf\mProjEXP{\hDouble}{\hDouble}\\
 \begin{equation}
   \left\mBrace
   \begin{aligned}
-    \mList{x}
+    \hListVarWith{x}
     &\mIn{}[\hDouble]\\
-    \mList{x}
+    \hListVarWith{x}
     &=[(\hFromIntegral i)/(\hFromIntegral n)*\pi\mListComp i\mFrom[0\dotsb n]]
   \end{aligned}
   \right.
 \end{equation}
-となる．この結果，リスト $\mList{x}$ は
+となる．この結果，リスト $\hListVarWith{x}$ は
 \begin{equation}
-  \mList{x}
+  \hListVarWith{x}
   =[0,(1/n)*\pi,(2/n)*\pi,\dotsb,\pi]
 \end{equation}
 となる．
 
-最後に，関数 $\hFunc{f}$ をリスト $\mList{x}$ に適用して結果を得る．
+最後に，関数 $\hFunc{f}$ をリスト $\hListVarWith{x}$ に適用して結果を得る．
 \begin{equation}
   \left\mBrace
   \begin{aligned}
     y
     &\mIn{}[\hDouble]\\
     y
-    &=\hFunc{f}\mMapList\mList{x}
+    &=\hFunc{f}\mMapList\hListVarWith{x}
   \end{aligned}
   \right.
 \end{equation}
 
-結果 $\mList{y}$ はプログラム
+結果 $\hListVarWith{y}$ はプログラム
 \begin{equation}
 \mMain=\mPrint y\mBindRightIgnore\mPureWith{0}
 \end{equation}
@@ -5636,11 +5636,11 @@ main = print ys >> pure 0
 
 \begin{equation}
 \begin{aligned}
-yt&=\sum(\hLambdaSyntax{x}{\mFst x*\mSnd x})\mMapList\mList{h}\\
+yt&=\sum(\hLambdaSyntax{x}{\mFst x*\mSnd x})\mMapList\hListVarWith{h}\\
 &\quad\mWhere\\
-&\qquad\mList{h}\mLetEq{}\mZipFunc\mList{f}\mList{g}\\
-&\qquad\mList{f}\mLetEq[\hFunc{f}\hVar{x}\mListComp x\mFrom[\hConstant{0},\hConstant{1}\dotsb n]]\\
-&\qquad\mList{g}\mLetEq[g(t-x)\mListComp x\mFrom[\hConstant{0},\hConstant{1}\dotsb n]]
+&\qquad\hListVarWith{h}\mLetEq{}\mZipFunc\hListVarWith{f}\hListVarWith{g}\\
+&\qquad\hListVarWith{f}\mLetEq[\hFunc{f}\hVar{x}\mListComp x\mFrom[\hConstant{0},\hConstant{1}\dotsb n]]\\
+&\qquad\hListVarWith{g}\mLetEq[g(t-x)\mListComp x\mFrom[\hConstant{0},\hConstant{1}\dotsb n]]
 \end{aligned}
 \end{equation}
 
@@ -5741,7 +5741,7 @@ main = do
 ン \code{getArgs} の戻り値の型は \code{[String]} である．
 
 \begin{equation}
-\mMain=(\dotsb\mWhere{}\mList{a}=\mAction{getArgs})\mBindRightIgnore\mPureWith{0}
+\mMain=(\dotsb\mWhere{}\hListVarWith{a}=\mAction{getArgs})\mBindRightIgnore\mPureWith{0}
 \end{equation}
 
 \section{この章のまとめ*}
