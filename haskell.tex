@@ -1225,22 +1225,22 @@ $\hListVarWith{y}$ を結合したリストは
 $\hListVarWith{n}$ は
 \begin{equation*}
   \hListVarWith{n}
-  =[\hConstant{1},\hConstant{2}\dotsb]
+  =\hListWith{\hConstant{1},\hConstant{2}\dotsb}
 \end{equation*}
-と書くことができる．\footnote{\haskell では$\hListVarWith{n}=[1,2\dots]$ を \code{ns = [1, 2..]} と書く．}
+と書くことができる．\footnote{\haskell では$\hListVarWith{n}=\hListWith{1,2\dots}$ を \code{ns = [1, 2..]} と書く．}
 
 無限リストを扱えるのは，我々がいつも遅延評価を行うからである．遅延評価とは，本当の計算は必要になるまで行わないという方式のことである．
 
-もし本当に無限リストを計算機の上で再現する必要があったなら，計算機には無限のメモリが必要になってしまう．しかし我々は，計算が必要になるまで評価を行わないので，無限リストの中から有限個の要素が取り出されるのを待つことができるのである．例えば関数 $\mTake\hVar{n}\,\hListVarWith{n}$ はリスト $\hListVarWith{n}$ から最初の $\hVar{n}$ 個の要素からなるリストを返す．いま
+もし本当に無限リストを計算機の上で再現する必要があったなら，計算機には無限のメモリが必要になってしまう．しかし我々は，計算が必要になるまで評価を行わないので，無限リストの中から有限個の要素が取り出されるのを待つことができるのである．例えば関数 $\hTake\hVar{m}\,\hListVarWith{n}$ はリスト $\hListVarWith{n}$ から最初の $\hVar{m}$ 個の要素からなるリストを返す．いま
 \begin{equation*}
   \hListVarWith{x}
-  =\mTake\,\hConstant{5}\,\hListVarWith{n}
+  =\hTake\,\hConstant{5}\,\hListVarWith{n}
 \end{equation*}
 とすると，リスト $\hListVarWith{x}$ は $\hListVarWith{x}=[\hConstant{1},\hConstant{2}\dotsb\hConstant{5}]$ という値を持つ．\footnote{\haskell では \code{xs = take 5 ns} と書く．}
 
-関数 $\mTake$ の型は
+関数 $\hTake$ の型は
 \begin{equation}
-  \mTake
+  \hTake
   \hIsTypeOf\hInt\hFunctionArrow\hListConstruct{\hTypeName{a}}\hFunctionArrow\hListConstruct{\hTypeName{a}}
 \end{equation}
 である．
