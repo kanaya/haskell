@@ -967,7 +967,7 @@ z = g(f(x))
 $\hFromIntegral$ は
 \begin{equation}
   \hFromIntegral
-  \mIn{}\hIntegral\hHasElementsOf\mA
+  \hIsTypeOf{}\hIntegral\hHasElementsOf\mA
   \hAndThen\hTypeName{a}\hFunctionArrow\mB
 \end{equation}
 という型を持ち，$\hIntegral$ 型クラスの型の変数を，任意の型へ変換する．例えば
@@ -1189,31 +1189,35 @@ $\hListVarWith{x}$ のように $\hTypeName{a}$ 型の変数 $\hVar{x}$ を入�
 
 ある型を包み込んだ別の型を一般に\keyword{コンテナ型}または単に\keyword{コンテナ}と呼ぶ．コンテナ型の変数を\keyword{コンテナ変数}と呼ぶ．コンテナ型は多相型の一種である．
 
-% なお，リスト型，結合演算子，空リストの組み合わせ $\hSingleTuppleWith{[\mA],\mAppend,\mEmptyList}$ はモノイドである．
+% なお，リスト型，結合演算子，空リストの組み合わせ $\hSingleTuppleWith{\hListConstruct{\hTypeName{a}},\hAppend,\mEmptyList}$ はモノイドである．
 
 \separator
 
 リストは\keyword{結合}できる．例えばリスト$\hListVarWith{x}$ とリスト
 $\hListVarWith{y}$ を結合したリストは
 \begin{equation}
-  \hListVarWith{x}\mAppend\hListVarWith{y}
+  \hListVarWith{x}\hAppend\hListVarWith{y}
 \end{equation}
 と表現する．リストの結合演算子の型は
 \begin{equation}
-  (\mAppend)
-  \mIn[\mA]\hFunctionArrow[\mA]\hFunctionArrow[\mA]
+  (\hAppend)
+  \hIsTypeOf{}\hListConstruct{\hTypeName{a}}\hFunctionArrow\hListConstruct{\hTypeName{a}}\hFunctionArrow\hListConstruct{\hTypeName{a}}
 \end{equation}
-である．\footnote{\haskell では $\hListVarWith{x}\mAppend\hListVarWith{y}$ を \code{xs++ys} と書く．}
+である．\footnote{\haskell では $\hListVarWith{x}\hAppend\hListVarWith{y}$ を \code{xs++ys} と書く．}
 
 \separator
 
 リストは空でもよい．\keyword{空リスト}は$\mEmptyList$で表す．\footnote{\haskell では空リストを \code{[]} で表す．}
 
-関数 $\mNull$ はリストが空リストかどうかを判定する．リスト $\hListVarWith{x}$が空リストの場合
+関数 $\hNull$ はリストが空リストかどうかを判定する．リスト $\hListVarWith{x}$が空リストの場合
 \begin{equation}
-  \mNull\hListVarWith{x}
+  \hNull\hListVarWith{x}
 \end{equation}
-は $\hTrue$ を，そうでなければ $\hFalse$ を返す．
+は $\hTrue$ を，そうでなければ $\hFalse$ を返す．関数 $\hNull$ は
+\begin{equation}
+\hNull\hIsTypeOf{}\hListConstruct{\hTypeName{a}}\hFunctionArrow\hBool
+\end{equation}
+である．
 
 \separator
 
@@ -1237,7 +1241,7 @@ $\hListVarWith{n}$ は
 関数 $\mTake$ の型は
 \begin{equation}
   \mTake
-  \hIsTypeOf\hInt\hFunctionArrow[\mA]\hFunctionArrow[\mA]
+  \hIsTypeOf\hInt\hFunctionArrow\hListConstruct{\hTypeName{a}}\hFunctionArrow\hListConstruct{\hTypeName{a}}
 \end{equation}
 である．
 
@@ -1306,7 +1310,7 @@ s = ls.inject(0) { |x, y| x+y }
 畳み込み演算子は第1（上）引数に $\hTypeName{a}$ 型と $\hTypeName{b}$ 型の引数を取り $\hTypeName{a}$ 型の戻り値を返す二項演算子，第2（下）引数に$\hTypeName{a}$ 型，第3（右）引数に $\hTypeName{b}$ 型のリストすなわち$[\mB]$ 型を取り，$\hTypeName{a}$ 型の値を返す．従って畳み込み演算子の型は
 \begin{equation}
   \mFold
-  \mIn(\hTypeName{a}\hFunctionArrow\hTypeName{b}\hFunctionArrow\mA)
+  \hIsTypeOf(\hTypeName{a}\hFunctionArrow\hTypeName{b}\hFunctionArrow\mA)
   \hFunctionArrow\mA
   \hFunctionArrow[\mB]
   \hFunctionArrow\mA
@@ -1324,15 +1328,15 @@ s = ls.inject(0) { |x, y| x+y }
 
 \separator
 
-畳み込み演算子の面白い応用例を示そう．リストの結合演算子 $(\mAppend)$ を使うと
+畳み込み演算子の面白い応用例を示そう．リストの結合演算子 $(\hAppend)$ を使うと
 \begin{equation}
-  \mFold_\mEmptyList^{\mAppend}[[\hConstant{0},\hConstant{1},\hConstant{2}],[\hConstant{3},\hConstant{4},\hConstant{5}]\dotsb]
+  \mFold_\mEmptyList^{\hAppend}[[\hConstant{0},\hConstant{1},\hConstant{2}],[\hConstant{3},\hConstant{4},\hConstant{5}]\dotsb]
   =[\hConstant{0},\hConstant{1},\hConstant{2},\hConstant{3},\hConstant{4},\hConstant{5}\dotsb]
 \end{equation}
-であるから，演算子 $\mFold_\mEmptyList^{\mAppend}$ はリストを平坦化する\keyword{平坦化演算子}である．平坦化演算子はconcat演算子とも呼ばれることもあるが，基本的な演算子であるため特別な記号をつけておこう．我々は
+であるから，演算子 $\mFold_\mEmptyList^{\hAppend}$ はリストを平坦化する\keyword{平坦化演算子}である．平坦化演算子はconcat演算子とも呼ばれることもあるが，基本的な演算子であるため特別な記号をつけておこう．我々は
 \begin{equation}
   \mJoinList
-  =\mFold_\mEmptyList^{\mAppend}
+  =\mFold_\mEmptyList^{\hAppend}
 \end{equation}
 と定義することにする．\footnote{\haskell では演算子 $\mJoinList$ の代わりに \code{concat} 関数（または \code{join} 関数）を使う．}
 % ***CHECK***
@@ -1365,18 +1369,18 @@ ms = map(f, ls)
 リストのマップ演算子の型は
 \begin{equation}
   \mMapList
-  \mIn{}(\hTypeName{a}\hFunctionArrow\mB)\hFunctionArrow[\mA]\hFunctionArrow[\mB]
+  \hIsTypeOf{}(\hTypeName{a}\hFunctionArrow\mB)\hFunctionArrow\hListConstruct{\hTypeName{a}}\hFunctionArrow[\mB]
 \end{equation}
 である．矢印 $\hFunctionArrow$ は右結合なので，これは
 \begin{equation}
   \mMapList
-  \mIn{}(\hTypeName{a}\hFunctionArrow\mB)\hFunctionArrow([\mA]\hFunctionArrow[\mB])
+  \hIsTypeOf{}(\hTypeName{a}\hFunctionArrow\mB)\hFunctionArrow(\hListConstruct{\hTypeName{a}}\hFunctionArrow[\mB])
 \end{equation}
 の意味でもある．念のため上式に注釈を加えると
 \begin{equation}
   \mMapList
   \hIsTypeOf\underbrace{\left(\hTypeName{a}\hFunctionArrow\hTypeName{b}\right)}_{\hFunc{f}}
-  \hFunctionArrow\left(\underbrace{[\mA]}_{[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]}
+  \hFunctionArrow\left(\underbrace{\hListConstruct{\hTypeName{a}}}_{[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]}
   \hFunctionArrow\underbrace{[\mB]}_{[\hFunc{f}\hVar{x}_0,\hFunc{f}\hVar{x}_1\dotsb \hFunc{f}\hVar{x}_n]}\right)
 \end{equation}
 である．
@@ -1386,7 +1390,7 @@ ms = map(f, ls)
   \hFunc{f}
   &\hIsTypeOf\hTypeName{a}\hFunctionArrow\hTypeName{b}\\
   \hFunc{f}\mMapList
-  &\mIn{}[\mA]\hFunctionArrow[\mB]
+  &\hIsTypeOf{}\hListConstruct{\hTypeName{a}}\hFunctionArrow[\mB]
 \end{align}
 となり，マップ演算子が何をしているのか一目瞭然になる．
 
@@ -1469,13 +1473,13 @@ cons演算子 $(:)$ は右結合する．すなわち $\hVar{x}_0:\hVar{x}_1:\hV
 \item 1要素のリストは $[x]$ のように表記する．この括弧をリスト値コンス
   トラクタと呼ぶ．
 \item 空リストは $\mEmptyList$ と表す．
-\item $\hTypeName{a}$型のリストを $[\mA]$ 型で表す．
-\item リスト型コンストラクタ$\mListTypeConstructor$ は型パラメタ $\hTypeName{a}$ に作用して$[\mA]$ を生成する．
+\item $\hTypeName{a}$型のリストを $\hListConstruct{\hTypeName{a}}$ 型で表す．
+\item リスト型コンストラクタ$\mListTypeConstructor$ は型パラメタ $\hTypeName{a}$ に作用して$\hListConstruct{\hTypeName{a}}$ を生成する．
 \item リストは先頭要素と続くリストから定義される．先頭要素を $\hVar{x}$ とし，続くリストを $\hListVarWith{x}$ とすると$\hVar{x}:\hListVarWith{x}$ はリストである．ここに演算子 $:$ は結合(cons)演算子である．
-\item リストはリスト結合(append)できる．リスト $\hListVarWith{y}$ とリスト $\hListVarWith{z}$ のリスト結合は $\hListVarWith{y}\mAppend\hListVarWith{z}$ である．
+\item リストはリスト結合(append)できる．リスト $\hListVarWith{y}$ とリスト $\hListVarWith{z}$ のリスト結合は $\hListVarWith{y}\hAppend\hListVarWith{z}$ である．
 \item 左畳み込み演算子$\mFold^{\hAnyBinOp}_a[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]$ は $a\hAnyBinOp \hVar{x}_0\hAnyBinOp \hVar{x}_1\hAnyBinOp\dotsb\hAnyBinOp \hVar{x}_n$ を返す．
 \item 右畳み込み演算子 $\mFoldRight^{\hAnyBinOp}_{a}[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]$ は$(\hVar{x}_0\hAnyBinOp(\hVar{x}_1\hAnyBinOp\dotsb\hAnyBinOp(\hVar{x}_n\hAnyBinOp a)))$ を返す．
-\item 平坦化演算子 $\mJoinList=\mFold_\mEmptyList^{\mAppend}$ はリストを平坦化する．
+\item 平坦化演算子 $\mJoinList=\mFold_\mEmptyList^{\hAppend}$ はリストを平坦化する．
 \item 関数 $\hFunc{f}\hIsTypeOf\mProjEXP{\mA }{\mA }$ はマップ演算子 $\mMapList$ を用いて $\hFunc{f}\mMapList[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]=[\hFunc{f}\hVar{x}_0,\hFunc{f}\hVar{x}_1\dotsb \hFunc{f}\hVar{x}_n]$ のようにリスト$[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]$ に適用できる．
 \item マップ演算子$\mMapList$ の型は$\mProjEXP{(\mProjEXP{\mA }{\mB})}{\mProjEXP{\mA }{\mB }}$である．
 \item $\mHead(\hVar{x}:\hListVarWith{x})=x,\mTail(\hVar{x}:\hListVarWith{x})=\hListVarWith{x}$である．
@@ -1642,7 +1646,7 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
     \mSort\mEmptyList
     &=\mEmptyList\\
     \mSort(\hVar{x}:\hListVarWith{x})
-    &=(\mSort\hListVarWith{a})\mAppend[x]\mAppend{}(\mSort\hListVarWith{b})\\
+    &=(\mSort\hListVarWith{a})\hAppend[x]\hAppend{}(\mSort\hListVarWith{b})\\
     &\quad\mWhere\left\{\begin{aligned}
     \hListVarWith{a}&\mLetEq{}[a\mListComp a\mFrom\hListVarWith{x},a\le x]\\
     \hListVarWith{b}&\mLetEq{}[b\mListComp b\mFrom\hListVarWith{x},b>x]
@@ -1938,7 +1942,7 @@ X<b> map_over(fn f, X<a> x, b dummy);
 Maybeとよく似た型にEitherがある．Maybeが $\hTypeName{a}$ 型または $\mNothing$ のいずれかの値をとったように，Eitherは $\hTypeName{a}$ 型または $\hTypeName{b}$ 型のいずれかの値を取る．$\hTypeName{a}$ 型または $\hTypeName{b}$ 型を取るEither型の変数 $\mEither{e}$ があるとすると，
 \begin{equation}
   \mEither{e}
-  \mIn{}\mEitherType{a}{b}
+  \hIsTypeOf{}\mEitherType{a}{b}
 \end{equation}
 と書く．Either型は型 $\hTypeName{a}$ および $\hTypeName{b}$ から型コンストラクタを用いて
 \begin{equation}
@@ -2062,7 +2066,7 @@ $\hTypeName{a}$ 型の変数 $\hVar{x},\hVar{y}\hIsTypeOf\hTypeName{a}$ につ�
 
 いま「世界」と呼んだものを，数学者は\keyword{圏}と呼ぶ．圏とは\keyword{対象}と\keyword{射}の組み合わせである．本書では「対象」とは型のことであり，射とは関数だと思えば良い．（厳密にはコンテナに入れられた関数も射に含まれる．）そして，圏から圏へとジャンプさせるものを\keyword{関手}と呼ぶ．この例で言えば値コンストラクタ $\mJustWith{x}$ とマップ演算子 $\mMapMaybe$ が関手である．値コンストラクタ $\mJustWith{x}$ は $\hTypeName{a}\hFunctionArrow\mMaybeType{a}$ という型を持ち，マップ演算子 $\mMapMaybe$ は $(\hTypeName{a}\hFunctionArrow\mB)\hFunctionArrow(\mMaybeType{a}\hFunctionArrow\mMaybeType{b})$ という型を持つ．\footnote{関手は英語でファンクター(functor)と言うが，\cxx の関数オブジェクト (function object) もかつてはファンクター(functor)と呼ばれていた．\cxx のファンクターとはクロージャの代用品のことで，本書で述べる関手とは異なる概念である．混同しないように注意しよう．}
 
-同じことはリストにも言える．値コンストラクタ $[\hVar{x}]$ とマップ演算子 $\mMapList$ もまた関手である．この場合値コンストラクタは $\hTypeName{a}\hFunctionArrow[\mA]$ という型を持ち，マップ演算子も同じく $(\hTypeName{a}\hFunctionArrow\mB)\hFunctionArrow([\mA]\hFunctionArrow[\mB])$ という型を持つ．
+同じことはリストにも言える．値コンストラクタ $[\hVar{x}]$ とマップ演算子 $\mMapList$ もまた関手である．この場合値コンストラクタは $\hTypeName{a}\hFunctionArrow\hListConstruct{\hTypeName{a}}$ という型を持ち，マップ演算子も同じく $(\hTypeName{a}\hFunctionArrow\mB)\hFunctionArrow(\hListConstruct{\hTypeName{a}}\hFunctionArrow[\mB])$ という型を持つ．
 
 \separator
 
@@ -2071,7 +2075,7 @@ $\hTypeName{a}$ 型の変数 $\hVar{x},\hVar{y}\hIsTypeOf\hTypeName{a}$ につ�
 一般化されたマップ演算子を $\mMap$ で表そう．この $\mMap$ 演算子は
 \begin{equation}
   (\mMap)
-  \mIn{}\mFunctorTypeClass
+  \hIsTypeOf{}\mFunctorTypeClass
   \hHasElementsOf\mTypeConstructor{f}
   \hAndThen(\hTypeName{a}\hFunctionArrow\mB)
   \hFunctionArrow\mPolymorphicTypeAssemble{f}{a}
@@ -2082,13 +2086,13 @@ $\hTypeName{a}$ 型の変数 $\hVar{x},\hVar{y}\hIsTypeOf\hTypeName{a}$ につ�
 もし型コンストラクタがリスト型コンストラクタであれば，つまり $\mTypeConstructor{f}=\mListTypeConstructor$ であれば
 \begin{equation}
   (\mMapList)
-  \mIn{}(\hTypeName{a}\hFunctionArrow\mB)\hFunctionArrow[\mA]\hFunctionArrow[\mB]
+  \hIsTypeOf{}(\hTypeName{a}\hFunctionArrow\mB)\hFunctionArrow\hListConstruct{\hTypeName{a}}\hFunctionArrow[\mB]
 \end{equation}
 であるし，もし型コンストラクタがMaybe型コンストラクタであれば，つまり
 $\mTypeConstructor{f}=\mMaybeTypeConstructor$ であれば
 \begin{equation}
   (\mMapMaybe)
-  \mIn{}(\hTypeName{a}\hFunctionArrow\mB)\hFunctionArrow\mMaybeType{a}\hFunctionArrow\mMaybeType{b}
+  \hIsTypeOf{}(\hTypeName{a}\hFunctionArrow\mB)\hFunctionArrow\mMaybeType{a}\hFunctionArrow\mMaybeType{b}
 \end{equation}
 である．
 
@@ -2100,7 +2104,7 @@ $\mTypeConstructor{f}=\mMaybeTypeConstructor$ であれば
 \begin{center}
 \begin{tabular}{||c|c|c|c||}\hline
 型&型コンストラクタ&マップ&値コンストラクタ\\\hline\hline
-$[\mA]$&$\mListTypeConstructor$&$\mMapList$&$[\hVar{x}]$\\
+$\hListConstruct{\hTypeName{a}}$&$\mListTypeConstructor$&$\mMapList$&$[\hVar{x}]$\\
 $\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mJustWith{x},\mNothing$\\\hline
 \end{tabular}
 \end{center}
@@ -2111,7 +2115,7 @@ $\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mJustWith{x},\mNothing$
 % 我々はオブジェクト指向プログラミングよりもエレガントな方法で，リスト
 % とMaybeの共通項をくくりだすことにする．いよいよ型クラスの出番である．
 
-% リスト型 $[\mA]$ もMaybe型 $\mMaybeType{a}$ も
+% リスト型 $\hListConstruct{\hTypeName{a}}$ もMaybe型 $\mMaybeType{a}$ も
 % $\mFunctorTypeClass$ 型クラスに属すのであった．そこで
 % $\mFunctorTypeClass$ 型クラスは\keyword{一般マップ演算子} $(\mMap)$
 % を持つものとする．一般マップ演算子は，リスト型であれば $\mMapList$
@@ -2143,11 +2147,11 @@ $\mMaybeType{a}$&$\mMaybeTypeConstructor$&$\mMapMaybe$&$\mJustWith{x},\mNothing$
 リストのアプリカティブマップ演算子はこのように，左引数のリスト内のすべての関数を順番に右引数のリスト内の変数に適用し，その結果をリストとして返す．
 
 リストのアプリカティブマップ演算子 $\mAppMapList$ の型は
-$[\hTypeName{a}\hFunctionArrow\mB]\hFunctionArrow[\mA]\hFunctionArrow[\mB]$ である．これは
+$[\hTypeName{a}\hFunctionArrow\mB]\hFunctionArrow\hListConstruct{\hTypeName{a}}\hFunctionArrow[\mB]$ である．これは
 \begin{equation}
   \mAppMapList
   \hIsTypeOf\underbrace{[\hTypeName{a}\mapsto\mB]}_{[\hFunc{f}_0,\hFunc{f}_1\dotsb \hFunc{f}_n]}
-  \mapsto\underbrace{[\mA]}_{[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]}
+  \mapsto\underbrace{\hListConstruct{\hTypeName{a}}}_{[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]}
   \mapsto\underbrace{[\mB]}_{[\hFunc{f}_0\hVar{x}_0,\hFunc{f}_0\hVar{x}_1\dotsb \hFunc{f}_0\hVar{x}_n,\hFunc{f} \hVar{x}_0,\hFunc{f} \hVar{x}_1\dotsb \hFunc{f}_n\hVar{x}_n]}
 \end{equation}
 と解釈すれば良い．
@@ -2239,7 +2243,7 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
 という型を持っているとする．この式は $\hFunctionArrow$ を二項演算子，すなわち2引数関数とみなせば
 \begin{equation}
   \hFunc{f}
-  \mIn(\hFunctionArrow)\mR\,\mA
+  \hIsTypeOf(\hFunctionArrow)\mR\,\mA
 \end{equation}
 と等価である．全く形式的に，$\mFuncTypeConstructor$ なる型コンストラクタがあるとして
 \begin{equation}
@@ -2251,7 +2255,7 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
 % $\mFuncTypeConstructor\mA=\mPolymorphicTypeAssemble{\mFuncTypeConstructor}{\mA}$ とすると
 \begin{equation}
   (\mMap)
-  \mIn{}\mFunctorTypeClass\hHasElementsOf\mTypeConstructor{f}
+  \hIsTypeOf{}\mFunctorTypeClass\hHasElementsOf\mTypeConstructor{f}
   \hAndThen(\hTypeName{a}\hFunctionArrow\mB)
   \hFunctionArrow\mFuncType{a}
   \hFunctionArrow\mFuncType{b}
@@ -2259,14 +2263,14 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
 であって，関数のマップ演算子を $\mMapFunc$ とすると
 \begin{equation}
   (\mMapFunc)
-  \mIn{}(\hTypeName{a}\hFunctionArrow\mB)
+  \hIsTypeOf{}(\hTypeName{a}\hFunctionArrow\mB)
   \hFunctionArrow\mFuncType{a}
   \hFunctionArrow\mFuncType{b}
 \end{equation}
 であり，これはすなわち
 \begin{equation}
   (\mMapFunc)
-  \mIn{}(\hTypeName{a}\hFunctionArrow\mB)
+  \hIsTypeOf{}(\hTypeName{a}\hFunctionArrow\mB)
   \hFunctionArrow(\mR\hFunctionArrow\mA)
   \hFunctionArrow(\mR\hFunctionArrow\mB)
 \end{equation}
@@ -2278,7 +2282,7 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
 \end{equation}
 であるから，
 \begin{equation}
-(\hCompose)\mIn{}\mProjEXP{\mProjEXP{(\mProjEXP{\mA }{\mB })}{(\mProjEXP{\mR}{\mA })}}
+(\hCompose)\hIsTypeOf{}\mProjEXP{\mProjEXP{(\mProjEXP{\mA }{\mB })}{(\mProjEXP{\mR}{\mA })}}
   {(\mProjEXP{\mR}{\mB })}
 \end{equation}
 である．つまり関数のマップ演算子 $(\mMapFunc)$ と関数の合成演算子 $(\hCompose)$ は同じ型を持つ．
@@ -2316,7 +2320,7 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
 つまり
 \begin{equation}
   (\mAppMapFunc)
-  \mIn{}(\mR\hFunctionArrow\hTypeName{a}\hFunctionArrow\mB)
+  \hIsTypeOf{}(\mR\hFunctionArrow\hTypeName{a}\hFunctionArrow\mB)
   \hFunctionArrow(\mR\hFunctionArrow\mA)
   \hFunctionArrow(\mR\hFunctionArrow\mB)
 \end{equation}
@@ -2524,7 +2528,7 @@ $\mFunctorTypeClass$ 型クラスは一般マップ演算子 $(\mMap)$ を持っ
 
 \begin{equation}
   f
-  \mIn{}\hTypeName{a}\hFunctionArrow[\mA]
+  \hIsTypeOf{}\hTypeName{a}\hFunctionArrow\hListConstruct{\hTypeName{a}}
 \end{equation}
 
 \begin{equation}
@@ -2753,7 +2757,7 @@ k=i\mBind{}(j\hAnonParam)=\mPureWith{f\hCompose g\hAnonParam}
   &$\mAppMapList$
   &$\mMapList$
   &$\mEmptyList$
-  &$\mAppend$\\
+  &$\hAppend$\\
 \hline
 Maybe
   &$\mBindMaybe$
@@ -2907,7 +2911,7 @@ A...
 
 アクション $\mPutStr,\mReadLn,\mRand$ は計算機の状態を変化させる．アクション $\mPutStr,\mReadLn$ はOSのシステムコールを発行して，前者ならビデオメモリの値を書き換えるし，後者ならシリアルインタフェースの入力バッファをフラッシュする．アクション $\mRand$ は呼ばれるたびに内部のカウンタ値を一つ進める．これらのアクションは参照透過性を破壊する．そのために，プログラムの他の部分から隔離されねばならない．その隔離のメカニズムを提供するのがモナドである．
 
-$[\mA]$ 型が $\hTypeName{a}$ 型のリストであるように，$\mIOType{a}$ 型は $\hTypeName{a}$ 型の\keyword{IO}である．そしてリストがモナドであるように，IOもまたモナドである．モナドには，バインド演算子と，アプリカティブ関手から引き継いだピュア演算子の二つが必要であった．アプリカティブ関手から引き継いだアプリカティブマップ演算子はバインド演算子とピュア演算子の二つから合成できるし，関手から引き継いだマップ演算子もまたアプリカティブマップ演算子とピュア演算子から合成できるから，アプリカティブマップ演算子とマップ演算子は改めて実装しておく必要はない．
+$\hListConstruct{\hTypeName{a}}$ 型が $\hTypeName{a}$ 型のリストであるように，$\mIOType{a}$ 型は $\hTypeName{a}$ 型の\keyword{IO}である．そしてリストがモナドであるように，IOもまたモナドである．モナドには，バインド演算子と，アプリカティブ関手から引き継いだピュア演算子の二つが必要であった．アプリカティブ関手から引き継いだアプリカティブマップ演算子はバインド演算子とピュア演算子の二つから合成できるし，関手から引き継いだマップ演算子もまたアプリカティブマップ演算子とピュア演算子から合成できるから，アプリカティブマップ演算子とマップ演算子は改めて実装しておく必要はない．
 
 $\mIOUnitType$ 型の場合，ピュア演算子は何も返す必要がないから
 \begin{equation}
@@ -3250,7 +3254,7 @@ $\mType{Rectangle}$ 型から中身を取り出すには，次のような関数
   \hAndThen\mathop{\hOrd}\hHasElementsOf\mA
   \mWhere{}(\le)\hIsTypeOf\mProjEXP{\mA }{\mProjEXP{\mA }{\hBool}}
 \end{equation}
-型クラス $\hOrd$ に属する型は，等号，不等号，小なりイコールと，それらから派生させることのできる大なり $(>)$，大なりイコール $(\ge)$，小なり $(<)$，および最大値をとる関数 $\max$ と最小値をとる関数 $\min$を持つ．\footnote{\haskell では
+型クラス $\hOrd$ に属する型は，等号，不等号，小なりイコールと，それらから派生させることのできる大なり $(>)$，大なりイコール $(\ge)$，小なり $(<)$，および最大値をとる関数 $\max$ と最小値をとる関数 $\hIsTypeOf$を持つ．\footnote{\haskell では
 \begin{verbatim}
   class (Eq a) => Ord a where (<=) :: a -> a -> Bool
 \end{verbatim}
@@ -3385,7 +3389,7 @@ Maybeが型クラス $\hEq$ に属すものとして，$\hEq$ からのインス
 Maybeの間に新たに定義された等号 $(\hIfEq)$ は次の型を持つ．
 \begin{equation}
 (\hIfEq)
-\mIn{}\hEq\hHasElementsOf\mA
+\hIsTypeOf{}\hEq\hHasElementsOf\mA
 \hAndThen\mProjEXP{\mMaybeType{a}}{\mProjEXP{\mMaybeType{a}}{\hBool}}
 \end{equation}
 
@@ -3417,7 +3421,7 @@ Maybeの間に新たに定義された等号 $(\hIfEq)$ は次の型を持つ．
   \mFunctorTypeClass\hHasElementsOf\mTypeConstructor{f}
   \mWhere{}
   (\mMap)
-  \mIn{}(\hTypeName{a}\hFunctionArrow\mB)
+  \hIsTypeOf{}(\hTypeName{a}\hFunctionArrow\mB)
   \hFunctionArrow\mPolymorphicTypeAssemble{f}{a}
   \hFunctionArrow\mPolymorphicTypeAssemble{f}{b}
 \end{equation}
@@ -3510,7 +3514,7 @@ Either型の場合は
   \label{eq:data-type-ziplist}
   \mDataTypePolymorphic\;
   \mathop{\mZipListTypeConstructor}\mA
-  =\mValueRecordWith{ZipList}{\mGetList\mIn{}[\mA]}
+  =\mValueRecordWith{ZipList}{\mGetList\hIsTypeOf{}\hListConstruct{\hTypeName{a}}}
 \end{equation}
 のように定義することになる．念のため，左辺の $\mZipListTypeConstructor$ は型コンストラクタ，右辺の $\mValueConstructor{ZipList}$ は値コンストラクタである．すなわち
 \begin{equation}
@@ -3557,7 +3561,7 @@ Either型の場合は
 \begin{equation}
   \left\mBrace
   \begin{aligned}
-    &\mRepeat\mIn{}\mProjEXP{[\mA]}{[\mA]}\\
+    &\mRepeat\hIsTypeOf{}\mProjEXP{\hListConstruct{\hTypeName{a}}}{\hListConstruct{\hTypeName{a}}}\\
     &\mRepeat x=\hVar{x}:\mRepeat x
   \end{aligned}
   \right.
@@ -3580,7 +3584,7 @@ Either型の場合は
 \begin{equation}
   \mNewTypeDeclPolymorphic\;
   \mZipListTypeConstructor\mA
-  =\mZipListRecordWith{\mGetList\mIn{}[\mA]}
+  =\mZipListRecordWith{\mGetList\hIsTypeOf{}\hListConstruct{\hTypeName{a}}}
 \end{equation}
 やったことはキーワード $\mDataTypePolymorphic$ を
 $\mNewTypeDeclPolymorphic$ に置き換えたことである．これは，字面に反して，型 $\mZipListType{a}$ が何一つ「新しくない」ことを\haskell コンパイラに伝えるためである．その結果\haskell コンパイラは型 $\mZipListType{a}$ に対する最適化の機会を得る．
@@ -3591,9 +3595,9 @@ $\mNewTypeDeclPolymorphic$ に置き換えたことである．これは，字�
 \begin{equation}
   \left\mBrace
   \begin{aligned}
-    {}&\mZipWith\mIn{}\mProjEXP{\mProjEXP{\mProjEXP{(\mProjEXP{\mA }
+    {}&\mZipWith\hIsTypeOf{}\mProjEXP{\mProjEXP{\mProjEXP{(\mProjEXP{\mA }
           {\mProjEXP{\mB }{\mC }})}
-        {[\mA]}}{[\mB]}}{[\mC]}\\
+        {\hListConstruct{\hTypeName{a}}}}{[\mB]}}{[\mC]}\\
     {}&\left\{\begin{aligned}
     \mZipWith\_\mEmptyList\_
     &=\mEmptyList\\
@@ -3631,9 +3635,9 @@ $\mNewTypeDeclPolymorphic$ に置き換えたことである．これは，字�
 \begin{equation}
   \left\mBrace
   \begin{aligned}
-    {}&\mZipFunc\mIn{}\mProjEXP{[\mA]}
+    {}&\mZipFunc\hIsTypeOf{}\mProjEXP{\hListConstruct{\hTypeName{a}}}
     {\mProjEXP{[\mB]}
-      {([\mA],[\mB])}}\\
+      {(\hListConstruct{\hTypeName{a}},[\mB])}}\\
     {}&\mZipFunc \hVar{x}\hVar{y}=(x,y)
   \end{aligned}
   \right.
@@ -3642,7 +3646,7 @@ $\mNewTypeDeclPolymorphic$ に置き換えたことである．これは，字�
 \begin{equation}
   \left\mBrace
   \begin{aligned}
-    {}&\hUncurry\mIn{}
+    {}&\hUncurry\hIsTypeOf{}
     \mProjEXP{(\mProjEXP{\mA }{\mProjEXP{\mB }{\mC }})}
           {\mProjEXP{(\mA ,\mB )}{\mC }}\\
           {}&\hUncurry f\hVar{x}\hVar{y}=\hFunc{f}(x,y)
@@ -3678,8 +3682,8 @@ $\mSqrts$ ただし
 \begin{equation}
   \left\mBrace
   \begin{aligned}
-    &\mSqrts\mIn{}\hReal\hHasElementsOf\mA \hAndThen
-    \hTypeName{a}\hFunctionArrow[\mA]\\
+    &\mSqrts\hIsTypeOf{}\hReal\hHasElementsOf\mA \hAndThen
+    \hTypeName{a}\hFunctionArrow\hListConstruct{\hTypeName{a}}\\
     &\mSqrts x=[\mSqrt x,(-\mSqrt x)]
   \end{aligned}
   \right.
@@ -3691,7 +3695,7 @@ $\mSqrts$ ただし
 \end{verbatim}
 と書く．}
 
-ここで型 $\hTypeName{a}\hFunctionArrow[\mA]$ に別名を与えよう．別名を与えるには型シノニ
+ここで型 $\hTypeName{a}\hFunctionArrow\hListConstruct{\hTypeName{a}}$ に別名を与えよう．別名を与えるには型シノニ
 ムを定義する方法と，$\mNewTypeDecl$ を用いる方法とがある．前者は単に読
 みやすさの向上のためだけであるが，後者は第\ref{ch:polymorphic-data-type}章
 で見たように特定の型クラスの新しいインスタンスとしてその型を定義するた
@@ -3708,7 +3712,7 @@ $\mSqrts$ ただし
 と書く．}
 
 型コンストラクタ $\mTypeConstructor{NonDet}$ によって作られる型
-$\mTypeAssemble{NonDet}{\hTypeName{a}\,\mB}$ は型 $\hTypeName{a}\hFunctionArrow[\mA]$ とは異な
+$\mTypeAssemble{NonDet}{\hTypeName{a}\,\mB}$ は型 $\hTypeName{a}\hFunctionArrow\hListConstruct{\hTypeName{a}}$ とは異な
 る型であるため，関数 $\mSqrts$ の新しいバージョンが必要になる．そこで
 \begin{equation}
   \left\mBrace
@@ -3761,7 +3765,7 @@ $\mMapList$ を使う．
   \left\mBrace
   \begin{aligned}
     &\mDuplicate,\mTriplicate
-    \hIsTypeOf\hTypeName{a}\hFunctionArrow[\mA]\\
+    \hIsTypeOf\hTypeName{a}\hFunctionArrow\hListConstruct{\hTypeName{a}}\\
     &\mDuplicate x
     =[x,x]\\
     &\mTriplicate x
@@ -3846,7 +3850,7 @@ $\hTypeName{a}\hFunctionArrow\hTypeName{b}$ または $(\hFunctionArrow)\hTypeNa
     \mIdCat
     &\hIsTypeOf\mX\mCatArrowC\mY\\
     (\mCompCat)
-    &\mIn{}(\mX\mCatArrowC\mY)\hFunctionArrow(\mX\mCatArrowC\mY)\hFunctionArrow(\mX\mCatArrowC\mY)
+    &\hIsTypeOf{}(\mX\mCatArrowC\mY)\hFunctionArrow(\mX\mCatArrowC\mY)\hFunctionArrow(\mX\mCatArrowC\mY)
   \end{aligned}
   \right.
 \end{equation}
@@ -3855,7 +3859,7 @@ $\hTypeName{a}\hFunctionArrow\hTypeName{b}$ または $(\hFunctionArrow)\hTypeNa
 
 \begin{equation}
   \mCatArrow{\mTypeConstructor{NonDet}}{}
-  =\hTypeName{a}\hFunctionArrow[\mA]
+  =\hTypeName{a}\hFunctionArrow\hListConstruct{\hTypeName{a}}
 \end{equation}
 としよう．\footnote{\haskell では
 \begin{verbatim}
@@ -3868,9 +3872,9 @@ $\hTypeName{a}\hFunctionArrow\hTypeName{b}$ または $(\hFunctionArrow)\hTypeNa
 
 \begin{align}
   \mIdCat
-  &\mIn{}\hTypeName{a}\mCatArrowC\hTypeName{b}\\
+  &\hIsTypeOf{}\hTypeName{a}\mCatArrowC\hTypeName{b}\\
   (\mCompCat)
-  &\mIn{}(\hTypeName{b}\mCatArrowC\mC)
+  &\hIsTypeOf{}(\hTypeName{b}\mCatArrowC\mC)
   \hFunctionArrow(\hTypeName{a}\mCatArrowC\mB)
   \hFunctionArrow(\hTypeName{a}\mCatArrowC\mC)
 \end{align}
@@ -3879,7 +3883,7 @@ e.g.
 
 \begin{equation}
   \hTypeName{a}\mCatArrowC\mB
-  =\hTypeName{a}\hFunctionArrow[\mA]
+  =\hTypeName{a}\hFunctionArrow\hListConstruct{\hTypeName{a}}
 \end{equation}
 
 ---
@@ -3920,7 +3924,7 @@ $\mCompCat=\hCompose$ になるので，圏は関数を何やら拡張したも�
 $\mTypeConstructor{c}=((\hFunctionArrow)\hAnonParam[\hAnonParam])$
 と考えるわけである．
 
-そうすると，まず $\mIdCat$ は $\hTypeName{a}\hFunctionArrow[\mA]$ 型でなければならないか
+そうすると，まず $\mIdCat$ は $\hTypeName{a}\hFunctionArrow\hListConstruct{\hTypeName{a}}$ 型でなければならないか
 ら
 \begin{equation}
   \label{eq:id-category}
@@ -4054,7 +4058,7 @@ y = run (triplicate' Cat.. duplicate') x
 \end{equation}
 であった．関数 $\hFunc{f}$, $\hFunc{g}$ が $\mValueWith{NonDet}{f}$,
 $\mValueWith{NonDet}{g}$ として与えられることを考えると，関数 $\hFunc{f}$, $\hFunc{g}$
-の型は $\hTypeName{a}\hFunctionArrow[\mA]$ で確定するので，式\eqref{eq:leftleftarrows}
+の型は $\hTypeName{a}\hFunctionArrow\hListConstruct{\hTypeName{a}}$ で確定するので，式\eqref{eq:leftleftarrows}
 の中のバインド演算子 $(\mBind)$ はリストのバインド演算子
 $(\mBindList)$ で確定する．
 
@@ -4113,7 +4117,7 @@ instance Cat.Category NonDet where
   \left\mBrace
   \begin{aligned}
     &\mathrm{rec}
-    \mIn{}(\hReal\hHasElementsOf\mA)
+    \hIsTypeOf{}(\hReal\hHasElementsOf\mA)
     \hAndThen\hTypeName{a}\hFunctionArrow\hTypeName{a}\\
     &
     \begin{aligned}
@@ -4359,10 +4363,10 @@ $(\mArrowArrow{\mTypeConstructor{a}})\hTypeName{b}\mC$ の中置記法バージ�
   \left\{
   \begin{aligned}
     \mArrowWith{}
-    &\mIn{}(\hTypeName{b}\hFunctionArrow\mC)
+    &\hIsTypeOf{}(\hTypeName{b}\hFunctionArrow\mC)
     \hFunctionArrow(\hTypeName{b}\mArrowArrow{\mTypeConstructor{a}}\mC)\\
     \mFirst
-    &\mIn{}(\hTypeName{b}\mArrowArrow{\mTypeConstructor{a}}\mC)
+    &\hIsTypeOf{}(\hTypeName{b}\mArrowArrow{\mTypeConstructor{a}}\mC)
     \hFunctionArrow\left(\hPairWith{\mB}{\mD}
     \mArrowArrow{\mTypeConstructor{a}}\hPairWith{\mC}{\mD}\right)
   \end{aligned}
@@ -4694,9 +4698,9 @@ $\Vec{\hFunc{f}}***\Vec{\hFunc{g}}$ も関数ではない．
   \mWhere{}\left\{
   \begin{aligned}
     \mArrowWith{\dotsb}
-    &\mIn{}(\mX\hFunctionArrow\mY)\hFunctionArrow\mTypeConstructor{c}\,\mX\,\mY\\
+    &\hIsTypeOf{}(\mX\hFunctionArrow\mY)\hFunctionArrow\mTypeConstructor{c}\,\mX\,\mY\\
     \mFirstFunc
-    &\mIn{}\mTypeConstructor{c}\,\mX\,\mY
+    &\hIsTypeOf{}\mTypeConstructor{c}\,\mX\,\mY
     \hFunctionArrow\mTypeConstructor{c}\,\hPairWith{\mX}{\mZ}\,\hPairWith{\mY}{\mZ}
   \end{aligned}
   \right.
@@ -4758,7 +4762,7 @@ $\Vec{\hFunc{f}}***\Vec{\hFunc{g}}$ も関数ではない．
 \newcommand{\mRunCircuit}{\mathop{\mathrm{runCircuit}}}
 
 \begin{align}
-  \mRunCircuit&\hIsTypeOf\mCircuitType\,\hTypeName{a}\,\hTypeName{b}\hFunctionArrow[\mA]\hFunctionArrow[\mB]\\
+  \mRunCircuit&\hIsTypeOf\mCircuitType\,\hTypeName{a}\,\hTypeName{b}\hFunctionArrow\hListConstruct{\hTypeName{a}}\hFunctionArrow[\mB]\\
   \mRunCircuit\_\mEmptyList&=\mEmptyList\\
   \mRunCircuit c(\hVar{x}:\hListVarWith{x})&=x':\mRunCircuit c'\hListVarWith{x}\\
   &\quad\mWhere{}(c',x')\mLetEq\mUncircuit cx
@@ -4919,7 +4923,7 @@ $ program1 && program2
 \begin{equation}
 \left\mBrace
 \begin{aligned}
-\mMain&\mIn{}\mIOIntType\\
+\mMain&\hIsTypeOf{}\mIOIntType\\
 \mMain&=\mPureWith{0}
 \end{aligned}
 \right.
@@ -5027,13 +5031,13 @@ $ ./sample
     \right.\\
   {}&\left\mBrace
     \begin{aligned}
-      f&\mIn{}\mProjEXP{\hDouble}{\hDouble}\\
+      f&\hIsTypeOf{}\mProjEXP{\hDouble}{\hDouble}\\
       f&=\dots\\
     \end{aligned}
     \right.\\
   {}&\left\mBrace
     \begin{aligned}
-      \mMain&\mIn{}\mIODoubleType\\
+      \mMain&\hIsTypeOf{}\mIODoubleType\\
       \mMain&=\mPrint(\hFunc{f}\hVar{x})\mBindRightIgnore\mPureWith{0}
     \end{aligned}
     \right.
@@ -5131,7 +5135,7 @@ $\mMain$ の値は $\hConstant{0}$ になることを示している．
 % \code{-}&単項マイナス $(-)$\\
 \code{\textbackslash}&ラムダ $(\mLambda)$，行分割\\
 \code{:}&結合演算子\\
-\code{::}&型の宣言 $(\mIn)$\\
+\code{::}&型の宣言 $(\hIsTypeOf)$\\
 \code{..}&等差数列\\
 \code{=}&定義 $(=)$\\
 \code{=>}&インスタンス定義 $(\hAndThen)$\\
@@ -5262,7 +5266,7 @@ do記法&\code{do}\\
 \begin{equation}
   \left\mBrace
   \begin{aligned}
-    {}&\sgn\mIn{}\hReal\hHasElementsOf\mA
+    {}&\sgn\hIsTypeOf{}\hReal\hHasElementsOf\mA
     \hAndThen\mProjEXP{\mA }{\mA }\\
     {}&
     \begin{aligned}
@@ -5523,7 +5527,7 @@ f&\hIsTypeOf\mProjEXP{\hDouble}{\hDouble}\\
   \left\mBrace
   \begin{aligned}
     \hListVarWith{x}
-    &\mIn{}[\hDouble]\\
+    &\hIsTypeOf{}[\hDouble]\\
     \hListVarWith{x}
     &=[i/n*\pi\mListComp i\mFrom[0\dotsb n]]
   \end{aligned}
@@ -5537,7 +5541,7 @@ f&\hIsTypeOf\mProjEXP{\hDouble}{\hDouble}\\
   \left\mBrace
   \begin{aligned}
     \hListVarWith{x}
-    &\mIn{}[\hDouble]\\
+    &\hIsTypeOf{}[\hDouble]\\
     \hListVarWith{x}
     &=[(\hFromIntegral i)/(\hFromIntegral n)*\pi\mListComp i\mFrom[0\dotsb n]]
   \end{aligned}
@@ -5555,7 +5559,7 @@ f&\hIsTypeOf\mProjEXP{\hDouble}{\hDouble}\\
   \left\mBrace
   \begin{aligned}
     y
-    &\mIn{}[\hDouble]\\
+    &\hIsTypeOf{}[\hDouble]\\
     y
     &=\hFunc{f}\mMapList\hListVarWith{x}
   \end{aligned}
@@ -5617,7 +5621,7 @@ main = print ys >> pure 0
 \hline
 名前&型名\\
 \hline\hline
-\code{[a]}&リスト $([\mA])$\\
+\code{[a]}&リスト $(\hListConstruct{\hTypeName{a}})$\\
 \code{Maybe a}&Maybe $\left(\mMaybeType{a}\right)$\\
 \code{Either a b}&Either $\left(\mEitherType{a}{b}\right)$\\
 \code{((->)r)a}&関数 $\left(\mFuncType{a}{r}\right)$\\
@@ -5649,7 +5653,7 @@ yt&=\sum(\hLambdaSyntax{x}{\mFst x*\mSnd x})\mMapList\hListVarWith{h}\\
 ---
 
 \begin{equation}
-(\circledcirc)\mIn{}(\hNum\hHasElementsOf\mA )\hAndThen{}
+(\circledcirc)\hIsTypeOf{}(\hNum\hHasElementsOf\mA )\hAndThen{}
 \mProjEXP{
   (\mProjEXP{\mA }{\mA })
 }
@@ -6113,7 +6117,7 @@ $\hVar{x}\hAnyBinOp y\hIsTypeOf\mSet{M}$であった．見方を変えると，�
 集合$\mSet{M}$の元2個から出発して，集合$\mSet{M}$の元1個へとジャンプさ
 せる\keyword{写像}であると言える．これを
 \begin{equation}
-\hAnyBinOp\mIn{}\mMorph{(\mSet{M}\mSetTimes\mSet{M})}{\mSet{M}}
+\hAnyBinOp\hIsTypeOf{}\mMorph{(\mSet{M}\mSetTimes\mSet{M})}{\mSet{M}}
 \end{equation}
 と書く．ここに $\mSet{X}\mSetTimes\mSet{Y}$ は集合 $\mSet{X}$ と集合
 $\mSet{Y}$ の\keyword{直積集合}である．直積集合と元の集合はもはや別な
@@ -6131,7 +6135,7 @@ $\mMorph{\mSet{M}}{\mSet{M}}$ という写像である．
 タを一つとるので，ベクトル全体の集合を $\mSet{V}$，実数全体の集合を
 $\mRSet$ として，実数のパラメタを $r$ としたときに
 \begin{equation}
-\mUnOp_r\mIn{}\mMorph{(\mRSet\mSetTimes\mSet{V})}{\mSet{V}}
+\mUnOp_r\hIsTypeOf{}\mMorph{(\mRSet\mSetTimes\mSet{V})}{\mSet{V}}
 \end{equation}
 と書ける．例えば回転の場合は $\mUnOp_r=R_r$ である．
 
