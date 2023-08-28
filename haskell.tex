@@ -62,7 +62,7 @@ Ether変数&ダブルドットをつける&$\hEitherDecor{\hVar{x}}$\\ %%% !!!
 種類&字体・表記法&例\\
 \hline\hline
 値コンストラクタ&名前付き括弧で包む&$\hLeftWith{\hVar{x}},\hRightWith{\hVar{x}}$\\
-有名な値コンストラクタ&特別な括弧で包む&$\hListWith{\hVar{x}},\hPureWith{\hVar{x}},\hReturnWith{\hVar{x}}$\\
+有名な値コンストラクタ&特別な括弧で包む&$\hListWith{\hVar{x}},\hReturnWith{\hVar{x}}$\\
 \hline
 キーワード&サンセリフ&$\hIf,\hOtherwise$\\
 do記法中のキーワード&タイプライタ&$\hDoLet$\\
@@ -86,17 +86,21 @@ do記法中のキーワード&タイプライタ&$\hDoLet$\\
 \hline\hline
 $\hLambda\hVar{x}\hLambdaArrow\hVar{x}$&ラムダ式&\verb|\x -> x|\\
 $\hAnonParam$&無名パラメタ&\\
+$\hVar{x}\hInfixWith{\hFunc{f}}\hVar{y}$&中置演算&\code{x `f` y}\\
 \hline
 $\hIsTypeOf$&型集合の元&\code{::}\\
 $\hIsElementOf$&値集合の元&\code{<-}\\
 $\hFunctionArrow$&写像&\code{->}\\
 \hline
 $\hAnyBinOp$&任意の二項演算子&\\
+\hline
+$\hForall{\hTypeName{s}}$&全量&\code{forall s.}\\
+\hline
 % $+$&一般加法演算子&\\
 % \hline
 % $\mComplexPlus$&複素数値コンストラクタ&\code{:+}\\  %%% !!!
-\hline
 $\hFromIntegral$&型変換演算子&\code{fromIntegral}\\ %%% !!!
+$\hToEnum$&同上&\code{toEnum}\\
 % $\star$&種&\code{*}\\ %%% !!!
 \hline
 % $\hCompose$&関数合成&\code{.}\\

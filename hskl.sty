@@ -273,8 +273,8 @@
 
 %% List, Pure, Constant
 \newcommand{\hListWith}[1]{[#1]}
-\newcommand{\hPureWith}[1]{\llbracket#1\rrbracket}
-\newcommand{\hReturnWith}[1]{\llparenthesis#1\rrparenthesis}
+\newcommand{\hPureWith}[1]{\llbracket#1\rrbracket} %% !!!
+\newcommand{\hReturnWith}[1]{\llbracket#1\rrbracket}%{\llparenthesis#1\rrparenthesis}
 
 %% Tuple
 \newcommand{\hSingleTuppleWith}[1]{\left(#1\right)}
@@ -287,6 +287,14 @@
 \newcommand{\hMaybeDecor}[1]{\Dot{#1}}
 \newcommand{\hEitherDecor}[1]{\Ddot{#1}}
 \newcommand{\hAnyContextDecor}[1]{\Tilde{#1}}
+
+
+% Forall
+\newcommand{\hForall}[1]{\forall#1.}
+
+
+% Infix
+\newcommand{\hInfixWith}[1]{\mathop{\llparenthesis#1\rrparenthesis}}
 
 
 % Operator
@@ -350,10 +358,13 @@
 
 % Type conversion
 \newcommand{\hFromClass}[1]{\vartriangleleft_{#1}}
+\newcommand{\hToClass}[1]{{}_{#1}\vartriangleleft}
 
 %% From Integral
 \DeclareMathOperator{\hFromIntegral}{\hFromClass{\hIntegral}}
 
+%% To Enum
+\DeclareMathOperator{\hToEnum}{\hToClass{\hEnum}}
 
 % Guard
 \newcommand{\hGuard}[1]{\mathop{\mid_{#1}}}
