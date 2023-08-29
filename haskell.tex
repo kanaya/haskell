@@ -412,7 +412,7 @@ lambda x: 1+x
 
 関数の定義は，基本的にはラムダ式の変数への代入である．引数 $\hVar{x}$ をとり値 $(\hSin\hVar{x})/\hVar{x}$ を返す関数 $\hFunc{f}$ は
 \begin{equation}
-  \hFunc{f}=\hLambdaSyntax{\hVar{x}}{\hSin\hVar{x})/\hVar{x}}
+  \hFunc{f}=\hLambdaSyntax{\hVar{x}}{(\hSin\hVar{x})/\hVar{x}}
 \end{equation}
 と定義できる．ただし，この省略形として
 \begin{equation}
@@ -552,7 +552,7 @@ $\hIf$ 節の中身は真理値を返す関数であれば良いので，関数 
   &=\hWhereSyntax{\hFunc{f}\hVar{x'}}{\hVar{x'}\hLetEq\hFunc{g}\hVar{x}}\\
   &=(\hLambdaSyntax{\hVar{x'}}{\hFunc{f}\hVar{x'}})(\hFunc{g}\hVar{x})
 \end{align}
-である．ただし $\hWhere$ 節は式ではないので，単独では使えないことに注意しよう．例えば $\hLetSyntax{\hVar{x'}\hLetEq\hFunc{g}\hVar{x}}{\hFunc{f}\hVar{x'}}$ は値を持つ式であるが，$\hWhereSyntax{\hFunc{f}\hVar{x'}}{\hVar{x'}\hLetEq\hFunc{g}\hVar{x}}$ は値を持たない．
+である．ただし $\hWhere$ 節は式ではないので，単独では使えないことに注意しよう．例えば $\hLetSyntax{\hVar{x'}\hLetEq\hFunc{g}\hVar{x}}{\hFunc{f}\hVar{x'}}$ は値を持つ式であるが，$\hWhereSyntax{}{\hVar{x'}\hLetEq\hFunc{g}\hVar{x}}$ は値を持たない．
 
 \section{この章のまとめ}
 
