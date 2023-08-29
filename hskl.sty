@@ -211,7 +211,11 @@
 
 % Action
 \newcommand{\hAction}[1]{\textcolor{\hActionColor}{#1}}
-\newcommand{\hSpecialAction}[1]{\textcolor{\hActionColor}{\mathrm{#1}}}
+\newcommand{\hSpecialAction}[1]{\textcolor{\hActionColor}{\textsl{#1}}}
+
+%% main, pure, return, print
+\newcommand{\hMain}{\hSpecialAction{main}}
+\newcommand{\hReturn}{\hSpecialAction{return}}
 
 
 % Functor
@@ -224,8 +228,8 @@
 % Type name, Type constructor, Type class, Set
 \newcommand{\hTypeName}[1]{\textcolor{\hTypeColor}{\textbf{\textit{#1}}}}
 \newcommand{\hSpecialTypeName}[1]{\textcolor{\hTypeColor}{\mathbf{#1}}}
-\newcommand{\hTypeConstructor}[1]{\textcolor{\hTypeConstructorColor}{\textbf{\textit{#1}}}}
-\newcommand{\hSpecialTypeConstructor}[1]{\textcolor{\hTypeConstructorColor}{\mathbf{#1}}}
+\newcommand{\hTypeConstructor}[1]{\textcolor{\hTypeConstructorColor}{\textbf{\textsl{#1}}}}
+\newcommand{\hSpecialTypeConstructor}[1]{\textcolor{\hTypeConstructorColor}{\textbf{\textsl{#1}}}}
 % \newcommand{\hTypeClass}[1]{\textcolor{\hClassColor}{\textsc{#1}}}
 \newcommand{\hSpecialTypeClass}[1]{\textcolor{\hClassColor}{\textsc{#1}}}
 \newcommand{\hSet}[1]{\textcolor{\hSetColor}{\mathbb{#1}}}

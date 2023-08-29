@@ -37,18 +37,18 @@ Ether変数&ダブルドットをつける&$\hEitherDecor{\hVar{x}}$\\ %%% !!!
 関手&フラクチュール&$\hCatId$\\
 \hline
 アクション&ギリシア文字（1文字）&$\hAction{\alpha},\hAction{\omega}$\\
-有名なアクション&ローマン&$\hSpecialAction{main},\hSpecialAction{print}$\\ %%% !!!
+有名なアクション&スラント&$\hMain,\hReturn$\\ %%% !!!
 \hline
 型&ボールド（1文字）&$\hTypeName{a},\hTypeName{b},\hTypeName{c}$\\
 有名な型&ボールド大文字&$\hBool,\hInt$\\
-型クラス&ボールドイタリック大文字&$\hEq,\hOrd$\\
+型クラス&スモールキャピタル&$\hEq,\hOrd$\\
 多相型&型コンストラクタ名と型名&$\hTypeConstruct{\hTypeConstructor{m}}{\hTypeName{a}}$\\
 有名な多相型&同上&$\hMaybeConstruct{\hTypeName{a}}$\\
 有名な多相型&特別な括弧で包む&$[\hTypeName{a}]$\\
 集合&ブラックボード大文字&$\hSet{B},\hSet{Z},\hSet{R}$\\
 \hline
-型コンストラクタ&ボールドイタリック&$\hTypeConstructor{m},\hTypeConstructor{n}$\\
-有名な型コンストラクタ&ボールド大文字&$\hList,\hMaybe$\\
+型コンストラクタ&ボールドスラント&$\hTypeConstructor{m},\hTypeConstructor{n}$\\
+有名な型コンストラクタ&ボールドスラント大文字&$\hList,\hMaybe$\\
 \hline
 \end{tabular}
 \end{center}
@@ -62,7 +62,7 @@ Ether変数&ダブルドットをつける&$\hEitherDecor{\hVar{x}}$\\ %%% !!!
 種類&字体・表記法&例\\
 \hline\hline
 値コンストラクタ&名前付き括弧で包む&$\hLeftWith{\hVar{x}},\hRightWith{\hVar{x}}$\\
-有名な値コンストラクタ&特別な括弧で包む&$\hListWith{\hVar{x}},\hReturnWith{\hVar{x}}$\\
+有名な値コンストラクタ&特別な括弧で包む&$\hListWith{\hVar{x}}$\\
 \hline
 キーワード&サンセリフ&$\hIf,\hOtherwise$\\
 do記法中のキーワード&タイプライタ&$\hDoLet$\\
@@ -86,9 +86,8 @@ do記法中のキーワード&タイプライタ&$\hDoLet$\\
 \hline\hline
 $\hLambda\hVar{x}\hLambdaArrow\hVar{x}$&ラムダ式&\verb|\x -> x|\\
 $\hAnonParam$&無名パラメタ&\\
-\hline
-$(+)\,\hVar{x}\,\hVar{y}$&関数化&\code{(+) x y}\\
-$\hVar{x}\hInfixWith{\hFunc{f}}\hVar{y}$&中置演算&\code{x `f` y}\\
+$(\hAnonParam+\hAnonParam)\,\hVar{x}\,\hVar{y}$&関数化&\code{(+) x y}\\
+$\hVar{x}\hInfixWith{\hFunc{f}}\hVar{y}$&中置演算子化&\code{x `f` y}\\
 \hline
 $\hIsTypeOf$&型集合の元&\code{::}\\
 $\hIsElementOf$&値集合の元&\code{<-}\\
@@ -96,7 +95,7 @@ $\hFunctionArrow$&写像&\code{->}\\
 \hline
 %%% $\hAnyBinOp$&任意の二項演算子&\\
 %%% \hline
-$\hForall{\hTypeName{s}}$&全量&\code{forall s.}\\
+$\hForall{\hTypeName{s}}$&全称量化子&\code{forall s.}\\
 \hline
 % $+$&一般加法演算子&\\
 % \hline
@@ -128,6 +127,10 @@ $\hEmptyList$&空リスト&\code{[]}\\
 $\hNothing$&ナッシング&\code{Nothing}\\
 $\hPureNothing$&空&\\
 \hline
+$\hListWith{\hVar{x}}$&リスト値コンストラクタ&\code{[x]}\\
+$\hJustWith{\hVar{x}}$&Maybe値コンストラクタ&\code{Just x}\\
+$\hLeftWith{\hVar{x}},\hRightWith{\hVar{x}}$&Either値コンストラクタ&\code{Left x}, \code{Right x}\\
+\hline
 
 \end{tabular}
 \end{center}
@@ -140,12 +143,9 @@ $\hPureNothing$&空&\\
 \hline
 記号&意味&\haskell 記号\\
 \hline\hline
-$\hListWith{\hVar{x}}$&リスト値コンストラクタ&\code{[x]}\\
-$\hJustWith{\hVar{x}}$&Maybe値コンストラクタ&\code{Just x}\\
-$\hLeftWith{\hVar{x}},\hRightWith{\hVar{x}}$&Either値コンストラクタ&\code{Left x}, \code{Right x}\\
-\hline
-$\hPureWith{\hVar{x}}$&関手のピュア演算子&\code{pure x}\\  %%% ???
-$\hReturnWith{\hVar{x}}$&モナドのピュア演算子&\code{return x}\\  %%% ???
+% \hline
+%% $\hPureWith{\hVar{x}}$&関手のピュア演算子&\code{pure x}\\  %%% ???
+%% $\hReturnWith{\hVar{x}}$&モナドのピュア演算子&\code{return x}\\  %%% ???
 % % $\mFuncWith{x}$&関数値コンストラクタ&\code{r->x}\\
 % $\mConstWith{x}$&定数演算子&\code{const x}\\
 % $\mArrowWith{x}$&アロー演算子&\code{arr x}\\
@@ -154,7 +154,7 @@ $\hReturnWith{\hVar{x}}$&モナドのピュア演算子&\code{return x}\\  %%% ?
 $\hMap$&リストのマップ&\code{`map`}\\
 $\hMaybeMap$&Maybeのマップ&\\
 % $\hMapM$&文脈付きリストのマップ&\code{`mapM`}\\
-$\hFunctorMap$&関手のマップ&\code{<\$>}, \code{`fmap`}\\
+$\hFunctorMap$&ファンクターのマップ&\code{<\$>}, \code{`fmap`}\\
 % $\mMapFunc$&関数のマップ&\code{<\$>}\\
 $\hApplicativeMap$&アプリカティブマップ&\code{<*>}, \code{`ap`}\\
 % $\mAppMapList$&リストのアプリカティブマップ&\code{<*>}\\
@@ -405,9 +405,9 @@ lambda x: 1+x
 
 本書では新たに，次のラムダ式記法も導入する．式中に記号 $\hAnonParam$ が現れた場合，その式全体がラムダ式であるとみなす．記号 $\hAnonParam$ の部分には引数が入る．第 $n$ 番目の $\hAnonParam$ には第 $n$ 番目の引数が入る．例えばラムダ式 $\hLambdaSyntax{\hVar{x}\hVar{y}}{\hVar{x}+\hVar{y}}$ は
 \begin{equation}
-  \hAnonParam+\hAnonParam
+  (\hAnonParam+\hAnonParam)
 \end{equation}
-と書いても良い．式を左から読んで1番目の $\hAnonParam$ が元々の $\hVar{x}$ すなわち第1引数を，2番目の $\hAnonParam$ が元々の $\hVar{y}$ すなわち第2引数を意味する．この省略記法はプログラミング言語\scheme における\code{cut}プロシジャに由来する．\footnote{この記法は\haskell にはない．}
+と書いても良い．式を左から読んで1番目の $\hAnonParam$ が元々の $\hVar{x}$ すなわち第1引数を，2番目の $\hAnonParam$ が元々の $\hVar{y}$ すなわち第2引数を意味する．この省略記法はプログラミング言語\scheme における \code{cut} プロシジャに由来する．\footnote{\haskell では，中置演算子に限ってこの表現が使える．例えば$(\hAnonParam+\hAnonParam)$は単に \code{(+)} と表現できる．ただし\scheme における \code{cut} プロシジャの \code{<>} は\haskell にはない．}
 
 \section{パタンマッチ・ガード・条件分岐}
 
