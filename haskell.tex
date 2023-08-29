@@ -42,13 +42,12 @@ Ether変数&ダブルドットをつける&$\hEitherDecor{\hVar{x}}$\\ %%% !!!
 型&ボールド（1文字）&$\hTypeName{a},\hTypeName{b},\hTypeName{c}$\\
 有名な型&ボールド大文字&$\hBool,\hInt$\\
 型クラス&スモールキャピタル&$\hEq,\hOrd$\\
+型コンストラクタ&ボールドイタリック&$\hTypeConstructor{m},\hTypeConstructor{n}$\\
+有名な型コンストラクタ&ボールド大文字&$\hList,\hMaybe$\\
 多相型&型コンストラクタ名と型名&$\hTypeConstruct{\hTypeConstructor{m}}{\hTypeName{a}}$\\
 有名な多相型&同上&$\hMaybeConstruct{\hTypeName{a}}$\\
 有名な多相型&特別な括弧で包む&$[\hTypeName{a}]$\\
 集合&ブラックボード大文字&$\hSet{B},\hSet{Z},\hSet{R}$\\
-\hline
-型コンストラクタ&ボールドスラント&$\hTypeConstructor{m},\hTypeConstructor{n}$\\
-有名な型コンストラクタ&ボールドスラント大文字&$\hList,\hMaybe$\\
 \hline
 \end{tabular}
 \end{center}
@@ -613,11 +612,11 @@ $(\hAnyBinOp)$ も
 二項演算子の部分適用に限って\keyword{セクション}と言う記法も用いられる．二項演算子 $\hAnyBinOp$ に対して $(\hAnyBinOp\hVar{x})$ および $(\hVar{x}\hAnyBinOp)$ はそれぞれ
 \begin{align}
   (\hAnyBinOp\hVar{x})
-  &=\hAnonParam\hAnyBinOp\hVar{x}\\
+  &=(\hAnonParam\hAnyBinOp\hVar{x})\\
   (\hVar{x}\hAnyBinOp)
-  &=\hVar{x}\hAnyBinOp\hAnonParam=(\hAnyBinOp)\hVar{x}
+  &=(\hVar{x}\hAnyBinOp\hAnonParam)=(\hAnyBinOp)\hVar{x}
 \end{align}
-である．例えば $(\hConstant{1}+)$ は $((+)\hConstant{1})$ と等価であり，これは $(+\hConstant{1})$ とも等価である．ただし，マイナス演算子$(-)$ だけは例外で，$(-\hConstant{1})$ はマイナス $\hConstant{1}$ を表す．負の数をいつも括弧で包んでおくのは良いアイディアである．\footnote{\haskell では $(1+)$ を\code{(1+)} と書く．また \code{(-1)} はセクションではなくマイナス$\hConstant{1}$を表す（\code{-1} というリテラルとみなされる）．ただし \code{(- 1)}のように空白を挟んでも同じくマイナス $\hConstant{1}$ とみなされる（\code{1} というリテラルに単項マイナス演算子が適用される）．}
+である．例えば $(\hConstant{1}+)$ は $((+)\hConstant{1})$ と等価であり，これは $(+\hConstant{1})$ とも等価である．ただし，マイナス演算子$(-)$ だけは例外で，$(-\hConstant{1})$ はマイナス $\hConstant{1}$ を表す．負の数をいつも括弧で包んでおくのは良いアイディアである．\footnote{\haskell では $(1+)$ を\code{(1+)} と書く．また \code{(-1)} はセクションではなくマイナス$1$を表す（\code{-1} というリテラルとみなされる）．ただし \code{(- 1)}のように空白を挟んでも同じくマイナス$1$とみなされる（\code{1} というリテラルに単項マイナス演算子が適用される）．}
 
 なお，二項演算子の結合性，すなわち左結合か右結合かは，演算子によって異なる．また演算の優先順位を明示的に与えるために括弧が用いられる．
 
