@@ -419,7 +419,9 @@ lambda x: 1+x
   \hFunc{f}\hVar{x}
   =(\hSin\hVar{x})/\hVar{x}
 \end{equation}
-と書いても良い．この書き方を\keyword{ポイントフリースタイル}と呼ぶ．ポイントフリースタイルは今後頻出するので，是非覚えておいてもらいたい．\footnote{\haskell では $\hFunc{f}=\hLambdaSyntax{\hVar{x}}{\hSin\hVar{x})/\hVar{x}}$ を \code{f = \textbackslash x -> (sin x)/x} と書き，一方 $\hFunc{f}\hVar{x}=(\hSin\hVar{x})/\hVar{x}$ を\code{f x = (sin x)/x} と書く．}
+と書いても良い．\footnote{\haskell では $\hFunc{f}=\hLambdaSyntax{\hVar{x}}{\hSin\hVar{x})/\hVar{x}}$ を \code{f = \textbackslash x -> (sin x)/x} と書き，一方 $\hFunc{f}\hVar{x}=(\hSin\hVar{x})/\hVar{x}$ を\code{f x = (sin x)/x} と書く．}
+
+% この書き方を\keyword{ポイントフリースタイル}と呼ぶ．ポイントフリースタイルは今後頻出するので，是非覚えておいてもらいたい．
 
 \separator
 
@@ -605,7 +607,7 @@ $(\hAnyBinOp)$ も
   (\hAnyBinOp)\hVar{x}\hVar{y}
   =((\hAnyBinOp)\hVar{x})\hVar{y}
 \end{equation}
-であるから，部分適用が可能である．式\eqref{eq:star-x-y}から第2引数 $\hVar{y}$ を取り除いて $(\hAnyBinOp)x$ という「餓えた」1引数関数を取り出せる．例えば関数 $((+)1)$ は引数に $\hConstant{1}$ を加える関数である．\footnote{\haskell では $((+)1)$ を \code{((+)1)} と書く．}
+であるから，部分適用が可能である．式\eqref{eq:star-x-y}から第2引数 $\hVar{y}$ を取り除いて $(\hAnyBinOp)\hVar{x}$ という「餓えた」1引数関数を取り出せる．例えば関数 $((+)\hConstant{1})$ は引数に $\hConstant{1}$ を加える関数である．\footnote{\haskell では $((+)1)$ を \code{((+)1)} と書く．}
 
 \separator
 
@@ -1303,7 +1305,8 @@ s = ls.inject(0) { |x, y| x+y }
   \sum
   =\mFold^+_{\hConstant{0}}
 \end{equation}
-とも書く．このように，ラムダ式を使わずに引数を省略してしまう書き方を\keyword{ポイントフリースタイル}と呼ぶ．ポイントフリースタイルは今後も頻出するので，是非慣れておいてもらいたい．\footnote{\haskell はポイントフリースタイルをサポートする．}
+とも書く．
+% このように，ラムダ式を使わずに引数を省略してしまう書き方を\keyword{ポイントフリースタイル}と呼ぶ．ポイントフリースタイルは今後も頻出するので，是非慣れておいてもらいたい．\footnote{\haskell はポイントフリースタイルをサポートする．}
 
 リストの要素のすべての積をとる演算子 $\prod$ は
 \begin{equation}
