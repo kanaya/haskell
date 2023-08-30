@@ -2038,34 +2038,38 @@ Monad law.
 
 「普通の」変数$x$に「普通の」関数$f$を適用する．
 $$
-y=fx
+\hVar{z}=\hFunc{f}\hVar{x}
 $$
 
-「普通の」変数$x$にモナドを返す関数$\Tilde{f}$を適用する．
+「普通の」変数$x$にモナドを返す関数$\phi$を適用する．
 $$
-\mathbf{y}=\Tilde{f}x
+\hAnyContextDecor{\hVar{z}}=\hAction{\phi}\hVar{x}
 $$
 
-文脈を持つ変数$\mathbf{x}$に「普通の」関数$f$を適用する．
+文脈を持つ変数$\Tilde{x}$に「普通の」関数$f$を適用する．
 $$
-\mathbf{y}=f\mathop{\texttt{<\$>}}\mathbf{x}
+\hAnyContextDecor{\hVar{x}}=\hFunc{f}\hFunctorMap\hAnyContextDecor{\hVar{x}}
 $$
 
 2引数の場合．
 \begin{align*}
-\mathbf{z}&=g\mathop{\texttt{<\$>}}\mathbf{x}\mathop{\texttt{<*>}}\mathbf{y}\\
-&=\mathop{\text{pure}}g\mathop{\texttt{<*>}}\mathbf{x}\mathop{\texttt{<*>}}\mathbf{y}
+\hAnyContextDecor{\hVar{z}}
+&=\hFunc{g}\hFunctorMap\hAnyContextDecor{\hVar{x}}\hApplicativeMap\hAnyContextDecor{\hVar{y}}\\
+&=\hPure\hFunc{g}\hApplicativeMap\hAnyContextDecor{\hVar{x}}\hApplicativeMap\hAnyContextDecor{\hVar{y}}
 \end{align*}
 
 文脈を持つ変数$\mathbf{x}$にモナドを返す関数$\Tilde{f}$をMaybe値に適用する．
 $$
-\mathbf{y}=\Tilde{f}\mathop{\texttt{=<<}}\mathbf{x}
+\hAnyContextDecor{\hVar{y}}=\hAction{\phi}\hMonadicBind\hAnyContextDecor{\hVar{x}}
 $$
 
 2引数の場合．
 \begin{align*}
-  \mathbf{z}&=(\backslash y'\rightarrow(\backslash x'\rightarrow\Tilde{g}x'y')\mathop{\texttt{=<<}\mathbf{x}})\mathop{\texttt{=<<}\mathbf{y}}\\
-    &=\mathop{\text{do}}\{x'\leftarrow\mathbf{x};\;y'\leftarrow\mathbf{y};\;\Tilde{g}x'y'\}
+\hAnyContextDecor{\hVar{z}}
+&=(\hLambdaSyntax{\hVar{y'}}{(\hLambdaSyntax{\hVar{x'}}{\hAction{\phi}\hVar{x'}\hVar{y'}})\hMonadicBind\hAnyContextDecor{\hVar{x}}})\hMonadicBind\hAnyContextDecor{\hVar{y}}\\
+&=\hDoSyntax{\hVar{x'}\hDoArrow\hAnyContextDecor{\hVar{x}};\;
+\hVar{y'}\hDoArrow\hAnyContextDecor{\hVar{y}};\;
+\hAction{\phi}\hVar{x'}\hVar{y'}}
 \end{align*}
 
 
