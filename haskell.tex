@@ -1996,6 +1996,46 @@ Either型は\clang の共有型 (\code{union}) や\cxx のバリアント型 (\c
 A...
 \end{leader}
 
+
+Function laws.
+
+\begin{align}
+\hFunc{f}\hCompose\hId&=\hFunc{f}\\
+\hId\hCompose\hFunc{f}&=\hFunc{f}\\
+(\hFunc{h}\hCompose\hFunc{g})\hCompose\hFunc{f}&=\hFunc{h}\hCompose(\hFunc{g}\hCompose\hFunc{f})
+\end{align}
+
+Functor laws.
+
+\begin{align}
+\hId\hFunctorMap&=\hId\\
+(\hFunc{g}\hCompose\hFunc{f})\hFunctorMap&=(\hFunc{g}\hFunctorMap)\hCompose(\hFunc{f}\hFunctorMap)
+\end{align}
+
+Applicative functor laws.
+
+\begin{align}
+\hPure\hId\hApplicativeMap\hAnyContextDecor{\hVar{x}}&=\hAnyContextDecor{\hVar{x}}\\
+\hPure\hFunc{f}\hApplicativeMap\hPure\hVar{x}&=\hPure(\hFunc{f}\hVar{x})\\
+\hAnyContextDecor{\hFunc{g}}\hApplicativeMap\hPure\hFunc{f}&=\hPure(\hApply\hFunc{f})\hApplicativeMap\hAnyContextDecor{\hFunc{g}}\\
+\hAnyContextDecor{\hFunc{h}}\hApplicativeMap(\hAnyContextDecor{\hFunc{g}}\hApplicativeMap\hAnyContextDecor{\hFunc{f}})&=(\hPure(\hCompose)\hApplicativeMap\hAnyContextDecor{\hFunc{h}}\hApplicativeMap\hAnyContextDecor{\hFunc{g}})\hApplicativeMap\hAnyContextDecor{\hFunc{f}}
+\end{align}
+
+Monad law.
+
+\begin{equation}
+\hFunc{\psi}\hMonadicCompose\hFunc{\phi}=\hLambdaSyntax{\hAnyContextDecor{\hVar{x}}}{\hFunc{\psi}\hMonadicBind(\hFunc{\phi}\hMonadicBind\hAnyContextDecor{\hVar{x}})}
+\end{equation}
+
+\begin{align}
+\hFunc{\phi}\hMonadicCompose\hReturn&=\hFunc{\phi}\\
+\hReturn\hMonadicCompose\hFunc{\phi}&=\hFunc{\phi}\\
+(\hFunc{\omega}\hMonadicCompose\hFunc{\psi})\hMonadicCompose\hFunc{\phi}&=\hFunc{\omega}\hMonadicCompose(\hFunc{\psi}\hMonadicCompose\hFunc{\phi})
+\end{align}
+
+
+\separator
+
 「普通の」変数$x$に「普通の」関数$f$を適用する．
 $$
 y=fx

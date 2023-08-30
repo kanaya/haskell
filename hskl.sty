@@ -210,12 +210,13 @@
 \newcommand{\hUncurry}{\hSpecialFunction{uncurry}}
 
 % Action
-\newcommand{\hAction}[1]{\textcolor{\hActionColor}{#1}}
-\newcommand{\hSpecialAction}[1]{\textcolor{\hActionColor}{\textsl{#1}}}
+\newcommand{\hAction}[1]{\mathop{\textcolor{\hActionColor}{#1}}}
+\newcommand{\hSpecialAction}[1]{\mathop{\textcolor{\hActionColor}{\textsl{#1}}}}
 
 %% main, pure, return, print
 \newcommand{\hMain}{\hSpecialAction{main}}
 \newcommand{\hReturn}{\hSpecialAction{return}}
+\newcommand{\hPure}{\hSpecialAction{pure}}
 
 
 % Functor
@@ -274,11 +275,8 @@
 \newcommand{\hLeftWith}[1]{{}_{\hSpecialValueConstructor{Left}}[\![#1]\!]}
 \newcommand{\hRightWith}[1]{{}_{\hSpecialValueConstructor{Right}}[\![#1]\!]}
 
-
-%% List, Pure, Constant
+%% List
 \newcommand{\hListWith}[1]{[#1]}
-\newcommand{\hPureWith}[1]{\llbracket#1\rrbracket} %% !!!
-\newcommand{\hReturnWith}[1]{\llbracket#1\rrbracket}%{\llparenthesis#1\rrparenthesis}
 
 %% Tuple
 \newcommand{\hSingleTuppleWith}[1]{\left(#1\right)}
