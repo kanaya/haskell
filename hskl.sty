@@ -208,6 +208,7 @@
 \newcommand{\hTake}{\hSpecialFunction{take}}
 \newcommand{\hCurry}{\hSpecialFunction{curry}}
 \newcommand{\hUncurry}{\hSpecialFunction{uncurry}}
+\newcommand{\hSum}{\hSpecialFunction{sum}}
 
 % Action
 \newcommand{\hAction}[1]{\mathop{\textcolor{\hActionColor}{#1}}}
@@ -285,10 +286,13 @@
 
 % Decoration
 \newcommand{\hListDecor}[1]{\Bar{#1}}
-\newcommand{\hListVarWith}[1]{\hListDecor{\hVar{#1}}}
+\newcommand{\hListVar}[1]{\hListDecor{\hVar{#1}}}
 \newcommand{\hMaybeDecor}[1]{\Dot{#1}}
+\newcommand{\hMaybeVar}[1]{\hMaybeDecor{\hVar{#1}}}
 \newcommand{\hEitherDecor}[1]{\Ddot{#1}}
+\newcommand{\hEitherVar}[1]{\hEtherDecor{\hVar{#1}}}
 \newcommand{\hAnyContextDecor}[1]{\Tilde{#1}}
+\newcommand{\hAnyContextVar}[1]{\hAnyContextDecor{\hVar{#1}}}
 
 
 % Forall
