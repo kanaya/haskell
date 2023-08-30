@@ -142,19 +142,10 @@ $\hLeftWith{\hVar{x}},\hRightWith{\hVar{x}}$&Either値コンストラクタ&\cod
 \hline
 記号&意味&\haskell 記号\\
 \hline\hline
-% \hline
-%% $\hPureWith{\hVar{x}}$&関手のピュア演算子&\code{pure x}\\  %%% ???
-%% $\hReturnWith{\hVar{x}}$&モナドのピュア演算子&\code{return x}\\  %%% ???
-% % $\mFuncWith{x}$&関数値コンストラクタ&\code{r->x}\\
-% $\mConstWith{x}$&定数演算子&\code{const x}\\
-% $\mArrowWith{x}$&アロー演算子&\code{arr x}\\
-\hline
-% $\mMap$&一般マップ&\code{<\$>}\\
 $\hMap$&リストのマップ&\code{`map`}\\
-$\hMaybeMap$&Maybeのマップ&\\
-% $\hMapM$&文脈付きリストのマップ&\code{`mapM`}\\
+$\hMapM$&文脈付きリストのマップ&\code{`mapM`}\\
+$\hMaybeMap$&Maybeのマップ&\code{<\$>}, \code{`fmap`}\\
 $\hFunctorMap$&ファンクターのマップ&\code{<\$>}, \code{`fmap`}\\
-% $\mMapFunc$&関数のマップ&\code{<\$>}\\
 $\hApplicativeMap$&アプリカティブマップ&\code{<*>}, \code{`ap`}\\
 % $\mAppMapList$&リストのアプリカティブマップ&\code{<*>}\\
 % $\mAppMapMaybe$&Maybeのアプリカティブマップ&\code{<*>}\\
@@ -171,8 +162,11 @@ $\hMonadicCompose$&モナドの合成&\code{<=<}\\
 $\hRightMonadicBind$&右バインド演算子&\code{>>=}\\
 $\hRightMonadicBindIgnore$&右バインド演算子（戻値無視）&\code{>>}\\
 \hline
+$\hArrowArrow$&&\code{>>>}\\
+$\hArrowAnd$&&\code{\&\&\&}\\
+$\hArrowOr$&&\code{|||}\\
 % $\mLLL$&カテゴリ関数合成&\code{<<<}\\
-% \hline
+\hline
 \end{tabular}
 \end{center}
 \end{table*}

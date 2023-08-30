@@ -309,8 +309,8 @@
 
 %% Map, Bind
 \DeclareMathOperator{\hMap}{\times}
-% \DeclareMathOperator{\hMapM}{\boxtimes}
-\DeclareMathOperator{\hMaybeMap}{\boxtimes}
+\DeclareMathOperator{\hMapM}{\boxtimes}
+\DeclareMathOperator{\hMaybeMap}{\otimes}
 \DeclareMathOperator{\hFunctorMap}{\otimes}
 \DeclareMathOperator{\hApplicativeMap}{\circledast}
 \DeclareMathOperator{\hMonadicBind}{\star}
@@ -318,7 +318,7 @@
 \DeclareMathOperator{\hRightMonadicBindIgnore}{\twoheadrightarrow}
 
 %% Compose
-\DeclareMathOperator{\hCompose}{\centerdot}
+\DeclareMathOperator{\hCompose}{\bullet}%{\centerdot}
 \DeclareMathOperator{\hMonadicCompose}{\circ}
 \DeclareMathOperator{\hCategoryCompose}{\bullet}
 
@@ -337,7 +337,7 @@
 
 %% List op
 \DeclareMathOperator{\hMemberAt}{!!}
-\DeclareMathOperator{\hAppend}{\oplus}
+\DeclareMathOperator{\hAppend}{\uplus}
 \DeclareMathOperator{\hCons}{:}
 
 %% List comprehension
@@ -371,3 +371,8 @@
 % Guard
 \newcommand{\hGuard}[1]{\mathop{\mid_{#1}}}
 
+
+% Arrows
+\newcommand{\hArrowArrow}{\rightsquigarrow}
+\newcommand{\hArrowAnd}{\barwedge}
+\newcommand{\hArrowOr}{\veebar}
