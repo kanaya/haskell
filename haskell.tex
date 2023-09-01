@@ -323,6 +323,8 @@ f(x)
 
 関数 $\hFunc{f}$ に引数 $\hVar{x}$を「食わせる」ことを\keyword{関数適用}と呼ぶ．もし $\hFunc{f}\hVar{x}$ と書いてあったら，それは $\hFunc{f}$ と $\hVar{x}$ の積，つまり $\hFunc{f}*\hVar{x}$ ではなく，従来の $\hFunc{f}(\hVar{x})$ すなわち関数 $\hFunc{f}$ に引数 $\hVar{x}$ を与えているものと解釈する．高校生向けの数学書でも $\sin x$ のように三角関数に限ってはカリー風に書くことになっているので，まるで馴染みがないということもないだろう．なお，関数はいつも引数の左側に書くことにする．これを「関数 $\hFunc{f}$ が変数 $\hVar{x}$ の\keyword{左から作用する}」と言い，また関数 $\hFunc{f}$ のことを\keyword{左作用素}とも呼ぶ．
 
+\separator
+
 複数引数をとる関数を\python や一般的な数学の教科書では
 \begin{pythoncode}
 \begin{verbatim}
@@ -375,6 +377,8 @@ lambda x: 1+x
   \hLambdaSyntax{\hVar{x}\hVar{y}}{\hVar{x}+\hVar{y}}
 \end{equation}
 のように引数を並べて書く．
+
+\separator
 
 本書では新たに，次のラムダ式記法も導入する．式中に記号 $\hAnonParam$ が現れた場合，その式全体がラムダ式であるとみなす．記号 $\hAnonParam$ の部分には引数が入る．第 $n$ 番目の $\hAnonParam$ には第 $n$ 番目の引数が入る．例えばラムダ式 $\hLambdaSyntax{\hVar{x}\hVar{y}}{\hVar{x}+\hVar{y}}$ は
 \begin{equation}
@@ -563,6 +567,8 @@ printf("%d, %d\n", ++i, ++i);
 
 \haskell には単項マイナス $(-)$ を除いて他に単項演算子はない．
 
+\separator
+
 二項演算子のうちよく使われるものは和 $(+)$，積 $(*)$，論理和 $(\hLogicalOr)$，論理積 $(\hLogicalAnd)$，同値 $(\hIfEq)$，大なり$(>)$，小なり $(<)$ 等である．二項演算子はたとえ積記号であっても省略できない．二項演算子は多数あるので，その都度説明する．\footnote{\haskell では $\hLogicalAnd$ を \code{\&\&} と書き，$\hLogicalOr$ を \code{||} と書く．}
 
 二項演算子は\keyword{中置}することが基本であるが，括弧で包むことで前置することも可能である．任意の二項演算子 $\hAnyBinOp$ について $\hVar{x}\hAnyBinOp\hVar{y}$ 及び $(\hAnyBinOp)\hVar{x}\hVar{y}$ は全く同じ意味である．すなわち
@@ -583,7 +589,9 @@ $(\hAnyBinOp)$ も
 
 \separator
 
-二項演算子の部分適用に限って\keyword{セクション}と言う記法も用いられる．二項演算子 $\hAnyBinOp$ に対して $(\hAnyBinOp\hVar{x})$ および $(\hVar{x}\hAnyBinOp)$ はそれぞれ
+前置される二項演算子 $(\hAnyBinOp)$ は，ラムダ式 $(\hAnonParam\hAnyBinOp\hAnonParam)$ の無名パラメタ $\hAnonParam$ を省略したものと考えても良い．また $(\hAnonParam\hAnyBinOp\hVar{x})$ や $(\hVar{x}\hAnyBinOp\hAnonParam)$ から無名パラメタを省略した $(\hAnyBinOp\hVar{x})$ と $(\hVar{x}\hAnyBinOp)$ も有効な表現であり，特別に\keyword{セクション}と呼ばれる．
+
+二項演算子 $\hAnyBinOp$ に対して $(\hAnyBinOp\hVar{x})$ および $(\hVar{x}\hAnyBinOp)$ はそれぞれ
 \begin{align}
   (\hAnyBinOp\hVar{x})
   &=(\hAnonParam\hAnyBinOp\hVar{x})\\
