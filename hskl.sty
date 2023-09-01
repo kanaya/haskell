@@ -245,9 +245,10 @@
 \newcommand{\hChar}{\hSpecialTypeName{Char}}
 \newcommand{\hString}{\hSpecialTypeName{String}}
 
-%% List, Maybe
+%% List, Maybe, Either
 \newcommand{\hList}{\hSpecialTypeConstructor{List}}
 \newcommand{\hMaybe}{\hSpecialTypeConstructor{Maybe}}
+\newcommand{\hEither}{\hSpecialTypeConstructor{Either}}
 
 %% Eq, Ord, Integral
 \newcommand{\hEq}{\hSpecialTypeClass{Eq}}
@@ -261,10 +262,11 @@
 % Type construct syntax
 \newcommand{\hTypeConstruct}[2]{{}^{#1}\langle#2\rangle}
 
-%% List, Maybe
+%% List, Maybe, Either
 \newcommand{\hListConstruct}[1]{[#1]}
 \newcommand{\hVarListConstruct}[1]{\hTypeConstruct{\hList}{#1}}
 \newcommand{\hMaybeConstruct}[1]{\hTypeConstruct{\hMaybe}{#1}}
+\newcommand{\hEitherConstruct}[2]{\hTypeConstruct{\hEither}{#1\;#2}}
 
 
 % Value constructor
@@ -290,7 +292,7 @@
 \newcommand{\hMaybeDecor}[1]{{#1}_\textrm{?}}
 \newcommand{\hMaybeVar}[1]{\hMaybeDecor{\hVar{#1}}}
 \newcommand{\hEitherDecor}[1]{{#1}_\textrm{!}}
-\newcommand{\hEitherVar}[1]{\hEtherDecor{\hVar{#1}}}
+\newcommand{\hEitherVar}[1]{\hEitherDecor{\hVar{#1}}}
 \newcommand{\hAnyContextDecor}[1]{{#1}_\star}
 \newcommand{\hAnyContextVar}[1]{\hAnyContextDecor{\hVar{#1}}}
 
