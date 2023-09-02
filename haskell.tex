@@ -1055,15 +1055,15 @@ $\hFromIntegral$ は
 \caption{モノイド（単位的半群）}
 \label{tab:monoids}
 \begin{center}
-\begin{tabular}{||c||c|c||}
-\hline 型&演算子&単位元\\\hline\hline
-$\hBool$ &$\vee$&$\hFalse$\\\hline
-$\hBool$ &$\wedge$ &$\hTrue$\\\hline\hline
-$\hInt$ &$+$ &$\hConstant{0}$\\\hline
-$\hInt$ &$*$ &$\hConstant{1}$\\\hline\hline
-$\hFloat$ &$+$ &$\hConstant{0}$\\\hline
-$\hFloat$ &$*$ &$\hConstant{1}$\\\hline\hline
-$\hTypeName{a}\hFunctionArrow\hTypeName{a}$ &$\hCompose$ &$\hId$\\\hline
+\begin{tabular}{||c|c|c|c||}\hline
+種&型&演算子&単位元\\\hline\hline
+\multirow{6}{*}{$\hGenus$}&\multirow{2}{*}{$\hBool$}&$\vee$&$\hFalse$\\
+&&$\wedge$&$\hTrue$\\\cline{2-4}
+&\multirow{2}{*}{$\hInt$}&$+$&$\hConstant{0}$\\
+&&$*$ &$\hConstant{1}$\\\cline{2-4}
+&\multirow{2}{*}{$\hFloat$}&$+$&$\hConstant{0}$\\
+&&$*$&$\hConstant{1}$\\\hline
+$\hGenus\hFunctionArrow\hGenus$&$\hTypeName{a}\hFunctionArrow\hTypeName{a}$ &$\hCompose$&$\hId$\\\hline
 \end{tabular}
 \end{center}
 \end{table}
