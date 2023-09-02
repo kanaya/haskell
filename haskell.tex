@@ -107,7 +107,7 @@ $\hCons$&cons演算子&\code{:}\\
 $\hAppend$&結合演算子&\code{++}\\
 \hline
 $\hUnit$&ユニット&\code{()}\\
-$\hEmptyList$&空リスト&\code{[]}\\
+${\hEmptyList}$&空リスト&\code{[]}\\
 $\hNothing$&ナッシング&\code{Nothing}\\
 \hline
 $\hPureNothing$&空&\\
@@ -637,6 +637,30 @@ z = g(f(x))
 \end{equation}
 と書ける．\footnote{\haskell では関数 \code{g} と関数 \code{f} の合成は \code{g.f} である．式 $\hVar{z}=\hFunc{g}\hCompose \hFunc{f} x$ は \code{z = g.f x} と書く．}
 
+\separator
+
+関数合成演算子は，連続して用いることができる．例えば
+\begin{equation}
+  \hFunc{h}\hCompose\hFunc{g}\hCompose\hFunc{f}
+    =(\hFunc{h}\hCompose\hFunc{g})\hCompose\hFunc{f}
+\end{equation}
+であるが，これは
+\begin{align}
+  (\hFunc{h}\hCompose\hFunc{g})\hCompose\hFunc{f}
+    &=(\hFunc{h}\hCompose\hFunc{g})(\hFunc{f}\hAnonParam)\\
+    &=\hFunc{h}(\hFunc{g}(\hFunc{f}\hAnonParam))\\
+    &=\hFunc{h}(\hFunc{g}\hCompose\hFunc{f}\hAnonParam)\\
+    &=\hFunc{h}\hCompose(\hFunc{g}\hCompose\hFunc{f})
+\end{align}
+であるため，
+\begin{equation}
+  (\hFunc{h}\hCompose\hFunc{g})\hCompose\hFunc{f}
+  =\hFunc{h}\hCompose(\hFunc{g}\hCompose\hFunc{f})
+\end{equation}
+である．
+
+\separator
+
 関数合成演算子とは逆に，結合の優先順位の低い\keyword{関数適用演算子}も考えておくと便利なこともある．関数適用演算子 $\hApply$ を次のように定義しておく．
 \begin{equation}
   \hFunc{f}\hApply\hVar{x}
@@ -1015,10 +1039,10 @@ $\hFromIntegral$ は
   \hVar{a}_1\hAnyBinOp \hVar{a}_2
   \in\hSet{A}
 \end{equation}
-である場合，つまり演算子 $\hAnyBinOp$ が集合 $\hSet{A}$ に対して全域性を持つ場合，組み合わせ $\hSingleTuppleWith{\hSet{A},\hAnyBinOp}$ を\keyword{マグマ}と呼ぶ．組み合わせ $\hSingleTuppleWith{\hSet{Z},+}$ はマグマの例であり，$\hSingleTuppleWith{\hSet{Z},*}$ もマグマの例である．
+である場合，つまり演算子 $\hAnyBinOp$ が集合 $\hSet{A}$ に対して全域性を持つ場合，組み合わせ $(\hSet{A},\hAnyBinOp)$ を\keyword{マグマ}と呼ぶ．組み合わせ $(\hSet{Z},+)$ はマグマの例であり，$(\hSet{Z},*)$ もマグマの例である．
 % マグマはかつて亜群と呼ばれていたが，現在は亜群は別の意味(groupoid)の訳語に使われている．
 
-他に\keyword{論理集合} $\hSet{B}=\{\hTrue,\hFalse\}$ に対して，\keyword{論理和} $(\hLogicalOr)$ は全域性を持つから，組み合わせ $\hSingleTuppleWith{\hSet{B},\hLogicalOr}$ はマグマであるし，同様に\keyword{論理積} $(\hLogicalAnd)$ も全域性を持つから，組み合わせ $\hSingleTuppleWith{\hSet{B},\hLogicalAnd}$ もマグマである．論理集合 $\hSet{B}$ とは論理型 $\hBool$ を数学風に言い換えたものである．
+他に\keyword{論理集合} $\hSet{B}=\{\hTrue,\hFalse\}$ に対して，\keyword{論理和} $(\hLogicalOr)$ は全域性を持つから，組み合わせ $(\hSet{B},\hLogicalOr)$ はマグマであるし，同様に\keyword{論理積} $(\hLogicalAnd)$ も全域性を持つから，組み合わせ $(\hSet{B},\hLogicalAnd)$ もマグマである．論理集合 $\hSet{B}$ とは論理型 $\hBool$ を数学風に言い換えたものである．
 
 マグマのうち，演算を2回続ける場合，その順序によって結果が異ならない，つまり
 \begin{equation}
@@ -1026,7 +1050,7 @@ $\hFromIntegral$ は
   \left(\hVar{a}_1\hAnyBinOp \hVar{a}_2\right)\hAnyBinOp \hVar{a}_3
   =\hVar{a}_1\hAnyBinOp\left(\hVar{a}_2\hAnyBinOp{\hVar{a}_3}\right)
 \end{equation}
-ただし $\hVar{a}_1,\hVar{a}_2,\hVar{a}_3\hIsTypeOf\hSet{A}$ のとき，組み合わせ $\hSingleTuppleWith{\hSet{A},\hAnyBinOp}$ のことを\keyword{半群}と呼ぶ．この式\eqref{eq:associativity}で表される性質を\keyword{結合性}と呼ぶ．組み合わせ $\hSingleTuppleWith{\hSet{Z},+}$, $\hSingleTuppleWith{\hSet{Z},*}$, $\hSingleTuppleWith{\hSet{B},\hLogicalOr}$, $\hSingleTuppleWith{\hSet{B},\hLogicalOr}$ はすべて半群である．
+ただし $\hVar{a}_1,\hVar{a}_2,\hVar{a}_3\hIsTypeOf\hSet{A}$ のとき，組み合わせ $(\hSet{A},\hAnyBinOp)$ のことを\keyword{半群}と呼ぶ．この式\eqref{eq:associativity}で表される性質を\keyword{結合性}と呼ぶ．組み合わせ $(\hSet{Z},+)$, $(\hSet{Z},*)$, $(\hSet{B},\hLogicalOr)$, $(\hSet{B},\hLogicalOr)$ はすべて半群である．
 
 \separator
 
@@ -1047,7 +1071,7 @@ $\hFromIntegral$ は
 \end{equation}
 であるとき，元 $\hZero$ を単位元と呼ぶ．（厳密には $\hZero_\text{left}\hAnyBinOp\hVar{a}=\hVar{a}$ のとき $\hZero_\text{left}$ を\keyword{左単位元}と呼び，$\hVar{a}\hAnyBinOp\hZero_\text{right}=\hVar{a}$ のとき $\hZero_\text{right}$ を\keyword{右単位元}と呼ぶが，本書では両者を区別せず単位元と呼ぶ．）
 
-組み合わせ $(\hSet{A},\hAnyBinOp,\hZero)$ のことを\keyword{モノイド}または\keyword{単位的半群}と呼ぶ．例えば $(\hSet{Z},+,\hConstant{0})$ はモノイドであるし，$(\hSet{Z},*,\hConstant{1})$, $(\hSet{B},\hLogicalOr,\hFalse)$, $(\hSet{B},\hLogicalAnd,\hTrue)$ もモノイドである．
+組み合わせ $(\hSet{A},\hAnyBinOp)$ が半群のとき，集合 $\hSet{A}$ の単位元 $\hZero$ との組み合わせ $(\hSet{A},\hAnyBinOp,\hZero)$ のことを\keyword{モノイド}または\keyword{単位的半群}と呼ぶ．例えば $(\hSet{Z},+,\hConstant{0})$ はモノイドであるし，$(\hSet{Z},*,\hConstant{1})$, $(\hSet{B},\hLogicalOr,\hFalse)$, $(\hSet{B},\hLogicalAnd,\hTrue)$ もモノイドである．
 
 このように，数学者は数の性質を抽象化し，集合とその集合に対する演算というものの見方をよく行う．プログラミングの言葉で言えば，複数のクラスに共通のインタフェースを定義するようなものである．
 
@@ -1082,7 +1106,12 @@ $\hGenus\hFunctionArrow\hGenus$&$\hTypeName{a}\hFunctionArrow\hTypeName{a}$ &$\h
 \begin{equation}
   \hId\hCompose\hFunc{f}=\hFunc{f}\hCompose\hId=\hFunc{f}
 \end{equation}
-であるから，組み合わせ $(\hTypeName{a}\hFunctionArrow\hTypeName{a},\hCompose,\hId)$ はモノイドであることがわかる．
+であり，また関数 $\hFunc{f},\hFunc{g},\hFunc{h}\hIsTypeOf\hTypeName{a}\hFunctionArrow\hTypeName{a}$ について
+\begin{equation}
+  (\hFunc{h}\hCompose\hFunc{g})\hCompose\hFunc{f}
+  = \hFunc{h}\hCompose(\hFunc{g}\hCompose\hFunc{f})
+\end{equation}
+でるから，組み合わせ $(\hTypeName{a}\hFunctionArrow\hTypeName{a},\hCompose,\hId)$ はモノイドであることがわかる．
 
 % そこで，任意の型 $\hTypeName{a}$ について，組み合わせ $\hSingleTuppleWith{\hTypeName{a} ,\hAnyBinOp,\mZero}$ がモノイドである場合には
 % \begin{equation}
@@ -1191,7 +1220,7 @@ $\hListWith{\hVar{x}}$ のように $\hTypeName{a}$ 型の変数 $\hVar{x}$ を�
 
 ある型を包み込んだ別の型を一般に\keyword{コンテナ型}または単に\keyword{コンテナ}と呼ぶ．コンテナ型の変数を\keyword{コンテナ変数}と呼ぶ．コンテナ型は多相型の一種である．
 
-% なお，リスト型，結合演算子，空リストの組み合わせ $\hSingleTuppleWith{\hListConstruct{\hTypeName{a}},\hAppend,\mEmptyList}$ はモノイドである．
+% なお，リスト型，結合演算子，空リストの組み合わせ $\hSingleTuppleWith{\hListConstruct{\hTypeName{a}},\hAppend,{\hEmptyList}}$ はモノイドである．
 
 \separator
 
@@ -1209,7 +1238,7 @@ $\hListVar{y}$ を結合したリストは
 
 \separator
 
-リストは空でもよい．\keyword{空リスト}は$\mEmptyList$で表す．\footnote{\haskell では空リストを \code{[]} で表す．}
+リストは空でもよい．\keyword{空リスト}は${\hEmptyList}$で表す．\footnote{\haskell では空リストを \code{[]} で表す．}
 
 関数 $\hNull$ はリストが空リストかどうかを判定する．リスト $\hListVar{x}$が空リストの場合
 \begin{equation}
@@ -1265,12 +1294,12 @@ $\hListVar{n}$ は
 \end{equation}
 で定義される演算子である．この表現を一般化してみよう．リスト $[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]$ が与えられたとき，任意の二項演算子を $\hAnyBinOp$ として
 \begin{equation}
-  \mFold^{\hAnyBinOp}_a[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]
+  \hFold^{\hAnyBinOp}_a[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]
   =a\hAnyBinOp \hVar{x}_0\hAnyBinOp \hVar{x}_1\hAnyBinOp\dotsb\hAnyBinOp \hVar{x}_n
 \end{equation}
 であると定義する．
 
-この新しい演算子 $\mFold$ は\keyword{畳み込み演算子}と呼ばれる．変数 $a$ は\keyword{アキュムレータ}と呼ぶ．アキュムレータは右側の引数が空であった場合のデフォルト値と考えても良い．\footnote{\haskell では $\mFold^*_a\hListVar{x}$ を \code{foldl (*) a xs} と書く．}
+この新しい演算子 $\hFold$ は\keyword{畳み込み演算子}と呼ばれる．変数 $a$ は\keyword{アキュムレータ}と呼ぶ．アキュムレータは右側の引数が空であった場合のデフォルト値と考えても良い．\footnote{\haskell では $\hFold^*_a\hListVar{x}$ を \code{foldl (*) a xs} と書く．}
 % ***CHECK***
 
 \python\ 2.7 には畳み込み演算子に相当する \code{reduce} 関数があり，リスト \code{ls} の総和 \code{s} を
@@ -1293,12 +1322,12 @@ s = ls.inject(0) { |x, y| x+y }
 リストの総和をとる演算子 $\sum$ は
 \begin{equation}
   \sum\hListVar{x}
-  =\mFold^+_{\hConstant{0}}\hListVar{x}
+  =\hFold^+_{\hConstant{0}}\hListVar{x}
 \end{equation}
 とすれば得られる．この式は両辺の $\hListVar{x}$ を省略して
 \begin{equation}
   \sum
-  =\mFold^+_{\hConstant{0}}
+  =\hFold^+_{\hConstant{0}}
 \end{equation}
 とも書く．
 % このように，ラムダ式を使わずに引数を省略してしまう書き方を\keyword{ポイントフリースタイル}と呼ぶ．ポイントフリースタイルは今後も頻出するので，是非慣れておいてもらいたい．\footnote{\haskell はポイントフリースタイルをサポートする．}
@@ -1306,13 +1335,13 @@ s = ls.inject(0) { |x, y| x+y }
 リストの要素のすべての積をとる演算子 $\prod$ は
 \begin{equation}
   \prod
-  =\mFold^*_{\hConstant{1}}
+  =\hFold^*_{\hConstant{1}}
 \end{equation}
 とすれば得られる．
 
 畳み込み演算子は第1（上）引数に $\hTypeName{a}$ 型と $\hTypeName{b}$ 型の引数を取り $\hTypeName{a}$ 型の戻り値を返す二項演算子，第2（下）引数に$\hTypeName{a}$ 型，第3（右）引数に $\hTypeName{b}$ 型のリストすなわち$[\hTypeName{b}]$ 型を取り，$\hTypeName{a}$ 型の値を返す．従って畳み込み演算子の型は
 \begin{equation}
-  \mFold
+  \hFold
   \hIsTypeOf(\hTypeName{a}\hFunctionArrow\hTypeName{b}\hFunctionArrow\hTypeName{a})
   \hFunctionArrow\hTypeName{a}
   \hFunctionArrow[\hTypeName{b}]
@@ -1324,22 +1353,22 @@ s = ls.inject(0) { |x, y| x+y }
 
 畳み込み演算子には次のようなもう一つのバリエーションがある．
 \begin{equation}
-  \mFoldRight^{\hAnyBinOp}_{\hVar{a}}[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]
+  \hFoldRight^{\hAnyBinOp}_{\hVar{a}}[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]
   =(\hVar{x}_0\hAnyBinOp(\hVar{x}_1\hAnyBinOp\dotsb\hAnyBinOp(\hVar{x}_n\hAnyBinOp\hVar{a})))
 \end{equation}
-これは\keyword{右畳み込み}と呼ばれる演算子である．\footnote{\haskell では $\mFoldRight^{*}_{\hVar{a}}\hListVar{x}$ を \code{foldr (*) xs a} と書く．引数の順序に注意しよう．}
+これは\keyword{右畳み込み}と呼ばれる演算子である．\footnote{\haskell では $\hFoldRight^{*}_{\hVar{a}}\hListVar{x}$ を \code{foldr (*) xs a} と書く．引数の順序に注意しよう．}
 
 \separator
 
 畳み込み演算子の面白い応用例を示そう．リストの結合演算子 $(\hAppend)$ を使うと
 \begin{equation}
-  \mFold_\mEmptyList^{\hAppend}[[\hConstant{0},\hConstant{1},\hConstant{2}],[\hConstant{3},\hConstant{4},\hConstant{5}]\dotsb]
+  \hFold_{\hEmptyList}^{\hAppend}[[\hConstant{0},\hConstant{1},\hConstant{2}],[\hConstant{3},\hConstant{4},\hConstant{5}]\dotsb]
   =[\hConstant{0},\hConstant{1},\hConstant{2},\hConstant{3},\hConstant{4},\hConstant{5}\dotsb]
 \end{equation}
-であるから，演算子 $\mFold_\mEmptyList^{\hAppend}$ はリストを平坦化する\keyword{平坦化演算子}である．平坦化演算子はconcat演算子とも呼ばれることもあるが，基本的な演算子であるため特別な記号をつけておこう．我々は
+であるから，演算子 $\hFold_{\hEmptyList}^{\hAppend}$ はリストを平坦化する\keyword{平坦化演算子}である．平坦化演算子はconcat演算子とも呼ばれることもあるが，基本的な演算子であるため特別な記号をつけておこう．我々は
 \begin{equation}
-  \mJoinList
-  =\mFold_\mEmptyList^{\hAppend}
+  (\hJoinList)
+  =\hFold_{\hEmptyList}^{\hAppend}
 \end{equation}
 と定義することにする．\footnote{\haskell では演算子 $\mJoinList$ の代わりに \code{concat} 関数（または \code{join} 関数）を使う．}
 % ***CHECK***
@@ -1425,7 +1454,7 @@ ms = map(f, ls)
   [\hVar{x}_0,\hVar{x}_1,\hVar{x}_2\dotsb \hVar{x}_n]
   &=\hVar{x}_0:[\hVar{x}_1,\hVar{x}_2\dotsb \hVar{x}_n]\\
   &=\hVar{x}_0:\hVar{x}_1:[\hVar{x}_2\dotsb \hVar{x}_n]\\
-  &=\hVar{x}_0:\hVar{x}_1:\hVar{x}_2:\dotsb:\hVar{x}_n:\mEmptyList
+  &=\hVar{x}_0:\hVar{x}_1:\hVar{x}_2:\dotsb:\hVar{x}_n:{\hEmptyList}
 \end{align}
 cons演算子 $(:)$ は右結合する．すなわち $\hVar{x}_0:\hVar{x}_1:\hVar{x}_2=\hVar{x}_0:(\hVar{x}_1:\hVar{x}_2)$ である．
 
@@ -1433,8 +1462,8 @@ cons演算子 $(:)$ は右結合する．すなわち $\hVar{x}_0:\hVar{x}_1:\hV
 \begin{equation}
   \left\{
   \begin{aligned}
-    \hFunc{f}\hMap\mEmptyList
-    &=\mEmptyList\\
+    \hFunc{f}\hMap{\hEmptyList}
+    &={\hEmptyList}\\
     \hFunc{f}\hMap{}(\hVar{x}:\hListVar{x})
     &=(\hFunc{f}\hVar{x}):(\hFunc{f}\hMap\hListVar{x})
   \end{aligned}
@@ -1457,15 +1486,15 @@ cons演算子 $(:)$ は右結合する．すなわち $\hVar{x}_0:\hVar{x}_1:\hV
 
 リストを引数にとる関数はいつでも
 \begin{equation}
-  f(\hVar{x}:\hListVar{x})
+  \hFunc{f}(\hVar{x}:\hListVar{x})
   =\dotsb
 \end{equation}
 という風にパタンマッチを行えるが，式の右辺でリスト全体すなわち $(\hVar{x}:\hListVar{x})$ を参照したい場合もあるであろう．そのような場合は
 \begin{equation}
-  \hFunc{f}\hTypeName{a}s{\hVar{x}:\hListVar{x}}{\hListVar{a}}%\overbrace{(\hVar{x}:\hListVar{x})}^{\hListVar{a}}
+  \hFunc{f}\hAsSyntax{\hListVar{a}}{(\hVar{x}:\hListVar{x})}
   =\dotsb
 \end{equation}
-として，変数 $\hListVar{a}$ でリスト全体を参照することも可能である．このような記法を\keyword{asパタン}と呼ぶ．\footnote{\haskell では $\hFunc{f}\hTypeName{a}s{\hVar{x}:\hListVar{x}}{\hListVar{a}}$ を \code{f as@(x:xs)} と書く．}
+として，変数 $\hListVar{a}$ でリスト全体を参照することも可能である．このような記法を\keyword{asパタン}と呼ぶ．\footnote{\haskell では $\hFunc{f}\hAsSyntax{\hListVar{a}}{(\hVar{x}:\hListVar{x})}$ を \code{f as@(x:xs)} と書く．}
 
 \section{この章のまとめ}
 
@@ -1475,14 +1504,14 @@ cons演算子 $(:)$ は右結合する．すなわち $\hVar{x}_0:\hVar{x}_1:\hV
 \item 配列は無限長であってもよい．無限長配列は $[\hConstant{0},\hConstant{1}\dotsb]$ のように表記する．
 \item 1要素のリストは $[x]$ のように表記する．この括弧をリスト値コンス
   トラクタと呼ぶ．
-\item 空リストは $\mEmptyList$ と表す．
+\item 空リストは ${\hEmptyList}$ と表す．
 \item $\hTypeName{a}$型のリストを $\hListConstruct{\hTypeName{a}}$ 型で表す．
 \item リスト型コンストラクタ$\mListTypeConstructor$ は型パラメタ $\hTypeName{a}$ に作用して$\hListConstruct{\hTypeName{a}}$ を生成する．
 \item リストは先頭要素と続くリストから定義される．先頭要素を $\hVar{x}$ とし，続くリストを $\hListVar{x}$ とすると$\hVar{x}:\hListVar{x}$ はリストである．ここに演算子 $:$ は結合(cons)演算子である．
 \item リストはリスト結合(append)できる．リスト $\hListVar{y}$ とリスト $\hListVar{z}$ のリスト結合は $\hListVar{y}\hAppend\hListVar{z}$ である．
-\item 左畳み込み演算子$\mFold^{\hAnyBinOp}_a[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]$ は $a\hAnyBinOp \hVar{x}_0\hAnyBinOp \hVar{x}_1\hAnyBinOp\dotsb\hAnyBinOp \hVar{x}_n$ を返す．
-\item 右畳み込み演算子 $\mFoldRight^{\hAnyBinOp}_{a}[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]$ は$(\hVar{x}_0\hAnyBinOp(\hVar{x}_1\hAnyBinOp\dotsb\hAnyBinOp(\hVar{x}_n\hAnyBinOp a)))$ を返す．
-\item 平坦化演算子 $\mJoinList=\mFold_\mEmptyList^{\hAppend}$ はリストを平坦化する．
+\item 左畳み込み演算子$\hFold^{\hAnyBinOp}_a[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]$ は $a\hAnyBinOp \hVar{x}_0\hAnyBinOp \hVar{x}_1\hAnyBinOp\dotsb\hAnyBinOp \hVar{x}_n$ を返す．
+\item 右畳み込み演算子 $\hFoldRight^{\hAnyBinOp}_{a}[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]$ は$(\hVar{x}_0\hAnyBinOp(\hVar{x}_1\hAnyBinOp\dotsb\hAnyBinOp(\hVar{x}_n\hAnyBinOp a)))$ を返す．
+\item 平坦化演算子 $\mJoinList=\hFold_{\hEmptyList}^{\hAppend}$ はリストを平坦化する．
 \item 関数 $\hFunc{f}\hIsTypeOf\mProjEXP{\hTypeName{a} }{\hTypeName{a} }$ はマップ演算子 $\hMap$ を用いて $\hFunc{f}\hMap[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]=[\hFunc{f}\hVar{x}_0,\hFunc{f}\hVar{x}_1\dotsb \hFunc{f}\hVar{x}_n]$ のようにリスト$[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]$ に適用できる．
 \item マップ演算子$\hMap$ の型は$\mProjEXP{(\mProjEXP{\hTypeName{a} }{\hTypeName{b}})}{\mProjEXP{\hTypeName{a} }{\hTypeName{b} }}$である．
 \item $\mHead(\hVar{x}:\hListVar{x})=x,\mTail(\hVar{x}:\hListVar{x})=\hListVar{x}$である．
@@ -1526,7 +1555,7 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
 \begin{equation}
   \left\{
   \begin{aligned}
-    \hSum\mEmptyList
+    \hSum{\hEmptyList}
     &=\hConstant{0}\\
     \hSum(\hVar{x}:\hListVar{x})
     &=\hVar{x}+\hSum\hListVar{x}
@@ -1596,14 +1625,14 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
 
 \section{遅延評価}
 
-\haskell は，意図しない限り遅延評価を行う．これは特に左畳み込み演算子 $(\mFold)$ を使う場合に問題となる．いま $\hListVar{x}=[\hVar{x}_0,\hVar{x}_1,\hVar{x}_2,\hVar{x}_3]$ とすると，左畳み込み演算 $\mFold^+_{\hConstant{0}}\hListVar{x}$ は
+\haskell は，意図しない限り遅延評価を行う．これは特に左畳み込み演算子 $(\hFold)$ を使う場合に問題となる．いま $\hListVar{x}=[\hVar{x}_0,\hVar{x}_1,\hVar{x}_2,\hVar{x}_3]$ とすると，左畳み込み演算 $\hFold^+_{\hConstant{0}}\hListVar{x}$ は
 \begin{align}
-  \mFold^+_{\hConstant{0}}\hListVar{x}
-  &=\mFold^+_{\hConstant{0}}{}(\hVar{x}_0:\hVar{x}_1:\hVar{x}_2:\mEmptyList)\\
-  &=\mFold^+_{\hConstant{0}+\hVar{x}_0}{}(\hVar{x}_1:\hVar{x}_2:\hVar{x}_3:\mEmptyList)\\
-  &=\mFold^+_{(\hConstant{0}+\hVar{x}_0)+\hVar{x}_1}{}(\hVar{x}_2:\hVar{x}_3:\mEmptyList)\\
-  &=\mFold^+_{((\hConstant{0}+\hVar{x}_0)+\hVar{x}_1)+\hVar{x}_2}{}(\hVar{x}_3:\mEmptyList)\\
-  &=\mFold^+_{(((\hConstant{0}+\hVar{x}_0)+\hVar{x}_1)+\hVar{x}_2)+\hVar{x}_3}{}\mEmptyList\\
+  \hFold^+_{\hConstant{0}}\hListVar{x}
+  &=\hFold^+_{\hConstant{0}}{}(\hVar{x}_0:\hVar{x}_1:\hVar{x}_2:{\hEmptyList})\\
+  &=\hFold^+_{\hConstant{0}+\hVar{x}_0}{}(\hVar{x}_1:\hVar{x}_2:\hVar{x}_3:{\hEmptyList})\\
+  &=\hFold^+_{(\hConstant{0}+\hVar{x}_0)+\hVar{x}_1}{}(\hVar{x}_2:\hVar{x}_3:{\hEmptyList})\\
+  &=\hFold^+_{((\hConstant{0}+\hVar{x}_0)+\hVar{x}_1)+\hVar{x}_2}{}(\hVar{x}_3:{\hEmptyList})\\
+  &=\hFold^+_{(((\hConstant{0}+\hVar{x}_0)+\hVar{x}_1)+\hVar{x}_2)+\hVar{x}_3}{}{\hEmptyList}\\
   &=(((\hConstant{0}+\hVar{x}_0)+\hVar{x}_1)+\hVar{x}_2)+\hVar{x}_3
 \end{align}
 と展開される．遅延評価のために，\haskell 処理系は値ではなく式をメモリにストアしなければならないが，左畳み込み演算は大きなメモリを必要としがちである．もし例えば予め $\hConstant{0}+\hVar{x}_0$ を先に計算しておくなど左畳み込みだけ先に評価しておけば，大いにメモリの節約になる．そのために\haskell は「遅延評価無し」の左畳み込み演算子を用意している．\footnote{「遅延評価無し」の左畳み込み演算子を\haskell では \code{foldl'} と書く．}
@@ -1646,8 +1675,8 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
 \begin{equation*}
   \left\{
   \begin{aligned}
-    \mSort\mEmptyList
-    &=\mEmptyList\\
+    \mSort{\hEmptyList}
+    &={\hEmptyList}\\
     \mSort(\hVar{x}:\hListVar{x})
     &=(\mSort\hListVar{a})\hAppend[x]\hAppend{}(\mSort\hListVar{b})\\
     &\quad\mWhere\left\{\begin{aligned}
@@ -2262,7 +2291,7 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
 
 一般アプリカティブマップ演算子 $(\hTypeName{a}ppMap)$ は多様性によってそれぞれリストバージョンのアプリカティブマップ演算子 $(\hTypeName{a}ppMapList)$ やMaybeバージョンのアプリカティブマップ演算子 $(\hTypeName{a}ppMapMaybe)$ にオーバーライドされ，それぞれリスト値コンストラクタ $([x])$, Maybe値コンストラクタ $(\hJustWith{\hVar{x}})$ を用いることでリストバージョンのマップ演算子 $(\hMap)$, Maybeバージョンのマップ演算子 $(\hMaybeMap)$ を生成することができる．リスト値コンストラクタ，Maybe値コンストラクタはそれぞれピュア演算子 $(\mPureWith{x})$ をオーバーライドしたものであるから，結局，一般アプリカティブマップ演算子とピュア演算子のふたつがあれば，任意のクラスのマップ演算子を生成することができる．
 
-アプリカティブマップ演算子，ピュア演算子に一般化されたバージョンがあるように，リストの $\mEmptyList$ やMaybeの $\hNothing$ を一般化した値が必要である．それを $\mPureNothing$ とする．$\mPureNothing$ には特段名前が無いので，本書では単に「空」と呼ぶことにしよう．
+アプリカティブマップ演算子，ピュア演算子に一般化されたバージョンがあるように，リストの ${\hEmptyList}$ やMaybeの $\hNothing$ を一般化した値が必要である．それを $\mPureNothing$ とする．$\mPureNothing$ には特段名前が無いので，本書では単に「空」と呼ぶことにしよう．
 
 \separator
 
@@ -2393,8 +2422,8 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
 \begin{equation}
   \left\{
   \begin{aligned}
-    \mEmptyList\hTypeName{a}ppMapList\hListVar{x}
-    &=\mEmptyList\\
+    {\hEmptyList}\hTypeName{a}ppMapList\hListVar{x}
+    &={\hEmptyList}\\
     (f:\hListVar{f})\hTypeName{a}ppMapList\hListVar{x}
     &=\mJoinList{}((\hFunc{f}\hMap\hListVar{x}):(\hListVar{f}\hTypeName{a}ppMapList\hListVar{x}))
   \end{aligned}
@@ -2803,7 +2832,7 @@ k=i\hTypeName{b}ind{}(j\hAnonParam)=\mPureWith{f\hCompose g\hAnonParam}
   &$[x]$
   &$\hTypeName{a}ppMapList$
   &$\hMap$
-  &$\mEmptyList$
+  &${\hEmptyList}$
   &$\hAppend$\\
 \hline
 Maybe
@@ -3455,7 +3484,7 @@ Maybeの間に新たに定義された等号 $(\hIfEq)$ は次の型を持つ．
 型の定義中に自分自身を参照する型を\keyword{自己参照型}または
 \keyword{再帰型}と呼ぶ．例えばリストは
 \begin{equation}
-\mDataTypePolymorphic\;\mListTypeConstructor\,\hTypeName{a} =\mEmptyList\mValueOr\hTypeName{a} :\mListTypeConstructor\,\hTypeName{a}
+\mDataTypePolymorphic\;\mListTypeConstructor\,\hTypeName{a} ={\hEmptyList}\mValueOr\hTypeName{a} :\mListTypeConstructor\,\hTypeName{a}
 \end{equation}
 のように定義できる．
 
@@ -3596,8 +3625,8 @@ Either型の場合は
   \label{eq:zip}
   \left\{
   \begin{aligned}
-    (\mZip)\_\mEmptyList&=\mEmptyList\\
-    (\mZip)\mEmptyList\_&=\mEmptyList\\
+    (\mZip)\_{\hEmptyList}&={\hEmptyList}\\
+    (\mZip){\hEmptyList}\_&={\hEmptyList}\\
     (\mZip)(\hVar{x}:\hListVar{x})(y:\hListVar{y})&=(x\hApply y):\hListVar{x}\mZip\hListVar{y}
   \end{aligned}
   \right.
@@ -3646,10 +3675,10 @@ $\mNewTypeDeclPolymorphic$ に置き換えたことである．これは，字�
           {\mProjEXP{\hTypeName{b} }{\mC }})}
         {\hListConstruct{\hTypeName{a}}}}{[\hTypeName{b}]}}{[\mC]}\\
     {}&\left\{\begin{aligned}
-    \mZipWith\_\mEmptyList\_
-    &=\mEmptyList\\
-    \mZipWith\_\_\mEmptyList
-    &=\mEmptyList\\
+    \mZipWith\_{\hEmptyList}\_
+    &={\hEmptyList}\\
+    \mZipWith\_\_{\hEmptyList}
+    &={\hEmptyList}\\
     \mZipWith f(\hVar{x}:\hListVar{x})(y:\hListVar{y})
     &=\hFunc{f}\hVar{x}\hVar{y}:\mZipWith f\hListVar{x}\hListVar{y}
     \end{aligned}
@@ -4810,7 +4839,7 @@ $\Vec{\hFunc{f}}***\Vec{\hFunc{g}}$ も関数ではない．
 
 \begin{align}
   \mRunCircuit&\hIsTypeOf\mCircuitType\,\hTypeName{a}\,\hTypeName{b}\hFunctionArrow\hListConstruct{\hTypeName{a}}\hFunctionArrow[\hTypeName{b}]\\
-  \mRunCircuit\_\mEmptyList&=\mEmptyList\\
+  \mRunCircuit\_{\hEmptyList}&={\hEmptyList}\\
   \mRunCircuit c(\hVar{x}:\hListVar{x})&=x':\mRunCircuit c'\hListVar{x}\\
   &\quad\mWhere{}(c',x')\mLetEq\mUncircuit cx
 \end{align}
