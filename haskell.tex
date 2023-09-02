@@ -639,7 +639,7 @@ z = g(f(x))
 
 \separator
 
-関数合成演算子は，連続して用いることができる．例えば
+関数合成演算子は，連続して用いることができる．関数合成演算子は左結合するので，関数 $\hFunc{f},\hFunc{g},\hFunc{h}$ について
 \begin{equation}
   \hFunc{h}\hCompose\hFunc{g}\hCompose\hFunc{f}
     =(\hFunc{h}\hCompose\hFunc{g})\hCompose\hFunc{f}
@@ -657,7 +657,7 @@ z = g(f(x))
   (\hFunc{h}\hCompose\hFunc{g})\hCompose\hFunc{f}
   =\hFunc{h}\hCompose(\hFunc{g}\hCompose\hFunc{f})
 \end{equation}
-である．
+である．つまり，関数合成は順序に依存しない．
 
 \separator
 
@@ -1216,7 +1216,7 @@ $\hListWith{\hVar{x}}$ のように $\hTypeName{a}$ 型の変数 $\hVar{x}$ を�
 \end{equation}
 と書く．\footnote{\haskell では \code{xs = [x]} と書く．}
 
-リスト型を表す $\hListConstruct{\hTypeName{a}}$ と，1要素のリストである $\hListVar{x}$ の違いにはいつも気をつけておこう．本書では中身がボールドローマン体ならばリスト型，中身がイタリック体ならリスト値である．
+リスト型を表す $\hListConstruct{\hTypeName{a}}$ と，1要素のリストである $\hListWith{\hVar{x}}$ の違いにはいつも気をつけておこう．本書では中身がボールドローマン体ならばリスト型，中身がイタリック体ならリスト値である．
 
 ある型を包み込んだ別の型を一般に\keyword{コンテナ型}または単に\keyword{コンテナ}と呼ぶ．コンテナ型の変数を\keyword{コンテナ変数}と呼ぶ．コンテナ型は多相型の一種である．
 
@@ -1391,10 +1391,10 @@ ms = map(f, ls)
 \end{pythoncode}
 とすると，結果として \code{ms} には \code{[101, 102, 103, 104, 105]} が入る．
 
-このように引数として関数 $\hFunc{f}$ とリスト $[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]$ を取り，戻り値として $[\hFunc{f}\hVar{x}_0,\hFunc{f}\hVar{x}_1\dotsb \hFunc{f}\hVar{x}_n]$ を返す演算子 $\hMap$ を考えよう．このとき
+このように引数として関数 $\hFunc{f}$ とリスト $\hListWith{\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n}$ を取り，戻り値として $\hListWith{\hFunc{f}\hVar{x}_0,\hFunc{f}\hVar{x}_1\dotsb \hFunc{f}\hVar{x}_n}$ を返す演算子 $\hMap$ を考えよう．このとき
 \begin{equation}
-  \hFunc{f}\hMap[\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n]
-  =[\hFunc{f}\hVar{x}_0,\hFunc{f}\hVar{x}_1\dotsb \hFunc{f}\hVar{x}_n]
+  \hFunc{f}\hMap\hListWith{\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n}
+  =\hListWith{\hFunc{f}\hVar{x}_0,\hFunc{f}\hVar{x}_1\dotsb \hFunc{f}\hVar{x}_n}
 \end{equation}
 であると定義する．この演算子 $\hMap$ をリストの\keyword{マップ演算子}と呼ぶ．\footnote{\haskell では $\hFunc{f}\hMap\hListVar{x}$ を\code{map f xs} または \code{f <\$> xs} と書く．ただし演算子 \code{<\$>} は \code{fmap} 演算子の中置バージョンである．}
 
