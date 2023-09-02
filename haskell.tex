@@ -1028,6 +1028,8 @@ $\hFromIntegral$ は
 \end{equation}
 ただし $\hVar{a}_1,\hVar{a}_2,\hVar{a}_3\hIsTypeOf\hSet{A}$ のとき，組み合わせ $\hSingleTuppleWith{\hSet{A},\hAnyBinOp}$ のことを\keyword{半群}と呼ぶ．この式\eqref{eq:associativity}で表される性質を\keyword{結合性}と呼ぶ．組み合わせ $\hSingleTuppleWith{\hSet{Z},+}$, $\hSingleTuppleWith{\hSet{Z},*}$, $\hSingleTuppleWith{\hSet{B},\hLogicalOr}$, $\hSingleTuppleWith{\hSet{B},\hLogicalOr}$ はすべて半群である．
 
+\separator
+
 ところで，整数全体の集合 $\hSet{Z}$ には特別な元 $\hConstant{0}\hIsTypeOf\hSet{Z}$ がある．この元 $\hConstant{0}$ は $\hVar{z}\hIsTypeOf\hSet{Z}$ のとき
 \begin{equation}
   \hConstant{0}+\hVar{z}
@@ -1036,20 +1038,20 @@ $\hFromIntegral$ は
 \end{equation}
 という性質を持つ．この $\hConstant{0}$ を演算 $+$ における\keyword{単位元}と呼ぶ．足し算のことを\keyword{加法}とも言うので $\hConstant{0}$ のことは\keyword{加法単位元}と呼ぶこともあるし，文字通り\keyword{零元}と呼ぶこともある．
 
-一般に，$\hVar{a},\mZeroLeft,\mZeroRight\in\hSet{A}$ として
+一般に，$\hVar{a},\hZero\in\hSet{A}$ として
 \begin{equation}
   \label{eq:identity}
-  \mZeroLeft\hAnyBinOp\hVar{a}
-  =\hVar{a}\hAnyBinOp\mZeroRight
+  \hZero\hAnyBinOp\hVar{a}
+  =\hVar{a}\hAnyBinOp\hZero
   =\hVar{a}
 \end{equation}
-であるとき，元 $\mZeroLeft,\mZeroRight$ を単位元と呼ぶ．我々は多くの場合 $\mZeroLeft=\mZeroRight$ であるケースを扱うので，二つの単位元を区別する必要はほとんどないが，必要な場合は $\mZeroLeft$ を\keyword{左単位元}，$\mZeroRight$ を\keyword{右単位元}と呼ぶ．
+であるとき，元 $\hZero$ を単位元と呼ぶ．（厳密には $\hZero_\text{left}\hAnyBinOp\hVar{a}=\hVar{a}$ のとき $\hZero_\text{left}$ を\keyword{左単位元}と呼び，$\hVar{a}\hAnyBinOp\hZero_\text{right}=\hVar{a}$ のとき $\hZero_\text{right}$ を\keyword{右単位元}と呼ぶが，本書では両者を区別せず単位元と呼ぶ．）
 
-組み合わせ $\hSingleTuppleWith{\hSet{A},\hAnyBinOp,\mZeroLeft,\mZeroRight}$ のことを\keyword{モノイド}または\keyword{単位的半群}と呼ぶ．例えば $\hSingleTuppleWith{\hSet{Z},+,\hConstant{0},\hConstant{0}}$ はモノイドであるし，$\hSingleTuppleWith{\hSet{Z},*,\hConstant{1},\hConstant{1}}$, $\hSingleTuppleWith{\hSet{B},\hLogicalOr,\hFalse,\hFalse}$, $\hSingleTuppleWith{\hSet{B},\hLogicalAnd,\hTrue,\hTrue}$ もモノイドである．これらのモノイドは全て左単位元と右単位元が同じなので，それぞれ $\hSingleTuppleWith{\hSet{Z},+,\hConstant{0}}$, $\hSingleTuppleWith{\hSet{Z},*,\hConstant{1}}$, $\hSingleTuppleWith{\hSet{B},\hLogicalOr,\hFalse}$, $\hSingleTuppleWith{\hSet{B},\hLogicalAnd,\hTrue}$ とも書く．
+組み合わせ $(\hSet{A},\hAnyBinOp,\hZero)$ のことを\keyword{モノイド}または\keyword{単位的半群}と呼ぶ．例えば $(\hSet{Z},+,\hConstant{0})$ はモノイドであるし，$(\hSet{Z},*,\hConstant{1})$, $(\hSet{B},\hLogicalOr,\hFalse)$, $(\hSet{B},\hLogicalAnd,\hTrue)$ もモノイドである．
 
 このように，数学者は数の性質を抽象化し，集合とその集合に対する演算というものの見方をよく行う．プログラミングの言葉で言えば，複数のクラスに共通のインタフェースを定義するようなものである．
 
-表\ref{tab:monoids}に型と対応するモノイドの単位元，演算子の一覧を示す．
+表\ref{tab:monoids}に型と対応するモノイドの単位元，演算子の一覧を示す．組み合わせ $(\hInt,+,\hConstant{0})$ はモノイドである．同様に $(\hInt,*,\hConstant{1})$, $(\hFloat,+,\hConstant{0})$, $(\hFloat,*,\hConstant{1})$, $(\hBool,\hLogicalOr,\hFalse)$, $(\hBool,\hLogicalAnd,\hTrue)$ もモノイドである．
 
 \begin{table}
 \caption{モノイド（単位的半群）}
@@ -1068,7 +1070,17 @@ $\hGenus\hFunctionArrow\hGenus$&$\hTypeName{a}\hFunctionArrow\hTypeName{a}$ &$\h
 \end{center}
 \end{table}
 
-組み合わせ $(\hInt,+,\hConstant{0})$ はモノイドである．同様に $(\hInt,*,\hConstant{1})$, $(\hFloat,+,\hConstant{0})$, $(\hFloat,*,\hConstant{1})$, $(\hBool,\hLogicalOr,\hFalse)$, $(\hBool,\hLogicalAnd,\hTrue)$ もモノイドである．
+型 $\hTypeName{a}$ を任意の型としたとき，型 $\hTypeName{a}\hFunctionArrow\hTypeName{a}$ の関数もまたモノイドとなる．まず「何もしない」関数 $\hId$ を次のように定義する．
+\begin{equation}
+  \hId=\hAnonParam
+\end{equation}
+これはもちろん $\hId=\hLambdaSyntax{\hVar{x}}{\hVar{x}}$ の意味で，引数をそのまま返す関数である．
+
+我々は関数を合成できる．そこで $\hTypeName{a}\hFunctionArrow\hTypeName{a}$ 型の関数 $\hFunc{f}$ と関数 $\hId$ の合成を考えると
+\begin{equation}
+  \hId\hCompose\hFunc{f}=\hFunc{f}\hCompose\hId=\hFunc{f}
+\end{equation}
+であるから，組み合わせ $(\hTypeName{a}\hFunctionArrow\hTypeName{a},\hCompose,\hId)$ はモノイドであることがわかる．
 
 % そこで，任意の型 $\hTypeName{a}$ について，組み合わせ $\hSingleTuppleWith{\hTypeName{a} ,\hAnyBinOp,\mZero}$ がモノイドである場合には
 % \begin{equation}
