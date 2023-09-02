@@ -2166,18 +2166,18 @@ $\hTypeName{a}$ 型の変数 $\hVar{x},\hVar{y}\hIsTypeOf\hTypeName{a}$ につ�
 
 \separator
 
-\haskell ではマップ演算子が定義された型を関手（型）と呼ぶ．具体的には，マップ演算子が定義された全ての型は $\mFunctorTypeClass$ 型クラスのインスタンスであるとする．つまり，$\mFunctorTypeClass$ 型クラスには一般化されたマップ演算子が定義されており，そのインスタンスであるリストやMaybeは独自のマップ演算子を定義しなければならないということである．
+\haskell ではマップ演算子が定義された型を関手（型）と呼ぶ．具体的には，マップ演算子が定義された全ての型は $\hFunctor$ 型クラスのインスタンスであるとする．つまり，$\hFunctor$ 型クラスには一般化されたマップ演算子が定義されており，そのインスタンスであるリストやMaybeは独自のマップ演算子を定義しなければならないということである．
 
 一般化されたマップ演算子を $\mMap$ で表そう．この $\mMap$ 演算子は
 \begin{equation}
   (\mMap)
-  \hIsTypeOf{}\mFunctorTypeClass
+  \hIsTypeOf{}\hFunctor
   \hHasElementsOf\mTypeConstructor{f}
   \hAndThen(\hTypeName{a}\hFunctionArrow\hTypeName{b})
   \hFunctionArrow\mPolymorphicTypeAssemble{f}{a}
   \hFunctionArrow\mPolymorphicTypeAssemble{f}{b}
 \end{equation}
-という型を持つ．ここに $\mFunctorTypeClass\hHasElementsOf\mTypeConstructor{f}$ は，$\mTypeConstructor{f}$ が $\mFunctorTypeClass$ 型クラスに属すという制約を表している．また $\mTypeConstructor{f}$ は型コンストラクタであり，$\mPolymorphicTypeAssemble{f}{a}$ は $\mTypeConstructor{f}$ 型コンストラクタと$\hTypeName{a}$ 型によって作られたコンテナ型である．
+という型を持つ．ここに $\hFunctor\hHasElementsOf\mTypeConstructor{f}$ は，$\mTypeConstructor{f}$ が $\hFunctor$ 型クラスに属すという制約を表している．また $\mTypeConstructor{f}$ は型コンストラクタであり，$\mPolymorphicTypeAssemble{f}{a}$ は $\mTypeConstructor{f}$ 型コンストラクタと$\hTypeName{a}$ 型によって作られたコンテナ型である．
 
 もし型コンストラクタがリスト型コンストラクタであれば，つまり $\mTypeConstructor{f}=\mListTypeConstructor$ であれば
 \begin{equation}
@@ -2192,7 +2192,7 @@ $\mTypeConstructor{f}=\hMaybe$ であれば
 \end{equation}
 である．
 
-リストとMaybeは両者ともマップ演算子（と値コンストラクタ）を持つ．両者の関係をまとてみたのが表\ref{tab:list-and-maybe}である．オブジェクト指向プログラマなら，リストとMaybeに共通のスーパークラスを設計したくなるであろう．それが型クラス $\mFunctorTypeClass$ である．
+リストとMaybeは両者ともマップ演算子（と値コンストラクタ）を持つ．両者の関係をまとてみたのが表\ref{tab:list-and-maybe}である．オブジェクト指向プログラマなら，リストとMaybeに共通のスーパークラスを設計したくなるであろう．それが型クラス $\hFunctor$ である．
 
 \begin{table*}
 \label{tab:list-and-maybe}
@@ -2206,14 +2206,14 @@ $\hMaybeConstruct{\hTypeName{a}}$&$\hMaybe$&$\hMaybeMap$&$\hJustWith{\hVar{x}},\
 \end{center}
 \end{table*}
 
-% \section{$\mFunctorTypeClass$ 型クラス}
+% \section{$\hFunctor$ 型クラス}
 
 % 我々はオブジェクト指向プログラミングよりもエレガントな方法で，リスト
 % とMaybeの共通項をくくりだすことにする．いよいよ型クラスの出番である．
 
 % リスト型 $\hListConstruct{\hTypeName{a}}$ もMaybe型 $\hMaybeConstruct{\hTypeName{a}}$ も
-% $\mFunctorTypeClass$ 型クラスに属すのであった．そこで
-% $\mFunctorTypeClass$ 型クラスは\keyword{一般マップ演算子} $(\mMap)$
+% $\hFunctor$ 型クラスに属すのであった．そこで
+% $\hFunctor$ 型クラスは\keyword{一般マップ演算子} $(\mMap)$
 % を持つものとする．一般マップ演算子は，リスト型であれば $\hMap$
 % 演算子に，Maybe型であれば $\hMaybeMap$ 演算子にオーバーライドされる．
 
@@ -2306,7 +2306,7 @@ $\hTypeName{a}ppMapMaybe$ を
 \end{equation}
 となるような\keyword{一般アプリカティブマップ演算子} $(\hTypeName{a}ppMap)$ を考える．ここに $\hFunc{f}$ は関数，$\mVarContainer{w}$ はリストやMaybeといったコンテナ型の変数すなわち\keyword{コンテナ変数}である．一般アプリカティブマップ演算子 $(\hTypeName{a}ppMap)$ から一般マップ演算子 $(\mMap)$ を導き出すには，式\eqref{eq:general-applicative-map} のように値コンストラクタが必要である．この一般化された値コンストラクタを\keyword{ピュア演算子}と呼ぶ．アプリカティブマップ演算子とピュア演算子を持つ型クラスを\keyword{アプリカティブ関手}と呼び，$\hTypeName{a}pplicativeTypeClass$ 型クラスと定義する．\footnote{\haskell では一般アプリカティブマップ演算子を \code{<*>} と書く．}
 
-ピュア演算子をピュア値コンストラクタと呼ばないのは，単純に「ピュア値」というものがないからである．$\mFunctorTypeClass$ 型クラスはリスト型やMaybe型を抽象化したものであって，直接変数を生成できない．型クラスは，\cxx の用語で言えば純粋仮想クラスのようなものであるし，\objectivec の用語で言えばメタクラスであるからである．もちろんリストのピュア演算子は $[x]$ であるし，Maybeのピュア演算子は $\hJustWith{\hVar{x}}$ であり，それぞれ具体的な変数を生成する．しかし変数 $\hVar{x}$ にピュア演算子を適用した
+ピュア演算子をピュア値コンストラクタと呼ばないのは，単純に「ピュア値」というものがないからである．$\hFunctor$ 型クラスはリスト型やMaybe型を抽象化したものであって，直接変数を生成できない．型クラスは，\cxx の用語で言えば純粋仮想クラスのようなものであるし，\objectivec の用語で言えばメタクラスであるからである．もちろんリストのピュア演算子は $[x]$ であるし，Maybeのピュア演算子は $\hJustWith{\hVar{x}}$ であり，それぞれ具体的な変数を生成する．しかし変数 $\hVar{x}$ にピュア演算子を適用した
 $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在しない．\footnote{\haskell は一般のピュア演算子の実装を与えていない．変数の型に応じて対応する関数が適用される．}
 
 一般アプリカティブマップ演算子 $(\hTypeName{a}ppMap)$ は多様性によってそれぞれリストバージョンのアプリカティブマップ演算子 $(\hTypeName{a}ppMapList)$ やMaybeバージョンのアプリカティブマップ演算子 $(\hTypeName{a}ppMapMaybe)$ にオーバーライドされ，それぞれリスト値コンストラクタ $([x])$, Maybe値コンストラクタ $(\hJustWith{\hVar{x}})$ を用いることでリストバージョンのマップ演算子 $(\hMap)$, Maybeバージョンのマップ演算子 $(\hMaybeMap)$ を生成することができる．リスト値コンストラクタ，Maybe値コンストラクタはそれぞれピュア演算子 $(\mPureWith{x})$ をオーバーライドしたものであるから，結局，一般アプリカティブマップ演算子とピュア演算子のふたつがあれば，任意のクラスのマップ演算子を生成することができる．
@@ -2351,7 +2351,7 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
 % $\mFuncTypeConstructor\hTypeName{a}=\mPolymorphicTypeAssemble{\mFuncTypeConstructor}{\hTypeName{a}}$ とすると
 \begin{equation}
   (\mMap)
-  \hIsTypeOf{}\mFunctorTypeClass\hHasElementsOf\mTypeConstructor{f}
+  \hIsTypeOf{}\hFunctor\hHasElementsOf\mTypeConstructor{f}
   \hAndThen(\hTypeName{a}\hFunctionArrow\hTypeName{b})
   \hFunctionArrow\mFuncType{a}
   \hFunctionArrow\mFuncType{b}
@@ -2569,7 +2569,7 @@ Maybeの例を思い出そう．Maybe型の変数 $\hMaybeVar{u}$ はラップ�
 
 \section{モナド}
 
-$\mFunctorTypeClass$ 型クラスは一般マップ演算子 $(\mMap)$ を持っていた．$\hTypeName{a}pplicativeTypeClass$ 型クラスはピュア演算子 $(\mPureWith{x})$ と一般アプリカティブマップ演算子 $(\hTypeName{a}ppMap)$ を持っており，このふたつの演算子から一般マップ演算子を合成できた．新しい $\mMonadTypeClass$ 型クラスは，\keyword{一般バインド演算子} $(\hTypeName{b}ind)$ とピュア演算子を持つものとしよう．後で見るように，一般アプリカティブマップ演算子はピュア演算子と一般バインド演算子から合成できる．\footnote{\haskell には最初に関手が導入され，その次に関手を拡張する形でモナドが導入された．そしてその次に，関手を拡張しなおす形でアプリカティブ関手が導入された．それゆえ，モナドとアプリカティブ関手には概念的重複があるにもかかわらず，別々に定義されるという悲劇が暫くの間続いた．アプリカティブ関手のピュア演算子と，モナドのピュア演算子は概念的に同じものであるにもかかわらず，別々の演算子として定義されていたのである．この状態は GHC v7.10 以降で，モナドがアプリカティブ関手を拡張する形に改められたことで解消した．ただし，かつて「モナド版のピュア演算子」としてモナドに「ユニット演算子」が定義されていたことから，ピュア演算子のことをユニット演算子と呼ぶ場合がある．}
+$\hFunctor$ 型クラスは一般マップ演算子 $(\mMap)$ を持っていた．$\hTypeName{a}pplicativeTypeClass$ 型クラスはピュア演算子 $(\mPureWith{x})$ と一般アプリカティブマップ演算子 $(\hTypeName{a}ppMap)$ を持っており，このふたつの演算子から一般マップ演算子を合成できた．新しい $\mMonadTypeClass$ 型クラスは，\keyword{一般バインド演算子} $(\hTypeName{b}ind)$ とピュア演算子を持つものとしよう．後で見るように，一般アプリカティブマップ演算子はピュア演算子と一般バインド演算子から合成できる．\footnote{\haskell には最初に関手が導入され，その次に関手を拡張する形でモナドが導入された．そしてその次に，関手を拡張しなおす形でアプリカティブ関手が導入された．それゆえ，モナドとアプリカティブ関手には概念的重複があるにもかかわらず，別々に定義されるという悲劇が暫くの間続いた．アプリカティブ関手のピュア演算子と，モナドのピュア演算子は概念的に同じものであるにもかかわらず，別々の演算子として定義されていたのである．この状態は GHC v7.10 以降で，モナドがアプリカティブ関手を拡張する形に改められたことで解消した．ただし，かつて「モナド版のピュア演算子」としてモナドに「ユニット演算子」が定義されていたことから，ピュア演算子のことをユニット演算子と呼ぶ場合がある．}
 
 関数 $i$ が次の形をしているとする．
 \begin{equation}
@@ -2812,7 +2812,7 @@ k=i\hTypeName{b}ind{}(j\hAnonParam)=\mPureWith{f\hCompose g\hAnonParam}
 \multirow{1}{*}{}
   &
   &\multicolumn{2}{|c|}{}
-  &$\mFunctorTypeClass$
+  &$\hFunctor$
   &\multicolumn{2}{|c||}{}\\
 \hline\hline
 一般モノイド
@@ -3514,7 +3514,7 @@ Maybeの間に新たに定義された等号 $(\hIfEq)$ は次の型を持つ．
 
 \begin{equation}
   \mTypeClassDeclPolymorphic\;
-  \mFunctorTypeClass\hHasElementsOf\mTypeConstructor{f}
+  \hFunctor\hHasElementsOf\mTypeConstructor{f}
   \mWhere{}
   (\mMap)
   \hIsTypeOf{}(\hTypeName{a}\hFunctionArrow\hTypeName{b})
@@ -3524,11 +3524,11 @@ Maybeの間に新たに定義された等号 $(\hIfEq)$ は次の型を持つ．
 
 \TK{$\mTypeClassDeclPolymorphic$ による型コンストラクタの型クラス宣言．}
 
-型クラス $\mFunctorTypeClass$ はマップ演算子 $(\mMap)$ を提供する．リ
-スト型は $\mFunctorTypeClass$ 型クラスのインスタンスなので，
+型クラス $\hFunctor$ はマップ演算子 $(\mMap)$ を提供する．リ
+スト型は $\hFunctor$ 型クラスのインスタンスなので，
 \begin{equation}
   \mInstanceDeclPolymorphic\;
-  \mFunctorTypeClass\hHasElementsOf\mListTypeConstructor{}
+  \hFunctor\hHasElementsOf\mListTypeConstructor{}
   \mWhere{}
   (\mMap)
   =(\hMap)
@@ -3551,7 +3551,7 @@ Maybeの間に新たに定義された等号 $(\hIfEq)$ は次の型を持つ．
 Maybe型の場合は
 \begin{equation}
   \mInstanceDeclPolymorphic\;
-  \mFunctorTypeClass\hHasElementsOf\hMaybe
+  \hFunctor\hHasElementsOf\hMaybe
   \mWhere\left\{
   \begin{aligned}
     \hFunc{f}\mMap{}\hJustWith{\hVar{x}}&=\hJustWith{\hFunc{f}\hVar{x}}\\
@@ -3570,7 +3570,7 @@ Maybe型の場合は
 Either型の場合は
 \begin{equation}
   \mInstanceDeclPolymorphic\;
-  \mFunctorTypeClass\hHasElementsOf{}(\hEither\,\hTypeName{a})
+  \hFunctor\hHasElementsOf{}(\hEither\,\hTypeName{a})
   \mWhere{}
   \left\{
   \begin{aligned}
@@ -3622,7 +3622,7 @@ Either型の場合は
 こうしておいて，あとは
 \begin{multline}
   \mInstanceDeclPolymorphic\;
-  \mFunctorTypeClass\hHasElementsOf\mZipListTypeConstructor\\
+  \hFunctor\hHasElementsOf\mZipListTypeConstructor\\
   \mWhere
   \hFunc{f}\mMap{}\mZipListWith{\hListVar{x}}=\mZipListWith{\hFunc{f}\hMap\hListVar{x}}
 \end{multline}
@@ -3850,7 +3850,7 @@ $\mTypeAssemble{NonDet}{\hTypeName{a}\,\hTypeName{b}}$ は型 $\hTypeName{a}\hFu
 
 \TK{Writing.}
 
-$\mFunctorTypeClass$ は一般マップ演算子 $(\mMap)$ を共通のインタフェー
+$\hFunctor$ は一般マップ演算子 $(\mMap)$ を共通のインタフェー
 スとして持つ型を抽象化した型クラス．インスタンスであるリストの実装は
 $\hMap$ を使う．
 
