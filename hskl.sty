@@ -92,6 +92,7 @@
 
 % Keywords
 \newcommand{\hKeyword}[1]{\textcolor{\hKeywordColor}{\textsf{#1}}}
+\newcommand{\hKeywordUnderline}[1]{\textcolor{\hKeywordColor}{\underline{\textsf{#1}}}}
 \newcommand{\hVarKeyword}[1]{\textcolor{\hKeywordColor}{\texttt{#1}}}
 
 %% case, of, otherwise
@@ -141,8 +142,8 @@
 \DeclareMathOperator{\hInfixr}{\hInfixrKeyword}
 
 %% type, data, newtype
-\newcommand{\hTypeKeyword}{\hKeyword{type}}
-\newcommand{\hDataKeyword}{\hKeyword{data}}
+\newcommand{\hTypeKeyword}{\hKeywordUnderline{type}\hKeyword{synonim}}
+\newcommand{\hDataKeyword}{\hKeywordUnderline{data}\hKeyword{type}}
 \newcommand{\hNewtypeKeyword}{\hKeyword{newtype}}
 \DeclareMathOperator{\hType}{\hTypeKeyword}
 \DeclareMathOperator{\hData}{\hDataKeyword}

@@ -22,24 +22,23 @@
 \hline
 種類&字体・表記法&例\\
 \hline\hline
-定数&イタリック大文字（1文字）&$\hConstant{A},\hConstant{B},\hConstant{C}$\\
+% 定数&イタリック大文字（1文字）&$\hConstant{A},\hConstant{B},\hConstant{C}$\\
 有名な定数&ローマン大文字&$\hTrue,\hFalse$\\
 単位元（数学）&ローマンに斜線&$\hZero$\\
 \hline
 変数&イタリック（1文字）&$\hVar{u},\hVar{v},\hVar{w},\hVar{x},\hVar{y},\hVar{z}$\\
-リスト変数&sをつける&$\hListVar{x}$\\ %%% !!!
-Maybe変数&?をつける&$\hMaybeDecor{\hVar{x}}$\\ %%% !!!
-Ether変数&!をつける&$\hEitherDecor{\hVar{x}}$\\ %%% !!!
+リスト変数&sをつける&$\hListVar{x}$\\
+Maybe変数&?をつける&$\hMaybeDecor{\hVar{x}}$\\
+Ether変数&!をつける&$\hEitherDecor{\hVar{x}}$\\
 一般のコンテナ変数&星印をつける&$\hAnyContextVar{x}$\\
 有名な変数&ローマン&$\hSpecialVar{first},\hSpecialVar{rest}$\\
 \hline
 関数&イタリック（1文字）&$\hFunc{f},\hFunc{g},\hFunc{h}$\\
-% 一般のコンテナ関数&&$\hAnyContextDecor{\hFunc{f}}$\\ %%% !!!
 有名な関数&ローマン&$\hId,\hSin,\hCos$\\
 関手&フラクチュール&$\hCatId$\\
 \hline
 アクション&ギリシア文字（1文字）&$\hAction{\alpha},\hAction{\omega}$\\
-有名なアクション&スラント&$\hMain,\hReturn$\\ %%% !!!
+有名なアクション&スラント&$\hMain,\hReturn$\\
 \hline
 型&ボールド（1文字）&$\hTypeName{a},\hTypeName{b},\hTypeName{c}$\\
 有名な型&ボールド大文字&$\hBool,\hInt$\\
@@ -116,7 +115,10 @@ $\hListWith{\hVar{x}}$&リスト値コンストラクタ&\code{[x]}\\
 $\hJustWith{\hVar{x}}$&Maybe値コンストラクタ&\code{Just x}\\
 $\hLeftWith{\hVar{x}},\hRightWith{\hVar{x}}$&Either値コンストラクタ&\code{Left x}, \code{Right x}\\
 \hline
-
+$\hType$&型シノニム&\code{type}\\
+$\hData$&データ型&\code{data}\\
+$\hNewtype$&特別なデータ型&\code{newtype}\\
+\hline
 \end{tabular}
 \end{center}
 \end{table*}
