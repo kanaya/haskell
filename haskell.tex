@@ -607,7 +607,7 @@ $(\hAnyBinOp)$ も
 
 \separator
 
-\TK{中置演算}
+一般の関数 $\hFunc{f}$ を中置演算子に変換する記号 $\hInfixWith{\hFunc{f}}$ を今後用いる．この記号を用いると値 $\hFunc{f}\hVar{x}\hVar{y}$ のことを $\hVar{x}\hInfixWith{\hFunc{f}}\hVar{y}$ と書くことができる．\footnote{\haskell では $\hVar{x}\hInfixWith{\hFunc{f}}\hVar{y}$ を \code{x `f` y} と書く．}
 
 \section{関数合成と関数適用}
 
@@ -775,7 +775,7 @@ z = g(f(x))
 
 数学者や物理学者は変数に型の制約を求める一方，新しい変数の型は明記せず読者に推論させる方法をしばしばとる．例えば，質量 $m$ は「スカラー」という型を持つし，速度 $v$ は「3次元ベクトル」という型を持つ．スカラーと3次元ベクトルの間に足し算は定義されていないため，例えば $m+v$という表記を見たときに，両者の型を知っていれば直ちにエラーであることがわかる．
 
-\haskell はコンパイラが型推論を行うことで，型が自明の場合は型を省略することが出来る．
+\haskell はコンパイラが型推論を行うことで，型が自明の場合は型を省略することができる．
 
 \separator
 
@@ -4311,7 +4311,7 @@ $\hUncurry$ 関数があり，
   =\mLambda\hPairWith{\hVar{x}}{\hVar{y}}\mLambdaArrow x\hAnyBinOp y
 \end{equation}
 であるから，式\eqref{eq:mean}の第1項（前半の括弧）は $\hUncurry(/)$ と
-出来る．
+できる．
 
 式\eqref{eq:mean}の第2項（後半の括弧）は
 \begin{equation}
