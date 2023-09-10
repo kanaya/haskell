@@ -404,26 +404,26 @@ lambda x: 1+x
 
 \separator
 
-関数に\keyword{スペシャルバージョン}がある場合はそれらを列挙する．例えば引数が $\hConstant{0}$ の場合は特別に戻り値が $\hConstant{1}$ であり，その他の場合は関数 $\hFunc{f}$ と同じ振る舞いをする関数 $\hFunc{f'}$ を考える．このとき $\hFunc{f'}$ は
+関数に\keyword{スペシャルバージョン}がある場合はそれらを列挙する．例えば引数が $\hConstant{0}$ の場合は特別に戻り値が $\hConstant{1}$ であり，その他の場合は関数 $\hFunc{f}$ と同じ振る舞いをする関数 $\hFunc{g}$ を考える．このとき $\hFunc{g}$ は
 \begin{equation}
   \left\{
   \begin{aligned}
-    \hFunc{f'}\hConstant{0}&=\hConstant{1}\\
-    \hFunc{f'}\hVar{x}&=(\hSin\hVar{x})/\hVar{x}
+    \hFunc{g}\hConstant{0}&=\hConstant{1}\\
+    \hFunc{g}\hVar{x}&=(\hSin\hVar{x})/\hVar{x}
   \end{aligned}
   \right.
 \end{equation}
 のように定義する．これを関数の\keyword{パタンマッチ}と呼ぶ．
 \footnote{\haskell では
 \begin{verbatim}
-  f' 0 = 1
-  f' x = (sin x)/x
+  g 0 = 1
+  g x = (sin x)/x
 \end{verbatim}
-と書く．\haskell ではプライム記号 (\code{'}) はアルファベットと同一視される．}
+と書く．}
 
 関数のパタンマッチは，関数の内部に書いても良い．関数内部にパタンマッチを書きたい場合は
 \begin{equation}
-  \hFunc{f'}\hVar{x}=\hCaseSyntax{\hVar{x}}
+  \hFunc{g}\hVar{x}=\hCaseSyntax{\hVar{x}}
   \begin{cases}
     \hConstant{0}&\hIfSo\hConstant{1}\\
     \_&\hIfSo(\hSin\hVar{x})/\hVar{x}
@@ -432,28 +432,28 @@ lambda x: 1+x
 のように書く．ここに $\_$ は任意の値の意味である．パタンマッチは上から順番にマッチングしていくため，この場合は $\hConstant{0}$ 以外を意味する．
 \footnote{\haskell では
 \begin{verbatim}
-  f' x = case x of 0 -> 1
-                   _ -> (sin x)/x
+  g x = case x of 0 -> 1
+                  _ -> (sin x)/x
 \end{verbatim}
-または \code{f' x = case x of \{0 -> 1; \_ -> (sin x)/x\}} と書く．}
+または \code{g x = case x of \{0 -> 1; \_ -> (sin x)/x\}} と書く．}
 
 一部のプログラミング言語では\keyword{デフォルト引数}という，引数を省略できるメカニズムがあるが，我々は引数をいつも省略しないことにする．\footnote{\haskell にもデフォルト引数はない．}
 
 \separator
 
-関数定義にパタンマッチではなく\keyword{場合分け}が必要な場合は\keyword{ガード}を用いる．例えば引数の値が負の場合は $\hConstant{0}$ を，$\hConstant{0}$ の場合は $\hConstant{1}$ を，それ以外の場合は関数 $\hFunc{f}$ と同じ振る舞いをする関数 $\hFunc{f''}$ は
+関数定義にパタンマッチではなく\keyword{場合分け}が必要な場合は\keyword{ガード}を用いる．例えば引数の値が負の場合は $\hConstant{0}$ を，$\hConstant{0}$ の場合は $\hConstant{1}$ を，それ以外の場合は関数 $\hFunc{f}$ と同じ振る舞いをする関数 $\hFunc{h}$ は
 \begin{equation}
   \begin{aligned}
-    \hFunc{f''}\hVar{x}&\hGuard{\hVar{x}<\hConstant{0}}=\hConstant{0}\\
+    \hFunc{h}\hVar{x}&\hGuard{\hVar{x}<\hConstant{0}}=\hConstant{0}\\
     &\hGuard{\hVar{x}\hIfEq\hConstant{0}}=\hConstant{1}\\
     &\hGuard{\hOtherwise}=(\hSin\hVar{x})/\hVar{x}
   \end{aligned}
 \end{equation}
 という風に定義する．\footnote{\haskell では
 \begin{verbatim}
-  f'' x| x<0 = 0
-       | x==0 = 1
-       | otherwise = (sin x)/x
+  h x| x<0       = 0
+     | x==0      = 1
+     | otherwise = (sin x)/x
 \end{verbatim}
 と書く．}
 
