@@ -1534,15 +1534,30 @@ cons演算子 $(:)$ は右結合する．すなわち $\hVar{x}_0:\hVar{x}_1:\hV
 
 \section{関数の再帰適用}
 
-関数は内部で自分自身を適用しても良い．例えば $\hVar{x}$ の階乗 $(\hVar{x}!)$ を返す関数 $\mFact$ は
+自然数 $\hVar{n}$ の\keyword{階乗}は次のように定義される．
 \begin{equation}
-  \mFact\hVar{x}
+  \hVar{n}!=\hVar{n}(\hVar{n}-\hConstant{1})(\hVar{n}-\hConstant{2})\dots\hConstant{1}
+\end{equation}
+数学者は $\hConstant{0}!=\hConstant{1}$ と定義するので，この式は
+\begin{equation}
+  \left\{
+    \begin{split}
+      \hConstant{0}!&=\hConstant{1}\\
+      \hVar{n}!&=\hVar{n}(\hVar{n}-\hConstant{1})!
+    \end{split}
+  \right.
+\end{equation}
+という風に「\keyword{再帰}的に」書き直すことが出来る．再帰とは，定義式の両辺に同じ関数名が現れることを指す．
+
+\haskell で書きやすいように，後置演算子 $!$ のかわりに関数 $\hFact$ を定義しよう．関数は内部で自分自身を適用しても良いので，階乗関数 $\hFact$ の定義は次のようになる．
+\begin{equation}
+  \hFact\hVar{x}
   =\hCaseSyntax{\hVar{x}}
   \begin{cases}
     \hConstant{0}
     &\hIfSo\hConstant{1}\\
     \_
-    &\hIfSo\hVar{x}*\mFact(\hVar{x}-\hConstant{1})
+    &\hIfSo\hVar{x}*\hFact(\hVar{x}-\hConstant{1})
   \end{cases}
 \end{equation}
 と定義できる．関数が自分自身を適用することを関数の\keyword{再帰適用}と呼ぶ．\footnote{\haskell では
@@ -1579,32 +1594,32 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
 
 \section{末尾再帰}
 
-計算機科学者は，同じ再帰でも\keyword{末尾再帰}という再帰のスタイルを好む．末尾再帰とは，関数の再帰適用を関数定義の末尾にすることである．この章に出てきた階乗関数 $\mFact$ を例にとろう．階乗関数 $\mFact$ は
+計算機科学者は，同じ再帰でも\keyword{末尾再帰}という再帰のスタイルを好む．末尾再帰とは，関数の再帰適用を関数定義の末尾にすることである．この章に出てきた階乗関数 $\hFact$ を例にとろう．階乗関数 $\hFact$ は
 \begin{equation}
-  \mFact\hVar{x}
+  \hFact\hVar{x}
   =\hCaseSyntax{\hVar{x}}\begin{cases}
     \hConstant{0}
     &\hIfSo\hConstant{1}\\
     \_
-    &\hIfSo\hVar{x}*\mFact(\hVar{x}-\hConstant{1})
+    &\hIfSo\hVar{x}*\hFact(\hVar{x}-\hConstant{1})
   \end{cases}
 \end{equation}
 のような形をしていた．末尾の関数をよりはっきりさせるために演算子 $(*)$ を前置にして
 \begin{equation}
-  \mFact\hVar{x}
+  \hFact\hVar{x}
   =\hCaseSyntax{\hVar{x}}
   \begin{cases}
     \hConstant{0}
     &\hIfSo\hConstant{1}\\
     \_
-    &\hIfSo(*)\hVar{x}(\mFact(\hVar{x}-\hConstant{1}))
+    &\hIfSo(*)\hVar{x}(\hFact(\hVar{x}-\hConstant{1}))
   \end{cases}
 \end{equation}
 と書いてみよう．この定義の末尾の式は
 \begin{equation}
-  (*)\hVar{x}(\mFact(\hVar{x}-\hConstant{1}))
+  (*)\hVar{x}(\hFact(\hVar{x}-\hConstant{1}))
 \end{equation}
-である．これだと末尾の関数は $\mFact$ ではなく演算子 $(*)$ なので，末尾に再帰適用を行ったことにはならない．
+である．これだと末尾の関数は $\hFact$ ではなく演算子 $(*)$ なので，末尾に再帰適用を行ったことにはならない．
 
 そこで，次のように形を変えた階乗関数 $\mFFact$ を考えてみる．
 \begin{equation}
@@ -1624,7 +1639,7 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
 \end{verbatim}
 と書く．}
 
-関数 $\mFact$ と違い関数 $\mFFact$ は引数を2個とる．関数 $\mFFact$ を使って $\hVar{x}$ の階乗を求める場合は $\mFFact\,\hConstant{1}\,x$ と第1引数に $\hConstant{1}$ を与えることにする．この第1引数 $\hVar{a}$ はアキュムレータという．アキュムレータが演算の途中経過を引き渡していくイメージを描けば，末尾再帰の意味が理解できる
+関数 $\hFact$ と違い関数 $\mFFact$ は引数を2個とる．関数 $\mFFact$ を使って $\hVar{x}$ の階乗を求める場合は $\mFFact\,\hConstant{1}\,x$ と第1引数に $\hConstant{1}$ を与えることにする．この第1引数 $\hVar{a}$ はアキュムレータという．アキュムレータが演算の途中経過を引き渡していくイメージを描けば，末尾再帰の意味が理解できる
 だろう．
 
 計算機科学者が末尾再帰を好む理由は，\haskell を含む幾つかのプログラミング言語処理系が\keyword{末尾再帰最適化}を行うからである．末尾再帰最適化とは，一言で言うと再帰を計算機が扱いやすいループに置き換えることである．では最初から我々もループで関数を表現しておけば，と思われるかもしれないが，再帰以外の方法でループを表現する場合には必ず変数（ループカウンタ）への破壊的代入が必要になるため，我々は末尾再帰に慎ましくループを隠すのである．
