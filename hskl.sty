@@ -98,10 +98,8 @@
 %% case, of, otherwise
 \newcommand{\hCaseKeyword}{\hKeyword{case}}
 \newcommand{\hOfKeyword}{\hKeyword{of}}
-\newcommand{\hOtherwiseKeyword}{\hKeyword{otherwise}}
 \DeclareMathOperator{\hCase}{\hCaseKeyword}
 \DeclareMathOperator{\hOf}{\hOfKeyword}
-\DeclareMathOperator{\hOtherwise}{\hOtherwiseKeyword}
 
 %% class, deriving, instance
 \newcommand{\hClassKeyword}{\hKeyword{class}}
@@ -163,7 +161,7 @@
 \newcommand{\hWhereSyntax}[2]{#1\hWhere#2}
 
 
-% Constant
+% Constant and Value Constructor
 \newcommand{\hConstant}[1]{\textcolor{\hConstantColor}{#1}}
 \newcommand{\hSpecialConstant}[1]{\textcolor{\hConstantColor}{\mathrm{#1}}}
 
@@ -178,6 +176,9 @@
 %% True, False
 \newcommand{\hTrue}{\hSpecialConstant{True}}
 \newcommand{\hFalse}{\hSpecialConstant{False}}
+
+%% otherwise
+\newcommand{\hOtherwise}{\hSpecialConstant{otherwise}}
 
 %% String
 \newcommand{\hStringLiteral}[1]{\text{#1}}
@@ -277,10 +278,11 @@
 \newcommand{\hValueConstructor}[1]{\textcolor{\hValueConstructorColor}{#1}}
 \newcommand{\hSpecialValueConstructor}[1]{\textcolor{\hValueConstructorColor}{\mathrm{#1}}}
 
-%% Left, Right
+%% Just, Left, Right, IO
 \newcommand{\hJustWith}[1]{{}_{\hSpecialValueConstructor{Just}}[\![#1]\!]}
 \newcommand{\hLeftWith}[1]{{}_{\hSpecialValueConstructor{Left}}[\![#1]\!]}
 \newcommand{\hRightWith}[1]{{}_{\hSpecialValueConstructor{Right}}[\![#1]\!]}
+\newcommand{\hIOWith}[1]{{}_{\hSpecialValueConstructor{IO}}[\![#1]\!]}
 
 %% List
 \newcommand{\hListWith}[1]{[#1]}

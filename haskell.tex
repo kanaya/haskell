@@ -23,7 +23,8 @@
 種類&字体・表記法&例\\
 \hline\hline
 % 定数&イタリック大文字（1文字）&$\hConstant{A},\hConstant{B},\hConstant{C}$\\
-有名な定数&ローマン大文字&$\hTrue,\hFalse$\\
+定数&ローマン大文字&$\hTrue,\hFalse$\\
+有名な定数&ローマン&$\hOtherwise$\\
 単位元（数学）&ローマンに斜線&$\hZero$\\
 \hline
 変数&イタリック（1文字）&$\hVar{u},\hVar{v},\hVar{w},\hVar{x},\hVar{y},\hVar{z}$\\
@@ -46,7 +47,7 @@ Ether変数&!をつける&$\hEitherDecor{\hVar{x}}$\\
 型コンストラクタ&ボールドイタリック&$\hTypeConstructor{m},\hTypeConstructor{n}$\\
 有名な型コンストラクタ&ボールド大文字&$\hList,\hMaybe$\\
 多相型&型コンストラクタ名と型名&$\hTypeConstruct{\hTypeConstructor{m}}{\hTypeName{a}}$\\
-有名な多相型&同上&$\hMaybeConstruct{\hTypeName{a}}$\\
+% 有名な多相型&同上&$\hMaybeConstruct{\hTypeName{a}}$\\
 有名な多相型&特別な括弧で包む&$[\hTypeName{a}]$\\
 集合（数学）&ブラックボード大文字&$\hSet{B},\hSet{Z},\hSet{R}$\\
 \hline
@@ -61,10 +62,11 @@ Ether変数&!をつける&$\hEitherDecor{\hVar{x}}$\\
 \hline
 種類&字体・表記法&例\\
 \hline\hline
+値コンストラクタ（引数なし）&名前&\hValueConstructor{Monday}\\
 値コンストラクタ&名前付き括弧で包む&$\hLeftWith{\hVar{x}},\hRightWith{\hVar{x}}$\\
 有名な値コンストラクタ&特別な括弧で包む&$\hListWith{\hVar{x}}$\\
 \hline
-キーワード&サンセリフ&$\hIf,\hOtherwise$\\
+キーワード&サンセリフ&$\hIf,\hCase$\\
 特別なキーワード&サンセリフ太字&$\hNewtype$\\
 do記法中のキーワード&タイプライタ&$\hDoLet$\\
 % リストの構造&サンセリフ，大文字&$\hTypeName{a}thFirst$, $\hTypeName{a}thRest$\\
@@ -1373,7 +1375,7 @@ s = ls.inject(0) { |x, y| x+y }
 \end{equation}
 であるから，演算子 $\hFold_{\hEmptyList}^{\hAppend}$ はリストを平坦化する\keyword{平坦化演算子}である．平坦化演算子はconcat演算子とも呼ばれることもあるが，基本的な演算子であるため特別な記号をつけておこう．我々は
 \begin{equation}
-  (\hJoinList)
+  \hJoinList
   =\hFold_{\hEmptyList}^{\hAppend}
 \end{equation}
 と定義することにする．\footnote{\haskell では演算子 $\mJoinList$ の代わりに \code{concat} 関数（または \code{join} 関数）を使う．}
@@ -1412,7 +1414,7 @@ ms = map(f, ls)
 である．矢印 $\hFunctionArrow$ は右結合なので，これは
 \begin{equation}
   \hMap
-  \hIsTypeOf{}(\hTypeName{a}\hFunctionArrow\hTypeName{b})\hFunctionArrow(\hListConstruct{\hTypeName{a}}\hFunctionArrow[\hTypeName{b}])
+  \hIsTypeOf{}(\hTypeName{a}\hFunctionArrow\hTypeName{b})\hFunctionArrow\left(\hListConstruct{\hTypeName{a}}\hFunctionArrow[\hTypeName{b}]\right)
 \end{equation}
 の意味でもある．念のため上式に注釈を加えると
 \begin{equation}
@@ -2077,6 +2079,24 @@ Functor laws.
 (\hFunc{g}\hCompose\hFunc{f})\hFunctorMap&=(\hFunc{g}\hFunctorMap)\hCompose(\hFunc{f}\hFunctorMap)
 \end{align}
 
+Map operator.
+
+\begin{equation}
+  (\hFunctorMap)\hIsTypeOf\hFunctor\hHasElementsOf\hTypeConstructor{f}\hAndThen
+    (\hTypeName{a}\hFunctionArrow\hTypeName{b})\hFunctionArrow\hTypeConstruct{\hTypeConstructor{f}}{\hTypeName{a}}\hFunctionArrow\hTypeConstruct{\hTypeConstructor{f}}{\hTypeName{b}}
+\end{equation}
+
+\begin{align}
+  \hFunc{f}\hFunctorMap{}\hListWith{\hVar{x}}&=\hListWith{\hFunc{f}\hVar{x}}\\
+  \hFunc{f}\hFunctorMap{}\hJustWith{\hVar{x}}&=\hJustWith{\hFunc{f}\hVar{x}}
+\end{align}
+
+Composition operator.
+
+\begin{equation}
+  (\hCompose)\hIsTypeOf{}(\hTypeName{a}\hFunctionArrow\hTypeName{b})\hFunctionArrow\hTypeConstruct{(\hFunctionArrow)\hTypeName{r}}{\hTypeName{a}}\hFunctionArrow\hTypeConstruct{(\hFunctionArrow)\hTypeName{r}}{\hTypeName{b}}
+\end{equation}
+
 Applicative functor laws.
 
 \begin{align}
@@ -2098,6 +2118,16 @@ Monad law.
 (\hFunc{\omega}\hMonadicCompose\hFunc{\psi})\hMonadicCompose\hFunc{\phi}&=\hFunc{\omega}\hMonadicCompose(\hFunc{\psi}\hMonadicCompose\hFunc{\phi})
 \end{align}
 
+Bind operator.
+
+\begin{equation}
+  \hAction{\phi}\hMonadicBind{}\hIOWith{\hVar{x}}
+    =\hIOWith{\hFunc{f}\hVar{x}}
+\end{equation}
+where
+\begin{equation}
+  \hAction{\phi}\hVar{x}=\hIOWith{\hFunc{f}\hVar{x}}
+\end{equation}
 
 \separator
 
