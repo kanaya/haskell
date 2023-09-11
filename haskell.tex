@@ -135,7 +135,7 @@ $\hNewtype$&特別なデータ型&\code{newtype}\\
 \hline\hline
 $\hMap$&リストのマップ&\code{`map`}\\
 $\hMapM$&文脈付きリストのマップ&\code{`mapM`}\\
-$\hMaybeMap$&Maybeのマップ&\code{<\$>}, \code{`fmap`}\\
+$\hFunctorMap$&Maybeのマップ&\code{<\$>}, \code{`fmap`}\\
 $\hFunctorMap$&ファンクターのマップ&\code{<\$>}, \code{`fmap`}\\
 $\hApplicativeMap$&アプリカティブマップ&\code{<*>}, \code{`ap`}\\
 $\hMonadicBind$&モナドのバインド&\code{=<<}\\
@@ -1404,7 +1404,7 @@ ms = map(f, ls)
   \hFunc{f}\hMap\hListWith{\hVar{x}_0,\hVar{x}_1\dotsb \hVar{x}_n}
   =\hListWith{\hFunc{f}\hVar{x}_0,\hFunc{f}\hVar{x}_1\dotsb \hFunc{f}\hVar{x}_n}
 \end{equation}
-であると定義する．この演算子 $\hMap$ をリストの\keyword{マップ演算子}と呼ぶ．\footnote{\haskell では $\hFunc{f}\hMap\hListVar{x}$ を\code{map f xs} または \code{f <\$> xs} と書く．ただし演算子 \code{<\$>} は \code{fmap} 演算子の中置バージョンである．}
+であると定義する．この演算子 $\hMap$ をリストの\keyword{マップ演算子}と呼ぶ．\footnote{\haskell では $\hFunc{f}\hMap\hListVar{x}$ を\code{map f xs} または \code{f<\$>xs} と書く．ただし演算子 \code{<\$>} は \code{fmap} 演算子の中置バージョンである．}
 
 リストのマップ演算子の型は
 \begin{equation}
@@ -1751,11 +1751,11 @@ srt(\hVar{x}:xs) = srt as ++ [x] ++ srt bs where
 
 \section{Possibly}
 
-計算の途中で，計算にまつわる状態を残りの計算に引き継ぎたくなる場合がある．例えば，整数 $\hVar{x},\hVar{y},\hVar{z}$ があり $\hVar{x}=\hVar{y}/\hVar{z}$ なる値を続く計算で利用したいとする．だが $\hVar{z}\hIfEq\hConstant{0}$ のときには $\hVar{x}$ は正しく計算されない．こんなときプログラマが取れる手段は
+計算の途中で，計算にまつわる状態を残りの計算に引き継ぎたくなる場合がある．例えば，整数 $\hVar{x},\hVar{y},\hVar{z}$ があり $\hVar{z}=\hVar{y}/\hVar{x}$ なる値を続く計算で利用したいとする．だが $\hVar{x}\hIfEq\hConstant{0}$ のときには $\hVar{z}$ は正しく計算されない．こんなときプログラマが取れる手段は
 \begin{itemize}
-\item $\hVar{x}=\hVar{y}/\hVar{z}$ を計算した時点で\keyword{ゼロ除算例外}を発生させ，プログラムの制御を他の場所へ移す（大域ジャンプを行う）
-\item グローバル変数にゼロ除算エラーが起こったことを記録しておき，$\hVar{x}$ にはとりあえずの数値，例えば $\hConstant{0}$ を代入しておいて，計算を続行させる
-\item $\hVar{x}$ にエラー状態を示す印を新たにつけておいて，計算を続行させる
+\item $\hVar{z}=\hVar{y}/\hVar{x}$ を計算した時点で\keyword{ゼロ除算例外}を発生させ，プログラムの制御を他の場所へ移す（大域ジャンプを行う）
+\item グローバル変数にゼロ除算エラーが起こったことを記録しておき，$\hVar{z}$ にはとりあえずの数値，例えば $\hConstant{0}$ を代入しておいて，計算を続行させる
+\item $\hVar{z}$ にエラー状態を示す印を新たにつけておいて，計算を続行させる
 \end{itemize}
 といったところだろう．
 
@@ -1769,7 +1769,7 @@ class Possibly:
 \end{verbatim}
 \end{pythoncode}
 
-例えば整数値 $123$ を持つ \code{Possibly} クラスの値 \code{p} は
+例えば整数値 \code{123} を持つ \code{Possibly} クラスの値 \code{p} は
 \begin{pythoncode}
 \begin{verbatim}
 p = Possibly(True, 123)
@@ -1821,11 +1821,11 @@ def map_over(f, p):
 
 もう一度振り出しに戻る．
 
-整数 $\hVar{x},\hVar{y},\hVar{z}$ があり $\hVar{x}=\hVar{y}/\hVar{z}$ という式があるとする．この式は $\hVar{z}\hIfEq0$ のときにはゼロ除算エラーである．しかし「例外」は内部状態の書き換えであり，我々の計算に入れたくない．そこで変数 $\hVar{x}$ が正しく計算されたかもしれないし，されていないかもしれないということを $\hMaybeVar{u}$ のようにドットをつけた変数に入れて，忘れないようにしておこう．
+整数 $\hVar{x},\hVar{y},\hVar{z}$ があり $\hVar{z}=\hVar{y}/\hVar{x}$ という式があるとする．この式は $\hVar{x}\hIfEq0$ のときにはゼロ除算エラーである．しかし「例外」は内部状態の書き換えであり，我々の計算に入れたくない．そこで変数 $\hVar{z}$ が正しく計算されたかもしれないし，されていないかもしれないということを $\hMaybeVar{w}$ のように印をつけた変数に入れて，忘れないようにしておこう．
 
-ここで変数 $\hMaybeVar{u}$ が取り得る値は正しく計算された値 $\hVar{x}$ をラップしたものか，あるいはエラーを表す値 $\hNothing$ である．このように計算結果に「意味付け」をすることを\keyword{文脈}に入れると言う．定数 $\hNothing$ は「ナッシング」と呼ぶ．\footnote{\haskell では $\hNothing$ を \code{Nothing} と書く．}
+ここで変数 $\hMaybeVar{w}$ が取り得る値は正しく計算された値 $\hVar{z}$ をラップしたものか，あるいはエラーを表す値 $\hNothing$ である．このように計算結果に「意味付け」をすることを\keyword{文脈}に入れると言う．定数 $\hNothing$ は「ナッシング」と呼ぶ．\footnote{\haskell では $\hNothing$ を \code{Nothing} と書く．}
 
-この変数 $\hMaybeVar{u}$ はもはや整数 $(\hInt)$ 型とは言えない．そこでこの $\hMaybeVar{u}$ の型を $\hMaybeConstruct{\hInt}$ と表して「Maybe整数（おそらく整数）」型と呼ぶことにしよう．型 $\hTypeName{a}$ から型 $\hMaybeConstruct{\hTypeName{a}}$ を生成するこには\keyword{型コンストラクタ} $\hMaybe$ を用いて
+この変数 $\hMaybeVar{w}$ はもはや整数 $(\hInt)$ 型とは言えない．そこでこの $\hMaybeVar{z}$ の型を $\hMaybeConstruct{\hInt}$ と表して「Maybe整数（おそらく整数）」型と呼ぶことにしよう．型 $\hTypeName{a}$ から型 $\hMaybeConstruct{\hTypeName{a}}$ を生成するこには\keyword{型コンストラクタ} $\hMaybe$ を用いて
 \begin{equation}
   \hMaybeConstruct{\hTypeName{a}}
   =\hMaybe\,\hTypeName{a}
@@ -1834,22 +1834,22 @@ def map_over(f, p):
 
 $\hTypeName{a}$ 型の変数を $\hMaybeConstruct{\hTypeName{a}}$ 型の変数に代入するには，次のMaybe値コンストラクタを用いて
 \begin{equation}
-  \hMaybeVar{u}
-  =\hJustWith{\hVar{x}}
+  \hMaybeVar{w}
+  =\hJustWith{\hVar{z}}
 \end{equation}
-とする．\footnote{\haskell では $\hMaybeVar{u}=\hJustWith{\hVar{x}}$ を \code{u = Just x} と書く．Maybeを表す疑問符は省略する．}
+とする．\footnote{\haskell では $\hMaybeVar{w}=\hJustWith{\hVar{x}}$ を \code{w = Just x} と書く．Maybeを表す疑問符は省略する．}
 
-変数 $\hVar{x}$ が一度ゼロ除算の危険性に「汚染」された場合，その後ずっとMaybe変数に入れ続けなければいけない．そこで，普通の変数を引数にとる関数 $\hFunc{f}$ にMaybe変数 $\hMaybeVar{u}$ を食わせるには，リストの時と同じようなマップ演算子が必要になる．具体的には，変数 $\hVar{x}$ が $\mType{Int}$ 型として，Maybe変数 $\hMaybeVar{u}=\hJustWith{\hVar{x}}$ が与えられたとき
+変数 $\hVar{z}$ が一度ゼロ除算の危険性に「汚染」された場合，その後ずっとMaybe変数に入れ続けなければいけない．そこで，普通の変数を引数にとる関数 $\hFunc{f}$ にMaybe変数 $\hMaybeVar{w}$ を食わせるには，リストの時と同じようなマップ演算子が必要になる．具体的には，変数 $\hVar{x}$ が $\mType{Int}$ 型として，Maybe変数 $\hMaybeVar{w}=\hJustWith{\hVar{x}}$ が与えられたとき
 \begin{equation}
-  \hFunc{f}\hMaybeMap\hMaybeVar{u}
+  \hFunc{f}\hFunctorMap\hMaybeVar{w}
   =\hJustWith{\hFunc{f}\hVar{x}}
 \end{equation}
-となるようなMaybeバージョンのマップ演算子 $\hMaybeMap$ を用いる．ここに $\hFunc{f}\hMaybeMap\hMaybeVar{u}$ の型は，もし $\hFunc{f}\hIsTypeOf\mProjEXP{\hInt}{\hFloat}$ ならば $\hMaybeConstruct{\hFloat}$ である．
+となるようなMaybeバージョンのマップ演算子 $\hFunctorMap$ を用いる．ここに $\hFunc{f}\hFunctorMap\hMaybeVar{w}$ の型は，もし $\hFunc{f}\hIsTypeOf\mProjEXP{\hInt}{\hFloat}$ ならば $\hMaybeConstruct{\hFloat}$ である．\footnote{\haskell では $\hFunc{f}\hFunctorMap\hMaybeVar{w}$ を \code{f<\$>w} と書く．}
 
-実際には $\hMaybeVar{u}\hIfEq\hNothing$ の可能性も考えなければならないから，Maybeバージョンのマップ演算子は
+実際には $\hMaybeVar{w}\hIfEq\hNothing$ の可能性も考えなければならないから，Maybeバージョンのマップ演算子は
 \begin{equation}
-  \hFunc{f}\hMaybeMap\hMaybeVar{u}
-  =\hCaseSyntax{\hMaybeVar{u}}
+  \hFunc{f}\hFunctorMap\hMaybeVar{w}
+  =\hCaseSyntax{\hMaybeVar{w}}
   \begin{cases}
     \hJustWith{\hVar{x}}
     &\hIfSo\hJustWith{\hFunc{f}\hVar{x}}\\
@@ -1857,13 +1857,13 @@ $\hTypeName{a}$ 型の変数を $\hMaybeConstruct{\hTypeName{a}}$ 型の変数�
     &\hIfSo\hNothing
   \end{cases}
 \end{equation}
-でなければならない．このMaybeバージョンのマップ演算子 $\hMaybeMap$ は
+でなければならない．このMaybeバージョンのマップ演算子 $\hFunctorMap$ は
 \begin{equation}
   \left\{
   \begin{aligned}
-    \hFunc{f}\hMaybeMap\hJustWith{\hVar{x}}
+    \hFunc{f}\hFunctorMap\hJustWith{\hVar{x}}
     &=\hJustWith{\hFunc{f}\hVar{x}}\\
-    \hFunc{f}\hMaybeMap\hNothing
+    \hFunc{f}\hFunctorMap\hNothing
     &=\hNothing
   \end{aligned}
   \right.
@@ -1875,12 +1875,12 @@ $\hTypeName{a}$ 型の変数を $\hMaybeConstruct{\hTypeName{a}}$ 型の変数�
 \end{verbatim}
 と書く．}
 
-今後，普通の（引数にMaybeが来ることを想定していない）関数 $\hFunc{f}$ をMaybe型である変数 $\hMaybeVar{u}$ に適用させるときには，必ず
+今後，普通の（引数にMaybeが来ることを想定していない）関数 $\hFunc{f}$ をMaybe型である変数 $\hMaybeVar{w}$ に適用させるときには，必ず
 \begin{equation}
-  \hMaybeVar{v}
-  =\hFunc{f}\hMaybeMap\hMaybeVar{u}
+  \hMaybeVar{u}
+  =\hFunc{f}\hFunctorMap\hMaybeVar{w}
 \end{equation}
-のようにMaybeバージョンのマップ演算子 $\hMaybeMap$ を用いることにする．これはプログラムの安全性のためである．変数が一旦ゼロ除算の可能性に汚染されたら，最後までMaybeに包んでおかねばならない．\footnote{\haskell ではMaybeバージョンのマップ演算子に特別な記号，関数名が与えられていない．その代わり第\ref{ch:functor}章で述べる一般マップ演算子 $\mMap$ に相当する \code{fmap} 関数を用い \code{v = fmap f u} または \code{v = f <\$> u} のように書く．\haskell は型推論を行なうため変数 \code{u} がMaybeであればMaybeバージョンのマップ演算子（関数）が適用され，もし \code{u} がリストであれば通常のマップ関数である \code{map} が適用される．} %%% !!!!
+のようにMaybeバージョンのマップ演算子 $\hFunctorMap$ を用いることにする．これはプログラムの安全性のためである．変数が一旦ゼロ除算の可能性に汚染されたら，最後までMaybeに包んでおかねばならない．% \footnote{\haskell ではMaybeバージョンのマップ演算子に特別な記号，関数名が与えられていない．その代わり第\ref{ch:functor}章で述べる一般マップ演算子 $\mMap$ に相当する \code{fmap} 関数を用い \code{u = fmap f w} または \code{u = f <\$> w} のように書く．\haskell は型推論を行なうため変数 \code{w} がMaybeであればMaybeバージョンのマップ演算子（関数）が適用され，もし \code{w} がリストであれば通常のマップ関数である \code{map} が適用される．} %%% !!!!
 
 \python でMaybeの概念を忠実になぞることは難しい．と言うのも\python は動的型付け言語であるため，型コンストラクタという概念が無いからだ．一方でMaybeの概念を静的型付け言語である\cxx や\java で実現することはできる．そこで\cxx の本物のコードで示しておこう．ただしポインタを使わないでおいたので\cxx プログラマも\java プログラマも参考にできるだろう．
 
@@ -1906,10 +1906,10 @@ template <typename a> class maybe {
 当然我々にはMaybeバージョンのマップ演算子が必要である．ここでは関数 \code{map\_over} として書いてみよう．（\java プログラマへの注意：関数 \code{map\_over} はどのクラスにも属していないが，それで正解なのである．）
 \begin{cxxcode}
 \begin{verbatim}
-template <class a, class b, class fn>
-maybe<b> map_over(fn f, maybe<a> u) {
-  if (u.is_valid()) {
-    return maybe<b>(f(u.get_value()));
+template <typename a, typename b, typename fn>
+maybe<b> map_over(fn f, maybe<a> w) {
+  if (w.is_valid()) {
+    return maybe<b>(f(w.get_value()));
   }
   else {
     return maybe<b>();
@@ -1917,7 +1917,7 @@ maybe<b> map_over(fn f, maybe<a> u) {
 }
 \end{verbatim}
 \end{cxxcode}
-テンプレートの2番目の引数\code{fn}は関数\code{f}を受け取るために必要である．\cxx はコンパイル時までにすべての変数の型が決定していないといけないが，関数 \code{f} の型は関数 \code{map\_over} 設計時には確定できないため，このようにテンプレートにしている．
+テンプレートの3番目の引数\code{fn}は関数\code{f}を受け取るために必要である．\cxx はコンパイル時までにすべての変数の型が決定していないといけないが，関数 \code{f} の型は関数 \code{map\_over} 設計時には確定できないため，このようにテンプレートにしている．
 % こうすることで，Cスタイルの関数ポインタも，\cxx03スタイルの関数オブジェクトも，
 % \cxx11スタイルのラムダ式も受け取ることができる．
 % （\cxxzerothree プログラマへの注意：関数 \code{f} の代わりに関数オブジェ
@@ -1926,7 +1926,7 @@ maybe<b> map_over(fn f, maybe<a> u) {
 整数 $\hVar{x}$ からMaybe値 $\hMaybeVar{u}=\hJustWith{\hVar{x}}$ を作り，関数 $\hFunc{g}\hVar{x}=\hConstant{1}+\hVar{x}$ をMaybe値 $\hMaybeVar{u}$ に食わせてMaybe値 $\hMaybeVar{v}$ ただし
 \begin{equation}
   \hMaybeVar{v}
-  =\hFunc{g}\hMaybeMap\hMaybeVar{u}
+  =\hFunc{g}\hFunctorMap\hMaybeVar{u}
 \end{equation}
 を得ることを\cxx では次のように書くことになる．
 \begin{cxxcode}
@@ -1948,9 +1948,9 @@ maybe<int> v = map_over(g, u);
 関数 $\hFunc{f}$ をMayby値 $\hMaybeVar{u}$ に適用するために
 \begin{equation}
   \hMaybeVar{v}
-  =\hFunc{f}\hMaybeMap\hMaybeVar{u}
+  =\hFunc{f}\hFunctorMap\hMaybeVar{u}
 \end{equation}
-のようなMaybeバージョンのマップ演算子 $(\hMaybeMap)$ を使った．一方で，同じ関数 $\hFunc{f}$ をリスト $\hListVar{x}$ に適用するには
+のようなMaybeバージョンのマップ演算子 $(\hFunctorMap)$ を使った．一方で，同じ関数 $\hFunc{f}$ をリスト $\hListVar{x}$ に適用するには
 \begin{equation}
   \hListVar{y}
   =\hFunc{f}\hMap\hListVar{x}
@@ -1980,7 +1980,7 @@ template <class a, class b, class fn>
 std::list<b> map_over(fn f, std::list<a> xs);
 // Maybe
 template <class a, class b, class fn>
-maybe<b> map_over(fn f, maybe<a> u);
+maybe<b> map_over(fn f, maybe<a> w);
 \end{verbatim}
 \end{cxxcode}
 やはりそっくりである．であるならば，うまく統一したい．\cxx では次のような書き方が文法的には可能である．
@@ -2052,7 +2052,7 @@ Either型は\clang の共有型 (\code{union}) や\cxx のバリアント型 (\c
 \item ある型 $\hTypeName{a}$ からそのMaybe型 $\hMaybeConstruct{\hTypeName{a}}$ を作ることを $\hMaybeConstruct{\hTypeName{a}}=\hMaybe\hTypeName{a} $ と書く．ここに $\hMaybe$ はMaybe型コンストラクタである．
 \item ある変数 $\hVar{x}$ からMaybe変数 $\hMaybeVar{u}$ を作るには $\hMaybeVar{u}=\hJustWith{\hVar{x}}$ とする．ここに $\hJustWith{\dotsb}$ はMaybe値コンストラクタである．
 \item Maybe変数は $\hJustWith{\hVar{x}}$ のような値か，かまたは $\hNothing$ なる「ナッシング」値のかどちらかを持つことができる．
-\item 普通の関数 $\hFunc{f}\hIsTypeOf\mProjEXP{\hTypeName{a} }{\hTypeName{b} }$をMaybe値に適用することはできない．関数 $\hFunc{f}$ をMaybe値に適用するには$\hFunc{f}\hMaybeMap\hMaybeVar{u}$ のようにMaybeマップ演算子が必要であり，この関数適用の結果は $\hMaybeConstruct{b}$ 型である．
+\item 普通の関数 $\hFunc{f}\hIsTypeOf\mProjEXP{\hTypeName{a} }{\hTypeName{b} }$をMaybe値に適用することはできない．関数 $\hFunc{f}$ をMaybe値に適用するには$\hFunc{f}\hFunctorMap\hMaybeVar{u}$ のようにMaybeマップ演算子が必要であり，この関数適用の結果は $\hMaybeConstruct{b}$ 型である．
 \item Either変数は二つの型のいずれかを持つことができ，$\hEitherVar{e}=\hRightWith{x}$ または$\hEitherVar{e}=\hLeftWith{x}$ のように生成する．
 \end{enumerate}
 
@@ -2109,7 +2109,7 @@ Applicative functor laws.
 Monad law.
 
 \begin{equation}
-\hFunc{\psi}\hMonadicCompose\hFunc{\phi}=\hFunc{\psi}\hMonadicBind(\hFunc{\phi}\hMonadicBind\hAnonParam)
+\hFunc{\psi}\hMonadicCompose\hFunc{\phi}=\hFunc{\psi}{}\hMonadicBind(\hFunc{\phi}\hMonadicBind\hAnonParam)
 \end{equation}
 
 \begin{align}
@@ -2222,16 +2222,16 @@ $\hTypeName{a}$ 型の変数 $\hVar{x},\hVar{y}\hIsTypeOf\hTypeName{a}$ につ�
 \begin{equation}
   \hMaybeVar{v}
   =\hFunc{g}\hMaybeVar{u}
-  =\hFunc{f}\hMaybeMap\hMaybeVar{u}
+  =\hFunc{f}\hFunctorMap\hMaybeVar{u}
 \end{equation}
 であり，
 \begin{equation}
   \hFunc{g}
-  =\hFunc{f}\hMaybeMap
+  =\hFunc{f}\hFunctorMap
 \end{equation}
-である．つまりマップ演算子 $\hMaybeMap$ が関数 $\hFunc{f}$ を $\hTypeName{a}$ 世界から $\hMaybeConstruct{\hTypeName{a}}$ 世界へとジャンプさせているのである．
+である．つまりマップ演算子 $\hFunctorMap$ が関数 $\hFunc{f}$ を $\hTypeName{a}$ 世界から $\hMaybeConstruct{\hTypeName{a}}$ 世界へとジャンプさせているのである．
 
-いま「世界」と呼んだものを，数学者は\keyword{圏}と呼ぶ．圏とは\keyword{対象}と\keyword{射}の組み合わせである．本書では「対象」とは型のことであり，射とは関数だと思えば良い．（厳密にはコンテナに入れられた関数も射に含まれる．）そして，圏から圏へとジャンプさせるものを\keyword{関手}と呼ぶ．この例で言えば値コンストラクタ $\hJustWith{\hVar{x}}$ とマップ演算子 $\hMaybeMap$ が関手である．値コンストラクタ $\hJustWith{\hVar{x}}$ は $\hTypeName{a}\hFunctionArrow\hMaybeConstruct{\hTypeName{a}}$ という型を持ち，マップ演算子 $\hMaybeMap$ は $(\hTypeName{a}\hFunctionArrow\hTypeName{b})\hFunctionArrow(\hMaybeConstruct{\hTypeName{a}}\hFunctionArrow\hMaybeConstruct{b})$ という型を持つ．\footnote{関手は英語でファンクター(functor)と言うが，\cxx の関数オブジェクト (function object) もかつてはファンクター(functor)と呼ばれていた．\cxx のファンクターとはクロージャの代用品のことで，本書で述べる関手とは異なる概念である．混同しないように注意しよう．}
+いま「世界」と呼んだものを，数学者は\keyword{圏}と呼ぶ．圏とは\keyword{対象}と\keyword{射}の組み合わせである．本書では「対象」とは型のことであり，射とは関数だと思えば良い．（厳密にはコンテナに入れられた関数も射に含まれる．）そして，圏から圏へとジャンプさせるものを\keyword{関手}と呼ぶ．この例で言えば値コンストラクタ $\hJustWith{\hVar{x}}$ とマップ演算子 $\hFunctorMap$ が関手である．値コンストラクタ $\hJustWith{\hVar{x}}$ は $\hTypeName{a}\hFunctionArrow\hMaybeConstruct{\hTypeName{a}}$ という型を持ち，マップ演算子 $\hFunctorMap$ は $(\hTypeName{a}\hFunctionArrow\hTypeName{b})\hFunctionArrow(\hMaybeConstruct{\hTypeName{a}}\hFunctionArrow\hMaybeConstruct{b})$ という型を持つ．\footnote{関手は英語でファンクター(functor)と言うが，\cxx の関数オブジェクト (function object) もかつてはファンクター(functor)と呼ばれていた．\cxx のファンクターとはクロージャの代用品のことで，本書で述べる関手とは異なる概念である．混同しないように注意しよう．}
 
 同じことはリストにも言える．値コンストラクタ $[\hVar{x}]$ とマップ演算子 $\hMap$ もまた関手である．この場合値コンストラクタは $\hTypeName{a}\hFunctionArrow\hListConstruct{\hTypeName{a}}$ という型を持ち，マップ演算子も同じく $(\hTypeName{a}\hFunctionArrow\hTypeName{b})\hFunctionArrow(\hListConstruct{\hTypeName{a}}\hFunctionArrow[\hTypeName{b}])$ という型を持つ．
 
@@ -2258,7 +2258,7 @@ $\hTypeName{a}$ 型の変数 $\hVar{x},\hVar{y}\hIsTypeOf\hTypeName{a}$ につ�
 であるし，もし型コンストラクタがMaybe型コンストラクタであれば，つまり
 $\mTypeConstructor{f}=\hMaybe$ であれば
 \begin{equation}
-  (\hMaybeMap)
+  (\hFunctorMap)
   \hIsTypeOf{}(\hTypeName{a}\hFunctionArrow\hTypeName{b})\hFunctionArrow\hMaybeConstruct{\hTypeName{a}}\hFunctionArrow\hMaybeConstruct{b}
 \end{equation}
 である．
@@ -2272,7 +2272,7 @@ $\mTypeConstructor{f}=\hMaybe$ であれば
 \begin{tabular}{||c|c|c|c||}\hline
 型&型コンストラクタ&マップ&値コンストラクタ\\\hline\hline
 $\hListConstruct{\hTypeName{a}}$&$\mListTypeConstructor$&$\hMap$&$[\hVar{x}]$\\
-$\hMaybeConstruct{\hTypeName{a}}$&$\hMaybe$&$\hMaybeMap$&$\hJustWith{\hVar{x}},\hNothing$\\\hline
+$\hMaybeConstruct{\hTypeName{a}}$&$\hMaybe$&$\hFunctorMap$&$\hJustWith{\hVar{x}},\hNothing$\\\hline
 \end{tabular}
 \end{center}
 \end{table*}
@@ -2286,18 +2286,18 @@ $\hMaybeConstruct{\hTypeName{a}}$&$\hMaybe$&$\hMaybeMap$&$\hJustWith{\hVar{x}},\
 % $\hFunctor$ 型クラスに属すのであった．そこで
 % $\hFunctor$ 型クラスは\keyword{一般マップ演算子} $(\mMap)$
 % を持つものとする．一般マップ演算子は，リスト型であれば $\hMap$
-% 演算子に，Maybe型であれば $\hMaybeMap$ 演算子にオーバーライドされる．
+% 演算子に，Maybe型であれば $\hFunctorMap$ 演算子にオーバーライドされる．
 
 % ---
 
 % 一般マップ演算子 $(\mMap)$ は\keyword{多様的}である．この意味は，も
 % し $\hFunc{f}\mMap\hListVar{x}$ と書いてあれば $\hFunc{f}\hMap\hListVar{x}$ のことであ
-% るし，もし $\hFunc{f}\mMap\hMaybeVar{u}$ と書いてあれば $\hFunc{f}\hMaybeMap\hMaybeVar{u}$
+% るし，もし $\hFunc{f}\mMap\hMaybeVar{u}$ と書いてあれば $\hFunc{f}\hFunctorMap\hMaybeVar{u}$
 % のことであると自動的に解釈することである．そして，何の飾りもつけられ
 % ていない変数 $\hVar{x}$ がふらっと現れ，目の前に $\hFunc{f}\mMap x$という式が登場し
 % ても，落ち着いて変数 $\hVar{x}$ の型を調べ，変数 $\hVar{x}$ がリストならば $\mMap$
 % の部分に $\hMap$ を，変数 $\hVar{x}$ がMaybeならば $\mMap$ の部分に
-% $\hMaybeMap$ をはめ込むのだ．\footnote{\haskell では一般マップ演算子
+% $\hFunctorMap$ をはめ込むのだ．\footnote{\haskell では一般マップ演算子
 % $(\mMap)$ は \code{fmap} である．ただしその実装は与えられず，対象と
 % する型に応じて定義されるものとする．例えばリストに対しては
 % \code{fmap = map} と定義されている．}
@@ -2347,7 +2347,7 @@ $\hTypeName{a}ppMapMaybe$ を
   =\hCaseSyntax{\hMaybeVar{i}}
   \begin{cases}
     \hJustWith{j}
-    &\hIfSo\mJFunc\hMaybeMap\hMaybeVar{u}\\
+    &\hIfSo\mJFunc\hFunctorMap\hMaybeVar{u}\\
     \_
     &\hIfSo\hNothing
   \end{cases}
@@ -2362,9 +2362,9 @@ $\hTypeName{a}ppMapMaybe$ を
 % \hNothing&\hOtherwise
 % \end{cases}
 % \end{equation}
-で定義する．このMaybeバージョンのアプリカティブマップ演算子 $(\hTypeName{a}ppMapMaybe)$ からMaybeバージョンのマップ演算子 $(\hMaybeMap)$ は
+で定義する．このMaybeバージョンのアプリカティブマップ演算子 $(\hTypeName{a}ppMapMaybe)$ からMaybeバージョンのマップ演算子 $(\hFunctorMap)$ は
 \begin{equation}
-  \hFunc{f}\hMaybeMap\hMaybeVar{u}
+  \hFunc{f}\hFunctorMap\hMaybeVar{u}
   =\hJustWith{f}\hTypeName{a}ppMapMaybe\hMaybeVar{u}
 \end{equation}
 のように導出できる．
@@ -2380,7 +2380,7 @@ $\hTypeName{a}ppMapMaybe$ を
 ピュア演算子をピュア値コンストラクタと呼ばないのは，単純に「ピュア値」というものがないからである．$\hFunctor$ 型クラスはリスト型やMaybe型を抽象化したものであって，直接変数を生成できない．型クラスは，\cxx の用語で言えば純粋仮想クラスのようなものであるし，\objectivec の用語で言えばメタクラスであるからである．もちろんリストのピュア演算子は $[x]$ であるし，Maybeのピュア演算子は $\hJustWith{\hVar{x}}$ であり，それぞれ具体的な変数を生成する．しかし変数 $\hVar{x}$ にピュア演算子を適用した
 $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在しない．\footnote{\haskell は一般のピュア演算子の実装を与えていない．変数の型に応じて対応する関数が適用される．}
 
-一般アプリカティブマップ演算子 $(\hTypeName{a}ppMap)$ は多様性によってそれぞれリストバージョンのアプリカティブマップ演算子 $(\hTypeName{a}ppMapList)$ やMaybeバージョンのアプリカティブマップ演算子 $(\hTypeName{a}ppMapMaybe)$ にオーバーライドされ，それぞれリスト値コンストラクタ $([x])$, Maybe値コンストラクタ $(\hJustWith{\hVar{x}})$ を用いることでリストバージョンのマップ演算子 $(\hMap)$, Maybeバージョンのマップ演算子 $(\hMaybeMap)$ を生成することができる．リスト値コンストラクタ，Maybe値コンストラクタはそれぞれピュア演算子 $(\mPureWith{x})$ をオーバーライドしたものであるから，結局，一般アプリカティブマップ演算子とピュア演算子のふたつがあれば，任意のクラスのマップ演算子を生成することができる．
+一般アプリカティブマップ演算子 $(\hTypeName{a}ppMap)$ は多様性によってそれぞれリストバージョンのアプリカティブマップ演算子 $(\hTypeName{a}ppMapList)$ やMaybeバージョンのアプリカティブマップ演算子 $(\hTypeName{a}ppMapMaybe)$ にオーバーライドされ，それぞれリスト値コンストラクタ $([x])$, Maybe値コンストラクタ $(\hJustWith{\hVar{x}})$ を用いることでリストバージョンのマップ演算子 $(\hMap)$, Maybeバージョンのマップ演算子 $(\hFunctorMap)$ を生成することができる．リスト値コンストラクタ，Maybe値コンストラクタはそれぞれピュア演算子 $(\mPureWith{x})$ をオーバーライドしたものであるから，結局，一般アプリカティブマップ演算子とピュア演算子のふたつがあれば，任意のクラスのマップ演算子を生成することができる．
 
 アプリカティブマップ演算子，ピュア演算子に一般化されたバージョンがあるように，リストの ${\hEmptyList}$ やMaybeの $\hNothing$ を一般化した値が必要である．それを $\mPureNothing$ とする．$\mPureNothing$ には特段名前が無いので，本書では単に「空」と呼ぶことにしよう．
 
@@ -2528,7 +2528,7 @@ Maybeのアプリカティブマップ演算子の定義は次の通り．
 \hMaybeVar{g}\hTypeName{a}ppMapMaybe\hMaybeVar{u}
 =\hCaseSyntax{\hMaybeVar{g}}
 \begin{cases}
-\hJustWith{h}&\hIfSo h\hMaybeMap\hMaybeVar{u}\\
+\hJustWith{h}&\hIfSo h\hFunctorMap\hMaybeVar{u}\\
 \_&\hIfSo\hNothing
 \end{cases}
 \end{equation}
@@ -2582,13 +2582,13 @@ Maybeの例を思い出そう．Maybe型の変数 $\hMaybeVar{u}$ はラップ�
 \begin{equation}
 \hMaybeVar{v}=\hFunc{g}\hVar{x}
 \end{equation}
-という風に結果をMaybe変数に保存しなければならない．今まで見てきた $y=\hFunc{f}\hVar{x}$ や $\hMaybeVar{v}=\hFunc{f}\hMaybeMap\hMaybeVar{u}$ の関係とは異なることに注意しよう．
+という風に結果をMaybe変数に保存しなければならない．今まで見てきた $y=\hFunc{f}\hVar{x}$ や $\hMaybeVar{v}=\hFunc{f}\hFunctorMap\hMaybeVar{u}$ の関係とは異なることに注意しよう．
 
 関数 $\hFunc{g}$ の型は
 \begin{equation}
   g\hIsTypeOf\mProjEXP{\hTypeName{a} }{\hMaybeConstruct{\hTypeName{a}}}
 \end{equation}
-である．ということは，関数 $\hFunc{g}$ をMaybe変数に適用させるようと思っても，我々が既に知っているマップ演算子 $\hMaybeMap$ やアプリカティブマップ演算子 $\hTypeName{a}ppMapMaybe$ が使えないということである．前者は第1引数に $\mProjEXP{\hTypeName{a} }{\hTypeName{b} }$ 型の関数を取るし，後者は第1引数に $\hJustWith{(\mProjEXP{\hTypeName{a} }{\hTypeName{b} })}$ 型の関数（Maybe関数）を取るからである．
+である．ということは，関数 $\hFunc{g}$ をMaybe変数に適用させるようと思っても，我々が既に知っているマップ演算子 $\hFunctorMap$ やアプリカティブマップ演算子 $\hTypeName{a}ppMapMaybe$ が使えないということである．前者は第1引数に $\mProjEXP{\hTypeName{a} }{\hTypeName{b} }$ 型の関数を取るし，後者は第1引数に $\hJustWith{(\mProjEXP{\hTypeName{a} }{\hTypeName{b} })}$ 型の関数（Maybe関数）を取るからである．
 
 % ***CHECK***
 
@@ -2930,7 +2930,7 @@ Maybe
   &$\hTypeName{b}indMaybe$
   &$\hJustWith{\hVar{x}}$
   &$\hTypeName{a}ppMapMaybe$
-  &$\hMaybeMap$
+  &$\hFunctorMap$
   &$\hNothing$
   &（$\hVar{x}$ の型に依存）\\
 \hline
@@ -3992,7 +3992,7 @@ $(\mJoinList)$ やマップ演算子 $(\hMap)$ を書くのは煩雑であるし
 そこで，関数合成をオーバーライドする方法が欲しくなる．関手のマップ演算
 子 $(\mMap)$ は各々のインスタンスで独自にオーバーライドされていた．リ
 ストのマップ演算子 $(\hMap)$ や Maybe のマップ演算子
-$(\hMaybeMap)$ がそれらである．同じように，関数合成 $(\hCompose)$ も
+$(\hFunctorMap)$ がそれらである．同じように，関数合成 $(\hCompose)$ も
 一般化したものが欲しい．
 
 それが\keyword{カテゴリ}の合成演算子 $(\mCompCat)$ である．カテゴリは
@@ -4299,7 +4299,7 @@ instance Cat.Category NonDet where
 
 \begin{equation}
   y
-  =\sharp\hCompose(\hFunc{f}\hMaybeMap)\hCompose g\hApply x
+  =\sharp\hCompose(\hFunc{f}\hFunctorMap)\hCompose g\hApply x
 \end{equation}
 
 \begin{equation}
