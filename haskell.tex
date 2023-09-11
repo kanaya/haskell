@@ -1621,25 +1621,46 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
 \end{equation}
 である．これだと末尾の関数は $\hFact$ ではなく演算子 $(*)$ なので，末尾に再帰適用を行ったことにはならない．
 
-そこで，次のように形を変えた階乗関数 $\mFFact$ を考えてみる．
+そこで，次のように形を変えた階乗関数 $\hFactPrime$ を考えてみる．
 \begin{equation}
-  \mFFact\hVar{a}\hVar{x}
+  \hFactPrime\hVar{a}\hVar{x}
   =\hCaseSyntax{\hVar{x}}
   \begin{cases}
-    0
-    &\hIfSo\hConstant{1}\\
+    \hConstant{0}
+    &\hIfSo\hVar{a}\\
     \_
-    &\hIfSo\mFFact(\hVar{a}*\hVar{x})(\hVar{x}-\hConstant{1})
+    &\hIfSo\hFactPrime(\hVar{a}*\hVar{x})(\hVar{x}-\hConstant{1})
   \end{cases}
 \end{equation}
-こうすれば末尾の関数がもとの $\mFFact$ と一致する．\footnote{\haskell では
+こうすれば末尾の関数がもとの $\hFactPrime$ と一致する．\footnote{\haskell では
 \begin{verbatim}
-  fact a x = case x of 0 -> 1
-                       _ -> fact' (a*x) (x-1)
+  fact' a x = case x of 0 -> 1
+                        _ -> fact' (a*x) (x-1)
 \end{verbatim}
 と書く．}
 
-関数 $\hFact$ と違い関数 $\mFFact$ は引数を2個とる．関数 $\mFFact$ を使って $\hVar{x}$ の階乗を求める場合は $\mFFact\,\hConstant{1}\,x$ と第1引数に $\hConstant{1}$ を与えることにする．この第1引数 $\hVar{a}$ はアキュムレータという．アキュムレータが演算の途中経過を引き渡していくイメージを描けば，末尾再帰の意味が理解できる
+関数 $\hFact$ が，例えば
+\begin{align}
+  \hFact\hConstant{3}&=\hConstant{3}*\hFact\hConstant{2}\\
+  &=\hConstant{3}*\hConstant{2}*\hFact\hConstant{1}\\
+  &=\hConstant{3}*\hConstant{2}*\hConstant{1}*\hFact\hConstant{0}\\
+  &=\hConstant{3}*\hConstant{2}*\hConstant{1}*\hConstant{1}\\
+  &=\hConstant{6}
+\end{align}
+と展開されるのに対し，同じく $\hFactPrime\hConstant{3}$ は
+\begin{align}
+  \hFactPrime\hConstant{1}\;\hConstant{3}
+  &=\hFactPrime(\hConstant{1}*\hConstant{3})(\hConstant{3}-\hConstant{1})\\
+  &=\hFactPrime\hConstant{3}\;\hConstant{2}\\
+  &=\hFactPrime(\hConstant{3}*\hConstant{2})(\hConstant{2}-\hConstant{1})\\
+  &=\hFactPrime\hConstant{6}\;\hConstant{1}\\
+  &=\hFactPrime(\hConstant{6}*\hConstant{1})(\hConstant{1}-\hConstant{1})\\
+  &=\hFactPrime\hConstant{6}\;\hConstant{0}\\
+  &=\hConstant{6}
+\end{align}
+であるから，関数 $\hFact$ が「横に伸びる」のに対して，関数 $\hFactPrime$ は「横に伸びない」ことになる．
+
+関数 $\hFact$ と違い関数 $\hFactPrime$ は引数を2個とる．関数 $\hFactPrime$ を使って $\hVar{x}$ の階乗を求める場合は $\hFactPrime\,\hConstant{1}\,x$ と第1引数に $\hConstant{1}$ を与えることにする．この第1引数 $\hVar{a}$ はアキュムレータという．アキュムレータが演算の途中経過を引き渡していくイメージを描けば，末尾再帰の意味が理解できる
 だろう．
 
 計算機科学者が末尾再帰を好む理由は，\haskell を含む幾つかのプログラミング言語処理系が\keyword{末尾再帰最適化}を行うからである．末尾再帰最適化とは，一言で言うと再帰を計算機が扱いやすいループに置き換えることである．では最初から我々もループで関数を表現しておけば，と思われるかもしれないが，再帰以外の方法でループを表現する場合には必ず変数（ループカウンタ）への破壊的代入が必要になるため，我々は末尾再帰に慎ましくループを隠すのである．
