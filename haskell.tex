@@ -2195,7 +2195,13 @@ $$
 \end{itemize}
 
 
-\section{圏と関手}
+\section{リストとMaybe}
+\section{ファンクター}
+\section{モナド}
+\section{余談：関数}
+\section{この章のまとめ}
+
+% \section{圏と関手}
 
 $\hTypeName{a}$ 型の変数 $\hVar{x},\hVar{y}\hIsTypeOf\hTypeName{a}$ について，関数 $\hFunc{f}\hIsTypeOf\hTypeName{a}\hFunctionArrow\hTypeName{a}$ があり
 \begin{equation}
@@ -2309,7 +2315,7 @@ $\hMaybeConstruct{\hTypeName{a}}$&$\hMaybe$&$\hFunctorMap$&$\hJustWith{\hVar{x}}
 % する型に応じて定義されるものとする．例えばリストに対しては
 % \code{fmap = map} と定義されている．}
 
-\section{アプリカティブ関手}
+% \section{アプリカティブ関手}
 
 マップ演算子をさらに汎用性のあるものにするために新しく考え出された演算子が\keyword{アプリカティブマップ演算子}である．
 
@@ -2405,7 +2411,7 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
 \end{equation}
 とすれば良い．このようにアプリカティブマップ演算子を並べる書き方をアプリカティブスタイルと呼ぶ．
 
-\section{関手としての関数}
+% \section{関手としての関数}
 
 関数は関手である．関手とはマップ演算子を持つ型クラスのことであった．そこで，関数がどのようなマップ演算子を持つのか考えてみる．
 
@@ -2514,7 +2520,7 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
 \end{align}
 であるからである．
 
-\section{余談：アプリカティブマップ演算子の実装}
+% \section{余談：アプリカティブマップ演算子の実装}
 
 リストとMaybeのアプリカティブマップ演算子は，それぞれのマップ演算子から定義することができる．リストのアプリカティブマップ演算子の定義は次の通り．
 \begin{equation}
