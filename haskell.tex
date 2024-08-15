@@ -86,16 +86,17 @@ do記法中のキーワード&タイプライタ&$\hDoLet$\\
 記号&意味&\haskell 記号\\
 \hline\hline
 $\hLambda\hVar{x}\hLambdaArrow\hVar{x}$&ラムダ式&\verb|\x -> x|\\
-$\hAnonParam$&無名パラメタ&\\
-$(\hAnonParam+\hAnonParam)\,\hVar{x}\,\hVar{y}$&関数化&\code{(+) x y}\\
+$\hxAnonParam$&無名パラメタ&\\
+$(\hxAnonParam+\hxAnonParam)\,\hVar{x}\,\hVar{y}$&関数化&\code{(+) x y}\\
 $\hVar{x}\hInfixWith{\hFunc{f}}\hVar{y}$&中置演算子化&\code{x `f` y}\\
+$\hxAnonTypeParam$&無名型パラメタ&\\
 \hline
 $\hIsTypeOf$&型集合の元&\code{::}\\
 $\hIsElementOf$&値集合の元&\code{<-}\\
 $\hFunctionArrow$&射&\code{->}\\
 \hline
-$\hForall{\hTypeName{s}}$&全称量化子&\code{forall s.}\\
-\hline
+% $\hForall{\hTypeName{s}}$&全称量化子&\code{forall s.}\\
+% \hline
 $\hFromIntegral$&型変換演算子&\code{fromIntegral}\\ %%% !!!
 $\hToEnum$&同上&\code{toEnum}\\
 \hline
