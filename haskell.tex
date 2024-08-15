@@ -32,13 +32,15 @@
 Maybe変数&?をつける&$\hMaybeDecor{\hVar{x}}$\\
 Ether変数&!をつける&$\hEitherDecor{\hVar{x}}$\\
 一般のコンテナ変数&星印をつける&$\hAnyContextVar{x}$\\
-有名な変数&ローマン&$\hSpecialVar{first},\hSpecialVar{rest}$\\
+タプル&丸括弧で包む&$\hxTupple{\hVar{x}}{\hVar{y}}$\\
+有名な変数&ローマン&$\hSpecialVar{first}$\\
+集合（数学）&ブレースで包む&$\{\hVar{x},\hVar{y}\}$\\
 \hline
 値コンストラクタ&ローマン大文字&$\hxJustValue{x}$\\
 有名な値コンストラクタ&特別な括弧で包む&$\hxListValue{x}$\\
 \hline
 関数&イタリック（1文字）&$\hFunc{f},\hFunc{g},\hFunc{h}$\\
-有名な関数&ローマン&$\hId,\hSin,\hCos$\\
+有名な関数&ローマン&$\hId$\\
 関手（数学）&フラクチュール&$\hCatId$\\
 \hline
 アクション&ギリシア文字（1文字）&$\hAction{\alpha}$\\
@@ -52,7 +54,7 @@ Ether変数&!をつける&$\hEitherDecor{\hVar{x}}$\\
 % 有名な型コンストラクタ&ボールド大文字&$\hList,\hMaybe$\\
 多相型&型コンストラクタ名と型名&$\hxTypeConstructor{\hTypeName{m}}{\hTypeName{a}}$\\
 有名な多相型&特別な括弧で包む&$\hxListConstructor{\hTypeName{a}}$\\
-集合（数学）&ブラックボード大文字&$\hSet{B},\hSet{Z},\hSet{R}$\\
+集合（数学）&ブラックボード大文字&$\hSet{B}$\\
 \hline
 \end{tabular}
 \end{center}
@@ -65,19 +67,11 @@ Ether変数&!をつける&$\hEitherDecor{\hVar{x}}$\\
 \hline
 種類&字体・表記法&例\\
 \hline\hline
-値コンストラクタ（引数なし）&名前&\hValueConstructor{Monday}\\
-値コンストラクタ&名前付き括弧で包む&$\hLeftWith{\hVar{x}},\hRightWith{\hVar{x}}$\\
-有名な値コンストラクタ&特別な括弧で包む&$\hListWith{\hVar{x}}$\\
-\hline
 キーワード&サンセリフ&$\hIf,\hCase$\\
 特別なキーワード&サンセリフ太字&$\hNewtype$\\
 do記法中のキーワード&タイプライタ&$\hDoLet$\\
 % リストの構造&サンセリフ，大文字&$\hTypeName{a}thFirst$, $\hTypeName{a}thRest$\\
 \hline
-リスト&ブラケットで包む&$\hListWith{\hVar{x}},\hListWith{\hVar{y}}$\\
-タプル&丸括弧で包む&$\hPairWith{\hVar{x}}{\hVar{y}}$\\
-\hline
-集合（数学）&ブレースで包む&$\{\hVar{x},\hVar{y}\}$\\
 % アンボックス化タプル&丸括弧とシャープ記号で包む&$\mTupleUnboxedWith{x,\hVar{y},\hVar{z}}$\\
 \hline
 \end{tabular}
