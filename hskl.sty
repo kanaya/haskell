@@ -76,10 +76,23 @@
 
 \newcommand{\hxKeyword}[1]{\textcolor{\hxKeywordColor}{\textsf{#1}}}
 
+% Var
+
+\newcommand{\hxVar}[1]{\textcolor{\hxVarColor}{#1}}
+\newcommand{\hxSpecialVar}[1]{\textcolor{\hxVarColor}{\mathrm{#1}}}
+
+% Value constructor
+
+\newcommand{\hxValueConstructor}[2]{{}_{\hxSpecialVar{#1}}{\langle\hxVar{#2}\rangle}}
+\newcommand{\hxJustValue}[1]{\hxValueConstructor{Just}{#1}}
+\newcommand{\hxListValue}[1]{[\hxVar{#1}]}
+
 % Type constructor
 
 \newcommand{\hxTypeConstructor}[2]{{}^{#1}\Langle#2\Rangle}
 \newcommand{\hxListConstructor}[1]{\llbracket#1\rrbracket}
+
+
 
 
 % ------ for backward compatibility
