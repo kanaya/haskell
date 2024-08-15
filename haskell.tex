@@ -24,7 +24,6 @@
 \hline\hline
 % 定数&イタリック大文字（1文字）&$\hConstant{A},\hConstant{B},\hConstant{C}$\\
 定数&ローマン&$\hOtherwise$\\
-定数値コンストラクタ&ローマン大文字&$\hTrue$\\
 単位元（数学）&ローマンに斜線&$\hZero$\\
 \hline
 変数&イタリック（1文字）&$\hVar{x}$\\
@@ -32,14 +31,15 @@
 Maybe変数&?をつける&$\hMaybeDecor{\hVar{x}}$\\
 Ether変数&!をつける&$\hEitherDecor{\hVar{x}}$\\
 一般のコンテナ変数&星印をつける&$\hAnyContextVar{x}$\\
-タプル&丸括弧で包む&$\hxTupple{\hVar{x}}{\hVar{y}}$\\
 有名な変数&ローマン&$\hSpecialVar{first}$\\
+タプル&丸括弧で包む&$\hxTupple{\hVar{x}}{\hVar{y}}$\\
 集合（数学）&ブレースで包む&$\{\hVar{x},\hVar{y}\}$\\
 \hline
+定数値コンストラクタ&ローマン大文字&$\hTrue$\\
 値コンストラクタ&ローマン大文字&$\hxJustValue{x}$\\
 有名な値コンストラクタ&特別な括弧で包む&$\hxListValue{x}$\\
 \hline
-関数&イタリック（1文字）&$\hFunc{f},\hFunc{g},\hFunc{h}$\\
+関数&イタリック（1文字）&$\hFunc{f}$\\
 有名な関数&ローマン&$\hId$\\
 関手（数学）&フラクチュール&$\hCatId$\\
 \hline
@@ -47,13 +47,12 @@ Ether変数&!をつける&$\hEitherDecor{\hVar{x}}$\\
 有名なアクション&スラント&$\hMain$\\
 \hline
 型&ボールド（1文字）&$\hTypeName{a}$\\
-型コンストラクタ&ボールド（1文字）&$\hTypeName{m}$\\
 有名な型&ボールド大文字&$\hBool$\\
+型コンストラクタ&ボールド&$\hxTypeConstructor{\hTypeName{m}}{\hTypeName{a}}$\\
+有名な型コンストラクタ&特別な括弧で包む&$\hxListConstructor{\hTypeName{a}}$\\
 型クラス&スモールキャピタル&$\hEq$\\
 % 型コンストラクタ&ボールドイタリック&$\hTypeConstructor{m},\hTypeConstructor{n}$\\
 % 有名な型コンストラクタ&ボールド大文字&$\hList,\hMaybe$\\
-多相型&型コンストラクタ名と型名&$\hxTypeConstructor{\hTypeName{m}}{\hTypeName{a}}$\\
-有名な多相型&特別な括弧で包む&$\hxListConstructor{\hTypeName{a}}$\\
 集合（数学）&ブラックボード大文字&$\hSet{B}$\\
 \hline
 \end{tabular}
