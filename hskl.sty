@@ -70,39 +70,138 @@
 \def\hxClassColor{Red}
 \def\hxTypeColor{Orange}
 \def\hxVarColor{NavyBlue}
+\def\hxActionColor{PineGreen}
 \def\hxKeywordColor{Sepia}
+\def\hxMathColor{BlueGreen}
 
-% Keywords
+% Constant
 
-\newcommand{\hxKeyword}[1]{\textcolor{\hxKeywordColor}{\textsf{#1}}}
+\newcommand{\hxConstant}[1]{\textcolor{\hxVarColor}{\mathrm{#1}}}
+\newcommand{\hxOtherwise}{\hxConstant{otherwise}}
+
+\newcommand{\hxMathZero}{\textcolor{\hxMathColor}{\O}}
 
 % Var
 
 \newcommand{\hxVar}[1]{\textcolor{\hxVarColor}{#1}}
 \newcommand{\hxSpecialVar}[1]{\textcolor{\hxVarColor}{\mathrm{#1}}}
 
+\newcommand{\hxListVar}[1]{\hxVar{#1}_\mathrm{s}}
+\newcommand{\hxMaybeVar}[1]{\hxVar{#1}_\mathrm{?}}
+\newcommand{\hxEitherVar}[1]{\hxVar{#1}_\mathrm{!}}
+\newcommand{\hxContainerVar}[1]{\hxVar{#1}_\star}
+
 % Tupple
 
 \newcommand{\hxTupple}[2]{\left(#1,#2\right)}
 
+% Set (Math)
+
+\newcommand{\hxSet}[1]{\left\{#1\right\}}
+
 % Value constructor
 
-\newcommand{\hxValueConstructor}[2]{{}_{\hxSpecialVar{#1}}{\langle\hxVar{#2}\rangle}}
+\newcommand{\hxConstValueConstructor}[1]{\textcolor{\hxVarColor}{\mathrm{#1}}}
+\newcommand{\hxValueConstructor}[2]{{}_{\hxConstValueConstructor{#1}}{\langle\hxVar{#2}\rangle}}
 \newcommand{\hxJustValue}[1]{\hxValueConstructor{Just}{#1}}
-\newcommand{\hxListValue}[1]{[\hxVar{#1}]}
+\newcommand{\hxListValue}[1]{\left[\hxVar{#1}\right]}
+
+\newcommand{\hxTrue}{\hxConstValueConstructor{True}}
+\newcommand{\hxFalse}{\hxConstValueConstructor{False}}
+\newcommand{\hxNothing}{\hxConstValueConstructor{\empty}}
+
+% Func
+
+\newcommand{\hxFunc}[1]{\hxVar{#1}}
+\newcommand{\hxSpecialFunc}[1]{\hxSpecialVar{#1}}
+
+\newcommand{\hxId}{\hxSpecialFunc{id}}
+
+\newcommand{\hxMathFunctor}[1]{\textcolor{\hxMathColor}{\mathfrak{#1}}}
+\newcommand{\hxMathId}{\hxMathFunctor{id}}
+
+% Action
+
+\newcommand{\hxAction}[1]{\textcolor{\hxActionColor}{#1}}
+\newcommand{\hxSpecialAction}[1]{\textcolor{\hxActionColor}{\textsl{#1}}}
+
+\newcommand{\hxMain}{\hxSpecialAction{main}}
+
+% Type
+
+\newcommand{\hxType}[1]{\textcolor{\hxTypeColor}{\mathbf{#1}}}
+\newcommand{\hxSpecialType}[1]{\hxType{#1}}
+
+\newcommand{\hxBool}{\hxSpecialType{Bool}}
 
 % Type constructor
 
 \newcommand{\hxTypeConstructor}[2]{{}^{#1}\Langle#2\Rangle}
-\newcommand{\hxListConstructor}[1]{\llbracket#1\rrbracket}
+\newcommand{\hxListTypeConstructor}[1]{\llbracket#1\rrbracket}
+
+% Type class
+
+\newcommand{\hxTypeClass}[1]{\textcolor{\hxClassColor}{\textsc{#1}}}
+
+\newcommand{\hxEq}{\hxTypeClass{Eq}}
+\newcommand{\hxIntegral}{\hxTypeClass{Integral}}
+\newcommand{\hxEnum}{\hxTypeClass{Enum}}
+
+% Set class (Math)
+
+\newcommand{\hxMathSetClass}[1]{\textcolor{\hxMathColor}{\mathbb{#1}}}
+
+% Keyword
+
+\newcommand{\hxKeyword}[1]{\textcolor{\hxKeywordColor}{\textsf{#1}}}
+\newcommand{\hxKeywordEmph}[1]{\textcolor{\hxKeywordColor}{\textbf{\textsf{#1}}}}
+\newcommand{\hxKeywordInDo}[1]{\textcolor{\hxKeywordColor}{\texttt{#1}}}
+
+\newcommand{\hxIf}{\hxKeyword{if}}
+\newcommand{\hxNewtype}{\hxKeywordEmph{newtype}}
+\newcommand{\hxDoLet}{\hxKeywordInDo{let}}
+
+% Lambda and lambda expression
+
+\newcommand{\hxLambda}{\backslash}
+\newcommand{\hxMapsTo}{\mapsto}
+\newcommand{\hxLambdaExp}[2]{\hxLambda{#1}\hxMapsTo{#2}}
 
 % Anonymous parameter
 
 \newcommand{\hxAnonParam}{\lozenge}
 \newcommand{\hxAnonTypeParam}{\blacklozenge}
 
+% Infix
 
-% ------ for backward compatibility
+\newcommand{\hxInfix}[1]{\mathop{\llparenthesis\,#1\,\rrparenthesis}}
+
+% Is type of, Is element of
+
+\newcommand{\hxIsTypeOf}{\mathop{::}}
+\newcommand{\hxIsElementOf}{\in}
+
+% Right arrow
+
+\newcommand{\hxRightArrow}{\rightarrow}
+
+% Forall
+
+\newcommand{\hxForall}{\forall}
+
+% Type conversion
+
+\newcommand{\hxConvertFrom}[1]{\vartriangleleft_{#1}}
+\newcommand{\hxConvertTo}[1]{{}_{#1}\vartriangleleft}
+
+% Fold
+
+\newcommand{\hxFoldLeft}{\bigcup}
+\newcommand{\hxFoldRight}{\bigsqcup}
+
+
+
+% ------- for backward compatibility -------
 
 % Colors
 \def\hDefaultColor{black}

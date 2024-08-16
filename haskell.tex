@@ -22,38 +22,37 @@
 \hline
 種類&字体・表記法&例\\
 \hline\hline
-% 定数&イタリック大文字（1文字）&$\hConstant{A},\hConstant{B},\hConstant{C}$\\
-定数&ローマン&$\hOtherwise$\\
-単位元（数学）&ローマンに斜線&$\hZero$\\
+定数&ローマン&$\hxOtherwise$\\
+単位元（数学）&ローマンに斜線&$\hxMathZero$\\
 \hline
-変数&イタリック（1文字）&$\hVar{x}$\\
-リスト変数&sをつける&$\hListVar{x}$\\
-Maybe変数&?をつける&$\hMaybeDecor{\hVar{x}}$\\
-Ether変数&!をつける&$\hEitherDecor{\hVar{x}}$\\
-一般のコンテナ変数&星印をつける&$\hAnyContextVar{x}$\\
-有名な変数&ローマン&$\hSpecialVar{first}$\\
-タプル&丸括弧で包む&$\hxTupple{\hVar{x}}{\hVar{y}}$\\
-集合（数学）&ブレースで包む&$\{\hVar{x},\hVar{y}\}$\\
+変数&イタリック（1文字）&$\hxVar{x}$\\
+リスト変数&sをつける&$\hxListVar{x}$\\
+Maybe変数&?をつける&$\hxMaybeVar{x}$\\
+Ether変数&!をつける&$\hxEitherVar{x}$\\
+一般のコンテナ変数&星印をつける&$\hxContainerVar{x}$\\
+有名な変数&ローマン&$\hxSpecialVar{first}$\\
+タプル&丸括弧で包む&$\hxTupple{\hxVar{x}}{\hxVar{y}}$\\
+集合（数学）&ブレースで包む&$\hxSet{\hxVar{x},\hxVar{y}}$\\
 \hline
-定数値コンストラクタ&ローマン大文字&$\hTrue$\\
+定数値コンストラクタ&ローマン大文字&$\hxTrue$\\
 値コンストラクタ&ローマン大文字&$\hxJustValue{x}$\\
 有名な値コンストラクタ&特別な括弧で包む&$\hxListValue{x}$\\
 \hline
-関数&イタリック（1文字）&$\hFunc{f}$\\
-有名な関数&ローマン&$\hId$\\
-関手（数学）&フラクチュール&$\hCatId$\\
+関数&イタリック（1文字）&$\hxFunc{f}$\\
+有名な関数&ローマン&$\hxId$\\
+関手（数学）&フラクチュール&$\hxMathId$\\
 \hline
-アクション&ギリシア文字（1文字）&$\hAction{\alpha}$\\
-有名なアクション&スラント&$\hMain$\\
+アクション&ギリシア文字（1文字）&$\hxAction{\alpha}$\\
+有名なアクション&スラント&$\hxMain$\\
 \hline
-型&ボールド（1文字）&$\hTypeName{a}$\\
-有名な型&ボールド大文字&$\hBool$\\
-型コンストラクタ&ボールド&$\hxTypeConstructor{\hTypeName{m}}{\hTypeName{a}}$\\
-有名な型コンストラクタ&特別な括弧で包む&$\hxListConstructor{\hTypeName{a}}$\\
-型クラス&スモールキャピタル&$\hEq$\\
+型&ボールド（1文字）&$\hxType{a}$\\
+有名な型&ボールド大文字&$\hxBool$\\
+型コンストラクタ&ボールド&$\hxTypeConstructor{\hxType{m}}{\hxType{a}}$\\
+有名な型コンストラクタ&特別な括弧で包む&$\hxListTypeConstructor{\hxType{a}}$\\
+型クラス&スモールキャピタル&$\hxEq$\\
 % 型コンストラクタ&ボールドイタリック&$\hTypeConstructor{m},\hTypeConstructor{n}$\\
 % 有名な型コンストラクタ&ボールド大文字&$\hList,\hMaybe$\\
-集合（数学）&ブラックボード大文字&$\hSet{B}$\\
+集合（数学）&ブラックボード大文字&$\hxMathSetClass{B}$\\
 \hline
 \end{tabular}
 \end{center}
@@ -66,12 +65,9 @@ Ether変数&!をつける&$\hEitherDecor{\hVar{x}}$\\
 \hline
 種類&字体・表記法&例\\
 \hline\hline
-キーワード&サンセリフ&$\hIf,\hCase$\\
-特別なキーワード&サンセリフ太字&$\hNewtype$\\
-do記法中のキーワード&タイプライタ&$\hDoLet$\\
-% リストの構造&サンセリフ，大文字&$\hTypeName{a}thFirst$, $\hTypeName{a}thRest$\\
-\hline
-% アンボックス化タプル&丸括弧とシャープ記号で包む&$\mTupleUnboxedWith{x,\hVar{y},\hVar{z}}$\\
+キーワード&サンセリフ&$\hxIf$\\
+特別なキーワード&サンセリフ太字&$\hxNewtype$\\
+do記法中のキーワード&タイプライタ&$\hxDoLet$\\
 \hline
 \end{tabular}
 \end{center}
@@ -84,23 +80,23 @@ do記法中のキーワード&タイプライタ&$\hDoLet$\\
 \hline
 記号&意味&\haskell 記号\\
 \hline\hline
-$\hLambda\hVar{x}\hLambdaArrow\hVar{x}$&ラムダ式&\verb|\x -> x|\\
+$\hxLambdaExp{\hxVar{x}}{\hxVar{y}}$&ラムダ式&\verb|\x -> y|\\
 $\hxAnonParam$&無名パラメタ&\\
-$(\hxAnonParam+\hxAnonParam)\,\hVar{x}\,\hVar{y}$&関数化&\code{(+) x y}\\
-$\hVar{x}\hInfixWith{\hFunc{f}}\hVar{y}$&中置演算子化&\code{x `f` y}\\
+$(\hxAnonParam+\hxAnonParam)\,\hxVar{x}\,\hxVar{y}$&関数化&\code{(+) x y}\\
+$\hxVar{x}\hxInfix{\hxFunc{f}}\hxVar{y}$&中置演算子化&\code{x `f` y}\\
 $\hxAnonTypeParam$&無名型パラメタ&\\
 \hline
-$\hIsTypeOf$&型集合の元&\code{::}\\
-$\hIsElementOf$&値集合の元&\code{<-}\\
-$\hFunctionArrow$&射&\code{->}\\
+$\hxIsTypeOf$&型集合の元&\code{::}\\
+$\hxIsElementOf$&値集合の元&\code{<-}\\
+$\hxRightArrow$&射&\code{->}\\
 \hline
-% $\hForall{\hTypeName{s}}$&全称量化子&\code{forall s.}\\
-% \hline
-$\hFromIntegral$&型変換演算子&\code{fromIntegral}\\ %%% !!!
-$\hToEnum$&同上&\code{toEnum}\\
+$\hxForall$&全称量化子&\code{forall}\\
 \hline
-$\hFold$&左畳み込み&\code{foldl}\\
-$\hFoldRight$&右畳み込み&\code{foldr}\\
+$\hxConvertFrom{\hxIntegral}$&型変換演算子&\code{fromIntegral}\\ %%% !!!
+$\hxConvertTo{\hxEnum}$&同上&\code{toEnum}\\
+\hline
+$\hxFoldLeft$&左畳み込み&\code{foldl}\\
+$\hxFoldRight$&右畳み込み&\code{foldr}\\  %% ----
 \hline
 $\hCons$&cons演算子&\code{:}\\
 $\hAppend$&結合演算子&\code{++}\\
@@ -114,10 +110,6 @@ $\hPureNothing$&空&\\
 $\hListWith{\hVar{x}}$&リスト値コンストラクタ&\code{[x]}\\
 $\hJustWith{\hVar{x}}$&Maybe値コンストラクタ&\code{Just x}\\
 $\hLeftWith{\hVar{x}},\hRightWith{\hVar{x}}$&Either値コンストラクタ&\code{Left x}, \code{Right x}\\
-\hline
-$\hType$&型シノニム&\code{type}\\
-$\hData$&データ型&\code{data}\\
-$\hNewtype$&特別なデータ型&\code{newtype}\\
 \hline
 \end{tabular}
 \end{center}
