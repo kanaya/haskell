@@ -108,7 +108,14 @@
 
 \newcommand{\hxTrue}{\hxConstValueConstructor{True}}
 \newcommand{\hxFalse}{\hxConstValueConstructor{False}}
-\newcommand{\hxNothing}{\hxConstValueConstructor{\empty}}
+\newcommand{\hxNothing}{\hxConstValueConstructor{\emptyset}}
+
+\newcommand{\hxUnit}{\hxConstValueConstructor{(\,)}}
+\newcommand{\hxEmptyList}{\hxConstValueConstructor{[\,]}}
+
+% Empty
+
+\newcommand{\hxPureNothing}{\varnothing}
 
 % Func
 
@@ -199,6 +206,12 @@
 \newcommand{\hxFoldLeft}{\bigcup}
 \newcommand{\hxFoldRight}{\bigsqcup}
 
+% Empty
+
+% Operators
+
+\newcommand{\hxCons}{\mathop{:}}
+\newcommand{\hxAppend}{\mathop{\#}}
 
 
 % ------- for backward compatibility -------
