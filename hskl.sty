@@ -119,10 +119,8 @@
 
 % Func
 
-\newcommand{\hxFunc}[1]{\hxVar{#1}}
-\newcommand{\hxSpecialFunc}[1]{\hxSpecialVar{#1}}
-
-\newcommand{\hxId}{\hxSpecialFunc{id}}
+\newcommand{\hxFunc}[1]{\mathop{\hxVar{#1}}}
+\newcommand{\hxSpecialFunc}[1]{\mathop{\hxSpecialVar{#1}}}
 
 \newcommand{\hxMathFunctor}[1]{\textcolor{\hxMathColor}{\mathfrak{#1}}}
 \newcommand{\hxMathId}{\hxMathFunctor{id}}
@@ -207,7 +205,10 @@
 \newcommand{\hxFoldLeft}{\bigcup}
 \newcommand{\hxFoldRight}{\bigsqcup}
 
-% Empty
+% Special functions
+
+\newcommand{\hxId}{\hxSpecialFunc{id}}
+\newcommand{\hxMax}{\hxSpecialFunc{\max}}
 
 % Operators
 
