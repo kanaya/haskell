@@ -80,7 +80,7 @@ do記法中のキーワード&タイプライタ&$\hxDoLet$\\
 \hline
 記号&意味&\haskell 記号\\
 \hline\hline
-$\hxLambdaExp{\hxVar{x}}{\hxVar{y}}$&ラムダ式&\verb|\x -> y|\\
+$\hxLambdaSyntax{\hxVar{x}}{\hxVar{x}}$&ラムダ式&\verb|\x -> x|\\
 $\hxAnonParam$&無名パラメタ&\\
 $(\hxAnonParam+\hxAnonParam)\,\hxVar{x}\,\hxVar{y}$&関数化&\code{(+) x y}\\
 $\hxVar{x}\hxInfix{\hxFunc{f}}\hxVar{y}$&中置演算子化&\code{x `f` y}\\
@@ -188,7 +188,7 @@ print("Hello, world.")
 
 関数型プログラミングとはプログラミングにおける一種のスローガンのようなもので，どの言語を用いたから関数型でどの言語を用いたから関数型ではない，というものではない．しかし，関数型プログラミングを強くサポートする言語と，そうでない言語とがある．ここら辺の事情はオブジェクト指向プログラミングとプログラミング言語の関係と似ている．\haskell は関数型プログラミングを強くサポートし，\python はほとんどサポートしない．
 
-関数型プログラミングの特徴を一言で言えば，プログラム中の\keyword{破壊的代入}を禁止することである．変数 $\hxVar{x}$ に $\hConstant{1}$ という数値が一度代入されたら，変数 $\hxVar{x}$ の値をプログラム中に書き換える，すなわち破壊的代入をすることはできない．この結果，変数の値はプログラムのどこでも，どの時点で読み出しても同じであることが保証される．これを変数の\keyword{参照透過性}と呼ぶ．
+関数型プログラミングの特徴を一言で言えば，プログラム中の\keyword{破壊的代入}を禁止することである．変数 $\hxVar{x}$ に $\hxConstant{1}$ という数値が一度代入されたら，変数 $\hxVar{x}$ の値をプログラム中に書き換える，すなわち破壊的代入をすることはできない．この結果，変数の値はプログラムのどこでも，どの時点で読み出しても同じであることが保証される．これを変数の\keyword{参照透過性}と呼ぶ．
 
 プログラム全体に参照透過性があると，そのプログラムはブロックに分割しやすく，各々のブロックは再利用しやすい．またプログラムのどの断片から読み始めても，全体の構造を見失いにくい．これが関数型プログラミングとそれを強くサポートする\haskell を習得する理由である．
 
@@ -342,7 +342,7 @@ $\hxMax$ は
 
 関数の正体は\keyword{ラムダ式}である．ラムダ式とは，仮の引数をとり，その値をもとになにがしかの演算を行い，その結果を返す式である．ラムダ式は名前のない関数のようなものだ．それゆえ，無名関数と呼ばれることもある．
 
-例えば引数 $\hxVar{x}$ をとり値 $\hConstant{1}+\hxVar{x}$ を返すラムダ式を\python では
+例えば引数 $\hxVar{x}$ をとり値 $\hxConstant{1}+\hxVar{x}$ を返すラムダ式を\python では
 \begin{pythoncode}
 \begin{verbatim}
 lambda x: 1+x
@@ -350,51 +350,51 @@ lambda x: 1+x
 \end{pythoncode}
 と書くが，我々はより簡潔に
 \begin{equation}
-  \hLambdaSyntax{\hxVar{x}}{\hConstant{1}+\hxVar{x}}
+  \hxLambdaSyntax{\hxVar{x}}{\hxConstant{1}+\hxVar{x}}
 \end{equation}
-と書くことにする．この式は多くの書物で $\lambda x\mathbin{.}1+x$ と記述されるところである．しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号 $(.)$ が今後登場する二項演算子 $\cdot$ と紛らわしいため，上述の記法を用いる．\footnote{\haskell ではラムダ式 $\hLambdaSyntax{\hxVar{x}}{\hConstant{1}+\hxVar{x}}$ を \code{\textbackslash x -> 1+x} と書く．ラムダ式は元々は $\Hat{x}\mathbin{.}x+1$ のように書かれていた．これが次第に $\mathop{\texttt{\textasciicircum}}x\mathbin{.}x+1$ となり，$\Lambda x\mathbin{.}x+1$ そして $\lambda x\mathbin{.}x+1$ に変化していったと言われている．\haskell が $\lambda$ の代わりに $\hLambda$ 記号を使うのは，その形が似ているからである．}
+と書くことにする．この式は多くの書物で $\lambda x\mathbin{.}1+x$ と記述されるところである．しかし我々はすべてのギリシア文字を変数名のために予約しておきたいのと，ピリオド記号 $(.)$ が今後登場する二項演算子 $\cdot$ と紛らわしいため，上述の記法を用いる．\footnote{\haskell ではラムダ式 $\hxLambdaSyntax{\hxVar{x}}{\hxConstant{1}+\hxVar{x}}$ を \code{\textbackslash x -> 1+x} と書く．ラムダ式は元々は $\Hat{x}\mathbin{.}x+1$ のように書かれていた．これが次第に $\mathop{\texttt{\textasciicircum}}x\mathbin{.}x+1$ となり，$\Lambda x\mathbin{.}x+1$ そして $\lambda x\mathbin{.}x+1$ に変化していったと言われている．\haskell が $\lambda$ の代わりに $\hxLambda$ 記号を使うのは，その形が似ているからである．}
 
 ラムダ式は関数である．ラムダ式を適用するには，ラムダ式を括弧で包む必要がある．例を挙げる．
 \begin{equation}
-  (\hLambdaSyntax{\hxVar{x}}{\hConstant{1}+\hxVar{x}})\,\hConstant{2}
+  (\hxLambdaSyntax{\hxVar{x}}{\hxConstant{1}+\hxVar{x}})\,\hxConstant{2}
 \end{equation}
-この式は結果として $\hConstant{3}$ を返す．
+この式は結果として $\hxConstant{3}$ を返す．
 
 複数引数をとるラムダ式は例えば
 \begin{equation}
-  \hLambdaSyntax{\hxVar{x}\hxVar{y}}{\hxVar{x}+\hxVar{y}}
+  \hxLambdaSyntax{\hxVar{x}\hxVar{y}}{\hxVar{x}+\hxVar{y}}
 \end{equation}
 のように引数を並べて書く．
 
 \separator
 
-本書では新たに，次のラムダ式記法も導入する．式中に記号 $\hAnonParam$ が現れた場合，その式全体がラムダ式であるとみなす．記号 $\hAnonParam$ の部分には引数が入る．第 $n$ 番目の $\hAnonParam$ には第 $n$ 番目の引数が入る．例えばラムダ式 $\hLambdaSyntax{\hxVar{x}\hxVar{y}}{\hxVar{x}+\hxVar{y}}$ は
+本書では新たに，次のラムダ式記法も導入する．式中に記号 $\hxAnonParam$ が現れた場合，その式全体がラムダ式であるとみなす．記号 $\hxAnonParam$ の部分には引数が入る．第 $n$ 番目の $\hxAnonParam$ には第 $n$ 番目の引数が入る．例えばラムダ式 $\hxLambdaSyntax{\hxVar{x}\hxVar{y}}{\hxVar{x}+\hxVar{y}}$ は
 \begin{equation}
-  (\hAnonParam+\hAnonParam)
+  (\hxAnonParam+\hxAnonParam)
 \end{equation}
-と書いても良い．式を左から読んで1番目の $\hAnonParam$ が元々の $\hxVar{x}$ すなわち第1引数を，2番目の $\hAnonParam$ が元々の $\hxVar{y}$ すなわち第2引数を意味する．この省略記法はプログラミング言語\scheme における \code{cut} プロシジャに由来する．\footnote{\haskell では，中置演算子に限ってこの表現が使える．例えば$(\hAnonParam+\hAnonParam)$は単に \code{(+)} と表現できる．ただし\scheme における \code{cut} プロシジャの \code{<>} は\haskell にはないため，\scheme でいう \code{(cut f <> y)} に相当するコードを直接は書けない．\haskell ではその代わりに \code{(`f` y)} と書ける．}
+と書いても良い．式を左から読んで1番目の $\hxAnonParam$ が元々の $\hxVar{x}$ すなわち第1引数を，2番目の $\hxAnonParam$ が元々の $\hxVar{y}$ すなわち第2引数を意味する．この省略記法はプログラミング言語\scheme における \code{cut} プロシジャに由来する．\footnote{\haskell では，中置演算子に限ってこの表現が使える．例えば$(\hxAnonParam+\hxAnonParam)$は単に \code{(+)} と表現できる．ただし\scheme における \code{cut} プロシジャの \code{<>} は\haskell にはないため，\scheme でいう \code{(cut f <> y)} に相当するコードを直接は書けない．\haskell ではその代わりに \code{(`f` y)} と書ける．}
 
 \section{パタンマッチ・ガード・条件分岐}
 
-関数の定義は，基本的にはラムダ式の変数への代入である．引数 $\hxVar{x}$ をとり値 $(\hSin\hxVar{x})/\hxVar{x}$ を返す関数 $\hxFunc{f}$ は
+関数の定義は，基本的にはラムダ式の変数への代入である．引数 $\hxVar{x}$ をとり値 $\hxConstant{2}*\hxVar{x}$ を返す関数 $\hxFunc{f}$ は
 \begin{equation}
-  \hxFunc{f}=\hLambdaSyntax{\hxVar{x}}{(\hSin\hxVar{x})/\hxVar{x}}
+  \hxFunc{f}=\hxLambdaSyntax{\hxVar{x}}{\hxConstant{2}*\hxVar{x}}
 \end{equation}
 と定義できる．ただし，この省略形として
 \begin{equation}
   \hxFunc{f}\hxVar{x}
-  =(\hSin\hxVar{x})/\hxVar{x}
+  =\hxConstant{2}*\hxVar{x}
 \end{equation}
-と書いても良い．\footnote{\haskell では $\hxFunc{f}=\hLambdaSyntax{\hxVar{x}}{\hSin\hxVar{x})/\hxVar{x}}$ を \code{f = \textbackslash x -> (sin x)/x} と書き，一方 $\hxFunc{f}\hxVar{x}=(\hSin\hxVar{x})/\hxVar{x}$ を\code{f x = (sin x)/x} と書く．}
+と書いても良い．\footnote{\haskell では $\hxFunc{f}=\hxLambdaSyntax{\hxVar{x}}{\hxConstant{2}*\hxVar{x}}$ を \code{f = \textbackslash x -> 2*x} と書き，一方 $\hxFunc{f}\hxVar{x}=\hxConstant{2}*\hxVar{x}$ を\code{f x = 2*x} と書く．}
 
 \separator
 
-関数に\keyword{スペシャルバージョン}がある場合はそれらを列挙する．例えば引数が $\hConstant{0}$ の場合は特別に戻り値が $\hConstant{1}$ であり，その他の場合は関数 $\hxFunc{f}$ と同じ振る舞いをする関数 $\hxFunc{g}$ を考える．このとき $\hxFunc{g}$ は
+関数に\keyword{スペシャルバージョン}がある場合はそれらを列挙する．例えば引数が $\hxConstant{0}$ の場合は特別に戻り値が $\hxConstant{1}$ であり，その他の場合は関数 $\hxFunc{f}$ と同じ振る舞いをする関数 $\hxFunc{g}$ を考える．このとき $\hxFunc{g}$ は
 \begin{equation}
   \left\{
   \begin{aligned}
-    \hxFunc{g}\hConstant{0}&=\hConstant{1}\\
-    \hxFunc{g}\hxVar{x}&=(\hSin\hxVar{x})/\hxVar{x}
+    \hxFunc{g}\hxConstant{0}&=\hxConstant{1}\\
+    \hxFunc{g}\hxVar{x}&=\hxConstant{2}*\hxVar{x}
   \end{aligned}
   \right.
 \end{equation}
@@ -402,19 +402,21 @@ lambda x: 1+x
 \footnote{\haskell では
 \begin{verbatim}
   g 0 = 1
-  g x = (sin x)/x
+  g x = 2*x
 \end{verbatim}
 と書く．}
+
+% ---
 
 関数のパタンマッチは，関数の内部に書いても良い．関数内部にパタンマッチを書きたい場合は
 \begin{equation}
   \hxFunc{g}\hxVar{x}=\hCaseSyntax{\hxVar{x}}
   \begin{cases}
-    \hConstant{0}&\hIfSo\hConstant{1}\\
-    \_&\hIfSo(\hSin\hxVar{x})/\hxVar{x}
+    \hxConstant{0}&\hIfSo\hxConstant{1}\\
+    \_&\hIfSo(\hxSin\hxVar{x})/\hxVar{x}
   \end{cases}
 \end{equation}
-のように書く．ここに $\_$ は任意の値の意味である．パタンマッチは上から順番にマッチングしていくため，この場合は $\hConstant{0}$ 以外を意味する．
+のように書く．ここに $\_$ は任意の値の意味である．パタンマッチは上から順番にマッチングしていくため，この場合は $\hxConstant{0}$ 以外を意味する．
 \footnote{\haskell では
 \begin{verbatim}
   g x = case x of 0 -> 1
@@ -426,12 +428,12 @@ lambda x: 1+x
 
 \separator
 
-関数定義にパタンマッチではなく\keyword{場合分け}が必要な場合は\keyword{ガード}を用いる．例えば引数の値が負の場合は $\hConstant{0}$ を，$\hConstant{0}$ の場合は $\hConstant{1}$ を，それ以外の場合は関数 $\hxFunc{f}$ と同じ振る舞いをする関数 $\hxFunc{h}$ は
+関数定義にパタンマッチではなく\keyword{場合分け}が必要な場合は\keyword{ガード}を用いる．例えば引数の値が負の場合は $\hxConstant{0}$ を，$\hxConstant{0}$ の場合は $\hxConstant{1}$ を，それ以外の場合は関数 $\hxFunc{f}$ と同じ振る舞いをする関数 $\hxFunc{h}$ は
 \begin{equation}
   \begin{aligned}
-    \hxFunc{h}\hxVar{x}&\hGuard{\hxVar{x}<\hConstant{0}}=\hConstant{0}\\
-    &\hGuard{\hxVar{x}\hIfEq\hConstant{0}}=\hConstant{1}\\
-    &\hGuard{\hOtherwise}=(\hSin\hxVar{x})/\hxVar{x}
+    \hxFunc{h}\hxVar{x}&\hGuard{\hxVar{x}<\hxConstant{0}}=\hxConstant{0}\\
+    &\hGuard{\hxVar{x}\hIfEq\hxConstant{0}}=\hxConstant{1}\\
+    &\hGuard{\hOtherwise}=(\hxSin\hxVar{x})/\hxVar{x}
   \end{aligned}
 \end{equation}
 という風に定義する．\footnote{\haskell では
@@ -459,20 +461,20 @@ def f(x):
 我々の条件式とは
 \begin{equation}
   \hxFunc{f}\hxVar{x}
-  =\hIfSyntax{\hxVar{x}\hIfEq\hConstant{0}}{\hConstant{1}}{{}(\hSin\hxVar{x})/\hxVar{x}}
+  =\hIfSyntax{\hxVar{x}\hIfEq\hxConstant{0}}{\hxConstant{1}}{{}(\hxSin\hxVar{x})/\hxVar{x}}
 \end{equation}
 のように $\hIf$ 節，$\hThen$ 節，及び $\hElse$ 節からなるものであって，$\hThen$ 節も $\hElse$ 節も省略できないものとする．$\hIf$ 節の式の値が真 $(\hTrue)$ であれば $\mThen$ 節の式が評価され，偽 $(\hFalse)$ であれば $\hElse$ 節の式が評価される．我々の条件式は\clang/\cxx における条件演算子（三項演算子）と等しく見えるが，\haskell の場合は遅延評価が行われ
-るため，結果として条件式の\keyword{短絡評価}が行われる点が異なる．\footnote{\haskell では $\hxFunc{f}\hxVar{x}=\hIfSyntax{\hxVar{x}\hIfEq\hConstant{0}}{\hConstant{1}}{{}(\hSin\hxVar{x})/\hxVar{x}}$ を \code{f x = if x==0 then 1 else (sin x)/x} と書く．}
+るため，結果として条件式の\keyword{短絡評価}が行われる点が異なる．\footnote{\haskell では $\hxFunc{f}\hxVar{x}=\hIfSyntax{\hxVar{x}\hIfEq\hxConstant{0}}{\hxConstant{1}}{{}(\hxSin\hxVar{x})/\hxVar{x}}$ を \code{f x = if x==0 then 1 else (sin x)/x} と書く．}
 
 $\hIf$ 節の中身は真理値を返す関数であれば良いので，関数 $\hxFunc{p}$ を
 \begin{equation}
   \hxFunc{p}
-  =(\hAnonParam\hIfEq\hConstant{0})
+  =(\hxAnonParam\hIfEq\hxConstant{0})
 \end{equation}
 としておき，
 \begin{equation}
   \hxFunc{f}\hxVar{x}
-  =\hIfSyntax{\hxFunc{p}\hxVar{x}}{\hConstant{1}}{{}(\hSin\hxVar{x})/\hxVar{x}}
+  =\hIfSyntax{\hxFunc{p}\hxVar{x}}{\hxConstant{1}}{{}(\hxSin\hxVar{x})/\hxVar{x}}
 \end{equation}
 と書く方法もしばしば用いられる．
 
@@ -492,29 +494,29 @@ $\hIf$ 節の中身は真理値を返す関数であれば良いので，関数 
 数式が長く続くとき，読みやすさのために局所変数を導入すると便利である．例えば
 \begin{equation}
   \hxVar{y}
-  =\hxFunc{f}(\hConstant{1}+\hxVar{x})
+  =\hxFunc{f}(\hxConstant{1}+\hxVar{x})
 \end{equation}
-という式のうち，先に $\hConstant{1}+\hxVar{x}$ の部分を計算して $\hxVar{x'}$ のように名前をつけておきたいこともあるであろう．そんなときは
+という式のうち，先に $\hxConstant{1}+\hxVar{x}$ の部分を計算して $\hxVar{x'}$ のように名前をつけておきたいこともあるであろう．そんなときは
 \begin{equation}
   \label{eq:letin}
   \hxVar{y}
-  =\hLetSyntax{\hxVar{x'}\hLetEq\hConstant{1}+\hxVar{x}}{\hxFunc{f}\hxVar{x'}}
+  =\hLetSyntax{\hxVar{x'}\hLetEq\hxConstant{1}+\hxVar{x}}{\hxFunc{f}\hxVar{x'}}
 \end{equation}
-と書くことにする．このようにして導入された $\hxVar{x'}$ を\keyword{局所変数}と呼ぶ．\footnote{\haskell では $\hxVar{y}=\hLetSyntax{\hxVar{x'}\hLetEq\hConstant{1}+\hxVar{x}}{\hxFunc{f}\hxVar{x'}}$ を \code{y = let x' = 1+x in f x'} と書く．}
+と書くことにする．このようにして導入された $\hxVar{x'}$ を\keyword{局所変数}と呼ぶ．\footnote{\haskell では $\hxVar{y}=\hLetSyntax{\hxVar{x'}\hLetEq\hxConstant{1}+\hxVar{x}}{\hxFunc{f}\hxVar{x'}}$ を \code{y = let x' = 1+x in f x'} と書く．}
 
 式\eqref{eq:letin}は局所変数を後ろに回して
 \begin{equation}
   \label{eq:where}
   \hxVar{y}
-  =\hWhereSyntax{\hxFunc{f}\hxVar{x'}}{\hxVar{x'}\hLetEq\hConstant{1}+\hxVar{x}}
+  =\hWhereSyntax{\hxFunc{f}\hxVar{x'}}{\hxVar{x'}\hLetEq\hxConstant{1}+\hxVar{x}}
 \end{equation}
-のように書いても良い．\footnote{\haskell では $\hxVar{y}=\hWhereSyntax{\hxFunc{f}\hxVar{x'}}{\hxVar{x'}\hLetEq\hConstant{1}+\hxVar{x}}$ は \code{y = f x' where x' = 1+x} と書く．}
+のように書いても良い．\footnote{\haskell では $\hxVar{y}=\hWhereSyntax{\hxFunc{f}\hxVar{x'}}{\hxVar{x'}\hLetEq\hxConstant{1}+\hxVar{x}}$ は \code{y = f x' where x' = 1+x} と書く．}
 
 式\eqref{eq:letin}や式\eqref{eq:where}はラムダ式を使った\keyword{糖衣構文}（シンタックスシュガー）であり，一般に
 \begin{align}
   \hLetSyntax{\hxVar{x'}\hLetEq\hxFunc{g}\hxVar{x}}{\hxFunc{f}\hxVar{x'}}
   &=\hWhereSyntax{\hxFunc{f}\hxVar{x'}}{\hxVar{x'}\hLetEq\hxFunc{g}\hxVar{x}}\\
-  &=(\hLambdaSyntax{\hxVar{x'}}{\hxFunc{f}\hxVar{x'}})(\hxFunc{g}\hxVar{x})
+  &=(\hxLambdaSyntax{\hxVar{x'}}{\hxFunc{f}\hxVar{x'}})(\hxFunc{g}\hxVar{x})
 \end{align}
 である．ただし $\hWhere$ 節は式ではないので，単独では使えないことに注意しよう．例えば $\hLetSyntax{\hxVar{x'}\hLetEq\hxFunc{g}\hxVar{x}}{\hxFunc{f}\hxVar{x'}}$ は値を持つ式であるが，$\hWhereSyntax{}{\hxVar{x'}\hLetEq\hxFunc{g}\hxVar{x}}$ は値を持たない．
 
@@ -522,8 +524,8 @@ $\hIf$ 節の中身は真理値を返す関数であれば良いので，関数 
 
 \begin{enumerate}
 \item 変数 $\hxVar{x}$ に関数 $\hxFunc{f}$ を適用することを $\hxFunc{f}\hxVar{x}$ と書く．\item 変数 $\hxVar{x},\hxVar{y}$ に関数 $\hxFunc{g}$ を適用することを $g\hxVar{x}\hxVar{y}$ と書く．関数適用は左結合するので $g\hxVar{x}\hxVar{y}=(\hxFunc{g}\hxVar{x})y$ である．この関数 $(\hxFunc{g}\hxVar{x})$ は部分適用された関数と呼ぶ．
-\item 関数はラムダ式で定義する．ラムダ式は $\hLambdaSyntax{x}{(\sin x)/x}$ のように表記する．\item ラムダ式は $f\hAnonParam$ のように無名パラメタ $\hAnonParam$ を用いて表記しても良い．\item 関数定義 $f=\hLambdaSyntax{x}{(\sin x)/x}$ は $\hxFunc{f}\hxVar{x}=(\sin x)/x$ と省略表記できる．
-\item 関数定義にはパタンマッチが使える．例えば $f'0=1;f'x=(\sin x)/x$ と定義できる．\item パタンマッチは関数本体に書いても良い．関数 $f'$ の例で言えば $f'=\hCaseSyntax{\hxVar{x}}0\hIfSo\hConstant{1};\_\hIfSo(\sin x)/x$ と 定義できる．\item 関数定義にはガードが使える．例えば $f''\hGuard{x<0}=0;f''\hGuard{x\hIfEq0}=1;f''\hGuard{\hOtherwise}=(\sin x)/x$ と定義できる．\item 条件分岐は $\mIfThenElseEXP{\hxVar{x}}{\hxVar{y}}{z}$ と書き，$\hxVar{x}\hIfEq\hTrue$ の時には $\hxVar{y}$ が，$\hxVar{x}\hIfEq\hFalse$ のときには $\hxVar{z}$ が式の値になる．\item 局所変数は $y=\mLetInEXP{x'}{\dotsb}{\hxFunc{f}\hxVar{x}'}$ または$y=\hxFunc{f}\hxVar{x}'\mWhereIsEXP{x'}{\dotsb}$ という書き方で導入できる．
+\item 関数はラムダ式で定義する．ラムダ式は $\hxLambdaSyntax{x}{(\sin x)/x}$ のように表記する．\item ラムダ式は $f\hxAnonParam$ のように無名パラメタ $\hxAnonParam$ を用いて表記しても良い．\item 関数定義 $f=\hxLambdaSyntax{x}{(\sin x)/x}$ は $\hxFunc{f}\hxVar{x}=(\sin x)/x$ と省略表記できる．
+\item 関数定義にはパタンマッチが使える．例えば $f'0=1;f'x=(\sin x)/x$ と定義できる．\item パタンマッチは関数本体に書いても良い．関数 $f'$ の例で言えば $f'=\hCaseSyntax{\hxVar{x}}0\hIfSo\hxConstant{1};\_\hIfSo(\sin x)/x$ と 定義できる．\item 関数定義にはガードが使える．例えば $f''\hGuard{x<0}=0;f''\hGuard{x\hIfEq0}=1;f''\hGuard{\hOtherwise}=(\sin x)/x$ と定義できる．\item 条件分岐は $\mIfThenElseEXP{\hxVar{x}}{\hxVar{y}}{z}$ と書き，$\hxVar{x}\hIfEq\hTrue$ の時には $\hxVar{y}$ が，$\hxVar{x}\hIfEq\hFalse$ のときには $\hxVar{z}$ が式の値になる．\item 局所変数は $y=\mLetInEXP{x'}{\dotsb}{\hxFunc{f}\hxVar{x}'}$ または$y=\hxFunc{f}\hxVar{x}'\mWhereIsEXP{x'}{\dotsb}$ という書き方で導入できる．
 \end{enumerate}
 
 % Irrefutable pattern
@@ -573,20 +575,20 @@ $(\hAnyBinOp)$ も
   (\hAnyBinOp)\hxVar{x}\hxVar{y}
   =((\hAnyBinOp)\hxVar{x})\hxVar{y}
 \end{equation}
-であるから，部分適用が可能である．式\eqref{eq:star-x-y}から第2引数 $\hxVar{y}$ を取り除いて $(\hAnyBinOp)\hxVar{x}$ という「餓えた」1引数関数を取り出せる．例えば関数 $((+)\hConstant{1})$ は引数に $\hConstant{1}$ を加える関数である．\footnote{\haskell では $((+)1)$ を \code{((+)1)} と書く．}
+であるから，部分適用が可能である．式\eqref{eq:star-x-y}から第2引数 $\hxVar{y}$ を取り除いて $(\hAnyBinOp)\hxVar{x}$ という「餓えた」1引数関数を取り出せる．例えば関数 $((+)\hxConstant{1})$ は引数に $\hxConstant{1}$ を加える関数である．\footnote{\haskell では $((+)1)$ を \code{((+)1)} と書く．}
 
 \separator
 
-前置される二項演算子 $(\hAnyBinOp)$ は，ラムダ式 $(\hAnonParam\hAnyBinOp\hAnonParam)$ の無名パラメタ $\hAnonParam$ を省略したものと考えても良い．また $(\hAnonParam\hAnyBinOp\hxVar{x})$ や $(\hxVar{x}\hAnyBinOp\hAnonParam)$ から無名パラメタを省略した $(\hAnyBinOp\hxVar{x})$ と $(\hxVar{x}\hAnyBinOp)$ も有効な表現であり，特別に\keyword{セクション}と呼ばれる．
+前置される二項演算子 $(\hAnyBinOp)$ は，ラムダ式 $(\hxAnonParam\hAnyBinOp\hxAnonParam)$ の無名パラメタ $\hxAnonParam$ を省略したものと考えても良い．また $(\hxAnonParam\hAnyBinOp\hxVar{x})$ や $(\hxVar{x}\hAnyBinOp\hxAnonParam)$ から無名パラメタを省略した $(\hAnyBinOp\hxVar{x})$ と $(\hxVar{x}\hAnyBinOp)$ も有効な表現であり，特別に\keyword{セクション}と呼ばれる．
 
 二項演算子 $\hAnyBinOp$ に対して $(\hAnyBinOp\hxVar{x})$ および $(\hxVar{x}\hAnyBinOp)$ はそれぞれ
 \begin{align}
   (\hAnyBinOp\hxVar{x})
-  &=(\hAnonParam\hAnyBinOp\hxVar{x})\\
+  &=(\hxAnonParam\hAnyBinOp\hxVar{x})\\
   (\hxVar{x}\hAnyBinOp)
-  &=(\hxVar{x}\hAnyBinOp\hAnonParam)=(\hAnyBinOp)\hxVar{x}
+  &=(\hxVar{x}\hAnyBinOp\hxAnonParam)=(\hAnyBinOp)\hxVar{x}
 \end{align}
-である．例えば $(\hConstant{1}+)$ は $((+)\hConstant{1})$ と等価であり，これは $(+\hConstant{1})$ とも等価である．ただし，マイナス演算子$(-)$ だけは例外で，$(-\hConstant{1})$ はマイナス $\hConstant{1}$ を表す．負の数をいつも括弧で包んでおくのは良いアイディアである．\footnote{\haskell では $(1+)$ を\code{(1+)} と書く．また \code{(-1)} はセクションではなくマイナス$1$を表す（\code{-1} というリテラルとみなされる）．ただし \code{(- 1)}のように空白を挟んでも同じくマイナス$1$とみなされる（\code{1} というリテラルに単項マイナス演算子が適用される）．}
+である．例えば $(\hxConstant{1}+)$ は $((+)\hxConstant{1})$ と等価であり，これは $(+\hxConstant{1})$ とも等価である．ただし，マイナス演算子$(-)$ だけは例外で，$(-\hxConstant{1})$ はマイナス $\hxConstant{1}$ を表す．負の数をいつも括弧で包んでおくのは良いアイディアである．\footnote{\haskell では $(1+)$ を\code{(1+)} と書く．また \code{(-1)} はセクションではなくマイナス$1$を表す（\code{-1} というリテラルとみなされる）．ただし \code{(- 1)}のように空白を挟んでも同じくマイナス$1$とみなされる（\code{1} というリテラルに単項マイナス演算子が適用される）．}
 
 なお，二項演算子の結合性，すなわち左結合か右結合かは，演算子によって異なる．また演算の優先順位を明示的に与えるために括弧が用いられる．
 
@@ -620,7 +622,7 @@ z = g(f(x))
 ここで，引数のことは忘れて，関数 $\hxFunc{f}$ と関数 $\hxFunc{g}$ を先に\keyword{合成}しておきたいとしよう．その合成を $\hxFunc{g}\hCompose\hxFunc{f}$ と書く．演算子 $\hCompose$ は\keyword{関数合成演算子}と呼ぶ．合成はラムダ式を使って
 \begin{equation}
   \hxFunc{g}\hCompose \hxFunc{f}
-  =\hxFunc{g}(\hxFunc{f}\hAnonParam)
+  =\hxFunc{g}(\hxFunc{f}\hxAnonParam)
 \end{equation}
 と定義できる．関数合成演算子 $\hCompose$ は関数適用よりも優先順位が高く， $\left(\hxFunc{g}\hCompose \hxFunc{f}\right)\hxVar{x}$ は単に $\hxFunc{g}\hCompose\hxFunc{f}\hxVar{x}$ と書いても良い．この記法は括弧の数を減らすためにしばしば用いられる．式\eqref{eq:ffx}は関数合成演算子を用いると
 \begin{equation}
@@ -639,8 +641,8 @@ z = g(f(x))
 であるが，これは
 \begin{align}
   (\hxFunc{h}\hCompose\hxFunc{g})\hCompose\hxFunc{f}
-    &=(\hxFunc{h}\hCompose\hxFunc{g})(\hxFunc{f}\hAnonParam)\\
-    &=\hxFunc{h}(\hxFunc{g}(\hxFunc{f}\hAnonParam))\\
+    &=(\hxFunc{h}\hCompose\hxFunc{g})(\hxFunc{f}\hxAnonParam)\\
+    &=\hxFunc{h}(\hxFunc{g}(\hxFunc{f}\hxAnonParam))\\
     &=\hxFunc{h}\hCompose(\hxFunc{g}\hCompose\hxFunc{f})
 \end{align}
 であるため，
@@ -662,7 +664,7 @@ z = g(f(x))
   \hxVar{z}
   =\hxFunc{g}\hApply\hxFunc{f}\hxVar{x}
 \end{equation}
-となる．演算子 $\hApply$ の優先順位は足し算よりも低いので $\hxFunc{f}(\hxVar{x}+\hConstant{1})$ は $\hxFunc{f}\hApply\hxVar{x}+\hConstant{1}$ と書くこともできる．演算子 $\hApply$ を閉じ括弧のいらない開き括弧と考えてもよい．\footnote{\haskell では $\hxFunc{g}\hApply\hxFunc{f}\hxVar{x}$ を \code{g \$ f x} と書く．}
+となる．演算子 $\hApply$ の優先順位は足し算よりも低いので $\hxFunc{f}(\hxVar{x}+\hxConstant{1})$ は $\hxFunc{f}\hApply\hxVar{x}+\hxConstant{1}$ と書くこともできる．演算子 $\hApply$ を閉じ括弧のいらない開き括弧と考えてもよい．\footnote{\haskell では $\hxFunc{g}\hApply\hxFunc{f}\hxVar{x}$ を \code{g \$ f x} と書く．}
 
 関数適用演算子のもう一つの興味深い使い方は，関数適用演算子の部分適用である．セクション $(\hApply\hxVar{x})$ を用いると
 \begin{equation}
@@ -678,16 +680,16 @@ z = g(f(x))
 他に例えば，引数として整数 $\hxVar{a}$ を取り，関数 $\hxFunc{f}\hxVar{x}=\hxVar{a}+\hxVar{x}$ を返すような関数 $\hxFunc{g}$ を
 \begin{equation}
   \hxFunc{g}\hxVar{a}
-  =\hxVar{a}+\hAnonParam
+  =\hxVar{a}+\hxAnonParam
 \end{equation}
 のように定義することも可能である．このとき，
 \begin{align}
   \hxFunc{f}
-  &=\hxFunc{g}\,\hConstant{100}\\
+  &=\hxFunc{g}\,\hxConstant{100}\\
   \hxVar{x}
-  &=\hxFunc{f}\,\hConstant{1}
+  &=\hxFunc{f}\,\hxConstant{1}
 \end{align}
-とすれば $\hxVar{x}=\hConstant{101}$ を得る．\footnote{\haskell では $ga=a+\hAnonParam$ を $ga=\hLambdaSyntax{x}{a+x}$ と展開しておいて \code{g a = \textbackslash x -> a+x} と書く．}
+とすれば $\hxVar{x}=\hxConstant{101}$ を得る．\footnote{\haskell では $ga=a+\hxAnonParam$ を $ga=\hxLambdaSyntax{x}{a+x}$ と展開しておいて \code{g a = \textbackslash x -> a+x} と書く．}
 
 高階関数は今後度々顔をだすことになる．第\ref{ch:list}章に登場するマップ演算子や畳込み演算子は高階関数の一種である．
 
@@ -716,9 +718,9 @@ z = g(f(x))
 のように定義した．これを\keyword{クヌースの矢印}と呼ぶ．クヌースの矢印は
 \begin{align}
   \hxVar{x}\uparrow\uparrow\hxVar{n}
-  &\hGuard{\hxVar{n}\le\hConstant{0}}=\hConstant{1}\\
+  &\hGuard{\hxVar{n}\le\hxConstant{0}}=\hxConstant{1}\\
   &\hGuard{\hOtherwise}
-  =\hxVar{x}\uparrow(\hxVar{x}\uparrow\uparrow(\hxVar{n}-\hConstant{1}))
+  =\hxVar{x}\uparrow(\hxVar{x}\uparrow\uparrow(\hxVar{n}-\hxConstant{1}))
 \end{align}
 と定義できる．\footnote{\haskell では
 \begin{verbatim}
@@ -738,7 +740,7 @@ z = g(f(x))
 \begin{enumerate}
 \item 関数と演算子は同じものである．
 \item 任意の二項演算子 $\hAnyBinOp$ について $\hxVar{x}\hAnyBinOp y$ と $(\hAnyBinOp)\hxVar{x}\hxVar{y}$ は全く同じ意味である．
-\item 任意の二項演算子 $\hAnyBinOp$ について $(\hAnyBinOp x)=\hAnonParam\hAnyBinOp x$ であり，$(x\hAnyBinOp)=x\hAnyBinOp\hAnonParam$ である．これらの記法をセクション記法と呼ぶ．
+\item 任意の二項演算子 $\hAnyBinOp$ について $(\hAnyBinOp x)=\hxAnonParam\hAnyBinOp x$ であり，$(x\hAnyBinOp)=x\hAnyBinOp\hxAnonParam$ である．これらの記法をセクション記法と呼ぶ．
 \item 関数 $\hxFunc{f}$ と関数 $\hxFunc{g}$ を合成した関数を $f\hCompose g$ と書く．
 \item 式 $f\hApply \hxFunc{g}\hxVar{x}$ は $f(\hxFunc{g}\hxVar{x})$ の意味である．
 \item 関数を引数に取ったり，関数を返す関数のことを高階関数と呼ぶ．
@@ -839,12 +841,12 @@ z = g(f(x))
 
 ラムダ式の場合は話はもっと単純で，形式的に
 \begin{equation}
-  \hLambdaSyntax{\hxVar{x}\hxVar{y}}{\hxVar{x}+\hxVar{y}}
-  =\hLambdaSyntax{\hxVar{x}}{\left(\hLambdaSyntax{\hxVar{y}}{\hxVar{x}+\hxVar{y}}\right)}
+  \hxLambdaSyntax{\hxVar{x}\hxVar{y}}{\hxVar{x}+\hxVar{y}}
+  =\hxLambdaSyntax{\hxVar{x}}{\left(\hxLambdaSyntax{\hxVar{y}}{\hxVar{x}+\hxVar{y}}\right)}
 \end{equation}
 のように展開すれば1引数にできる．矢印$\hLambdaArrow$は\keyword{右結合}である．そこでこのラムダ式は括弧を省略して
 \begin{equation}
-  \hLambdaSyntax{\hxVar{x}\hxVar{y}}{\hxVar{x}+\hxVar{y}}
+  \hxLambdaSyntax{\hxVar{x}\hxVar{y}}{\hxVar{x}+\hxVar{y}}
   =\hLambda\hxVar{x}\hLambdaArrow\hLambda\hxVar{y}\hLambdaArrow\hxVar{x}+\hxVar{y}
 \end{equation}
 とも書かれる．
@@ -980,7 +982,7 @@ $\hFromIntegral$ は
     \hxVar{x}
     &\hIsTypeOf\hInt\\
     \hxVar{x}
-    &=\hConstant{1}
+    &=\hxConstant{1}
   \end{aligned}
   \right.\\
     {}
@@ -1045,13 +1047,13 @@ $\hFromIntegral$ は
 
 \separator
 
-ところで，整数全体の集合 $\hSet{Z}$ には特別な元 $\hConstant{0}\hIsTypeOf\hSet{Z}$ がある．この元 $\hConstant{0}$ は $\hxVar{z}\hIsTypeOf\hSet{Z}$ のとき
+ところで，整数全体の集合 $\hSet{Z}$ には特別な元 $\hxConstant{0}\hIsTypeOf\hSet{Z}$ がある．この元 $\hxConstant{0}$ は $\hxVar{z}\hIsTypeOf\hSet{Z}$ のとき
 \begin{equation}
-  \hConstant{0}+\hxVar{z}
-  =\hxVar{z}+\hConstant{0}
+  \hxConstant{0}+\hxVar{z}
+  =\hxVar{z}+\hxConstant{0}
   =\hxVar{z}
 \end{equation}
-という性質を持つ．この $\hConstant{0}$ を演算 $+$ における\keyword{単位元}と呼ぶ．足し算のことを\keyword{加法}とも言うので $\hConstant{0}$ のことは\keyword{加法単位元}と呼ぶこともあるし，文字通り\keyword{零元}と呼ぶこともある．
+という性質を持つ．この $\hxConstant{0}$ を演算 $+$ における\keyword{単位元}と呼ぶ．足し算のことを\keyword{加法}とも言うので $\hxConstant{0}$ のことは\keyword{加法単位元}と呼ぶこともあるし，文字通り\keyword{零元}と呼ぶこともある．
 
 一般に，$\hxVar{a},\hZero\hIsTypeOf\hSet{A}$ として
 \begin{equation}
@@ -1062,11 +1064,11 @@ $\hFromIntegral$ は
 \end{equation}
 であるとき，元 $\hZero$ を単位元と呼ぶ．（厳密には $\hZero_\text{left}\hAnyBinOp\hxVar{a}=\hxVar{a}$ のとき $\hZero_\text{left}$ を\keyword{左単位元}と呼び，$\hxVar{a}\hAnyBinOp\hZero_\text{right}=\hxVar{a}$ のとき $\hZero_\text{right}$ を\keyword{右単位元}と呼ぶが，本書では両者を区別せず単位元と呼ぶ．）
 
-組み合わせ $(\hSet{A},\hAnyBinOp)$ が半群のとき，集合 $\hSet{A}$ の単位元 $\hZero$ との組み合わせ $(\hSet{A},\hAnyBinOp,\hZero)$ のことを\keyword{モノイド}または\keyword{単位的半群}と呼ぶ．例えば $(\hSet{Z},+,\hConstant{0})$ はモノイドであるし，$(\hSet{Z},*,\hConstant{1})$, $(\hSet{B},\hLogicalOr,\hFalse)$, $(\hSet{B},\hLogicalAnd,\hTrue)$ もモノイドである．
+組み合わせ $(\hSet{A},\hAnyBinOp)$ が半群のとき，集合 $\hSet{A}$ の単位元 $\hZero$ との組み合わせ $(\hSet{A},\hAnyBinOp,\hZero)$ のことを\keyword{モノイド}または\keyword{単位的半群}と呼ぶ．例えば $(\hSet{Z},+,\hxConstant{0})$ はモノイドであるし，$(\hSet{Z},*,\hxConstant{1})$, $(\hSet{B},\hLogicalOr,\hFalse)$, $(\hSet{B},\hLogicalAnd,\hTrue)$ もモノイドである．
 
 このように，数学者は数の性質を抽象化し，集合とその集合に対する演算というものの見方をよく行う．プログラミングの言葉で言えば，複数のクラスに共通のインタフェースを定義するようなものである．
 
-表\ref{tab:monoids}に型と対応するモノイドの単位元，演算子の一覧を示す．組み合わせ $(\hInt,+,\hConstant{0})$ はモノイドである．同様に $(\hInt,*,\hConstant{1})$, $(\hFloat,+,\hConstant{0})$, $(\hFloat,*,\hConstant{1})$, $(\hBool,\hLogicalOr,\hFalse)$, $(\hBool,\hLogicalAnd,\hTrue)$ もモノイドである．
+表\ref{tab:monoids}に型と対応するモノイドの単位元，演算子の一覧を示す．組み合わせ $(\hInt,+,\hxConstant{0})$ はモノイドである．同様に $(\hInt,*,\hxConstant{1})$, $(\hFloat,+,\hxConstant{0})$, $(\hFloat,*,\hxConstant{1})$, $(\hBool,\hLogicalOr,\hFalse)$, $(\hBool,\hLogicalAnd,\hTrue)$ もモノイドである．
 
 \begin{table}
 \caption{モノイド（単位的半群）}
@@ -1076,10 +1078,10 @@ $\hFromIntegral$ は
 種&型&演算子&単位元\\\hline\hline
 \multirow{6}{*}{$\hGenus$}&\multirow{2}{*}{$\hBool$}&$\vee$&$\hFalse$\\
 &&$\wedge$&$\hTrue$\\\cline{2-4}
-&\multirow{2}{*}{$\hInt$}&$+$&$\hConstant{0}$\\
-&&$*$ &$\hConstant{1}$\\\cline{2-4}
-&\multirow{2}{*}{$\hFloat$}&$+$&$\hConstant{0}$\\
-&&$*$&$\hConstant{1}$\\\hline
+&\multirow{2}{*}{$\hInt$}&$+$&$\hxConstant{0}$\\
+&&$*$ &$\hxConstant{1}$\\\cline{2-4}
+&\multirow{2}{*}{$\hFloat$}&$+$&$\hxConstant{0}$\\
+&&$*$&$\hxConstant{1}$\\\hline
 $\hGenus\hFunctionArrow\hGenus$&$\hTypeName{a}\hFunctionArrow\hTypeName{a}$ &$\hCompose$&$\hId$\\\hline
 \end{tabular}
 \end{center}
@@ -1089,9 +1091,9 @@ $\hGenus\hFunctionArrow\hGenus$&$\hTypeName{a}\hFunctionArrow\hTypeName{a}$ &$\h
 
 型 $\hTypeName{a}$ を任意の型としたとき，型 $\hTypeName{a}\hFunctionArrow\hTypeName{a}$ の関数もまたモノイドとなる．まず「何もしない」関数 $\hId$ を次のように定義する．
 \begin{equation}
-  \hId=\hAnonParam
+  \hId=\hxAnonParam
 \end{equation}
-これはもちろん $\hId=\hLambdaSyntax{\hxVar{x}}{\hxVar{x}}$ の意味で，引数をそのまま返す関数である．
+これはもちろん $\hId=\hxLambdaSyntax{\hxVar{x}}{\hxVar{x}}$ の意味で，引数をそのまま返す関数である．
 
 我々は関数を合成できる．そこで $\hTypeName{a}\hFunctionArrow\hTypeName{a}$ 型の関数 $\hxFunc{f}$ と関数 $\hId$ の合成を考えると
 \begin{equation}
@@ -1144,7 +1146,7 @@ xs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 \end{pythoncode}
 のように定義できる．
 
-我々も $\hConstant{0}$ から始まり $\hConstant{9}$ まで続く整数のリストを $[\hConstant{1},\hConstant{2},\hConstant{3},\hConstant{4},\hConstant{5},\hConstant{6},\hConstant{7},\hConstant{8},\hConstant{9}]$ と書くことにしよう．ただし，これでは冗長なので\keyword{等差数列}に限って簡略化した書き方を許す．例えば $\hConstant{0}$ から $\hConstant{9}$ までのリストは $[\hConstant{0},\hConstant{1}\dotsb\hConstant{9}]$ と書いても良い．\footnote{\haskell では \code{[0, 1..9]} と書く．ピリオドの数に注意しよう．}
+我々も $\hxConstant{0}$ から始まり $\hxConstant{9}$ まで続く整数のリストを $[\hxConstant{1},\hxConstant{2},\hxConstant{3},\hxConstant{4},\hxConstant{5},\hxConstant{6},\hxConstant{7},\hxConstant{8},\hxConstant{9}]$ と書くことにしよう．ただし，これでは冗長なので\keyword{等差数列}に限って簡略化した書き方を許す．例えば $\hxConstant{0}$ から $\hxConstant{9}$ までのリストは $[\hxConstant{0},\hxConstant{1}\dotsb\hxConstant{9}]$ と書いても良い．\footnote{\haskell では \code{[0, 1..9]} と書く．ピリオドの数に注意しよう．}
 
 リストの中身の一つ一つの値のことを\keyword{要素}と呼ぶ．要素のことは元と呼んでも良いが，本書では要素と呼ぶことにする．要素も元も英語のelementの和訳である．
 
@@ -1153,13 +1155,13 @@ xs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 今後，リストを指す変数は，リストであることを忘れないように変数名にバーをつけて
 \begin{equation}
   \hListVar{x}
-  =\hListWith{\hConstant{0},\hConstant{1}\dotsb\hConstant{9}}
+  =\hListWith{\hxConstant{0},\hxConstant{1}\dotsb\hxConstant{9}}
 \end{equation}
 のように書くことにしよう．なお，変数 $\hxVar{x}$ とリスト変数 $\hListVar{x}$ は異なる変数であるとする．\footnote{\haskell では \code{s} を変数名にくっつけて \code{xs = [0, 1..9]} のように書く習慣がある．}
 
 \separator
 
-\python ではリスト内包表記が使える．例えば $\hConstant{0}$ から $\hConstant{9}$ までの倍数のリストは次のように作った．
+\python ではリスト内包表記が使える．例えば $\hxConstant{0}$ から $\hxConstant{9}$ までの倍数のリストは次のように作った．
 \begin{pythoncode}
 \begin{verbatim}
 xs = [x*2 for x in range(0, 10)]
@@ -1170,24 +1172,24 @@ xs = [x*2 for x in range(0, 10)]
 我々も内包表記を
 \begin{equation}
   \hListVar{x}
-  =\hListWith{\hxVar{x}*\hConstant{2}\hListComprehension\hxVar{x}\hFrom\hListWith{\hConstant{0},\hConstant{1}\dotsb\hConstant{9}}}
+  =\hListWith{\hxVar{x}*\hxConstant{2}\hListComprehension\hxVar{x}\hFrom\hListWith{\hxConstant{0},\hxConstant{1}\dotsb\hxConstant{9}}}
 \end{equation}
-のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\hFrom$を用いた．\footnote{\haskell では $  \hListVar{x}=\hListWith{\hxVar{x}*\hConstant{2}\hListComprehension\hxVar{x}\hFrom\hListWith{\hConstant{0},\hConstant{1}\dotsb\hConstant{9}}}
+のように書こう．ここに右辺のリストから一つずつ要素を取り出して左辺に代入する演算子$\hFrom$を用いた．\footnote{\haskell では $  \hListVar{x}=\hListWith{\hxVar{x}*\hxConstant{2}\hListComprehension\hxVar{x}\hFrom\hListWith{\hxConstant{0},\hxConstant{1}\dotsb\hxConstant{9}}}
 $ を \code{xs = [x*2 | x<-[0,1..9]]} と書く．}
 
 内包表記の式は複数あっても良い．例えば
 \begin{equation}
   \hListVar{x}
-  =[\hxVar{x}+\hxVar{y}\mListComp\hxVar{x}\mFrom[\hConstant{0},\hConstant{1}\dotsb\hConstant{9}],\,\hxVar{y}\mFrom[\hConstant{0},\hConstant{1}\dotsb\hConstant{5}],\,\hxVar{x}+\hxVar{y}>\hConstant{3}]
+  =[\hxVar{x}+\hxVar{y}\mListComp\hxVar{x}\mFrom[\hxConstant{0},\hxConstant{1}\dotsb\hxConstant{9}],\,\hxVar{y}\mFrom[\hxConstant{0},\hxConstant{1}\dotsb\hxConstant{5}],\,\hxVar{x}+\hxVar{y}>\hxConstant{3}]
 \end{equation}
-は $\hConstant{0}\le\hxVar{x}\le\hConstant{9}$ かつ $\hConstant{0}\le\hxVar{y}\le\hConstant{5}$ の範囲で $\hxVar{x}+\hxVar{y}>\hConstant{3}$となる $\hxVar{x}$ 及び $\hxVar{y}$ から $\hxVar{x}+\hxVar{y}$ を並べたリストである．これは\python でいう
+は $\hxConstant{0}\le\hxVar{x}\le\hxConstant{9}$ かつ $\hxConstant{0}\le\hxVar{y}\le\hxConstant{5}$ の範囲で $\hxVar{x}+\hxVar{y}>\hxConstant{3}$となる $\hxVar{x}$ 及び $\hxVar{y}$ から $\hxVar{x}+\hxVar{y}$ を並べたリストである．これは\python でいう
 \begin{pythoncode}
 \begin{verbatim}
 xs = [x+y for x in range(0, 10) for y in range(0, 6) \
   if x+y > 3]
 \end{verbatim}
 \end{pythoncode}
-のことである．\footnote{\haskell では \code{xs = [x+y | x<-[\hConstant{0},\hConstant{1}..9], y<-[\hConstant{0},\hConstant{1}..5], x+y>\hConstant{3}]} と書く．}
+のことである．\footnote{\haskell では \code{xs = [x+y | x<-[0, 1..9], y<-[0, 1..5], x+y > 3]} と書く．}
 
 % ...もっと内包表記．
 
@@ -1247,7 +1249,7 @@ $\hListVar{y}$ を結合したリストは
 $\hListVar{n}$ は
 \begin{equation*}
   \hListVar{n}
-  =\hListWith{\hConstant{1},\hConstant{2}\dotsb}
+  =\hListWith{\hxConstant{1},\hxConstant{2}\dotsb}
 \end{equation*}
 と書くことができる．\footnote{\haskell では$\hListVar{n}=\hListWith{1,2\dots}$ を \code{ns = [1, 2..]} と書く．}
 
@@ -1256,9 +1258,9 @@ $\hListVar{n}$ は
 もし本当に無限リストを計算機の上で再現する必要があったなら，計算機には無限のメモリが必要になってしまう．しかし我々は，計算が必要になるまで評価を行わないので，無限リストの中から有限個の要素が取り出されるのを待つことができるのである．例えば関数 $\hTake\hxVar{m}\,\hListVar{n}$ はリスト $\hListVar{n}$ から最初の $\hxVar{m}$ 個の要素からなるリストを返す．いま
 \begin{equation*}
   \hListVar{x}
-  =\hTake\,\hConstant{5}\,\hListVar{n}
+  =\hTake\,\hxConstant{5}\,\hListVar{n}
 \end{equation*}
-とすると，リスト $\hListVar{x}$ は $\hListVar{x}=[\hConstant{1},\hConstant{2}\dotsb\hConstant{5}]$ という値を持つ．\footnote{\haskell では \code{xs = take 5 ns} と書く．}
+とすると，リスト $\hListVar{x}$ は $\hListVar{x}=[\hxConstant{1},\hxConstant{2}\dotsb\hxConstant{5}]$ という値を持つ．\footnote{\haskell では \code{xs = take 5 ns} と書く．}
 
 関数 $\hTake$ の型は
 \begin{equation}
@@ -1313,12 +1315,12 @@ s = ls.inject(0) { |x, y| x+y }
 リストの総和をとる演算子 $\sum$ は
 \begin{equation}
   \sum\hListVar{x}
-  =\hFold^+_{\hConstant{0}}\hListVar{x}
+  =\hFold^+_{\hxConstant{0}}\hListVar{x}
 \end{equation}
 とすれば得られる．この式は両辺の $\hListVar{x}$ を省略して
 \begin{equation}
   \sum
-  =\hFold^+_{\hConstant{0}}
+  =\hFold^+_{\hxConstant{0}}
 \end{equation}
 とも書く．
 % このように，ラムダ式を使わずに引数を省略してしまう書き方を\keyword{ポイントフリースタイル}と呼ぶ．ポイントフリースタイルは今後も頻出するので，是非慣れておいてもらいたい．\footnote{\haskell はポイントフリースタイルをサポートする．}
@@ -1326,7 +1328,7 @@ s = ls.inject(0) { |x, y| x+y }
 リストの要素のすべての積をとる演算子 $\prod$ は
 \begin{equation}
   \prod
-  =\hFold^*_{\hConstant{1}}
+  =\hFold^*_{\hxConstant{1}}
 \end{equation}
 とすれば得られる．
 
@@ -1353,8 +1355,8 @@ s = ls.inject(0) { |x, y| x+y }
 
 畳み込み演算子の面白い応用例を示そう．リストの結合演算子 $(\hAppend)$ を使うと
 \begin{equation}
-  \hFold_{\hEmptyList}^{\hAppend}[[\hConstant{0},\hConstant{1},\hConstant{2}],[\hConstant{3},\hConstant{4},\hConstant{5}]\dotsb]
-  =[\hConstant{0},\hConstant{1},\hConstant{2},\hConstant{3},\hConstant{4},\hConstant{5}\dotsb]
+  \hFold_{\hEmptyList}^{\hAppend}[[\hxConstant{0},\hxConstant{1},\hxConstant{2}],[\hxConstant{3},\hxConstant{4},\hxConstant{5}]\dotsb]
+  =[\hxConstant{0},\hxConstant{1},\hxConstant{2},\hxConstant{3},\hxConstant{4},\hxConstant{5}\dotsb]
 \end{equation}
 であるから，演算子 $\hFold_{\hEmptyList}^{\hAppend}$ はリストを平坦化する\keyword{平坦化演算子}である．平坦化演算子はconcat演算子とも呼ばれることもあるが，基本的な演算子であるため特別な記号をつけておこう．我々は
 \begin{equation}
@@ -1422,13 +1424,13 @@ ms = map(f, ls)
 具体例を見てみよう．先程の\python コードの例にあわせて
 \begin{align}
   \hxFunc{f}
-  &=\mLambda\hxVar{x}\mLambdaArrow\hConstant{100}+\hxVar{x}\\
+  &=\mLambda\hxVar{x}\mLambdaArrow\hxConstant{100}+\hxVar{x}\\
   \hListVar{x}
-  &=[\hConstant{1}\dotsb\hConstant{5}]\\
+  &=[\hxConstant{1}\dotsb\hxConstant{5}]\\
   \hListVar{y}
   &=\hxFunc{f}\hMap\hListVar{x}
 \end{align}
-とすると $\hListVar{y}$ の値は $[\hConstant{101},\hConstant{102},\hConstant{103},\hConstant{104},\hConstant{105}]$ となる．
+とすると $\hListVar{y}$ の値は $[\hxConstant{101},\hxConstant{102},\hxConstant{103},\hxConstant{104},\hxConstant{105}]$ となる．
 
 \section{余談：リストの実装}
 
@@ -1491,8 +1493,8 @@ cons演算子 $(:)$ は右結合する．すなわち $\hxVar{x}_0:\hxVar{x}_1:\
 
 \begin{enumerate}
 \item 配列はリストである．配列は $[\hxVar{x}_0,\hxVar{x}_1,\hxVar{x}_2]$ のように表記する．
-\item 等差数列の配列は $[\hConstant{0},\hConstant{1}\dotsb10]$ のように途中を $\dotsb$ で省略できる．
-\item 配列は無限長であってもよい．無限長配列は $[\hConstant{0},\hConstant{1}\dotsb]$ のように表記する．
+\item 等差数列の配列は $[\hxConstant{0},\hxConstant{1}\dotsb10]$ のように途中を $\dotsb$ で省略できる．
+\item 配列は無限長であってもよい．無限長配列は $[\hxConstant{0},\hxConstant{1}\dotsb]$ のように表記する．
 \item 1要素のリストは $[x]$ のように表記する．この括弧をリスト値コンス
   トラクタと呼ぶ．
 \item 空リストは ${\hEmptyList}$ と表す．
@@ -1521,14 +1523,14 @@ cons演算子 $(:)$ は右結合する．すなわち $\hxVar{x}_0:\hxVar{x}_1:\
 
 自然数 $\hxVar{n}$ の\keyword{階乗}は次のように定義される．
 \begin{equation}
-  \hxVar{n}!=\hxVar{n}(\hxVar{n}-\hConstant{1})(\hxVar{n}-\hConstant{2})\dots\hConstant{1}
+  \hxVar{n}!=\hxVar{n}(\hxVar{n}-\hxConstant{1})(\hxVar{n}-\hxConstant{2})\dots\hxConstant{1}
 \end{equation}
-数学者は $\hConstant{0}!=\hConstant{1}$ と定義するので，この式は
+数学者は $\hxConstant{0}!=\hxConstant{1}$ と定義するので，この式は
 \begin{equation}
   \left\{
     \begin{split}
-      \hConstant{0}!&=\hConstant{1}\\
-      \hxVar{n}!&=\hxVar{n}(\hxVar{n}-\hConstant{1})!
+      \hxConstant{0}!&=\hxConstant{1}\\
+      \hxVar{n}!&=\hxVar{n}(\hxVar{n}-\hxConstant{1})!
     \end{split}
   \right.
 \end{equation}
@@ -1539,10 +1541,10 @@ cons演算子 $(:)$ は右結合する．すなわち $\hxVar{x}_0:\hxVar{x}_1:\
   \hFact\hxVar{x}
   =\hCaseSyntax{\hxVar{x}}
   \begin{cases}
-    \hConstant{0}
-    &\hIfSo\hConstant{1}\\
+    \hxConstant{0}
+    &\hIfSo\hxConstant{1}\\
     \_
-    &\hIfSo\hxVar{x}*\hFact(\hxVar{x}-\hConstant{1})
+    &\hIfSo\hxVar{x}*\hFact(\hxVar{x}-\hxConstant{1})
   \end{cases}
 \end{equation}
 と定義できる．関数が自分自身を適用することを関数の\keyword{再帰適用}と呼ぶ．\footnote{\haskell では
@@ -1562,7 +1564,7 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
   \left\{
   \begin{aligned}
     \hSum{\hEmptyList}
-    &=\hConstant{0}\\
+    &=\hxConstant{0}\\
     \hSum(\hxVar{x}:\hListVar{x})
     &=\hxVar{x}+\hSum\hListVar{x}
   \end{aligned}
@@ -1583,10 +1585,10 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
 \begin{equation}
   \hFact\hxVar{x}
   =\hCaseSyntax{\hxVar{x}}\begin{cases}
-    \hConstant{0}
-    &\hIfSo\hConstant{1}\\
+    \hxConstant{0}
+    &\hIfSo\hxConstant{1}\\
     \_
-    &\hIfSo\hxVar{x}*\hFact(\hxVar{x}-\hConstant{1})
+    &\hIfSo\hxVar{x}*\hFact(\hxVar{x}-\hxConstant{1})
   \end{cases}
 \end{equation}
 のような形をしていた．末尾の関数をよりはっきりさせるために演算子 $(*)$ を前置にして
@@ -1594,15 +1596,15 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
   \hFact\hxVar{x}
   =\hCaseSyntax{\hxVar{x}}
   \begin{cases}
-    \hConstant{0}
-    &\hIfSo\hConstant{1}\\
+    \hxConstant{0}
+    &\hIfSo\hxConstant{1}\\
     \_
-    &\hIfSo(*)\hxVar{x}(\hFact(\hxVar{x}-\hConstant{1}))
+    &\hIfSo(*)\hxVar{x}(\hFact(\hxVar{x}-\hxConstant{1}))
   \end{cases}
 \end{equation}
 と書いてみよう．この定義の末尾の式は
 \begin{equation}
-  (*)\hxVar{x}(\hFact(\hxVar{x}-\hConstant{1}))
+  (*)\hxVar{x}(\hFact(\hxVar{x}-\hxConstant{1}))
 \end{equation}
 である．これだと末尾の関数は $\hFact$ ではなく演算子 $(*)$ なので，末尾に再帰適用を行ったことにはならない．
 
@@ -1611,10 +1613,10 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
   \hFactPrime\hxVar{a}\hxVar{x}
   =\hCaseSyntax{\hxVar{x}}
   \begin{cases}
-    \hConstant{0}
+    \hxConstant{0}
     &\hIfSo\hxVar{a}\\
     \_
-    &\hIfSo\hFactPrime(\hxVar{a}*\hxVar{x})(\hxVar{x}-\hConstant{1})
+    &\hIfSo\hFactPrime(\hxVar{a}*\hxVar{x})(\hxVar{x}-\hxConstant{1})
   \end{cases}
 \end{equation}
 こうすれば末尾の関数がもとの $\hFactPrime$ と一致する．\footnote{\haskell では
@@ -1626,42 +1628,42 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
 
 関数 $\hFact$ が，例えば
 \begin{align}
-  \hFact\hConstant{3}&=\hConstant{3}*\hFact\hConstant{2}\\
-  &=\hConstant{3}*\hConstant{2}*\hFact\hConstant{1}\\
-  &=\hConstant{3}*\hConstant{2}*\hConstant{1}*\hFact\hConstant{0}\\
-  &=\hConstant{3}*\hConstant{2}*\hConstant{1}*\hConstant{1}\\
-  &=\hConstant{6}
+  \hFact\hxConstant{3}&=\hxConstant{3}*\hFact\hxConstant{2}\\
+  &=\hxConstant{3}*\hxConstant{2}*\hFact\hxConstant{1}\\
+  &=\hxConstant{3}*\hxConstant{2}*\hxConstant{1}*\hFact\hxConstant{0}\\
+  &=\hxConstant{3}*\hxConstant{2}*\hxConstant{1}*\hxConstant{1}\\
+  &=\hxConstant{6}
 \end{align}
-と展開されるのに対し，同じく $\hFactPrime\hConstant{3}$ は
+と展開されるのに対し，同じく $\hFactPrime\hxConstant{3}$ は
 \begin{align}
-  \hFactPrime\hConstant{1}\;\hConstant{3}
-  &=\hFactPrime(\hConstant{1}*\hConstant{3})(\hConstant{3}-\hConstant{1})\\
-  &=\hFactPrime\hConstant{3}\;\hConstant{2}\\
-  &=\hFactPrime(\hConstant{3}*\hConstant{2})(\hConstant{2}-\hConstant{1})\\
-  &=\hFactPrime\hConstant{6}\;\hConstant{1}\\
-  &=\hFactPrime(\hConstant{6}*\hConstant{1})(\hConstant{1}-\hConstant{1})\\
-  &=\hFactPrime\hConstant{6}\;\hConstant{0}\\
-  &=\hConstant{6}
+  \hFactPrime\hxConstant{1}\;\hxConstant{3}
+  &=\hFactPrime(\hxConstant{1}*\hxConstant{3})(\hxConstant{3}-\hxConstant{1})\\
+  &=\hFactPrime\hxConstant{3}\;\hxConstant{2}\\
+  &=\hFactPrime(\hxConstant{3}*\hxConstant{2})(\hxConstant{2}-\hxConstant{1})\\
+  &=\hFactPrime\hxConstant{6}\;\hxConstant{1}\\
+  &=\hFactPrime(\hxConstant{6}*\hxConstant{1})(\hxConstant{1}-\hxConstant{1})\\
+  &=\hFactPrime\hxConstant{6}\;\hxConstant{0}\\
+  &=\hxConstant{6}
 \end{align}
 であるから，関数 $\hFact$ が「横に伸びる」のに対して，関数 $\hFactPrime$ は「横に伸びない」ことになる．計算式が「横に伸びない」性質は，計算機のリソースを無駄に消耗しないことが期待されるため，計算機科学者が好むのである．また末尾再帰は後述する「末尾再帰最適化」のチャンスをコンパイラに与える．
 
-% 関数 $\hFact$ と違い関数 $\hFactPrime$ は引数を2個とる．関数 $\hFactPrime$ を使って $\hxVar{x}$ の階乗を求める場合は $\hFactPrime\,\hConstant{1}\,x$ と第1引数に $\hConstant{1}$ を与えることにする．この第1引数 $\hxVar{a}$ はアキュムレータという．アキュムレータが演算の途中経過を引き渡していくイメージを描けば，末尾再帰の意味が理解できるだろう．
+% 関数 $\hFact$ と違い関数 $\hFactPrime$ は引数を2個とる．関数 $\hFactPrime$ を使って $\hxVar{x}$ の階乗を求める場合は $\hFactPrime\,\hxConstant{1}\,x$ と第1引数に $\hxConstant{1}$ を与えることにする．この第1引数 $\hxVar{a}$ はアキュムレータという．アキュムレータが演算の途中経過を引き渡していくイメージを描けば，末尾再帰の意味が理解できるだろう．
 
 \haskell を含む幾つかのプログラミング言語処理系は，コンパイル時に\keyword{末尾再帰最適化}を行う．末尾再帰最適化とは，一言で言うと再帰を計算機が扱いやすいループに置き換えることである．では最初から我々もループで関数を表現しておけば，と思われるかもしれないが，再帰以外の方法でループを表現する場合には必ず変数（ループカウンタ）への破壊的代入が必要になるため，我々は末尾再帰に慎ましくループを隠すのである．\footnote{\scheme は末尾再帰最適化を行うことが言語仕様によって決められている．}
 
 \section{遅延評価}
 
-\haskell は，意図しない限り遅延評価を行う．これは特に左畳み込み演算子 $(\hFold)$ を使う場合に問題となる．いま $\hListVar{x}=[\hxVar{x}_0,\hxVar{x}_1,\hxVar{x}_2,\hxVar{x}_3]$ とすると，左畳み込み演算 $\hFold^+_{\hConstant{0}}\hListVar{x}$ は
+\haskell は，意図しない限り遅延評価を行う．これは特に左畳み込み演算子 $(\hFold)$ を使う場合に問題となる．いま $\hListVar{x}=[\hxVar{x}_0,\hxVar{x}_1,\hxVar{x}_2,\hxVar{x}_3]$ とすると，左畳み込み演算 $\hFold^+_{\hxConstant{0}}\hListVar{x}$ は
 \begin{align}
-  \hFold^+_{\hConstant{0}}\hListVar{x}
-  &=\hFold^+_{\hConstant{0}}{}(\hxVar{x}_0:\hxVar{x}_1:\hxVar{x}_2:{\hEmptyList})\\
-  &=\hFold^+_{\hConstant{0}+\hxVar{x}_0}{}(\hxVar{x}_1:\hxVar{x}_2:\hxVar{x}_3:{\hEmptyList})\\
-  &=\hFold^+_{(\hConstant{0}+\hxVar{x}_0)+\hxVar{x}_1}{}(\hxVar{x}_2:\hxVar{x}_3:{\hEmptyList})\\
-  &=\hFold^+_{((\hConstant{0}+\hxVar{x}_0)+\hxVar{x}_1)+\hxVar{x}_2}{}(\hxVar{x}_3:{\hEmptyList})\\
-  &=\hFold^+_{(((\hConstant{0}+\hxVar{x}_0)+\hxVar{x}_1)+\hxVar{x}_2)+\hxVar{x}_3}{}{\hEmptyList}\\
-  &=(((\hConstant{0}+\hxVar{x}_0)+\hxVar{x}_1)+\hxVar{x}_2)+\hxVar{x}_3
+  \hFold^+_{\hxConstant{0}}\hListVar{x}
+  &=\hFold^+_{\hxConstant{0}}{}(\hxVar{x}_0:\hxVar{x}_1:\hxVar{x}_2:{\hEmptyList})\\
+  &=\hFold^+_{\hxConstant{0}+\hxVar{x}_0}{}(\hxVar{x}_1:\hxVar{x}_2:\hxVar{x}_3:{\hEmptyList})\\
+  &=\hFold^+_{(\hxConstant{0}+\hxVar{x}_0)+\hxVar{x}_1}{}(\hxVar{x}_2:\hxVar{x}_3:{\hEmptyList})\\
+  &=\hFold^+_{((\hxConstant{0}+\hxVar{x}_0)+\hxVar{x}_1)+\hxVar{x}_2}{}(\hxVar{x}_3:{\hEmptyList})\\
+  &=\hFold^+_{(((\hxConstant{0}+\hxVar{x}_0)+\hxVar{x}_1)+\hxVar{x}_2)+\hxVar{x}_3}{}{\hEmptyList}\\
+  &=(((\hxConstant{0}+\hxVar{x}_0)+\hxVar{x}_1)+\hxVar{x}_2)+\hxVar{x}_3
 \end{align}
-と展開される．遅延評価のために，\haskell 処理系は値ではなく式をメモリにストアしなければならないが，左畳み込み演算は大きなメモリを必要としがちである．もし例えば予め $\hConstant{0}+\hxVar{x}_0$ を先に計算しておくなど左畳み込みだけ先に評価しておけば，大いにメモリの節約になる．そのために\haskell は「遅延評価無し」の左畳み込み演算子を用意している．\footnote{「遅延評価無し」の左畳み込み演算子を\haskell では \code{foldl'} と書く．}
+と展開される．遅延評価のために，\haskell 処理系は値ではなく式をメモリにストアしなければならないが，左畳み込み演算は大きなメモリを必要としがちである．もし例えば予め $\hxConstant{0}+\hxVar{x}_0$ を先に計算しておくなど左畳み込みだけ先に評価しておけば，大いにメモリの節約になる．そのために\haskell は「遅延評価無し」の左畳み込み演算子を用意している．\footnote{「遅延評価無し」の左畳み込み演算子を\haskell では \code{foldl'} と書く．}
 
 % \haskell には言語拡張として，\keyword{アンボックス化タプル}という機能がある．
 %
@@ -1673,11 +1675,11 @@ cons演算子 $(:)$ は関数引数のパタンにも使える．これは，例
 ラムダ式をサポートするほとんどのプログラミング言語は，\keyword{レキシカルクロージャ}をサポートする．レキシカルクロージャとは，ラムダ式が定義された時点での，周囲の環境をラムダ式に埋め込む機構である．例えば
 \begin{align}
   \hxVar{a}
-  &=\hConstant{100}\\
+  &=\hxConstant{100}\\
   \hxFunc{f}
-  &=\hxVar{a}+\hAnonParam
+  &=\hxVar{a}+\hxAnonParam
 \end{align}
-というラムダ式があるとする．当然我々は関数 $\hxFunc{f}$ がいつも $\hxFunc{f}=\hConstant{100}+\hAnonParam$ であることを期待するし，\haskell においてはいつも保証される．\footnote{\haskell では
+というラムダ式があるとする．当然我々は関数 $\hxFunc{f}$ がいつも $\hxFunc{f}=\hxConstant{100}+\hxAnonParam$ であることを期待するし，\haskell においてはいつも保証される．\footnote{\haskell では
 \begin{verbatim}
   a = 100
   f = \x -> a+x
@@ -1734,10 +1736,10 @@ srt(\hxVar{x}:xs) = srt as ++ [x] ++ srt bs where
 
 \section{Possibly}
 
-計算の途中で，計算にまつわる状態を残りの計算に引き継ぎたくなる場合がある．例えば，整数 $\hxVar{x},\hxVar{y},\hxVar{z}$ があり $\hxVar{z}=\hxVar{y}/\hxVar{x}$ なる値を続く計算で利用したいとする．だが $\hxVar{x}\hIfEq\hConstant{0}$ のときには $\hxVar{z}$ は正しく計算されない．こんなときプログラマが取れる手段は
+計算の途中で，計算にまつわる状態を残りの計算に引き継ぎたくなる場合がある．例えば，整数 $\hxVar{x},\hxVar{y},\hxVar{z}$ があり $\hxVar{z}=\hxVar{y}/\hxVar{x}$ なる値を続く計算で利用したいとする．だが $\hxVar{x}\hIfEq\hxConstant{0}$ のときには $\hxVar{z}$ は正しく計算されない．こんなときプログラマが取れる手段は
 \begin{itemize}
 \item $\hxVar{z}=\hxVar{y}/\hxVar{x}$ を計算した時点で\keyword{ゼロ除算例外}を発生させ，プログラムの制御を他の場所へ移す（大域ジャンプを行う）
-\item グローバル変数にゼロ除算エラーが起こったことを記録しておき，$\hxVar{z}$ にはとりあえずの数値，例えば $\hConstant{0}$ を代入しておいて，計算を続行させる
+\item グローバル変数にゼロ除算エラーが起こったことを記録しておき，$\hxVar{z}$ にはとりあえずの数値，例えば $\hxConstant{0}$ を代入しておいて，計算を続行させる
 \item $\hxVar{z}$ にエラー状態を示す印を新たにつけておいて，計算を続行させる
 \end{itemize}
 といったところだろう．
@@ -1906,7 +1908,7 @@ maybe<b> map_over(fn f, maybe<a> w) {
 % （\cxxzerothree プログラマへの注意：関数 \code{f} の代わりに関数オブジェ
 %   クトを渡しても良い．）
 
-整数 $\hxVar{x}$ からMaybe値 $\hMaybeVar{u}=\hJustWith{\hxVar{x}}$ を作り，関数 $\hxFunc{g}\hxVar{x}=\hConstant{1}+\hxVar{x}$ をMaybe値 $\hMaybeVar{u}$ に食わせてMaybe値 $\hMaybeVar{v}$ ただし
+整数 $\hxVar{x}$ からMaybe値 $\hMaybeVar{u}=\hJustWith{\hxVar{x}}$ を作り，関数 $\hxFunc{g}\hxVar{x}=\hxConstant{1}+\hxVar{x}$ をMaybe値 $\hMaybeVar{u}$ に食わせてMaybe値 $\hMaybeVar{v}$ ただし
 \begin{equation}
   \hMaybeVar{v}
   =\hxFunc{g}\hFunctorMap\hMaybeVar{u}
@@ -2099,7 +2101,7 @@ Applicative functor laws.
 Monad law.
 
 \begin{equation}
-\hxFunc{\psi}\hMonadicCompose\hxFunc{\phi}=\hxFunc{\psi}{}\hMonadicBind(\hxFunc{\phi}\hMonadicBind\hAnonParam)
+\hxFunc{\psi}\hMonadicCompose\hxFunc{\phi}=\hxFunc{\psi}{}\hMonadicBind(\hxFunc{\phi}\hMonadicBind\hxAnonParam)
 \end{equation}
 
 \begin{align}
@@ -2151,7 +2153,7 @@ $$
 2引数の場合．
 \begin{align*}
 \hAnyContextVar{z}
-&=(\hLambdaSyntax{\hxVar{y'}}{(\hLambdaSyntax{\hxVar{x'}}{\hAction{\phi}\hxVar{x'}\hxVar{y'}})\hMonadicBind\hAnyContextVar{x}})\hMonadicBind\hAnyContextVar{y}\\
+&=(\hxLambdaSyntax{\hxVar{y'}}{(\hxLambdaSyntax{\hxVar{x'}}{\hAction{\phi}\hxVar{x'}\hxVar{y'}})\hMonadicBind\hAnyContextVar{x}})\hMonadicBind\hAnyContextVar{y}\\
 &=\hDoSyntax{\hxVar{x'}\hDoArrow\hAnyContextVar{x};\;
 \hxVar{y'}\hDoArrow\hAnyContextVar{y};\;
 \hAction{\phi}\hxVar{x'}\hxVar{y'}}
@@ -2458,7 +2460,7 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
 としておこう．これは
 \begin{equation}
   \hxFunc{g}\mMapFunc\hxFunc{f}
-  =\hLambdaSyntax{\hxVar{x}}{\hxFunc{g}(\hxFunc{f}\hxVar{x})}
+  =\hxLambdaSyntax{\hxVar{x}}{\hxFunc{g}(\hxFunc{f}\hxVar{x})}
 \end{equation}
 と書いても同じことである．これが \haskell における関数のマップ演算子の定義である．
 
@@ -2469,7 +2471,7 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
 ピュア演算子は $\mProjEXP{\hTypeName{a} }{(\mProjEXP{\mR}{\hTypeName{a} })}$ 型を持たなければならない．従って関数版のピュア演算子は変数から関数を作るとも考えられる．我々は関数版のピュア演算子として
 \begin{equation}
   \mConstWith{x}
-  =\hLambdaSyntax{\_}{\hxVar{x}}
+  =\hxLambdaSyntax{\_}{\hxVar{x}}
 \end{equation}
 を採用する．\footnote{\haskell では $\mConstWith{x}$ を \code{const x} と書く．}
 
@@ -2491,14 +2493,14 @@ $\mPureWith{x}$ は抽象的な概念であり，そのような変数は実在�
 
 我々は関数版アプリカティブマップ演算子として
 \begin{equation}
-\hxFunc{g}\hTypeName{a}ppMapFunc\hxFunc{f}=\hLambdaSyntax{\hxVar{x}}{\hxFunc{g}\hxVar{x}(\hxFunc{f}\hxVar{x})}
+\hxFunc{g}\hTypeName{a}ppMapFunc\hxFunc{f}=\hxLambdaSyntax{\hxVar{x}}{\hxFunc{g}\hxVar{x}(\hxFunc{f}\hxVar{x})}
 \end{equation}
 とする．これは，関数版のピュア演算子の定義と，一般マップ演算子と一般アプリカティブマップ演算子の関係 $\hxFunc{f}\mMap\mVarContainer{w}=\mPureWith{f}\hTypeName{a}ppMap\mVarContainer{w}$ から導かれる．すなわち
 \begin{align}
 \mConstWith{g}\hTypeName{a}ppMapFunc\hxFunc{f}
-&=\hLambdaSyntax{\hxVar{x}}{\mConstWith{g}\hxVar{x}(\hxFunc{f}\hxVar{x})}\\
-&=\hLambdaSyntax{\hxVar{x}}{(\hLambdaSyntax{\_}{\hxFunc{g}})\hxVar{x}(\hxFunc{f}\hxVar{x})}\\
-&=\hLambdaSyntax{\hxVar{x}}{\hxFunc{g}(\hxFunc{f}\hxVar{x})}\\
+&=\hxLambdaSyntax{\hxVar{x}}{\mConstWith{g}\hxVar{x}(\hxFunc{f}\hxVar{x})}\\
+&=\hxLambdaSyntax{\hxVar{x}}{(\hxLambdaSyntax{\_}{\hxFunc{g}})\hxVar{x}(\hxFunc{f}\hxVar{x})}\\
+&=\hxLambdaSyntax{\hxVar{x}}{\hxFunc{g}(\hxFunc{f}\hxVar{x})}\\
 &=\hxFunc{g}\hCompose\hxFunc{f}
 \end{align}
 であるからである．
@@ -2665,16 +2667,16 @@ $\hFunctor$ 型クラスは一般マップ演算子 $(\mMap)$ を持っていた
 
 \TK{CHECK}
 
-式\eqref{eq:def-of-i}から $ix=\mPureWith{\hxFunc{f}\hxVar{x}}$ すなわち $i=\mPureWith{f\hAnonParam}$ の関係を抜き出すと式\eqref{eq:i-love-u}は
+式\eqref{eq:def-of-i}から $ix=\mPureWith{\hxFunc{f}\hxVar{x}}$ すなわち $i=\mPureWith{f\hxAnonParam}$ の関係を抜き出すと式\eqref{eq:i-love-u}は
 \begin{equation}
-\mVarContainer{a}=\mPureWith{f\hAnonParam}\hTypeName{b}ind\mVarContainer{u}
+\mVarContainer{a}=\mPureWith{f\hxAnonParam}\hTypeName{b}ind\mVarContainer{u}
 \end{equation}
 となる．いま $y=\hxFunc{f}\hxVar{x}$ であったから $\mVarContainer{a}=\mVarContainer{v}$ であり，最終的に
 \begin{equation}
 \mVarContainer{v}
 =\hxFunc{f}\mMap\mVarContainer{u}
 =\mPureWith{f}\hTypeName{a}ppMap\mVarContainer{u}
-=\mPureWith{f\hAnonParam}\hTypeName{b}ind\mVarContainer{u}
+=\mPureWith{f\hxAnonParam}\hTypeName{b}ind\mVarContainer{u}
 \end{equation}
 を得る．これが一般バインド演算子と一般アプリカティブマップ演算子，一般マップ演算子の関係である．
 
@@ -2727,7 +2729,7 @@ Maybeモナド
 \TK{To be written.}
 \begin{equation}
   f\hTypeName{b}indComp g
-  =\hxFunc{f}\hTypeName{b}ind(g\hAnonParam)
+  =\hxFunc{f}\hTypeName{b}ind(g\hxAnonParam)
 \end{equation}
 
 
@@ -2738,9 +2740,9 @@ Maybeモナド
 関手の一般マップ演算子 $(\mMap)$ は次の規則に従う．
 \begin{enumerate}
 \item 単位元の存在: $\mId\mMap u=u$
-\item 合成則: $(f\hCompose g)\mMap=(\hxFunc{f}\mMap)\hCompose{}(g\mMap)$%=\hxFunc{f}\mMap{}(g\mMap\hAnonParam)$
+\item 合成則: $(f\hCompose g)\mMap=(\hxFunc{f}\mMap)\hCompose{}(g\mMap)$%=\hxFunc{f}\mMap{}(g\mMap\hxAnonParam)$
 \end{enumerate}
-ただし関数 $\mId$ は $\mId x=x$ で定義される．もちろん $\mId=\hAnonParam$ と定義しても同じである．
+ただし関数 $\mId$ は $\mId x=x$ で定義される．もちろん $\mId=\hxAnonParam$ と定義しても同じである．
 
 % https://en.wikibooks.org/wiki/Haskell/The_Functor_class#The_functor_laws
 
@@ -2749,7 +2751,7 @@ Maybeモナド
 合成則のほうは $\hListVar{x}=[x]$ を例に考えるとわかりやすく，
 \begin{align}
   ((\hxFunc{f}\mMap)\hCompose(g\mMap))\hListVar{x}
-  &=(\hxFunc{f}\mMap{}(g\mMap\hAnonParam))\hListVar{x}\\
+  &=(\hxFunc{f}\mMap{}(g\mMap\hxAnonParam))\hListVar{x}\\
   &=\hxFunc{f}\mMap{}(g\mMap\hListVar{x})\\
   &=\hxFunc{f}\mMap{}[\hxFunc{g}\hxVar{x}]\\
   &=[(f\hCompose g)x]\\
@@ -2771,7 +2773,7 @@ Maybeモナド
 % \item $\hxFunc{f}\mMap=\mPureWith{f}\hTypeName{a}ppMap$ --- （上述の四つの法則から導かれる）
 \end{enumerate}
 % https://en.wikibooks.org/wiki/Haskell/Applicative_functors#Applicative_functor_laws
-ここでも $\mId=\hAnonParam$ である．
+ここでも $\mId=\hxAnonParam$ である．
 
 アプリカティブマップ演算子の準同型則は $w=\mPureWith{\hxFunc{f}\hxVar{x}}$ とした時に，
 \begin{equation}
@@ -2805,7 +2807,7 @@ f&\Big\downarrow&&\Big\downarrow&\mPureWith{f}\hTypeName{a}ppMap\\
 \begin{enumerate}
 \item 右単位元の存在: $i\hTypeName{b}ind{}\mPureWith{x}=ix$
 \item 左単位元の存在: $\mPureWith{\mId}\hTypeName{b}ind u=u$
-\item 結合則: $i\hTypeName{b}ind{}(j\hTypeName{b}ind v)=(i\hTypeName{b}ind{}(j\hAnonParam))\hTypeName{b}ind v$
+\item 結合則: $i\hTypeName{b}ind{}(j\hTypeName{b}ind v)=(i\hTypeName{b}ind{}(j\hxAnonParam))\hTypeName{b}ind v$
   % または $i\hTypeName{b}ind{}(j\hTypeName{b}ind v)=(i\hTypeName{b}indComp j)\hTypeName{b}ind v$
 \end{enumerate}
 % https://wiki.haskell.org/Monad_laws
@@ -2823,27 +2825,27 @@ i\hTypeName{b}ind(j\hTypeName{b}ind v)&=i\hTypeName{b}ind\mPureWith{gy}\\
 &=\mPureWith{f(gy)}\\
 &=\mPureWith{f\hCompose gy}
 \end{align}
-である一方，$k=i\hTypeName{b}ind{}(j\hAnonParam)$ とすると
+である一方，$k=i\hTypeName{b}ind{}(j\hxAnonParam)$ とすると
 \begin{align}
-kz&=(i\hTypeName{b}ind(j\hAnonParam))z\\
+kz&=(i\hTypeName{b}ind(j\hxAnonParam))z\\
 &=i\hTypeName{b}ind(jz)\\
 &=\mPureWith{f(gz)}\\
 &=\mPureWith{f\hCompose gz}
 \end{align}
 であるから
 \begin{equation}
-k=i\hTypeName{b}ind{}(j\hAnonParam)=\mPureWith{f\hCompose g\hAnonParam}
+k=i\hTypeName{b}ind{}(j\hxAnonParam)=\mPureWith{f\hCompose g\hxAnonParam}
 \end{equation}
 を得る．ここで
 \begin{align}
-\mPureWith{f\hCompose g\hAnonParam}\hTypeName{b}ind v
+\mPureWith{f\hCompose g\hxAnonParam}\hTypeName{b}ind v
 &=(f\hCompose g)\mMap v\\
 &=\mPureWith{f\hCompose gy}
 \end{align}
 であるから，結合則
 \begin{align}
   i\hTypeName{b}ind{}(j\hTypeName{b}ind v)
-  &=(i\hTypeName{b}ind{}(j\hAnonParam))\hTypeName{b}ind v\\
+  &=(i\hTypeName{b}ind{}(j\hxAnonParam))\hTypeName{b}ind v\\
   &=(i\hTypeName{b}indComp j)\hTypeName{b}ind v
 \end{align}
 を得ることになる．
@@ -2895,7 +2897,7 @@ k=i\hTypeName{b}ind{}(j\hAnonParam)=\mPureWith{f\hCompose g\hAnonParam}
   &
   &
   &
-  &$\hConstant{0}$
+  &$\hxConstant{0}$
   &$+$\\
 \hline
 整数
@@ -2903,7 +2905,7 @@ k=i\hTypeName{b}ind{}(j\hAnonParam)=\mPureWith{f\hCompose g\hAnonParam}
   &
   &
   &
-  &$\hConstant{1}$
+  &$\hxConstant{1}$
   &$*$\\
 \hline\hline
 一般コンテナ
@@ -2935,7 +2937,7 @@ Maybe
   &$\mConstWith{x}$
   &$\hTypeName{a}ppMapFunc$
   &$\mMapFunc$
-  &$\hAnonParam$
+  &$\hxAnonParam$
   &$\hCompose$\\
 \hline
 % \hline
@@ -2954,8 +2956,8 @@ Maybe
 
 関数はアプリカティブ関手であった．関数のピュア演算子とアプリカティブマップ演算子はそれぞれ
 \begin{align}
-\mConstWith{x}&=\hLambdaSyntax{\_}{\hxVar{x}}\\
-\hxFunc{g}\hTypeName{a}ppMapFunc\hxFunc{f}&=\hLambdaSyntax{\hxVar{x}}{\hxFunc{g}\hxVar{x}(\hxFunc{f}\hxVar{x})}
+\mConstWith{x}&=\hxLambdaSyntax{\_}{\hxVar{x}}\\
+\hxFunc{g}\hTypeName{a}ppMapFunc\hxFunc{f}&=\hxLambdaSyntax{\hxVar{x}}{\hxFunc{g}\hxVar{x}(\hxFunc{f}\hxVar{x})}
 \end{align}
 であった．
 % 関数ピュア演算子は，任意の引数 $\hxVar{x}$ を関数に置き換える．ただし，その関数は引数を捨てて元の変数 $\hxVar{x}$ を返す．例えば
@@ -2966,15 +2968,15 @@ Maybe
 
 関数のバインド演算子 $\hTypeName{b}indFunc$ を考えておこう．関数のバインド演算子は
 \begin{equation}
-g\hTypeName{b}indFunc f=\hLambdaSyntax{x}{g(\hxFunc{f}\hxVar{x})x}
+g\hTypeName{b}indFunc f=\hxLambdaSyntax{x}{g(\hxFunc{f}\hxVar{x})x}
 \end{equation}
 と定義する．ピュア演算子とバインド演算子から，関数のマップ演算子を
 \begin{align}
-\mConstWith{g\hAnonParam}\hTypeName{b}indFunc f
-&=\hLambdaSyntax{x}{\mConstWith{g\hAnonParam}(\hxFunc{f}\hxVar{x})x}\\
-&=\hLambdaSyntax{x}{\mConstWith{g(\hxFunc{f}\hxVar{x})}x}\\
-&=\hLambdaSyntax{x}{(\hLambdaSyntax{\_}{g(\hxFunc{f}\hxVar{x})})x}\\
-&=\hLambdaSyntax{x}{g(\hxFunc{f}\hxVar{x})}\\
+\mConstWith{g\hxAnonParam}\hTypeName{b}indFunc f
+&=\hxLambdaSyntax{x}{\mConstWith{g\hxAnonParam}(\hxFunc{f}\hxVar{x})x}\\
+&=\hxLambdaSyntax{x}{\mConstWith{g(\hxFunc{f}\hxVar{x})}x}\\
+&=\hxLambdaSyntax{x}{(\hxLambdaSyntax{\_}{g(\hxFunc{f}\hxVar{x})})x}\\
+&=\hxLambdaSyntax{x}{g(\hxFunc{f}\hxVar{x})}\\
 &=\hxFunc{g}\hCompose f\\
 &=\hxFunc{g}\mMapFunc f
 \end{align}
@@ -2982,10 +2984,10 @@ g\hTypeName{b}indFunc f=\hLambdaSyntax{x}{g(\hxFunc{f}\hxVar{x})x}
 
 まとめると
 \begin{align}
-\mConstWith{x}&=\hLambdaSyntax{\_}{x}\\
-\hxFunc{g}\mMapFunc\hxFunc{f}&=\hLambdaSyntax{x}{g(\hxFunc{f}\hxVar{x})}=\hxFunc{g}\hCompose f\\
-\hxFunc{g}\hTypeName{a}ppMapFunc\hxFunc{f}&=\hLambdaSyntax{x}{\hxFunc{g}\hxVar{x}(\hxFunc{f}\hxVar{x})}\\
-g\hTypeName{b}indFunc f&=\hLambdaSyntax{x}{g(\hxFunc{f}\hxVar{x})x}
+\mConstWith{x}&=\hxLambdaSyntax{\_}{x}\\
+\hxFunc{g}\mMapFunc\hxFunc{f}&=\hxLambdaSyntax{x}{g(\hxFunc{f}\hxVar{x})}=\hxFunc{g}\hCompose f\\
+\hxFunc{g}\hTypeName{a}ppMapFunc\hxFunc{f}&=\hxLambdaSyntax{x}{\hxFunc{g}\hxVar{x}(\hxFunc{f}\hxVar{x})}\\
+g\hTypeName{b}indFunc f&=\hxLambdaSyntax{x}{g(\hxFunc{f}\hxVar{x})x}
 \end{align}
 である．
 
@@ -2995,7 +2997,7 @@ g\hTypeName{b}indFunc f&=\hLambdaSyntax{x}{g(\hxFunc{f}\hxVar{x})x}
 
 \separator
 
-関数はモノイドとしての性質も持つ．関数 $\mId=\hAnonParam$ とすると，任意の関数 $\hxFunc{f}$ に対して
+関数はモノイドとしての性質も持つ．関数 $\mId=\hxAnonParam$ とすると，任意の関数 $\hxFunc{f}$ に対して
 \begin{equation}
 \mId\hCompose f=\hxFunc{f}\hCompose\mId=\hxFunc{f}
 \end{equation}
@@ -3130,7 +3132,7 @@ do記法には $\mDoEq$ の他に，我々の $\mLetKeyword$ とよく似た $\m
 \begin{gather}
 \mDo{\alpha x}=\alpha x\\
 \mDo{y\mDoEq\alpha x\mDoNext\beta y}=\beta\hTypeName{b}ind\alpha x\\
-\mDo{\alpha x\mDoNext\beta y}=(\hLambdaSyntax{\_}{\beta y})\hTypeName{b}ind \alpha x\label{eq:do-alpha-beta}\\
+\mDo{\alpha x\mDoNext\beta y}=(\hxLambdaSyntax{\_}{\beta y})\hTypeName{b}ind \alpha x\label{eq:do-alpha-beta}\\
 \mDo{\mDoLet{y}{\hxFunc{f}\hxVar{x}}\mDoNext\alpha y}=\alpha y\mWhereIsEXP{y}{\hxFunc{f}\hxVar{x}}\\
 \mDo{y\mDoEq\alpha x\mDoNext\mDoLet{z}{fy}\mDoNext\beta z}
 =\beta\hTypeName{b}ind{}(\hxFunc{f}\mMap\alpha x)
@@ -3144,12 +3146,12 @@ do記法には $\mDoEq$ の他に，我々の $\mLetKeyword$ とよく似た $\m
 最後にdo記法中に変数を2回以上使いまわす例を示す．
 \begin{multline}
 \mDo{y\mDoEq\alpha x\mDoNext y'\mDoEq\alpha'x'\mDoNext\mDoLet{z}{fyy'}\mDoNext\beta z\mDoNext\mDoLet{z'}{f'yy'}\mDoNext\beta'z'}\\
-=(\mLambda yy'\mLambdaArrow{}((\hLambdaSyntax{\_}{\mLetInEXP{z}{fyy'}{\beta z}})\\
+=(\mLambda yy'\mLambdaArrow{}((\hxLambdaSyntax{\_}{\mLetInEXP{z}{fyy'}{\beta z}})\\
 \hTypeName{b}ind{}(\mLetInEXP{z'}{f'yy'}{\beta'z'}))) (\alpha x)(\alpha'x')
 \end{multline}
 この例では変数 $y,y'$ が2回使われている．
 
-% なお $\mFuncWith{f}=\hLambdaSyntax{\_}{f}$ の関係を用いると式\eqref{eq:do-alpha-beta}はより簡潔に
+% なお $\mFuncWith{f}=\hxLambdaSyntax{\_}{f}$ の関係を用いると式\eqref{eq:do-alpha-beta}はより簡潔に
 % \begin{equation}
 % \mDo{\alpha x\mDoNext\beta y}=\mFuncWith{\beta y}\hTypeName{b}ind\alpha x
 % \end{equation}
@@ -4084,7 +4086,7 @@ $\mCompCat=\hCompose$ になるので，圏は関数を何やら拡張したも�
   =\mX\hFunctionArrow[\mY]
 \end{equation}
 と考えてみよう．つまり
-$\mTypeConstructor{c}=((\hFunctionArrow)\hAnonParam[\hAnonParam])$
+$\mTypeConstructor{c}=((\hFunctionArrow)\hxAnonParam[\hxAnonParam])$
 と考えるわけである．
 
 そうすると，まず $\mIdCat$ は $\hTypeName{a}\hFunctionArrow\hListConstruct{\hTypeName{a}}$ 型でなければならないか
@@ -4122,7 +4124,7 @@ $\mCatTypeClass$ 型クラスのインスタンスにできる．ただし，式
   \mWhere\left\{
   \begin{aligned}
     \mIdCat
-    &=\mValueWith{NonDet}{\hLambdaSyntax{x}{[x]}}\\
+    &=\mValueWith{NonDet}{\hxLambdaSyntax{x}{[x]}}\\
     \mValueWith{NonDet}{f}\mCompCat\mValueWith{NonDet}{g}
     &=\mValueWith{NonDet}{\mJoinList\hCompose{}(\hxFunc{f}\hMap)\hCompose g}
   \end{aligned}
@@ -4501,7 +4503,7 @@ $(\hTypeName{a}rrowArrow{\mTypeConstructor{a}})\hTypeName{b}\mC$ の中置記法
   \hTypeName{a}rrow{\hxFunc{f}}\mCompCat\hTypeName{a}rrow{\hxFunc{g}}
   =
   \begin{bmatrix}
-    f_{\hConstant{1},\hConstant{1}}\hCompose f_{2,1}\\
+    f_{\hxConstant{1},\hxConstant{1}}\hCompose f_{2,1}\\
     f_{1,2}\hCompose f_{2,2}
   \end{bmatrix}
 \end{equation}
@@ -4970,12 +4972,12 @@ $\Vec{\hxFunc{f}}***\Vec{\hxFunc{g}}$ も関数ではない．
 
 \begin{equation}
   \mLambda x\mLambdaArrow((\mLambda y\mLambdaArrow\hJustWith{y*2})\hTypeName{b}ind{}\hJustWith{x*3}))
-  =(\hJustWith{\hAnonParam}\hCompose(*2))\hTypeName{b}indComp(\hJustWith{\hAnonParam}\hCompose(*3))
+  =(\hJustWith{\hxAnonParam}\hCompose(*2))\hTypeName{b}indComp(\hJustWith{\hxAnonParam}\hCompose(*3))
 \end{equation}
 
 \begin{multline}
   \mLambda x\mLambdaArrow((\mLambda y\mLambdaArrow\hJustWith{y*x})\hTypeName{b}ind{}\hJustWith{x*2})\\
-  =(\hJustWith{\hAnonParam}\hCompose\hUncurry(*))\hTypeName{b}indComp(\hJustWith{\hAnonParam}\hCompose{}((*2),\mId))
+  =(\hJustWith{\hxAnonParam}\hCompose\hUncurry(*))\hTypeName{b}indComp(\hJustWith{\hxAnonParam}\hCompose{}((*2),\mId))
 \end{multline}
 
 ---
@@ -5073,16 +5075,16 @@ main関数（\haskell では $\mMain$ アクション）の書き方だろう．
 型は $\mIOIntType$ である．
 
 UNIXおよびUNIXに影響を受けたOSでは，プログラムは終了時に整数値をOSへ返
-すことになっている．プログラムが $\hConstant{0}$ を返せば，そのプログラムは正常終
+すことになっている．プログラムが $\hxConstant{0}$ を返せば，そのプログラムは正常終
 了したとみなされる．例えばUNIXシェル（\filename{sh} や \filename{csh}
   のこと）で，
 \begin{verbatim}
 $ program1 && program2
 \end{verbatim}
-としたとき，\filename{program1} の戻り値が $\hConstant{0}$ のときに限って
+としたとき，\filename{program1} の戻り値が $\hxConstant{0}$ のときに限って
 \filename{program2} が実行される．
 
-何もせずにOSに $\hConstant{0}$ を返すプログラムすなわち
+何もせずにOSに $\hxConstant{0}$ を返すプログラムすなわち
 \begin{equation}
 \left\{
 \begin{aligned}
@@ -5206,7 +5208,7 @@ $ ./sample
     \right.
 \end{align}
 である．この式は $\mPrint(\hxFunc{f}\hxVar{x})$ がいかなる値を返そうとも，アクション
-$\mMain$ の値は $\hConstant{0}$ になることを示している．
+$\mMain$ の値は $\hxConstant{0}$ になることを示している．
 
 \section{余談：インタープリタ*}
 
@@ -5661,7 +5663,7 @@ $y=\hxFunc{f}\hxVar{x}$ ただし
 &\hGuard{\hOtherwise}=(\sin x)/x
 \end{aligned}
 \end{equation}
-とする．ここで $\hConstant{0}\le x\le\pi$ の範囲で $\hxVar{y}$ の値を求めたいとしよう．$\hxVar{x}$
+とする．ここで $\hxConstant{0}\le x\le\pi$ の範囲で $\hxVar{y}$ の値を求めたいとしよう．$\hxVar{x}$
 の範囲を $n+1$ 分割するとする．
 
 まず $n$ に具体的な型と値を与えておこう．これは次のようにする．
@@ -5803,11 +5805,11 @@ main = print ys >> pure 0
 
 \begin{equation}
 \begin{aligned}
-yt&=\sum(\hLambdaSyntax{x}{\mFst x*\mSnd x})\hMap\hListVar{h}\\
+yt&=\sum(\hxLambdaSyntax{x}{\mFst x*\mSnd x})\hMap\hListVar{h}\\
 &\quad\mWhere\\
 &\qquad\hListVar{h}\mLetEq{}\mZipFunc\hListVar{f}\hListVar{g}\\
-&\qquad\hListVar{f}\mLetEq[\hxFunc{f}\hxVar{x}\mListComp x\mFrom[\hConstant{0},\hConstant{1}\dotsb n]]\\
-&\qquad\hListVar{g}\mLetEq[g(t-x)\mListComp x\mFrom[\hConstant{0},\hConstant{1}\dotsb n]]
+&\qquad\hListVar{f}\mLetEq[\hxFunc{f}\hxVar{x}\mListComp x\mFrom[\hxConstant{0},\hxConstant{1}\dotsb n]]\\
+&\qquad\hListVar{g}\mLetEq[g(t-x)\mListComp x\mFrom[\hxConstant{0},\hxConstant{1}\dotsb n]]
 \end{aligned}
 \end{equation}
 
@@ -5827,7 +5829,7 @@ yt&=\sum(\hLambdaSyntax{x}{\mFst x*\mSnd x})\hMap\hListVar{h}\\
 \end{equation}
 
 \begin{equation}
-f\circledcirc g=\hLambdaSyntax{t}{\sum \hxFunc{f}\hxVar{x}*g(t-x)}
+f\circledcirc g=\hxLambdaSyntax{t}{\sum \hxFunc{f}\hxVar{x}*g(t-x)}
 \end{equation}
 
 
@@ -5841,7 +5843,7 @@ yt=\sum_x\hxFunc{f}\hxVar{x}*g(t-x)
 $$
 
 $$
-y=\sum_x\hxFunc{f}\hxVar{x}*g(\hAnonParam-x)
+y=\sum_x\hxFunc{f}\hxVar{x}*g(\hxAnonParam-x)
 $$
 
 \section{行列演算*}
@@ -5960,7 +5962,7 @@ x,\hxVar{y},\hxVar{z}\hIsTypeOf\mRSet
 \begin{equation}
 0+x=x+0=x
 \end{equation}
-である．この $\hConstant{0}$ は足し算の\keyword{単位元}である．\keyword{零元}また
+である．この $\hxConstant{0}$ は足し算の\keyword{単位元}である．\keyword{零元}また
 は\keyword{加法単位元}と呼ぶこともある．単位元が存在することを単位律と
 呼ぶこともある．
 \item[実数の性質4. 負元（加法逆元）の存在] 任意の $\hxVar{x}$ に対して
@@ -5988,7 +5990,7 @@ $-x\hIsTypeOf\mRSet$ があり
 \begin{equation}
 1*x=x*1=x
 \end{equation}
-である．この $\hConstant{1}$ を乗法の単位元または\keyword{乗法単位元}と呼ぶ．
+である．この $\hxConstant{1}$ を乗法の単位元または\keyword{乗法単位元}と呼ぶ．
 \item[実数の性質9. 逆元の存在] 任意の $\hxVar{x}$ に対して $\hxVar{x}^{-1}\hIsTypeOf\mRSet$
 があり
 \begin{equation}
@@ -6016,9 +6018,9 @@ x*y=y*x
 上述の12個の条件が当てはまる数には\keyword{有理数}や\keyword{複素数}が
 ある．この12個の性質をまとめて，数学では\keyword{体}と呼ぶ．
 
-体の要素は，集合 $\mKSet$，二項演算子 $+$，二項演算子 $+$ の単位元 $\hConstant{0}$，
+体の要素は，集合 $\mKSet$，二項演算子 $+$，二項演算子 $+$ の単位元 $\hxConstant{0}$，
 二項演算子 $+$ の逆元生成演算子 $-$，もう一つの二項演算子 $*$，二項演
-算子 $*$ の単位元 $\hConstant{1}$，二項演算子 $*$ の逆元生成演算子 ${}^{-1}$ であ
+算子 $*$ の単位元 $\hxConstant{1}$，二項演算子 $*$ の逆元生成演算子 ${}^{-1}$ であ
 るから，体はそれらを列挙して $\hSingleTuppleWith{\mKSet,+,0,-,*,1,{}^{-1}}$
 と表現する．
 
@@ -6126,7 +6128,7 @@ $\hSingleTuppleWith{\mSet{G},\hAnyBinOp,\mZero,\mMinus}$ を\keyword{可換群}�
 
 例えば $\hSingleTuppleWith{\mRSet,+,0,-}$ は可換群である．整数全体の集合を
 $\hSet{Z}$ とすると $\hSingleTuppleWith{\hSet{Z},+,0,-}$ も可換群である．また，集
-合 $\mRSet$ から $\hConstant{0}$ だけを取り除いた集合を $\mRSet\setminus0$ とする
+合 $\mRSet$ から $\hxConstant{0}$ だけを取り除いた集合を $\mRSet\setminus0$ とする
 とき $\hSingleTuppleWith{\mRSet\setminus0,*,1,{}^{-1}}$ も可換群である．
 
 可換群は代表的な代数的構造のひとつであり，他にも数学のあちこちに顔を出
@@ -6147,7 +6149,7 @@ R_{t_1}\mCompRot R_{t_2}=R_{(t_1+t_2)}
 
 次にに回転変換に単位元があるかどうか調べてみよう．回転しない変換は
 \keyword{恒等変換}とも言い，しばしば $I$ で表す．何もしない回転変換は
-$\hConstant{0}$ 度の回転であるから $I=R_0$ である．このとき式\eqref{eq:rotation}か
+$\hxConstant{0}$ 度の回転であるから $I=R_0$ である．このとき式\eqref{eq:rotation}か
 ら
 \begin{equation}
 I\mCompRot R_t=R_t\mCompRot I=R_t
@@ -6458,17 +6460,17 @@ $\mu$再帰関数
 条件式は一種のシンタックスシュガーである．次のように関数
 $t,f,\mIfFunc$ を定義すると，それぞれ真，偽，条件分岐のように振る舞う．
 \begin{align}
-t&=\hLambdaSyntax{\hxVar{x}\hxVar{y}}{x}\\
-f&=\hLambdaSyntax{\hxVar{x}\hxVar{y}}{y}\\
+t&=\hxLambdaSyntax{\hxVar{x}\hxVar{y}}{x}\\
+f&=\hxLambdaSyntax{\hxVar{x}\hxVar{y}}{y}\\
 \mIfFunc p\hxVar{x}\hxVar{y}&=p\hxVar{x}\hxVar{y}
 \end{align}
 本当かどうか試してみよう．
 \begin{align}
 \mIfFunc t\hxVar{x}\hxVar{y}&=t\hxVar{x}\hxVar{y}\\
-&=(\hLambdaSyntax{\hxVar{x}\hxVar{y}}{x})\hxVar{x}\hxVar{y}\\
+&=(\hxLambdaSyntax{\hxVar{x}\hxVar{y}}{x})\hxVar{x}\hxVar{y}\\
 &=x\\
 \mIfFunc f\hxVar{x}\hxVar{y}&=\hxFunc{f}\hxVar{x}\hxVar{y}\\
-&=(\hLambdaSyntax{\hxVar{x}\hxVar{y}}{y})\hxVar{x}\hxVar{y}\\
+&=(\hxLambdaSyntax{\hxVar{x}\hxVar{y}}{y})\hxVar{x}\hxVar{y}\\
 &=y
 \end{align}
 確かに $\mIfFunc t$ は1番目の引数だけを，$\mIfFunc f$ は2番目の引数だ

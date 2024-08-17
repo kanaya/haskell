@@ -125,6 +125,8 @@
 \newcommand{\hxMathFunctor}[1]{\textcolor{\hxMathColor}{\mathfrak{#1}}}
 \newcommand{\hxMathId}{\hxMathFunctor{id}}
 
+\newcommand{\hxSin}{\hxSpecialFunc{\sin}}
+
 % Action
 
 \newcommand{\hxAction}[1]{\textcolor{\hxActionColor}{#1}}
@@ -169,8 +171,8 @@
 % Lambda and lambda expression
 
 \newcommand{\hxLambda}{\backslash}
-\newcommand{\hxMapsTo}{\mapsto}
-\newcommand{\hxLambdaExp}[2]{\hxLambda{#1}\hxMapsTo{#2}}
+\newcommand{\hxLambdaArrow}{\mapsto}
+\newcommand{\hxLambdaSyntax}[2]{\hxLambda{#1}\hxLambdaArrow{#2}}
 
 % Anonymous parameter
 
@@ -225,6 +227,7 @@
 \newcommand{\hxApply}{\mathop{\textrm{\S}}}
 \newcommand{\hxCompose}{\bullet}
 \newcommand{\hxMonadicCompose}{\circ}
+
 
 % ------- for backward compatibility -------
 
